@@ -65,6 +65,9 @@ button.startChatBtn svg {
 .chatContainer {
   width: 400px;
   height: 600px;
+  max-height: calc(100vh - 132px);
+  display: flex;
+  flex-direction: column;
   background: #fafafa;
   position: fixed;
   right: 24px;
@@ -75,9 +78,10 @@ button.startChatBtn svg {
 }
 
 .chatContainer .banner {
+  flex: 0 0 auto;
   background: #59ad5d;
   border-radius: 5px 5px 0 0;
-  height: 100px;
+  height: 80px;
   color: #fff;
   display: flex;
   flex-direction: row;
@@ -85,4 +89,26 @@ button.startChatBtn svg {
   justify-content: center;
   font-weight: 300;
   font-size: 14px;
+}
+
+.chatContainer .transcript {
+  flex: 1 1 auto;
+}
+
+.chatContainer .messageForm {
+  flex: 0 0 auto;
+  background: #fff;
+  padding: 12px;
+  border-radius: 0 0 5px 5px;
+}
+
+.chatContainer .messageForm textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+}
+
+.chatContainer .messageForm textarea:focus {
+  outline: none;
 }
