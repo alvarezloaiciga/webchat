@@ -1,0 +1,88 @@
+@keyframes chatDialogOpen {
+  0% { opacity: 0; max-height: 500px; transform: scale(0.9); }
+  50% { opacity: 0.65; transform: scale(1.1); }
+  100% { opacity: 1; max-height: 600px; transform: scale(1); }
+}
+
+@keyframes chatDialogClose {
+  0% { opacity: 1; max-height: 350px; transform: scale(1); }
+  50% { opacity: 1; max-height: 125px; transform: scale(1.05); }
+  100% { opacity: 0; max-height: 0px; transform: scale(0.7); }
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+button.startChatBtn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 100%;
+  background: #59ad5d;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.15s ease-in-out all;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+}
+
+button.startChatBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+}
+
+button.startChatBtn:focus {
+  outline: none;
+}
+
+button.startChatBtn svg {
+  fill: #fff;
+}
+
+.chatContainer {
+  width: 400px;
+  height: 600px;
+  background: #fafafa;
+  position: fixed;
+  right: 24px;
+  bottom: 108px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+  animation: 0.3s chatDialogOpen 1;
+}
+
+.chatContainer .banner {
+  background: #59ad5d;
+  border-radius: 5px 5px 0 0;
+  height: 100px;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 14px;
+}
