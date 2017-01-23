@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import {getBacon} from './baconIpsum';
+import fetch from 'isomorphic-fetch';
 
 const bottomCorner = {
   position: 'fixed',
@@ -16,16 +17,27 @@ class WebChat extends Component {
     messages: [],
   };
 
-  addMessage = (text) => {
-    this.setState(prevState => ({
-      messages: [...prevState.messages, {text, fromCustomer: true}],
-    }));
+  componentDidMount() {
+    setInterval(() => {
+      // TODO: Need to know the URL we'd hit here
+      fetch('http://localhost:3001/messages')
+        .then(response => {
+          response.json().then(messages => this.setState({messages}))
+        })
+    }, 1000);
+  }
 
-    setTimeout(() => {
-      this.setState(prevState => ({
-        messages: [...prevState.messages, {text: getBacon(), fromCustomer: false}],
-      }));
-    }, 2000);
+  addMessage = (text) => {
+    fetch('http://localhost:3001/message', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({text}),
+    }).then(response => {
+      response.json().then(msg => this.setState(prevState => ({messages: [...prevState.messages, msg]})))
+    });
   }
 
   toggleChat = () => {
