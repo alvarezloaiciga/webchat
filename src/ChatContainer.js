@@ -1,24 +1,9 @@
 import React, {Component} from 'react';
 import MessageForm from './MessageForm';
 import Transcript from './Transcript';
-import {getBacon} from './baconIpsum';
 
 export class ChatContainer extends Component {
-  state = {
-    messages: [],
-  };
-
-  addMessage = (text) => {
-    this.setState(prevState => ({
-      messages: [...prevState.messages, {text, fromCustomer: true}],
-    }));
-
-    setTimeout(() => {
-      this.setState(prevState => ({
-        messages: [...prevState.messages, {text: getBacon(), fromCustomer: false}],
-      }));
-    }, 2000);
-  }
+  props;
 
   render() {
     return (
@@ -28,8 +13,8 @@ export class ChatContainer extends Component {
             We're here to help if you have any questions!
           </span>
         </div>
-        <Transcript messages={this.state.messages}/>
-        <MessageForm addMessage={this.addMessage}/>
+        <Transcript messages={this.props.messages}/>
+        <MessageForm addMessage={this.props.addMessage}/>
       </div>
     );
   }

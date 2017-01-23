@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Message from './Message';
 
 export class Transcript extends Component {
-  props;
+  props; // I miss flow
   transcript;
 
   componentDidUpdate(prevProps) {
