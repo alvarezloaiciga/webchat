@@ -14,31 +14,7 @@ const bottomCorner = {
 class WebChat extends Component {
   state = {
     chatOpen: false,
-    messages: [],
   };
-
-  componentDidMount() {
-    setInterval(() => {
-      // TODO: Need to know the URL we'd hit here
-      fetch('http://localhost:3001/messages')
-        .then(response => {
-          response.json().then(messages => this.setState({messages}))
-        })
-    }, 1000);
-  }
-
-  addMessage = (text) => {
-    fetch('http://localhost:3001/message', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({text}),
-    }).then(response => {
-      response.json().then(msg => this.setState(prevState => ({messages: [...prevState.messages, msg]})))
-    });
-  }
 
   toggleChat = () => {
     this.setState(prevState => ({chatOpen: !prevState.chatOpen}));
@@ -48,7 +24,7 @@ class WebChat extends Component {
     return (
       <div style={bottomCorner}>
         {this.state.chatOpen &&
-          <ChatContainer messages={this.state.messages} addMessage={this.addMessage}/>
+          <ChatContainer />
         }
         <ToggleChatButton toggleChat={this.toggleChat}/>
       </div>

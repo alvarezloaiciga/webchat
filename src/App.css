@@ -61,13 +61,10 @@ button.startChatBtn svg {
   fill: #fff;
 }
 
-.chatContainer {
+.whateverWeHoldTheIframeIn {
   width: 400px;
   height: calc(100vh - 132px);
   max-height: 600px;
-  display: flex;
-  flex-direction: column;
-  background: #f4f4f8;
   position: fixed;
   right: 24px;
   bottom: 108px;
@@ -76,10 +73,17 @@ button.startChatBtn svg {
   animation: 0.3s chatDialogOpen 1;
 }
 
+.chatContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f8;
+}
+
 .chatContainer .banner {
   flex: 0 0 auto;
   background: #59ad5d;
-  border-radius: 5px 5px 0 0;
   height: 80px;
   color: #fff;
   display: flex;
@@ -98,7 +102,6 @@ button.startChatBtn svg {
   flex: 0 0 auto;
   background: #fff;
   padding: 12px;
-  border-radius: 0 0 5px 5px;
   display: flex;
 }
 
