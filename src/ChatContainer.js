@@ -6,6 +6,7 @@ import Transcript from './Transcript';
 export class ChatContainer extends Component {
   state = {
     messages: [],
+    tenant: undefined,
   };
 
   componentDidMount() {
@@ -16,6 +17,22 @@ export class ChatContainer extends Component {
           response.json().then(messages => this.setState({messages}))
         })
     }, 1000);
+
+    window.addEventListener('message', this.handleTenantMessage, false);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.handleTenantMessage, false);
+  }
+
+  handleTenantMessage = (event) => {
+    const origin = event.origin || event.originalEvent.origin;
+    console.log(origin);
+
+    const tenant = event.data && event.data.tenant;
+    if (tenant) {
+      this.setState({tenant});
+    }
   }
 
   addMessage = (text) => {
@@ -39,6 +56,7 @@ export class ChatContainer extends Component {
           <span className="messageUs">
             We're here to help if you have any questions!
           </span>
+          Tenant: {this.state.tenant}
         </div>
         <Transcript messages={this.state.messages}/>
         <MessageForm addMessage={this.addMessage}/>
