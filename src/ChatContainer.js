@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import MessageForm from './MessageForm';
 import Transcript from './Transcript';
+import {getBacon} from './baconIpsum';
 
 export class ChatContainer extends Component {
   state = {
@@ -10,19 +11,19 @@ export class ChatContainer extends Component {
   };
 
   componentDidMount() {
-    setInterval(() => {
-      // TODO: Need to know the URL we'd hit here
-      fetch('http://localhost:3001/messages')
-        .then(response => {
-          response.json().then(messages => this.setState({messages}))
-        })
-    }, 1000);
-
-    window.addEventListener('message', this.handleTenantMessage, false);
+    // setInterval(() => {
+    //   // TODO: Need to know the URL we'd hit here
+    //   fetch('http://localhost:3001/messages')
+    //     .then(response => {
+    //       response.json().then(messages => this.setState({messages}))
+    //     })
+    // }, 1000);
+    //
+    // window.addEventListener('message', this.handleTenantMessage, false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('message', this.handleTenantMessage, false);
+    // window.removeEventListener('message', this.handleTenantMessage, false);
   }
 
   handleTenantMessage = (event) => {
@@ -36,16 +37,21 @@ export class ChatContainer extends Component {
   }
 
   addMessage = (text) => {
-    fetch('http://localhost:3001/message', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({text}),
-    }).then(response => {
-      response.json().then(msg => this.setState(prevState => ({messages: [...prevState.messages, msg]})))
-    });
+    // fetch('http://localhost:3001/message', {
+    //   method: 'post',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({text}),
+    // }).then(response => {
+    //   response.json().then(msg => this.setState(prevState => ({messages: [...prevState.messages, msg]})))
+    // });
+    this.setState({messages: [...this.state.messages, {text, fromCustomer: true}]});
+
+    setTimeout(() => {
+      this.setState({messages: [...this.state.messages, {text: getBacon(), fromCustomer: false}]});
+    }, 2000);
   }
 
 
