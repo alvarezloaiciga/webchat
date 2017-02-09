@@ -18,7 +18,7 @@ export class ChatContainer extends Component {
     //       response.json().then(messages => this.setState({messages}))
     //     })
     // }, 1000);
-    
+
     window.addEventListener('message', this.handleTenantMessage, false);
   }
 
@@ -62,7 +62,9 @@ export class ChatContainer extends Component {
           <span className="messageUs">
             We're here to help if you have any questions!
           </span>
-          Tenant: {this.state.tenant}
+          <div>
+            Tenant: {this.state.tenant}
+          </div>
         </div>
         <Transcript messages={this.state.messages}/>
         <MessageForm addMessage={this.addMessage}/>

@@ -42,7 +42,7 @@
   height: 80px;
   color: #fff;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: 300;
