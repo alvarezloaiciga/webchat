@@ -18,12 +18,12 @@ export class ChatContainer extends Component {
     //       response.json().then(messages => this.setState({messages}))
     //     })
     // }, 1000);
-    //
-    // window.addEventListener('message', this.handleTenantMessage, false);
+    
+    window.addEventListener('message', this.handleTenantMessage, false);
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('message', this.handleTenantMessage, false);
+    window.removeEventListener('message', this.handleTenantMessage, false);
   }
 
   handleTenantMessage = (event) => {
