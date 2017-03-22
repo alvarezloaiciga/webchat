@@ -87,12 +87,6 @@ export class ChatContainer extends Component {
           <span className="messageUs">
             We're here to help if you have any questions!
           </span>
-          <div>
-            Site: {this.state.site}
-          </div>
-          <div>
-            Endpoint: {this.state.endpoint}
-          </div>
         </div>
         <Transcript messages={this.state.messages}/>
         <MessageForm addMessage={this.addMessage}/>
