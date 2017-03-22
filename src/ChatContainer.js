@@ -7,7 +7,7 @@ import {getBacon} from './baconIpsum';
 export class ChatContainer extends Component {
   state = {
     messages: [],
-    tenant: undefined,
+    site: undefined,
     endpoint: undefined,
     chatConfigured: false,
   };
@@ -27,10 +27,10 @@ export class ChatContainer extends Component {
     const origin = event.origin || event.originalEvent.origin;
     console.log(origin, event.data);
 
-    const tenant = event.data && event.data.tenant;
+    const site = event.data && event.data.site;
     const endpoint = event.data && event.data.endpoint;
-    if (tenant && endpoint) {
-      this.setState({tenant, endpoint, chatConfigured: true});
+    if (site && endpoint) {
+      this.setState({site, endpoint, chatConfigured: true});
       this.startPolling();
     }
   }
@@ -38,8 +38,8 @@ export class ChatContainer extends Component {
   startPolling = () => {
     this.poll = setInterval(() => {
       console.log('polling');
-      const {tenant, endpoint} = this.state;
-      fetch(`https://${tenant}.centricient.corp/api/v1/webchat/endpoints/${endpoint}`, {
+      const {site, endpoint} = this.state;
+      fetch(`${site}/api/v1/webchat/endpoints/${endpoint}`, {
         mode: 'cors',
         credentials: 'include',
       }).then(response => {
@@ -55,8 +55,8 @@ export class ChatContainer extends Component {
   }
 
   addMessage = (text) => {
-    const {tenant, endpoint} = this.state;
-    fetch(`https://${tenant}.centricient.corp/api/v1/webchat/endpoints/${endpoint}`, {
+    const {site, endpoint} = this.state;
+    fetch(`${site}/api/v1/webchat/endpoints/${endpoint}`, {
       mode: 'cors',
       credentials: 'include',
       method: 'post',
@@ -88,7 +88,7 @@ export class ChatContainer extends Component {
             We're here to help if you have any questions!
           </span>
           <div>
-            Tenant: {this.state.tenant}
+            Site: {this.state.site}
           </div>
           <div>
             Endpoint: {this.state.endpoint}
