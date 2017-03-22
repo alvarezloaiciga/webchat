@@ -15,7 +15,6 @@ export class ChatContainer extends Component {
   poll;
 
   componentDidMount() {
-    this.setupDevFallback();
     window.addEventListener('message', this.handleTenantMessage, false);
   }
 
@@ -36,18 +35,6 @@ export class ChatContainer extends Component {
     }
   }
 
-  // TODO: Remove this
-  setupDevFallback = () => {
-    setTimeout(() => {
-      if (!this.state.chatConfigured) {
-        this.setState(
-          {tenant: 'nate.dev', endpoint: 'prototype'},
-          () => this.startPolling()
-        );
-      }
-    }, 2000)
-  }
-
   startPolling = () => {
     this.poll = setInterval(() => {
       console.log('polling');
@@ -59,16 +46,14 @@ export class ChatContainer extends Component {
           response.json().then(chat => {
             this.setState({messages: chat.messages});
           })
-          // response.json().then(messages => console.log(messages))
         })
-    }, 10000); // TODO: Switch this to a smaller time
+    }, 1000);
   }
 
   endPolling = () => {
     clearInterval(this.poll);
   }
 
-  // TODO: Get this calling the API correctly
   addMessage = (text) => {
     const {tenant, endpoint} = this.state;
     fetch(`https://${tenant}.centricient.corp/api/v1/webchat/endpoints/${endpoint}`, {
@@ -81,13 +66,17 @@ export class ChatContainer extends Component {
       },
       body: JSON.stringify({type: 'Text', body: text}),
     }).then(response => {
-      response.json().then(msg => this.setState(prevState => ({messages: [...prevState.messages, msg]})))
+      response.json().then(msg => {
+        const newMessage = {
+          id: msg.id,
+          timestamp: msg.timestamp,
+          body: text,
+          type: 'Text',
+          authorType: 'Guest',
+        };
+        this.setState(prevState => ({messages: [...prevState.messages, newMessage]}))
+      })
     });
-    // this.setState({messages: [...this.state.messages, {text, fromCustomer: true}]});
-
-    // setTimeout(() => {
-    //   this.setState({messages: [...this.state.messages, {text: getBacon(), fromCustomer: false}]});
-    // }, 2000);
   }
 
 
