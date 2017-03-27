@@ -49,6 +49,19 @@
   font-size: 14px;
 }
 
+.chatContainer .error-banner {
+  flex: 0 0 auto;
+  background: #ad2215;
+  height: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 14px;
+}
+
 .chatContainer .transcript {
   flex: 1 1 auto;
 }
@@ -84,6 +97,13 @@
 
 .chatContainer .messageForm textarea:focus {
   outline: none;
+}
+
+.chatContainer .loader-wrapper {
+  position: relative;
+  top: 40%;
+  left: 100%;
+  transform: translate(-50%, -50%);
 }
 
 .transcript {
