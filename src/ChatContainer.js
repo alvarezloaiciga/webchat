@@ -131,12 +131,6 @@ export class ChatContainer extends Component {
           <span className="messageUs">
             We're here to help if you have any questions!
           </span>
-          <div>
-            Tenant: {this.state.tenant}
-          </div>
-          <div>
-            Endpoint: {this.state.endpoint}
-          </div>
         </div>
 
         {!this.state.connected && !this.state.loading &&
