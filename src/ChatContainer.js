@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './App.css';
 import MessageForm from './MessageForm';
 import Transcript from './Transcript';
-import {getBacon} from './baconIpsum';
 
 export class ChatContainer extends Component {
   state = {
@@ -44,7 +43,7 @@ export class ChatContainer extends Component {
         credentials: 'include',
       }).then(response => {
           response.json().then(chat => {
-            this.setState({messages: chat.messages});
+            this.setState({messages: chat.messages.filter(m => m.type === 'Text')});
           })
         })
     }, 1000);
