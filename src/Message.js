@@ -1,4 +1,5 @@
 import React from 'react';
+import Linkify from 'react-linkify';
 
 export const Message = ({body, authorType}) => {
   let className = 'message';
@@ -9,7 +10,9 @@ export const Message = ({body, authorType}) => {
 
   return (
     <div className={className}>
-      {body}
+      <Linkify properties={{target: '_blank', rel: 'noopener noreferrer'}}>
+        {body}
+      </Linkify>
     </div>
   );
 };
