@@ -7,7 +7,7 @@ export class ChatContainer extends Component {
   state = {
     messages: [],
     site: undefined,
-    endpoint: undefined,
+    contactPoint: undefined,
     chatConfigured: false,
   };
 
@@ -27,9 +27,9 @@ export class ChatContainer extends Component {
     console.log(origin, event.data);
 
     const site = event.data && event.data.site;
-    const endpoint = event.data && event.data.endpoint;
-    if (site && endpoint) {
-      this.setState({site, endpoint, chatConfigured: true});
+    const contactPoint = event.data && event.data.contactPoint;
+    if (site && contactPoint) {
+      this.setState({site, contactPoint, chatConfigured: true});
       this.startPolling();
     }
   }
@@ -37,8 +37,8 @@ export class ChatContainer extends Component {
   startPolling = () => {
     this.poll = setInterval(() => {
       console.log('polling');
-      const {site, endpoint} = this.state;
-      fetch(`${site}/api/v1/webchat/endpoints/${endpoint}`, {
+      const {site, contactPoint} = this.state;
+      fetch(`${site}/api/v1/messaging/chat/${contactPoint}`, {
         mode: 'cors',
         credentials: 'include',
       }).then(response => {
@@ -53,9 +53,9 @@ export class ChatContainer extends Component {
     clearInterval(this.poll);
   }
 
-  addMessage = (text) => {
-    const {site, endpoint} = this.state;
-    fetch(`${site}/api/v1/webchat/endpoints/${endpoint}`, {
+  addMessage = (body) => {
+    const {site, contactPoint} = this.state;
+    fetch(`${site}/api/v1/messaging/chat/${contactPoint}/send-message`, {
       mode: 'cors',
       credentials: 'include',
       method: 'post',
@@ -63,13 +63,13 @@ export class ChatContainer extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({type: 'Text', body: text}),
+      body: JSON.stringify({body}),
     }).then(response => {
       response.json().then(msg => {
         const newMessage = {
           id: msg.id,
           timestamp: msg.timestamp,
-          body: text,
+          body,
           type: 'Text',
           authorType: 'Guest',
         };
