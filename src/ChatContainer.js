@@ -14,7 +14,6 @@ export class ChatContainer extends Component {
     host: 'centricient.com',
     color: '#59ad5d',
     headerText: "We're here to help if you have any questions!",
-    chatConfigured: false,
     userId: undefined,
     loading: true,
     connected: false,
@@ -93,10 +92,11 @@ export class ChatContainer extends Component {
     });
   });
 
-  addMessage = (text) => {
+  addMessage = (body) => {
     const {tenant, contactPoint, host} = this.state;
 
-    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
+    //fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
+    fetch(`https://${tenant}.${host}/api/v1/messaging/chat/${contactPoint}/send-message`, {
       mode: 'cors',
       credentials: 'include',
       method: 'post',
@@ -104,13 +104,13 @@ export class ChatContainer extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({type: 'Text', body: text}),
+      body: JSON.stringify({body}),
     }).then(response => {
       response.json().then(msg => {
         const newMessage = {
           id: msg.id,
           timestamp: msg.timestamp,
-          body: text,
+          body,
           type: 'Text',
           authorType: 'Guest',
         };
