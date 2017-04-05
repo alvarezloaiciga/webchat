@@ -20,7 +20,7 @@ export class Transcript extends Component {
     return (
       <div className="transcript" ref={n => this.transcript = n}>
         {Object.keys(this.props.messages).map((msgId, i) => (
-          <Message key={i} {...this.props.messages[msgId]}/>
+          <Message key={i} {...this.props.messages[msgId]} color={this.props.color}/>
         ))}
       </div>
     );

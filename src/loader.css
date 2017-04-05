@@ -39,7 +39,7 @@
     -webkit-animation: loader 1250ms infinite linear;
     animation: loader 1250ms infinite linear;
     border: 8px solid #59ad5d;
-    border-right-color: transparent;
+    border-right-color: transparent !important;
     border-radius: 32px;
     box-sizing: border-box;
     display: inline-block;

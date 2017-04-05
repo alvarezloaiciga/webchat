@@ -10,13 +10,14 @@
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
     "isomorphic-fetch": "^2.2.1",
+    "node-fetch": "^1.6.3",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-textarea-autosize": "^4.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject"

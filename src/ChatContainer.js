@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './App.css';
 import './loader.css';
 import MessageForm from './MessageForm';
 import Transcript from './Transcript';
-import {getBacon} from './baconIpsum';
 import {connectSocket, disconnectSocket} from './atmosphereService';
+import {MessageTypes} from './Constants';
 
 export class ChatContainer extends Component {
   state = {
     messages: {},
     tenant: undefined,
-    endpoint: undefined,
-    host: undefined,
-    color: undefined,
+    contactPoint: undefined,
+    host: 'centricient.com',
+    color: '#59ad5d',
+    headerText: "We're here to help if you have any questions!",
     chatConfigured: false,
     userId: undefined,
     loading: true,
@@ -21,46 +21,40 @@ export class ChatContainer extends Component {
   };
 
   componentDidMount() {
-    this.handleTenantMessage({
-      data: {
-        endpoint: 'prototype',
-        tenant: 'fred',
-        host: 'dev.centricient.corp'
-      },
-      origin: {}
-    });
-    window.addEventListener('message', this.handleTenantMessage, false);
+    window.addEventListener('message', this.handleWindowMessage, false);
   }
 
   componentWillUnmount() {
     disconnectSocket();
-    window.removeEventListener('message', this.handleTenantMessage, false);
+    window.removeEventListener('message', this.handleWindowMessage, false);
   }
 
-  handleTenantMessage = (event) => {
-    const origin = event.origin || event.originalEvent.origin;
-    console.log(origin, event.data);
+  handleWindowMessage = (event) => {
+    // Contents of event.data: tenant, contactPoint, host, color, headerText
 
-    const tenant = event.data && event.data.tenant;
-    const endpoint = event.data && event.data.endpoint;
-    const host = event.data && event.data.host;
-    if (tenant && endpoint && host) {
-      this.setState({tenant, endpoint, host, chatConfigured: true}, () => {
+    const newState = Object.assign({}, this.state, {...event.data});
+
+    this.setState(newState, () => {
+      const {tenant, contactPoint, host} = this.state;
+
+      if (tenant && contactPoint && host) {
         // Retrieve initial messages and userId, then connect to socket
         this.retrieveMessages().then(
           () => connectSocket(tenant,
-            endpoint,
+            contactPoint,
             host,
             this.state.userId,
             this.onConnectionLoss,
             this.onConnectionEstablish,
             this.handleMessage));
-      });
-    }
-  };
+      }
+    });
+  }
 
   onConnectionEstablish = () => {
     this.setState({connected: true});
+
+    // Retrieve messages (some may have come in during socket connect)
     this.retrieveMessages().then(() => {
       // This will set get rid of the 'loading' status the first time we connect and retrieve messages
       this.setState({loading: false});
@@ -72,19 +66,21 @@ export class ChatContainer extends Component {
   };
 
   handleMessage = (message) => {
-    switch (message.messageType) {
-      case 'ChatMessage':
-        this.setState(prevState => ({messages: {...prevState.messages, [message.data.id]: message.data}}));
-        break;
-      default:
-        console.log("Quiq: unknown websocket messageType received");
+    if (message.messageType == MessageTypes.CHAT_MESSAGE) {
+      switch (message.data.type) {
+        case MessageTypes.TEXT:
+          this.setState(prevState => ({messages: {...prevState.messages, [message.data.id]: message.data}}));
+          break;
+        default:
+          console.log("Quiq: unknown websocket messageType received");
+      }
     }
   };
 
   retrieveMessages = () => new Promise((resolve) => {
     console.log('Initial message retrieval starting');
-    const {tenant, endpoint, host} = this.state;
-    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${endpoint}`, {
+    const {tenant, contactPoint, host} = this.state;
+    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
       mode: 'cors',
       credentials: 'include',
     }).then(response => {
@@ -98,9 +94,9 @@ export class ChatContainer extends Component {
   });
 
   addMessage = (text) => {
-    const {tenant, endpoint, host} = this.state;
+    const {tenant, contactPoint, host} = this.state;
 
-    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${endpoint}`, {
+    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
       mode: 'cors',
       credentials: 'include',
       method: 'post',
@@ -123,36 +119,35 @@ export class ChatContainer extends Component {
     });
   }
 
-
   render() {
     return (
       <div className="chatContainer">
-        <div className="banner">
+        <div className="banner" style={{backgroundColor: this.state.color}}>
           <span className="messageUs">
-            We're here to help if you have any questions!
+            {this.state.headerText}
           </span>
         </div>
 
         {!this.state.connected && !this.state.loading &&
-          <div className="error-banner">
-            Reconnecting...
-          </div>
+        <div className="error-banner">
+          Reconnecting...
+        </div>
         }
 
         {this.state.loading &&
-          <div className="loader-wrapper">
-            <div className="loader">
-              Connecting...
-            </div>
+        <div className="loader-wrapper">
+          <div className="loader" style={{borderColor: this.state.color}}>
+            Connecting...
           </div>
+        </div>
         }
 
         {!this.state.loading &&
-          <Transcript messages={this.state.messages}/>
+        <Transcript messages={this.state.messages} color={this.state.color}/>
         }
 
         {!this.state.loading && this.state.connected &&
-          <MessageForm addMessage={this.addMessage} />
+        <MessageForm addMessage={this.addMessage} color={this.state.color}/>
         }
       </div>
     );

@@ -10,6 +10,8 @@ export const connectSocket = (tenant, endpoint, host, userId,
 
   const req = buildRequest(tenant, endpoint, host, userId);
   connection = atmosphere.subscribe(req);
+
+  connection = {...connection, tenant, endpoint, host, userId};
 };
 
 export const disconnectSocket = () => {
@@ -17,7 +19,7 @@ export const disconnectSocket = () => {
 };
 
 const buildRequest = (tenant, endpoint, host, userId) => ({
-    url: `https://${tenant}.${host}/websocket/webchat/${tenant}/${endpoint}/${userId}`,
+    url: `https://${tenant}.${host}/websocket/chat/${tenant}/${endpoint}/${userId}`,
     enableXDR: true,
     withCredentials: true,
     contentType: 'application/json',
@@ -48,12 +50,13 @@ const onReopen = () => {
 const onReconnect = (req, res) => {
     // Long-polling doesn't clear up the error until it gets something back from the server
     // Force this to happen by sending a ping.
-    /*clearTimeout(connection.pingTimeout);
+    clearTimeout(connection.pingTimeout);
     if (req.transport === 'long-polling') {
       connection.pingTimeout = setTimeout(() => {
         ping();
+        console.log("Atmosphere: ping sent");
       }, connection.request.reconnectInterval + 5000);
-    }*/
+    }
     console.log("Atmosphere: reconnect");
 };
 
@@ -86,4 +89,13 @@ const onClientTimeout = (req) => {
 
 const onClose = (res) => {
   console.log("Atmosphere connection closed");
+};
+
+const ping = () => {
+  const {tenant, endpoint, host} = connection;
+  fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${endpoint}/socket-ping`, {
+    mode: 'cors',
+    method: 'post',
+    credentials: 'include',
+  });
 };

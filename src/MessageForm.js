@@ -36,7 +36,11 @@ export class MessageForm extends Component {
           onKeyDown={this.handleKeyDown}
           placeholder="Send us a message..."
         />
-        <button className="sendBtn" onClick={this.addMessage} disabled={this.state.text.trim() === ''}>
+        <button className="sendBtn"
+                onClick={this.addMessage}
+                disabled={this.state.text.trim() === ''}
+                style={{color: this.props.color}}
+        >
           SEND
         </button>
       </div>
