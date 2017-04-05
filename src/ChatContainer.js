@@ -8,7 +8,7 @@ import {MessageTypes} from './Constants';
 
 export class ChatContainer extends Component {
   state = {
-    messages: {},
+    messages: [],
     tenant: undefined,
     contactPoint: undefined,
     host: 'centricient.com',
@@ -66,28 +66,20 @@ export class ChatContainer extends Component {
 
   handleMessage = (message) => {
     if (message.messageType == MessageTypes.CHAT_MESSAGE) {
-      switch (message.data.type) {
-        case MessageTypes.TEXT:
-          this.setState(prevState => ({messages: {...prevState.messages, [message.data.id]: message.data}}));
-          break;
-        default:
-          console.log("Quiq: unknown websocket messageType received");
-      }
+      this.setState(prevState => ({messages: [...prevState.messages, message]}));
     }
   };
 
   retrieveMessages = () => new Promise((resolve) => {
     console.log('Initial message retrieval starting');
     const {tenant, contactPoint, host} = this.state;
-    fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
+    fetch(`https://${tenant}.${host}/api/v1/messaging/chat/${contactPoint}`, {
       mode: 'cors',
       credentials: 'include',
     }).then(response => {
       response.json().then(chat => {
-        const messages = chat.messages.reduce((prev, cur) => ({...prev, [cur.id]: cur}), {});
-
         // Update state, then resolve promise AFTER state update completes
-        this.setState({messages: messages, userId: chat.id}, resolve);
+        this.setState({messages: chat.messages, userId: chat.id}, resolve);
       });
     });
   });
@@ -95,7 +87,6 @@ export class ChatContainer extends Component {
   addMessage = (body) => {
     const {tenant, contactPoint, host} = this.state;
 
-    //fetch(`https://${tenant}.${host}/api/v1/webchat/endpoints/${contactPoint}`, {
     fetch(`https://${tenant}.${host}/api/v1/messaging/chat/${contactPoint}/send-message`, {
       mode: 'cors',
       credentials: 'include',
@@ -114,12 +105,13 @@ export class ChatContainer extends Component {
           type: 'Text',
           authorType: 'Guest',
         };
-        this.setState(prevState => ({messages: {...prevState.messages, [newMessage.id]: newMessage}}));
+        this.setState(prevState => ({messages: [...prevState.messages, newMessage]}));
       })
     });
   }
 
   render() {
+    const textMessages = this.state.messages.filter((m) => (m.type == MessageTypes.TEXT));
     return (
       <div className="chatContainer">
         <div className="banner" style={{backgroundColor: this.state.color}}>
@@ -143,7 +135,7 @@ export class ChatContainer extends Component {
         }
 
         {!this.state.loading &&
-        <Transcript messages={this.state.messages} color={this.state.color}/>
+        <Transcript messages={textMessages} color={this.state.color}/>
         }
 
         {!this.state.loading && this.state.connected &&
