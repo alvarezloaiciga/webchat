@@ -120,6 +120,8 @@ a:hover {
 }
 
 .message {
+  overflow: auto;
+  word-wrap: break-word;
   background: #fff;
   border: 1px solid #eaeaea;
   max-width: 80%;
