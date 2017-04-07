@@ -7,7 +7,7 @@ export class Transcript extends Component {
 
   componentDidUpdate(prevProps) {
     // Scroll to the bottom if you get a new message
-    if (Object.keys(this.props.messages).length > Object.keys(prevProps.messages).length) {
+    if (this.props.messages.length > prevProps.messages.length) {
       this.transcript.scrollTop = this.transcript.scrollHeight;
     }
   }
@@ -19,8 +19,8 @@ export class Transcript extends Component {
   render() {
     return (
       <div className="transcript" ref={n => this.transcript = n}>
-        {this.props.messages.map((msg, i) => (
-          <Message key={i} {...msg} color={this.props.color}/>
+        {this.props.messages.map((msg) => (
+          <Message key={msg.id} {...msg} color={this.props.color}/>
         ))}
       </div>
     );

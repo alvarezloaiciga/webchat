@@ -45,7 +45,7 @@ export class ChatContainer extends Component {
             this.state.userId,
             this.onConnectionLoss,
             this.onConnectionEstablish,
-            this.handleMessage));
+            this.handleWebsocketMessage));
       }
     });
   }
@@ -64,23 +64,32 @@ export class ChatContainer extends Component {
     this.setState({connected: false});
   };
 
-  handleMessage = (message) => {
-    if (message.messageType == MessageTypes.CHAT_MESSAGE) {
-      this.setState(prevState => ({messages: [...prevState.messages, message]}));
+  handleWebsocketMessage = (message) => {
+    // TODO: Implement prettier handling of various types of websocket messages--text, agent typing, etc.
+    // Currently, all CHAT_MESSAGE type messages are stored in the same array, and the render() method filters out the text
+    // messages and displays them. Should look at this again down the road.
+
+    if (message.messageType === MessageTypes.CHAT_MESSAGE) {
+      this.setState(prevState => ({messages: [...prevState.messages, message.data]}));
     }
   };
 
-  retrieveMessages = () => new Promise((resolve) => {
+  retrieveMessages = () => new Promise((resolve, reject) => {
     console.log('Initial message retrieval starting');
     const {tenant, contactPoint, host} = this.state;
     fetch(`https://${tenant}.${host}/api/v1/messaging/chat/${contactPoint}`, {
       mode: 'cors',
       credentials: 'include',
-    }).then(response => {
-      response.json().then(chat => {
+    }).then(_response => {
+      _response.json().then(res => {
+        if (res.status && res.status >= 300) {
+          return reject();
+        }
         // Update state, then resolve promise AFTER state update completes
-        this.setState({messages: chat.messages, userId: chat.id}, resolve);
+        this.setState({messages: res.messages, userId: res.id}, resolve);
       });
+    }).catch(() => {
+      reject();
     });
   });
 

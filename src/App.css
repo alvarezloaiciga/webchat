@@ -129,8 +129,9 @@ a:hover {
 .chatContainer .loader-wrapper {
   position: relative;
   top: 40%;
-  left: 100%;
+  left: 50%;
   transform: translate(-50%, -50%);
+  width: 64px;
 }
 
 .transcript {

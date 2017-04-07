@@ -7,13 +7,13 @@
   },
   "dependencies": {
     "atmosphere.js": "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88",
-    "body-parser": "^1.16.0",
-    "cors": "^2.8.1",
-    "isomorphic-fetch": "^2.2.1",
-    "node-fetch": "^1.6.3",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-textarea-autosize": "^4.0.5",
+    "body-parser": "1.16.0",
+    "cors": "2.8.1",
+    "isomorphic-fetch": "2.2.1",
+    "node-fetch": "1.6.3",
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
+    "react-textarea-autosize": "4.0.5",
     "react-linkify": "0.2.0"
   },
   "scripts": {
