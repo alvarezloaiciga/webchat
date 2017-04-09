@@ -36,7 +36,7 @@ export class ChatContainer extends Component {
     this.setState(newState, () => {
       const {tenant, contactPoint, host} = this.state;
 
-      if (tenant && contactPoint && host) {
+      if (!this.state.connected && tenant && contactPoint && host) {
         // Retrieve initial messages and userId, then connect to socket
         this.retrieveMessages().then(
           () => connectSocket(tenant,

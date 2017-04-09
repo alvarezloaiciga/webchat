@@ -106,6 +106,7 @@ a:hover {
   border: none;
   resize: none;
   font-size: 14px;
+  font-family: sans-serif;
 }
 
 .chatContainer .messageForm .sendBtn {
