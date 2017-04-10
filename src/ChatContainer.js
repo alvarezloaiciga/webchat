@@ -126,7 +126,7 @@ export class ChatContainer extends Component {
   }
 
   render() {
-    const textMessages = this.state.messages.filter((m) => (m.type == MessageTypes.TEXT));
+    const textMessages = this.state.messages.filter((m) => (m.type === MessageTypes.TEXT));
     return (
       <div className="chatContainer">
         <div className="banner" style={{backgroundColor: this.state.color}}>
