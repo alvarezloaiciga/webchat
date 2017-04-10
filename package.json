@@ -21,9 +21,9 @@
     "url": "https://github.com/quiq/react-webpack2-starter-kit"
   },
   "scripts": {
-    "prestart": "yarn run rimraf dist",
+    "prestart": "yarn run rimraf build",
     "start": "webpack-dashboard -c cyan -- node dev-server.js",
-    "prebuild": "yarn run rimraf dist",
+    "prebuild": "yarn run rimraf build",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",

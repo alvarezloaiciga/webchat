@@ -59,21 +59,12 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../app'),
           path.resolve(__dirname, '../app/components'),
         ],
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style',
-          loader: [
-            { loader: 'css', query: { sourceMap: true } },
-            'postcss',
-            { loader: 'sass', query: { outputStyle: 'compressed' } },
-          ],
-        }),
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style',
-          loader: ['css', 'postcss'],
-        }),
+        loader: [
+          'style-loader',
+          { loader: 'css', query: { sourceMap: true } },
+          'postcss',
+          { loader: 'sass', query: { outputStyle: 'compressed' } },
+        ],
       },
     ],
   },
