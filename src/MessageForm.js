@@ -14,7 +14,7 @@ export class MessageForm extends Component {
   addMessage = () => {
     const text = this.state.text.trim();
     if (text) {
-      this.props.addMessage(text);
+      this.props.sendMessage(text);
       this.setState({text: ''});
     }
   }

@@ -70,7 +70,7 @@ export class ChatContainer extends Component {
     // messages and displays them. Should look at this again down the road.
 
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
-      this.setState(prevState => ({messages: [...prevState.messages, message.data]}));
+      this.addMessageToState(message.data);
     }
   };
 
@@ -93,7 +93,7 @@ export class ChatContainer extends Component {
     });
   });
 
-  addMessage = (body) => {
+  sendMessage = (body) => {
     const {tenant, contactPoint, host} = this.state;
 
     fetch(`https://${tenant}.${host}/api/v1/messaging/chat/${contactPoint}/send-message`, {
@@ -114,9 +114,15 @@ export class ChatContainer extends Component {
           type: 'Text',
           authorType: 'Guest',
         };
-        this.setState(prevState => ({messages: [...prevState.messages, newMessage]}));
+        this.addMessageToState(newMessage);
       })
     });
+  }
+
+  addMessageToState(message) {
+    if (!this.state.messages.some((m) => (m.id === message.id))) {
+      this.setState(prevState => ({messages: [...prevState.messages, message]}));
+    }
   }
 
   render() {
@@ -148,7 +154,7 @@ export class ChatContainer extends Component {
         }
 
         {!this.state.loading && this.state.connected &&
-        <MessageForm addMessage={this.addMessage} color={this.state.color}/>
+        <MessageForm sendMessage={this.sendMessage} color={this.state.color}/>
         }
       </div>
     );
