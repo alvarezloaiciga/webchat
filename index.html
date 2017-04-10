@@ -1,0 +1,24 @@
+<!-- This file is purely for local development and shouldn't be used in production!! -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiq Webchat</title>
+    <!-- We are using the css version of font-awesome rather than the .js version because the output is a lot smaller -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      window.QUIQ = {
+        CONTACT_POINT: 'prototype',
+        TENANT: 'andrew',
+        HOST: 'dev.centricient.corp',
+        COLOR: '#0099ff',
+        HEADER_TEXT: 'We\'re here to help if you need anything',
+      };
+    </script>
+    <script type="text/javascript" src="js/webchat.js"></script>
+  </body>
+</html>

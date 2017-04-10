@@ -1,0 +1,24 @@
+@import '~styles/animations';
+
+#quiqWebChat {
+  .Spinner {
+    position: relative;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+
+    .loading {
+      animation: spin 1250ms infinite linear;
+      border: 8px solid #59ad5d;
+      border-right-color: transparent !important;
+      border-radius: 32px;
+      box-sizing: border-box;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      width: 64px;
+      height: 64px;
+    }
+  }
+}

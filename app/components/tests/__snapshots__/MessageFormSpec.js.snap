@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MessageForm component rendering renders 1`] = `
+<div
+  className="MessageForm"
+>
+  <TextareaAutosize
+    name="message"
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Send us a message..."
+    useCacheForDOMMeasurements={false}
+    value=""
+  />
+  <button
+    className="sendBtn"
+    disabled={true}
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "#333",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Send"
+      description="Generic send message"
+      id="send"
+      values={Object {}}
+    />
+  </button>
+</div>
+`;

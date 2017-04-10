@@ -1,0 +1,8 @@
+#quiqWebChat {
+  .Transcript {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+}

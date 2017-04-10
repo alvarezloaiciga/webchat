@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Launcher component rendering renders 1`] = `
+<div
+  className="Launcher"
+>
+  <div
+    className="hidden"
+  >
+    <ChatContainer />
+  </div>
+  <ToggleChatButton
+    chatOpen={false}
+    toggleChat={[Function]}
+  />
+</div>
+`;
