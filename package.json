@@ -1,6 +1,6 @@
 {
   "name": "webchat-prototype",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.8.5"

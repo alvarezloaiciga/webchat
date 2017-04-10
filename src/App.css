@@ -142,6 +142,7 @@ a:hover {
 }
 
 .message {
+  word-wrap: break-word;
   background: #fff;
   border: 1px solid #eaeaea;
   max-width: 80%;
