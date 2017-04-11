@@ -11,20 +11,30 @@ const GLOBALS = {
 };
 
 module.exports = merge(config, {
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: '/',
+  },
   debug: true,
   cache: true,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: {
     webchat: [
       'webpack-hot-middleware/client',
       'react-hot-loader/patch',
       'development',
     ],
-    // common: ['react', 'react-dom' ],
+    common: ['react', 'react-dom' ],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: '[name].js',
+      minChunks: Infinity,
+    }),
   ],
   module: {
     loaders: [
@@ -38,12 +48,25 @@ module.exports = merge(config, {
           'style',
           'css',
           'postcss',
+          { loader: 'namespace-css', query: '#quiqWebChat' },
           { loader: 'sass', query: { outputStyle: 'expanded' } },
         ],
       },
       {
-        test: /\.css$/,
-        loader: 'style!css!postcss',
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        loader: 'url',
+        query: {
+          limit: 8192,
+          name: 'assets/[name].[ext]',
+        },
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url',
+        query: {
+          limit: 8192,
+          name: 'assets/[name].[ext]',
+        },
       },
     ],
   },

@@ -1,9 +1,17 @@
+/* eslint-disable no-console */
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./webpack.config.base');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { version } = require('../package.json');
+
+const cdnUrl = process.env.QUIQ_CDN || './';
+const commitHash = process.env.GIT_COMMIT || 'dev';
+const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
+console.log(`cdn url is ${cdnUrl}`);
+console.log(`uniqueUrlPiece is ${uniqueUrlPiece}`);
 
 const GLOBALS = {
   'process.env': {
@@ -13,19 +21,24 @@ const GLOBALS = {
 };
 
 module.exports = merge(config, {
+  output: {
+    filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: cdnUrl
+  },
   debug: false,
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   entry: {
     webchat: 'production',
-    // common: ['react', 'react-dom' ],
+    common: ['react', 'react-dom' ],
   },
   plugins: [
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'app/assets/images',
-    //     to: 'images',
-    //   },
-    // ]),
+    new CopyWebpackPlugin([
+      {
+        from: 'app/assets',
+        to: 'assets',
+      },
+    ]),
     // Avoid publishing files when compilation fails
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
@@ -39,14 +52,19 @@ module.exports = merge(config, {
       output: {
         comments: false,
       },
-      sourceMap: false,
+      sourceMap: true,
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
+      minChunks: Infinity,
+    }),
     new ExtractTextPlugin({
-      filename: 'css/app.css',
+      filename: `[name]-[chunkhash]-${uniqueUrlPiece}.css`,
       allChunks: true,
     }),
   ],
@@ -59,12 +77,31 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../app'),
           path.resolve(__dirname, '../app/components'),
         ],
-        loader: [
-          'style-loader',
-          { loader: 'css', query: { sourceMap: true } },
-          'postcss',
-          { loader: 'sass', query: { outputStyle: 'compressed' } },
-        ],
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'style',
+          loader: [
+            { loader: 'css', query: { sourceMap: true } },
+            'postcss',
+            { loader: 'namespace-css', query: '#quiqWebChat' },
+            { loader: 'sass', query: { outputStyle: 'compressed' } },
+          ],
+        }),
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        loader: 'url',
+        query: {
+          limit: 8192,
+          name: `images/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+        },
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url',
+        query: {
+          limit: 8192,
+          name: `fonts/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+        },
       },
     ],
   },

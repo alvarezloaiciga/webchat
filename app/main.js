@@ -8,7 +8,7 @@ import Redbox from 'redbox-react';
 import 'main.scss';
 
 const root = document.createElement('div');
-root.id = 'quiqWebChat';
+root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
 document.getElementsByTagName('body')[0].appendChild(root);
 
 render(

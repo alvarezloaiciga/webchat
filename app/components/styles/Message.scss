@@ -1,49 +1,47 @@
 @import '~styles/animations';
 
-#quiqWebChat {
-  .Message {
-    word-wrap: break-word;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    max-width: 80%;
-    padding: 8px;
-    margin: 8px 16px;
-    border-radius: 5px;
-    font-size: 14px;
-    align-self: flex-start;
-    text-align: left;
-    animation: 0.2s 1 messageEnter;
-    position: relative;
+.Message {
+  word-wrap: break-word;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  max-width: 80%;
+  padding: 8px;
+  margin: 8px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  align-self: flex-start;
+  text-align: left;
+  animation: 0.2s 1 messageEnter;
+  position: relative;
+
+  a {
+    color: #2199e8;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  a:visited {
+    color: #2199e8;
+  }
+
+  a:hover {
+    outline-width: 0;
+    color: #1585cf;
+  }
+
+  &.fromCustomer {
+    align-self: flex-end;
+    color: #fff;
 
     a {
-      color: #2199e8;
-      text-decoration: none;
-      cursor: pointer;
-    }
+      color: #0c70b2;
 
-    a:visited {
-      color: #2199e8;
-    }
-
-    a:hover {
-      outline-width: 0;
-      color: #1585cf;
-    }
-
-    &.fromCustomer {
-      align-self: flex-end;
-      color: #fff;
-
-      a {
+      &:visited {
         color: #0c70b2;
+      }
 
-        &:visited {
-          color: #0c70b2;
-        }
-
-        &:hover {
-          color: #0c4eb2;
-        }
+      &:hover {
+        color: #0c4eb2;
       }
     }
   }

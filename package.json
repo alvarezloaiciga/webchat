@@ -21,10 +21,11 @@
     "url": "https://github.com/quiq/react-webpack2-starter-kit"
   },
   "scripts": {
-    "prestart": "yarn run rimraf build",
+    "prestart": "yarn run rimraf dist",
     "start": "webpack-dashboard -c cyan -- node dev-server.js",
-    "prebuild": "yarn run rimraf build",
+    "prebuild": "yarn run rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
+    "postbuild": "node config/scripts/buildIndex.js",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
     "lint": "node ./node_modules/eslint/bin/eslint.js app/",
@@ -96,6 +97,7 @@
     "jest": "19.0.1",
     "jsdom": "9.4.5",
     "json-loader": "0.5.4",
+    "namespace-css-loader": "0.0.2",
     "node-sass": "4.5.2",
     "postcss-loader": "0.11.1",
     "react-addons-test-utils": "15.4.2",
@@ -108,6 +110,7 @@
     "webpack-dashboard": "0.3.0",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2",
+    "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "0.14.1"
   },
   "dependencies": {
