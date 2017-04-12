@@ -8,10 +8,11 @@ const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { version } = require('../package.json');
 
-const cdnUrl = process.env.QUIQ_CDN || './';
+const cdnUrl = process.env.QUIQ_CDN;
+const publicPath = cdnUrl ? `${cdnUrl}webchat/` : './';
 const commitHash = process.env.GIT_COMMIT || 'dev';
 const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
-console.log(`cdn url is ${cdnUrl}`);
+console.log(`Public Path is ${publicPath}`);
 console.log(`uniqueUrlPiece is ${uniqueUrlPiece}`);
 
 const GLOBALS = {
@@ -25,7 +26,7 @@ module.exports = merge(config, {
   output: {
     filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
     path: path.resolve(__dirname, '../dist'),
-    publicPath: cdnUrl,
+    publicPath,
   },
   debug: false,
   devtool: 'source-map',
