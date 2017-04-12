@@ -4,16 +4,8 @@ This is the end-user client for web chats with Quiq Messaging
 
 ## Usage
 
-Just include this at the bottom of the page
-```js
-  <script type="text/javascript">
-    window.QUIQ = {
-      HOST: 'https://andrew.dev.centricient.corp',
-    };
-  </script>
-  <script src="https://yourTenant.cluster.centricient.corp/app/webchat" type="text/javascript"></script>
-```
-replacing HOST with your site URL. Also ensure you have registered the `default` contactPoint with Chatterbox at `POST /external/chat/registration`
+### Setup
+Ensure you have registered the `default` contactPoint with Chatterbox at `POST /external/chat/registration`
 ```json
   {
     "endpoints": [
@@ -24,6 +16,24 @@ replacing HOST with your site URL. Also ensure you have registered the `default`
     ]
   }
 ```
+
+### Running on a hosted site
+Include this at the bottom of your index.html
+```js
+<script src="https://yourTenant.cluster.centricient.corp/app/webchat" type="text/javascript"></script>
+```
+
+### Running Locally
+Include this at the bottom of the page
+```js
+  <script type="text/javascript">
+    window.QUIQ = {
+      HOST: 'https://andrew.dev.centricient.corp',
+    };
+  </script>
+  <script src="/location/of/index.js" type="text/javascript"></script>
+```
+replacing HOST with your site URL.
 
 ### window.QUIQ Object
 The window.QUIQ object contains properties describing how the instance of webchat should act.  

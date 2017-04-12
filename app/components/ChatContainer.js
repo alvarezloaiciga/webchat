@@ -32,7 +32,7 @@ export class ChatContainer extends Component {
   };
 
   handleApiError = (err?: ApiError, retry?: () => void) => {
-    if (err && err.status && err.status > 401) {
+    if (err && err.status && err.status > 404) {
       if (retry) {
         setTimeout(retry, 5000);
       }

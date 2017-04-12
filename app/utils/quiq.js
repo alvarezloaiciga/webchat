@@ -57,7 +57,7 @@ const getHostFromScriptTag = (): string => {
   return host;
 };
 
-const getQuiqObject = (): QuiqObject => { // eslint-disable-line import/prefer-default-export
+const getQuiqObject = (): QuiqObject => {
   const QUIQ = {
     CONTACT_POINT: 'default',
     COLOR: '#59ad5d',
