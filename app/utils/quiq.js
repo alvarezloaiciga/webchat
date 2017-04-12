@@ -36,7 +36,7 @@ const displayError = (error: IntlMessage) => {
 !!! ${formatMessage(messages.quiqFatalError)} !!!\n`);
 };
 
-const getHostFromScriptTag = (): string => {
+const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-vars
   // Local Development should just always supply HOST manually for simplicity
   // Also catches cases when running standalone built webchat locally
   if (__DEV__ || window.location.hostname === 'localhost' || window.location.origin === 'file://') {
@@ -61,12 +61,43 @@ const getHostFromScriptTag = (): string => {
   return host;
 };
 
+/* eslint-disable no-console */
+const debugGetHostFromScriptTag = (): string => {
+  const unparsedScriptTags = document.getElementsByTagName('script');
+  console.log('unparsedScriptTags =>', unparsedScriptTags);
+  const scriptTags = [...unparsedScriptTags];
+  console.log('scriptTags =>', scriptTags);
+  const mainScript = scriptTags.find((tag) => {
+    console.log('tag =>', tag);
+    const isMatch = SupportedWebchatUrls.find(url => {
+      console.log('starting match');
+      console.log('url =>', url);
+      const lowercaseSrc = tag.src.toLowerCase();
+      console.log('lowercaseSrc =>', lowercaseSrc);
+      const innerMatch = lowercaseSrc.includes(url);
+      console.log('innerMatch =>', innerMatch);
+      console.log('ending match');
+      return innerMatch;
+    });
+    console.log('isMatch =>', isMatch);
+    return isMatch;
+  });
+  console.log('mainScript =>', mainScript);
+  if (!mainScript) return displayError(messages.cannotFindScript);
+
+  const host = mainScript.src.slice(0, mainScript.src.indexOf('app/webchat'));
+  console.log('host =>', host);
+  if (!host) return displayError(messages.cannotFindScript);
+  console.log(`RETURNING ${host}`);
+  return host;
+};
+
 const getQuiqObject = (): QuiqObject => {
   const QUIQ = {
     CONTACT_POINT: 'default',
     COLOR: '#59ad5d',
     HEADER_TEXT: formatMessage(messages.hereToHelp),
-    HOST: getHostFromScriptTag(),
+    HOST: debugGetHostFromScriptTag(),
   };
 
   if (!window.QUIQ) {

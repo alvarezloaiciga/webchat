@@ -56,7 +56,7 @@ module.exports = merge(config, {
       compress: {
         warnings: false,
         screw_ie8: true,
-        drop_console: true,
+        drop_console: false,
       },
       output: {
         comments: false,
