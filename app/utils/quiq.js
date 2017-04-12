@@ -47,7 +47,7 @@ const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-va
   }
 
   // Determine host from the script tag that loaded webchat
-  const scriptTags = [...document.getElementsByTagName('script')];
+  const scriptTags = Array.from(document.getElementsByTagName('script'));
   const mainScript = scriptTags
     .find(tag => tag.src && SupportedWebchatUrls
       .find(u => tag.src.toLowerCase().includes(u))
@@ -61,50 +61,12 @@ const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-va
   return host;
 };
 
-/* eslint-disable no-console */
-const debugGetHostFromScriptTag = (): string => {
-  if (__DEV__ || window.location.hostname === 'localhost' || window.location.origin === 'file://') {
-    if (!window.QUIQ || !window.QUIQ.HOST) {
-      throw new Error('You must specify window.QUIQ.HOST when running locally!');
-    }
-    return window.QUIQ.HOST;
-  }
-
-  const unparsedScriptTags = document.getElementsByTagName('script');
-  console.log('unparsedScriptTags =>', unparsedScriptTags);
-  const scriptTags = Array.from(unparsedScriptTags);
-  console.log('scriptTags =>', scriptTags);
-  const mainScript = scriptTags.find((tag) => {
-    console.log('tag =>', tag);
-    const isMatch = SupportedWebchatUrls.find(url => {
-      console.log('starting match');
-      console.log('url =>', url);
-      const lowercaseSrc = tag.src.toLowerCase();
-      console.log('lowercaseSrc =>', lowercaseSrc);
-      const innerMatch = lowercaseSrc.includes(url);
-      console.log('innerMatch =>', innerMatch);
-      console.log('ending match');
-      return innerMatch;
-    });
-    console.log('isMatch =>', isMatch);
-    return isMatch;
-  });
-  console.log('mainScript =>', mainScript);
-  if (!mainScript) return displayError(messages.cannotFindScript);
-
-  const host = mainScript.src.slice(0, mainScript.src.indexOf('app/webchat'));
-  console.log('host =>', host);
-  if (!host) return displayError(messages.cannotFindScript);
-  console.log(`RETURNING ${host}`);
-  return host;
-};
-
 const getQuiqObject = (): QuiqObject => {
   const QUIQ = {
     CONTACT_POINT: 'default',
     COLOR: '#59ad5d',
     HEADER_TEXT: formatMessage(messages.hereToHelp),
-    HOST: debugGetHostFromScriptTag(),
+    HOST: getHostFromScriptTag(),
   };
 
   if (!window.QUIQ) {
