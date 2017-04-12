@@ -72,7 +72,7 @@ const debugGetHostFromScriptTag = (): string => {
 
   const unparsedScriptTags = document.getElementsByTagName('script');
   console.log('unparsedScriptTags =>', unparsedScriptTags);
-  const scriptTags = [...unparsedScriptTags];
+  const scriptTags = Array.from(unparsedScriptTags);
   console.log('scriptTags =>', scriptTags);
   const mainScript = scriptTags.find((tag) => {
     console.log('tag =>', tag);
