@@ -2,7 +2,7 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -40,12 +40,13 @@ module.exports = merge(config, {
       inject: false,
       chunks: ['common', 'webchat'],
     }),
-    new CopyWebpackPlugin([
-      {
-        from: 'app/assets',
-        to: 'assets',
-      },
-    ]),
+    // Uncomment this if we ever use assets
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: 'app/assets',
+    //     to: 'assets',
+    //   },
+    // ]),
     // Avoid publishing files when compilation fails
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
