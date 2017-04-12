@@ -2,23 +2,23 @@
 
 import React, {Component} from 'react';
 import { FormattedMessage } from 'react-intl';
-import { retrieveMessages } from 'network/chat';
+import { fetchConversation, fetchWebsocketInfo } from 'network/chat';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
-import { QUIQ } from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import { connectSocket } from 'network/atmosphere';
 import { MessageTypes } from 'appConstants';
 import messages from 'messages';
-import type { Message, Conversation, AtmosphereMessage } from 'types';
+import type { Message, Conversation, AtmosphereMessage, ApiError } from 'types';
 
 import './styles/ChatContainer.scss';
 
 type ChatContainerState = {
   messages: Array<Message>,
-  userId?: string,
   connected: boolean,
   loading: boolean,
+  error: boolean,
 };
 
 const { COLOR, HEADER_TEXT } = QUIQ;
@@ -28,29 +28,52 @@ export class ChatContainer extends Component {
     messages: [],
     connected: false,
     loading: true,
+    error: false,
   };
+
+  handleApiError = (err?: ApiError, retry?: () => void) => {
+    if (err && err.status && err.status > 401) {
+      if (retry) {
+        setTimeout(retry, 5000);
+      }
+    }
+    else {
+      this.setState({ error: true });
+    }
+  }
+
+  initialize = () => {
+    let socketUrl;
+
+    fetchWebsocketInfo()
+      .then((response: { url: string }) => {
+        socketUrl = response.url;
+      })
+      .then(fetchConversation)
+      .then((conversation: Conversation) => {
+        this.setState({ messages: this.getTextMessages(conversation.messages) });
+        connectSocket({
+          socketUrl,
+          options: {
+            onConnectionLoss: this.disconnect,
+            onConnectionEstablish: this.onConnectionEstablish,
+            handleMessage: this.handleWebsocketMessage,
+          },
+        });
+      })
+      .catch((err: ApiError) => this.handleApiError(err, this.initialize));
+  }
 
   componentDidMount() {
     if (!this.state.connected) {
-      this.retrieveMessages(this.connectWebsocket);
+      this.initialize();
     }
   }
 
   connect = () => { this.setState({ connected: true }); }
   disconnect = () => { this.setState({ connected: false }); }
-  loading = () => { this.setState({ loading: true }); }
+  setLoading = () => { this.setState({ loading: true }); }
   notLoading = () => { this.setState({ loading: false }); }
-
-  connectWebsocket = (userId: string) => {
-    connectSocket({
-      userId,
-      options: {
-        onConnectionLoss: this.disconnect,
-        onConnectionEstablish: this.onConnectionEstablish,
-        handleMessage: this.handleWebsocketMessage,
-      },
-    });
-  }
 
   onConnectionEstablish = () => {
     this.connect();
@@ -65,12 +88,15 @@ export class ChatContainer extends Component {
     }
   };
 
-
-  retrieveMessages = (onMessagesRetrieved: (userId: string) => void) => {
-    retrieveMessages((conversation: Conversation, resolve: () => void) => {
-      this.setState({messages: this.getTextMessages(conversation.messages)}, resolve);
-      onMessagesRetrieved(conversation.id);
-    });
+  retrieveMessages = () => {
+    fetchConversation()
+      .then((conversation: Conversation) => {
+        this.setState({
+          messages: this.getTextMessages(conversation.messages),
+          loading: false,
+        });
+      })
+      .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   }
 
   appendMessageToChat = (message: Message) => {
@@ -82,6 +108,16 @@ export class ChatContainer extends Component {
   }
 
   render() {
+    if (this.state.error) {
+      return (
+        <div className="ChatContainer">
+          <div className="errorBanner">
+            <FormattedMessage {...messages.errorState} />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="ChatContainer">
         <div className="banner" style={{ backgroundColor: COLOR }}>

@@ -1,0 +1,17 @@
+/************ Style Includes ************/
+<% for(var chunk in htmlWebpackPlugin.files.chunks) {
+    for(var idx in htmlWebpackPlugin.files.chunks[chunk].css) { %>
+// <%= htmlWebpackPlugin.files.chunks[chunk].css[idx] %>
+  var QUIQ_INCLUDE_STYLE_${chunk} = document.createElement('link');
+  QUIQ_INCLUDE_STYLE_${chunk}.rel = "stylesheet";
+  QUIQ_INCLUDE_STYLE_${chunk}.href = "<%= htmlWebpackPlugin.files.chunks[chunk].css[idx] %>";
+  document.getElementsByTagName('head')[0].appendChild(QUIQ_INCLUDE_STYLE_${chunk});
+<% }} %>
+
+/************ JS Includes ************/
+<% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
+// <%= htmlWebpackPlugin.files.chunks[chunk].entry %>
+var QUIQ_INCLUDE_SCRIPT_${idx} = document.createElement('script');
+QUIQ_INCLUDE_SCRIPT_${idx}.src = "<%= htmlWebpackPlugin.files.chunks[chunk].entry %>";
+document.getElementsByTagName('head')[0].appendChild(QUIQ_INCLUDE_SCRIPT_${idx});
+<% } %>

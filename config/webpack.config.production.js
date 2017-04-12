@@ -3,6 +3,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { version } = require('../package.json');
@@ -24,7 +25,7 @@ module.exports = merge(config, {
   output: {
     filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
     path: path.resolve(__dirname, '../dist'),
-    publicPath: cdnUrl
+    publicPath: cdnUrl,
   },
   debug: false,
   devtool: 'source-map',
@@ -33,6 +34,12 @@ module.exports = merge(config, {
     common: ['react', 'react-dom' ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: 'config/templates/index.ejs',
+      filename: 'index.html',
+      inject: false,
+      chunks: ['common', 'webchat'],
+    }),
     new CopyWebpackPlugin([
       {
         from: 'app/assets',

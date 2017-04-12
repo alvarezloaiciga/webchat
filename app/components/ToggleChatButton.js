@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { QUIQ } from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import './styles/ToggleChatButton.scss';
 
 export type ToggleChatButtonProps = {

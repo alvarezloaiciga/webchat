@@ -3,7 +3,6 @@
 
 export type QuiqObject = {
   CONTACT_POINT: string,
-  TENANT: string,
   HOST: string,
   COLOR: string,
   HEADER_TEXT: string,
@@ -58,7 +57,7 @@ export type AtmosphereResponse = {
 };
 
 export type AtmosphereConnectionBuilder = {
-  userId: string,
+  socketUrl: string,
   options: {
     onConnectionLoss: () => void,
     onConnectionEstablish: () => void,
@@ -67,8 +66,6 @@ export type AtmosphereConnectionBuilder = {
 };
 
 export type AtmosphereConnection = {
-  tenantId: string,
-  userId: string,
   pingTimeout?: number,
   upgradeTimeout?: number,
   pendingPing?: boolean,
@@ -112,6 +109,12 @@ export type IntlObject = {
   formatDate: (date: number | moment$Moment) => string,
   formatTime: (timestamp:number, options?:Object) => string,
   formatRelative: (date: number) => string,
+};
+
+export type ApiError = {
+  code?: number,
+  message?: string,
+  status?: number,
 };
 
 export type BrowserNames =

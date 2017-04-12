@@ -21,4 +21,9 @@ export default defineMessages({
     description: 'Connecting to websocket',
     defaultMessage: 'Connecting...',
   },
+  errorState: {
+    id: 'errorState',
+    description: 'Generic Error Message',
+    defaultMessage: 'We\'re having trouble connecting. Try refreshing the page.',
+  },
 });

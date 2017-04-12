@@ -25,7 +25,7 @@
     "start": "webpack-dashboard -c cyan -- node dev-server.js",
     "prebuild": "yarn run rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
-    "postbuild": "node config/scripts/buildIndex.js",
+    "postbuild": "mv dist/index.html dist/index.js",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
     "lint": "node ./node_modules/eslint/bin/eslint.js app/",
@@ -50,11 +50,11 @@
     "globals": {
       "QUIQ": {
         "CONTACT_POINT": "Bob",
-        "TENANT": "Villa",
-        "HOST": "dev.centricient.corp",
+        "HOST": "https://bob.dev.centricient.corp",
         "COLOR": "#333",
         "HEADER_TEXT": "TOOL TIME"
-      }
+      },
+      "__DEV__": true
     },
     "rootDir": "app"
   },
@@ -93,6 +93,7 @@
     "extract-text-webpack-plugin": "2.0.0-beta.3",
     "file-loader": "0.9.0",
     "flow-bin": "0.43.0",
+    "html-webpack-plugin": "2.28.0",
     "http-server": "0.9.0",
     "jest": "19.0.1",
     "jsdom": "9.4.5",
@@ -110,7 +111,6 @@
     "webpack-dashboard": "0.3.0",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "0.14.1"
   },
   "dependencies": {

@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 
 import atmosphere from 'atmosphere.js';
-import { QUIQ } from 'utils/utils';
 import { ping } from 'network/chat';
 import type { AtmosphereRequest, AtmosphereConnection, AtmosphereConnectionBuilder, AtmosphereMessage } from 'types';
 
@@ -11,9 +10,8 @@ let onConnectionLoss: () => void;
 let onConnectionEstablish: () => void;
 let handleMessage: (message: AtmosphereMessage) => void;
 
-const { TENANT, HOST, CONTACT_POINT } = QUIQ;
-const buildRequest = (userId) => ({
-  url: `https://${TENANT}.${HOST}/websocket/chat/${TENANT}/${CONTACT_POINT}/${userId}`,
+const buildRequest = (socketUrl: string) => ({
+  url: `https://${socketUrl}`,
   enableXDR: true,
   withCredentials: true,
   contentType: 'application/json',
@@ -31,13 +29,13 @@ const buildRequest = (userId) => ({
 
 
 export const connectSocket = (builder: AtmosphereConnectionBuilder) => {
-  const { userId, options } = builder;
+  const { socketUrl, options } = builder;
 
   onConnectionLoss = options.onConnectionLoss;
   onConnectionEstablish = options.onConnectionEstablish;
   handleMessage = options.handleMessage;
 
-  connection = { ...atmosphere.subscribe(buildRequest(userId)), userId };
+  connection = { ...atmosphere.subscribe(buildRequest(socketUrl)) };
 };
 
 export const disconnectSocket = () => {

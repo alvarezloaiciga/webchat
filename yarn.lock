@@ -4481,7 +4481,7 @@ mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
 
-namespace-css-loader@^0.0.2:
+namespace-css-loader@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/namespace-css-loader/-/namespace-css-loader-0.0.2.tgz#46fc294de9d90b67d12b6c786553d7557a5d4fcf"
   dependencies:

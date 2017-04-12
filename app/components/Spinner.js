@@ -2,7 +2,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from 'messages';
-import { QUIQ, getUAInfo } from 'utils/utils';
+import QUIQ from 'utils/quiq';
+import { getUAInfo } from 'utils/utils';
 import './styles/Spinner.scss';
 
 const { COLOR } = QUIQ;

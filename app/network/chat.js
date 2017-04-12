@@ -1,13 +1,23 @@
 // @flow
 
-import { QUIQ } from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import fetch from 'isomorphic-fetch';
 import type { Conversation } from 'types';
 
-const { TENANT, HOST, CONTACT_POINT } = QUIQ;
+const { HOST, CONTACT_POINT } = QUIQ;
+
+const parseResponse = (response: Response): Promise<*> => {
+  if (response.status && response.status >= 300) {
+    return response.json()
+      .then((res) => Promise.reject(res))
+      .catch((err) => Promise.reject(err));
+  }
+
+  return response.json();
+};
 
 export const joinChat = () => {
-  fetch(`https://${TENANT}.${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/join`, {
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }/join`, {
     mode: 'cors',
     credentials: 'include',
     method: 'POST',
@@ -19,7 +29,7 @@ export const joinChat = () => {
 };
 
 export const leaveChat = () => {
-  fetch(`https://${TENANT}.${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/leave`, {
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }/leave`, {
     mode: 'cors',
     credentials: 'include',
     method: 'POST',
@@ -30,15 +40,8 @@ export const leaveChat = () => {
   });
 };
 
-export const poll = (callback: (conversation: Conversation) => void) => {
-  fetch(`https://${TENANT}.${HOST}/api/v1/messaging/chat/${CONTACT_POINT}`, {
-    mode: 'cors',
-    credentials: 'include',
-  }).then(response => response.json().then(callback));
-};
-
 export const ping = () => {
-  fetch(`https://${TENANT}.${HOST}/api/v1/webchat/endpoints/${CONTACT_POINT}/socket-ping`, {
+  fetch(`${ HOST }/api/v1/webchat/endpoints/${ CONTACT_POINT }/socket-ping`, {
     mode: 'cors',
     method: 'POST',
     credentials: 'include',
@@ -46,7 +49,7 @@ export const ping = () => {
 };
 
 export const addMessage = (body: string) => {
-  fetch(`https://${TENANT}.${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/send-message`, {
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }/send-message`, {
     mode: 'cors',
     credentials: 'include',
     method: 'POST',
@@ -58,22 +61,16 @@ export const addMessage = (body: string) => {
   });
 };
 
-export const retrieveMessages = (
-  callback: (conversation: Conversation, resolve: () => void) => void
-) => new Promise((resolve, reject) => {
-  console.log('Initial message retrieval starting'); // eslint-disable-line no-console
-  fetch(`https://${TENANT}.${HOST}/api/v1/messaging/chat/${CONTACT_POINT}`, {
+export const fetchWebsocketInfo = (): Promise<{ url: string }> => (
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }/socket-info`, {
     mode: 'cors',
     credentials: 'include',
-  }).then(response => {
-    response.json().then(res => {
-      if (res.status && res.status >= 300) {
-        return reject();
-      }
+  }).then(parseResponse)
+);
 
-      callback(res, resolve);
-    });
-  }).catch(() => {
-    reject();
-  });
-});
+export const fetchConversation = (): Promise<Conversation> => (
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }`, {
+    mode: 'cors',
+    credentials: 'include',
+  }).then(parseResponse)
+);

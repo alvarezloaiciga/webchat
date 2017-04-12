@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import { QUIQ } from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import { addMessage } from 'network/chat';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';

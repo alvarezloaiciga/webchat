@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { QUIQ } from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
 import type { Message as MessageType } from 'types';
