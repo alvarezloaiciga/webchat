@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatContainer component rendering messages appends messages to the transcript 1`] = `
+<div
+  className="ChatContainer"
+>
+  <div
+    className="banner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span
+      className="messageUs"
+    >
+      TOOL TIME
+    </span>
+  </div>
+  <Transcript
+    messages={
+      Array [
+        Object {
+          "authorType": "Guest",
+          "body": "body--0",
+          "id": "id--0",
+          "timestamp": 0,
+          "type": "Text",
+        },
+        Object {
+          "authorType": "Agent",
+          "body": "body--1",
+          "id": "id--1",
+          "timestamp": 1,
+          "type": "Text",
+        },
+        Object {
+          "authorType": "Guest",
+          "body": "body--2",
+          "id": "id--2",
+          "timestamp": 2,
+          "type": "Text",
+        },
+      ]
+    }
+  />
+  <MessageForm />
+</div>
+`;
+
+exports[`ChatContainer component rendering renders 1`] = `
+<div
+  className="ChatContainer"
+>
+  <div
+    className="banner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span
+      className="messageUs"
+    >
+      TOOL TIME
+    </span>
+  </div>
+  <Spinner />
+</div>
+`;

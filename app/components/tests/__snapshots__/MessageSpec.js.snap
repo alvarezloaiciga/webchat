@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message component fromAgent colors the message white 1`] = `
+<div
+  className="Message"
+  style={
+    Object {
+      "backgroundColor": "white",
+    }
+  }
+>
+  <Linkify
+    className="Linkify"
+    component="a"
+    properties={
+      Object {
+        "rel": "noopener noreferrer",
+        "target": "_blank",
+      }
+    }
+  >
+    body--0
+  </Linkify>
+</div>
+`;
+
+exports[`Message component rendering renders with default props 1`] = `
+<div
+  className="Message fromCustomer"
+  style={
+    Object {
+      "backgroundColor": "#333",
+    }
+  }
+>
+  <Linkify
+    className="Linkify"
+    component="a"
+    properties={
+      Object {
+        "rel": "noopener noreferrer",
+        "target": "_blank",
+      }
+    }
+  >
+    body--0
+  </Linkify>
+</div>
+`;

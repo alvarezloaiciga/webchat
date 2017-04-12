@@ -1,0 +1,22 @@
+{
+  "presets": [
+    ["es2015", {"loose": true, "modules": false}],
+    "react",
+    "stage-1"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-decorators-legacy",
+    "transform-flow-strip-types",
+    "react-hot-loader/babel",
+    "transform-object-rest-spread",
+  ],
+  "env": {
+    "production": {
+      "plugins": ["transform-react-remove-prop-types", "transform-react-constant-elements"]
+    },
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transcript component rendering renders with default props 1`] = `
+<div
+  className="Transcript"
+>
+  <Message
+    message={
+      Object {
+        "authorType": "Agent",
+        "body": "body--1",
+        "id": "id--1",
+        "timestamp": 1,
+        "type": "Text",
+      }
+    }
+  />
+  <Message
+    message={
+      Object {
+        "authorType": "Guest",
+        "body": "body--2",
+        "id": "id--2",
+        "timestamp": 2,
+        "type": "Text",
+      }
+    }
+  />
+</div>
+`;
