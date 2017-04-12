@@ -1,17 +1,31 @@
 /************ Style Includes ************/
 <% for(var chunk in htmlWebpackPlugin.files.chunks) {
-    for(var idx in htmlWebpackPlugin.files.chunks[chunk].css) { %>
-// <%= htmlWebpackPlugin.files.chunks[chunk].css[idx] %>
-  var QUIQ_INCLUDE_STYLE_${chunk} = document.createElement('link');
-  QUIQ_INCLUDE_STYLE_${chunk}.rel = "stylesheet";
-  QUIQ_INCLUDE_STYLE_${chunk}.href = "<%= htmlWebpackPlugin.files.chunks[chunk].css[idx] %>";
-  document.getElementsByTagName('head')[0].appendChild(QUIQ_INCLUDE_STYLE_${chunk});
-<% }} %>
+    for(var index in htmlWebpackPlugin.files.chunks[chunk].css) { %>
+      var quiqStyle${chunk} = document.createElement('link');
+      quiqStyle${chunk}.rel = "stylesheet";
+      quiqStyle${chunk}.href = "<%= htmlWebpackPlugin.files.chunks[chunk].css[index] %>";
+      document.getElementsByTagName('body')[0].appendChild(quiqStyle${chunk});
+    <% } %>
+<% } %>
 
 /************ JS Includes ************/
+// We load the rest of the JS files only after common has fully loaded.
+function loadQuiqJS() {
+  <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
+    <% if(chunk !== 'common') { %>
+      var quiqScript${chunk} = document.createElement('script');
+      quiqScript${chunk}.src = "<%= htmlWebpackPlugin.files.chunks[chunk].entry %>";
+      document.getElementsByTagName('body')[0].appendChild(quiqScript${chunk});
+    <% } %>
+  <% } %>
+}
+
+// Load common.js first.
 <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
-// <%= htmlWebpackPlugin.files.chunks[chunk].entry %>
-var QUIQ_INCLUDE_SCRIPT_${idx} = document.createElement('script');
-QUIQ_INCLUDE_SCRIPT_${idx}.src = "<%= htmlWebpackPlugin.files.chunks[chunk].entry %>";
-document.getElementsByTagName('head')[0].appendChild(QUIQ_INCLUDE_SCRIPT_${idx});
+  <% if(chunk === 'common') { %>
+    var quiqScriptCommon = document.createElement('script');
+    quiqScriptCommon.src = "<%= htmlWebpackPlugin.files.chunks.common.entry %>";
+    quiqScriptCommon.onload = loadQuiqJS;
+    document.getElementsByTagName('body')[0].appendChild(quiqScriptCommon);
+  <% } %>
 <% } %>
