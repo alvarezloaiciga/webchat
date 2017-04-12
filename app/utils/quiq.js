@@ -55,7 +55,7 @@ const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-va
 
   if (!mainScript) return displayError(messages.cannotFindScript);
 
-  const host = mainScript.src.slice(0, mainScript.src.indexOf('app/webchat'));
+  const host = mainScript.src.slice(0, mainScript.src.indexOf('/app/webchat'));
   if (!host) return displayError(messages.cannotFindScript);
 
   return host;
