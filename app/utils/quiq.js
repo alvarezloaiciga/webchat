@@ -3,6 +3,7 @@ declare var __DEV__: string;
 
 import { defineMessages } from 'react-intl';
 import { formatMessage } from 'core-ui/services/i18nService';
+import { SupportedWebchatUrls } from 'appConstants';
 import type { QuiqObject, IntlMessage } from 'types';
 
 const messages = defineMessages({
@@ -46,14 +47,12 @@ const getHostFromScriptTag = (): string => {
   }
 
   // Determine host from the script tag that loaded webchat
-  const mainScript = [...document.getElementsByTagName('script')]
-    .find(script => {
-      if (!script.src) return false;
+  const scriptTags = [...document.getElementsByTagName('script')];
+  const mainScript = scriptTags
+    .find(tag => tag.src && SupportedWebchatUrls
+      .find(u => tag.src.toLowerCase().includes(u))
+    );
 
-      const srcName = script.src.toLowerCase();
-      return srcName.includes('goquiq.com/app/webchat') || srcName.includes('goquiq.corp/app/webchat') ||
-        srcName.includes('centricient.corp/app/webchat') || srcName.includes('centricient.com/app/webchat');
-    });
   if (!mainScript) return displayError(messages.cannotFindScript);
 
   const host = mainScript.src.slice(0, mainScript.src.indexOf('app/webchat'));
