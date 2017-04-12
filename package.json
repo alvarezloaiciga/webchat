@@ -1,7 +1,7 @@
 {
   "name": "React-Webpack2-Starter-Kit",
   "description": "Quiq Webchat",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -116,6 +116,7 @@
   "dependencies": {
     "atmosphere.js": "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88",
     "autoprefixer": "6.4.1",
+    "babel-polyfill": "6.23.0",
     "babel-runtime": "6.11.6",
     "body-parser": "1.16.0",
     "classnames": "2.2.5",
