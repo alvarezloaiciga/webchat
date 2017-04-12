@@ -1,31 +1,34 @@
-/************ Style Includes ************/
-<% for(var chunk in htmlWebpackPlugin.files.chunks) {
-    for(var index in htmlWebpackPlugin.files.chunks[chunk].css) { %>
-      var quiqStyle${chunk} = document.createElement('link');
-      quiqStyle${chunk}.rel = "stylesheet";
-      quiqStyle${chunk}.href = "<%= htmlWebpackPlugin.files.chunks[chunk].css[index] %>";
-      document.getElementsByTagName('body')[0].appendChild(quiqStyle${chunk});
+try {
+  // Load the rest of the JS files only after common has fully loaded.
+  function loadQuiqJS() {
+    <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
+      <% if(chunk !== 'common') { %>
+        var quiqScript${chunk} = document.createElement('script');
+        quiqScript${chunk}.src = "<%= htmlWebpackPlugin.files.chunks[chunk].entry %>";
+        document.getElementsByTagName('body')[0].appendChild(quiqScript${chunk});
+      <% } %>
     <% } %>
-<% } %>
+  }
 
-/************ JS Includes ************/
-// We load the rest of the JS files only after common has fully loaded.
-function loadQuiqJS() {
-  <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
-    <% if(chunk !== 'common') { %>
-      var quiqScript${chunk} = document.createElement('script');
-      quiqScript${chunk}.src = "<%= htmlWebpackPlugin.files.chunks[chunk].entry %>";
-      document.getElementsByTagName('body')[0].appendChild(quiqScript${chunk});
+  window.addEventListener('load', function() {
+    <% for(var chunk in htmlWebpackPlugin.files.chunks) {
+        for(var index in htmlWebpackPlugin.files.chunks[chunk].css) { %>
+          var quiqStyle${chunk} = document.createElement('link');
+          quiqStyle${chunk}.rel = "stylesheet";
+          quiqStyle${chunk}.href = "<%= htmlWebpackPlugin.files.chunks[chunk].css[index] %>";
+          document.getElementsByTagName('body')[0].appendChild(quiqStyle${chunk});
+        <% } %>
     <% } %>
-  <% } %>
+
+    // Load common.js first.
+    <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
+      <% if(chunk === 'common') { %>
+        var quiqScriptCommon = document.createElement('script');
+        quiqScriptCommon.src = "<%= htmlWebpackPlugin.files.chunks.common.entry %>";
+        quiqScriptCommon.onload = loadQuiqJS;
+        document.getElementsByTagName('body')[0].appendChild(quiqScriptCommon);
+      <% } %>
+    <% } %>
+  }, false);
 }
-
-// Load common.js first.
-<% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
-  <% if(chunk === 'common') { %>
-    var quiqScriptCommon = document.createElement('script');
-    quiqScriptCommon.src = "<%= htmlWebpackPlugin.files.chunks.common.entry %>";
-    quiqScriptCommon.onload = loadQuiqJS;
-    document.getElementsByTagName('body')[0].appendChild(quiqScriptCommon);
-  <% } %>
-<% } %>
+catch(ex) {}

@@ -48,7 +48,7 @@ const getHostFromScriptTag = (): string => {
   // Determine host from the script tag that loaded webchat
   const mainScript = [...document.getElementsByTagName('script')]
     .find(n => n.src && n.src.toLowerCase()
-    .includes('goquiq.com'));
+    .includes('goquiq.com' || 'goquiq.corp' || 'centricient.corp' || 'centricient.com'));
   if (!mainScript) return displayError(messages.cannotFindScript);
 
   const host = mainScript.src.slice(0, mainScript.src.indexOf('app/webchat'));
