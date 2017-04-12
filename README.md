@@ -20,7 +20,7 @@ Ensure you have registered the `default` contactPoint with Chatterbox at `POST /
 ### Running on a hosted site
 Include this at the bottom of your index.html
 ```js
-<script src="https://yourTenant.cluster.centricient.corp/app/webchat" type="text/javascript"></script>
+<script src="https://yourTenant.cluster.centricient.corp/app/webchat/index.js" type="text/javascript"></script>
 ```
 
 ### Running Locally
