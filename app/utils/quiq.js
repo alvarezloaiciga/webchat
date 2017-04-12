@@ -63,6 +63,13 @@ const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-va
 
 /* eslint-disable no-console */
 const debugGetHostFromScriptTag = (): string => {
+  if (__DEV__ || window.location.hostname === 'localhost' || window.location.origin === 'file://') {
+    if (!window.QUIQ || !window.QUIQ.HOST) {
+      throw new Error('You must specify window.QUIQ.HOST when running locally!');
+    }
+    return window.QUIQ.HOST;
+  }
+
   const unparsedScriptTags = document.getElementsByTagName('script');
   console.log('unparsedScriptTags =>', unparsedScriptTags);
   const scriptTags = [...unparsedScriptTags];
