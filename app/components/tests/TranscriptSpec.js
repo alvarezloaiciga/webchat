@@ -15,6 +15,7 @@ describe('Transcript component', () => {
   beforeEach(() => {
     testProps = {
       messages: [getMockMessage(1), getMockMessage(2)],
+      agentTyping: true,
     };
     render = () => {
       wrapper = shallow(<Transcript {...testProps}/>);

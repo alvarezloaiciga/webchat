@@ -54,5 +54,18 @@ describe('ChatContainer component', () => {
         expect(wrapper).toMatchSnapshot();
       });
     });
+
+    describe('typing indicator', () => {
+      it('updates typing state', () => {
+        wrapper.setState({
+          loading: false,
+          connected: true,
+          messages: [],
+          agentTyping: true,
+        });
+
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
   });
 });

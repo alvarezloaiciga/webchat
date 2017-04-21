@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import QUIQ from 'utils/quiq';
-import { addMessage } from 'network/chat';
+import { addMessage, updateMessagePreview } from 'network/chat';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import messages from 'messages';
@@ -15,20 +15,48 @@ type MessageFormState = {
   text: string,
 };
 
+let typingTimer;
+let updateTimer;
 export class MessageForm extends Component {
   state: MessageFormState = {
     text: '',
   };
 
+  startTyping = () => {
+    updateMessagePreview(this.state.text, true);
+    updateTimer = undefined;
+  }
+  stopTyping = () => { updateMessagePreview(this.state.text, false); }
+
+  startTypingTimers = () => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(this.resetTypingTimers, 10000);
+    if (!updateTimer) {
+      updateTimer = setTimeout(this.startTyping, 2000);
+    }
+  }
+
+  resetTypingTimers = () => {
+    clearTimeout(typingTimer);
+    typingTimer = undefined;
+    clearTimeout(updateTimer);
+    updateTimer = undefined;
+    this.stopTyping();
+  }
+
   handleTextChanged = (e: SyntheticInputEvent) => {
-    this.setState({text: e.target.value});
+    const state = Object.assign({
+      text: e.target.value,
+    });
+
+    this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
   }
 
   addMessage = () => {
     const text = this.state.text.trim();
     if (text) {
+      this.setState({text: ''}, this.resetTypingTimers);
       addMessage(text);
-      this.setState({text: ''});
     }
   }
 
