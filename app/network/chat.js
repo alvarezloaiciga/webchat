@@ -74,3 +74,16 @@ export const fetchConversation = (): Promise<Conversation> => (
     credentials: 'include',
   }).then(parseResponse)
 );
+
+export const updateMessagePreview = (body: string, typing: boolean) => {
+  fetch(`${ HOST }/api/v1/messaging/chat/${ CONTACT_POINT }/typing`, {
+    mode: 'cors',
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ body, typing }),
+  });
+};

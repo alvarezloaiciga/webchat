@@ -93,7 +93,7 @@ export type AtmosphereConnection = {
 };
 
 export type AtmosphereMessage = {
-  data: Message,
+  data: Object,
   messageType: MessageType,
   tenantId: string,
 };

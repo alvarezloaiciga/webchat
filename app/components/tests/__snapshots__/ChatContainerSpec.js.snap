@@ -19,6 +19,7 @@ exports[`ChatContainer component rendering messages appends messages to the tran
     </span>
   </div>
   <Transcript
+    agentTyping={false}
     messages={
       Array [
         Object {
@@ -68,5 +69,31 @@ exports[`ChatContainer component rendering renders 1`] = `
     </span>
   </div>
   <Spinner />
+</div>
+`;
+
+exports[`ChatContainer component rendering typing indicator updates typing state 1`] = `
+<div
+  className="ChatContainer"
+>
+  <div
+    className="banner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span
+      className="messageUs"
+    >
+      TOOL TIME
+    </span>
+  </div>
+  <Transcript
+    agentTyping={true}
+    messages={Array []}
+  />
+  <MessageForm />
 </div>
 `;

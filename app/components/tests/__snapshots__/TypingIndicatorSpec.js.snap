@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypingIndicator component rendering renders with default props 1`] = `
+<svg
+  className="TypingIndicator"
+  height="60px"
+  version="1.1"
+  viewBox="0 0 48 60"
+  width="48px"
+  x="0"
+  xmlSpace="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+  y="0"
+>
+  ...
+  <rect
+    fill="#a6daec"
+    height={20}
+    opacity="0.2"
+    width={8}
+    x={0}
+    y={20}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="0s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="0s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 40; 20"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="0s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 10; 20"
+    />
+  </rect>
+  <rect
+    fill="#a6daec"
+    height={20}
+    opacity="0.2"
+    width={8}
+    x={16}
+    y={20}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="0.6s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="0.6s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 40; 20"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="0.6s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 10; 20"
+    />
+  </rect>
+  <rect
+    fill="#a6daec"
+    height={20}
+    opacity="0.2"
+    width={8}
+    x={32}
+    y={20}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="1.2s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="1.2s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 40; 20"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="1.2s"
+      dur="2s"
+      repeatCount="indefinite"
+      values="20; 10; 20"
+    />
+  </rect>
+</svg>
+`;
+
+exports[`TypingIndicator component rendering renders with minimal props 1`] = `
+<svg
+  className="TypingIndicator"
+  height="30px"
+  version="1.1"
+  viewBox="0 0 24 30"
+  width="24px"
+  x="0"
+  xmlSpace="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+  y="0"
+>
+  ...
+  <rect
+    fill="#59ad5d"
+    height={10}
+    opacity="0.2"
+    width={4}
+    x={0}
+    y={10}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="0s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="0s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 20; 10"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="0s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 5; 10"
+    />
+  </rect>
+  <rect
+    fill="#59ad5d"
+    height={10}
+    opacity="0.2"
+    width={4}
+    x={8}
+    y={10}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="0.3s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="0.3s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 20; 10"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="0.3s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 5; 10"
+    />
+  </rect>
+  <rect
+    fill="#59ad5d"
+    height={10}
+    opacity="0.2"
+    width={4}
+    x={16}
+    y={10}
+  >
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      begin="0.6s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="0.2; 1; .2"
+    />
+    <animate
+      attributeName="height"
+      attributeType="XML"
+      begin="0.6s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 20; 10"
+    />
+    <animate
+      attributeName="y"
+      attributeType="XML"
+      begin="0.6s"
+      dur="1s"
+      repeatCount="indefinite"
+      values="10; 5; 10"
+    />
+  </rect>
+</svg>
+`;

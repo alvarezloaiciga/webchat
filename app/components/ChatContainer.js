@@ -19,6 +19,7 @@ type ChatContainerState = {
   connected: boolean,
   loading: boolean,
   error: boolean,
+  agentTyping: boolean,
 };
 
 const { COLOR, HEADER_TEXT } = QUIQ;
@@ -29,6 +30,7 @@ export class ChatContainer extends Component {
     connected: false,
     loading: true,
     error: false,
+    agentTyping: false,
   };
 
   handleApiError = (err?: ApiError, retry?: () => void) => {
@@ -84,7 +86,14 @@ export class ChatContainer extends Component {
 
   handleWebsocketMessage = (message: AtmosphereMessage) => {
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
-      this.appendMessageToChat(message.data);
+      switch (message.data.type) {
+      case 'Text':
+        this.appendMessageToChat(message.data);
+        break;
+      case 'AgentTyping':
+        this.setState({ agentTyping: message.data.typing });
+        break;
+      }
     }
   };
 
@@ -132,7 +141,7 @@ export class ChatContainer extends Component {
 
         { this.state.loading ?
           <Spinner /> :
-          <Transcript messages={ this.state.messages } />
+          <Transcript messages={ this.state.messages } agentTyping={ this.state.agentTyping }/>
         }
 
         { !this.state.loading && this.state.connected &&

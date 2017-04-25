@@ -3,4 +3,18 @@
   flex-direction: column;
   overflow-y: auto;
   flex: 1 1 auto;
+
+  .poke {
+    margin-top: auto;
+    animation: fadeUp 1.0s 1;
+    padding: 7px 9px;
+    background: white;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+
+    .TypingIndicator {
+      margin-left: 5px;
+      vertical-align: text-bottom;
+    }
+  }
 }
