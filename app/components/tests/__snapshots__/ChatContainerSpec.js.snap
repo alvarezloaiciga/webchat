@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ChatContainer component rendering hidden hides the component when hidden 1`] = `null`;
+
 exports[`ChatContainer component rendering messages appends messages to the transcript 1`] = `
 <div
   className="ChatContainer"

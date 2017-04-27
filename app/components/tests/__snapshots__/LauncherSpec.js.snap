@@ -4,11 +4,9 @@ exports[`Launcher component rendering renders 1`] = `
 <div
   className="Launcher"
 >
-  <div
-    className="hidden"
-  >
-    <ChatContainer />
-  </div>
+  <ChatContainer
+    hidden={true}
+  />
   <ToggleChatButton
     chatOpen={false}
     toggleChat={[Function]}

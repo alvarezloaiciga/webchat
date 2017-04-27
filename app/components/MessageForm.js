@@ -17,10 +17,13 @@ type MessageFormState = {
 
 let updateTimer;
 export class MessageForm extends Component {
+  textArea: any;
   state: MessageFormState = {
     text: '',
   };
-
+  componentDidMount() {
+    setTimeout(() => this.textArea.focus(), 200);
+  }
   startTyping = () => {
     updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
@@ -59,9 +62,13 @@ export class MessageForm extends Component {
     }
   };
   render() {
+    const sendDisabled = this.state.text.trim() === '';
     return (
       <div className="MessageForm">
         <Textarea
+          ref={n => {
+            this.textArea = n;
+          }}
           name="message"
           value={this.state.text}
           onInput={this.handleTextChanged}
@@ -71,8 +78,8 @@ export class MessageForm extends Component {
         <button
           className="sendBtn"
           onClick={this.addMessage}
-          disabled={this.state.text.trim() === ''}
-          style={{color: COLOR}}
+          disabled={sendDisabled}
+          style={{color: COLOR, opacity: sendDisabled ? '.5' : '1'}}
         >
           <FormattedMessage {...messages.send} />
         </button>
