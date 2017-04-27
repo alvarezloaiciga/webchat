@@ -8,6 +8,7 @@ exports[`MessageForm component rendering renders 1`] = `
     name="message"
     onChange={[Function]}
     onHeightChange={[Function]}
+    onInput={[Function]}
     onKeyDown={[Function]}
     placeholder="Send us a message..."
     useCacheForDOMMeasurements={false}

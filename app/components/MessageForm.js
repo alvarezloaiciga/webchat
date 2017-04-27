@@ -64,7 +64,7 @@ export class MessageForm extends Component {
         <Textarea
           name="message"
           value={this.state.text}
-          onChange={this.handleTextChanged}
+          onInput={this.handleTextChanged}
           onKeyDown={this.handleKeyDown}
           placeholder={formatMessage(messages.sendUsAMessage)}
         />
