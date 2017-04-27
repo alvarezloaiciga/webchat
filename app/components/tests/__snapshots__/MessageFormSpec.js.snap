@@ -21,6 +21,7 @@ exports[`MessageForm component rendering renders 1`] = `
     style={
       Object {
         "color": "#333",
+        "opacity": ".5",
       }
     }
   >
