@@ -2,6 +2,11 @@
 
 This is the end-user client for web chats with Quiq Messaging
 
+### Production Note
+If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.
+
+`<meta http-equiv="X-UA-Compatible" content="IE=edge">`
+
 ## Usage
 
 ### Setup
