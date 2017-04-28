@@ -1,6 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
+import {compatibilityMode} from 'utils/utils';
 import QUIQ from 'utils/quiq';
 import {addMessage, updateMessagePreview} from 'network/chat';
 import keycodes from 'keycodes';
@@ -63,6 +64,8 @@ export class MessageForm extends Component {
   };
   render() {
     const sendDisabled = this.state.text.trim() === '';
+    const compatMode = compatibilityMode();
+
     return (
       <div className="MessageForm">
         <Textarea
@@ -71,7 +74,9 @@ export class MessageForm extends Component {
           }}
           name="message"
           value={this.state.text}
-          onInput={this.handleTextChanged}
+          // onInput is more responsive, but is an html5 attribute so not supported in older browsers.
+          onInput={compatMode ? undefined : this.handleTextChanged}
+          onChange={compatMode ? this.handleTextChanged : undefined}
           onKeyDown={this.handleKeyDown}
           placeholder={formatMessage(messages.sendUsAMessage)}
         />
