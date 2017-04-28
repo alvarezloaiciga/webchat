@@ -2,40 +2,55 @@
 /* eslint-disable no-console */
 
 import atmosphere from 'atmosphere.js';
-import { ping } from 'network/chat';
-import type { AtmosphereRequest, AtmosphereConnection, AtmosphereConnectionBuilder, AtmosphereMessage } from 'types';
+import {ping} from 'network/chat';
+import {isIE9} from 'utils/utils';
+import type {
+  AtmosphereRequest,
+  AtmosphereConnection,
+  AtmosphereConnectionBuilder,
+  AtmosphereMessage,
+} from 'types';
 
 let connection: AtmosphereConnection;
 let onConnectionLoss: () => void;
 let onConnectionEstablish: () => void;
 let handleMessage: (message: AtmosphereMessage) => void;
 
-const buildRequest = (socketUrl: string) => ({
-  url: `https://${socketUrl}`,
-  enableXDR: true,
-  withCredentials: true,
-  contentType: 'application/json',
-  logLevel: 'error',
-  transport: 'websocket',
-  fallbackTransport: 'long-polling',
-  trackMessageLength: true,
-  maxReconnectOnClose: Number.MAX_SAFE_INTEGER,
-  // Keep reconnectInterval at 10 seconds.  Otherwise if API-GW drops the atmosphere connection,
-  // we will hammer them with onReconnect requests. See SER-2620
-  reconnectInterval: 10000,
-  onOpen, onClose, onReopen, onReconnect, // eslint-disable-line no-use-before-define
-  onMessage, onTransportFailure, onError, onClientTimeout, // eslint-disable-line no-use-before-define
-});
-
+const buildRequest = (socketUrl: string) => {
+  /* eslint-disable no-use-before-define */
+  return {
+    url: `https://${socketUrl}`,
+    enableXDR: true,
+    withCredentials: true,
+    contentType: 'application/json',
+    logLevel: 'error',
+    transport: isIE9() ? 'long-polling' : 'websocket',
+    fallbackTransport: isIE9() ? 'polling' : 'long-polling',
+    trackMessageLength: true,
+    maxReconnectOnClose: Number.MAX_SAFE_INTEGER,
+    // Keep reconnectInterval at 10 seconds.  Otherwise if API-GW drops the atmosphere connection,
+    // we will hammer them with onReconnect requests. See SER-2620
+    reconnectInterval: 10000,
+    onOpen,
+    onClose,
+    onReopen,
+    onReconnect,
+    onMessage,
+    onTransportFailure,
+    onError,
+    onClientTimeout,
+  };
+  /* eslint-disable no-use-before-define */
+};
 
 export const connectSocket = (builder: AtmosphereConnectionBuilder) => {
-  const { socketUrl, options } = builder;
+  const {socketUrl, options} = builder;
 
   onConnectionLoss = options.onConnectionLoss;
   onConnectionEstablish = options.onConnectionEstablish;
   handleMessage = options.handleMessage;
 
-  connection = { ...atmosphere.subscribe(buildRequest(socketUrl)) };
+  connection = {...atmosphere.subscribe(buildRequest(socketUrl))};
 };
 
 export const disconnectSocket = () => {
@@ -43,7 +58,7 @@ export const disconnectSocket = () => {
 };
 
 // ******** Atmosphere callbacks *********
-const onOpen = (response) => {
+const onOpen = response => {
   // Carry the UUID. This is required if you want to call subscribe(request) again.
   connection.request.uuid = response.request.uuid;
   onConnectionEstablish && onConnectionEstablish();
@@ -68,7 +83,7 @@ const onReconnect = (req: AtmosphereRequest) => {
   console.log('Atmosphere: reconnect');
 };
 
-const onMessage = (res) => {
+const onMessage = res => {
   let message;
   try {
     message = atmosphere.util.parseJSON(res.responseBody);
