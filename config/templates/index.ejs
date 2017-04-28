@@ -10,7 +10,7 @@ try {
     <% } %>
   }
 
-  window.addEventListener('load', function() {
+  function loadQuiqWebchat() {
     <% for(var chunk in htmlWebpackPlugin.files.chunks) {
         for(var index in htmlWebpackPlugin.files.chunks[chunk].css) { %>
           var quiqStyle${chunk} = document.createElement('link');
@@ -29,6 +29,14 @@ try {
         document.getElementsByTagName('body')[0].appendChild(quiqScriptCommon);
       <% } %>
     <% } %>
-  }, false);
+  }
+
+  if (window.addEventListener) {
+      window.addEventListener('load', loadQuiqWebchat, false);
+  } else if (window.attachEvent) {
+      window.attachEvent('onload', loadQuiqWebchat);
+  } else {
+      window.onload = loadQuiqWebchat;
+  }
 }
 catch(ex) {}
