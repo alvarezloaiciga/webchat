@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { version } = require('../package.json');
+const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
 const publicPath = cdnUrl ? `${cdnUrl}webchat/` : './';
@@ -32,7 +32,7 @@ module.exports = merge(config, {
   devtool: 'source-map',
   entry: {
     webchat: 'production',
-    common: ['react', 'react-dom' ],
+    common: ['react', 'react-dom'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -52,17 +52,17 @@ module.exports = merge(config, {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        drop_console: true,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: true,
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     screw_ie8: true,
+    //     drop_console: true,
+    //   },
+    //   output: {
+    //     comments: false,
+    //   },
+    //   sourceMap: true,
+    // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
@@ -82,17 +82,14 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../app/components'),
-        ],
+        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style',
           loader: [
-            { loader: 'css', query: { sourceMap: true } },
+            {loader: 'css', query: {sourceMap: true}},
             'postcss',
-            { loader: 'namespace-css', query: '#quiqWebChat' },
-            { loader: 'sass', query: { outputStyle: 'compressed' } },
+            {loader: 'namespace-css', query: '#quiqWebChat'},
+            {loader: 'sass', query: {outputStyle: 'compressed'}},
           ],
         }),
       },
