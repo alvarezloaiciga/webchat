@@ -32,7 +32,7 @@ module.exports = merge(config, {
   devtool: 'source-map',
   entry: {
     webchat: 'production',
-    common: ['react', 'react-dom'],
+    common: ['babel-polyfill', 'react', 'react-dom'],
   },
   plugins: [
     new HtmlWebpackPlugin({
