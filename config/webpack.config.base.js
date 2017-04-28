@@ -34,11 +34,7 @@ module.exports = {
       },
     ],
   },
-  postcss () {
-    return [
-      autoprefixer({
-        browsers: ['last 2 versions'],
-      }),
-    ];
+  postcss() {
+    return [autoprefixer()];
   },
 };
