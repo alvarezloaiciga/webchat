@@ -26,19 +26,5 @@ exports[`Transcript component rendering renders with default props 1`] = `
       }
     }
   />
-  <div
-    className="poke"
-  >
-    <FormattedMessage
-      defaultMessage="Agent is typing"
-      description="Message to display when the agent is typing"
-      id="agentIsTyping"
-      values={Object {}}
-    />
-    <TypingIndicator
-      xScale={0.75}
-      yScale={0.5}
-    />
-  </div>
 </div>
 `;

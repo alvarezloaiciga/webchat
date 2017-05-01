@@ -1,12 +1,6 @@
 @import '~styles/animations';
 
 .Spinner {
-  position: relative;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-
   .loading {
     animation: spin 1250ms infinite linear;
     border: 8px solid #59ad5d;
@@ -18,5 +12,17 @@
     overflow: hidden;
     width: 64px;
     height: 64px;
+  }
+}
+
+.noFlexbox .Spinner {
+  display: table;
+  height: 520px;
+  text-align: center;
+  width: 100%;
+
+  .plainText {
+    display: table-cell;
+    vertical-align: middle;
   }
 }

@@ -123,6 +123,7 @@ export class ChatContainer extends Component {
       this.setState(prevState => ({messages: [...prevState.messages, message]}));
     }
   };
+
   render() {
     if (this.props.hidden) return null;
 
@@ -148,11 +149,13 @@ export class ChatContainer extends Component {
             <FormattedMessage {...messages.reconnecting} />
           </div>}
 
-        {this.state.loading
-          ? <Spinner />
-          : <Transcript messages={this.state.messages} agentTyping={this.state.agentTyping} />}
+        <div className="chatContainerBody">
+          {this.state.loading ? <Spinner /> : <Transcript messages={this.state.messages} />}
 
-        {!this.state.loading && this.state.connected && <MessageForm />}
+          {!this.state.loading &&
+            this.state.connected &&
+            <MessageForm agentTyping={this.state.agentTyping} />}
+        </div>
       </div>
     );
   }

@@ -1,31 +1,92 @@
 .MessageForm {
+  width: 100%;
   flex: 0 0 auto;
   background: #fff;
-  padding: 12px;
   display: flex;
+  flex-direction: column;
 
-  textarea {
-    flex: 1 1 auto;
-    width: 100%;
-    border: none;
-    resize: none;
-    font-size: 14px;
+  .messageArea {
+    display: flex;
+    flex: 0 0 auto;
 
-    &:focus {
-      outline: none;
+    textarea {
+      padding: 12px 0 12px 12px;
+      flex: 1 1 auto;
+      width: 100%;
+      border: none;
+      resize: none;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .sendBtn {
+      padding: 12px;
+      flex: 0 0 auto;
+      border: none;
+      font-size: 14px;
+      background: #fff;
+      font-weight: bold;
+      transition: 0.15s ease-in-out color;
+
+      &:not([disabled]) {
+        color: #59ad5d;
+      }
     }
   }
 
-  .sendBtn {
-    flex: 0 0 auto;
-    border: none;
+  .poke {
+    margin-top: auto;
+    background: white;
     font-size: 14px;
-    background: #fff;
-    font-weight: bold;
-    transition: 0.15s ease-in-out color;
+    border-bottom: 1px solid #eee;
+    animation: fadeUp 1.0s 1;
 
-    &:not([disabled]) {
-      color: #59ad5d;
+    .pokeBody {
+      padding: 7px 9px;
+
+      .TypingIndicator {
+        margin-left: 5px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}
+
+// Total Width: 400px
+// Total Height: 600px
+// MessageForm: 120px
+// Banner: 40px
+// Transcript: 440px
+.noFlexbox .MessageForm {
+  height: 120px;
+  min-height: 120px;
+  max-height: 120px;
+
+  .poke {
+    min-height: 30px;
+    max-height: 30px;
+    height: 30px;
+    display: block;
+  }
+
+  .messageArea {
+    display: table;
+
+    textarea {
+      max-height: 60px;
+      min-height: 60px;
+      height: 60px;
+      overflow: auto;
+      width: 318px; // 318 + 12padding = 330
+    }
+
+    .sendBtn {
+      display: table-cell;
+      vertical-align: middle;
+      width: 46px; // 46 + 24padding = 70
     }
   }
 }

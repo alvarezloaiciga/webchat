@@ -12,30 +12,67 @@
   display: flex;
   flex-direction: column;
   background: #f4f4f8;
+
+  .chatContainerBody {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .banner {
+    flex: 0 0 auto;
+    background: #59ad5d;
+    height: 80px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 14px;
+  }
+
+  .errorBanner {
+    flex: 0 0 auto;
+    background: #ad2215;
+    height: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 14px;
+  }
 }
 
-.banner {
-  flex: 0 0 auto;
-  background: #59ad5d;
-  height: 80px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 300;
-  font-size: 14px;
-}
+// Total Width: 400px
+// Total Height: 600px
+// MessageForm: 120px
+// Banner: 40px
+// Transcript: 440px
+.noFlexbox .ChatContainer {
+  width: 400px;
+  height: 600px;
 
-.errorBanner {
-  flex: 0 0 auto;
-  background: #ad2215;
-  height: 20px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 300;
-  font-size: 14px;
+  .banner, .errorBanner {
+    width: 100%;
+    text-align: center;
+  }
+
+  .banner, .errorBanner {
+    position: absolute;
+    top: 0;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    display: table;
+
+    span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
 }

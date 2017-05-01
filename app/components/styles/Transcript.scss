@@ -3,18 +3,16 @@
   flex-direction: column;
   overflow-y: auto;
   flex: 1 1 auto;
+}
 
-  .poke {
-    margin-top: auto;
-    animation: fadeUp 1.0s 1;
-    padding: 7px 9px;
-    background: white;
-    font-size: 14px;
-    border-bottom: 1px solid #eee;
-
-    .TypingIndicator {
-      margin-left: 5px;
-      vertical-align: text-bottom;
-    }
-  }
+// Total Width: 400px
+// Total Height: 600px
+// MessageForm: 120px
+// Banner: 40px
+// Transcript: 440px
+.noFlexbox .Transcript {
+  margin-top: 40px;
+  height: 440px;
+  min-height: 440px;
+  max-height: 440px;
 }

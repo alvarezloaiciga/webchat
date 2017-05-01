@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl';
+import {defineMessages} from 'react-intl';
 
 export default defineMessages({
   send: {
@@ -24,6 +24,11 @@ export default defineMessages({
   errorState: {
     id: 'errorState',
     description: 'Generic Error Message',
-    defaultMessage: 'We\'re having trouble connecting. Try refreshing the page.',
+    defaultMessage: "We're having trouble connecting. Try refreshing the page.",
+  },
+  agentIsTyping: {
+    id: 'agentIsTyping',
+    description: 'Message to display when the agent is typing',
+    defaultMessage: 'Agent is typing',
   },
 });

@@ -26,3 +26,5 @@ export const compatibilityMode = () => {
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
+
+export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;

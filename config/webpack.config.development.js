@@ -20,12 +20,8 @@ module.exports = merge(config, {
   cache: true,
   devtool: 'eval',
   entry: {
-    webchat: [
-      'webpack-hot-middleware/client',
-      'react-hot-loader/patch',
-      'development',
-    ],
-    common: ['react', 'react-dom' ],
+    webchat: ['webpack-hot-middleware/client', 'react-hot-loader/patch', 'development'],
+    common: ['react', 'react-dom'],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -40,16 +36,13 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../app/components'),
-        ],
+        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
         loaders: [
           'style',
           'css',
           'postcss',
-          { loader: 'namespace-css', query: '#quiqWebChat' },
-          { loader: 'sass', query: { outputStyle: 'expanded' } },
+          {loader: 'namespace-css', query: '#quiqWebChat'},
+          {loader: 'sass', query: {outputStyle: 'expanded'}},
         ],
       },
       {

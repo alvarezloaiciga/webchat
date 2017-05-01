@@ -14,7 +14,6 @@ describe('Transcript component', () => {
   beforeEach(() => {
     testProps = {
       messages: [getMockMessage(1), getMockMessage(2)],
-      agentTyping: true,
     };
     render = () => {
       wrapper = shallow(<Transcript {...testProps} />);
@@ -24,7 +23,6 @@ describe('Transcript component', () => {
   describe('rendering', () => {
     beforeEach(() => {
       render();
-      wrapper.setState({agentTyping: 12345672345678});
     });
 
     it('renders with default props', () => {

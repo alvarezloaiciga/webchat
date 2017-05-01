@@ -1,36 +1,101 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MessageForm component agentTyping shows typing indicator 1`] = `
+<div
+  className="MessageForm"
+>
+  <div
+    className="poke"
+  >
+    <div
+      className="pokeBody"
+    >
+      <FormattedMessage
+        defaultMessage="Agent is typing"
+        description="Message to display when the agent is typing"
+        id="agentIsTyping"
+        values={Object {}}
+      />
+      <TypingIndicator
+        xScale={0.75}
+        yScale={0.5}
+      />
+    </div>
+  </div>
+  <div
+    className="messageArea"
+  >
+    <TextareaAutosize
+      maxRows={6}
+      minRows={1}
+      name="message"
+      onChange={[Function]}
+      onHeightChange={[Function]}
+      onInput={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Send us a message..."
+      useCacheForDOMMeasurements={false}
+      value=""
+    />
+    <button
+      className="sendBtn"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#333",
+          "opacity": ".5",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Send"
+        description="Generic send message"
+        id="send"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
 exports[`MessageForm component rendering renders 1`] = `
 <div
   className="MessageForm"
 >
-  <TextareaAutosize
-    name="message"
-    onChange={[Function]}
-    onHeightChange={[Function]}
-    onInput={[Function]}
-    onKeyDown={[Function]}
-    placeholder="Send us a message..."
-    useCacheForDOMMeasurements={false}
-    value=""
-  />
-  <button
-    className="sendBtn"
-    disabled={true}
-    onClick={[Function]}
-    style={
-      Object {
-        "color": "#333",
-        "opacity": ".5",
-      }
-    }
+  <div
+    className="messageArea"
   >
-    <FormattedMessage
-      defaultMessage="Send"
-      description="Generic send message"
-      id="send"
-      values={Object {}}
+    <TextareaAutosize
+      maxRows={6}
+      minRows={1}
+      name="message"
+      onChange={[Function]}
+      onHeightChange={[Function]}
+      onInput={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Send us a message..."
+      useCacheForDOMMeasurements={false}
+      value=""
     />
-  </button>
+    <button
+      className="sendBtn"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#333",
+          "opacity": ".5",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Send"
+        description="Generic send message"
+        id="send"
+        values={Object {}}
+      />
+    </button>
+  </div>
 </div>
 `;

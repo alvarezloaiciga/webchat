@@ -1,20 +1,20 @@
 // @flow
 declare var __DEV__: string;
 
-import { defineMessages } from 'react-intl';
-import { formatMessage } from 'core-ui/services/i18nService';
-import { SupportedWebchatUrls } from 'appConstants';
-import type { QuiqObject, IntlMessage } from 'types';
+import {defineMessages} from 'react-intl';
+import {formatMessage} from 'core-ui/services/i18nService';
+import {SupportedWebchatUrls} from 'appConstants';
+import type {QuiqObject, IntlMessage} from 'types';
 
 const messages = defineMessages({
   cannotFindScript: {
     name: 'cannotFindScript',
-    description: 'Error to display when we can\'t find the script that loaded webchat',
+    description: "Error to display when we can't find the script that loaded webchat",
     defaultMessage: 'Cannot find script that loaded Webchat. Please contact your administrator.',
   },
   cannotDetermineHost: {
     name: 'cannotDetermineHost',
-    description: 'Error to display when we can\'t determine the hostname from the script src attribute',
+    description: "Error to display when we can't determine the hostname from the script src attribute",
     defaultMessage: 'Cannot determine host from script url. Please contact your administrator',
   },
   quiqFatalError: {
@@ -30,16 +30,24 @@ const messages = defineMessages({
 });
 
 const displayError = (error: IntlMessage) => {
-  throw new Error(`\n
+  throw new Error(
+    `\n
 !!! ${formatMessage(messages.quiqFatalError)} !!!
   ${formatMessage(error)}
-!!! ${formatMessage(messages.quiqFatalError)} !!!\n`);
+!!! ${formatMessage(messages.quiqFatalError)} !!!\n`,
+  );
 };
 
-const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-vars
+const getHostFromScriptTag = (): string => {
+  // eslint-disable-line no-unused-vars
   // Local Development should just always supply HOST manually for simplicity
   // Also catches cases when running standalone built webchat locally
-  if (__DEV__ || window.location.hostname === 'localhost' || window.location.origin === 'file://') {
+  if (
+    __DEV__ ||
+    window.location.hostname === 'localhost' ||
+    window.location.origin === 'file://' ||
+    window.location.hostname === 'mymac'
+  ) {
     if (!window.QUIQ || !window.QUIQ.HOST) {
       throw new Error('You must specify window.QUIQ.HOST when running locally!');
     }
@@ -48,10 +56,9 @@ const getHostFromScriptTag = (): string => { // eslint-disable-line no-unused-va
 
   // Determine host from the script tag that loaded webchat
   const scriptTags = Array.from(document.getElementsByTagName('script'));
-  const mainScript = scriptTags
-    .find(tag => tag.src && SupportedWebchatUrls
-      .find(u => tag.src.toLowerCase().includes(u))
-    );
+  const mainScript = scriptTags.find(
+    tag => tag.src && SupportedWebchatUrls.find(u => tag.src.toLowerCase().includes(u)),
+  );
 
   if (!mainScript) return displayError(messages.cannotFindScript);
 

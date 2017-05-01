@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import {nonCompatibleBrowser} from 'utils/utils';
 import React from 'react';
 import Launcher from 'Launcher';
 import {render} from 'react-dom';
@@ -9,6 +10,8 @@ import Redbox from 'redbox-react';
 import 'main.scss';
 
 const init = () => {
+  if (nonCompatibleBrowser()) return;
+
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);

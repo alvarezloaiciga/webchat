@@ -54,6 +54,11 @@
         "COLOR": "#333",
         "HEADER_TEXT": "TOOL TIME"
       },
+      "Modernizr": {
+        "flexbox": true,
+        "svg": true,
+        "flexwrap": true
+      },
       "__DEV__": true
     },
     "rootDir": "app"
@@ -107,6 +112,7 @@
     "rimraf": "2.6.1",
     "sass-loader": "6.0.3",
     "style-loader": "0.13.1",
+    "susy": "2.2.12",
     "webpack": "2.1.0-beta.21",
     "webpack-dashboard": "0.3.0",
     "webpack-dev-middleware": "1.6.1",

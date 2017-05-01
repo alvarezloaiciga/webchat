@@ -255,5 +255,6 @@ module.exports = {
     ShallowWrapper: false,
     Wrapper: false,
     QUIQ: false,
+    Modernizr: false,
   },
 };

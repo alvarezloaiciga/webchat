@@ -46,3 +46,15 @@
     }
   }
 }
+
+.noFlexbox .Message {
+  display: block;
+  width: auto;
+  min-width: 20px;
+  clear: both;
+  float: left;
+
+  &.fromCustomer {
+    float: right;
+  }
+}
