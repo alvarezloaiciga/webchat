@@ -40,6 +40,16 @@ Include this at the bottom of the page
 ```
 replacing HOST with your site URL.
 
+There is an optional `DEBUG` property on the window.QUIQ object.  Currently this will override the atmosphere transport type.
+```js
+  window.QUIQ = {
+    HOST: 'https://andrew.dev.centricient.corp',
+    DEBUG: {
+      transport: 'long-polling'
+    }
+  };
+```
+
 ### Running Webchat from a VM locally
 I haven't found a way to get hot reloading working.  I think to do so, we'd have to map `localhost:3000` to a domain name like we do in message-ui.  Until then, this is what I've found works.
 1. Open Notepad as admin (search in the start menu, right click, run as admin)

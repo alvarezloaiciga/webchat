@@ -4,6 +4,7 @@
 import atmosphere from 'atmosphere.js';
 import {ping} from 'network/chat';
 import {isIE9} from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import type {
   AtmosphereRequest,
   AtmosphereConnection,
@@ -17,6 +18,16 @@ let onConnectionEstablish: () => void;
 let handleMessage: (message: AtmosphereMessage) => void;
 
 const buildRequest = (socketUrl: string) => {
+  let transport = 'websocket';
+  if (isIE9()) {
+    transport = 'long-polling';
+  }
+
+  if (QUIQ.DEBUG && QUIQ.DEBUG.transport) {
+    transport = QUIQ.DEBUG.transport;
+  }
+  console.log(`Transport Type: ${transport}`);
+
   /* eslint-disable no-use-before-define */
   return {
     url: `https://${socketUrl}`,
@@ -24,8 +35,8 @@ const buildRequest = (socketUrl: string) => {
     withCredentials: true,
     contentType: 'application/json',
     logLevel: 'error',
-    transport: isIE9() ? 'jsonp' : 'websocket',
-    fallbackTransport: isIE9() ? 'streaming' : 'long-polling',
+    transport,
+    fallbackTransport: isIE9() ? 'jsonp' : 'long-polling',
     trackMessageLength: true,
     maxReconnectOnClose: Number.MAX_SAFE_INTEGER,
     // Keep reconnectInterval at 10 seconds.  Otherwise if API-GW drops the atmosphere connection,
@@ -63,6 +74,7 @@ const onOpen = response => {
   connection.request.uuid = response.request.uuid;
   onConnectionEstablish && onConnectionEstablish();
   console.log('Socket open');
+  ping();
 };
 
 const onReopen = () => {

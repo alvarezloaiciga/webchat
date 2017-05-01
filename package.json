@@ -1,7 +1,7 @@
 {
   "name": "React-Webpack2-Starter-Kit",
   "description": "Quiq Webchat",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -59,7 +59,8 @@
         "CONTACT_POINT": "Bob",
         "HOST": "https://bob.dev.centricient.corp",
         "COLOR": "#333",
-        "HEADER_TEXT": "TOOL TIME"
+        "HEADER_TEXT": "TOOL TIME",
+        "DEBUG": false
       },
       "Modernizr": {
         "flexbox": true,

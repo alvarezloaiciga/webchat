@@ -6,6 +6,11 @@ export type QuiqObject = {
   HOST: string,
   COLOR: string,
   HEADER_TEXT: string,
+  DEBUG:
+    | false
+    | {
+        transport?: string,
+      },
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';

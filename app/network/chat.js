@@ -37,14 +37,6 @@ export const leaveChat = () => {
   });
 };
 
-export const ping = () => {
-  fetch(`${HOST}/api/v1/webchat/endpoints/${CONTACT_POINT}/socket-ping`, {
-    mode: 'cors',
-    method: 'POST',
-    credentials: 'include',
-  });
-};
-
 export const addMessage = (body: string) => {
   fetch(`${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/send-message`, {
     mode: 'cors',
@@ -63,6 +55,9 @@ export const fetchWebsocketInfo = (): Promise<{url: string}> =>
     mode: 'cors',
     credentials: 'include',
   }).then(parseResponse);
+
+// Use socket-info as a ping since the ping endpoint isn't publicly exposed
+export const ping = () => fetchWebsocketInfo();
 
 export const fetchConversation = (): Promise<Conversation> =>
   fetch(`${HOST}/api/v1/messaging/chat/${CONTACT_POINT}`, {

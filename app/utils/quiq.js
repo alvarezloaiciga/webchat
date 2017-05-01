@@ -74,6 +74,7 @@ const getQuiqObject = (): QuiqObject => {
     COLOR: '#59ad5d',
     HEADER_TEXT: formatMessage(messages.hereToHelp),
     HOST: getHostFromScriptTag(),
+    DEBUG: false,
   };
 
   if (!window.QUIQ) {
