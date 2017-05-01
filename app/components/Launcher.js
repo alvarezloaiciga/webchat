@@ -1,9 +1,7 @@
 // @flow
-declare var Modernizr: Object;
-import 'modernizr';
 import React, {Component} from 'react';
 import classnames from 'classnames';
-import {supportsFlexbox} from 'utils/utils';
+import {supportsFlexbox, supportsSVG} from 'utils/utils';
 import {joinChat, leaveChat} from 'network/chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
@@ -25,12 +23,8 @@ class Launcher extends Component {
 
   render() {
     const classNames = classnames('Launcher', {
-      flexbox: supportsFlexbox(),
       noFlexbox: !supportsFlexbox(),
-      svg: Modernizr.svg,
-      noSvg: !Modernizr.svg,
-      flexwrap: Modernizr.flexwrap,
-      noFlexwrap: !Modernizr.flexwrap,
+      noSvg: !supportsSVG(),
     });
     return (
       <div className={classNames}>

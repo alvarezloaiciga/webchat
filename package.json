@@ -1,7 +1,7 @@
 {
   "name": "React-Webpack2-Starter-Kit",
   "description": "Quiq Webchat",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -57,7 +57,9 @@
       "Modernizr": {
         "flexbox": true,
         "svg": true,
-        "flexwrap": true
+        "flexwrap": true,
+        "svgfilters": true,
+        "inlinesvg": true
       },
       "__DEV__": true
     },

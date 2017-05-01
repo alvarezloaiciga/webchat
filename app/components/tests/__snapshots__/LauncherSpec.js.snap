@@ -2,7 +2,7 @@
 
 exports[`Launcher component rendering renders 1`] = `
 <div
-  className="Launcher noFlexbox noSvg noFlexwrap"
+  className="Launcher"
 >
   <ChatContainer
     hidden={true}

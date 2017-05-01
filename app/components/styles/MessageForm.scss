@@ -57,13 +57,13 @@
 
 // Total Width: 400px
 // Total Height: 600px
-// MessageForm: 120px
+// MessageForm: 90px
 // Banner: 40px
-// Transcript: 440px
+// Transcript: 470px
 .noFlexbox .MessageForm {
-  height: 120px;
-  min-height: 120px;
-  max-height: 120px;
+  height: 90px;
+  min-height: 90px;
+  max-height: 90px;
 
   .poke {
     min-height: 30px;
@@ -74,6 +74,7 @@
 
   .messageArea {
     display: table;
+    width: 100%;
 
     textarea {
       max-height: 60px;
