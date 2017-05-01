@@ -1,0 +1,19 @@
+.NoAgentsAvailable {
+  display: flex;
+  justify-content: center;
+  background: #d5dee6;
+  color: #888;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 5px;
+
+  span {
+    line-height: 24px;
+    font-style: italic;
+  }
+
+  svg {
+    fill: #fff;
+    margin-right: 8px;
+  }
+}
