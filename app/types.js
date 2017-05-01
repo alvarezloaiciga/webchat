@@ -26,7 +26,12 @@ export type Conversation = {
 };
 
 export type AtmosphereTransportType =
-  'websocket' | 'long-polling' | 'jsonp' | 'sse' | 'streaming' | 'polling';
+  | 'websocket'
+  | 'long-polling'
+  | 'jsonp'
+  | 'sse'
+  | 'streaming'
+  | 'polling';
 
 export type AtmosphereRequest = {
   url: string,
@@ -38,14 +43,14 @@ export type AtmosphereRequest = {
   maxReconnectOnClose: number,
   reconnectInterval: number,
   uuid?: string,
-  onOpen?: (response:AtmosphereResponse) => void,
+  onOpen?: (response: AtmosphereResponse) => void,
   onReopen?: () => void,
-  onReconnect?: (req:AtmosphereRequest, res:AtmosphereResponse) => void,
-  onTransportFailure?: (errorMsg:string, request:AtmosphereRequest) => void,
-  onMessage?: (response:AtmosphereResponse) => void,
-  onError?: (response:AtmosphereResponse) => void,
-  onClientTimeout?: (req:AtmosphereRequest) => void,
-  onClose?: (response:AtmosphereResponse) => void,
+  onReconnect?: (req: AtmosphereRequest, res: AtmosphereResponse) => void,
+  onTransportFailure?: (errorMsg: string, request: AtmosphereRequest) => void,
+  onMessage?: (response: AtmosphereResponse) => void,
+  onError?: (response: AtmosphereResponse) => void,
+  onClientTimeout?: (req: AtmosphereRequest) => void,
+  onClose?: (response: AtmosphereResponse) => void,
 };
 
 export type AtmosphereResponse = {
@@ -81,14 +86,14 @@ export type AtmosphereConnection = {
     maxReconnectOnClose: number,
     reconnectInterval: number,
     uuid?: string,
-    onOpen: (response:AtmosphereResponse) => void,
-    onClose: (response:AtmosphereResponse) => void,
+    onOpen: (response: AtmosphereResponse) => void,
+    onClose: (response: AtmosphereResponse) => void,
     onReopen: () => void,
-    onReconnect: (req:AtmosphereRequest, res:AtmosphereResponse) => void,
-    onMessage: (response:AtmosphereResponse) => void,
-    onTransportFailure: (errorMsg:string, req:AtmosphereRequest) => void,
-    onError: (response:AtmosphereResponse) => void,
-    onClientTimeout: (req:AtmosphereRequest) => void,
+    onReconnect: (req: AtmosphereRequest, res: AtmosphereResponse) => void,
+    onMessage: (response: AtmosphereResponse) => void,
+    onTransportFailure: (errorMsg: string, req: AtmosphereRequest) => void,
+    onError: (response: AtmosphereResponse) => void,
+    onClientTimeout: (req: AtmosphereRequest) => void,
   },
 };
 
@@ -105,9 +110,9 @@ export type IntlMessage = {
 };
 
 export type IntlObject = {
-  formatMessage: (msg: IntlMessage, values?:Object) => string,
+  formatMessage: (msg: IntlMessage, values?: Object) => string,
   formatDate: (date: number | moment$Moment) => string,
-  formatTime: (timestamp:number, options?:Object) => string,
+  formatTime: (timestamp: number, options?: Object) => string,
   formatRelative: (date: number) => string,
 };
 
@@ -118,23 +123,145 @@ export type ApiError = {
 };
 
 export type BrowserNames =
-  'Amaya' | 'Android Browser' | 'Arora' | 'Avant' | 'Baidu' | 'Blazer' | 'Bolt' | 'Camino' |
-  'Chimera' | 'Chrome' | 'Chromium' | 'Comodo Dragon' | 'Conkeror' | 'Dillo' | 'Dolphin' | 'Doris' |
-  'Edge' | 'Epiphany' | 'Fennec' | 'Firebird' | 'Firefox' | 'Flock' | 'GoBrowser' | 'iCab' |
-  'ICE Browser' | 'IceApe' | 'IceCat' | 'IceDragon' | 'Iceweasel' | 'IE' | 'IE Mobile' | 'Iron' |
-  'Jasmine' | 'K-Meleon' | 'Konqueror' | 'Kindle' | 'Links' | 'Lunascape' | 'Lynx' | 'Maemo' |
-  'Maxthon' | 'Midori' | 'Minimo' | 'MIUI Browser' | 'Safari' | 'Safari Mobile' | 'Mosaic' |
-  'Mozilla' | 'Netfront' | 'Netscape' | 'NetSurf' | 'Nokia' | 'OmniWeb' | 'Opera' | 'Opera Mini' |
-  'Opera Mobi' | 'Opera Tablet' | 'PhantomJS' | 'Phoenix' | 'Polaris' | 'QQBrowser' | 'RockMelt' |
-  'Silk' | 'Skyfire' | 'SeaMonkey' | 'SlimBrowser' | 'Swiftfox' | 'Tizen' | 'UCBrowser' | 'Vivaldi'
-  | 'w3m' | 'WeChat' | 'Yandex' | null;
-export type OSNames = 'AIX' | 'Amiga OS' | 'Android' | 'Arch' | 'Bada' | 'BeOS' | 'BlackBerry' |
-  'CentOS' | 'Chromium OS' | 'Contiki' | 'Fedora' | 'Firefox OS' | 'FreeBSD' | 'Debian' |
-  'DragonFly' | 'Gentoo' | 'GNU' | 'Haiku' | 'Hurd' | 'iOS' | 'Joli' | 'Linpus' | 'Linux' |
-  'Mac OS' | 'Mageia' | 'Mandriva' | 'MeeGo' | 'Minix' | 'Mint' | 'Morph OS' | 'NetBSD' |
-  'Nintendo' | 'OpenBSD' | 'OpenVMS' | 'OS/2' | 'Palm' | 'PCLinuxOS' | 'Plan9' | 'Playstation' |
-  'QNX' | 'RedHat' | 'RIM Tablet OS' | 'RISC OS' | 'Sailfish' | 'Series40' | 'Slackware' |
-  'Solaris' | 'SUSE' | 'Symbian' | 'Tizen' | 'Ubuntu' | 'UNIX' | 'VectorLinux' | 'WebOS' |
-  'Windows' | 'Windows Phone' | 'Windows Mobile' | 'Zenwalk' | null;
+  | 'Amaya'
+  | 'Android Browser'
+  | 'Arora'
+  | 'Avant'
+  | 'Baidu'
+  | 'Blazer'
+  | 'Bolt'
+  | 'Camino'
+  | 'Chimera'
+  | 'Chrome'
+  | 'Chromium'
+  | 'Comodo Dragon'
+  | 'Conkeror'
+  | 'Dillo'
+  | 'Dolphin'
+  | 'Doris'
+  | 'Edge'
+  | 'Epiphany'
+  | 'Fennec'
+  | 'Firebird'
+  | 'Firefox'
+  | 'Flock'
+  | 'GoBrowser'
+  | 'iCab'
+  | 'ICE Browser'
+  | 'IceApe'
+  | 'IceCat'
+  | 'IceDragon'
+  | 'Iceweasel'
+  | 'IE'
+  | 'IE Mobile'
+  | 'Iron'
+  | 'Jasmine'
+  | 'K-Meleon'
+  | 'Konqueror'
+  | 'Kindle'
+  | 'Links'
+  | 'Lunascape'
+  | 'Lynx'
+  | 'Maemo'
+  | 'Maxthon'
+  | 'Midori'
+  | 'Minimo'
+  | 'MIUI Browser'
+  | 'Safari'
+  | 'Safari Mobile'
+  | 'Mosaic'
+  | 'Mozilla'
+  | 'Netfront'
+  | 'Netscape'
+  | 'NetSurf'
+  | 'Nokia'
+  | 'OmniWeb'
+  | 'Opera'
+  | 'Opera Mini'
+  | 'Opera Mobi'
+  | 'Opera Tablet'
+  | 'PhantomJS'
+  | 'Phoenix'
+  | 'Polaris'
+  | 'QQBrowser'
+  | 'RockMelt'
+  | 'Silk'
+  | 'Skyfire'
+  | 'SeaMonkey'
+  | 'SlimBrowser'
+  | 'Swiftfox'
+  | 'Tizen'
+  | 'UCBrowser'
+  | 'Vivaldi'
+  | 'w3m'
+  | 'WeChat'
+  | 'Yandex'
+  | null;
+export type OSNames =
+  | 'AIX'
+  | 'Amiga OS'
+  | 'Android'
+  | 'Arch'
+  | 'Bada'
+  | 'BeOS'
+  | 'BlackBerry'
+  | 'CentOS'
+  | 'Chromium OS'
+  | 'Contiki'
+  | 'Fedora'
+  | 'Firefox OS'
+  | 'FreeBSD'
+  | 'Debian'
+  | 'DragonFly'
+  | 'Gentoo'
+  | 'GNU'
+  | 'Haiku'
+  | 'Hurd'
+  | 'iOS'
+  | 'Joli'
+  | 'Linpus'
+  | 'Linux'
+  | 'Mac OS'
+  | 'Mageia'
+  | 'Mandriva'
+  | 'MeeGo'
+  | 'Minix'
+  | 'Mint'
+  | 'Morph OS'
+  | 'NetBSD'
+  | 'Nintendo'
+  | 'OpenBSD'
+  | 'OpenVMS'
+  | 'OS/2'
+  | 'Palm'
+  | 'PCLinuxOS'
+  | 'Plan9'
+  | 'Playstation'
+  | 'QNX'
+  | 'RedHat'
+  | 'RIM Tablet OS'
+  | 'RISC OS'
+  | 'Sailfish'
+  | 'Series40'
+  | 'Slackware'
+  | 'Solaris'
+  | 'SUSE'
+  | 'Symbian'
+  | 'Tizen'
+  | 'Ubuntu'
+  | 'UNIX'
+  | 'VectorLinux'
+  | 'WebOS'
+  | 'Windows'
+  | 'Windows Phone'
+  | 'Windows Mobile'
+  | 'Zenwalk'
+  | null;
 export type DeviceTypes =
-  'console' | 'mobile' | 'tablet' | 'smarttv' | 'wearable' | 'embedded' | null;
+  | 'console'
+  | 'mobile'
+  | 'tablet'
+  | 'smarttv'
+  | 'wearable'
+  | 'embedded'
+  | null;

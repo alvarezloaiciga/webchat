@@ -1,14 +1,13 @@
 // @flow
 import React from 'react';
-import type { ToggleChatButtonProps } from '../ToggleChatButton';
+import type {ToggleChatButtonProps} from '../ToggleChatButton';
 import ToggleChatButton from '../ToggleChatButton';
-import { shallow } from 'enzyme';
-import type { ShallowWrapper } from 'enzyme';
-
+import {shallow} from 'enzyme';
+import type {ShallowWrapper} from 'enzyme';
 
 describe('ToggleChatButton component', () => {
-  let wrapper:ShallowWrapper;
-  let testProps:ToggleChatButtonProps;
+  let wrapper: ShallowWrapper;
+  let testProps: ToggleChatButtonProps;
   let render: () => void;
 
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe('ToggleChatButton component', () => {
       chatOpen: false,
     };
     render = () => {
-      wrapper = shallow(<ToggleChatButton {...testProps}/>);
+      wrapper = shallow(<ToggleChatButton {...testProps} />);
     };
   });
 

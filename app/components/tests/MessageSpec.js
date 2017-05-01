@@ -1,15 +1,14 @@
 // @flow
 import React from 'react';
-import { getMockMessage } from 'utils/testHelpers';
-import type { MessageProps } from '../Message';
+import {getMockMessage} from 'utils/testHelpers';
+import type {MessageProps} from '../Message';
 import Message from '../Message';
-import { shallow } from 'enzyme';
-import type { ShallowWrapper } from 'enzyme';
-
+import {shallow} from 'enzyme';
+import type {ShallowWrapper} from 'enzyme';
 
 describe('Message component', () => {
-  let wrapper:ShallowWrapper;
-  let testProps:MessageProps;
+  let wrapper: ShallowWrapper;
+  let testProps: MessageProps;
   let render: () => void;
 
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe('Message component', () => {
       message: getMockMessage(),
     };
     render = () => {
-      wrapper = shallow(<Message {...testProps}/>);
+      wrapper = shallow(<Message {...testProps} />);
     };
   });
 
@@ -33,7 +32,7 @@ describe('Message component', () => {
 
   describe('fromAgent', () => {
     it('colors the message white', () => {
-      testProps.message = getMockMessage(0, { authorType: 'Agent' });
+      testProps.message = getMockMessage(0, {authorType: 'Agent'});
       render();
       expect(wrapper).toMatchSnapshot();
     });

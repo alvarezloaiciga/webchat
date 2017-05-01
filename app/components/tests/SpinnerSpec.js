@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
 import Spinner from '../Spinner';
-import { shallow } from 'enzyme';
-import type { ShallowWrapper } from 'enzyme';
+import {shallow} from 'enzyme';
+import type {ShallowWrapper} from 'enzyme';
 
 describe('Spinner component', () => {
-  let wrapper:ShallowWrapper;
+  let wrapper: ShallowWrapper;
   let render: () => void;
 
   beforeEach(() => {
