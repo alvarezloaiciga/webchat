@@ -10,7 +10,7 @@
     flex: 0 0 auto;
 
     textarea {
-      padding: 12px 0 12px 12px;
+      padding: 10px 0 12px 10px;
       flex: 1 1 auto;
       width: 100%;
       border: none;
@@ -23,7 +23,7 @@
     }
 
     .sendBtn {
-      padding: 12px;
+      padding: 10px;
       flex: 0 0 auto;
       border: none;
       font-size: 14px;
@@ -80,13 +80,13 @@
       min-height: 60px;
       height: 60px;
       overflow: auto;
-      width: 318px; // 318 + 12padding = 330
+      width: 320px; // 320 + 10padding = 330
     }
 
     .sendBtn {
       display: table-cell;
       vertical-align: middle;
-      width: 46px; // 46 + 24padding = 70
+      width: 50px; // 50 + 20padding = 70
     }
   }
 }
