@@ -2,14 +2,30 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import {supportsFlexbox, supportsSVG} from 'utils/utils';
-import {joinChat, leaveChat} from 'network/chat';
+import {joinChat, leaveChat, checkForAgents} from 'network/chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
+import NoAgentsAvailable from './NoAgentsAvailable';
 import './styles/Launcher.scss';
 
+type LauncherState = {
+  agentsAvailable?: boolean, // Undefined means we're still looking it up
+  chatOpen: boolean,
+};
+
 class Launcher extends Component {
-  state = {
+  state: LauncherState = {
     chatOpen: false,
+  };
+
+  componentDidMount() {
+    this.checkForAgents();
+  }
+
+  checkForAgents = () => {
+    checkForAgents().then(data => {
+      this.setState({agentsAvailable: data.available});
+    });
   };
 
   toggleChat = () => {
@@ -21,15 +37,29 @@ class Launcher extends Component {
     );
   };
 
+  renderChat = () => (
+    <div>
+      <ChatContainer hidden={!this.state.chatOpen} />
+      <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />
+    </div>
+  );
+
   render() {
     const classNames = classnames('Launcher', {
       noFlexbox: !supportsFlexbox(),
       noSvg: !supportsSVG(),
     });
+
+    let content;
+    if (this.state.agentsAvailable === true) {
+      content = this.renderChat();
+    } else if (this.state.agentsAvailable === false) {
+      content = <NoAgentsAvailable />;
+    }
+
     return (
       <div className={classNames}>
-        <ChatContainer hidden={!this.state.chatOpen} />
-        <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />
+        {content}
       </div>
     );
   }

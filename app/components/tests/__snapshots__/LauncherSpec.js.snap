@@ -1,15 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Launcher component rendering renders 1`] = `
+exports[`Launcher component when agents are available renders 1`] = `
 <div
   className="Launcher"
 >
-  <ChatContainer
-    hidden={true}
-  />
-  <ToggleChatButton
-    chatOpen={false}
-    toggleChat={[Function]}
-  />
+  <div>
+    <ChatContainer
+      hidden={true}
+    />
+    <ToggleChatButton
+      chatOpen={false}
+      toggleChat={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`Launcher component when agents are not available renders 1`] = `
+<div
+  className="Launcher"
+>
+  <NoAgentsAvailable />
 </div>
 `;

@@ -6,6 +6,7 @@
 # Including these files causes issues
 .*/node_modules/fbjs/.*
 .*/node_modules/jsonlint/.*
+.*/node_modules/jest-validate/.*
 
 [libs]
 flow-typed/npm/
