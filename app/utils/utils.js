@@ -1,5 +1,6 @@
 // @flow
 declare var Modernizr: Object;
+import 'modernizr';
 import {UAParser} from 'ua-parser-js';
 import type {BrowserNames, DeviceTypes, OSNames} from 'types';
 
