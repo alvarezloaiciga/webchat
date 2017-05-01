@@ -2,7 +2,7 @@
 declare var Modernizr: Object;
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
-import {compatibilityMode} from 'utils/utils';
+import {compatibilityMode, supportsFlexbox} from 'utils/utils';
 import QUIQ from 'utils/quiq';
 import {addMessage, updateMessagePreview} from 'network/chat';
 import keycodes from 'keycodes';
@@ -99,7 +99,7 @@ export class MessageForm extends Component {
 
     return (
       <div className="MessageForm">
-        {(!Modernizr.flexbox || this.state.agentTyping) &&
+        {(!supportsFlexbox() || this.state.agentTyping) &&
           <div className="poke">
             {this.state.agentTyping &&
               <div className="pokeBody">
@@ -115,8 +115,8 @@ export class MessageForm extends Component {
             }}
             name="message"
             value={this.state.text}
-            maxRows={Modernizr.flexbox ? 6 : 3}
-            minRows={Modernizr.flexbox ? 1 : 3}
+            maxRows={supportsFlexbox() ? 6 : 3}
+            minRows={supportsFlexbox() ? 1 : 3}
             // onInput is more responsive, but is an html5 attribute so not supported in older browsers.
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
