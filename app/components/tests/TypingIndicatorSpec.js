@@ -1,14 +1,14 @@
 // @flow
+jest.mock('utils/utils');
 import React from 'react';
-import type { TypingIndicatorProps } from '../TypingIndicator';
+import type {TypingIndicatorProps} from '../TypingIndicator';
 import TypingIndicator from '../TypingIndicator';
-import { shallow } from 'enzyme';
-import type { ShallowWrapper } from 'enzyme';
-
+import {shallow} from 'enzyme';
+import type {ShallowWrapper} from 'enzyme';
 
 describe('TypingIndicator component', () => {
-  let wrapper:ShallowWrapper;
-  let testProps:TypingIndicatorProps;
+  let wrapper: ShallowWrapper;
+  let testProps: TypingIndicatorProps;
   let render: () => void;
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('TypingIndicator component', () => {
       xScale: 2,
     };
     render = () => {
-      wrapper = shallow(<TypingIndicator {...testProps}/>);
+      wrapper = shallow(<TypingIndicator {...testProps} />);
     };
   });
 

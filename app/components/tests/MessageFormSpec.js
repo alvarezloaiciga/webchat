@@ -1,5 +1,5 @@
 // @flow
-
+jest.mock('utils/utils');
 import React from 'react';
 import keycodes from 'keycodes';
 import MessageForm from '../MessageForm';

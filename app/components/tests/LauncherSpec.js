@@ -1,4 +1,5 @@
 // @flow
+jest.mock('utils/utils');
 import React from 'react';
 import Launcher from '../Launcher';
 import {shallow} from 'enzyme';
