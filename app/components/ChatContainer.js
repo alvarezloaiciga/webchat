@@ -151,7 +151,6 @@ export class ChatContainer extends Component {
 
         <div className="chatContainerBody">
           {this.state.loading ? <Spinner /> : <Transcript messages={this.state.messages} />}
-
           {!this.state.loading &&
             this.state.connected &&
             <MessageForm agentTyping={this.state.agentTyping} />}

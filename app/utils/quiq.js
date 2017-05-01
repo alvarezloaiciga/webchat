@@ -42,7 +42,12 @@ const getHostFromScriptTag = (): string => {
   // eslint-disable-line no-unused-vars
   // Local Development should just always supply HOST manually for simplicity
   // Also catches cases when running standalone built webchat locally
-  if (__DEV__ || window.location.hostname === 'localhost' || window.location.origin === 'file://') {
+  if (
+    __DEV__ ||
+    window.location.hostname === 'localhost' ||
+    window.location.origin === 'file://' ||
+    window.location.hostname === 'mymac'
+  ) {
     if (!window.QUIQ || !window.QUIQ.HOST) {
       throw new Error('You must specify window.QUIQ.HOST when running locally!');
     }

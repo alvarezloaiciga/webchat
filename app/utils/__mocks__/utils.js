@@ -8,9 +8,22 @@ export const getUAInfo = () => ({
     major: 60,
   },
   os: {
-    name: 'Windows',
-    version: 7,
+    name: 'Mac OS',
+    version: 10,
   },
+  device: {
+    model: 'iPad',
+    vendor: 'Apple',
+    type: 'tablet',
+  },
+  cpu: {
+    architecture: 'amd64',
+  },
+  engine: {
+    name: 'WebKit',
+    version: 537.36,
+  },
+  navigator: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36',
 });
 export const compatibilityMode = () => false;
 export const isIE9 = () => false;
