@@ -1,5 +1,4 @@
 // @flow
-declare var Modernizr: Object;
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
