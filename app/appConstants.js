@@ -11,4 +11,6 @@ export const SupportedWebchatUrls = [
   'centricient.corp/app/webchat',
   'quiq.dev:7000/app/webchat',
   'centricient.dev:7000/app/webchat',
+  'quiq.dev:41014/app/webchat',
+  'centricient.dev:41014/app/webchat',
 ];
