@@ -10,7 +10,7 @@ export const NoAgentsAvailable = () => (
     <FormattedMessage
       id="noAgentsAvailable"
       description="Tells the end-user that there are no webchat agents to talk to"
-      defaultMessage="Sorry, there are no agents available to chat with"
+      defaultMessage="Sorry, no agents are currently available"
     />
   </div>
 );

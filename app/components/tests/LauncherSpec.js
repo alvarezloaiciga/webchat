@@ -7,6 +7,8 @@ import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import {checkForAgents} from 'network/chat';
 
+jest.useFakeTimers();
+
 describe('Launcher component', () => {
   let wrapper: ShallowWrapper;
   let render: () => void;
@@ -17,6 +19,20 @@ describe('Launcher component', () => {
       wrapper = shallow(<Launcher />);
       wrapper.instance().componentDidMount();
     };
+  });
+
+  describe('after a minute', () => {
+    const mockResponse = new Promise(resolve => resolve({available: true}));
+
+    beforeEach(() => {
+      mockCheckForAgents.mockReturnValue(mockResponse);
+      render();
+      jest.runTimersToTime(1000 * 60);
+    });
+
+    it('calls checkForAgents again', () => {
+      expect(mockCheckForAgents.mock.calls.length).toBe(2);
+    });
   });
 
   describe('when agents are available', () => {
