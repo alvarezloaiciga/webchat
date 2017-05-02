@@ -52,17 +52,17 @@ module.exports = merge(config, {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     screw_ie8: true,
-    //     drop_console: true,
-    //   },
-    //   output: {
-    //     comments: false,
-    //   },
-    //   sourceMap: true,
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        drop_console: true,
+      },
+      output: {
+        comments: false,
+      },
+      sourceMap: true,
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,

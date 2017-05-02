@@ -1,24 +1,16 @@
 {
-  "name": "React-Webpack2-Starter-Kit",
+  "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
   "keywords": [
-    "react",
-    "es6",
-    "hot",
-    "babel",
-    "webpack",
-    "webpack-dev-middleware",
-    "webpack-hot-middleware",
-    "boilerplate",
-    "starter"
+    "webchat"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/quiq/react-webpack2-starter-kit"
+    "url": "https://gitlab.quiq.sh/development/webchat"
   },
   "scripts": {
     "prestart": "yarn run rimraf dist",
