@@ -17,9 +17,17 @@ class Launcher extends Component {
   state: LauncherState = {
     chatOpen: false,
   };
+  checkForAgentsInterval: number;
 
   componentDidMount() {
+    // Start polling to check for agents available
+    this.checkForAgentsInterval = setInterval(this.checkForAgents, 1000 * 60);
+    // Check the first time
     this.checkForAgents();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.checkForAgentsInterval);
   }
 
   checkForAgents = () => {
