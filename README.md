@@ -7,6 +7,13 @@ If running Webchat in IE9, it is _required_ to have the following at the **top**
 
 `<meta http-equiv="X-UA-Compatible" content="IE=edge">`
 
+### isIE9
+
+Things IE9 doesn't support.
+- Flexbox
+- Websockets
+- LocalStorage
+
 ## Usage
 
 ### Setup

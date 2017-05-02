@@ -16,17 +16,15 @@ let connection: AtmosphereConnection;
 let onConnectionLoss: () => void;
 let onConnectionEstablish: () => void;
 let handleMessage: (message: AtmosphereMessage) => void;
-
+let ie9Ping: number;
 const buildRequest = (socketUrl: string) => {
   let transport = 'websocket';
   if (isIE9()) {
-    transport = 'long-polling';
+    transport = 'jsonp';
   }
-
   if (QUIQ.DEBUG && QUIQ.DEBUG.transport) {
     transport = QUIQ.DEBUG.transport;
   }
-  console.log(`Transport Type: ${transport}`);
 
   /* eslint-disable no-use-before-define */
   return {
@@ -36,7 +34,7 @@ const buildRequest = (socketUrl: string) => {
     contentType: 'application/json',
     logLevel: 'error',
     transport,
-    fallbackTransport: isIE9() ? 'jsonp' : 'long-polling',
+    fallbackTransport: 'long-polling',
     trackMessageLength: true,
     maxReconnectOnClose: Number.MAX_SAFE_INTEGER,
     // Keep reconnectInterval at 10 seconds.  Otherwise if API-GW drops the atmosphere connection,
@@ -61,6 +59,11 @@ export const connectSocket = (builder: AtmosphereConnectionBuilder) => {
   onConnectionEstablish = options.onConnectionEstablish;
   handleMessage = options.handleMessage;
 
+  if (isIE9() && !ie9Ping) {
+    // JSONP seems to be a bit unreliable, but we can prod it by periodically pinging the server...
+    ie9Ping = setInterval(ping, 2000);
+  }
+
   connection = {...atmosphere.subscribe(buildRequest(socketUrl))};
 };
 
@@ -74,7 +77,6 @@ const onOpen = response => {
   connection.request.uuid = response.request.uuid;
   onConnectionEstablish && onConnectionEstablish();
   console.log('Socket open');
-  ping();
 };
 
 const onReopen = () => {

@@ -94,6 +94,7 @@ export class ChatContainer extends Component {
   getTextMessages = (msgs: Array<Message>) => msgs.filter(m => m.type === MessageTypes.TEXT);
 
   handleWebsocketMessage = (message: AtmosphereMessage) => {
+    console.log(message);
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
       switch (message.data.type) {
         case 'Text':
