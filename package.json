@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -66,6 +66,7 @@
     "rootDir": "app"
   },
   "devDependencies": {
+    "autoprefixer": "6.4.1",
     "babel-cli": "6.24.0",
     "babel-core": "6.24.0",
     "babel-eslint": "6.1.2",
@@ -130,7 +131,6 @@
   },
   "dependencies": {
     "atmosphere.js": "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88",
-    "autoprefixer": "6.4.1",
     "babel-polyfill": "6.23.0",
     "babel-runtime": "6.11.6",
     "classnames": "2.2.5",
