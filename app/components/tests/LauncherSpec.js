@@ -1,6 +1,7 @@
 // @flow
 jest.mock('utils/utils');
 jest.mock('network/chat');
+import QUIQ from 'utils/quiq';
 import React from 'react';
 import Launcher from '../Launcher';
 import {shallow} from 'enzyme';
@@ -59,6 +60,22 @@ describe('Launcher component', () => {
         wrapper.update();
         expect(wrapper.find('ChatContainer').length).toBe(1);
       });
+    });
+  });
+
+  describe('auto pop for chat', () => {
+    const mockResponse = new Promise(resolve => resolve({available: true}));
+
+    beforeEach(() => {
+      QUIQ.AUTO_POP_TIME = 200;
+      render();
+    });
+
+    it("opens the chat even if the end user doesn't click on it", async () => {
+      await mockResponse;
+      jest.runTimersToTime(200);
+      wrapper.update();
+      expect(wrapper.find('ChatContainer').prop('hidden')).toBe(false);
     });
   });
 

@@ -6,6 +6,7 @@ export type QuiqObject = {
   HOST: string,
   COLOR: string,
   HEADER_TEXT: string,
+  AUTO_POP_TIME?: number,
   DEBUG:
     | false
     | {
