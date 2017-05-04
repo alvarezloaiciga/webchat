@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import {supportsFlexbox, supportsSVG} from 'utils/utils';
+import QUIQ from 'utils/quiq';
 import {joinChat, leaveChat, checkForAgents} from 'network/chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
@@ -24,11 +25,23 @@ class Launcher extends Component {
     this.checkForAgentsInterval = setInterval(this.checkForAgents, 1000 * 60);
     // Check the first time
     this.checkForAgents();
+
+    this.handleAutoPop();
   }
 
   componentWillUnmount() {
     clearInterval(this.checkForAgentsInterval);
   }
+
+  handleAutoPop = () => {
+    if (QUIQ.AUTO_POP_TIME) {
+      setTimeout(() => {
+        this.setState({chatOpen: true});
+      }, QUIQ.AUTO_POP_TIME);
+    } else if (QUIQ.AUTO_POP_TIME === 0) {
+      this.setState({chatOpen: true});
+    }
+  };
 
   checkForAgents = async () => {
     const data = await checkForAgents();
