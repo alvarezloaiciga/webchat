@@ -30,10 +30,9 @@ class Launcher extends Component {
     clearInterval(this.checkForAgentsInterval);
   }
 
-  checkForAgents = () => {
-    checkForAgents().then(data => {
-      this.setState({agentsAvailable: data.available});
-    });
+  checkForAgents = async () => {
+    const data = await checkForAgents();
+    this.setState({agentsAvailable: data.available});
   };
 
   toggleChat = () => {
