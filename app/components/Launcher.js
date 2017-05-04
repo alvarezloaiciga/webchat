@@ -34,12 +34,10 @@ class Launcher extends Component {
   }
 
   handleAutoPop = () => {
-    if (QUIQ.AUTO_POP_TIME) {
+    if (typeof QUIQ.AUTO_POP_TIME === 'number') {
       setTimeout(() => {
         this.setState({chatOpen: true});
       }, QUIQ.AUTO_POP_TIME);
-    } else if (QUIQ.AUTO_POP_TIME === 0) {
-      this.setState({chatOpen: true});
     }
   };
 
