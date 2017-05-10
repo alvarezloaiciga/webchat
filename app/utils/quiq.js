@@ -76,6 +76,7 @@ const getQuiqObject = (): QuiqObject => {
     HOST: getHostFromScriptTag(),
     DEBUG: false,
     WELCOME_FORM: undefined,
+    AUTO_POP_TIME: undefined,
   };
 
   if (!window.QUIQ) {
