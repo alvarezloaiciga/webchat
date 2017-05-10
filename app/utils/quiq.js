@@ -75,6 +75,7 @@ const getQuiqObject = (): QuiqObject => {
     HEADER_TEXT: formatMessage(messages.hereToHelp),
     HOST: getHostFromScriptTag(),
     DEBUG: false,
+    WELCOME_FORM: undefined,
   };
 
   if (!window.QUIQ) {

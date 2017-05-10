@@ -1,0 +1,140 @@
+.WelcomeForm {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .welcomeFormBanner {
+    flex: 0 0 auto;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 0 30px;
+    background: #59ad5d;
+    height: 80px;
+
+    span {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  .fields {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    overflow-y: auto;
+  }
+
+  .field, .submit {
+    margin: 10px 0 0 0;
+    min-height: 30px;
+  }
+
+  .submit {
+    flex: 0 0 auto;
+    margin: 20px;
+    width: 130px;
+    align-self: flex-end;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    font-size: .9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 7px;
+    transition: all .15s ease-in-out;
+  }
+
+  .field {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+
+    label .required {
+      color: #c53431;
+      flex: 0 0 auto;
+    }
+
+    input {
+      width: 170px;
+      max-width: 170px;
+      min-width: 100px;
+      flex: 1 1 auto;
+      box-sizing: border-box;
+      height: 1.5rem;
+      border: 1px solid #cacaca;
+      border-radius: 0;
+      background-color: #fefefe;
+      box-shadow: inset 0 1px 2px hsla(0,0%,4%,.1);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #0a0a0a;
+      transition: box-shadow .5s,border-color .25s ease-in-out;
+    }
+  }
+}
+
+// Total Height: 600px
+// Banner: 100px
+// Form: 450px
+// Button 50px
+.noFlexbox .WelcomeForm {
+  .welcomeFormBanner {
+    position: absolute;
+    top: 0;
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    width: 400px;
+    min-width: 400px;
+    max-width: 400px;
+    display: table;
+    color: white;
+    padding: 5px;
+
+    span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  .fields {
+    margin-top: 100px;
+    min-height: 440px;
+    max-height: 440px;
+    height: 440px;
+
+    .field {
+      width: 320px;
+      margin-left: 0;
+      margin-right: 0;
+      clear: both;
+
+      label {
+        float: left;
+        margin-bottom: 10px;
+      }
+
+      input {
+        float: right;
+        margin-bottom: 10px;
+      }
+    }
+
+    .submit {
+      margin-top: 0;
+      float: right;
+      clear: both;
+    }
+  }
+}

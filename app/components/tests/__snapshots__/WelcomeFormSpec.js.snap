@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WelcomeForm component rendering renders with default props 1`] = `
+<form
+  className="WelcomeForm"
+  onSubmit={[Function]}
+>
+  <div
+    className="welcomeFormBanner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span>
+      Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.
+    </span>
+  </div>
+  <div
+    className="fields"
+  >
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="First Name"
+      >
+        First Name
+        <span
+          className="required"
+          title="Required"
+        >
+           *
+        </span>
+      </label>
+      <input
+        name="First Name"
+        required={true}
+        type="text"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="Last Name"
+      >
+        Last Name
+      </label>
+      <input
+        name="Last Name"
+        required={false}
+        type="text"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="Number Field"
+      >
+        Number Field
+        <span
+          className="required"
+          title="Required"
+        >
+           *
+        </span>
+      </label>
+      <input
+        name="Number Field"
+        required={true}
+        type="number"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="E-Mail"
+      >
+        E-Mail
+        <span
+          className="required"
+          title="Required"
+        >
+           *
+        </span>
+      </label>
+      <input
+        name="E-Mail"
+        required={true}
+        type="email"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="Phone Number"
+      >
+        Phone Number
+        <span
+          className="required"
+          title="Required"
+        >
+           *
+        </span>
+      </label>
+      <input
+        name="Phone Number"
+        required={true}
+        type="tel"
+      />
+    </div>
+  </div>
+  <button
+    className="submit"
+    style={
+      Object {
+        "background": "#333",
+      }
+    }
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
