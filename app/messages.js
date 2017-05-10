@@ -31,4 +31,9 @@ export default defineMessages({
     description: 'Message to display when the agent is typing',
     defaultMessage: 'Agent is typing',
   },
+  required: {
+    id: 'required',
+    description: 'Required',
+    defaultMessage: 'Required',
+  },
 });

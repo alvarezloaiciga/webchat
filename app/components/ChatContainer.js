@@ -2,10 +2,11 @@
 
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {fetchConversation, fetchWebsocketInfo} from 'network/chat';
+import {fetchConversation, fetchWebsocketInfo, addMessage} from 'network/chat';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
+import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
 import {connectSocket} from 'network/atmosphere';
 import {MessageTypes} from 'appConstants';
@@ -20,6 +21,7 @@ type ChatContainerState = {
   loading: boolean,
   error: boolean,
   agentTyping: boolean,
+  welcomeForm: boolean,
 };
 
 export type ChatContainerProps = {
@@ -36,6 +38,7 @@ export class ChatContainer extends Component {
     loading: true,
     error: false,
     agentTyping: false,
+    welcomeForm: !!QUIQ.WELCOME_FORM,
   };
 
   handleApiError = (err?: ApiError, retry?: () => void) => {
@@ -125,8 +128,25 @@ export class ChatContainer extends Component {
     }
   };
 
+  onWelcomeFormSubmit = (body: string) => {
+    this.setState({
+      welcomeForm: false,
+    });
+
+    if (body) {
+      addMessage(body);
+    }
+  };
   render() {
     if (this.props.hidden) return null;
+
+    if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
+      return (
+        <div className="ChatContainer">
+          <WelcomeForm onFormSubmit={this.onWelcomeFormSubmit} />
+        </div>
+      );
+    }
 
     if (this.state.error) {
       return (

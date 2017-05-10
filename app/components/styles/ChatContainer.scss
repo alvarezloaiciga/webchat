@@ -21,10 +21,8 @@
     align-items: center;
   }
 
-  .banner {
+  .banner, .errorBanner {
     flex: 0 0 auto;
-    background: #59ad5d;
-    height: 80px;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -32,19 +30,17 @@
     justify-content: center;
     font-weight: 300;
     font-size: 14px;
+    padding: 0 30px;
+  }
+
+  .banner {
+    background: #59ad5d;
+    height: 80px;
   }
 
   .errorBanner {
-    flex: 0 0 auto;
     background: #ad2215;
     height: 20px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: 300;
-    font-size: 14px;
   }
 }
 

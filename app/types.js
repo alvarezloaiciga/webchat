@@ -1,6 +1,17 @@
 // @flow
 /* eslint-disable no-use-before-define */
 
+export type WelcomeFormField = {
+  type: 'text' | 'number' | 'email' | 'tel',
+  label: string,
+  required?: boolean,
+};
+
+export type WelcomeForm = {
+  headerText: string,
+  fields: Array<WelcomeFormField>,
+};
+
 export type QuiqObject = {
   CONTACT_POINT: string,
   HOST: string,
@@ -12,6 +23,7 @@ export type QuiqObject = {
     | {
         transport?: string,
       },
+  WELCOME_FORM?: WelcomeForm,
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';
