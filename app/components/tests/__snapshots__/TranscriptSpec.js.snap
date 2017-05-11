@@ -8,8 +8,8 @@ exports[`Transcript component rendering renders with default props 1`] = `
     message={
       Object {
         "authorType": "Agent",
-        "body": "body--1",
         "id": "id--1",
+        "text": "text--1",
         "timestamp": 1,
         "type": "Text",
       }
@@ -18,9 +18,9 @@ exports[`Transcript component rendering renders with default props 1`] = `
   <Message
     message={
       Object {
-        "authorType": "Guest",
-        "body": "body--2",
+        "authorType": "Customer",
         "id": "id--2",
+        "text": "text--2",
         "timestamp": 2,
         "type": "Text",
       }

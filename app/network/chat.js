@@ -79,7 +79,7 @@ export const updateMessagePreview = (text: string, typing: boolean) => {
 };
 
 export const checkForAgents = (): Promise<{available: boolean}> =>
-  fetch(`${HOST}/api/v1/messaging/contact-points/Chat/${CONTACT_POINT}/agents-available`, {
+  fetch(`${HOST}/api/v1/messaging/agents-available?platform=Chat&contactPoint=${CONTACT_POINT}`, {
     mode: 'cors',
     credentials: 'include',
     headers: {
