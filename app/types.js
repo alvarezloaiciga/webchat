@@ -27,12 +27,12 @@ export type QuiqObject = {
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';
-export type AuthorType = 'Guest' | 'Agent';
+export type AuthorType = 'Customer' | 'Agent';
 export type MessageType = 'Text' | 'ChatMessage';
 
 export type Message = {
   authorType: AuthorType,
-  body: string,
+  text: string,
   id: string,
   timestamp: number,
   type: EventType,

@@ -14,7 +14,7 @@ export type MessageProps = {
 const {COLOR} = QUIQ;
 
 export const Message = (props: MessageProps) => {
-  const fromCustomer = props.message.authorType === 'Guest';
+  const fromCustomer = props.message.authorType === 'Customer';
 
   return (
     <div
@@ -22,7 +22,7 @@ export const Message = (props: MessageProps) => {
       className={classnames('Message', {fromCustomer})}
     >
       <Linkify properties={{target: '_blank', rel: 'noopener noreferrer'}}>
-        {props.message.body}
+        {props.message.text}
       </Linkify>
     </div>
   );

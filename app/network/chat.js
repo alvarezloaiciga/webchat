@@ -37,7 +37,7 @@ export const leaveChat = () => {
   });
 };
 
-export const addMessage = (body: string) => {
+export const addMessage = (text: string) => {
   fetch(`${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/send-message`, {
     mode: 'cors',
     credentials: 'include',
@@ -46,7 +46,7 @@ export const addMessage = (body: string) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({body}),
+    body: JSON.stringify({text}),
   });
 };
 
@@ -65,7 +65,7 @@ export const fetchConversation = (): Promise<Conversation> =>
     credentials: 'include',
   }).then(parseResponse);
 
-export const updateMessagePreview = (body: string, typing: boolean) => {
+export const updateMessagePreview = (text: string, typing: boolean) => {
   fetch(`${HOST}/api/v1/messaging/chat/${CONTACT_POINT}/typing`, {
     mode: 'cors',
     credentials: 'include',
@@ -74,7 +74,7 @@ export const updateMessagePreview = (body: string, typing: boolean) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({body, typing}),
+    body: JSON.stringify({text, typing}),
   });
 };
 

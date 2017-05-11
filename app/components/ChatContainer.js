@@ -128,13 +128,13 @@ export class ChatContainer extends Component {
     }
   };
 
-  onWelcomeFormSubmit = (body: string) => {
+  onWelcomeFormSubmit = (text: string) => {
     this.setState({
       welcomeForm: false,
     });
 
-    if (body) {
-      addMessage(body);
+    if (text) {
+      addMessage(text);
     }
   };
   render() {
