@@ -71,6 +71,7 @@ export class ChatContainer extends Component {
       })
       .catch((err: ApiError) => this.handleApiError(err, this.initialize));
   };
+
   componentDidMount() {
     if (!this.state.connected) {
       this.initialize();
@@ -80,15 +81,19 @@ export class ChatContainer extends Component {
   connect = () => {
     this.setState({connected: true});
   };
+
   disconnect = () => {
     this.setState({connected: false});
   };
+
   setLoading = () => {
     this.setState({loading: true});
   };
+
   notLoading = () => {
     this.setState({loading: false});
   };
+
   onConnectionEstablish = () => {
     this.connect();
     this.retrieveMessages(this.notLoading);
@@ -120,6 +125,7 @@ export class ChatContainer extends Component {
       })
       .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
+
   appendMessageToChat = (message: Message) => {
     if (message.type !== 'Text') return;
 
@@ -137,6 +143,7 @@ export class ChatContainer extends Component {
       addMessage(text);
     }
   };
+
   render() {
     if (this.props.hidden) return null;
 
