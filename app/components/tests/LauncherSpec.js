@@ -3,7 +3,7 @@ jest.mock('utils/utils');
 jest.mock('network/chat');
 import QUIQ from 'utils/quiq';
 import React from 'react';
-import Launcher from '../Launcher';
+import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import {checkForAgents} from 'network/chat';

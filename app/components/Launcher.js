@@ -1,12 +1,15 @@
 // @flow
 import React, {Component} from 'react';
 import classnames from 'classnames';
+import {injectIntl} from 'react-intl';
+import {registerIntlObject} from 'core-ui/services/i18nService';
 import {supportsFlexbox, supportsSVG} from 'utils/utils';
 import QUIQ from 'utils/quiq';
 import {joinChat, leaveChat, checkForAgents} from 'network/chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import NoAgentsAvailable from './NoAgentsAvailable';
+import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
 
 type LauncherState = {
@@ -14,13 +17,19 @@ type LauncherState = {
   chatOpen: boolean,
 };
 
-class Launcher extends Component {
+export type LauncherProps = {
+  intl: IntlObject,
+};
+
+export class Launcher extends Component {
+  props: LauncherProps;
   state: LauncherState = {
     chatOpen: false,
   };
   checkForAgentsInterval: number;
 
   componentDidMount() {
+    registerIntlObject(this.props.intl);
     // Start polling to check for agents available
     this.checkForAgentsInterval = setInterval(this.checkForAgents, 1000 * 60);
     // Check the first time
@@ -83,4 +92,4 @@ class Launcher extends Component {
   }
 }
 
-export default Launcher;
+export default injectIntl(Launcher);

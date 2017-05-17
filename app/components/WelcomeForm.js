@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import QUIQ from 'utils/quiq';
-import {getDisplayString} from 'core-ui/services/i18nService';
+import {formatMessage, getDisplayString} from 'core-ui/services/i18nService';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
 import './styles/WelcomeForm.scss';
@@ -47,6 +47,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
 
           return `${f.label}: ${field.value}`;
         })
+        .concat([formatMessage(messages.referrer, {location: window.location.href})])
         .join('\n'),
     );
   };
