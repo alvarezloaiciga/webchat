@@ -14,6 +14,7 @@ describe('ChatContainer component', () => {
   beforeEach(() => {
     testProps = {
       hidden: false,
+      onMessage: jest.fn(),
     };
 
     render = () => {
