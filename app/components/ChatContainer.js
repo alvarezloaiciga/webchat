@@ -26,6 +26,7 @@ type ChatContainerState = {
 
 export type ChatContainerProps = {
   hidden: boolean,
+  onMessage: (message: Message) => void,
 };
 
 const {COLOR, HEADER_TEXT} = QUIQ;
@@ -107,6 +108,7 @@ export class ChatContainer extends Component {
       switch (message.data.type) {
         case 'Text':
           this.appendMessageToChat(message.data);
+          this.props.onMessage(message.data);
           break;
         case 'AgentTyping':
           this.setState({agentTyping: message.data.typing});

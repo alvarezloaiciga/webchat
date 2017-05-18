@@ -64,9 +64,15 @@ export class Launcher extends Component {
     );
   };
 
+  handleMessage = () => {
+    if (!this.state.chatOpen) {
+      this.toggleChat();
+    }
+  };
+
   renderChat = () => (
     <div>
-      <ChatContainer hidden={!this.state.chatOpen} />
+      <ChatContainer onMessage={this.handleMessage} hidden={!this.state.chatOpen} />
       <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />
     </div>
   );
