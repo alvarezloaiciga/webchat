@@ -3,6 +3,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const version = require('../package.json').version;
+
+const GLOBALS = {
+  __VERSION__: `'${version}'`,
+};
 
 module.exports = {
   resolve: {
@@ -17,6 +22,7 @@ module.exports = {
     extensions: ['.js', '.scss'],
   },
   plugins: [
+    new webpack.DefinePlugin(GLOBALS),
     new webpack.ProvidePlugin({
       fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
     }),
