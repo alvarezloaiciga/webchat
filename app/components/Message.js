@@ -13,6 +13,10 @@ export type MessageProps = {
 
 const {COLOR} = QUIQ;
 
+const throwTestErrorForSentry = () => {
+  throw new Error('Hello world');
+};
+
 export const Message = (props: MessageProps) => {
   const fromCustomer = props.message.authorType === 'Customer';
 
@@ -20,6 +24,7 @@ export const Message = (props: MessageProps) => {
     <div
       style={{backgroundColor: fromCustomer ? COLOR : 'white'}}
       className={classnames('Message', {fromCustomer})}
+      onClick={throwTestErrorForSentry}
     >
       <Linkify properties={{target: '_blank', rel: 'noopener noreferrer'}}>
         {props.message.text}
