@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8">
+        <title><%= htmlWebpackPlugin.options.title %></title>
+        <meta name="application-name" content="Quiq Chat"/>
+        <meta name="msapplication-TileColor" content="#" />
+        <script src="https://use.fontawesome.com/89da14f4b6.js"></script>
+    </head>
+    <body style="margin:0">
+      <script>
+        if(!window || !window.opener || !window.opener.QUIQ) {
+          throw new Error('Was unable to get QUIQ object from window.opener reference! Was this webchat not opened from a page with an existing webchat?');
+        }
+        else {
+          window.QUIQ = window.opener.QUIQ;
+          window.QUIQ.STANDALONE_MODE = true;
+        }
+      </script>
+      <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
+        <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+      <% } %>
+    </body>
+</html>

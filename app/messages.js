@@ -41,4 +41,29 @@ export default defineMessages({
     description: 'Message to append to welcome form telling agent what web page the customer is on',
     defaultMessage: 'Referrer: {location}',
   },
+  cannotFindScript: {
+    name: 'cannotFindScript',
+    description: "Error to display when we can't find the script that loaded webchat",
+    defaultMessage: 'Cannot find script that loaded Webchat. Please contact your administrator.',
+  },
+  cannotDetermineHost: {
+    name: 'cannotDetermineHost',
+    description: "Error to display when we can't determine the hostname from the script src attribute",
+    defaultMessage: 'Cannot determine host from script url. Please contact your administrator',
+  },
+  quiqFatalError: {
+    name: 'quiqFatalError',
+    description: 'Message to show a quiq fatal error',
+    defaultMessage: 'QUIQ FATAL ERROR',
+  },
+  hereToHelp: {
+    id: 'hereToHelp',
+    description: 'Welcome message to display at top of webchat',
+    defaultMessage: "We're here to help if you have any questions!",
+  },
+  openInNewWindow: {
+    id: 'openInNewWindow',
+    description: 'Message to display on open in new window icon',
+    defaultMessage: 'Open chat in new window',
+  },
 });

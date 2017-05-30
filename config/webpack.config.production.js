@@ -41,6 +41,12 @@ module.exports = merge(config, {
       inject: false,
       chunks: ['common', 'webchat'],
     }),
+    new HtmlWebpackPlugin({
+      template: 'config/templates/standalone.ejs',
+      filename: 'quiq-standalone-webchat.html',
+      inject: false,
+      chunks: ['common', 'webchat'],
+    }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
     //   {

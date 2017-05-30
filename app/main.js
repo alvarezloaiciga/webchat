@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import {nonCompatibleBrowser} from 'utils/utils';
 import React from 'react';
-import Launcher from 'Launcher';
+import Routes from 'Routes';
 import {render} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
@@ -27,15 +27,15 @@ const init = () => {
   render(
     <IntlProvider locale="en">
       <AppContainer errorReporter={Redbox}>
-        <Launcher />
+        <Routes />
       </AppContainer>
     </IntlProvider>,
     document.getElementById('quiqWebChat'),
   );
 
   if (module.hot) {
-    module.hot.accept('Launcher', () => {
-      const NextApp = require('Launcher').default; // eslint-disable-line global-require
+    module.hot.accept('Routes', () => {
+      const NextApp = require('Routes').default; // eslint-disable-line global-require
 
       render(
         <IntlProvider locale="en">

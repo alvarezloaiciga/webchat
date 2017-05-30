@@ -1,4 +1,34 @@
 .ChatContainer {
+  &.standaloneMode {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: initial;
+    right: 0;
+    bottom: 0;
+    max-width: none;
+    max-height: none;
+    border: none;
+    border-radius: 0;
+
+    .openStandaloneMode {
+      display: none;
+    }
+  }
+
+  .openStandaloneMode {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.3em;
+    cursor: pointer;
+
+    &:hover {
+      color: darken(white, 20%);
+    }
+  }
+
   width: 400px;
   height: calc(100vh - 132px);
   max-height: 600px;

@@ -24,6 +24,7 @@ export type QuiqObject = {
         transport?: string,
       },
   WELCOME_FORM?: WelcomeForm,
+  STANDALONE_MODE: boolean,
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';

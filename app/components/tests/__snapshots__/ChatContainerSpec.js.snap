@@ -19,6 +19,11 @@ exports[`ChatContainer component rendering messages appends messages to the tran
     >
       TOOL TIME
     </span>
+    <i
+      className="fa fa-external-link openStandaloneMode"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
   </div>
   <div
     className="chatContainerBody"
@@ -74,6 +79,11 @@ exports[`ChatContainer component rendering renders 1`] = `
     >
       TOOL TIME
     </span>
+    <i
+      className="fa fa-external-link openStandaloneMode"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
   </div>
   <div
     className="chatContainerBody"
@@ -100,6 +110,11 @@ exports[`ChatContainer component rendering typing indicator updates typing state
     >
       TOOL TIME
     </span>
+    <i
+      className="fa fa-external-link openStandaloneMode"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
   </div>
   <div
     className="chatContainerBody"
