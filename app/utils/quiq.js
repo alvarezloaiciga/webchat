@@ -32,7 +32,11 @@ const getQuiqObject = (): QuiqObject => {
     return QUIQ;
   }
 
-  return Object.assign({}, QUIQ, window.QUIQ);
+  const updatedQUIQ = Object.assign({}, QUIQ, window.QUIQ);
+  // We keep window.QUIQ up to date so standalone has the best ifnormation.
+  window.QUIQ = updatedQUIQ;
+
+  return updatedQUIQ;
 };
 
 const QUIQ: QuiqObject = getQuiqObject();
