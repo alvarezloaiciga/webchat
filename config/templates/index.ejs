@@ -11,6 +11,11 @@ try {
   }
 
   function loadQuiqWebchat() {
+    // Load font-awesome
+    var fontAwesomeScript = document.createElement('script');
+    fontAwesomeScript.src = "https://use.fontawesome.com/89da14f4b6.js";
+    document.getElementsByTagName('body')[0].appendChild(fontAwesomeScript);
+    
     <% for(var chunk in htmlWebpackPlugin.files.chunks) {
         for(var index in htmlWebpackPlugin.files.chunks[chunk].css) { %>
           var quiqStyle${chunk} = document.createElement('link');

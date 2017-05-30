@@ -1,9 +1,14 @@
-export default {
+// @flow
+import type {QuiqObject} from 'types';
+
+const QUIQ: QuiqObject = {
   CONTACT_POINT: 'Bob',
   HOST: 'https://bob.dev.centricient.corp',
   COLOR: '#333',
   HEADER_TEXT: 'TOOL TIME',
   DEBUG: false,
+  AUTO_POP_TIME: 2000,
+  STANDALONE_MODE: false,
   WELCOME_FORM: {
     headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
     fields: [
@@ -36,3 +41,5 @@ export default {
     ],
   },
 };
+
+export default QUIQ;

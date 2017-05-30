@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {fetchConversation, fetchWebsocketInfo, addMessage} from 'network/chat';
+import {formatMessage} from 'core-ui/services/i18nService';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
@@ -11,6 +12,7 @@ import QUIQ from 'utils/quiq';
 import {connectSocket} from 'network/atmosphere';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
+import classnames from 'classnames';
 import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
@@ -22,11 +24,13 @@ type ChatContainerState = {
   error: boolean,
   agentTyping: boolean,
   welcomeForm: boolean,
+  poppedChat: boolean,
 };
 
 export type ChatContainerProps = {
-  hidden: boolean,
-  onMessage: (message: Message) => void,
+  hidden?: boolean,
+  onMessage?: (message: Message) => void,
+  toggleChat?: () => void,
 };
 
 const {COLOR, HEADER_TEXT} = QUIQ;
@@ -40,6 +44,7 @@ export class ChatContainer extends Component {
     error: false,
     agentTyping: false,
     welcomeForm: !!QUIQ.WELCOME_FORM,
+    poppedChat: false,
   };
 
   handleApiError = (err?: ApiError, retry?: () => void) => {
@@ -79,6 +84,13 @@ export class ChatContainer extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps: ChatContainerProps) {
+    // We reset poppedChat when user explicitly re-opens chat
+    if (this.props.hidden && !nextProps.hidden) {
+      this.setState({poppedChat: false});
+    }
+  }
+
   connect = () => {
     this.setState({connected: true});
   };
@@ -108,7 +120,11 @@ export class ChatContainer extends Component {
       switch (message.data.type) {
         case 'Text':
           this.appendMessageToChat(message.data);
-          this.props.onMessage(message.data);
+          // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
+          // don't open it.
+          if (this.props.onMessage && !this.state.poppedChat) {
+            this.props.onMessage(message.data);
+          }
           break;
         case 'AgentTyping':
           this.setState({agentTyping: message.data.typing});
@@ -167,10 +183,41 @@ export class ChatContainer extends Component {
       );
     }
 
+    const classNames = classnames('ChatContainer', {
+      standaloneMode: QUIQ.STANDALONE_MODE,
+    });
+
+    const openChatInNewWindow = () => {
+      const width = 400;
+      const height = 600;
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+
+      window
+        .open(
+          'quiq-standalone-webchat',
+          'quiq-standalone-webchat',
+          `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
+        )
+        .focus();
+
+      if (this.props.toggleChat) {
+        this.props.toggleChat();
+        this.setState({
+          poppedChat: true,
+        });
+      }
+    };
+
     return (
-      <div className="ChatContainer">
+      <div className={classNames}>
         <div className="banner" style={{backgroundColor: COLOR}}>
           <span className="messageUs">{HEADER_TEXT}</span>
+          <i
+            className="fa fa-external-link openStandaloneMode"
+            title={formatMessage(messages.openInNewWindow)}
+            onClick={openChatInNewWindow}
+          />
         </div>
 
         {!this.state.connected &&
