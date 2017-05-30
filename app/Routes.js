@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 const routes = () => (
   <Router>
     <Switch>
-      <Route exact path="/quiq-standalone-webchat" component={ChatContainer} />
+      <Route exact path="/app/webchat/standalone" component={ChatContainer} />
       <Route component={Launcher} />
     </Switch>
   </Router>

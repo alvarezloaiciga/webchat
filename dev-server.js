@@ -34,8 +34,8 @@ app.use(webpackDevMiddleware(compiler, {
 app.use(require('morgan')('dev'));
 app.use(webpackHotMiddleware(compiler));
 
-app.get('/quiq-standalone-webchat', (req, res) => {
-  res.sendFile(path.join(__dirname, './quiq-standalone-webchat.html'));
+app.get('app/webchat/standalone', (req, res) => {
+  res.sendFile(path.join(__dirname, './standalone.html'));
 });
 
 app.get('*', (req, res) => {

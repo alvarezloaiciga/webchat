@@ -195,7 +195,7 @@ export class ChatContainer extends Component {
 
       window
         .open(
-          'quiq-standalone-webchat',
+          `${QUIQ.HOST}/app/webchat/standalone`,
           'quiq-standalone-webchat',
           `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
         )

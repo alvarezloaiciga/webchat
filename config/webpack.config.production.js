@@ -43,7 +43,7 @@ module.exports = merge(config, {
     }),
     new HtmlWebpackPlugin({
       template: 'config/templates/standalone.ejs',
-      filename: 'quiq-standalone-webchat.html',
+      filename: 'standalone.html',
       inject: false,
       chunks: ['common', 'webchat'],
     }),
