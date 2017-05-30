@@ -35,7 +35,7 @@ app.use(require('morgan')('dev'));
 app.use(webpackHotMiddleware(compiler));
 
 app.get('app/webchat/standalone', (req, res) => {
-  res.sendFile(path.join(__dirname, './standalone.html'));
+  res.sendFile(path.join(__dirname, './standalone/index.html'));
 });
 
 app.get('*', (req, res) => {

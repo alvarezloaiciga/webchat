@@ -43,7 +43,7 @@ module.exports = merge(config, {
     }),
     new HtmlWebpackPlugin({
       template: 'config/templates/standalone.ejs',
-      filename: 'standalone.html',
+      filename: 'standalone/index.html',
       inject: false,
       chunks: ['common', 'webchat'],
     }),
