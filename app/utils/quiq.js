@@ -7,7 +7,7 @@ import type {QuiqObject} from 'types';
 
 const getHostFromScriptTag = (): string => {
   // Host will already be defined in standalone mode
-  if (window.QUIQ && window.QUIQ.host) return window.QUIQ.host;
+  if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.host;
 
   const url = getWebchatUrl();
   const host = url.slice(0, url.indexOf('/app/webchat'));
@@ -32,11 +32,11 @@ const getQuiqObject = (): QuiqObject => {
     return QUIQ;
   }
 
-  const updatedQUIQ = Object.assign({}, QUIQ, window.QUIQ);
-  // We keep window.QUIQ up to date so standalone has the best ifnormation.
-  window.QUIQ = updatedQUIQ;
+  // Ensure host is defined for standalone mode,
+  // since we won't be able to get it from a script tag.
+  window.QUIQ.HOST = QUIQ.HOST;
 
-  return updatedQUIQ;
+  return Object.assign({}, QUIQ, window.QUIQ);
 };
 
 const QUIQ: QuiqObject = getQuiqObject();
