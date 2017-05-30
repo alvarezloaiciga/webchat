@@ -31,7 +31,9 @@ export class MessageForm extends Component {
   };
   componentDidMount() {
     setTimeout(() => {
-      this.textArea.focus();
+      if (this.textArea) {
+        this.textArea.focus();
+      }
 
       if (this.props.agentTyping) {
         this.agentStartTyping();

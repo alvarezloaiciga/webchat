@@ -7,7 +7,7 @@ import type {QuiqObject} from 'types';
 
 const getHostFromScriptTag = (): string => {
   // Host will already be defined in standalone mode
-  if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.host;
+  if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.HOST;
 
   const url = getWebchatUrl();
   const host = url.slice(0, url.indexOf('/app/webchat'));
