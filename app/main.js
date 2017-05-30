@@ -1,3 +1,4 @@
+/* global __DEV__ __VERSION__ */
 import 'babel-polyfill';
 import {nonCompatibleBrowser} from 'utils/utils';
 import React from 'react';
@@ -6,8 +7,15 @@ import {render} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
+import Raven from 'raven-js';
 
 import 'main.scss';
+
+if (!__DEV__) {
+  Raven.config('https://5622397f17c44165a039d3b91d3e0193@sentry.io/170102', {
+    release: __VERSION__,
+  }).install();
+}
 
 const init = () => {
   if (nonCompatibleBrowser()) return;
