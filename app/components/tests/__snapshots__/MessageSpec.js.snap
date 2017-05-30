@@ -3,7 +3,6 @@
 exports[`Message component fromAgent colors the message white 1`] = `
 <div
   className="Message"
-  onClick={[Function]}
   style={
     Object {
       "backgroundColor": "white",
@@ -28,7 +27,6 @@ exports[`Message component fromAgent colors the message white 1`] = `
 exports[`Message component rendering renders with default props 1`] = `
 <div
   className="Message fromCustomer"
-  onClick={[Function]}
   style={
     Object {
       "backgroundColor": "#333",
