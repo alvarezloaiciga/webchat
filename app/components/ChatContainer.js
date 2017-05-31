@@ -9,6 +9,7 @@ import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
+import {isIE9} from 'utils/utils';
 import {connectSocket} from 'network/atmosphere';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
@@ -99,17 +100,9 @@ export class ChatContainer extends Component {
     this.setState({connected: false});
   };
 
-  setLoading = () => {
-    this.setState({loading: true});
-  };
-
-  notLoading = () => {
-    this.setState({loading: false});
-  };
-
   onConnectionEstablish = () => {
     this.connect();
-    this.retrieveMessages(this.notLoading);
+    this.retrieveMessages();
   };
 
   getTextMessages = (msgs: Array<Message>) => msgs.filter(m => m.type === MessageTypes.TEXT);
@@ -196,7 +189,7 @@ export class ChatContainer extends Component {
       window
         .open(
           `${QUIQ.HOST}/app/webchat/standalone`,
-          'quiq-standalone-webchat',
+          isIE9() ? '_blank' : 'quiq-standalone-webchat',
           `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
         )
         .focus();
