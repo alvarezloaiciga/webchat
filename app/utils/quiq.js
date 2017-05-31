@@ -2,20 +2,20 @@
 
 import messages from 'messages';
 import {formatMessage} from 'core-ui/services/i18nService';
-import {getWebchatUrl, displayError} from './utils';
+import {getWebchatUrlFromScriptTag, displayError} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject} from 'types';
 
-const getHostFromScriptTag = (): string => {
-  if (SupportedWebchatUrls.find(u => window.location.href.includes(u))) {
-    return window.location.origin;
-  }
-
+const getHostUrl = (): string => {
   // Host will already be defined in standalone mode
   if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.HOST;
 
-  const url = getWebchatUrl();
+  const url = SupportedWebchatUrls.find(u => window.location.href.includes(u))
+    ? window.location.href
+    : getWebchatUrlFromScriptTag();
+
   const host = url.slice(0, url.indexOf('/app/webchat'));
+
   if (!host) return displayError(messages.cannotFindScript);
 
   return host;
@@ -26,7 +26,7 @@ const getQuiqObject = (): QuiqObject => {
     CONTACT_POINT: 'default',
     COLOR: '#59ad5d',
     HEADER_TEXT: formatMessage(messages.hereToHelp),
-    HOST: getHostFromScriptTag(),
+    HOST: getHostUrl(),
     DEBUG: false,
     WELCOME_FORM: undefined,
     AUTO_POP_TIME: undefined,

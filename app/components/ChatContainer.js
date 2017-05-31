@@ -3,7 +3,6 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {fetchConversation, fetchWebsocketInfo, addMessage} from 'network/chat';
-import {formatMessage} from 'core-ui/services/i18nService';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
@@ -180,6 +179,7 @@ export class ChatContainer extends Component {
       standaloneMode: QUIQ.STANDALONE_MODE,
     });
 
+    /* eslint-disable no-unused-vars */
     const openChatInNewWindow = () => {
       const width = 400;
       const height = 600;
@@ -201,16 +201,17 @@ export class ChatContainer extends Component {
         });
       }
     };
+    /* eslint-disable no-unused-vars */
 
     return (
       <div className={classNames}>
         <div className="banner" style={{backgroundColor: COLOR}}>
           <span className="messageUs">{HEADER_TEXT}</span>
-          <i
+          {/* <i
             className="fa fa-external-link openStandaloneMode"
             title={formatMessage(messages.openInNewWindow)}
             onClick={openChatInNewWindow}
-          />
+          /> */}
         </div>
 
         {!this.state.connected &&

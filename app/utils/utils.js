@@ -49,7 +49,7 @@ export const displayError = (error: IntlMessage) => {
   );
 };
 
-export const getWebchatUrl = () => {
+export const getWebchatUrlFromScriptTag = () => {
   // eslint-disable-line no-unused-vars
   // Local Development should just always supply HOST manually for simplicity
   // Also catches cases when running standalone built webchat locally
