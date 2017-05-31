@@ -3,9 +3,14 @@
 import messages from 'messages';
 import {formatMessage} from 'core-ui/services/i18nService';
 import {getWebchatUrl, displayError} from './utils';
+import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject} from 'types';
 
 const getHostFromScriptTag = (): string => {
+  if (SupportedWebchatUrls.find(u => window.location.href.includes(u))) {
+    return window.location.origin;
+  }
+
   // Host will already be defined in standalone mode
   if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.HOST;
 

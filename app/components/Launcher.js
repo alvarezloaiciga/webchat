@@ -1,9 +1,7 @@
 // @flow
 import React, {Component} from 'react';
-import classnames from 'classnames';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'core-ui/services/i18nService';
-import {supportsFlexbox, supportsSVG} from 'utils/utils';
 import QUIQ from 'utils/quiq';
 import {joinChat, leaveChat, checkForAgents} from 'network/chat';
 import ChatContainer from './ChatContainer';
@@ -82,11 +80,6 @@ export class Launcher extends Component {
   );
 
   render() {
-    const classNames = classnames('Launcher', {
-      noFlexbox: !supportsFlexbox(),
-      noSvg: !supportsSVG(),
-    });
-
     let content;
     if (this.state.agentsAvailable === true) {
       content = this.renderChat();
@@ -95,7 +88,7 @@ export class Launcher extends Component {
     }
 
     return (
-      <div className={classNames}>
+      <div className="Launcher">
         {content}
       </div>
     );
