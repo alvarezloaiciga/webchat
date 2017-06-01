@@ -3,12 +3,12 @@ jest.mock('utils/utils');
 import React from 'react';
 import keycodes from 'keycodes';
 import MessageForm from '../MessageForm';
-import {addMessage} from 'network/chat';
+import {addMessage} from 'quiq-chat';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import type {MessageFormProps} from '../MessageForm';
 
-jest.mock('network/chat');
+jest.mock('quiq-chat');
 
 describe('MessageForm component', () => {
   let wrapper: ShallowWrapper;
