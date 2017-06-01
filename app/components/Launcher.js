@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'core-ui/services/i18nService';
 import QUIQ from 'utils/quiq';
-import {joinChat, leaveChat, checkForAgents} from 'network/chat';
+import {joinChat, leaveChat, checkForAgents} from '../quiq-chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import NoAgentsAvailable from './NoAgentsAvailable';

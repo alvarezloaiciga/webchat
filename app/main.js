@@ -8,6 +8,8 @@ import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import Raven from 'raven-js';
+import QUIQ from 'utils/quiq';
+import {init as initChat} from './quiq-chat';
 
 import 'main.scss';
 
@@ -16,6 +18,11 @@ if (!__DEV__) {
     release: __VERSION__,
   }).install();
 }
+
+initChat({
+  HOST: QUIQ.HOST,
+  CONTACT_POINT: QUIQ.CONTACT_POINT,
+});
 
 const init = () => {
   if (nonCompatibleBrowser()) return;
