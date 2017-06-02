@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
 import QUIQ from 'utils/quiq';
-import {addMessage, updateMessagePreview} from 'network/chat';
+import {addMessage, updateMessagePreview} from 'quiq-chat';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import messages from 'messages';

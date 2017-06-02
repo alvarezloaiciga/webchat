@@ -2,14 +2,13 @@
 
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {fetchConversation, fetchWebsocketInfo, addMessage} from 'network/chat';
+import {addMessage, subscribe, fetchConversation} from 'quiq-chat';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
 import {isIE9} from 'utils/utils';
-import {connectSocket} from 'network/atmosphere';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
@@ -47,7 +46,7 @@ export class ChatContainer extends Component {
     poppedChat: false,
   };
 
-  handleApiError = (err?: ApiError, retry?: () => void) => {
+  handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
     if (err && err.status && err.status > 404) {
       if (retry) {
         setTimeout(retry, 5000);
@@ -56,26 +55,20 @@ export class ChatContainer extends Component {
       this.setState({error: true});
     }
   };
-  initialize = () => {
-    let socketUrl;
 
-    fetchWebsocketInfo()
-      .then((response: {url: string}) => {
-        socketUrl = response.url;
-      })
-      .then(fetchConversation)
-      .then((conversation: Conversation) => {
-        this.setState({messages: this.getTextMessages(conversation.messages)});
-        connectSocket({
-          socketUrl,
-          options: {
-            onConnectionLoss: this.disconnect,
-            onConnectionEstablish: this.onConnectionEstablish,
-            handleMessage: this.handleWebsocketMessage,
-          },
-        });
-      })
-      .catch((err: ApiError) => this.handleApiError(err, this.initialize));
+  initialize = async () => {
+    try {
+      subscribe({
+        onConnectionLoss: this.disconnect,
+        onConnectionEstablish: this.onConnectionEstablish,
+        onMessage: this.handleWebsocketMessage,
+      });
+
+      const conversation = await fetchConversation();
+      this.setState({messages: this.getTextMessages(conversation.messages)});
+    } catch (err) {
+      this.handleApiError(err, this.initialize);
+    }
   };
 
   componentDidMount() {
