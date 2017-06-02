@@ -61,7 +61,7 @@ export class ChatContainer extends Component {
       subscribe({
         onConnectionLoss: this.disconnect,
         onConnectionEstablish: this.onConnectionEstablish,
-        handleMessage: this.handleWebsocketMessage,
+        onMessage: this.handleWebsocketMessage,
       });
 
       const conversation = await fetchConversation();

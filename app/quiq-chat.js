@@ -10,64 +10,16 @@ var fetch = _interopDefault(require('isomorphic-fetch'));
 var uaParserJs = require('ua-parser-js');
 var atmosphere = _interopDefault(require('atmosphere.js'));
 
-var asyncToGenerator = function(fn) {
-  return function() {
-    var gen = fn.apply(this, arguments);
-    return new Promise(function(resolve, reject) {
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          return Promise.resolve(value).then(
-            function(value) {
-              step('next', value);
-            },
-            function(err) {
-              step('throw', err);
-            },
-          );
-        }
-      }
-
-      return step('next');
-    });
-  };
-};
-
-var _extends =
-  Object.assign ||
-  function(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-var toConsumableArray = function(arr) {
+function _toConsumableArray(arr) {
   if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++)
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
       arr2[i] = arr[i];
-
+    }
     return arr2;
   } else {
     return Array.from(arr);
   }
-};
+}
 
 //
 /**
@@ -87,7 +39,7 @@ var formatQueryParams = function formatQueryParams(url, params) {
     if (Array.isArray(value)) {
       paramStrings.push.apply(
         paramStrings,
-        toConsumableArray(
+        _toConsumableArray(
           value.map(function(v) {
             return key + '=' + v;
           }),
@@ -247,11 +199,23 @@ var checkForAgents$1 = function checkForAgents() {
   ).then(parseResponse);
 };
 
+var _extends =
+  Object.assign ||
+  function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+
 //
 var connection = void 0;
-var onConnectionLoss = void 0;
-var onConnectionEstablish = void 0;
-var handleMessage = void 0;
+var callbacks = void 0;
 var ie9Ping = void 0;
 
 var buildRequest = function buildRequest(socketUrl) {
@@ -288,11 +252,9 @@ var buildRequest = function buildRequest(socketUrl) {
 };
 
 var connectSocket = function connectSocket(builder) {
-  var socketUrl = builder.socketUrl, options = builder.options;
+  var socketUrl = builder.socketUrl, websocketCallbacks = builder.callbacks;
 
-  onConnectionLoss = options.onConnectionLoss;
-  onConnectionEstablish = options.onConnectionEstablish;
-  handleMessage = options.handleMessage;
+  callbacks = websocketCallbacks;
 
   if (isIE9() && !ie9Ping) {
     // JSONP seems to be a bit unreliable, but we can prod it by periodically pinging the server...
@@ -306,13 +268,11 @@ var connectSocket = function connectSocket(builder) {
 var onOpen = function onOpen(response) {
   // Carry the UUID. This is required if you want to call subscribe(request) again.
   connection.request.uuid = response.request.uuid;
-  onConnectionEstablish && onConnectionEstablish();
-  console.log('Socket open');
+  callbacks.onConnectionEstablish && callbacks.onConnectionEstablish();
 };
 
 var onReopen = function onReopen() {
-  console.log('Socket reopened');
-  onConnectionEstablish && onConnectionEstablish();
+  callbacks.onConnectionEstablish && callbacks.onConnectionEstablish();
 };
 
 var onReconnect = function onReconnect(req) {
@@ -322,52 +282,82 @@ var onReconnect = function onReconnect(req) {
   if (req.transport === 'long-polling') {
     connection.pingTimeout = setTimeout(function() {
       ping();
-      console.log('Atmosphere: ping sent');
     }, connection.request.reconnectInterval + 5000);
   }
-  console.log('Atmosphere: reconnect');
 };
 
 var onMessage = function onMessage(res) {
   var message = void 0;
   try {
     message = atmosphere.util.parseJSON(res.responseBody);
-    handleMessage && handleMessage(message);
+    callbacks.onMessage && callbacks.onMessage(message);
   } catch (e) {
     console.error('Error parsing Quiq websocket message');
     return;
   }
-
-  console.log(message);
 };
 
 var onTransportFailure = function onTransportFailure(errorMsg, req) {
-  console.log('Transport failed: ' + req.transport);
+  callbacks.onTransportFailure && callbacks.onTransportFailure(errorMsg, req);
 };
 
 var onError = function onError() {
-  console.log('Atmosphere error');
-  onConnectionLoss && onConnectionLoss();
+  callbacks.onConnectionLoss && callbacks.onConnectionLoss();
 };
 
 var onClientTimeout = function onClientTimeout() {
-  console.log('Atmosphere client timeout');
-  onConnectionLoss && onConnectionLoss();
+  callbacks.onConnectionLoss && callbacks.onConnectionLoss();
 };
 
 var onClose = function onClose() {
-  console.log('Atmosphere connection closed');
+  callbacks.onClose && callbacks.onClose();
 };
 
 var _this = undefined;
 
+function _asyncToGenerator(fn) {
+  return function() {
+    var gen = fn.apply(this, arguments);
+    return new Promise(function(resolve, reject) {
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+        if (info.done) {
+          resolve(value);
+        } else {
+          return Promise.resolve(value).then(
+            function(value) {
+              step('next', value);
+            },
+            function(err) {
+              step('throw', err);
+            },
+          );
+        }
+      }
+      return step('next');
+    });
+  };
+}
+
 //
 var init = function init(settings) {
-  setGlobals(settings);
+  var defaults = {
+    CONTACT_POINT: 'default',
+  };
+
+  var globals = Object.assign({}, defaults, settings);
+
+  setGlobals(globals);
 };
 
 var subscribe = (function() {
-  var _ref = asyncToGenerator(
+  var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(callbacks) {
       var wsInfo;
       return regeneratorRuntime.wrap(
@@ -382,7 +372,7 @@ var subscribe = (function() {
               case 3:
                 wsInfo = _context.sent;
 
-                connectSocket({socketUrl: wsInfo.url, options: callbacks});
+                connectSocket({socketUrl: wsInfo.url, callbacks: callbacks});
 
               case 5:
               case 'end':
@@ -415,10 +405,6 @@ var addMessage$$1 = function addMessage$$1(text) {
   checkRequiredSettings();
   return addMessage$1(text);
 };
-
-// fetchWebsocketInfo?
-
-// ping?
 
 var fetchConversation$$1 = function fetchConversation$$1() {
   checkRequiredSettings();
