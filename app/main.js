@@ -9,7 +9,7 @@ import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import Raven from 'raven-js';
 import QUIQ from 'utils/quiq';
-import {init as initChat} from './quiq-chat';
+import {init as initChat} from 'quiq-chat';
 
 import 'main.scss';
 
