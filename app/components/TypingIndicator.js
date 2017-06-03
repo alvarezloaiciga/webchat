@@ -28,7 +28,7 @@ const TypingIndicator = ({
   const width = xScale * 24;
   const height = yScale * 30;
 
-  const opacityLayer = (begin: string) => (
+  const opacityLayer = (begin: string) =>
     <animate
       attributeName="opacity"
       attributeType="XML"
@@ -36,8 +36,7 @@ const TypingIndicator = ({
       begin={begin}
       dur={`${duration}s`}
       repeatCount="indefinite"
-    />
-  );
+    />;
 
   const heightLayer = (begin: string) => {
     const yStart = 10 * yScale;

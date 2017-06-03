@@ -23,7 +23,8 @@ export const getUAInfo = () => ({
     name: 'WebKit',
     version: 537.36,
   },
-  navigator: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36',
+  navigator:
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36',
 });
 export const compatibilityMode = () => false;
 export const isIE9 = () => false;

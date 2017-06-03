@@ -12,7 +12,7 @@ export type ToggleChatButtonProps = {
 
 const {COLOR} = QUIQ;
 
-export const ToggleChatButton = ({toggleChat, chatOpen}: ToggleChatButtonProps) => (
+export const ToggleChatButton = ({toggleChat, chatOpen}: ToggleChatButtonProps) =>
   <button style={{background: COLOR}} onClick={toggleChat} className="ToggleChatButton">
     {chatOpen
       ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -20,7 +20,6 @@ export const ToggleChatButton = ({toggleChat, chatOpen}: ToggleChatButtonProps) 
           X
         </svg>
       : <ChatBubbleIcon />}
-  </button>
-);
+  </button>;
 
 export default ToggleChatButton;
