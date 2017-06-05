@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {addMessage, subscribe, fetchConversation} from 'quiq-chat';
-import {formatMessage} from 'core-ui/services/i18nService';
+import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';

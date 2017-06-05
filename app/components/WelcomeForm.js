@@ -21,7 +21,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   const refs = {};
   const form = QUIQ.WELCOME_FORM;
 
-  const renderField = (field: WelcomeFormField) => (
+  const renderField = (field: WelcomeFormField) =>
     <div className="field" key={field.label}>
       <label htmlFor={field.label}>
         {field.label}
@@ -34,8 +34,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
         name={field.label}
         required={field.required}
       />
-    </div>
-  );
+    </div>;
 
   const submitForm = (e: SyntheticInputEvent) => {
     e.preventDefault();
