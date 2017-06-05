@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "6"
 after_success:
-  - https://ci.quiq.sh/job/build-webchat-public/build?token=public_webchat_repo
+  - curl https://ci.quiq.sh/job/build-webchat-public/build?token=public_webchat_repo
