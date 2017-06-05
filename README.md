@@ -46,6 +46,7 @@ Include this at the bottom of your index.html
 First install all dependencies by running `npm install` or `yarn`
 
 Update `window.QUIQ` object in index.html to point to your site and contact point, as well as any other overrides you want to use
+A list of all possible overrides are listed in `__mocks__/quiq.js`
 ```html
 <script type="text/javascript">
   window.QUIQ = {
