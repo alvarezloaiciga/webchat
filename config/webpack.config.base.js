@@ -30,6 +30,11 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.jsx?$/,
+        include: path.resolve(__dirname, '../app'),
+        loader: 'babel',
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader',
       },
