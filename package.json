@@ -43,9 +43,6 @@
       "app",
       "node_modules"
     ],
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(core-ui)/).*/"
-    ],
     "moduleNameMapper": {
       "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js"
     },
@@ -144,7 +141,6 @@
     "babel-polyfill": "6.23.0",
     "babel-runtime": "6.11.6",
     "classnames": "2.2.5",
-    "core-ui": "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.0.4",
     "intl": "1.2.5",
     "isomorphic-fetch": "2.2.1",
     "lodash": "4.15.0",

@@ -1,7 +1,7 @@
 // @flow
 
 import messages from 'messages';
-import {formatMessage} from 'core-ui/services/i18nService';
+import {formatMessage} from 'utils/i18n';
 import {getWebchatUrlFromScriptTag, displayError} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject} from 'types';

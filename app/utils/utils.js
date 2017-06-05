@@ -3,7 +3,7 @@ declare var __DEV__: string;
 declare var Modernizr: Object;
 import 'modernizr';
 import messages from 'messages';
-import {formatMessage} from 'core-ui/services/i18nService';
+import {formatMessage} from 'utils/i18n';
 import {SupportedWebchatUrls} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
 import type {BrowserNames, DeviceTypes, OSNames, IntlMessage} from 'types';

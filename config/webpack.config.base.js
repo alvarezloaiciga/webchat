@@ -30,11 +30,6 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules\/(?!(core-ui)\/).*/,
-        loader: 'babel',
-      },
-      {
         test: /\.json$/,
         loader: 'json-loader',
       },

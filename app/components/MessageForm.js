@@ -7,7 +7,7 @@ import {addMessage, updateMessagePreview} from 'quiq-chat';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import messages from 'messages';
-import {formatMessage} from 'core-ui/services/i18nService';
+import {formatMessage} from 'utils/i18n';
 import {FormattedMessage} from 'react-intl';
 import './styles/MessageForm.scss';
 
