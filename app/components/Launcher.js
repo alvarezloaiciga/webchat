@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'utils/i18n';
 import QUIQ from 'utils/quiq';
-import {joinChat, leaveChat, checkForAgents} from 'quiq-chat';
+import {joinChat, leaveChat, checkForAgents, fetchConversation} from 'quiq-chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import NoAgentsAvailable from './NoAgentsAvailable';
@@ -12,6 +12,7 @@ import './styles/Launcher.scss';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
+  chatStarted?: boolean, // Undefined means we're still looking it up
   chatOpen: boolean,
 };
 
@@ -34,11 +35,20 @@ export class Launcher extends Component {
     this.checkForAgents();
 
     this.handleAutoPop();
+
+    this.checkIfConversation();
   }
 
   componentWillUnmount() {
     clearInterval(this.checkForAgentsInterval);
   }
+
+  checkIfConversation = async () => {
+    const conversation = await fetchConversation();
+    if (conversation && conversation.messages.length) {
+      this.setState({chatStarted: true});
+    }
+  };
 
   handleAutoPop = () => {
     if (typeof QUIQ.AUTO_POP_TIME === 'number') {
@@ -80,7 +90,7 @@ export class Launcher extends Component {
 
   render() {
     let content;
-    if (this.state.agentsAvailable === true) {
+    if (this.state.agentsAvailable === true || this.state.chatStarted) {
       content = this.renderChat();
     } else if (this.state.agentsAvailable === false) {
       content = <NoAgentsAvailable />;
