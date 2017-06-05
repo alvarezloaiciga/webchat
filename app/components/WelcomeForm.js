@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import QUIQ from 'utils/quiq';
-import {formatMessage, getDisplayString} from 'core-ui/services/i18nService';
+import {formatMessage, getDisplayString} from 'utils/i18n';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
 import './styles/WelcomeForm.scss';

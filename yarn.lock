@@ -1780,10 +1780,6 @@ core-js@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.0.4":
-  version "0.0.4"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#d111db569bff742ba039e4702683beeee779d1f2"
-
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
