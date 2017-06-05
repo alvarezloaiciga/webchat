@@ -116,7 +116,7 @@
     "jsdom": "9.4.5",
     "json-loader": "0.5.4",
     "lint-staged": "3.4.0",
-    "morgan": "^1.8.2",
+    "morgan": "1.8.2",
     "namespace-css-loader": "0.0.2",
     "ngrok": "2.2.9",
     "node-sass": "4.5.2",
