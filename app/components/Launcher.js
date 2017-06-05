@@ -68,7 +68,7 @@ export class Launcher extends Component {
     }
   };
 
-  renderChat = () => (
+  renderChat = () =>
     <div>
       <ChatContainer
         toggleChat={this.toggleChat}
@@ -76,8 +76,7 @@ export class Launcher extends Component {
         hidden={!this.state.chatOpen}
       />
       <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />
-    </div>
-  );
+    </div>;
 
   render() {
     let content;
