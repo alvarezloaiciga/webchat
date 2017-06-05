@@ -48,8 +48,7 @@ export default defineMessages({
   },
   cannotDetermineHost: {
     name: 'cannotDetermineHost',
-    description:
-      "Error to display when we can't determine the hostname from the script src attribute",
+    description: "Error to display when we can't determine the hostname from the script src attribute",
     defaultMessage: 'Cannot determine host from script url. Please contact your administrator',
   },
   quiqFatalError: {
@@ -66,5 +65,10 @@ export default defineMessages({
     id: 'openInNewWindow',
     description: 'Message to display on open in new window icon',
     defaultMessage: 'Open chat in new window',
+  },
+  welcomeFormUniqueIdentifier: {
+    id: 'wecomeFormUniqueIdentifier',
+    description: 'Unique identifier to key off of as identifying a message as the welcome form customer submission.',
+    defaultMessage: 'Quiq Welcome Form Customer Submission',
   },
 });

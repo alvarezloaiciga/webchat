@@ -21,7 +21,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   const refs = {};
   const form = QUIQ.WELCOME_FORM;
 
-  const renderField = (field: WelcomeFormField) =>
+  const renderField = (field: WelcomeFormField) => (
     <div className="field" key={field.label}>
       <label htmlFor={field.label}>
         {field.label}
@@ -34,18 +34,26 @@ const WelcomeForm = (props: WelcomeFormProps) => {
         name={field.label}
         required={field.required}
       />
-    </div>;
+    </div>
+  );
 
   const submitForm = (e: SyntheticInputEvent) => {
     e.preventDefault();
     props.onFormSubmit(
-      form.fields
-        .map(f => {
-          const field = refs[f.label];
-          if (!field) return '';
+      // This is a pretty hacky way to ensure the customer can't see the form they submit.
+      // We filter on this message when displaying messages in the customer webchat.
+      // Long-term we will most likely do the welcome form as an API call, in which case it won't ever
+      // be submitted as a text message.  Until that day, this will suffice as a unique key.
+      // Note: This would break if the customer were to change the language of their browser mid-chat.
+      [formatMessage(messages.welcomeFormUniqueIdentifier)]
+        .concat(
+          form.fields.map(f => {
+            const field = refs[f.label];
+            if (!field) return '';
 
-          return `${f.label}: ${field.value}`;
-        })
+            return `${f.label}: ${field.value}`;
+          }),
+        )
         .concat([formatMessage(messages.referrer, {location: window.location.href})])
         .join('\n'),
     );

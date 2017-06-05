@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {addMessage, subscribe, fetchConversation} from 'quiq-chat';
+import {formatMessage} from 'core-ui/services/i18nService';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
@@ -97,10 +98,14 @@ export class ChatContainer extends Component {
     this.retrieveMessages();
   };
 
-  getTextMessages = (msgs: Array<Message>) => msgs.filter(m => m.type === MessageTypes.TEXT);
+  getTextMessages = (msgs: Array<Message>) =>
+    msgs.filter(
+      m =>
+        m.type === MessageTypes.TEXT &&
+        !m.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim()),
+    );
 
   handleWebsocketMessage = (message: AtmosphereMessage) => {
-    console.log(message);
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
       switch (message.data.type) {
         case 'Text':
@@ -132,7 +137,10 @@ export class ChatContainer extends Component {
   appendMessageToChat = (message: Message) => {
     if (message.type !== 'Text') return;
 
-    if (!this.state.messages.some(m => m.id === message.id)) {
+    if (
+      !this.state.messages.some(m => m.id === message.id) &&
+      !message.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
+    ) {
       this.setState(prevState => ({messages: [...prevState.messages, message]}));
     }
   };

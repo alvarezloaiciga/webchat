@@ -4,10 +4,12 @@ import ChatContainer from '../ChatContainer';
 import {getMockMessage} from 'utils/testHelpers';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
+import messages from 'messages';
 import type {ChatContainerProps} from '../ChatContainer';
 
 describe('ChatContainer component', () => {
   let wrapper: ShallowWrapper;
+  let instance: any;
   let testProps: ChatContainerProps;
   let render: () => void;
 
@@ -19,6 +21,7 @@ describe('ChatContainer component', () => {
 
     render = () => {
       wrapper = shallow(<ChatContainer {...testProps} />);
+      instance = wrapper.instance();
     };
   });
 
@@ -79,6 +82,24 @@ describe('ChatContainer component', () => {
         testProps.hidden = true;
         render();
         expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('welcome form', () => {
+      it('filters the form message', () => {
+        wrapper.setState({
+          loading: false,
+          connected: true,
+          messages: [getMockMessage(0), getMockMessage(1), getMockMessage(2)],
+        });
+        instance.appendMessageToChat({
+          authorType: 'Customer',
+          text: messages.welcomeFormUniqueIdentifier.defaultMessage,
+          id: `someId`,
+          timestamp: 98765432,
+          type: 'Text',
+        });
+        expect(wrapper.state('messages').length).toBe(3);
       });
     });
   });

@@ -11,7 +11,38 @@
   <body>
     <script type="text/javascript" charset="utf-8">
     window.QUIQ = {
-  HOST: 'https://nate.dev.quiq.sh',
+  HOST: 'https://andrew.dev.quiq.sh',
+  WELCOME_FORM: {
+    headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+    fields: [
+      {
+        type: 'text',
+        label: 'First Name',
+        required: true,
+      },
+      {
+        type: 'text',
+        label: 'Last Name',
+        required: false,
+      },
+      {
+        type: 'number',
+        label: 'Number Field',
+        required: true,
+      },
+
+      {
+        type: 'email',
+        label: 'E-Mail',
+        required: true,
+      },
+      {
+        type: 'tel',
+        label: 'Phone Number',
+        required: true,
+      },
+    ],
+  },
 };
 </script>
     <script type="text/javascript" src="common.js"></script>
