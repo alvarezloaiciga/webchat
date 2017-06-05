@@ -5,10 +5,10 @@ import QUIQ from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
-import {TestIntlObject} from 'utils/testHelpers';
+import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
-import {checkForAgents} from 'quiq-chat';
+import {checkForAgents, fetchConversation} from 'quiq-chat';
 
 jest.useFakeTimers();
 
@@ -17,6 +17,7 @@ describe('Launcher component', () => {
   let render: () => void;
   let testProps: LauncherProps;
   const mockCheckForAgents = (checkForAgents: any);
+  const mockFetchConversation = (fetchConversation: any);
 
   beforeEach(() => {
     render = () => {
@@ -90,14 +91,41 @@ describe('Launcher component', () => {
 
     beforeEach(() => {
       mockCheckForAgents.mockReturnValue(mockResponse);
-      render();
-      wrapper.setState({chatOpen: true});
     });
 
-    it('renders', async () => {
-      await mockResponse;
-      wrapper.update();
-      expect(wrapper).toMatchSnapshot();
+    describe('when there is not a conversation already in progress', () => {
+      beforeEach(() => {
+        mockFetchConversation.mockReturnValue(Promise.resolve(undefined));
+        render();
+        wrapper.setState({chatOpen: true});
+      });
+
+      it('renders a placeholder', async () => {
+        await mockResponse;
+        wrapper.update();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('when agents are not available', () => {
+      describe('when there is a conversation already in progress', () => {
+        const mockConversation = {
+          id: 'testConversation',
+          messages: [getMockMessage(), getMockMessage()],
+        };
+
+        beforeEach(() => {
+          mockFetchConversation.mockReturnValue(Promise.resolve(mockConversation));
+          render();
+          wrapper.setState({chatOpen: true});
+        });
+
+        it('renders the chat', async () => {
+          await mockResponse;
+          wrapper.update();
+          expect(wrapper).toMatchSnapshot();
+        });
+      });
     });
   });
 });
