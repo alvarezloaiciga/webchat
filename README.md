@@ -31,31 +31,45 @@ Ensure you have registered the `default` contactPoint with Chatterbox at `POST /
 
 ### Running on a hosted site
 Include this at the bottom of your index.html
-```js
-<script src="https://yourTenant.cluster.centricient.corp/app/webchat/index.js" type="text/javascript"></script>
+```html
+<script type="text/javascript">
+  // Any options should be passed in here
+  window.QUIQ = {
+    CONTACT_POINT: 'myCustomContactPoint',
+  };
+</script>
+<script src="https://yourTenant.goquiq.com/app/webchat/index.js" type="text/javascript"></script>
 ```
 
 ### Running Locally
-Include this at the bottom of the page
-```js
-  <script type="text/javascript">
-    window.QUIQ = {
-      HOST: 'https://andrew.dev.centricient.corp',
-    };
-  </script>
-  <script src="/location/of/index.js" type="text/javascript"></script>
+
+First install all dependencies by running `npm install` or `yarn`
+
+Update `window.QUIQ` object in index.html to point to your site and contact point, as well as any other overrides you want to use
+```html
+<script type="text/javascript">
+  window.QUIQ = {
+    HOST: 'https://andrew.dev.quiq.sh',
+  };
+</script>
 ```
 replacing HOST with your site URL.
 
 There is an optional `DEBUG` property on the window.QUIQ object.  Currently this will override the atmosphere transport type.
 ```js
-  window.QUIQ = {
-    HOST: 'https://andrew.dev.centricient.corp',
-    DEBUG: {
-      transport: 'long-polling'
-    }
-  };
+window.QUIQ = {
+  HOST: 'https://andrew.dev.centricient.corp',
+  DEBUG: {
+    transport: 'long-polling'
+  }
+};
 ```
+
+Start the dev server with `npm start` or `yarn start`
+
+You should now be able to go to `localhost:3000` to see a page that's blank except for quiq webchat.
+
+This dev server has hot-reloading enabled, so saving a file in the project should push the changes to your browser without you needing to reload the page.
 
 ### Running from a VM locally (e.g for testing IE)
 We use Ngrok to expose localhost over a public url.  To use this feature, do the following.
