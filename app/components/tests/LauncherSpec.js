@@ -45,14 +45,17 @@ describe('Launcher component', () => {
 
   describe('when agents are available', () => {
     const mockResponse = new Promise(resolve => resolve({available: true}));
+    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
 
     beforeEach(() => {
       mockCheckForAgents.mockReturnValue(mockResponse);
+      mockFetchConversation.mockReturnValue(conversationResponse);
       render();
     });
 
     it('renders', async () => {
       await mockResponse;
+      await conversationResponse;
       wrapper.update();
       expect(wrapper).toMatchSnapshot();
     });
@@ -64,6 +67,7 @@ describe('Launcher component', () => {
 
       it('renders the chat container', async () => {
         await mockResponse;
+        await conversationResponse;
         wrapper.update();
         expect(wrapper.find('ChatContainer').length).toBe(1);
       });
@@ -72,6 +76,7 @@ describe('Launcher component', () => {
 
   describe('auto pop for chat', () => {
     const mockResponse = new Promise(resolve => resolve({available: true}));
+    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
 
     beforeEach(() => {
       QUIQ.AUTO_POP_TIME = 200;
@@ -80,6 +85,7 @@ describe('Launcher component', () => {
 
     it("opens the chat even if the end user doesn't click on it", async () => {
       await mockResponse;
+      await conversationResponse;
       jest.runTimersToTime(200);
       wrapper.update();
       expect(wrapper.find('ChatContainer').prop('hidden')).toBe(false);
@@ -88,6 +94,7 @@ describe('Launcher component', () => {
 
   describe('when agents are not available', () => {
     const mockResponse = new Promise(resolve => resolve({available: false}));
+    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
 
     beforeEach(() => {
       mockCheckForAgents.mockReturnValue(mockResponse);
@@ -95,13 +102,14 @@ describe('Launcher component', () => {
 
     describe('when there is not a conversation already in progress', () => {
       beforeEach(() => {
-        mockFetchConversation.mockReturnValue(Promise.resolve(undefined));
+        mockFetchConversation.mockReturnValue(conversationResponse);
         render();
         wrapper.setState({chatOpen: true});
       });
 
       it('renders a placeholder', async () => {
         await mockResponse;
+        await conversationResponse;
         wrapper.update();
         expect(wrapper).toMatchSnapshot();
       });

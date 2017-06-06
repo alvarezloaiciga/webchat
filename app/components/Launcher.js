@@ -64,8 +64,13 @@ export class Launcher extends Component {
   };
 
   checkForAgents = async () => {
-    const data = await checkForAgents();
-    this.setState({agentsAvailable: data.available});
+    // If agents are available or there is a conversation in progress, show the chat
+    // Otherwise, show a placeholder that no one is available
+    const [data, conversation] = await Promise.all([checkForAgents(), fetchConversation()]);
+    this.setState({
+      agentsAvailable: data.available,
+      chatStarted: conversation && conversation.messages.length,
+    });
   };
 
   toggleChat = () => {
