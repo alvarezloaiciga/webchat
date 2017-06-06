@@ -1,4 +1,4 @@
-# QUIQ WebChat
+# Quiq WebChat [![Build Status](https://travis-ci.org/Quiq/webchat.svg?branch=master)](https://travis-ci.org/Quiq/webchat)
 
 This is the end-user client for web chats with Quiq Messaging
 
