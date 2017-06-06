@@ -7,6 +7,7 @@ import {joinChat, leaveChat, checkForAgents, fetchConversation} from 'quiq-chat'
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import NoAgentsAvailable from './NoAgentsAvailable';
+import {last} from 'lodash';
 import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
 
@@ -46,7 +47,11 @@ export class Launcher extends Component {
   checkIfConversation = async () => {
     const conversation = await fetchConversation();
     if (conversation && conversation.messages.length) {
-      this.setState({chatStarted: true});
+      const lastStatusMessage = last(
+        conversation.messages.filter(m => m.type === 'Join' || m.type === 'Leave'),
+      );
+      const minimized = lastStatusMessage && lastStatusMessage.type === 'Leave';
+      this.setState({chatStarted: true, chatOpen: !minimized});
     }
   };
 

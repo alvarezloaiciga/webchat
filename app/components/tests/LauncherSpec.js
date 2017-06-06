@@ -117,13 +117,29 @@ describe('Launcher component', () => {
         beforeEach(() => {
           mockFetchConversation.mockReturnValue(Promise.resolve(mockConversation));
           render();
-          wrapper.setState({chatOpen: true});
         });
 
         it('renders the chat', async () => {
           await mockResponse;
           wrapper.update();
           expect(wrapper).toMatchSnapshot();
+        });
+
+        describe('after the chat has been closed', () => {
+          beforeEach(() => {
+            const closedConversation = Object.assign({}, mockConversation, {
+              messages: [...mockConversation.messages, getMockMessage(3, {type: 'Leave'})],
+            });
+            mockFetchConversation.mockReturnValue(Promise.resolve(closedConversation));
+            render();
+            wrapper.instance().componentDidMount();
+          });
+
+          it('leaves the chat closed', async () => {
+            await mockResponse;
+            wrapper.update();
+            expect(wrapper).toMatchSnapshot();
+          });
         });
       });
     });
