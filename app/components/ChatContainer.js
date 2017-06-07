@@ -46,6 +46,7 @@ export class ChatContainer extends Component {
     welcomeForm: !!QUIQ.WELCOME_FORM,
     poppedChat: false,
   };
+  typingTimeout: ?number;
 
   handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
     if (err && err.status && err.status > 404) {
@@ -117,10 +118,28 @@ export class ChatContainer extends Component {
           }
           break;
         case 'AgentTyping':
-          this.setState({agentTyping: message.data.typing});
+          if (message.data.typing) {
+            this.startAgentTyping();
+          } else if (message.data.typing === false) {
+            this.stopAgentTyping();
+          }
           break;
       }
     }
+  };
+
+  startAgentTyping = () => {
+    // Clear the previous timeout if there was one
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+
+    this.setState({agentTyping: true});
+    this.typingTimeout = setTimeout(this.stopAgentTyping.bind(this), 10000);
+  };
+
+  stopAgentTyping = () => {
+    this.setState({agentTyping: false});
   };
 
   retrieveMessages = () => {

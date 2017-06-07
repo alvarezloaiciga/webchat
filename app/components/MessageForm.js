@@ -19,7 +19,6 @@ export type MessageFormProps = {
 
 type MessageFormState = {
   text: string,
-  agentTyping?: number,
 };
 
 let updateTimer;
@@ -29,51 +28,36 @@ export class MessageForm extends Component {
   state: MessageFormState = {
     text: '',
   };
+
   componentDidMount() {
     setTimeout(() => {
       if (this.textArea) {
         this.textArea.focus();
       }
-
-      if (this.props.agentTyping) {
-        this.agentStartTyping();
-      }
     }, 200);
   }
-  componentWillReceiveProps(nextProps: MessageFormProps) {
-    if (nextProps.agentTyping && !this.props.agentTyping) {
-      this.agentStartTyping();
-    }
-    if (nextProps.agentTyping === false && this.props.agentTyping) {
-      this.agentStopTyping();
-    }
-  }
-  agentStartTyping = () => {
-    clearInterval(this.state.agentTyping);
-    this.setState({agentTyping: setTimeout(this.agentStopTyping, 10000)});
-  };
 
-  agentStopTyping = () => {
-    clearInterval(this.state.agentTyping);
-    this.setState({agentTyping: undefined});
-  };
   startTyping = () => {
     updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
+
   stopTyping = () => {
     updateMessagePreview(this.state.text, false);
   };
+
   startTypingTimers = () => {
     if (!updateTimer) {
       updateTimer = setTimeout(this.startTyping, 2000);
     }
   };
+
   resetTypingTimers = () => {
     clearTimeout(updateTimer);
     updateTimer = undefined;
     this.stopTyping();
   };
+
   handleTextChanged = (e: SyntheticInputEvent) => {
     const state = Object.assign({
       text: e.target.value,
@@ -81,6 +65,7 @@ export class MessageForm extends Component {
 
     this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
   };
+
   addMessage = () => {
     const text = this.state.text.trim();
     if (text) {
@@ -88,21 +73,23 @@ export class MessageForm extends Component {
       addMessage(text);
     }
   };
+
   handleKeyDown = (e: SyntheticKeyboardEvent) => {
     if (e.keyCode === keycodes.enter) {
       e.preventDefault();
       this.addMessage();
     }
   };
+
   render() {
     const sendDisabled = this.state.text.trim() === '';
     const compatMode = compatibilityMode();
 
     return (
       <div className="MessageForm">
-        {(!supportsFlexbox() || this.state.agentTyping) &&
+        {(!supportsFlexbox() || this.props.agentTyping) &&
           <div className="poke">
-            {this.state.agentTyping &&
+            {this.props.agentTyping &&
               <div className="pokeBody">
                 <FormattedMessage {...messages.agentIsTyping} />
                 <TypingIndicator yScale={0.5} xScale={0.75} />

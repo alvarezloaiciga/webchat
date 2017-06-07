@@ -7,6 +7,8 @@ import type {ShallowWrapper} from 'enzyme';
 import messages from 'messages';
 import type {ChatContainerProps} from '../ChatContainer';
 
+jest.useFakeTimers();
+
 describe('ChatContainer component', () => {
   let wrapper: ShallowWrapper;
   let instance: any;
@@ -65,15 +67,46 @@ describe('ChatContainer component', () => {
     });
 
     describe('typing indicator', () => {
-      it('updates typing state', () => {
-        wrapper.setState({
-          loading: false,
-          connected: true,
-          messages: [],
-          agentTyping: true,
+      describe('when agent starts typing', () => {
+        const agentTypingMessage = {
+          messageType: 'ChatMessage',
+          data: {type: 'AgentTyping', typing: true},
+        };
+
+        beforeEach(() => {
+          jest.clearAllTimers();
+          wrapper.setState({loading: false, connected: true});
+          instance.handleWebsocketMessage(agentTypingMessage);
+          wrapper.update();
         });
 
-        expect(wrapper).toMatchSnapshot();
+        it('sets agentTyping in the MessageForm', () => {
+          expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(true);
+        });
+
+        describe('when another message comes in', () => {
+          beforeEach(() => {
+            jest.runTimersToTime(2000);
+            instance.handleWebsocketMessage(agentTypingMessage);
+            jest.runTimersToTime(8001); // The time the timer would have expired
+            wrapper.update();
+          });
+
+          it('still shows the agent as typing', () => {
+            expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(true);
+          });
+
+          describe('when the second timer runs out', () => {
+            beforeEach(() => {
+              jest.runTimersToTime(2000);
+              wrapper.update();
+            });
+
+            it('stop showing the agent as typing', () => {
+              expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(false);
+            });
+          });
+        });
       });
     });
 

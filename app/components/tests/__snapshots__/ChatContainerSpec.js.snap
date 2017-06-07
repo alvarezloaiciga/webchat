@@ -82,34 +82,3 @@ exports[`ChatContainer component rendering renders 1`] = `
   </div>
 </div>
 `;
-
-exports[`ChatContainer component rendering typing indicator updates typing state 1`] = `
-<div
-  className="ChatContainer"
->
-  <div
-    className="banner"
-    style={
-      Object {
-        "backgroundColor": "#333",
-      }
-    }
-  >
-    <span
-      className="messageUs"
-    >
-      TOOL TIME
-    </span>
-  </div>
-  <div
-    className="chatContainerBody"
-  >
-    <Transcript
-      messages={Array []}
-    />
-    <MessageForm
-      agentTyping={true}
-    />
-  </div>
-</div>
-`;
