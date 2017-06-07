@@ -61,9 +61,7 @@ describe('MessageForm component', () => {
   describe('agentTyping', () => {
     it('shows typing indicator', () => {
       render();
-      testProps.agentTyping = true;
-      instance.componentWillReceiveProps(testProps);
-      wrapper.update();
+      wrapper.setProps({agentTyping: true});
       expect(wrapper).toMatchSnapshot();
     });
   });

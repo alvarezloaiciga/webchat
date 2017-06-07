@@ -47,7 +47,8 @@ export class ChatContainer extends Component {
     welcomeForm: !!QUIQ.WELCOME_FORM,
     poppedChat: false,
   };
-  windowTimer: number;
+  windowTimer: ?number;
+  typingTimeout: ?number;
 
   handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
     if (err && err.status && err.status > 404) {
@@ -88,7 +89,8 @@ export class ChatContainer extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.windowTimer);
+    if (this.windowTimer) clearInterval(this.windowTimer);
+    if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
 
   connect = () => {
@@ -123,10 +125,28 @@ export class ChatContainer extends Component {
           }
           break;
         case 'AgentTyping':
-          this.setState({agentTyping: message.data.typing});
+          if (message.data.typing) {
+            this.startAgentTyping();
+          } else if (message.data.typing === false) {
+            this.stopAgentTyping();
+          }
           break;
       }
     }
+  };
+
+  startAgentTyping = () => {
+    // Clear the previous timeout if there was one
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+
+    this.setState({agentTyping: true});
+    this.typingTimeout = setTimeout(this.stopAgentTyping.bind(this), 10000);
+  };
+
+  stopAgentTyping = () => {
+    this.setState({agentTyping: false});
   };
 
   retrieveMessages = () => {
@@ -211,7 +231,7 @@ export class ChatContainer extends Component {
 
       this.windowTimer = setInterval(() => {
         if (standaloneWindow.closed) {
-          clearInterval(this.windowTimer);
+          if (this.windowTimer) clearInterval(this.windowTimer);
 
           if (this && this.props && this.props.toggleChat) {
             this.props.toggleChat();
