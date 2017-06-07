@@ -13,16 +13,6 @@
         <% }} %>
     </head>
     <body style="margin:0">
-      <script>
-        if(!window || !window.opener || !window.opener.QUIQ) {
-          throw new Error('Was unable to get QUIQ object from window.opener reference! Was this webchat not opened from a page with an existing webchat?');
-        }
-        else {
-          window.QUIQ = window.opener.QUIQ;
-          window.QUIQ.STANDALONE_MODE = true;
-        }
-      </script>
-
       <% for(var chunk in htmlWebpackPlugin.files.chunks) { %>
         <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
       <% } %>

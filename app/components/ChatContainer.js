@@ -1,5 +1,5 @@
 // @flow
-
+declare var __DEV__: boolean;
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {addMessage, subscribe, fetchConversation} from 'quiq-chat';
@@ -9,9 +9,10 @@ import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
-import {isIE9} from 'utils/utils';
+import {isIE9, inStandaloneMode} from 'utils/utils';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
+import qs from 'qs';
 import classnames from 'classnames';
 import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
 
@@ -46,6 +47,7 @@ export class ChatContainer extends Component {
     welcomeForm: !!QUIQ.WELCOME_FORM,
     poppedChat: false,
   };
+  windowTimer: number;
 
   handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
     if (err && err.status && err.status > 404) {
@@ -83,6 +85,10 @@ export class ChatContainer extends Component {
     if (this.props.hidden && !nextProps.hidden) {
       this.setState({poppedChat: false});
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.windowTimer);
   }
 
   connect = () => {
@@ -177,7 +183,7 @@ export class ChatContainer extends Component {
     }
 
     const classNames = classnames('ChatContainer', {
-      standaloneMode: QUIQ.STANDALONE_MODE,
+      standaloneMode: inStandaloneMode(),
     });
 
     /* eslint-disable no-unused-vars */
@@ -187,13 +193,14 @@ export class ChatContainer extends Component {
       const left = screen.width / 2 - width / 2;
       const top = screen.height / 2 - height / 2;
 
-      window
-        .open(
-          `${QUIQ.HOST}/app/webchat/standalone`,
-          isIE9() ? '_blank' : 'quiq-standalone-webchat',
-          `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
-        )
-        .focus();
+      const standaloneWindow = window.open(
+        `${__DEV__ ? 'http://localhost:3000' : QUIQ.HOST}/app/webchat/standalone?QUIQ=${btoa(
+          qs.stringify(QUIQ),
+        )}`,
+        isIE9() ? '_blank' : 'quiq-standalone-webchat',
+        `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
+      );
+      standaloneWindow.focus();
 
       if (this.props.toggleChat) {
         this.props.toggleChat();
@@ -201,6 +208,19 @@ export class ChatContainer extends Component {
           poppedChat: true,
         });
       }
+
+      this.windowTimer = setInterval(() => {
+        if (standaloneWindow.closed) {
+          clearInterval(this.windowTimer);
+
+          if (this && this.props && this.props.toggleChat) {
+            this.props.toggleChat();
+            this.setState({
+              poppedChat: true,
+            });
+          }
+        }
+      }, 500);
     };
     /* eslint-disable no-unused-vars */
 
@@ -208,11 +228,11 @@ export class ChatContainer extends Component {
       <div className={classNames}>
         <div className="banner" style={{backgroundColor: COLOR}}>
           <span className="messageUs">{HEADER_TEXT}</span>
-          {/* <i
+          <i
             className="fa fa-external-link openStandaloneMode"
             title={formatMessage(messages.openInNewWindow)}
             onClick={openChatInNewWindow}
-          /> */}
+          />
         </div>
 
         {!this.state.connected &&

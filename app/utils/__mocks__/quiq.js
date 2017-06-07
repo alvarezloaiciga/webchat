@@ -8,7 +8,6 @@ const QUIQ: QuiqObject = {
   HEADER_TEXT: 'TOOL TIME',
   DEBUG: false,
   AUTO_POP_TIME: 2000,
-  STANDALONE_MODE: false,
   WELCOME_FORM: {
     headerText:
       'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
