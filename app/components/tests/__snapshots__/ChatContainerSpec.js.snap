@@ -6,6 +6,11 @@ exports[`ChatContainer component rendering messages appends messages to the tran
 <div
   className="ChatContainer"
 >
+  <HeaderMenu
+    onDock={[Function]}
+    onMinimize={[Function]}
+    onPop={[Function]}
+  />
   <div
     className="banner"
     style={
@@ -61,6 +66,11 @@ exports[`ChatContainer component rendering renders 1`] = `
 <div
   className="ChatContainer"
 >
+  <HeaderMenu
+    onDock={[Function]}
+    onMinimize={[Function]}
+    onPop={[Function]}
+  />
   <div
     className="banner"
     style={

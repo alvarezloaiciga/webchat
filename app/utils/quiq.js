@@ -2,8 +2,9 @@
 
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
-import {getWebchatUrlFromScriptTag, displayError} from './utils';
+import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
+import qs from 'qs';
 import type {QuiqObject} from 'types';
 
 const getHostUrl = (): string => {
@@ -21,7 +22,23 @@ const getHostUrl = (): string => {
   return host;
 };
 
+const assignQuiqObjInStandaloneMode = () => {
+  if (!inStandaloneMode()) return;
+
+  const queryString = qs.parse(window.location.href.split('?')[1]);
+  if (!queryString || !queryString.QUIQ) return displayError(messages.standaloneFatalError);
+
+  try {
+    const QUIQ = JSON.parse(queryString.QUIQ);
+    window.QUIQ = QUIQ;
+  } catch (e) {
+    return displayError(messages.errorParsingStandaloneObject);
+  }
+};
+
 const getQuiqObject = (): QuiqObject => {
+  assignQuiqObjInStandaloneMode();
+
   const QUIQ = {
     CONTACT_POINT: 'default',
     COLOR: '#59ad5d',
@@ -30,7 +47,6 @@ const getQuiqObject = (): QuiqObject => {
     DEBUG: false,
     WELCOME_FORM: undefined,
     AUTO_POP_TIME: undefined,
-    STANDALONE_MODE: false,
   };
 
   if (!window.QUIQ) {

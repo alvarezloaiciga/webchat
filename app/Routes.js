@@ -13,5 +13,4 @@ const routes = () =>
       </Switch>
     </CompatibilityWrapper>
   </Router>;
-console.log(routes);
 export default routes;

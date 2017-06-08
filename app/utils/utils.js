@@ -49,6 +49,8 @@ export const displayError = (error: IntlMessage) => {
   );
 };
 
+export const inStandaloneMode = () => window.location.href.includes('standalone');
+
 export const getWebchatUrlFromScriptTag = () => {
   // eslint-disable-line no-unused-vars
   // Local Development should just always supply HOST manually for simplicity
