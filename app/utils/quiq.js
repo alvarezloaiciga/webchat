@@ -22,24 +22,22 @@ const getHostUrl = (): string => {
   return host;
 };
 
-const assignQuiqObjInStandaloneMode = (): ?boolean => {
+const assignQuiqObjInStandaloneMode = () => {
   if (!inStandaloneMode()) return;
 
-  const queryString = window.location.href.split('?QUIQ=')[1];
+  const queryString = qs.parse(window.location.href.split('?')[1]);
+  if (!queryString || !queryString.QUIQ) return displayError(messages.standaloneFatalError);
 
-  if (queryString) {
-    const qsObj = qs.parse(atob(queryString));
-
-    // At this point we can assume we are in standalone mode with a valid QUIQ objecft
-    if (qsObj && qsObj.CONTACT_POINT && qsObj.HOST) {
-      window.QUIQ = qsObj;
-      return true;
-    }
+  try {
+    const QUIQ = JSON.parse(queryString.QUIQ);
+    window.QUIQ = QUIQ;
+  } catch (e) {
+    return displayError(messages.errorParsingStandaloneObject);
   }
 };
 
 const getQuiqObject = (): QuiqObject => {
-  if (assignQuiqObjInStandaloneMode()) return window.QUIQ;
+  assignQuiqObjInStandaloneMode();
 
   const QUIQ = {
     CONTACT_POINT: 'default',

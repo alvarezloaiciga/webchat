@@ -92,39 +92,3 @@ exports[`ChatContainer component rendering renders 1`] = `
   </div>
 </div>
 `;
-
-exports[`ChatContainer component rendering typing indicator updates typing state 1`] = `
-<div
-  className="ChatContainer"
->
-  <div
-    className="banner"
-    style={
-      Object {
-        "backgroundColor": "#333",
-      }
-    }
-  >
-    <span
-      className="messageUs"
-    >
-      TOOL TIME
-    </span>
-    <i
-      className="fa fa-external-link openStandaloneMode"
-      onClick={[Function]}
-      title="Open chat in new window"
-    />
-  </div>
-  <div
-    className="chatContainerBody"
-  >
-    <Transcript
-      messages={Array []}
-    />
-    <MessageForm
-      agentTyping={true}
-    />
-  </div>
-</div>
-`;

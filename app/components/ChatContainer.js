@@ -12,7 +12,6 @@ import QUIQ from 'utils/quiq';
 import {isIE9, inStandaloneMode} from 'utils/utils';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
-import qs from 'qs';
 import classnames from 'classnames';
 import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
 
@@ -206,7 +205,6 @@ export class ChatContainer extends Component {
       standaloneMode: inStandaloneMode(),
     });
 
-    /* eslint-disable no-unused-vars */
     const openChatInNewWindow = () => {
       const width = 400;
       const height = 600;
@@ -214,9 +212,9 @@ export class ChatContainer extends Component {
       const top = screen.height / 2 - height / 2;
 
       const standaloneWindow = window.open(
-        `${__DEV__ ? 'http://localhost:3000' : QUIQ.HOST}/app/webchat/standalone?QUIQ=${btoa(
-          qs.stringify(QUIQ),
-        )}`,
+        `${__DEV__
+          ? 'http://localhost:3000'
+          : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
         isIE9() ? '_blank' : 'quiq-standalone-webchat',
         `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
       );
@@ -229,20 +227,25 @@ export class ChatContainer extends Component {
         });
       }
 
+      /*
+       * Since we popped open webchat into a new window in standalone mode,
+       * this instance now needs to start listening for if that new window closes.
+       * If it does, we re-open this instance, since the user re-docked the standalone window
+       */
       this.windowTimer = setInterval(() => {
         if (standaloneWindow.closed) {
           if (this.windowTimer) clearInterval(this.windowTimer);
 
-          if (this && this.props && this.props.toggleChat) {
+          if (this.props.toggleChat && this.props.hidden) {
             this.props.toggleChat();
-            this.setState({
-              poppedChat: true,
-            });
           }
+
+          this.setState({
+            poppedChat: false,
+          });
         }
       }, 500);
     };
-    /* eslint-disable no-unused-vars */
 
     return (
       <div className={classNames}>

@@ -2,17 +2,10 @@
 
 This is the end-user client for web chats with Quiq Messaging
 
-### Production Note
-If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.
+## Customizing
+While technically all css within the Chat Widget is overridable, it is strongly discouraged and not supported.  This is because at any time in the future, we may change HTML structure or CSS class names, causing potentially breaking changes on any site containing the modified code.  We provide some color overrides as well as custom messaging within the fields described above.  
 
-`<meta http-equiv="X-UA-Compatible" content="IE=edge">`
-
-### isIE9
-
-Things IE9 doesn't support.
-- Flexbox
-- Websockets
-- LocalStorage
+If there's some other customization you'd like, please open an issue in this repository describing what you'd like to be customizable. If you require further customization, you can fork this repository, keeping in mind you will need to maintain your fork after that point.
 
 ## Usage
 
@@ -102,13 +95,14 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - required: no
     - default: 'goquiq.com'
 
-## Customizing
-If there's some other customization you'd like, please open an issue in this repo describing what you'd like to be customizable.
+### Production Note
+If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.
 
-If you want to make more major changes, you can fork this repo, but you'll need to build your webchat client yourself.
+`<meta http-equiv="X-UA-Compatible" content="IE=edge">`
 
-_The markup and CSS will change in future releases without notice, so please don't just add a css file to your page that overrides our styling if you're using the webchat client that we host_
+### isIE9
 
-(i.e. `<script src="https://yourTenant.goquiq.com/app/webchat/index.js" type="text/javascript"></script>`)
-
-_If you try to customize the styles this way, future updates may break your overrides_
+Things IE9 doesn't support.
+- Flexbox
+- Websockets
+- LocalStorage

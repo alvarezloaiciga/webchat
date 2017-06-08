@@ -42,18 +42,30 @@ export default defineMessages({
     defaultMessage: 'Referrer: {location}',
   },
   cannotFindScript: {
-    name: 'cannotFindScript',
+    id: 'cannotFindScript',
     description: "Error to display when we can't find the script that loaded webchat",
     defaultMessage: 'Cannot find script that loaded Webchat. Please contact your administrator.',
   },
-  cannotDetermineHost: {
-    name: 'cannotDetermineHost',
+  standaloneFatalError: {
+    id: 'standaloneFatalError',
     description:
-      "Error to display when we can't determine the hostname from the script src attribute",
+      'Error to display when we load the QUIQ object from query params in standalone mode',
+    defaultMessage: 'Error loading standalone mode. Are the query params properly formatted?',
+  },
+  errorParsingStandaloneObject: {
+    id: 'errorParsingStandaloneObject',
+    description:
+      "Error to display when we found the QUIQ query param but weren't able to parse it into a valid QUIQ object",
+    defaultMessage: 'Error while trying to parse the standalone QUIQ query object',
+  },
+  cannotDetermineHost: {
+    id: 'cannotDetermineHost',
+    description:
+      "Error to display when we can't determine the hostid from the script src attribute",
     defaultMessage: 'Cannot determine host from script url. Please contact your administrator',
   },
   quiqFatalError: {
-    name: 'quiqFatalError',
+    id: 'quiqFatalError',
     description: 'Message to show a quiq fatal error',
     defaultMessage: 'QUIQ FATAL ERROR',
   },
