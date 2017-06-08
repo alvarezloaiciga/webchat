@@ -85,4 +85,20 @@ export default defineMessages({
       'Unique identifier to key off of as identifying a message as the welcome form customer submission.',
     defaultMessage: 'Quiq Welcome Form Customer Submission',
   },
+  dockWindow: {
+    id: 'dockWindow',
+    description:
+      'Message to display when user hovers over button in standalone mode to dock the standalone window back into the parent window',
+    defaultMessage: 'Dock chat',
+  },
+  closeWindow: {
+    id: 'closeWindow',
+    description: 'Close Window button',
+    defaultMessage: 'Close window',
+  },
+  minimizeWindow: {
+    id: 'minimizeWindow',
+    description: 'Minimize Window button',
+    defaultMessage: 'Minimize window',
+  },
 });

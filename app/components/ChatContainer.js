@@ -1,5 +1,4 @@
 // @flow
-declare var __DEV__: boolean;
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {addMessage, subscribe, fetchConversation} from 'quiq-chat';
@@ -9,7 +8,8 @@ import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
-import {isIE9, inStandaloneMode} from 'utils/utils';
+import HeaderMenu from 'HeaderMenu';
+import {inStandaloneMode} from 'utils/utils';
 import {MessageTypes} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
@@ -116,7 +116,13 @@ export class ChatContainer extends Component {
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
       switch (message.data.type) {
         case 'Text':
-          this.appendMessageToChat(message.data);
+          if (
+            !this.state.messages.some(m => m.id === message.data.id) &&
+            !message.data.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
+          ) {
+            this.setState(prevState => ({messages: [...prevState.messages, message]}));
+          }
+
           // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
           // don't open it.
           if (this.props.onMessage && !this.state.poppedChat) {
@@ -159,17 +165,6 @@ export class ChatContainer extends Component {
       .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
 
-  appendMessageToChat = (message: Message) => {
-    if (message.type !== 'Text') return;
-
-    if (
-      !this.state.messages.some(m => m.id === message.id) &&
-      !message.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
-    ) {
-      this.setState(prevState => ({messages: [...prevState.messages, message]}));
-    }
-  };
-
   onWelcomeFormSubmit = (text: string) => {
     this.setState({
       welcomeForm: false,
@@ -178,6 +173,34 @@ export class ChatContainer extends Component {
     if (text) {
       addMessage(text);
     }
+  };
+
+  onPop = () => {
+    if (this.props.toggleChat) {
+      this.props.toggleChat();
+      this.setState({
+        poppedChat: true,
+      });
+    }
+  };
+
+  minimizeChat = () => {
+    if (this.props.toggleChat && !this.props.hidden) {
+      this.props.toggleChat();
+    }
+  };
+
+  maximizeChat = () => {
+    if (this.props.toggleChat && this.props.hidden) {
+      this.props.toggleChat();
+    }
+  };
+
+  onDock = () => {
+    this.maximizeChat();
+    this.setState({
+      poppedChat: false,
+    });
   };
 
   render() {
@@ -201,61 +224,15 @@ export class ChatContainer extends Component {
       );
     }
 
-    const classNames = classnames('ChatContainer', {
-      standaloneMode: inStandaloneMode(),
-    });
-
-    const openChatInNewWindow = () => {
-      const width = 400;
-      const height = 600;
-      const left = screen.width / 2 - width / 2;
-      const top = screen.height / 2 - height / 2;
-
-      const standaloneWindow = window.open(
-        `${__DEV__
-          ? 'http://localhost:3000'
-          : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
-        isIE9() ? '_blank' : 'quiq-standalone-webchat',
-        `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
-      );
-      standaloneWindow.focus();
-
-      if (this.props.toggleChat) {
-        this.props.toggleChat();
-        this.setState({
-          poppedChat: true,
-        });
-      }
-
-      /*
-       * Since we popped open webchat into a new window in standalone mode,
-       * this instance now needs to start listening for if that new window closes.
-       * If it does, we re-open this instance, since the user re-docked the standalone window
-       */
-      this.windowTimer = setInterval(() => {
-        if (standaloneWindow.closed) {
-          if (this.windowTimer) clearInterval(this.windowTimer);
-
-          if (this.props.toggleChat && this.props.hidden) {
-            this.props.toggleChat();
-          }
-
-          this.setState({
-            poppedChat: false,
-          });
-        }
-      }, 500);
-    };
-
     return (
-      <div className={classNames}>
+      <div
+        className={classnames('ChatContainer', {
+          standaloneMode: inStandaloneMode(),
+        })}
+      >
+        <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.minimizeChat} />
         <div className="banner" style={{backgroundColor: COLOR}}>
           <span className="messageUs">{HEADER_TEXT}</span>
-          <i
-            className="fa fa-external-link openStandaloneMode"
-            title={formatMessage(messages.openInNewWindow)}
-            onClick={openChatInNewWindow}
-          />
         </div>
 
         {!this.state.connected &&
