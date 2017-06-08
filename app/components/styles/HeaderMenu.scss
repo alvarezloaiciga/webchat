@@ -28,15 +28,15 @@ $HeaderMenuColor: #fff;
 }
 
 .noFlexbox .HeaderMenu {
-  height: 20px;
+  height: 30px;
   position: absolute;
   top: 0;
   left: 0;
-  width: 388px;
-  max-width: 388px;
-  min-width: 388px;
-  min-height: 20px;
-  max-height: 20px;
+  width: 400px;
+  max-width: 400px;
+  min-width: 400px;
+  min-height: 30px;
+  max-height: 30px;
 
   .buttons {
     float: right;
