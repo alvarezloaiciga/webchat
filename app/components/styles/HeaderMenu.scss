@@ -3,7 +3,6 @@ $HeaderMenuColor: #fff;
 .HeaderMenu {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   padding: 5px 7px 3px;
   font-weight: 300;
   font-size: 14px;
@@ -19,5 +18,27 @@ $HeaderMenuColor: #fff;
       color: darken($HeaderMenuColor, 10%);
       border-bottom: 1px solid white;
     }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.noFlexbox .HeaderMenu {
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 388px;
+  max-width: 388px;
+  min-width: 388px;
+  min-height: 20px;
+  max-height: 20px;
+
+  .buttons {
+    float: right;
   }
 }

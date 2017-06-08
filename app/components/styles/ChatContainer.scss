@@ -59,26 +59,23 @@
   }
 }
 
-// Total Width: 400px
-// Total Height: 600px
-// MessageForm: 90px
-// Banner: 40px
-// Transcript: 470px
 .noFlexbox .ChatContainer {
   width: 400px;
   height: 600px;
 
   .banner, .errorBanner {
-    width: 100%;
+    width: 342px;
+    max-width: 342px;
+    min-width: 342px;
     text-align: center;
   }
 
   .banner, .errorBanner {
     position: absolute;
-    top: 0;
-    height: 40px;
-    min-height: 40px;
-    max-height: 40px;
+    top: 30px;
+    height: 50px;
+    min-height: 50px;
+    max-height: 50px;
     display: table;
 
     span {

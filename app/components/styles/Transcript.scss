@@ -7,14 +7,9 @@
   white-space: pre-wrap;
 }
 
-// Total Width: 400px
-// Total Height: 600px
-// MessageForm: 90px
-// Banner: 40px
-// Transcript: 470px
 .noFlexbox .Transcript {
-  margin-top: 40px;
-  height: 470px;
-  min-height: 470px;
-  max-height: 470px;
+  margin-top: 70px;
+  height: 440px;
+  min-height: 440px;
+  max-height: 440px;
 }

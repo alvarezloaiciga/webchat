@@ -116,12 +116,7 @@ export class ChatContainer extends Component {
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
       switch (message.data.type) {
         case 'Text':
-          if (
-            !this.state.messages.some(m => m.id === message.data.id) &&
-            !message.data.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
-          ) {
-            this.setState(prevState => ({messages: [...prevState.messages, message]}));
-          }
+          this.appendMessageToChat(message.data);
 
           // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
           // don't open it.
@@ -137,6 +132,15 @@ export class ChatContainer extends Component {
           }
           break;
       }
+    }
+  };
+
+  appendMessageToChat = (message: Message) => {
+    if (
+      !this.state.messages.some(m => m.id === message.id) &&
+      !message.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
+    ) {
+      this.setState(prevState => ({messages: [...prevState.messages, message]}));
     }
   };
 
