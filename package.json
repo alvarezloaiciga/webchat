@@ -37,7 +37,6 @@
     ]
   },
   "jest": {
-    "testRegex": "Spec\\.js$",
     "modulePaths": [
       "app/components",
       "app",
