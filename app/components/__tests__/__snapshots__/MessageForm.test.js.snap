@@ -26,6 +26,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
     className="messageArea"
   >
     <TextareaAutosize
+      inputRef={[Function]}
       maxRows={6}
       minRows={1}
       name="message"
@@ -67,6 +68,7 @@ exports[`MessageForm component rendering renders 1`] = `
     className="messageArea"
   >
     <TextareaAutosize
+      inputRef={[Function]}
       maxRows={6}
       minRows={1}
       name="message"

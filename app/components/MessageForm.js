@@ -98,7 +98,7 @@ export class MessageForm extends Component {
 
         <div className="messageArea">
           <Textarea
-            ref={n => {
+            inputRef={n => {
               this.textArea = n;
             }}
             name="message"
