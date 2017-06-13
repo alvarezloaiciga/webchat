@@ -38,28 +38,9 @@ Include this at the bottom of your index.html
 
 First install all dependencies by running `npm install` or `yarn`
 
-Update `window.QUIQ` object in index.html to point to your site and contact point, as well as any other overrides you want to use
-A list of all possible overrides are listed in `__mocks__/quiq.js`
-```html
-<script type="text/javascript">
-  window.QUIQ = {
-    HOST: 'https://andrew.dev.quiq.sh',
-  };
-</script>
-```
-replacing HOST with your site URL.
+Start the dev server with `TENANT='yourTenant' npm start` or `TENANT='yourTenant' yarn start`
 
-There is an optional `DEBUG` property on the window.QUIQ object.  Currently this will override the atmosphere transport type.
-```js
-window.QUIQ = {
-  HOST: 'https://andrew.dev.centricient.corp',
-  DEBUG: {
-    transport: 'long-polling'
-  }
-};
-```
-
-Start the dev server with `npm start` or `yarn start`
+The first portion of that command specifies which tenant the webchat should connect to.  For example, if your company's name is 'Foo', you'd type `TENANT='foo' npm start` or `TENANT='foo' yarn start`
 
 You should now be able to go to `localhost:3000` to see a page that's blank except for quiq webchat.
 

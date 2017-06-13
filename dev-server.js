@@ -14,20 +14,27 @@ const compiler = webpack(config);
 compiler.apply(new DashboardPlugin());
 
 require('fs').readFile(require('path').join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.centricient', 'ui-override.json'), 'utf8', function(err, data) {
-  const parsedData = JSON.parse(data);
-  const webchatData = parsedData.find(d => d.name === 'webchat');
+  let parsedData;
+  try {
+    parsedData = JSON.parse(data);
+  } catch(e){}
+  let webchatData;
+  if(parsedData) {
+    webchatData = parsedData.find(d => d.name === 'webchat');
+  }
 
   let tenant, host, port;
-  let host = 'localhost';
-  let port = 3000;
+  host = 'localhost';
+  port = 3000;
   if(webchatData) {
     tenant = webchatData.tenant;
     host = webchatData.host || host;
     port = webchatData.port || port;
   }
 
+  tenant = tenant || process.env.TENANT;
   if (!tenant) {
-    console.error("\n\nERROR!!! You must provide a tenant in your ~/.centricient/ui-override.json file'\n\n");
+    console.error("\n\nERROR!!! You must provide a tenant to run webchat locally!'\n\n");
     process.exit(1);
   }
   else {
