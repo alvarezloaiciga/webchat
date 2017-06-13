@@ -15,7 +15,7 @@ export type HeaderMenuProps = {
   /* eslint-disable react/no-unused-prop-types */
 };
 
-let windowTimer: number;
+let windowTimer: ?number;
 // let windowHandle: ?
 const HeaderMenu = (props: HeaderMenuProps) => {
   const openChatInNewWindow = () => {
@@ -39,9 +39,11 @@ const HeaderMenu = (props: HeaderMenuProps) => {
      * this instance now needs to start listening for if that new window closes.
      * If it does, we re-open this instance, since the user re-docked the standalone window
      */
+    if (windowTimer) clearInterval(windowTimer);
     windowTimer = setInterval(() => {
       if (standaloneWindow.closed) {
         if (windowTimer) clearInterval(windowTimer);
+        windowTimer = undefined;
         if (props.onDock) props.onDock();
       }
     }, 500);
