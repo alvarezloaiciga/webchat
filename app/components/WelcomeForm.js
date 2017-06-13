@@ -2,7 +2,6 @@
 import React from 'react';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {getCleansedLocation} from 'utils/utils';
 import {formatMessage, getDisplayString} from 'utils/i18n';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
@@ -58,7 +57,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
             return `${f.label}: ${field.value}`;
           }),
         )
-        .concat([`${formatMessage(messages.referrer)}: ${getCleansedLocation()}`])
+        .concat([`${formatMessage(messages.referrer)}: ${QUIQ.HREF}`])
         .join('\n'),
     );
   };
