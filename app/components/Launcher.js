@@ -73,11 +73,13 @@ export class Launcher extends Component {
     });
   };
 
-  toggleChat = () => {
+  toggleChat = (fireEvent: boolean = true) => {
     this.setState(
       prevState => ({chatOpen: !prevState.chatOpen}),
       () => {
-        this.state.chatOpen ? joinChat() : leaveChat();
+        if (fireEvent) {
+          this.state.chatOpen ? joinChat() : leaveChat();
+        }
       },
     );
   };

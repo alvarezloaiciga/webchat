@@ -30,7 +30,7 @@ type ChatContainerState = {
 export type ChatContainerProps = {
   hidden?: boolean,
   onMessage?: (message: Message) => void,
-  toggleChat?: () => void,
+  toggleChat?: (fireEvent?: boolean) => void,
 };
 
 const {COLOR, HEADER_TEXT} = QUIQ;
@@ -189,7 +189,7 @@ export class ChatContainer extends Component {
 
   onPop = () => {
     if (this.props.toggleChat) {
-      this.props.toggleChat();
+      this.props.toggleChat(false);
       this.setState({
         poppedChat: true,
       });
@@ -198,21 +198,19 @@ export class ChatContainer extends Component {
 
   onMinimize = () => {
     if (this.props.toggleChat && !this.props.hidden) {
-      this.props.toggleChat();
+      this.props.toggleChat(false);
     }
   };
 
   maximizeChat = () => {
     if (this.props.toggleChat && this.props.hidden) {
-      this.props.toggleChat();
+      this.props.toggleChat(false);
     }
   };
 
   onDock = () => {
     this.maximizeChat();
-    this.setState({
-      poppedChat: false,
-    });
+    this.setState({poppedChat: false});
   };
 
   render() {

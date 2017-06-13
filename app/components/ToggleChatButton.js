@@ -6,7 +6,7 @@ import ChatBubbleIcon from './ChatBubbleIcon';
 import './styles/ToggleChatButton.scss';
 
 export type ToggleChatButtonProps = {
-  toggleChat: (e: SyntheticMouseEvent) => void,
+  toggleChat: () => void,
   chatOpen: boolean,
 };
 
