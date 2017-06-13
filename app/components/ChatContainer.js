@@ -116,6 +116,14 @@ export class ChatContainer extends Component {
     if (message.messageType === MessageTypes.CHAT_MESSAGE) {
       switch (message.data.type) {
         case 'Text':
+          // TODO: This will break once we implement the API version of the welcome form.
+          // The issue is we want to ensure if you are in standalone mode and submit the form
+          // that the docked webchat hides the welcome form.  We will need the API to send a
+          // websocket message saying the user submitted their welcome form. Being handled in
+          // https://centricient.atlassian.net/browse/SER-4555
+          if (this.state.welcomeForm) {
+            this.setState({welcomeForm: false});
+          }
           this.appendMessageToChat(message.data);
 
           // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
@@ -188,7 +196,7 @@ export class ChatContainer extends Component {
     }
   };
 
-  minimizeChat = () => {
+  onMinimize = () => {
     if (this.props.toggleChat && !this.props.hidden) {
       this.props.toggleChat();
     }
@@ -212,8 +220,17 @@ export class ChatContainer extends Component {
 
     if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
       return (
-        <div className="ChatContainer">
-          <WelcomeForm onFormSubmit={this.onWelcomeFormSubmit} />
+        <div
+          className={classnames('ChatContainer', {
+            standaloneMode: inStandaloneMode(),
+          })}
+        >
+          <WelcomeForm
+            onPop={this.onPop}
+            onDock={this.onDock}
+            onMinimize={this.onMinimize}
+            onFormSubmit={this.onWelcomeFormSubmit}
+          />
         </div>
       );
     }
@@ -234,7 +251,7 @@ export class ChatContainer extends Component {
           standaloneMode: inStandaloneMode(),
         })}
       >
-        <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.minimizeChat} />
+        <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
         <div className="banner" style={{backgroundColor: COLOR}}>
           <span className="messageUs">{HEADER_TEXT}</span>
         </div>
