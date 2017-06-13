@@ -10,10 +10,14 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-    window.QUIQ = {
-  HOST: 'https://nate.dev.quiq.sh',
-};
-</script>
+      var cookiestring = RegExp(""+'tenant'+"[^;]+").exec(document.cookie);
+      var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./,"") : "");
+      if(!tenant) throw new Error('Couldn\'t determine tenant from cookie! Ensure it is properly set in ui-override.json');
+
+      window.QUIQ = {
+        HOST: 'https://' + tenant + '.dev.quiq.sh',
+      };
+    </script>
     <script type="text/javascript" src="common.js"></script>
     <script type="text/javascript" src="webchat.js"></script>
   </body>

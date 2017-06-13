@@ -90,6 +90,7 @@
     "body-parser": "1.16.0",
     "cheerio": "0.22.0",
     "colors": "1.1.2",
+    "cookie-parser": "1.4.3",
     "copy-webpack-plugin": "4.0.1",
     "cors": "2.8.1",
     "cross-env": "2.0.1",
