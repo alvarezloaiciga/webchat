@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 import QUIQ from 'utils/quiq';
+import HeaderMenu from 'HeaderMenu';
+import {getCleansedLocation} from 'utils/utils';
 import {formatMessage, getDisplayString} from 'utils/i18n';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
@@ -8,6 +10,9 @@ import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
   onFormSubmit: (formattedString: string) => void,
+  onPop: () => void,
+  onDock: () => void,
+  onMinimize: () => void,
 };
 
 const WelcomeForm = (props: WelcomeFormProps) => {
@@ -53,13 +58,14 @@ const WelcomeForm = (props: WelcomeFormProps) => {
             return `${f.label}: ${field.value}`;
           }),
         )
-        .concat([formatMessage(messages.referrer, {location: window.location.href})])
+        .concat([`${formatMessage(messages.referrer)}: ${getCleansedLocation()}`])
         .join('\n'),
     );
   };
 
   return (
     <form onSubmit={submitForm} className="WelcomeForm">
+      <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
       <div className="welcomeFormBanner" style={{backgroundColor: QUIQ.COLOR}}>
         <span>{form.headerText}</span>
       </div>

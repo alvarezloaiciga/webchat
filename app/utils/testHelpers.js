@@ -42,3 +42,18 @@ export const TestIntlObject: IntlObject = {
   formatTime: timestamp => timestamp.toString(),
   formatDate: timestamp => timestamp.toString(),
 };
+
+export const mockLocation = () => {
+  Object.defineProperty(window.location, 'href', {
+    writable: true,
+    value: '',
+  });
+  Object.defineProperty(window.location, 'hash', {
+    writable: true,
+    value: '',
+  });
+  Object.defineProperty(window.location, 'hostname', {
+    writable: true,
+    value: '',
+  });
+};

@@ -5,6 +5,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
   className="WelcomeForm"
   onSubmit={[Function]}
 >
+  <HeaderMenu
+    onDock={[Function]}
+    onMinimize={[Function]}
+    onPop={[Function]}
+  />
   <div
     className="welcomeFormBanner"
     style={

@@ -14,6 +14,9 @@ describe('WelcomeForm component', () => {
   beforeEach(() => {
     testProps = {
       onFormSubmit: jest.fn(),
+      onDock: jest.fn(),
+      onMinimize: jest.fn(),
+      onPop: jest.fn(),
     };
 
     render = () => {

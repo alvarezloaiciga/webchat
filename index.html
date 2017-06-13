@@ -10,14 +10,17 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      var cookiestring = RegExp(""+'tenant'+"[^;]+").exec(document.cookie);
-      var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./,"") : "");
-      if(!tenant) throw new Error('Couldn\'t determine tenant from cookie! Ensure it is properly set in ui-override.json');
+    var cookiestring = RegExp('' + 'tenant' + '[^;]+').exec(document.cookie);
+var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, '') : '');
+if (!tenant)
+  throw new Error(
+    "Couldn't determine tenant from cookie! Ensure it is properly set in ui-override.json",
+  );
 
-      window.QUIQ = {
-        HOST: 'https://' + tenant + '.dev.quiq.sh',
-      };
-    </script>
+window.QUIQ = {
+  HOST: 'https://' + tenant + '.dev.quiq.sh',
+};
+</script>
     <script type="text/javascript" src="common.js"></script>
     <script type="text/javascript" src="webchat.js"></script>
   </body>

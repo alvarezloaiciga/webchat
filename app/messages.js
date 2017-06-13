@@ -39,7 +39,7 @@ export default defineMessages({
   referrer: {
     id: 'referrer',
     description: 'Message to append to welcome form telling agent what web page the customer is on',
-    defaultMessage: 'Referrer: {location}',
+    defaultMessage: 'Referrer',
   },
   cannotFindScript: {
     id: 'cannotFindScript',
