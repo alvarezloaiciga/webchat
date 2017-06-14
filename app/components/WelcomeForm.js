@@ -9,9 +9,9 @@ import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
   onFormSubmit: (formattedString: string) => void,
-  onPop: () => void,
-  onDock: () => void,
-  onMinimize: () => void,
+  onPop: (fireEvent: boolean) => void,
+  onDock: (fireEvent: boolean) => void,
+  onMinimize: (fireEvent: boolean) => void,
 };
 
 const WelcomeForm = (props: WelcomeFormProps) => {

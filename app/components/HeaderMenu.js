@@ -8,10 +8,10 @@ import messages from 'messages';
 import './styles/HeaderMenu.scss';
 
 export type HeaderMenuProps = {
-  onPop?: () => void,
-  onMinimize?: () => void,
+  onPop?: (fireEvent: boolean) => void,
+  onMinimize?: (fireEvent: boolean) => void,
   /* eslint-disable react/no-unused-prop-types */
-  onDock?: () => void,
+  onDock?: (fireEvent: boolean) => void,
   /* eslint-disable react/no-unused-prop-types */
 };
 
@@ -32,7 +32,7 @@ const HeaderMenu = (props: HeaderMenuProps) => {
       `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
     );
     standaloneWindow.focus();
-    if (props.onPop) props.onPop();
+    if (props.onPop) props.onPop(false);
 
     /*
      * Since we popped open webchat into a new window in standalone mode,
@@ -44,7 +44,7 @@ const HeaderMenu = (props: HeaderMenuProps) => {
       if (standaloneWindow.closed) {
         if (windowTimer) clearInterval(windowTimer);
         windowTimer = undefined;
-        if (props.onDock) props.onDock();
+        if (props.onDock) props.onDock(false);
       }
     }, 500);
   };

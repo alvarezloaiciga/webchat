@@ -187,29 +187,29 @@ export class ChatContainer extends Component {
     }
   };
 
-  onPop = () => {
+  onPop = (fireEvent: boolean) => {
     if (this.props.toggleChat) {
-      this.props.toggleChat(false);
+      this.props.toggleChat(fireEvent);
       this.setState({
         poppedChat: true,
       });
     }
   };
 
-  onMinimize = () => {
+  onMinimize = (fireEvent: boolean) => {
     if (this.props.toggleChat && !this.props.hidden) {
-      this.props.toggleChat(false);
+      this.props.toggleChat(fireEvent);
     }
   };
 
-  maximizeChat = () => {
+  maximizeChat = (fireEvent: boolean) => {
     if (this.props.toggleChat && this.props.hidden) {
-      this.props.toggleChat(false);
+      this.props.toggleChat(fireEvent);
     }
   };
 
-  onDock = () => {
-    this.maximizeChat();
+  onDock = (fireEvent: boolean) => {
+    this.maximizeChat(fireEvent);
     this.setState({poppedChat: false});
   };
 
