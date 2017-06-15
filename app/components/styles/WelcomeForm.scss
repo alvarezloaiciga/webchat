@@ -138,3 +138,23 @@
     }
   }
 }
+
+.noFlexbox .WelcomeForm {
+  .welcomeFormBanner {
+    width: 392px;
+    max-width: 392px;
+    min-width: 392px;
+    text-align: center;
+    position: absolute;
+    top: 30px;
+    height: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    display: table;
+
+    span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
