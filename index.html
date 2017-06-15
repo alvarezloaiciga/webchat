@@ -1,4 +1,5 @@
 <!-- This file is purely for local development and shouldn't be used in production!! -->
+<!-- Note: Don't auto-prettify this file.  It messed up old versions of IE -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,10 +13,9 @@
     <script type="text/javascript" charset="utf-8">
     var cookiestring = RegExp('' + 'tenant' + '[^;]+').exec(document.cookie);
 var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, '') : '');
-if (!tenant)
-  throw new Error(
-    "Couldn't determine tenant from cookie! Ensure it is properly set in ui-override.json",
-  );
+if (!tenant) {
+  throw new Error("Couldn't determine tenant from cookie! Ensure it is properly set in ui-override.json");
+}
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',

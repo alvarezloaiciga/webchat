@@ -16,22 +16,30 @@ export type HeaderMenuProps = {
 };
 
 let windowTimer: ?number;
+let standaloneWindowHandle: window;
 // let windowHandle: ?
 const HeaderMenu = (props: HeaderMenuProps) => {
   const openChatInNewWindow = () => {
+    if (standaloneWindowHandle) {
+      standaloneWindowHandle.focus();
+      if (props.onPop) props.onPop(false);
+
+      return;
+    }
+
     const width = 400;
     const height = 600;
     const left = screen.width / 2 - width / 2;
     const top = screen.height / 2 - height / 2;
 
-    const standaloneWindow = window.open(
+    standaloneWindowHandle = window.open(
       `${__DEV__
         ? 'http://localhost:3000'
         : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
       isIE9() ? '_blank' : 'quiq-standalone-webchat',
       `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
     );
-    standaloneWindow.focus();
+    standaloneWindowHandle.focus();
     if (props.onPop) props.onPop(false);
 
     /*
@@ -41,9 +49,10 @@ const HeaderMenu = (props: HeaderMenuProps) => {
      */
     if (windowTimer) clearInterval(windowTimer);
     windowTimer = setInterval(() => {
-      if (standaloneWindow.closed) {
+      if (standaloneWindowHandle.closed) {
         if (windowTimer) clearInterval(windowTimer);
         windowTimer = undefined;
+        standaloneWindowHandle = undefined;
         if (props.onDock) props.onDock(false);
       }
     }, 500);
