@@ -37,6 +37,10 @@ const assignQuiqObjInStandaloneMode = () => {
 };
 
 const getQuiqObject = (): QuiqObject => {
+  if (!navigator.cookieEnabled) {
+    return displayError(messages.cookiesMustBeEnabledError);
+  }
+
   assignQuiqObjInStandaloneMode();
 
   const QUIQ = {

@@ -11,13 +11,13 @@ import {init as initChat} from 'quiq-chat';
 
 import 'main.scss';
 
-initChat({
-  HOST: QUIQ.HOST,
-  CONTACT_POINT: QUIQ.CONTACT_POINT,
-});
-
 const init = () => {
   if (nonCompatibleBrowser()) return;
+
+  initChat({
+    HOST: QUIQ.HOST,
+    CONTACT_POINT: QUIQ.CONTACT_POINT,
+  });
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!

@@ -8,12 +8,13 @@ import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import NoAgentsAvailable from './NoAgentsAvailable';
 import {last} from 'lodash';
+import {quiqChatContinuationCookie} from 'appConstants';
 import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
+import {get} from 'js-cookie';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
-  chatStarted?: boolean, // Undefined means we're still looking it up
   chatOpen: boolean,
 };
 
@@ -36,8 +37,6 @@ export class Launcher extends Component {
     this.checkForAgents();
 
     this.handleAutoPop();
-
-    this.checkIfConversation();
   }
 
   componentWillUnmount() {
@@ -51,7 +50,7 @@ export class Launcher extends Component {
         conversation.messages.filter(m => m.type === 'Join' || m.type === 'Leave'),
       );
       const minimized = lastStatusMessage && lastStatusMessage.type === 'Leave';
-      this.setState({chatStarted: true, chatOpen: !minimized});
+      this.setState({chatOpen: !minimized});
     }
   };
 
@@ -64,12 +63,20 @@ export class Launcher extends Component {
   };
 
   checkForAgents = async () => {
-    // If agents are available or there is a conversation in progress, show the chat
-    // Otherwise, show a placeholder that no one is available
-    const [data, conversation] = await Promise.all([checkForAgents(), fetchConversation()]);
+    // quiq-chat-continuation is a cookie to tell if the user
+    // already initiated a chat, and therefor should bypass the agent
+    // availability check.
+    if (get(quiqChatContinuationCookie.id)) {
+      if (!this.state.agentsAvailable) {
+        this.setState({agentsAvailable: true}, this.checkIfConversation);
+      }
+
+      return;
+    }
+
+    const data = await checkForAgents();
     this.setState({
       agentsAvailable: data.available,
-      chatStarted: conversation && conversation.messages.length,
     });
   };
 
@@ -102,7 +109,7 @@ export class Launcher extends Component {
 
   render() {
     let content;
-    if (this.state.agentsAvailable === true || this.state.chatStarted) {
+    if (this.state.agentsAvailable === true) {
       content = this.renderChat();
     } else if (this.state.agentsAvailable === false) {
       content = <NoAgentsAvailable />;

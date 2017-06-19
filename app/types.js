@@ -12,6 +12,12 @@ export type WelcomeForm = {
   fields: Array<WelcomeFormField>,
 };
 
+export type CookieDef = {
+  id: string,
+  expiration?: number,
+  path?: string,
+};
+
 export type QuiqObject = {
   CONTACT_POINT: string,
   HOST: string,

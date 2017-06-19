@@ -10,9 +10,10 @@ import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {inStandaloneMode} from 'utils/utils';
-import {MessageTypes} from 'appConstants';
+import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
+import {set} from 'js-cookie';
 import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
@@ -46,7 +47,6 @@ export class ChatContainer extends Component {
     welcomeForm: !!QUIQ.WELCOME_FORM,
     poppedChat: false,
   };
-  windowTimer: ?number;
   typingTimeout: ?number;
 
   handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
@@ -61,14 +61,20 @@ export class ChatContainer extends Component {
 
   initialize = async () => {
     try {
+      // Order Matters here.  Ensure we succesfully complete this request before connecting to
+      // the websocket below!
+      const conversation = await fetchConversation();
+      this.setState({messages: this.getTextMessages(conversation.messages)});
+
       subscribe({
         onConnectionLoss: this.disconnect,
         onConnectionEstablish: this.onConnectionEstablish,
         onMessage: this.handleWebsocketMessage,
       });
 
-      const conversation = await fetchConversation();
-      this.setState({messages: this.getTextMessages(conversation.messages)});
+      set(quiqChatContinuationCookie.id, 'true', {
+        expires: quiqChatContinuationCookie.expiration,
+      });
     } catch (err) {
       unsubscribe();
       this.handleApiError(err, this.initialize);
@@ -76,7 +82,7 @@ export class ChatContainer extends Component {
   };
 
   componentDidMount() {
-    if (!this.state.connected) {
+    if (!this.state.connected && !this.props.hidden) {
       this.initialize();
     }
   }
@@ -85,11 +91,14 @@ export class ChatContainer extends Component {
     // We reset poppedChat when user explicitly re-opens chat
     if (this.props.hidden && !nextProps.hidden) {
       this.setState({poppedChat: false});
+
+      if (!this.state.connected) {
+        this.initialize();
+      }
     }
   }
 
   componentWillUnmount() {
-    if (this.windowTimer) clearInterval(this.windowTimer);
     if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
 

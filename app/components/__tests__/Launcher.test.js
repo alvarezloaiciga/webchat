@@ -8,7 +8,9 @@ import {shallow} from 'enzyme';
 import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
+import {quiqChatContinuationCookie} from 'appConstants';
 import {checkForAgents, fetchConversation} from 'quiq-chat';
+import {set} from 'js-cookie';
 
 jest.useFakeTimers();
 
@@ -124,6 +126,9 @@ describe('Launcher component', () => {
 
         beforeEach(() => {
           mockFetchConversation.mockReturnValue(Promise.resolve(mockConversation));
+          set(quiqChatContinuationCookie.id, 'true', {
+            expires: quiqChatContinuationCookie.expiration,
+          });
           render();
         });
 
@@ -139,6 +144,9 @@ describe('Launcher component', () => {
               messages: [...mockConversation.messages, getMockMessage(3, {type: 'Leave'})],
             });
             mockFetchConversation.mockReturnValue(Promise.resolve(closedConversation));
+            set(quiqChatContinuationCookie.id, 'true', {
+              expires: quiqChatContinuationCookie.expiration,
+            });
             render();
             wrapper.instance().componentDidMount();
           });
