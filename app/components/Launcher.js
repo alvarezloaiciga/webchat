@@ -64,7 +64,7 @@ export class Launcher extends Component {
 
   checkForAgents = async () => {
     // quiq-chat-continuation is a cookie to tell if the user
-    // already initiated a chat, and therefor should bypass the agent
+    // already initiated a chat, and therefore should bypass the agent
     // availability check.
     if (get(quiqChatContinuationCookie.id)) {
       if (!this.state.agentsAvailable) {
