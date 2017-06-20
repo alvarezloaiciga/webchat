@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import {inStandaloneMode, openStandaloneMode, isIEorSafari} from 'utils/utils';
+import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {formatMessage} from 'utils/i18n';
-import QUIQ from 'utils/quiq';
+import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import messages from 'messages';
 import './styles/HeaderMenu.scss';
 

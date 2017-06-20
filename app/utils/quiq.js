@@ -92,8 +92,6 @@ export const openStandaloneMode = (
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
   if (onPop) onPop(false);
 
-  if (!onDock) return;
-
   /*
      * Since we popped open webchat into a new window in standalone mode,
      * this instance now needs to start listening for if that new window closes.
