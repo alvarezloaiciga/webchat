@@ -2,7 +2,13 @@
 declare var __DEV__: string;
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
-import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, isIE9} from './utils';
+import {
+  getWebchatUrlFromScriptTag,
+  displayError,
+  inStandaloneMode,
+  isIE9,
+  isIEorSafari,
+} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import qs from 'qs';
 import type {QuiqObject} from 'types';
@@ -61,6 +67,8 @@ const getQuiqObject = (): QuiqObject => {
   // Ensure host is defined for standalone mode,
   // since we won't be able to get it from a script tag.
   window.QUIQ.HOST = QUIQ.HOST;
+  // Don't AutoPop IE/Safari since they are always in standalone mode.
+  window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
 
   return Object.assign({}, QUIQ, window.QUIQ);
 };
