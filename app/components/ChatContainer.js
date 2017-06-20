@@ -9,7 +9,7 @@ import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
@@ -137,8 +137,9 @@ export class ChatContainer extends Component {
           this.appendMessageToChat(message.data);
 
           // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
-          // don't open it.
-          if (this.props.onMessage && !this.state.poppedChat) {
+          // don't open it. Also if we are in IE or Safari, we don't allow redocking of the webchat.
+          // It is stuck in standalone forever
+          if (this.props.onMessage && !isIEorSafari() && !this.state.poppedChat) {
             this.props.onMessage(message.data);
           }
           break;
