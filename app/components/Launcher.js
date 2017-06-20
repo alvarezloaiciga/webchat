@@ -6,7 +6,6 @@ import QUIQ from 'utils/quiq';
 import {joinChat, leaveChat, checkForAgents, fetchConversation} from 'quiq-chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
-import NoAgentsAvailable from './NoAgentsAvailable';
 import {last} from 'lodash';
 import {quiqChatContinuationCookie} from 'appConstants';
 import type {IntlObject} from 'types';
@@ -108,12 +107,7 @@ export class Launcher extends Component {
     </div>;
 
   render() {
-    let content;
-    if (this.state.agentsAvailable === true) {
-      content = this.renderChat();
-    } else if (this.state.agentsAvailable === false) {
-      content = <NoAgentsAvailable />;
-    }
+    const content = this.state.agentsAvailable === true ? this.renderChat() : null;
 
     return (
       <div className="Launcher">

@@ -57,7 +57,5 @@ exports[`Launcher component when agents are not available when agents are not av
 exports[`Launcher component when agents are not available when there is not a conversation already in progress renders a placeholder 1`] = `
 <div
   className="Launcher"
->
-  <NoAgentsAvailable />
-</div>
+/>
 `;
