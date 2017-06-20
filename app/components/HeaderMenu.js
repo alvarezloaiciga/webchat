@@ -1,7 +1,6 @@
 // @flow
-declare var __DEV__: boolean;
 import React from 'react';
-import {isIE9, inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode, openStandaloneMode, isIEorSafari} from 'utils/utils';
 import {formatMessage} from 'utils/i18n';
 import QUIQ from 'utils/quiq';
 import messages from 'messages';
@@ -15,47 +14,9 @@ export type HeaderMenuProps = {
   /* eslint-disable react/no-unused-prop-types */
 };
 
-let windowTimer: ?number;
-let standaloneWindowHandle: window;
-// let windowHandle: ?
 const HeaderMenu = (props: HeaderMenuProps) => {
   const openChatInNewWindow = () => {
-    if (standaloneWindowHandle) {
-      standaloneWindowHandle.focus();
-      if (props.onPop) props.onPop(false);
-
-      return;
-    }
-
-    const width = 400;
-    const height = 600;
-    const left = screen.width / 2 - width / 2;
-    const top = screen.height / 2 - height / 2;
-
-    standaloneWindowHandle = window.open(
-      `${__DEV__
-        ? 'http://localhost:3000'
-        : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
-      isIE9() ? '_blank' : 'quiq-standalone-webchat',
-      `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
-    );
-    standaloneWindowHandle.focus();
-    if (props.onPop) props.onPop(false);
-
-    /*
-     * Since we popped open webchat into a new window in standalone mode,
-     * this instance now needs to start listening for if that new window closes.
-     * If it does, we re-open this instance, since the user re-docked the standalone window
-     */
-    if (windowTimer) clearInterval(windowTimer);
-    windowTimer = setInterval(() => {
-      if (standaloneWindowHandle.closed) {
-        if (windowTimer) clearInterval(windowTimer);
-        windowTimer = undefined;
-        standaloneWindowHandle = undefined;
-        if (props.onDock) props.onDock(false);
-      }
-    }, 500);
+    openStandaloneMode(props.onPop, props.onDock);
   };
 
   return (
@@ -66,11 +27,14 @@ const HeaderMenu = (props: HeaderMenuProps) => {
           title={formatMessage(messages.minimizeWindow)}
           onClick={inStandaloneMode() ? window.close : props.onMinimize}
         />
-        <i
-          className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
-          title={formatMessage(inStandaloneMode() ? messages.dockWindow : messages.openInNewWindow)}
-          onClick={inStandaloneMode() ? window.close : openChatInNewWindow}
-        />
+        {!isIEorSafari() &&
+          <i
+            className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
+            title={formatMessage(
+              inStandaloneMode() ? messages.dockWindow : messages.openInNewWindow,
+            )}
+            onClick={inStandaloneMode() ? window.close : openChatInNewWindow}
+          />}
         <svg
           className="icon"
           height="12"

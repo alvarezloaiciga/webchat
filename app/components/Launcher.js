@@ -2,11 +2,12 @@
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'utils/i18n';
-import QUIQ from 'utils/quiq';
+import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import {joinChat, leaveChat, checkForAgents, fetchConversation} from 'quiq-chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import {last} from 'lodash';
+import {isIEorSafari} from 'utils/utils';
 import {quiqChatContinuationCookie} from 'appConstants';
 import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
@@ -80,6 +81,10 @@ export class Launcher extends Component {
   };
 
   toggleChat = (fireEvent: boolean = true) => {
+    if (isIEorSafari()) {
+      return openStandaloneMode();
+    }
+
     this.setState(
       prevState => ({chatOpen: !prevState.chatOpen}),
       () => {
