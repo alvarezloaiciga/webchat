@@ -101,4 +101,9 @@ export default defineMessages({
     description: 'Minimize Window button',
     defaultMessage: 'Minimize window',
   },
+  cookiesMustBeEnabledError: {
+    id: 'cookiesMustBeEnabledError',
+    description: 'Error message to display when end user does not have cookies enabled',
+    defaultMessage: 'Cookies must be enabled to use Webchat',
+  },
 });
