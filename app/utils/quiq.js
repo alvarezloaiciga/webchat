@@ -1,8 +1,8 @@
 // @flow
-
+declare var __DEV__: string;
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
-import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode} from './utils';
+import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, isIE9} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import qs from 'qs';
 import type {QuiqObject} from 'types';
@@ -64,6 +64,50 @@ const getQuiqObject = (): QuiqObject => {
 
   return Object.assign({}, QUIQ, window.QUIQ);
 };
-
 const QUIQ: QuiqObject = getQuiqObject();
+
+let standaloneWindowTimer;
+export const openStandaloneMode = (
+  onPop?: (fireEvent: boolean) => void,
+  onDock?: (fireEvent: boolean) => void,
+) => {
+  if (window.QUIQ_STANDALONE_WINDOW_HANDLE) {
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
+    if (onPop) onPop(false);
+
+    return;
+  }
+
+  const width = 400;
+  const height = 600;
+  const left = screen.width / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
+    `${__DEV__
+      ? 'http://localhost:3000'
+      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
+    isIE9() ? '_blank' : 'quiq-standalone-webchat',
+    `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
+  );
+  window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
+  if (onPop) onPop(false);
+
+  if (!onDock) return;
+
+  /*
+     * Since we popped open webchat into a new window in standalone mode,
+     * this instance now needs to start listening for if that new window closes.
+     * If it does, we re-open this instance, since the user re-docked the standalone window
+     */
+  if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
+  standaloneWindowTimer = setInterval(() => {
+    if (window.QUIQ_STANDALONE_WINDOW_HANDLE.closed) {
+      if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
+      standaloneWindowTimer = undefined;
+      window.QUIQ_STANDALONE_WINDOW_HANDLE = undefined;
+      if (onDock) onDock(false);
+    }
+  }, 500);
+};
+
 export default QUIQ;
