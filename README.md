@@ -5,7 +5,7 @@ This is the end-user client for web chats with Quiq Messaging
 ## Customizing
 While technically all css within the Chat Widget is overridable, it is strongly discouraged and not supported.  This is because at any time in the future, we may change HTML structure or CSS class names, causing potentially breaking changes on any site containing the modified code.  We provide some color overrides as well as custom messaging within the fields described above.  
 
-If there's some other customization you'd like, please open an issue in this repository describing what you'd like to be customizable. If you require further customization, you can fork this repository, keeping in mind you will need to maintain your fork after that point.
+If there's some other customization you'd like, please open an issue in this repository describing what you'd like to be customizable.
 
 ## Usage
 
