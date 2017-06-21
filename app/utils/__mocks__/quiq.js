@@ -6,6 +6,7 @@ const QUIQ: QuiqObject = {
   HOST: 'https://bob.dev.centricient.corp',
   COLOR: '#333',
   HEADER_TEXT: 'TOOL TIME',
+  FONT_FAMILY: 'Lato, sans-serif',
   DEBUG: false,
   AUTO_POP_TIME: 2000,
   HREF: window.location.href,

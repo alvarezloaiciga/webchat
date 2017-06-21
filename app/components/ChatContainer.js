@@ -34,7 +34,7 @@ export type ChatContainerProps = {
   toggleChat?: (fireEvent?: boolean) => void,
 };
 
-const {COLOR, HEADER_TEXT} = QUIQ;
+const {COLOR, HEADER_TEXT, FONT_FAMILY} = QUIQ;
 
 export class ChatContainer extends Component {
   props: ChatContainerProps;
@@ -262,12 +262,12 @@ export class ChatContainer extends Component {
       >
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
         <div className="banner" style={{backgroundColor: COLOR}}>
-          <span className="messageUs">{HEADER_TEXT}</span>
+          <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>{HEADER_TEXT}</span>
         </div>
 
         {!this.state.connected &&
           !this.state.loading &&
-          <div className="errorBanner">
+          <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
             <FormattedMessage {...messages.reconnecting} />
           </div>}
 

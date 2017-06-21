@@ -6,6 +6,7 @@ exports[`Message component fromAgent colors the message white 1`] = `
   style={
     Object {
       "backgroundColor": "white",
+      "fontFamily": "sans-serif",
     }
   }
 >
@@ -15,11 +16,22 @@ exports[`Message component fromAgent colors the message white 1`] = `
     properties={
       Object {
         "rel": "noopener noreferrer",
+        "style": Object {
+          "fontFamily": "sans-serif",
+        },
         "target": "_blank",
       }
     }
   >
-    text--0
+    <span
+      style={
+        Object {
+          "fontFamily": "sans-serif",
+        }
+      }
+    >
+      text--0
+    </span>
   </Linkify>
 </div>
 `;
@@ -30,6 +42,7 @@ exports[`Message component rendering renders with default props 1`] = `
   style={
     Object {
       "backgroundColor": "#333",
+      "fontFamily": "sans-serif",
     }
   }
 >
@@ -39,11 +52,22 @@ exports[`Message component rendering renders with default props 1`] = `
     properties={
       Object {
         "rel": "noopener noreferrer",
+        "style": Object {
+          "fontFamily": "sans-serif",
+        },
         "target": "_blank",
       }
     }
   >
-    text--0
+    <span
+      style={
+        Object {
+          "fontFamily": "sans-serif",
+        }
+      }
+    >
+      text--0
+    </span>
   </Linkify>
 </div>
 `;

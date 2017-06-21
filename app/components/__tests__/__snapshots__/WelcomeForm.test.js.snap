@@ -18,7 +18,13 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       }
     }
   >
-    <span>
+    <span
+      style={
+        Object {
+          "fontFamily": "Lato, sans-serif",
+        }
+      }
+    >
       Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.
     </span>
   </div>
@@ -30,6 +36,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     >
       <label
         htmlFor="First Name"
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
       >
         First Name
         <span
@@ -42,6 +53,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         name="First Name"
         required={true}
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
         type="text"
       />
     </div>
@@ -50,12 +66,22 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     >
       <label
         htmlFor="Last Name"
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
       >
         Last Name
       </label>
       <input
         name="Last Name"
         required={false}
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
         type="text"
       />
     </div>
@@ -64,6 +90,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     >
       <label
         htmlFor="Number Field"
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
       >
         Number Field
         <span
@@ -76,6 +107,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         name="Number Field"
         required={true}
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
         type="number"
       />
     </div>
@@ -84,6 +120,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     >
       <label
         htmlFor="E-Mail"
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
       >
         E-Mail
         <span
@@ -96,6 +137,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         name="E-Mail"
         required={true}
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
         type="email"
       />
     </div>
@@ -104,6 +150,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     >
       <label
         htmlFor="Phone Number"
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
       >
         Phone Number
         <span
@@ -116,6 +167,11 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         name="Phone Number"
         required={true}
+        style={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
         type="tel"
       />
     </div>
@@ -125,6 +181,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
     style={
       Object {
         "background": "#333",
+        "fontFamily": "Lato, sans-serif",
       }
     }
     type="submit"

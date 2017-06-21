@@ -8,10 +8,9 @@ import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
-import {FormattedMessage} from 'react-intl';
 import './styles/MessageForm.scss';
 
-const {COLOR} = QUIQ;
+const {COLOR, FONT_FAMILY} = QUIQ;
 
 export type MessageFormProps = {
   agentTyping: boolean,
@@ -91,7 +90,9 @@ export class MessageForm extends Component {
           <div className="poke">
             {this.props.agentTyping &&
               <div className="pokeBody">
-                <FormattedMessage {...messages.agentIsTyping} />
+                <span style={{fontFamily: FONT_FAMILY}}>
+                  {formatMessage(messages.agentIsTyping)}
+                </span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
               </div>}
           </div>}
@@ -101,6 +102,7 @@ export class MessageForm extends Component {
             inputRef={n => {
               this.textArea = n;
             }}
+            style={{fontFamily: FONT_FAMILY}}
             name="message"
             value={this.state.text}
             maxRows={supportsFlexbox() ? 6 : 3}
@@ -115,9 +117,9 @@ export class MessageForm extends Component {
             className="sendBtn"
             onClick={this.addMessage}
             disabled={sendDisabled}
-            style={{color: COLOR, opacity: sendDisabled ? '.5' : '1'}}
+            style={{color: COLOR, opacity: sendDisabled ? '.5' : '1', fontFamily: FONT_FAMILY}}
           >
-            <FormattedMessage {...messages.send} />
+            {formatMessage(messages.send)}
           </button>
         </div>
       </div>

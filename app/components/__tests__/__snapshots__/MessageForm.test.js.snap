@@ -10,12 +10,15 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
     <div
       className="pokeBody"
     >
-      <FormattedMessage
-        defaultMessage="Agent is typing"
-        description="Message to display when the agent is typing"
-        id="agentIsTyping"
-        values={Object {}}
-      />
+      <span
+        style={
+          Object {
+            "fontFamily": "sans-serif",
+          }
+        }
+      >
+        Agent is typing
+      </span>
       <TypingIndicator
         xScale={0.75}
         yScale={0.5}
@@ -35,6 +38,11 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       onInput={[Function]}
       onKeyDown={[Function]}
       placeholder="Send us a message..."
+      style={
+        Object {
+          "fontFamily": "sans-serif",
+        }
+      }
       useCacheForDOMMeasurements={false}
       value=""
     />
@@ -45,16 +53,12 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       style={
         Object {
           "color": "#333",
+          "fontFamily": "sans-serif",
           "opacity": ".5",
         }
       }
     >
-      <FormattedMessage
-        defaultMessage="Send"
-        description="Generic send message"
-        id="send"
-        values={Object {}}
-      />
+      Send
     </button>
   </div>
 </div>
@@ -77,6 +81,11 @@ exports[`MessageForm component rendering renders 1`] = `
       onInput={[Function]}
       onKeyDown={[Function]}
       placeholder="Send us a message..."
+      style={
+        Object {
+          "fontFamily": "sans-serif",
+        }
+      }
       useCacheForDOMMeasurements={false}
       value=""
     />
@@ -87,16 +96,12 @@ exports[`MessageForm component rendering renders 1`] = `
       style={
         Object {
           "color": "#333",
+          "fontFamily": "sans-serif",
           "opacity": ".5",
         }
       }
     >
-      <FormattedMessage
-        defaultMessage="Send"
-        description="Generic send message"
-        id="send"
-        values={Object {}}
-      />
+      Send
     </button>
   </div>
 </div>

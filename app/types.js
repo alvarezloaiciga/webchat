@@ -31,6 +31,7 @@ export type QuiqObject = {
       },
   WELCOME_FORM?: WelcomeForm,
   HREF: string,
+  FONT_FAMILY: string,
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';
