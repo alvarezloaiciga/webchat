@@ -10,17 +10,28 @@
     <script src="https://use.fontawesome.com/89da14f4b6.js"></script>
   </head>
   <body>
+    <h1 id="agentsWarning" style="position:absolute;right:30px;bottom:0;"></h1>
     <script type="text/javascript" charset="utf-8">
     var cookiestring = RegExp('' + 'tenant' + '[^;]+').exec(document.cookie);
 var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, '') : '');
 if (!tenant) {
-  throw new Error(
-    "Couldn't determine tenant from cookie! Ensure it is properly set in ui-override.json",
-  );
+  // prettier-ignore
+  throw new Error("Couldn't determine tenant from cookie! Ensure it is properly set in ui-override.json");
 }
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
+};
+</script>
+<script>
+window.onload = function() {
+  setInterval(function() {
+    document.querySelector('#agentsWarning').innerText = document.querySelector('.ToggleChatButton')
+      ? ''
+      : 'Got Agents?';
+    document.querySelector('#agentsWarning').style.color =
+      '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+  }, 500);
 };
 </script>
     <script type="text/javascript" src="common.js"></script>
