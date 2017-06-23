@@ -188,7 +188,7 @@ export class ChatContainer extends Component {
       .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
 
-  onWelcomeFormSubmit = (text: string) => {
+  onWelcomeFormSubmit = () => {
     this.setState({
       welcomeForm: false,
     });

@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WelcomeForm component rendering renders with default props 1`] = `
-<form
+<div
   className="WelcomeForm"
-  onSubmit={[Function]}
 >
   <HeaderMenu
     onDock={[Function]}
@@ -51,7 +50,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        name="First Name"
+        name="firstName"
         required={true}
         style={
           Object {
@@ -75,7 +74,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         Last Name
       </label>
       <input
-        name="Last Name"
+        name="lastName"
         required={false}
         style={
           Object {
@@ -105,7 +104,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        name="Number Field"
+        name="numberField"
         required={true}
         style={
           Object {
@@ -135,7 +134,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        name="E-Mail"
+        name="email"
         required={true}
         style={
           Object {
@@ -165,7 +164,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        name="Phone Number"
+        name="phoneNumber"
         required={true}
         style={
           Object {
@@ -178,15 +177,20 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
   </div>
   <button
     className="submit"
+    onClick={[Function]}
     style={
       Object {
         "background": "#333",
         "fontFamily": "Lato, sans-serif",
       }
     }
-    type="submit"
   >
-    Submit
+    <FormattedMessage
+      defaultMessage="Submit"
+      description="Text of submit button on welcome form"
+      id="submitWelcomeForm"
+      values={Object {}}
+    />
   </button>
-</form>
+</div>
 `;

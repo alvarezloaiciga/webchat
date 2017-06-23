@@ -2,7 +2,7 @@
 import React from 'react';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {formatMessage, getDisplayString} from 'utils/i18n';
+import {getDisplayString} from 'utils/i18n';
 import {FormattedMessage} from 'react-intl';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
@@ -48,13 +48,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   const submitForm = () => {
     const fields: {[string]: string} = {};
     Object.keys(refs).forEach(k => {
-      const field = refs[k];
-
-      // For checkboxes, map onto true/false
-      if (field.type === 'checkbox') fields[k] = field.checked.toString();
-      else
-        // For other input types, use raw value
-        fields[k] = field.value;
+      fields[k] = refs[k].value;
     });
     sendRegistration(fields).then(props.onFormSubmit);
   };
