@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {addMessage, subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
+import {subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
 import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
@@ -192,10 +192,6 @@ export class ChatContainer extends Component {
     this.setState({
       welcomeForm: false,
     });
-
-    if (text) {
-      addMessage(text);
-    }
   };
 
   onPop = (fireEvent: boolean) => {

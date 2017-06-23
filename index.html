@@ -21,6 +21,25 @@ if (!tenant) {
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
+  WELCOME_FORM: {
+    fields: [
+      {
+        type: "text",
+        id: "firstName",
+        label: "First name",
+      },
+      {
+        type: "text",
+        id: "lastName",
+        label: "Last name",
+      },
+      {
+        type: "checkbox",
+        id: "cb",
+        label: "Check me?",
+      }
+    ]
+  }
 };
 </script>
 <script>

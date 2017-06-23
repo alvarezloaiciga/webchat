@@ -106,4 +106,9 @@ export default defineMessages({
     description: 'Error message to display when end user does not have cookies enabled',
     defaultMessage: 'Cookies must be enabled to use Webchat',
   },
+  submitWelcomeForm: {
+    id: 'submitWelcomeForm',
+    description: 'Text of submit button on welcome form',
+    defaultMessage: 'Submit',
+  },
 });
