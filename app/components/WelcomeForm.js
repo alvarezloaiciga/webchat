@@ -51,7 +51,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       const field = refs[k];
 
       // For checkboxes, map onto true/false
-      if (field.type === 'checkbox') fields[k] = field.checked;
+      if (field.type === 'checkbox') fields[k] = field.checked.toString();
       else
         // For other input types, use raw value
         fields[k] = field.value;
