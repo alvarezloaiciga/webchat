@@ -52,7 +52,7 @@ export class Launcher extends Component {
       QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0 &&
       this.state.agentsAvailable !== nextState.agentsAvailable
     ) {
-      this.updateCustomChatButtons(nextState.agentsAvailable);
+      this.updateCustomChatButtons(!!nextState.agentsAvailable);
     }
   }
 
@@ -117,10 +117,12 @@ export class Launcher extends Component {
   updateCustomChatButtons = (agentsAvailable: boolean) => {
     try {
       QUIQ.CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
-        const {classList} = document.querySelector(selector);
+        const ele = document.querySelector(selector);
+        if (!ele) return displayError(messages.unableToFindCustomLauncherError);
+
         agentsAvailable
-          ? classList.remove(noAgentsAvailableClass)
-          : classList.add(noAgentsAvailableClass);
+          ? ele.classList.remove(noAgentsAvailableClass)
+          : ele.classList.add(noAgentsAvailableClass);
       });
     } catch (e) {
       displayError(`${formatMessage(messages.unableToFindCustomLauncherError)}\n  ${e.message}`);
@@ -130,7 +132,10 @@ export class Launcher extends Component {
   bindChatButtons = () => {
     try {
       QUIQ.CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
-        document.querySelector(selector).onclick = this.toggleChat;
+        const ele = document.querySelector(selector);
+        if (!ele) return displayError(messages.unableToBindCustomLauncherError);
+
+        ele.onclick = this.toggleChat;
       });
     } catch (e) {
       displayError(`${formatMessage(messages.unableToBindCustomLauncherError)}\n  ${e.message}`);
