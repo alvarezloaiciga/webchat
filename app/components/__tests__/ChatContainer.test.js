@@ -112,7 +112,7 @@ describe('ChatContainer component', () => {
       });
     });
 
-    fdescribe('when not in standalone mode and CUSTOM_LAUNCH_BUTTONS is defined', () => {
+    describe('when not in standalone mode and CUSTOM_LAUNCH_BUTTONS is defined', () => {
       beforeEach(() => {
         QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.button1'];
         render();

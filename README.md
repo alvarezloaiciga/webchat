@@ -87,7 +87,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - example: `2000`
   - CUSTOM_LAUNCH_BUTTONS
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. The `noAgentsAvailable` CSS class will dynamically be added and removed from all custom elements as agents become available/unavailable. If the `CUSTOM_LAUNCH_BUTTONS` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. The `noAgentsAvailable` class will be added to the element when no agents are available and removed once an agent becomes available. If the `CUSTOM_LAUNCH_BUTTONS` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
   - WELCOME_FORM

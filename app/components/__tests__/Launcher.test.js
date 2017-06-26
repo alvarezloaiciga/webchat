@@ -78,7 +78,7 @@ describe('Launcher component', () => {
       });
     });
 
-    fdescribe('customLauncherButtons', () => {
+    describe('customLauncherButtons', () => {
       describe('when defined', () => {
         beforeEach(async () => {
           QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton1', '#customButton2'];
