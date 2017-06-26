@@ -258,6 +258,7 @@ export class ChatContainer extends Component {
       <div
         className={classnames('ChatContainer', {
           standaloneMode: inStandaloneMode(),
+          hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length,
         })}
       >
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />

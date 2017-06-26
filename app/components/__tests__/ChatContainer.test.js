@@ -1,10 +1,12 @@
 // @flow
+jest.mock('utils/quiq');
 import React from 'react';
 import ChatContainer from '../ChatContainer';
 import {getMockMessage} from 'utils/testHelpers';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import messages from 'messages';
+import QUIQ from 'utils/quiq';
 import type {ChatContainerProps} from '../ChatContainer';
 
 jest.useFakeTimers();
@@ -107,6 +109,17 @@ describe('ChatContainer component', () => {
             });
           });
         });
+      });
+    });
+
+    fdescribe('when not in standalone mode and CUSTOM_LAUNCH_BUTTONS is defined', () => {
+      beforeEach(() => {
+        QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.button1'];
+        render();
+      });
+
+      it('adds the hasCustomLauncher class', () => {
+        expect(wrapper.find('.ChatContainer').hasClass('hasCustomLauncher')).toBe(true);
       });
     });
 

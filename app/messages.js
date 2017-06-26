@@ -106,4 +106,15 @@ export default defineMessages({
     description: 'Error message to display when end user does not have cookies enabled',
     defaultMessage: 'Cookies must be enabled to use Webchat',
   },
+  unableToBindCustomLauncherError: {
+    id: 'unableToBindCustomLauncherError',
+    description: 'Error to display when CUSTOM_LAUNCH_BUTTONS is misconfigured',
+    defaultMessage: 'Unable to bind custom webchat launch buttons',
+  },
+  unableToFindCustomLauncherError: {
+    id: 'unableToFindCustomLauncherError',
+    description:
+      'Error to display once we successfully bind the webchat buttons, but they are now missing',
+    defaultMessage: 'Unable to find already-bound custom webchat launch buttons',
+  },
 });
