@@ -45,7 +45,8 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       />
     </div>;
 
-  const submitForm = () => {
+  const submitForm = (e: SyntheticEvent) => {
+    e.preventDefault();
     const fields: {[string]: string} = {};
     Object.keys(refs).forEach(k => {
       fields[k] = refs[k].value;
@@ -54,7 +55,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   };
 
   return (
-    <div className="WelcomeForm">
+    <form className="WelcomeForm">
       <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
       <div className="welcomeFormBanner" style={{backgroundColor: COLOR}}>
         <span style={{fontFamily: FONT_FAMILY}}>{form.headerText}</span>
@@ -69,7 +70,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       >
         <FormattedMessage {...messages.submitWelcomeForm} />
       </button>
-    </div>
+    </form>
   );
 };
 
