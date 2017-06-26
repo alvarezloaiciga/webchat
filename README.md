@@ -101,22 +101,26 @@ The window.QUIQ object contains properties describing how the instance of webcha
         fields: [
           {
             type: 'text',
+            id: 'firstName'
             label: 'First Name',
             required: true
           },
           {
             type: 'text',
+            id: 'lastName',
             label: 'Last Name',
             required: false
           },
           {
             type: 'number',
+            id: 'numberField',
             label: 'Number Field',
             required: true
           },
 
           {
             type: 'email',
+            id: 'email',
             label: 'E-Mail',
             required: true
           }
