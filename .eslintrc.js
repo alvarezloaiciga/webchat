@@ -64,19 +64,48 @@ module.exports = {
       'error',
       {
         selector: 'ForInStatement',
-        message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
+        message:
+          'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
       },
       {
         selector: 'ForOfStatement',
-        message: 'iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.',
+        message:
+          'iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.',
       },
       {
         selector: 'LabeledStatement',
-        message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+        message:
+          'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
       },
       {
         selector: 'WithStatement',
-        message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+        message:
+          '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      },
+      {
+        selector: 'CallExpression[callee.name="xdescribe"]',
+        message:
+          '`xdescribe` is disallowed in the build. If this test suite really needs to be skipped, disable the `no-restricted-syntax` rule with a reason to ignore the test',
+      },
+      {
+        selector: 'CallExpression[callee.name="xit"]',
+        message:
+          '`xit` is disallowed in the build. If this test really needs to be skipped, disable the `no-restricted-syntax` rule with a reason to ignore the test',
+      },
+      {
+        selector: 'CallExpression[callee.name="fdescribe"]',
+        message:
+          'Focused specs are not allowed to be checked in because all the tests need to run in CI.',
+      },
+      {
+        selector: 'CallExpression[callee.name="fit"]',
+        message:
+          'Focused specs are not allowed to be checked in because all the tests need to run in CI.',
+      },
+      {
+        selector: 'CallExpression[callee.name="encodeURIComponent"]',
+        message:
+          'Params for API calls are URI encoded in ApiMiddleware. Calling this twice will mess up the URI encoding.',
       },
     ],
     'no-spaced-func': 0,
