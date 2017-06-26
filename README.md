@@ -60,21 +60,69 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - description: The contact point for this webchat interface
     - required: no
     - default: 'default'
+    - example: 'default'
   - COLOR
     - type: string
     - description: Color to control appearance of chat UI in hex format.
     - required: no
     - default: '#59ad5d' (green)
+    - example: '#59ad5d'
   - HEADER_TEXT
     - type: string
     - description: Message to appear at top of chat window.
     - required: no
-    - default: 'We're here to help if you have any questions!'
+    - default: "We're here to help if you have any questions!"
+    - example: "We're here to help if you have any questions!"
   - HOST
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - required: no
     - default: 'goquiq.com'
+    - example: 'goquiq.com'
+  - FONT_FAMILY
+    - type: string
+    - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
+    - default: 'sans-serif'
+    - example: 'Lato, sans-serif'
+  - AUTO_POP_TIME
+    - type: number
+    - description: Number, in milliseconds, until the webchat automatically pops open on its own. Leave undefined to disable.
+    - default: undefined
+    - example: 2000
+  - WELCOME_FORM
+    - type: JSON
+    - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable
+    - default: undefined
+    - example:
+    ```js
+      {
+        headerText:
+          'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+        fields: [
+          {
+            type: 'text',
+            label: 'First Name',
+            required: true
+          },
+          {
+            type: 'text',
+            label: 'Last Name',
+            required: false
+          },
+          {
+            type: 'number',
+            label: 'Number Field',
+            required: true
+          },
+
+          {
+            type: 'email',
+            label: 'E-Mail',
+            required: true
+          }
+        ]
+      }
+    ```
 
 ### Production Note
 If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.
