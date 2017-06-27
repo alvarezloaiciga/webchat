@@ -42,6 +42,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
         name={field.id}
         required={field.required}
         style={{fontFamily: FONT_FAMILY}}
+        maxLength={1000}
       />
     </div>;
 

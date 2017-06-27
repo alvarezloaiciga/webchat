@@ -73,6 +73,7 @@ const getQuiqObject = (): QuiqObject => {
 
   return Object.assign({}, QUIQ, window.QUIQ);
 };
+
 const QUIQ: QuiqObject = getQuiqObject();
 
 let standaloneWindowTimer;
@@ -116,5 +117,7 @@ export const openStandaloneMode = (
     }
   }, 500);
 };
+
+export const initialize = () => {};
 
 export default QUIQ;

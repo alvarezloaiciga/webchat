@@ -106,6 +106,32 @@ export default defineMessages({
     description: 'Error message to display when end user does not have cookies enabled',
     defaultMessage: 'Cookies must be enabled to use Webchat',
   },
+  invalidWelcomeFormArray: {
+    id: 'invalidWelcomeFormArray',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because fields must be of type array.',
+    defaultMessage: 'Invalid WELCOME_FORM definition: "WELCOME_FORM.fields" must be an array',
+  },
+  invalidWelcomeFormUndefined: {
+    id: 'invalidWelcomeFormUndefined',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because a field is missing required property.',
+    defaultMessage:
+      'Invalid WELCOME_FORM definition: The form field with id of "{id}" and label of "{label}" must have id, label and type defined.',
+  },
+  invalidWelcomeFormDefinitionKeyLength: {
+    id: 'invalidWelcomeFormDefinitionKeyLength',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because a field has an id that is too long.',
+    defaultMessage:
+      'Invalid WELCOME_FORM definition: The form field with id of "{id}" must have an id of length less or equal to than 80 characters.',
+  },
+  invalidWelcomeFormDefinitionKeyUniqueness: {
+    id: 'invalidWelcomeFormDefinitionKeyUniqueness',
+    description:
+      "Error message to display when WELCOME_FORM is not valid because not all fields have unique id's.",
+    defaultMessage: 'Invalid WELCOME_FORM definition: All fields must have a unique id',
+  },
   submitWelcomeForm: {
     id: 'submitWelcomeForm',
     description: 'Text of submit button on welcome form',
