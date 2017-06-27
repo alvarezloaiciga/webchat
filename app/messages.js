@@ -132,6 +132,12 @@ export default defineMessages({
       "Error message to display when WELCOME_FORM is not valid because not all fields have unique id's.",
     defaultMessage: 'Invalid WELCOME_FORM definition: All fields must have a unique id',
   },
+  invalidWelcomeFormFieldCount: {
+    id: 'invalidWelcomeFormFieldCount',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because there are too many fields',
+    defaultMessage: 'Invalid WELCOME_FORM definition: There can be at most 20 fields',
+  },
   submitWelcomeForm: {
     id: 'submitWelcomeForm',
     description: 'Text of submit button on welcome form',

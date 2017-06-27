@@ -113,6 +113,10 @@ export class ChatContainer extends Component {
       displayError(messages.invalidWelcomeFormArray);
     }
 
+    if (form.fields.length > 20) {
+      displayError(messages.invalidWelcomeFormFieldCount);
+    }
+
     form.fields.reduce((uniqueKeys, f) => {
       // Ensure field has an id, label and type
       if (!f.label || !f.id || !f.type) {
