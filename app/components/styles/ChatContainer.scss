@@ -1,3 +1,5 @@
+$chatContainerBottomRight: 24px;
+
 .ChatContainer {
   &.standaloneMode {
     width: 100vw;
@@ -17,7 +19,7 @@
   height: calc(100vh - 132px);
   max-height: 600px;
   position: fixed;
-  right: 24px;
+  right: $chatContainerBottomRight;
   bottom: 108px;
   border-radius: 5px;
   overflow: hidden;
@@ -26,6 +28,10 @@
   display: flex;
   flex-direction: column;
   background: #f4f4f8;
+
+  &.hasCustomLauncher {
+    bottom: $chatContainerBottomRight;
+  }
 
   .chatContainerBody {
     flex: 1 1 auto;

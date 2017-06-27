@@ -3,7 +3,7 @@ declare var __DEV__: string;
 declare var Modernizr: Object;
 import 'modernizr';
 import messages from 'messages';
-import {formatMessage} from 'utils/i18n';
+import {getDisplayString} from 'utils/i18n';
 import {SupportedWebchatUrls} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
 import qs from 'qs';
@@ -46,9 +46,9 @@ export const supportsSVG = () => Modernizr.svg && Modernizr.svgfilters && Modern
 export const displayError = (error: IntlMessage, values: {[string]: string} = {}) => {
   throw new Error(
     `\n
-!!! ${formatMessage(messages.quiqFatalError)} !!!
-  ${formatMessage(error, values)}
-!!! ${formatMessage(messages.quiqFatalError)} !!!\n`,
+!!! ${displayError(messages.quiqFatalError)} !!!
+  ${displayError(error, values)}
+!!! ${displayError(messages.quiqFatalError)} !!!\n`,
   );
 };
 

@@ -54,45 +54,46 @@ We use Ngrok to expose localhost over a public url.  To use this feature, do the
 Note: This process is a bit flimsy, so if the page doesn't load in 10 or so seconds, try refreshing the page.
 
 ### window.QUIQ Object
-The window.QUIQ object contains properties describing how the instance of webchat should act.  
+The window.QUIQ object contains properties describing how the instance of webchat should act.  All properties are optional.
   - CONTACT_POINT
     - type: string
     - description: The contact point for this webchat interface
-    - required: no
-    - default: 'default'
-    - example: 'default'
+    - default: `'default'`
+    - example: `'default'`
   - COLOR
     - type: string
     - description: Color to control appearance of chat UI in hex format.
-    - required: no
-    - default: '#59ad5d' (green)
-    - example: '#59ad5d'
+    - default: `'#59ad5d'` (green)
+    - example: `'#59ad5d'`
   - HEADER_TEXT
     - type: string
     - description: Message to appear at top of chat window.
-    - required: no
-    - default: "We're here to help if you have any questions!"
-    - example: "We're here to help if you have any questions!"
+    - default: `"We're here to help if you have any questions!"`
+    - example: `"We're here to help if you have any questions!"`
   - HOST
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
-    - required: no
-    - default: 'goquiq.com'
-    - example: 'goquiq.com'
+    - default: `'goquiq.com'`
+    - example: `'goquiq.com'`
   - FONT_FAMILY
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
-    - default: 'sans-serif'
-    - example: 'Lato, sans-serif'
+    - default: `'sans-serif'`
+    - example: `'Lato, sans-serif'`
   - AUTO_POP_TIME
     - type: number
     - description: Number, in milliseconds, until the webchat automatically pops open on its own. Leave undefined to disable.
-    - default: undefined
-    - example: 2000
+    - default: `undefined`
+    - example: `2000`
+  - CUSTOM_LAUNCH_BUTTONS
+    - type: Array<string>
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. The `noAgentsAvailable` class will be added to the element when no agents are available and removed once an agent becomes available. If the `CUSTOM_LAUNCH_BUTTONS` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurence of the selector will be used as the launcher.
+    - default: `[]`
+    - example: `['.customButtonClass1', '#customButtonId2']`
   - WELCOME_FORM
     - type: JSON
     - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable
-    - default: undefined
+    - default: `undefined`
     - example:
     ```js
       {
@@ -100,27 +101,27 @@ The window.QUIQ object contains properties describing how the instance of webcha
           'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
         fields: [
           {
+            id: 'firstName',
             type: 'text',
-            id: 'firstName'
             label: 'First Name',
             required: true
           },
           {
-            type: 'text',
             id: 'lastName',
+            type: 'text',
             label: 'Last Name',
             required: false
           },
           {
-            type: 'number',
             id: 'numberField',
+            type: 'number',
             label: 'Number Field',
             required: true
           },
 
           {
-            type: 'email',
             id: 'email',
+            type: 'email',
             label: 'E-Mail',
             required: true
           }

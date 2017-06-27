@@ -8,9 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiq Webchat</title>
     <script src="https://use.fontawesome.com/89da14f4b6.js"></script>
+    <style>
+      button.noAgentsAvailable {opacity: .25;}
+    </style>
   </head>
   <body>
-    <h1 id="agentsWarning" style="position:absolute;right:30px;bottom:0;"></h1>
+    <h1 id="agentsWarning" style="position:absolute;right:50%;bottom:50%;"></h1>
+    <button id="customButton1">Custom Button 1</button>
+    <button class="customButton2">Custom Button 2</button>
     <script type="text/javascript" charset="utf-8">
     var cookiestring = RegExp('' + 'tenant' + '[^;]+').exec(document.cookie);
 var tenant = unescape(!!cookiestring ? cookiestring.toString().replace(/^[^=]+./, '') : '');
@@ -45,11 +50,17 @@ window.QUIQ = {
 <script>
 window.onload = function() {
   setInterval(function() {
-    document.querySelector('#agentsWarning').innerText = document.querySelector('.ToggleChatButton')
-      ? ''
-      : 'Got Agents?';
-    document.querySelector('#agentsWarning').style.color =
-      '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+    if (
+      !document.querySelector('.ToggleChatButton') &&
+      (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
+        document.querySelector('button').classList.contains('noAgentsAvailable'))
+    ) {
+      document.querySelector('#agentsWarning').innerText = 'Got Agents?';
+      document.querySelector('#agentsWarning').style.color =
+        '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+    } else {
+      document.querySelector('#agentsWarning').innerText = '';
+    }
   }, 500);
 };
 </script>

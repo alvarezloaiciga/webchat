@@ -16,6 +16,7 @@ jest.useFakeTimers();
 
 describe('Launcher component', () => {
   let wrapper: ShallowWrapper;
+  let instance: any;
   let render: () => void;
   let testProps: LauncherProps;
   const mockCheckForAgents = (checkForAgents: any);
@@ -28,7 +29,8 @@ describe('Launcher component', () => {
         intl: TestIntlObject,
       };
       wrapper = shallow(<Launcher {...testProps} />);
-      wrapper.instance().componentDidMount();
+      instance = wrapper.instance();
+      instance.componentDidMount();
     };
   });
 
@@ -73,6 +75,46 @@ describe('Launcher component', () => {
         await conversationResponse;
         wrapper.update();
         expect(wrapper.find('ChatContainer').length).toBe(1);
+      });
+    });
+
+    describe('customLauncherButtons', () => {
+      describe('when defined', () => {
+        beforeEach(async () => {
+          QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton1', '#customButton2'];
+          render();
+          await mockResponse;
+          await conversationResponse;
+          wrapper.update();
+        });
+
+        it("doesn't render the default launcher", () => {
+          expect(wrapper.find('ToggleChatButton').length).toBe(0);
+        });
+
+        describe('agentsAvailable', () => {
+          describe('when agents change', () => {
+            it('alters the noAgentsAvailable class', () => {
+              instance.updateCustomChatButtons = jest.fn();
+              instance.setState({agentsAvailable: false});
+              expect(instance.updateCustomChatButtons).toBeCalledWith(false);
+              instance.updateCustomChatButtons = jest.fn();
+              instance.setState({agentsAvailable: true});
+              expect(instance.updateCustomChatButtons).toBeCalledWith(true);
+            });
+          });
+        });
+      });
+
+      describe('when not defined', () => {
+        it('renders the default launcher', async () => {
+          QUIQ.CUSTOM_LAUNCH_BUTTONS = [];
+          render();
+          await mockResponse;
+          await conversationResponse;
+          wrapper.update();
+          expect(wrapper.find('ToggleChatButton').length).toBe(1);
+        });
       });
     });
   });
@@ -145,7 +187,7 @@ describe('Launcher component', () => {
             mockFetchConversation.mockReturnValue(Promise.resolve(closedConversation));
             mockGetCookie.mockReturnValue('true');
             render();
-            wrapper.instance().componentDidMount();
+            instance.componentDidMount();
           });
 
           it('leaves the chat closed', async () => {
