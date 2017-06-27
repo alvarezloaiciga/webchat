@@ -76,6 +76,38 @@ const getQuiqObject = (): QuiqObject => {
 
 const QUIQ: QuiqObject = getQuiqObject();
 
+export const validateWelcomeFormDefinition = (): void => {
+  const form = QUIQ.WELCOME_FORM;
+  if (!form) return;
+
+  if (!form.fields || !Array.isArray(form.fields)) {
+    displayError(messages.invalidWelcomeFormArray);
+  }
+
+  if (form.fields.length > 20) {
+    displayError(messages.invalidWelcomeFormFieldCount);
+  }
+
+  form.fields.reduce((uniqueKeys, f) => {
+    // Ensure field has an id, label and type
+    if (!f.label || !f.id || !f.type) {
+      displayError(messages.invalidWelcomeFormUndefined, {id: f.id, label: f.label});
+    }
+
+    // Ensure id meets key-length requirements
+    if (f.id.length > 80) {
+      displayError(messages.invalidWelcomeFormDefinitionKeyLength, {id: f.id});
+    }
+
+    // Ensure key is unique
+    if (uniqueKeys.includes(f.id)) {
+      displayError(messages.invalidWelcomeFormDefinitionKeyUniqueness);
+    }
+
+    return uniqueKeys.concat(f.id);
+  }, []);
+};
+
 let standaloneWindowTimer;
 export const openStandaloneMode = (
   onPop?: (fireEvent: boolean) => void,

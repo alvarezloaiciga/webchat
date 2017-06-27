@@ -7,9 +7,9 @@ import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
-import QUIQ from 'utils/quiq';
+import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {inStandaloneMode, isIEorSafari, displayError} from 'utils/utils';
+import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
@@ -83,7 +83,7 @@ export class ChatContainer extends Component {
 
   componentDidMount() {
     // Validate WELCOME_FORM definition
-    this.validateWelcomeFormDefinition();
+    validateWelcomeFormDefinition();
 
     if (!this.state.connected && !this.props.hidden) {
       this.initialize();
@@ -104,38 +104,6 @@ export class ChatContainer extends Component {
   componentWillUnmount() {
     if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
-
-  validateWelcomeFormDefinition = (): void => {
-    const form = QUIQ.WELCOME_FORM;
-    if (!form) return;
-
-    if (!form.fields || !Array.isArray(form.fields)) {
-      displayError(messages.invalidWelcomeFormArray);
-    }
-
-    if (form.fields.length > 20) {
-      displayError(messages.invalidWelcomeFormFieldCount);
-    }
-
-    form.fields.reduce((uniqueKeys, f) => {
-      // Ensure field has an id, label and type
-      if (!f.label || !f.id || !f.type) {
-        displayError(messages.invalidWelcomeFormUndefined, {id: f.id, label: f.label});
-      }
-
-      // Ensure id meets key-length requirements
-      if (f.id.length > 80) {
-        displayError(messages.invalidWelcomeFormDefinitionKeyLength, {id: f.id});
-      }
-
-      // Ensure key is unique
-      if (uniqueKeys.includes(f.id)) {
-        displayError(messages.invalidWelcomeFormDefinitionKeyUniqueness);
-      }
-
-      return f.id;
-    }, []);
-  };
 
   connect = () => {
     this.setState({connected: true});
