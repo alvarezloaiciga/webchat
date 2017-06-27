@@ -43,12 +43,12 @@ export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor(
 export const supportsFlexbox = () => isIE10() || (Modernizr.flexbox && Modernizr.flexwrap);
 export const supportsSVG = () => Modernizr.svg && Modernizr.svgfilters && Modernizr.inlinesvg;
 
-export const displayError = (error: IntlMessage, values: {[string]: string} = {}) => {
+export const displayError = (error: IntlMessage | string, values: {[string]: string} = {}) => {
   throw new Error(
     `\n
-!!! ${displayError(messages.quiqFatalError)} !!!
-  ${displayError(error, values)}
-!!! ${displayError(messages.quiqFatalError)} !!!\n`,
+!!! ${getDisplayString(messages.quiqFatalError)} !!!
+  ${getDisplayString(error, values)}
+!!! ${getDisplayString(messages.quiqFatalError)} !!!\n`,
   );
 };
 
