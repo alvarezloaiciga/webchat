@@ -59,6 +59,7 @@ const getQuiqObject = (): QuiqObject => {
     AUTO_POP_TIME: undefined,
     HREF: window.location.href, // Standalone uses this to determine original host URL for welcome form
     FONT_FAMILY: 'sans-serif',
+    CUSTOM_LAUNCH_BUTTONS: [],
   };
 
   if (!window.QUIQ) {

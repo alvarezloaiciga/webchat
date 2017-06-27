@@ -23,7 +23,7 @@ exports[`ChatContainer component rendering messages appends messages to the tran
       className="messageUs"
       style={
         Object {
-          "fontFamily": "sans-serif",
+          "fontFamily": "Lato, sans-serif",
         }
       }
     >
@@ -88,7 +88,7 @@ exports[`ChatContainer component rendering renders 1`] = `
       className="messageUs"
       style={
         Object {
-          "fontFamily": "sans-serif",
+          "fontFamily": "Lato, sans-serif",
         }
       }
     >

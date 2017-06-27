@@ -3,7 +3,7 @@ declare var __DEV__: string;
 declare var Modernizr: Object;
 import 'modernizr';
 import messages from 'messages';
-import {formatMessage} from 'utils/i18n';
+import {getDisplayString} from 'utils/i18n';
 import {SupportedWebchatUrls} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
 import qs from 'qs';
@@ -43,12 +43,12 @@ export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor(
 export const supportsFlexbox = () => isIE10() || (Modernizr.flexbox && Modernizr.flexwrap);
 export const supportsSVG = () => Modernizr.svg && Modernizr.svgfilters && Modernizr.inlinesvg;
 
-export const displayError = (error: IntlMessage) => {
+export const displayError = (error: IntlMessage | string) => {
   throw new Error(
     `\n
-!!! ${formatMessage(messages.quiqFatalError)} !!!
-  ${formatMessage(error)}
-!!! ${formatMessage(messages.quiqFatalError)} !!!\n`,
+!!! ${getDisplayString(messages.quiqFatalError)} !!!
+  ${getDisplayString(error)}
+!!! ${getDisplayString(messages.quiqFatalError)} !!!\n`,
   );
 };
 

@@ -21,3 +21,5 @@ export const quiqChatContinuationCookie: CookieDef = {
   id: 'quiq-chat-continuation',
   expiration: 1, // 1 day
 };
+
+export const noAgentsAvailableClass = 'noAgentsAvailable';

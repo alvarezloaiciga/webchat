@@ -32,3 +32,4 @@ export const isIE10 = () => false;
 export const nonCompatibleBrowser = () => false;
 export const supportsFlexbox = () => true;
 export const supportsSVG = () => true;
+export const displayError = (error: string) => error;

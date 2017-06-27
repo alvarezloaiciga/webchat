@@ -1,10 +1,12 @@
 // @flow
+jest.mock('utils/quiq');
 import React from 'react';
 import ChatContainer from '../ChatContainer';
 import {getMockMessage} from 'utils/testHelpers';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import messages from 'messages';
+import QUIQ from 'utils/quiq';
 import type {ChatContainerProps} from '../ChatContainer';
 
 jest.useFakeTimers();
@@ -39,14 +41,14 @@ describe('ChatContainer component', () => {
     describe('loading', () => {
       describe('when not loading', () => {
         it('displays transcript', () => {
-          wrapper.setState({loading: false});
+          wrapper.setState({loading: false, welcomeForm: false});
           expect(wrapper.find('Transcript').length).toBe(1);
           expect(wrapper.find('Spinner').length).toBe(0);
         });
 
         describe('when connected', () => {
           it('displays message form', () => {
-            wrapper.setState({loading: false, connected: true});
+            wrapper.setState({loading: false, connected: true, welcomeForm: false});
             expect(wrapper.find('Transcript').length).toBe(1);
             expect(wrapper.find('MessageForm').length).toBe(1);
             expect(wrapper.find('Spinner').length).toBe(0);
@@ -75,7 +77,7 @@ describe('ChatContainer component', () => {
 
         beforeEach(() => {
           jest.clearAllTimers();
-          wrapper.setState({loading: false, connected: true});
+          wrapper.setState({loading: false, connected: true, welcomeForm: false});
           instance.handleWebsocketMessage(agentTypingMessage);
           wrapper.update();
         });
@@ -107,6 +109,17 @@ describe('ChatContainer component', () => {
             });
           });
         });
+      });
+    });
+
+    describe('when not in standalone mode and CUSTOM_LAUNCH_BUTTONS is defined', () => {
+      beforeEach(() => {
+        QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.button1'];
+        render();
+      });
+
+      it('adds the hasCustomLauncher class', () => {
+        expect(wrapper.find('.ChatContainer').hasClass('hasCustomLauncher')).toBe(true);
       });
     });
 
