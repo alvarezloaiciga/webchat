@@ -118,6 +118,4 @@ export const openStandaloneMode = (
   }, 500);
 };
 
-export const initialize = () => {};
-
 export default QUIQ;
