@@ -190,12 +190,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       }
     }
   >
-    <FormattedMessage
-      defaultMessage="Submit"
-      description="Text of submit button on welcome form"
-      id="submitWelcomeForm"
-      values={Object {}}
-    />
+    Submit
   </button>
 </form>
 `;

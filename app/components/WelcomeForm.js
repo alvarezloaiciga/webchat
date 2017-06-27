@@ -10,10 +10,10 @@ import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
   onFormSubmit: (formattedString: string) => void,
-  onApiError: (err: ApiError, () => any) => void,
   onPop: (fireEvent: boolean) => void,
   onDock: (fireEvent: boolean) => void,
   onMinimize: (fireEvent: boolean) => void,
+  onApiError: (err: ApiError, func: (any) => any) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
 const WelcomeForm = (props: WelcomeFormProps) => {
