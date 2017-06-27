@@ -2,15 +2,15 @@
 import React from 'react';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {getDisplayString} from 'utils/i18n';
-import {FormattedMessage} from 'react-intl';
-import type {WelcomeFormField} from 'types';
+import {getDisplayString, formatMessage} from 'utils/i18n';
+import type {WelcomeFormField, ApiError} from 'types';
 import messages from 'messages';
 import {sendRegistration} from 'quiq-chat';
 import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
   onFormSubmit: (formattedString: string) => void,
+  onApiError: (err: ApiError, () => any) => void,
   onPop: (fireEvent: boolean) => void,
   onDock: (fireEvent: boolean) => void,
   onMinimize: (fireEvent: boolean) => void,
@@ -52,7 +52,9 @@ const WelcomeForm = (props: WelcomeFormProps) => {
     Object.keys(refs).forEach(k => {
       fields[k] = refs[k].value;
     });
-    sendRegistration(fields).then(props.onFormSubmit);
+    sendRegistration(fields)
+      .then(props.onFormSubmit)
+      .catch((err: ApiError) => props.onApiError(err, submitForm));
   };
 
   return (
@@ -69,7 +71,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
         style={{background: COLOR, fontFamily: FONT_FAMILY}}
         onClick={submitForm}
       >
-        <FormattedMessage {...messages.submitWelcomeForm} />
+        {formatMessage(messages.submitWelcomeForm)}
       </button>
     </form>
   );

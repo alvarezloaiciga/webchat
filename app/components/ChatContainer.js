@@ -226,6 +226,16 @@ export class ChatContainer extends Component {
   render() {
     if (this.props.hidden) return null;
 
+    if (this.state.error) {
+      return (
+        <div className="ChatContainer">
+          <div className="errorBanner">
+            <FormattedMessage {...messages.errorState} />
+          </div>
+        </div>
+      );
+    }
+
     if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
       return (
         <div
@@ -238,17 +248,8 @@ export class ChatContainer extends Component {
             onDock={this.onDock}
             onMinimize={this.onMinimize}
             onFormSubmit={this.onWelcomeFormSubmit}
+            onApiError={this.handleApiError}
           />
-        </div>
-      );
-    }
-
-    if (this.state.error) {
-      return (
-        <div className="ChatContainer">
-          <div className="errorBanner">
-            <FormattedMessage {...messages.errorState} />
-          </div>
         </div>
       );
     }
