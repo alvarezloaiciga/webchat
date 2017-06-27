@@ -95,7 +95,7 @@ export const openStandaloneMode = (
   window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
     `${__DEV__
       ? 'http://localhost:3000'
-      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`, // eslint-disable-line no-restricted-syntax
+      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
     isIE9() ? '_blank' : 'quiq-standalone-webchat',
     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
   );

@@ -41,14 +41,14 @@ describe('ChatContainer component', () => {
     describe('loading', () => {
       describe('when not loading', () => {
         it('displays transcript', () => {
-          wrapper.setState({loading: false});
+          wrapper.setState({loading: false, welcomeForm: false});
           expect(wrapper.find('Transcript').length).toBe(1);
           expect(wrapper.find('Spinner').length).toBe(0);
         });
 
         describe('when connected', () => {
           it('displays message form', () => {
-            wrapper.setState({loading: false, connected: true});
+            wrapper.setState({loading: false, connected: true, welcomeForm: false});
             expect(wrapper.find('Transcript').length).toBe(1);
             expect(wrapper.find('MessageForm').length).toBe(1);
             expect(wrapper.find('Spinner').length).toBe(0);
@@ -77,7 +77,7 @@ describe('ChatContainer component', () => {
 
         beforeEach(() => {
           jest.clearAllTimers();
-          wrapper.setState({loading: false, connected: true});
+          wrapper.setState({loading: false, connected: true, welcomeForm: false});
           instance.handleWebsocketMessage(agentTypingMessage);
           wrapper.update();
         });

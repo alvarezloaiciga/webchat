@@ -102,11 +102,6 @@ module.exports = {
         message:
           'Focused specs are not allowed to be checked in because all the tests need to run in CI.',
       },
-      {
-        selector: 'CallExpression[callee.name="encodeURIComponent"]',
-        message:
-          'Params for API calls are URI encoded in ApiMiddleware. Calling this twice will mess up the URI encoding.',
-      },
     ],
     'no-spaced-func': 0,
     'no-tabs': 0,
