@@ -1,13 +1,13 @@
 // @flow
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {addMessage, subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
+import {subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
 import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
-import QUIQ from 'utils/quiq';
+import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
@@ -82,6 +82,9 @@ export class ChatContainer extends Component {
   };
 
   componentDidMount() {
+    // Validate WELCOME_FORM definition
+    validateWelcomeFormDefinition();
+
     if (!this.state.connected && !this.props.hidden) {
       this.initialize();
     }
@@ -188,14 +191,10 @@ export class ChatContainer extends Component {
       .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
 
-  onWelcomeFormSubmit = (text: string) => {
+  onWelcomeFormSubmit = () => {
     this.setState({
       welcomeForm: false,
     });
-
-    if (text) {
-      addMessage(text);
-    }
   };
 
   onPop = (fireEvent: boolean) => {
@@ -227,6 +226,16 @@ export class ChatContainer extends Component {
   render() {
     if (this.props.hidden) return null;
 
+    if (this.state.error) {
+      return (
+        <div className="ChatContainer">
+          <div className="errorBanner">
+            <FormattedMessage {...messages.errorState} />
+          </div>
+        </div>
+      );
+    }
+
     if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
       return (
         <div
@@ -239,17 +248,8 @@ export class ChatContainer extends Component {
             onDock={this.onDock}
             onMinimize={this.onMinimize}
             onFormSubmit={this.onWelcomeFormSubmit}
+            onApiError={this.handleApiError}
           />
-        </div>
-      );
-    }
-
-    if (this.state.error) {
-      return (
-        <div className="ChatContainer">
-          <div className="errorBanner">
-            <FormattedMessage {...messages.errorState} />
-          </div>
         </div>
       );
     }

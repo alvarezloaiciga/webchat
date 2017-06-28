@@ -38,8 +38,8 @@ export const formatDate = (value: number): string => intl.formatDate(value);
 export const formatTime = (timestamp: number, options?: Object) =>
   intl.formatTime(timestamp, options);
 
-export const getDisplayString = (message?: string | IntlMessage): string => {
+export const getDisplayString = (message?: string | IntlMessage, values?: Object): string => {
   if (!message) return '';
 
-  return typeof message === 'string' ? message : formatMessage(message);
+  return typeof message === 'string' ? message : formatMessage(message, values);
 };

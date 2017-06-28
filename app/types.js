@@ -4,6 +4,7 @@
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel',
   label: string,
+  id: string,
   required?: boolean,
 };
 
