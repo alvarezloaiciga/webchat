@@ -18,32 +18,27 @@ const QUIQ: QuiqObject = {
       {
         type: 'text',
         label: 'First Name',
-        id: 'firstName',
         required: true,
       },
       {
         type: 'text',
         label: 'Last Name',
-        id: 'lastName',
         required: false,
       },
       {
         type: 'number',
         label: 'Number Field',
-        id: 'numberField',
         required: true,
       },
 
       {
         type: 'email',
         label: 'E-Mail',
-        id: 'email',
         required: true,
       },
       {
         type: 'tel',
         label: 'Phone Number',
-        id: 'phoneNumber',
         required: true,
       },
     ],

@@ -101,26 +101,22 @@ The window.QUIQ object contains properties describing how the instance of webcha
           'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
         fields: [
           {
-            id: 'firstName',
             type: 'text',
             label: 'First Name',
             required: true
           },
           {
-            id: 'lastName',
             type: 'text',
             label: 'Last Name',
             required: false
           },
           {
-            id: 'numberField',
             type: 'number',
             label: 'Number Field',
             required: true
           },
 
           {
-            id: 'email',
             type: 'email',
             label: 'E-Mail',
             required: true

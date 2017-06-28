@@ -17,7 +17,6 @@ describe('WelcomeForm component', () => {
       onDock: jest.fn(),
       onMinimize: jest.fn(),
       onPop: jest.fn(),
-      onApiError: jest.fn(),
     };
 
     render = () => {

@@ -3,6 +3,7 @@
 exports[`WelcomeForm component rendering renders with default props 1`] = `
 <form
   className="WelcomeForm"
+  onSubmit={[Function]}
 >
   <HeaderMenu
     onDock={[Function]}
@@ -50,8 +51,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        maxLength={1000}
-        name="firstName"
+        name="First Name"
         required={true}
         style={
           Object {
@@ -75,8 +75,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         Last Name
       </label>
       <input
-        maxLength={1000}
-        name="lastName"
+        name="Last Name"
         required={false}
         style={
           Object {
@@ -106,8 +105,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        maxLength={1000}
-        name="numberField"
+        name="Number Field"
         required={true}
         style={
           Object {
@@ -137,8 +135,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        maxLength={1000}
-        name="email"
+        name="E-Mail"
         required={true}
         style={
           Object {
@@ -168,8 +165,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
         </span>
       </label>
       <input
-        maxLength={1000}
-        name="phoneNumber"
+        name="Phone Number"
         required={true}
         style={
           Object {
@@ -182,13 +178,13 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
   </div>
   <button
     className="submit"
-    onClick={[Function]}
     style={
       Object {
         "background": "#333",
         "fontFamily": "Lato, sans-serif",
       }
     }
+    type="submit"
   >
     Submit
   </button>

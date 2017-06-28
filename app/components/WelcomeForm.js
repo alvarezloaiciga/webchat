@@ -2,10 +2,9 @@
 import React from 'react';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {getDisplayString, formatMessage} from 'utils/i18n';
-import type {WelcomeFormField, ApiError} from 'types';
+import {formatMessage, getDisplayString} from 'utils/i18n';
+import type {WelcomeFormField} from 'types';
 import messages from 'messages';
-import {sendRegistration} from 'quiq-chat';
 import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
@@ -13,7 +12,6 @@ export type WelcomeFormProps = {
   onPop: (fireEvent: boolean) => void,
   onDock: (fireEvent: boolean) => void,
   onMinimize: (fireEvent: boolean) => void,
-  onApiError: (err: ApiError, func: (any) => any) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
 const WelcomeForm = (props: WelcomeFormProps) => {
@@ -30,35 +28,45 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   const form = WELCOME_FORM;
 
   const renderField = (field: WelcomeFormField) =>
-    <div className="field" key={field.id}>
+    <div className="field" key={field.label}>
       <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
         {field.label}
         {field.required &&
           <span className="required" title={getDisplayString(messages.required)}> *</span>}
       </label>
       <input
-        ref={n => (refs[field.id] = n)}
+        ref={n => (refs[field.label] = n)}
         type={field.type}
-        name={field.id}
+        name={field.label}
         required={field.required}
         style={{fontFamily: FONT_FAMILY}}
-        maxLength={1000}
       />
     </div>;
 
-  const submitForm = (e: SyntheticEvent) => {
+  const submitForm = (e: SyntheticInputEvent) => {
     e.preventDefault();
-    const fields: {[string]: string} = {};
-    Object.keys(refs).forEach(k => {
-      fields[k] = refs[k].value;
-    });
-    sendRegistration(fields)
-      .then(props.onFormSubmit)
-      .catch((err: ApiError) => props.onApiError(err, submitForm));
+    props.onFormSubmit(
+      // This is a pretty hacky way to ensure the customer can't see the form they submit.
+      // We filter on this message when displaying messages in the customer webchat.
+      // Long-term we will most likely do the welcome form as an API call, in which case it won't ever
+      // be submitted as a text message.  Until that day, this will suffice as a unique key.
+      // Note: This would break if the customer were to change the language of their browser mid-chat.
+      [formatMessage(messages.welcomeFormUniqueIdentifier)]
+        .concat(
+          form.fields.map(f => {
+            const field = refs[f.label];
+            if (!field) return '';
+
+            return `${f.label}: ${field.value}`;
+          }),
+        )
+        .concat([`${formatMessage(messages.referrer)}: ${QUIQ.HREF}`])
+        .join('\n'),
+    );
   };
 
   return (
-    <form className="WelcomeForm">
+    <form onSubmit={submitForm} className="WelcomeForm">
       <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
       <div className="welcomeFormBanner" style={{backgroundColor: COLOR}}>
         <span style={{fontFamily: FONT_FAMILY}}>{form.headerText}</span>
@@ -66,12 +74,8 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       <div className="fields">
         {WELCOME_FORM.fields.map(renderField)}
       </div>
-      <button
-        className="submit"
-        style={{background: COLOR, fontFamily: FONT_FAMILY}}
-        onClick={submitForm}
-      >
-        {formatMessage(messages.submitWelcomeForm)}
+      <button className="submit" style={{background: COLOR, fontFamily: FONT_FAMILY}} type="submit">
+        Submit
       </button>
     </form>
   );
