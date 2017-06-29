@@ -70,6 +70,7 @@ export class ChatContainer extends Component {
         onConnectionLoss: this.disconnect,
         onConnectionEstablish: this.onConnectionEstablish,
         onMessage: this.handleWebsocketMessage,
+        onBurn: this.errorOut,
       });
 
       set(quiqChatContinuationCookie.id, 'true', {
@@ -111,6 +112,14 @@ export class ChatContainer extends Component {
 
   disconnect = () => {
     this.setState({connected: false});
+  };
+
+  errorOut = () => {
+    this.setState({
+      connected: false,
+      error: true,
+      loading: false,
+    });
   };
 
   onConnectionEstablish = () => {
