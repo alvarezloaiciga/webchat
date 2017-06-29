@@ -56,6 +56,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   app.use(require('morgan')('dev'));
   app.use(webpackHotMiddleware(compiler));
+  app.use('/assets', express.static('assets'));
 
   app.get('/app/webchat/standalone*', (req, res) => {
     res.sendFile(path.join(__dirname, './standalone/index.html'));

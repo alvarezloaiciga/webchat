@@ -29,6 +29,7 @@ export type QuiqObject = {
     | false
     | {
         transport?: string,
+        CUSTOM_CSS_URL?: string,
       },
   WELCOME_FORM?: WelcomeForm,
   HREF: string,

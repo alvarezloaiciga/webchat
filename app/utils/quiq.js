@@ -28,6 +28,17 @@ const getHostUrl = (): string => {
   return host;
 };
 
+const processCustomCss = (url: string): void => {
+  // Verify that this is an HTTPS url (required to avoid mixed content warnings)
+  if (!url.startsWith('https')) return displayError(messages.cssHttpsError);
+
+  const link = document.createElement('link');
+  link.href = url;
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  document.getElementsByTagName('head')[0].appendChild(link);
+};
+
 const assignQuiqObjInStandaloneMode = () => {
   if (!inStandaloneMode()) return;
 
@@ -65,6 +76,10 @@ const getQuiqObject = (): QuiqObject => {
   if (!window.QUIQ) {
     return QUIQ;
   }
+
+  // If custom css url is defined in DEBUG, process it
+  if (window.QUIQ.DEBUG && window.QUIQ.DEBUG.CUSTOM_CSS_URL)
+    processCustomCss(window.QUIQ.DEBUG.CUSTOM_CSS_URL);
 
   // Ensure host is defined for standalone mode,
   // since we won't be able to get it from a script tag.

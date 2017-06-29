@@ -154,4 +154,9 @@ export default defineMessages({
       'Error to display once we successfully bind the webchat buttons, but they are now missing',
     defaultMessage: 'Unable to find already-bound custom webchat launch buttons',
   },
+  cssHttpsError: {
+    id: 'cssHttpsError',
+    description: 'Error displayed when css file is not an https url',
+    defaultMessage: 'The CUSTOM_CSS_URL must be an HTTPS url.',
+  },
 });
