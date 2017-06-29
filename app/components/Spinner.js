@@ -12,7 +12,9 @@ const Spinner = () =>
   <div className="Spinner">
     {!isIE9()
       ? <div className="loading" style={{borderColor: COLOR}} />
-      : <span className="plainText"><FormattedMessage {...messages.connecting} /></span>}
+      : <span className="plainText">
+          <FormattedMessage {...messages.connecting} />
+        </span>}
   </div>;
 
 export default Spinner;

@@ -1,5 +1,5 @@
 # Quiq WebChat [![Build Status](https://travis-ci.org/Quiq/webchat.svg?branch=master)](https://travis-ci.org/Quiq/webchat)
-
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 This is the end-user client for web chats with Quiq Messaging
 
 ## Customizing

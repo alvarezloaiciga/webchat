@@ -34,7 +34,9 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
         {field.label}
         {field.required &&
-          <span className="required" title={getDisplayString(messages.required)}> *</span>}
+          <span className="required" title={getDisplayString(messages.required)}>
+            {' '}*
+          </span>}
       </label>
       <input
         ref={n => (refs[field.id] = n)}
@@ -61,7 +63,9 @@ const WelcomeForm = (props: WelcomeFormProps) => {
     <form className="WelcomeForm">
       <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
       <div className="welcomeFormBanner" style={{backgroundColor: COLOR}}>
-        <span style={{fontFamily: FONT_FAMILY}}>{form.headerText}</span>
+        <span style={{fontFamily: FONT_FAMILY}}>
+          {form.headerText}
+        </span>
       </div>
       <div className="fields">
         {WELCOME_FORM.fields.map(renderField)}
