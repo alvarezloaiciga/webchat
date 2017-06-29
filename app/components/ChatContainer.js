@@ -1,7 +1,6 @@
 // @flow
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
 import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
@@ -13,7 +12,7 @@ import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
 import messages from 'messages';
 import classnames from 'classnames';
-import {set} from 'js-cookie';
+import {getChatClient} from '../ChatClient';
 import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
@@ -49,36 +48,21 @@ export class ChatContainer extends Component {
   };
   typingTimeout: ?number;
 
-  handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
-    if (err && err.status && err.status > 404) {
-      if (retry) {
-        setTimeout(retry, 5000);
-      }
-    } else {
-      this.setState({error: true});
-    }
+  handleChatError = () => {
+    this.setState({error: true});
   };
 
   initialize = async () => {
-    try {
-      // Order Matters here.  Ensure we succesfully complete this request before connecting to
-      // the websocket below!
-      const conversation = await fetchConversation();
-      this.setState({messages: this.getTextMessages(conversation.messages)});
+    const client = getChatClient();
 
-      subscribe({
-        onConnectionLoss: this.disconnect,
-        onConnectionEstablish: this.onConnectionEstablish,
-        onMessage: this.handleWebsocketMessage,
-      });
+    await client
+      .onNewMessages(this.handleNewMessages)
+      .onAgentTyping(this.handleAgentTyping)
+      .onConnectionStatusChange(this.handleConnectivityChange)
+      .onError(this.handleChatError)
+      .start();
 
-      set(quiqChatContinuationCookie.id, 'true', {
-        expires: quiqChatContinuationCookie.expiration,
-      });
-    } catch (err) {
-      unsubscribe();
-      this.handleApiError(err, this.initialize);
-    }
+    this.setState({loading: false});
   };
 
   componentDidMount() {
@@ -105,65 +89,26 @@ export class ChatContainer extends Component {
     if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
 
-  connect = () => {
-    this.setState({connected: true});
+  handleConnectivityChange = (connected: boolean) => {
+    this.setState({connected});
   };
 
-  disconnect = () => {
-    this.setState({connected: false});
+  handleAgentTyping = (typing: boolean) => {
+    if (typing) this.startAgentTyping();
+    else this.stopAgentTyping();
   };
 
-  onConnectionEstablish = () => {
-    this.connect();
-    this.retrieveMessages();
-  };
-
-  getTextMessages = (msgs: Array<Message>) =>
-    msgs.filter(
-      m =>
-        m.type === MessageTypes.TEXT &&
-        !m.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim()),
-    );
-
-  handleWebsocketMessage = (message: AtmosphereMessage) => {
-    if (message.messageType === MessageTypes.CHAT_MESSAGE) {
-      switch (message.data.type) {
-        case 'Text':
-          // TODO: This will break once we implement the API version of the welcome form.
-          // The issue is we want to ensure if you are in standalone mode and submit the form
-          // that the docked webchat hides the welcome form.  We will need the API to send a
-          // websocket message saying the user submitted their welcome form. Being handled in
-          // https://centricient.atlassian.net/browse/SER-4555
-          if (this.state.welcomeForm) {
-            this.setState({welcomeForm: false});
-          }
-          this.appendMessageToChat(message.data);
-
-          // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
-          // don't open it. Also if we are in IE or Safari, we don't allow redocking of the webchat.
-          // It is stuck in standalone forever
-          if (this.props.onMessage && !isIEorSafari() && !this.state.poppedChat) {
-            this.props.onMessage(message.data);
-          }
-          break;
-        case 'AgentTyping':
-          if (message.data.typing) {
-            this.startAgentTyping();
-          } else if (message.data.typing === false) {
-            this.stopAgentTyping();
-          }
-          break;
-      }
+  handleNewMessages = (newMessages: Array<Message>) => {
+    // TODO: This will break once we implement the API version of the welcome form.
+    // The issue is we want to ensure if you are in standalone mode and submit the form
+    // that the docked webchat hides the welcome form.  We will need the API to send a
+    // websocket message saying the user submitted their welcome form. Being handled in
+    // https://centricient.atlassian.net/browse/SER-4555
+    if (this.state.welcomeForm) {
+      this.setState({welcomeForm: false});
     }
-  };
 
-  appendMessageToChat = (message: Message) => {
-    if (
-      !this.state.messages.some(m => m.id === message.id) &&
-      !message.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
-    ) {
-      this.setState(prevState => ({messages: [...prevState.messages, message]}));
-    }
+    this.setState(prevState => ({messages: [...prevState.messages, ...newMessages]}));
   };
 
   startAgentTyping = () => {
@@ -178,17 +123,6 @@ export class ChatContainer extends Component {
 
   stopAgentTyping = () => {
     this.setState({agentTyping: false});
-  };
-
-  retrieveMessages = () => {
-    fetchConversation()
-      .then((conversation: Conversation) => {
-        this.setState({
-          messages: this.getTextMessages(conversation.messages),
-          loading: false,
-        });
-      })
-      .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
 
   onWelcomeFormSubmit = () => {
@@ -248,7 +182,6 @@ export class ChatContainer extends Component {
             onDock={this.onDock}
             onMinimize={this.onMinimize}
             onFormSubmit={this.onWelcomeFormSubmit}
-            onApiError={this.handleApiError}
           />
         </div>
       );

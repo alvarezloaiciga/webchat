@@ -5,7 +5,7 @@ import HeaderMenu from 'HeaderMenu';
 import {getDisplayString, formatMessage} from 'utils/i18n';
 import type {WelcomeFormField, ApiError} from 'types';
 import messages from 'messages';
-import {sendRegistration} from 'quiq-chat';
+import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
 
 export type WelcomeFormProps = {
@@ -50,11 +50,14 @@ const WelcomeForm = (props: WelcomeFormProps) => {
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+
+    const chatClient = getChatClient();
     const fields: {[string]: string} = {};
     Object.keys(refs).forEach(k => {
       fields[k] = refs[k].value;
     });
-    sendRegistration(fields)
+    chatClient
+      .sendRegistration(fields)
       .then(props.onFormSubmit)
       .catch((err: ApiError) => props.onApiError(err, submitForm));
   };

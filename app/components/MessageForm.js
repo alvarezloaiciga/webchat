@@ -3,11 +3,11 @@ import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
 import QUIQ from 'utils/quiq';
-import {addMessage, updateMessagePreview} from 'quiq-chat';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
+import {getChatClient} from '../ChatClient';
 import './styles/MessageForm.scss';
 
 const {COLOR, FONT_FAMILY} = QUIQ;
@@ -37,12 +37,14 @@ export class MessageForm extends Component {
   }
 
   startTyping = () => {
-    updateMessagePreview(this.state.text, true);
+    const chatClient = getChatClient();
+    chatClient.updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    updateMessagePreview(this.state.text, false);
+    const chatClient = getChatClient();
+    chatClient.updateMessagePreview(this.state.text, false);
   };
 
   startTypingTimers = () => {
@@ -66,10 +68,11 @@ export class MessageForm extends Component {
   };
 
   addMessage = () => {
+    const chatClient = getChatClient();
     const text = this.state.text.trim();
     if (text) {
       this.setState({text: ''}, this.resetTypingTimers);
-      addMessage(text);
+      chatClient.sendMessage(text);
     }
   };
 
