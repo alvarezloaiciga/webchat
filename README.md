@@ -91,7 +91,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - example: `['.customButtonClass1', '#customButtonId2']`
   - WELCOME_FORM
     - type: JSON
-    - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable
+    - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable. If fields with and an `id` of `firstName` and `lastName` are defined, Quiq will use the values of these form fields to set the first and last name of the customer within the Agent UI.
     - default: `undefined`
     - example:
     ```js
