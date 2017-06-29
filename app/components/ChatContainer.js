@@ -263,7 +263,9 @@ export class ChatContainer extends Component {
       >
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
         <div className="banner" style={{backgroundColor: COLOR}}>
-          <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>{HEADER_TEXT}</span>
+          <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
+            {HEADER_TEXT}
+          </span>
         </div>
 
         {!this.state.connected &&

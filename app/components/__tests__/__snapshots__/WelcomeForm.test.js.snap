@@ -46,7 +46,8 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           className="required"
           title="Required"
         >
-           *
+           
+          *
         </span>
       </label>
       <input
@@ -102,7 +103,8 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           className="required"
           title="Required"
         >
-           *
+           
+          *
         </span>
       </label>
       <input
@@ -133,7 +135,8 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           className="required"
           title="Required"
         >
-           *
+           
+          *
         </span>
       </label>
       <input
@@ -164,7 +167,8 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           className="required"
           title="Required"
         >
-           *
+           
+          *
         </span>
       </label>
       <input
