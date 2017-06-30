@@ -98,7 +98,8 @@ export class ChatContainer extends Component {
     else this.stopAgentTyping();
   };
 
-  handleNewMessages = (newMessages: Array<Message>) => {
+  handleNewMessages = (incomingMessages: Array<Message>) => {
+    const newMessages = incomingMessages.filter(n => !this.state.messages.some(m => n.id === m.id));
     this.setState(prevState => ({messages: [...prevState.messages, ...newMessages]}));
   };
 
@@ -149,6 +150,8 @@ export class ChatContainer extends Component {
   };
 
   render() {
+    const chatClient = getChatClient();
+
     if (this.props.hidden) return null;
 
     if (this.state.error) {
@@ -161,7 +164,12 @@ export class ChatContainer extends Component {
       );
     }
 
-    if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
+    if (
+      this.state.welcomeForm &&
+      !this.state.loading &&
+      !this.state.messages.length &&
+      !chatClient.hasActiveChat()
+    ) {
       return (
         <div
           className={classnames('ChatContainer', {
