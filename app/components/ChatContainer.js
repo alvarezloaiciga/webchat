@@ -99,15 +99,6 @@ export class ChatContainer extends Component {
   };
 
   handleNewMessages = (newMessages: Array<Message>) => {
-    // TODO: This will break once we implement the API version of the welcome form.
-    // The issue is we want to ensure if you are in standalone mode and submit the form
-    // that the docked webchat hides the welcome form.  We will need the API to send a
-    // websocket message saying the user submitted their welcome form. Being handled in
-    // https://centricient.atlassian.net/browse/SER-4555
-    if (this.state.welcomeForm) {
-      this.setState({welcomeForm: false});
-    }
-
     this.setState(prevState => ({messages: [...prevState.messages, ...newMessages]}));
   };
 
