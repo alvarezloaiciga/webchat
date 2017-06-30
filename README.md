@@ -59,11 +59,40 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - description: The contact point for this webchat interface
     - default: `'default'`
     - example: `'default'`
-  - COLOR
+  - COLOR _Deprecated: You should set COLORS.primary instead_
     - type: string
     - description: Color to control appearance of chat UI in hex format.
     - default: `'#59ad5d'` (green)
     - example: `'#59ad5d'`
+  - COLORS
+    - type:
+    ```javascript
+    {
+      primary: string,
+      agentMessageText: string, // Text color for messages sent by the support agent
+      agentMessageLinkText: string, // Text color for links sent by the support agent
+      agentMessageBackground: string, // Message bubble color for links sent by the support agent
+      customerMessageText: string, // Text color for messages sent by the end user
+      customerMessageLinkText: string, // Text color for links sent by the end user
+      customerMessageBackground: string, // Message bubble color for links sent by the end user
+      transcriptBackground: string, // Background color for the chat transcript
+    }
+    ```
+    - description: Color values for the webchat
+    - defaults:
+    ```javascript
+    {
+      primary: '#59ad5d', // (Falls back to `QUIQ.COLOR`)
+      agentMessageText: '#000',
+      agentMessageLinkText: '#2199e8',
+      agentMessageBackground: '#fff',
+      customerMessageText: '#fff',
+      customerMessageLinkText: '#fff',
+      customerMessageBackground: COLORS.primary,
+      transcriptBackground: '#f4f4f8',
+    }
+    ```
+
   - HEADER_TEXT
     - type: string
     - description: Message to appear at top of chat window.

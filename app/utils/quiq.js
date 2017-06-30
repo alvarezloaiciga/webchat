@@ -60,9 +60,24 @@ const getQuiqObject = (): QuiqObject => {
 
   assignQuiqObjInStandaloneMode();
 
+  const primaryColor =
+    (window.QUIQ && window.QUIQ.COLORS && window.QUIQ.COLORS.primary) ||
+    (window.QUIQ && window.QUIQ.COLOR) ||
+    '#59ad5d';
+
   const QUIQ = {
     CONTACT_POINT: 'default',
-    COLOR: '#59ad5d',
+    COLOR: primaryColor,
+    COLORS: {
+      primary: primaryColor,
+      agentMessageText: '#000',
+      agentMessageLinkText: '#2199e8',
+      agentMessageBackground: '#fff',
+      customerMessageText: '#fff',
+      customerMessageLinkText: '#fff',
+      customerMessageBackground: primaryColor,
+      transcriptBackground: '#f4f4f8',
+    },
     HEADER_TEXT: formatMessage(messages.hereToHelp),
     HOST: getHostUrl(),
     DEBUG: false,
@@ -89,7 +104,9 @@ const getQuiqObject = (): QuiqObject => {
   // Don't AutoPop IE/Safari since they are always in standalone mode.
   window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
 
-  return Object.assign({}, QUIQ, window.QUIQ);
+  return Object.assign({}, QUIQ, window.QUIQ, {
+    COLORS: Object.assign({}, QUIQ.COLORS, window.QUIQ.COLORS),
+  });
 };
 
 const QUIQ: QuiqObject = getQuiqObject();
