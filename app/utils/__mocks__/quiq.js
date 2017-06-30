@@ -7,6 +7,8 @@ const QUIQ: QuiqObject = {
   COLOR: '#333',
   HEADER_TEXT: 'TOOL TIME',
   FONT_FAMILY: 'Lato, sans-serif',
+  WIDTH: 400,
+  HEIGHT: 600,
   DEBUG: false,
   AUTO_POP_TIME: 2000,
   HREF: window.location.href,

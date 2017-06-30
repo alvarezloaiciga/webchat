@@ -79,6 +79,16 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
     - default: `'sans-serif'`
     - example: `'Lato, sans-serif'`
+  - WIDTH
+    - type: number
+    - description: The width (px) of the webchat
+    - default: `400`
+    - example: `400`
+  - HEIGHT
+    - type: number
+    - description: The max height (px) of the webchat
+    - default: `600`
+    - example: `600`
   - AUTO_POP_TIME
     - type: number
     - description: Number, in milliseconds, until the webchat automatically pops open on its own. Leave undefined to disable.

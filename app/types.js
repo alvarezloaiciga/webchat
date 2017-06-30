@@ -34,6 +34,8 @@ export type QuiqObject = {
   WELCOME_FORM?: WelcomeForm,
   HREF: string,
   FONT_FAMILY: string,
+  WIDTH: number,
+  HEIGHT: number,
   CUSTOM_LAUNCH_BUTTONS: Array<string>,
 };
 

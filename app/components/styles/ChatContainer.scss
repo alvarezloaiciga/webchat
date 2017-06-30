@@ -15,9 +15,8 @@ $chatContainerBottomRight: 24px;
     border-radius: 0;
   }
 
-  width: 400px;
+  // width and max-height set with inline style through config
   height: calc(100vh - 132px);
-  max-height: 600px;
   position: fixed;
   right: $chatContainerBottomRight;
   bottom: 108px;
@@ -67,6 +66,7 @@ $chatContainerBottomRight: 24px;
 }
 
 .noFlexbox .ChatContainer {
+  // Default demensions
   width: 400px;
   height: 600px;
 
