@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable no-use-before-define */
 
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel',

@@ -131,6 +131,20 @@ describe('ChatContainer component', () => {
       });
     });
 
+    describe('errorOut', () => {
+      it('sets component to an error state', () => {
+        wrapper.setState({
+          loading: true,
+          error: false,
+          connected: true,
+        });
+        instance.errorOut();
+        expect(wrapper.state('loading')).toBe(false);
+        expect(wrapper.state('error')).toBe(true);
+        expect(wrapper.state('connected')).toBe(false);
+      });
+    });
+
     describe('welcome form', () => {
       it('filters the form message', () => {
         wrapper.setState({

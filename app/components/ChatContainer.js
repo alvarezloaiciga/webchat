@@ -70,6 +70,7 @@ export class ChatContainer extends Component {
         onConnectionLoss: this.disconnect,
         onConnectionEstablish: this.onConnectionEstablish,
         onMessage: this.handleWebsocketMessage,
+        onBurn: this.errorOut,
       });
 
       set(quiqChatContinuationCookie.id, 'true', {
@@ -111,6 +112,18 @@ export class ChatContainer extends Component {
 
   disconnect = () => {
     this.setState({connected: false});
+  };
+
+  /**
+   * Triggered from a BurnItDown message.
+   * This means the chat is in a fatal state and will need to be reloaded
+   */
+  errorOut = () => {
+    this.setState({
+      connected: false,
+      error: true,
+      loading: false,
+    });
   };
 
   onConnectionEstablish = () => {
