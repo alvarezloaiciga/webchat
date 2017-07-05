@@ -11,21 +11,31 @@ export type MessageProps = {
   message: MessageType,
 };
 
-const {COLOR, FONT_FAMILY} = QUIQ;
+const {FONT_FAMILY, COLORS} = QUIQ;
 
 export const Message = (props: MessageProps) => {
   const fromCustomer = props.message.authorType === 'Customer';
 
   return (
     <div
-      style={{backgroundColor: fromCustomer ? COLOR : 'white', fontFamily: FONT_FAMILY}}
+      style={{
+        color: fromCustomer ? COLORS.customerMessageText : COLORS.agentMessageText,
+        backgroundColor: fromCustomer
+          ? COLORS.customerMessageBackground
+          : COLORS.agentMessageBackground,
+        fontFamily: FONT_FAMILY,
+      }}
       className={classnames('Message', {fromCustomer})}
     >
       <Linkify
         properties={{
           target: '_blank',
           rel: 'noopener noreferrer',
-          style: {fontFamily: FONT_FAMILY},
+          style: {
+            fontFamily: FONT_FAMILY,
+            color: fromCustomer ? COLORS.customerMessageLinkText : COLORS.agentMessageLinkText,
+            textDecoration: 'underline',
+          },
         }}
       >
         <span style={{fontFamily: FONT_FAMILY}}>

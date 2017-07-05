@@ -21,7 +21,17 @@ export type CookieDef = {
 export type QuiqObject = {
   CONTACT_POINT: string,
   HOST: string,
-  COLOR: string,
+  COLOR: string, // Deprecated in favor of COLORS.primary
+  COLORS: {
+    primary: string,
+    agentMessageText: string,
+    agentMessageLinkText: string,
+    agentMessageBackground: string,
+    customerMessageText: string,
+    customerMessageLinkText: string,
+    customerMessageBackground: string,
+    transcriptBackground: string,
+  },
   HEADER_TEXT: string,
   AUTO_POP_TIME?: number,
   DEBUG:
@@ -33,6 +43,8 @@ export type QuiqObject = {
   WELCOME_FORM?: WelcomeForm,
   HREF: string,
   FONT_FAMILY: string,
+  WIDTH: number,
+  HEIGHT: number,
   CUSTOM_LAUNCH_BUTTONS: Array<string>,
 };
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Message from 'Message';
+import QUIQ from 'utils/quiq';
 import type {Message as MessageType} from 'types';
 import './styles/Transcript.scss';
 
@@ -29,12 +30,15 @@ export class Transcript extends Component {
   }
 
   render() {
+    const {COLORS} = QUIQ;
+
     return (
       <div
         className="Transcript"
         ref={n => {
           this.transcript = n;
         }}
+        style={{backgroundColor: COLORS.transcriptBackground}}
       >
         {this.props.messages.map(msg => <Message key={msg.id} message={msg} />)}
       </div>

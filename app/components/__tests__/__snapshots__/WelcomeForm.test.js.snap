@@ -3,6 +3,11 @@
 exports[`WelcomeForm component rendering renders with default props 1`] = `
 <form
   className="WelcomeForm"
+  style={
+    Object {
+      "backgroundColor": "#f4f4f8",
+    }
+  }
 >
   <HeaderMenu
     onDock={[Function]}

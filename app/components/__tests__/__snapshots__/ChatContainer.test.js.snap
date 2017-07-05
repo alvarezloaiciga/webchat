@@ -5,6 +5,12 @@ exports[`ChatContainer component rendering hidden hides the component when hidde
 exports[`ChatContainer component rendering messages appends messages to the transcript 1`] = `
 <div
   className="ChatContainer"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
 >
   <HeaderMenu
     onDock={[Function]}
@@ -70,6 +76,12 @@ exports[`ChatContainer component rendering messages appends messages to the tran
 exports[`ChatContainer component rendering renders 1`] = `
 <div
   className="ChatContainer"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
 >
   <HeaderMenu
     onDock={[Function]}
