@@ -114,6 +114,10 @@ export class ChatContainer extends Component {
     this.setState({connected: false});
   };
 
+  /**
+   * Triggered from a BurnItDown message.
+   * This means the chat is in a fatal state and will need to be reloaded
+   */
   errorOut = () => {
     this.setState({
       connected: false,
