@@ -1,21 +1,28 @@
 // @flow
 jest.mock('utils/utils');
-jest.mock('quiq-chat');
+jest.mock('../../ChatClient');
 import React from 'react';
 import keycodes from 'keycodes';
 import MessageForm from '../MessageForm';
-import {addMessage} from 'quiq-chat';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import type {MessageFormProps} from '../MessageForm';
+import {getChatClient} from '../../ChatClient';
+
+const mockClient = {
+  sendMessage: jest.fn(),
+  updateMessagePreview: jest.fn(),
+};
 
 describe('MessageForm component', () => {
   let wrapper: ShallowWrapper;
   let testProps: MessageFormProps;
   let instance: any;
   let render: () => void;
+  const getMockChatClient = (getChatClient: any);
 
   beforeEach(() => {
+    getMockChatClient.mockReturnValue(mockClient);
     render = () => {
       testProps = {
         agentTyping: false,
@@ -48,7 +55,7 @@ describe('MessageForm component', () => {
       });
 
       it('adds text', () => {
-        expect(addMessage).toBeCalledWith('OOHOOOHOOH');
+        expect(mockClient.sendMessage).toBeCalledWith('OOHOOOHOOH');
       });
 
       it('clears message form', () => {

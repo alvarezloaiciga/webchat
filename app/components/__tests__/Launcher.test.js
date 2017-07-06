@@ -5,7 +5,7 @@ import QUIQ from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
-import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
+import {TestIntlObject} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
 import {getChatClient} from '../../ChatClient';
