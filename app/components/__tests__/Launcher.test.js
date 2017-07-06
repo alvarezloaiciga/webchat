@@ -1,6 +1,6 @@
 // @flow
 jest.mock('utils/utils');
-jest.mock('quiq-chat');
+jest.mock('../../ChatClient');
 import QUIQ from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
@@ -8,20 +8,25 @@ import {shallow} from 'enzyme';
 import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
-import {checkForAgents, fetchConversation} from 'quiq-chat';
+import {getChatClient} from '../../ChatClient';
 
 jest.useFakeTimers();
+
+const mockClient = {
+  checkForAgents: jest.fn(),
+  hasActiveChat: jest.fn(),
+  getLastUserEvent: jest.fn(),
+};
 
 describe('Launcher component', () => {
   let wrapper: ShallowWrapper;
   let instance: any;
   let render: () => void;
   let testProps: LauncherProps;
-  const mockCheckForAgents = (checkForAgents: any);
-  const mockFetchConversation = (fetchConversation: any);
-  const mockGetCookie = jest.fn(); // TODO: Remove
+  const getMockChatClient = (getChatClient: any);
 
   beforeEach(() => {
+    getMockChatClient.mockReturnValue(mockClient);
     render = () => {
       testProps = {
         intl: TestIntlObject,
@@ -36,13 +41,14 @@ describe('Launcher component', () => {
     const mockResponse = new Promise(resolve => resolve({available: true}));
 
     beforeEach(() => {
-      mockCheckForAgents.mockReturnValue(mockResponse);
+      mockClient.checkForAgents.mockReturnValue(mockResponse);
+      mockClient.hasActiveChat.mockReturnValue(false);
       render();
       jest.runTimersToTime(1000 * 60);
     });
 
     it('calls checkForAgents again', () => {
-      expect(mockCheckForAgents.mock.calls.length).toBe(2);
+      expect(mockClient.checkForAgents.mock.calls.length).toBe(2);
     });
   });
 
@@ -51,8 +57,8 @@ describe('Launcher component', () => {
     const conversationResponse = Promise.resolve({id: 'testId', messages: []});
 
     beforeEach(() => {
-      mockCheckForAgents.mockReturnValue(mockResponse);
-      mockFetchConversation.mockReturnValue(conversationResponse);
+      mockClient.checkForAgents.mockReturnValue(mockResponse);
+      mockClient.hasActiveChat.mockReturnValue(false);
       render();
     });
 
@@ -140,12 +146,12 @@ describe('Launcher component', () => {
     const conversationResponse = Promise.resolve({id: 'testId', messages: []});
 
     beforeEach(() => {
-      mockCheckForAgents.mockReturnValue(mockResponse);
+      mockClient.checkForAgents.mockReturnValue(mockResponse);
     });
 
     describe('when there is not a conversation already in progress', () => {
       beforeEach(() => {
-        mockFetchConversation.mockReturnValue(conversationResponse);
+        mockClient.hasActiveChat.mockReturnValue(false);
         render();
         wrapper.setState({chatOpen: true});
       });
@@ -160,14 +166,8 @@ describe('Launcher component', () => {
 
     describe('when agents are not available', () => {
       describe('when there is a conversation already in progress', () => {
-        const mockConversation = {
-          id: 'testConversation',
-          messages: [getMockMessage(), getMockMessage()],
-        };
-
         beforeEach(() => {
-          mockFetchConversation.mockReturnValue(Promise.resolve(mockConversation));
-          mockGetCookie.mockReturnValue('true');
+          mockClient.hasActiveChat.mockReturnValue(true);
           render();
         });
 
@@ -179,11 +179,7 @@ describe('Launcher component', () => {
 
         describe('after the chat has been closed', () => {
           beforeEach(() => {
-            const closedConversation = Object.assign({}, mockConversation, {
-              messages: [...mockConversation.messages, getMockMessage(3, {type: 'Leave'})],
-            });
-            mockFetchConversation.mockReturnValue(Promise.resolve(closedConversation));
-            mockGetCookie.mockReturnValue('true');
+            mockClient.getLastUserEvent.mockReturnValue('Leave');
             render();
             instance.componentDidMount();
           });
