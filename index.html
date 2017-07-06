@@ -29,21 +29,21 @@ window.QUIQ = {
   WELCOME_FORM: {
     fields: [
       {
-        type: "text",
-        id: "firstName",
-        label: "First name",
+        type: 'text',
+        id: 'firstName',
+        label: 'First name',
       },
       {
-        type: "text",
-        id: "lastName",
-        label: "Last name",
+        type: 'text',
+        id: 'lastName',
+        label: 'Last name',
       },
       {
-        type: "number",
-        id: "phoneNumber",
-        label: "Phone number",
-      }
-    ]
+        type: 'number',
+        id: 'phoneNumber',
+        label: 'Phone number',
+      },
+    ],
   },
   CUSTOM_LAUNCH_BUTTONS: [],
 };
@@ -56,9 +56,11 @@ window.onload = function() {
       (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
         document.querySelector('button').classList.contains('noAgentsAvailable'))
     ) {
-      document.querySelector('#agentsWarning').innerText = 'Got Agents?';
-      document.querySelector('#agentsWarning').style.color =
-        '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+      const warning = document.querySelector('#agentsWarning');
+      warning.innerText = 'Got Agents?';
+      warning.style.fontFamily = '"Source Sans Pro", sans-serif';
+      warning.style.textTransform = 'uppercase';
+      warning.style.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
     } else {
       document.querySelector('#agentsWarning').innerText = '';
     }

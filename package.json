@@ -146,7 +146,7 @@
     "js-cookie": "2.1.4",
     "lodash": "4.15.0",
     "qs": "6.4.0",
-    "quiq-chat": "file:../quiq-chat",
+    "quiq-chat": "./../quiq-chat",
     "react": "15.6.0",
     "react-dom": "15.6.0",
     "react-intl": "2.3.0",

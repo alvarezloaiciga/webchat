@@ -52,6 +52,10 @@ export class ChatContainer extends Component {
     this.setState({error: true});
   };
 
+  handleChatErrorResolved = () => {
+    this.setState({error: false});
+  };
+
   initialize = async () => {
     const client = getChatClient();
 
@@ -60,6 +64,7 @@ export class ChatContainer extends Component {
       .onAgentTyping(this.handleAgentTyping)
       .onConnectionStatusChange(this.handleConnectivityChange)
       .onError(this.handleChatError)
+      .onErrorResolved(this.handleChatErrorResolved)
       .start();
 
     this.setState({loading: false});
