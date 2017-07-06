@@ -17,7 +17,7 @@ export type WelcomeFormProps = {
 };
 
 const WelcomeForm = (props: WelcomeFormProps) => {
-  const {WELCOME_FORM, FONT_FAMILY, COLOR} = QUIQ;
+  const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
 
   // We shouldn't be rendering this component if we didn't find a WELCOME_FORM in the QUIQ object.
   // But just in case, pass it through so we don't block webchat.
@@ -63,9 +63,9 @@ const WelcomeForm = (props: WelcomeFormProps) => {
   };
 
   return (
-    <form className="WelcomeForm">
+    <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
       <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
-      <div className="welcomeFormBanner" style={{backgroundColor: COLOR}}>
+      <div className="welcomeFormBanner" style={{backgroundColor: COLORS.primary}}>
         <span style={{fontFamily: FONT_FAMILY}}>
           {form.headerText}
         </span>
@@ -75,7 +75,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
       </div>
       <button
         className="submit"
-        style={{background: COLOR, fontFamily: FONT_FAMILY}}
+        style={{background: COLORS.primary, fontFamily: FONT_FAMILY}}
         onClick={submitForm}
       >
         {formatMessage(messages.submitWelcomeForm)}

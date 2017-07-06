@@ -60,9 +60,24 @@ const getQuiqObject = (): QuiqObject => {
 
   assignQuiqObjInStandaloneMode();
 
+  const primaryColor =
+    (window.QUIQ && window.QUIQ.COLORS && window.QUIQ.COLORS.primary) ||
+    (window.QUIQ && window.QUIQ.COLOR) ||
+    '#59ad5d';
+
   const QUIQ = {
     CONTACT_POINT: 'default',
-    COLOR: '#59ad5d',
+    COLOR: primaryColor,
+    COLORS: {
+      primary: primaryColor,
+      agentMessageText: '#000',
+      agentMessageLinkText: '#2199e8',
+      agentMessageBackground: '#fff',
+      customerMessageText: '#fff',
+      customerMessageLinkText: '#fff',
+      customerMessageBackground: primaryColor,
+      transcriptBackground: '#f4f4f8',
+    },
     HEADER_TEXT: formatMessage(messages.hereToHelp),
     HOST: getHostUrl(),
     DEBUG: false,
@@ -70,6 +85,8 @@ const getQuiqObject = (): QuiqObject => {
     AUTO_POP_TIME: undefined,
     HREF: window.location.href, // Standalone uses this to determine original host URL for welcome form
     FONT_FAMILY: 'sans-serif',
+    WIDTH: 400,
+    HEIGHT: 600,
     CUSTOM_LAUNCH_BUTTONS: [],
   };
 
@@ -87,7 +104,9 @@ const getQuiqObject = (): QuiqObject => {
   // Don't AutoPop IE/Safari since they are always in standalone mode.
   window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
 
-  return Object.assign({}, QUIQ, window.QUIQ);
+  return Object.assign({}, QUIQ, window.QUIQ, {
+    COLORS: Object.assign({}, QUIQ.COLORS, window.QUIQ.COLORS),
+  });
 };
 
 const QUIQ: QuiqObject = getQuiqObject();
@@ -136,8 +155,8 @@ export const openStandaloneMode = (
     return;
   }
 
-  const width = 400;
-  const height = 600;
+  const width = QUIQ.WIDTH;
+  const height = QUIQ.HEIGHT;
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
   window.QUIQ_STANDALONE_WINDOW_HANDLE = open(

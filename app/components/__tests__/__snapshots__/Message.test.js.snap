@@ -5,7 +5,8 @@ exports[`Message component fromAgent colors the message white 1`] = `
   className="Message"
   style={
     Object {
-      "backgroundColor": "white",
+      "backgroundColor": "#fff",
+      "color": "#000",
       "fontFamily": "sans-serif",
     }
   }
@@ -17,7 +18,9 @@ exports[`Message component fromAgent colors the message white 1`] = `
       Object {
         "rel": "noopener noreferrer",
         "style": Object {
+          "color": "#2199e8",
           "fontFamily": "sans-serif",
+          "textDecoration": "underline",
         },
         "target": "_blank",
       }
@@ -42,6 +45,7 @@ exports[`Message component rendering renders with default props 1`] = `
   style={
     Object {
       "backgroundColor": "#333",
+      "color": "#fff",
       "fontFamily": "sans-serif",
     }
   }
@@ -53,7 +57,9 @@ exports[`Message component rendering renders with default props 1`] = `
       Object {
         "rel": "noopener noreferrer",
         "style": Object {
+          "color": "#fff",
           "fontFamily": "sans-serif",
+          "textDecoration": "underline",
         },
         "target": "_blank",
       }

@@ -33,7 +33,7 @@ export type ChatContainerProps = {
   toggleChat?: (fireEvent?: boolean) => void,
 };
 
-const {COLOR, HEADER_TEXT, FONT_FAMILY} = QUIQ;
+const {COLOR, HEADER_TEXT, FONT_FAMILY, WIDTH, HEIGHT} = QUIQ;
 
 export class ChatContainer extends Component {
   props: ChatContainerProps;
@@ -65,6 +65,7 @@ export class ChatContainer extends Component {
       .onConnectionStatusChange(this.handleConnectivityChange)
       .onError(this.handleChatError)
       .onErrorResolved(this.handleChatErrorResolved)
+      .onBurn(this.errorOut)
       .start();
 
     this.setState({loading: false});
@@ -96,6 +97,18 @@ export class ChatContainer extends Component {
 
   handleConnectivityChange = (connected: boolean) => {
     this.setState({connected});
+  };
+
+  /**
+   * Triggered from a BurnItDown message.
+   * This means the chat is in a fatal state and will need to be reloaded
+   */
+  errorOut = () => {
+    this.setState({
+      connected: false,
+      error: true,
+      loading: false,
+    });
   };
 
   handleAgentTyping = (typing: boolean) => {
@@ -161,7 +174,7 @@ export class ChatContainer extends Component {
 
     if (this.state.error) {
       return (
-        <div className="ChatContainer">
+        <div className="ChatContainer" style={{width: WIDTH, maxHeight: HEIGHT}}>
           <div className="errorBanner">
             <FormattedMessage {...messages.errorState} />
           </div>
@@ -180,6 +193,7 @@ export class ChatContainer extends Component {
           className={classnames('ChatContainer', {
             standaloneMode: inStandaloneMode(),
           })}
+          style={{width: WIDTH, maxHeight: HEIGHT}}
         >
           <WelcomeForm
             onPop={this.onPop}
@@ -197,6 +211,7 @@ export class ChatContainer extends Component {
           standaloneMode: inStandaloneMode(),
           hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
         })}
+        style={{width: WIDTH, maxHeight: HEIGHT}}
       >
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
         <div className="banner" style={{backgroundColor: COLOR}}>

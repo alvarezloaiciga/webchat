@@ -3,6 +3,11 @@
 exports[`Transcript component rendering renders with default props 1`] = `
 <div
   className="Transcript"
+  style={
+    Object {
+      "backgroundColor": "#f4f4f8",
+    }
+  }
 >
   <Message
     message={
