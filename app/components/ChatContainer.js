@@ -1,19 +1,17 @@
 // @flow
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {inStandaloneMode, isIEorSafari} from 'utils/utils';
-import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
+import {inStandaloneMode} from 'utils/utils';
 import messages from 'messages';
 import classnames from 'classnames';
 import {getChatClient} from '../ChatClient';
-import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
+import type {Message, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
 
@@ -29,7 +27,6 @@ type ChatContainerState = {
 
 export type ChatContainerProps = {
   hidden?: boolean,
-  onMessage?: (message: Message) => void,
   toggleChat?: (fireEvent?: boolean) => void,
 };
 
@@ -54,6 +51,16 @@ export class ChatContainer extends Component {
 
   handleChatErrorResolved = () => {
     this.setState({error: false});
+  };
+
+  handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
+    if (err && err.status && err.status > 404) {
+      if (retry) {
+        setTimeout(retry, 5000);
+      }
+    } else {
+      this.setState({error: true});
+    }
   };
 
   initialize = async () => {
@@ -200,6 +207,7 @@ export class ChatContainer extends Component {
             onDock={this.onDock}
             onMinimize={this.onMinimize}
             onFormSubmit={this.onWelcomeFormSubmit}
+            onApiError={this.handleApiError}
           />
         </div>
       );
