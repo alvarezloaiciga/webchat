@@ -62,4 +62,6 @@ const QUIQ: QuiqObject = {
   },
 };
 
+export const validateWelcomeFormDefinition = jest.fn();
+
 export default QUIQ;

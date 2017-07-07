@@ -3,16 +3,14 @@ import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject, formatMessage} from 'utils/i18n';
 import QUIQ, {openStandaloneMode} from 'utils/quiq';
-import {joinChat, leaveChat, checkForAgents, fetchConversation} from 'quiq-chat';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
-import {last} from 'lodash';
 import messages from 'messages';
 import {isIEorSafari, displayError} from 'utils/utils';
-import {quiqChatContinuationCookie, noAgentsAvailableClass} from 'appConstants';
+import {noAgentsAvailableClass} from 'appConstants';
 import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
-import {get} from 'js-cookie';
+import {getChatClient} from '../ChatClient';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -57,14 +55,10 @@ export class Launcher extends Component {
   }
 
   checkIfConversation = async () => {
-    const conversation = await fetchConversation();
-    if (conversation && conversation.messages.length) {
-      const lastStatusMessage = last(
-        conversation.messages.filter(m => m.type === 'Join' || m.type === 'Leave'),
-      );
-      const minimized = lastStatusMessage && lastStatusMessage.type === 'Leave';
-      this.setState({chatOpen: !minimized});
-    }
+    const chatClient = getChatClient();
+    const lastEvent = await chatClient.getLastUserEvent();
+    const minimized = lastEvent && lastEvent === 'Leave';
+    this.setState({chatOpen: !minimized});
   };
 
   handleAutoPop = () => {
@@ -76,10 +70,11 @@ export class Launcher extends Component {
   };
 
   checkForAgents = async () => {
-    // quiq-chat-continuation is a cookie to tell if the user
-    // already initiated a chat, and therefore should bypass the agent
+    const chatClient = getChatClient();
+
+    // Check if user already initiated a chat, and therefore should bypass the agent
     // availability check.
-    if (get(quiqChatContinuationCookie.id)) {
+    if (chatClient.hasActiveChat()) {
       if (!this.state.agentsAvailable) {
         this.setState({agentsAvailable: true}, this.checkIfConversation);
       }
@@ -87,13 +82,15 @@ export class Launcher extends Component {
       return;
     }
 
-    const data = await checkForAgents();
+    const data = await chatClient.checkForAgents();
     this.setState({
       agentsAvailable: data.available,
     });
   };
 
   toggleChat = (fireEvent: boolean = true) => {
+    const chatClient = getChatClient();
+
     if (isIEorSafari()) {
       return openStandaloneMode();
     }
@@ -102,16 +99,10 @@ export class Launcher extends Component {
       prevState => ({chatOpen: !prevState.chatOpen}),
       () => {
         if (fireEvent) {
-          this.state.chatOpen ? joinChat() : leaveChat();
+          this.state.chatOpen ? chatClient.joinChat() : chatClient.leaveChat();
         }
       },
     );
-  };
-
-  handleMessage = () => {
-    if (!this.state.chatOpen) {
-      this.toggleChat();
-    }
   };
 
   updateCustomChatButtons = (agentsAvailable: boolean) => {
@@ -144,11 +135,7 @@ export class Launcher extends Component {
 
   renderChat = () =>
     <div>
-      <ChatContainer
-        toggleChat={this.toggleChat}
-        onMessage={this.handleMessage}
-        hidden={!this.state.chatOpen}
-      />
+      <ChatContainer toggleChat={this.toggleChat} hidden={!this.state.chatOpen} />
       {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
         <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />}
     </div>;

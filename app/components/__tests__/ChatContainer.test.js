@@ -1,13 +1,17 @@
 // @flow
 jest.mock('utils/quiq');
+jest.mock('../../ChatClient');
 import React from 'react';
 import ChatContainer from '../ChatContainer';
 import {getMockMessage} from 'utils/testHelpers';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import messages from 'messages';
 import QUIQ from 'utils/quiq';
 import type {ChatContainerProps} from '../ChatContainer';
+import QuiqChatClient from 'quiq-chat';
+import {getChatClient} from '../../ChatClient';
+
+const mockClient = new QuiqChatClient('testHost', 'test');
 
 jest.useFakeTimers();
 
@@ -16,8 +20,11 @@ describe('ChatContainer component', () => {
   let instance: any;
   let testProps: ChatContainerProps;
   let render: () => void;
+  const getMockChatClient = (getChatClient: any);
 
   beforeEach(() => {
+    mockClient.start = jest.fn();
+    getMockChatClient.mockReturnValue(mockClient);
     testProps = {
       hidden: false,
       onMessage: jest.fn(),
@@ -26,6 +33,7 @@ describe('ChatContainer component', () => {
     render = () => {
       wrapper = shallow(<ChatContainer {...testProps} />);
       instance = wrapper.instance();
+      instance.componentDidMount();
     };
   });
 
@@ -70,15 +78,10 @@ describe('ChatContainer component', () => {
 
     describe('typing indicator', () => {
       describe('when agent starts typing', () => {
-        const agentTypingMessage = {
-          messageType: 'ChatMessage',
-          data: {type: 'AgentTyping', typing: true},
-        };
-
         beforeEach(() => {
           jest.clearAllTimers();
           wrapper.setState({loading: false, connected: true, welcomeForm: false});
-          instance.handleWebsocketMessage(agentTypingMessage);
+          mockClient.callbacks.onAgentTyping(true);
           wrapper.update();
         });
 
@@ -89,7 +92,7 @@ describe('ChatContainer component', () => {
         describe('when another message comes in', () => {
           beforeEach(() => {
             jest.runTimersToTime(2000);
-            instance.handleWebsocketMessage(agentTypingMessage);
+            mockClient.callbacks.onAgentTyping(true);
             jest.runTimersToTime(8001); // The time the timer would have expired
             wrapper.update();
           });
@@ -142,24 +145,6 @@ describe('ChatContainer component', () => {
         expect(wrapper.state('loading')).toBe(false);
         expect(wrapper.state('error')).toBe(true);
         expect(wrapper.state('connected')).toBe(false);
-      });
-    });
-
-    describe('welcome form', () => {
-      it('filters the form message', () => {
-        wrapper.setState({
-          loading: false,
-          connected: true,
-          messages: [getMockMessage(0), getMockMessage(1), getMockMessage(2)],
-        });
-        instance.appendMessageToChat({
-          authorType: 'Customer',
-          text: messages.welcomeFormUniqueIdentifier.defaultMessage,
-          id: `someId`,
-          timestamp: 98765432,
-          type: 'Text',
-        });
-        expect(wrapper.state('messages').length).toBe(3);
       });
     });
   });

@@ -7,17 +7,16 @@ import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import QUIQ from 'utils/quiq';
-import {init as initChat} from 'quiq-chat';
+import QuiqChatClient from 'quiq-chat';
+import {registerChatClient} from './ChatClient';
 
 import 'main.scss';
 
 const init = () => {
   if (nonCompatibleBrowser()) return;
 
-  initChat({
-    HOST: QUIQ.HOST,
-    CONTACT_POINT: QUIQ.CONTACT_POINT,
-  });
+  const chatClient = new QuiqChatClient(QUIQ.HOST, QUIQ.CONTACT_POINT);
+  registerChatClient(chatClient);
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!

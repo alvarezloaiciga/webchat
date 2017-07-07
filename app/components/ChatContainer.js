@@ -1,20 +1,17 @@
 // @flow
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {subscribe, fetchConversation, unsubscribe} from 'quiq-chat';
-import {formatMessage} from 'utils/i18n';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
 import WelcomeForm from 'WelcomeForm';
 import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {inStandaloneMode, isIEorSafari} from 'utils/utils';
-import {MessageTypes, quiqChatContinuationCookie} from 'appConstants';
+import {inStandaloneMode} from 'utils/utils';
 import messages from 'messages';
 import classnames from 'classnames';
-import {set} from 'js-cookie';
-import type {Message, Conversation, AtmosphereMessage, ApiError} from 'types';
+import {getChatClient} from '../ChatClient';
+import type {Message, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
 
@@ -30,7 +27,6 @@ type ChatContainerState = {
 
 export type ChatContainerProps = {
   hidden?: boolean,
-  onMessage?: (message: Message) => void,
   toggleChat?: (fireEvent?: boolean) => void,
 };
 
@@ -49,6 +45,14 @@ export class ChatContainer extends Component {
   };
   typingTimeout: ?number;
 
+  handleChatError = () => {
+    this.setState({error: true});
+  };
+
+  handleChatErrorResolved = () => {
+    this.setState({error: false});
+  };
+
   handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
     if (err && err.status && err.status > 404) {
       if (retry) {
@@ -60,26 +64,18 @@ export class ChatContainer extends Component {
   };
 
   initialize = async () => {
-    try {
-      // Order Matters here.  Ensure we succesfully complete this request before connecting to
-      // the websocket below!
-      const conversation = await fetchConversation();
-      this.setState({messages: this.getTextMessages(conversation.messages)});
+    const client = getChatClient();
 
-      subscribe({
-        onConnectionLoss: this.disconnect,
-        onConnectionEstablish: this.onConnectionEstablish,
-        onMessage: this.handleWebsocketMessage,
-        onBurn: this.errorOut,
-      });
+    await client
+      .onNewMessages(this.handleNewMessages)
+      .onAgentTyping(this.handleAgentTyping)
+      .onConnectionStatusChange(this.handleConnectivityChange)
+      .onError(this.handleChatError)
+      .onErrorResolved(this.handleChatErrorResolved)
+      .onBurn(this.errorOut)
+      .start();
 
-      set(quiqChatContinuationCookie.id, 'true', {
-        expires: quiqChatContinuationCookie.expiration,
-      });
-    } catch (err) {
-      unsubscribe();
-      this.handleApiError(err, this.initialize);
-    }
+    this.setState({loading: false});
   };
 
   componentDidMount() {
@@ -106,12 +102,8 @@ export class ChatContainer extends Component {
     if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
 
-  connect = () => {
-    this.setState({connected: true});
-  };
-
-  disconnect = () => {
-    this.setState({connected: false});
+  handleConnectivityChange = (connected: boolean) => {
+    this.setState({connected});
   };
 
   /**
@@ -126,57 +118,14 @@ export class ChatContainer extends Component {
     });
   };
 
-  onConnectionEstablish = () => {
-    this.connect();
-    this.retrieveMessages();
+  handleAgentTyping = (typing: boolean) => {
+    if (typing) this.startAgentTyping();
+    else this.stopAgentTyping();
   };
 
-  getTextMessages = (msgs: Array<Message>) =>
-    msgs.filter(
-      m =>
-        m.type === MessageTypes.TEXT &&
-        !m.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim()),
-    );
-
-  handleWebsocketMessage = (message: AtmosphereMessage) => {
-    if (message.messageType === MessageTypes.CHAT_MESSAGE) {
-      switch (message.data.type) {
-        case 'Text':
-          // TODO: This will break once we implement the API version of the welcome form.
-          // The issue is we want to ensure if you are in standalone mode and submit the form
-          // that the docked webchat hides the welcome form.  We will need the API to send a
-          // websocket message saying the user submitted their welcome form. Being handled in
-          // https://centricient.atlassian.net/browse/SER-4555
-          if (this.state.welcomeForm) {
-            this.setState({welcomeForm: false});
-          }
-          this.appendMessageToChat(message.data);
-
-          // If we popped webchat in standalone mode, and user hasn't explicitly clicked chat button again,
-          // don't open it. Also if we are in IE or Safari, we don't allow redocking of the webchat.
-          // It is stuck in standalone forever
-          if (this.props.onMessage && !isIEorSafari() && !this.state.poppedChat) {
-            this.props.onMessage(message.data);
-          }
-          break;
-        case 'AgentTyping':
-          if (message.data.typing) {
-            this.startAgentTyping();
-          } else if (message.data.typing === false) {
-            this.stopAgentTyping();
-          }
-          break;
-      }
-    }
-  };
-
-  appendMessageToChat = (message: Message) => {
-    if (
-      !this.state.messages.some(m => m.id === message.id) &&
-      !message.text.includes(formatMessage(messages.welcomeFormUniqueIdentifier).trim())
-    ) {
-      this.setState(prevState => ({messages: [...prevState.messages, message]}));
-    }
+  handleNewMessages = (incomingMessages: Array<Message>) => {
+    const newMessages = incomingMessages.filter(n => !this.state.messages.some(m => n.id === m.id));
+    this.setState(prevState => ({messages: [...prevState.messages, ...newMessages]}));
   };
 
   startAgentTyping = () => {
@@ -191,17 +140,6 @@ export class ChatContainer extends Component {
 
   stopAgentTyping = () => {
     this.setState({agentTyping: false});
-  };
-
-  retrieveMessages = () => {
-    fetchConversation()
-      .then((conversation: Conversation) => {
-        this.setState({
-          messages: this.getTextMessages(conversation.messages),
-          loading: false,
-        });
-      })
-      .catch((err: ApiError) => this.handleApiError(err, this.retrieveMessages));
   };
 
   onWelcomeFormSubmit = () => {
@@ -237,6 +175,8 @@ export class ChatContainer extends Component {
   };
 
   render() {
+    const chatClient = getChatClient();
+
     if (this.props.hidden) return null;
 
     if (this.state.error) {
@@ -249,7 +189,12 @@ export class ChatContainer extends Component {
       );
     }
 
-    if (this.state.welcomeForm && !this.state.loading && !this.state.messages.length) {
+    if (
+      this.state.welcomeForm &&
+      !this.state.loading &&
+      !this.state.messages.length &&
+      !chatClient.hasActiveChat()
+    ) {
       return (
         <div
           className={classnames('ChatContainer', {

@@ -7,7 +7,6 @@ exports[`Launcher component when agents are available renders 1`] = `
   <div>
     <ChatContainer
       hidden={true}
-      onMessage={[Function]}
       toggleChat={[Function]}
     />
     <ToggleChatButton
@@ -25,7 +24,6 @@ exports[`Launcher component when agents are not available when agents are not av
   <div>
     <ChatContainer
       hidden={true}
-      onMessage={[Function]}
       toggleChat={[Function]}
     />
     <ToggleChatButton
@@ -43,7 +41,6 @@ exports[`Launcher component when agents are not available when agents are not av
   <div>
     <ChatContainer
       hidden={false}
-      onMessage={[Function]}
       toggleChat={[Function]}
     />
     <ToggleChatButton
