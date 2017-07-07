@@ -56,7 +56,7 @@ window.onload = function() {
       (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
         document.querySelector('button').classList.contains('noAgentsAvailable'))
     ) {
-      const warning = document.querySelector('#agentsWarning');
+      var warning = document.querySelector('#agentsWarning');
       warning.innerText = 'Got Agents?';
       warning.style.fontFamily = '"Source Sans Pro", sans-serif';
       warning.style.textTransform = 'uppercase';
