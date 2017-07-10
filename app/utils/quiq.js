@@ -104,9 +104,12 @@ const getQuiqObject = (): QuiqObject => {
   // Don't AutoPop IE/Safari since they are always in standalone mode.
   window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
 
-  return Object.assign({}, QUIQ, window.QUIQ, {
+  const returnValue = Object.assign({}, QUIQ, window.QUIQ, {
+    COLOR: primaryColor,
     COLORS: Object.assign({}, QUIQ.COLORS, window.QUIQ.COLORS),
   });
+
+  return returnValue;
 };
 
 const QUIQ: QuiqObject = getQuiqObject();
