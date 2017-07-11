@@ -8,10 +8,13 @@ import {
   inStandaloneMode,
   isIE9,
   isIEorSafari,
+  camelize,
 } from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import qs from 'qs';
-import type {QuiqObject} from 'types';
+import type {QuiqObject, WelcomeForm} from 'types';
+
+const reservedKeyNames = ['Referrer'];
 
 const getHostUrl = (): string => {
   // Host will already be defined in standalone mode
@@ -37,6 +40,18 @@ const processCustomCss = (url: string): void => {
   link.type = 'text/css';
   link.rel = 'stylesheet';
   document.getElementsByTagName('head')[0].appendChild(link);
+};
+
+const processWelcomeForm = (form: WelcomeForm): void => {
+  const newFormObject = Object.assign({}, form);
+  if (form.fields) {
+    newFormObject.fields.forEach(field => {
+      // Ensure that id is defined. If not, use camel-cased version of label.
+      // If label is not defined this is an error, and will be caught when WELCOME_FORM is validated.
+      if (!field.id && field.label) field.id = camelize(field.label);
+    });
+  }
+  window.QUIQ.WELCOME_FORM = newFormObject;
 };
 
 const assignQuiqObjInStandaloneMode = () => {
@@ -94,6 +109,11 @@ const getQuiqObject = (): QuiqObject => {
     return QUIQ;
   }
 
+  // If welcome form is defined, process it
+  if (window.QUIQ.WELCOME_FORM) {
+    processWelcomeForm(window.QUIQ.WELCOME_FORM);
+  }
+
   // If custom css url is defined in DEBUG, process it
   if (window.QUIQ.DEBUG && window.QUIQ.DEBUG.CUSTOM_CSS_URL)
     processCustomCss(window.QUIQ.DEBUG.CUSTOM_CSS_URL);
@@ -125,6 +145,7 @@ export const validateWelcomeFormDefinition = (): void => {
 
   form.fields.reduce((uniqueKeys, f) => {
     // Ensure field has an id, label and type
+    // Note that we previously try and build an id from the label if an id was not provided
     if (!f.label || !f.id || !f.type) {
       displayError(messages.invalidWelcomeFormUndefined, {id: f.id, label: f.label});
     }
@@ -137,6 +158,11 @@ export const validateWelcomeFormDefinition = (): void => {
     // Ensure key is unique
     if (uniqueKeys.includes(f.id)) {
       displayError(messages.invalidWelcomeFormDefinitionKeyUniqueness);
+    }
+
+    // Ensure id field is not in the list of reserved words
+    if (reservedKeyNames.includes(f.id)) {
+      displayError(messages.invalidWelcomeFormDefinitionKeyReserved, {id: f.id});
     }
 
     return uniqueKeys.concat(f.id);
