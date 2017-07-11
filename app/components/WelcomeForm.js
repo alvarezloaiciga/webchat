@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {getDisplayString, formatMessage} from 'utils/i18n';
@@ -19,14 +20,37 @@ export type WelcomeFormProps = {
 
 export type WelcomeFormState = {
   formValidationError: boolean,
+  inputFields: {
+    [string]: {
+      value: string,
+      label: string,
+      required: boolean,
+    },
+  },
 };
 
 class WelcomeForm extends Component {
-  inputFields: {[string]: any} = {};
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,
+    inputFields: {},
   };
+
+  constructor(props: WelcomeFormProps) {
+    super(props);
+
+    const {WELCOME_FORM} = QUIQ;
+
+    if (WELCOME_FORM) {
+      WELCOME_FORM.fields.forEach(field => {
+        this.state.inputFields[field.id] = {
+          value: '',
+          label: field.label,
+          required: Boolean(field.required),
+        };
+      });
+    }
+  }
 
   renderField = (field: WelcomeFormField) => {
     const {FONT_FAMILY} = QUIQ;
@@ -41,7 +65,8 @@ class WelcomeForm extends Component {
             </span>}
         </label>
         <input
-          ref={n => (this.inputFields[field.id] = n)}
+          value={this.state.inputFields[field.id].value}
+          onChange={this.handleFieldInput}
           type={field.type}
           name={field.id}
           required={field.required}
@@ -61,11 +86,11 @@ class WelcomeForm extends Component {
     const fields: {[string]: string} = {};
     let validationError = false;
 
-    map(this.inputFields, (field, key) => {
+    map(this.state.inputFields, (field, key) => {
       if (field.required && !field.value) validationError = true;
 
       // Only include field if it was filled out
-      // TODO: Should API allow empty strings? Currently does not.
+      // TODO: API should allow empty strings. Send all fields when this is fixed.
       if (field.value) fields[key] = field.value;
     });
 
@@ -81,6 +106,22 @@ class WelcomeForm extends Component {
       .sendRegistration(fields)
       .then(this.props.onFormSubmit)
       .catch((err: ApiError) => this.props.onApiError(err, this.submitForm));
+  };
+
+  handleFieldInput = (e: SyntheticInputEvent) => {
+    const fieldId = e.target.name;
+    const value = e.target.value;
+    const newState = update(this.state, {
+      inputFields: {
+        [fieldId]: {
+          value: {
+            $set: value,
+          },
+        },
+      },
+    });
+
+    this.setState(newState);
   };
 
   render = () => {
