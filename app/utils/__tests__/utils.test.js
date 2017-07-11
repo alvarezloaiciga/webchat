@@ -41,5 +41,9 @@ describe('Utils', () => {
     it('converts Upper Case to camelCase', () => {
       expect(Utils.camelize('Upper Case')).toBe('upperCase');
     });
+
+    it('converts crazy-case_words without blowing up', () => {
+      expect(Utils.camelize('crazy-case word')).toBe('crazy-CaseWord');
+    });
   });
 });
