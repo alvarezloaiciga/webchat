@@ -1,6 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
@@ -11,6 +10,7 @@ import {inStandaloneMode} from 'utils/utils';
 import messages from 'messages';
 import classnames from 'classnames';
 import {getChatClient} from '../ChatClient';
+import {formatMessage} from 'utils/i18n';
 import type {Message, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
@@ -157,17 +157,17 @@ export class ChatContainer extends Component {
     this.setState({poppedChat: false});
   };
 
-  getBanner = () => {
+  renderBanner = () => {
     if (this.state.error) {
       return (
         <div className="errorBanner">
-          <FormattedMessage {...messages.errorState} />
+          {formatMessage(messages.errorState)}
         </div>
       );
     } else if (!this.state.connected && this.props.initialized) {
       return (
         <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
-          <FormattedMessage {...messages.reconnecting} />
+          {formatMessage(messages.reconnecting)}
         </div>
       );
     }
@@ -211,7 +211,7 @@ export class ChatContainer extends Component {
     return (
       <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
-        {this.getBanner()}
+        {this.renderBanner()}
         <div className="chatContainerBody">
           {this.props.initialized ? <Transcript messages={this.state.messages} /> : <Spinner />}
           {this.props.initialized &&
