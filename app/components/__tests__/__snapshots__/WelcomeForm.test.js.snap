@@ -58,6 +58,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         maxLength={1000}
         name="firstName"
+        onChange={[Function]}
         required={true}
         style={
           Object {
@@ -65,6 +66,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           }
         }
         type="text"
+        value=""
       />
     </div>
     <div
@@ -83,6 +85,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         maxLength={1000}
         name="lastName"
+        onChange={[Function]}
         required={false}
         style={
           Object {
@@ -90,6 +93,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           }
         }
         type="text"
+        value=""
       />
     </div>
     <div
@@ -115,6 +119,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         maxLength={1000}
         name="numberField"
+        onChange={[Function]}
         required={true}
         style={
           Object {
@@ -122,6 +127,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           }
         }
         type="number"
+        value=""
       />
     </div>
     <div
@@ -147,6 +153,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         maxLength={1000}
         name="email"
+        onChange={[Function]}
         required={true}
         style={
           Object {
@@ -154,6 +161,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           }
         }
         type="email"
+        value=""
       />
     </div>
     <div
@@ -179,6 +187,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
       <input
         maxLength={1000}
         name="phoneNumber"
+        onChange={[Function]}
         required={true}
         style={
           Object {
@@ -186,6 +195,7 @@ exports[`WelcomeForm component rendering renders with default props 1`] = `
           }
         }
         type="tel"
+        value=""
       />
     </div>
   </div>

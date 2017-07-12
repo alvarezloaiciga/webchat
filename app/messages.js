@@ -132,6 +132,13 @@ export default defineMessages({
       "Error message to display when WELCOME_FORM is not valid because not all fields have unique id's.",
     defaultMessage: 'Invalid WELCOME_FORM definition: All fields must have a unique id',
   },
+  invalidWelcomeFormDefinitionKeyReserved: {
+    id: 'invalidWelcomeFormDefinitionKeyReserved',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because a field has an id that is reserved',
+    defaultMessage:
+      'Invalid WELCOME_FORM definition: Fields cannot have an id of "{id}" as this id is used internally.',
+  },
   invalidWelcomeFormFieldCount: {
     id: 'invalidWelcomeFormFieldCount',
     description:
@@ -142,6 +149,11 @@ export default defineMessages({
     id: 'submitWelcomeForm',
     description: 'Text of submit button on welcome form',
     defaultMessage: 'Submit',
+  },
+  welcomeFormValidationError: {
+    id: 'welcomeFormValidationError',
+    description: 'Error displayed when user has not filled in a required field',
+    defaultMessage: 'Please complete all fields marked with an *',
   },
   unableToBindCustomLauncherError: {
     id: 'unableToBindCustomLauncherError',

@@ -1,5 +1,6 @@
 // @flow
-import React from 'react';
+import React, {Component} from 'react';
+import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {getDisplayString, formatMessage} from 'utils/i18n';
@@ -7,6 +8,7 @@ import type {WelcomeFormField, ApiError} from 'types';
 import messages from 'messages';
 import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
+import {map} from 'lodash';
 
 export type WelcomeFormProps = {
   onFormSubmit: (formattedString: string) => void,
@@ -16,72 +18,151 @@ export type WelcomeFormProps = {
   onApiError: (err: ApiError, func: (any) => any) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
-const WelcomeForm = (props: WelcomeFormProps) => {
-  const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
+export type WelcomeFormState = {
+  formValidationError: boolean,
+  inputFields: {
+    [string]: {
+      value: string,
+      label: string,
+      required: boolean,
+    },
+  },
+};
 
-  // We shouldn't be rendering this component if we didn't find a WELCOME_FORM in the QUIQ object.
-  // But just in case, pass it through so we don't block webchat.
-  if (!WELCOME_FORM) {
-    props.onFormSubmit('');
-    return null;
+class WelcomeForm extends Component {
+  props: WelcomeFormProps;
+  state: WelcomeFormState = {
+    formValidationError: false,
+    inputFields: {},
+  };
+
+  constructor(props: WelcomeFormProps) {
+    super(props);
+
+    const {WELCOME_FORM} = QUIQ;
+
+    if (WELCOME_FORM) {
+      WELCOME_FORM.fields.forEach(field => {
+        this.state.inputFields[field.id] = {
+          value: '',
+          label: field.label,
+          required: Boolean(field.required),
+        };
+      });
+    }
   }
 
-  const refs = {};
-  const form = WELCOME_FORM;
+  renderField = (field: WelcomeFormField) => {
+    const {FONT_FAMILY} = QUIQ;
 
-  const renderField = (field: WelcomeFormField) =>
-    <div className="field" key={field.id}>
-      <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
-        {field.label}
-        {field.required &&
-          <span className="required" title={getDisplayString(messages.required)}>
-            {' '}*
-          </span>}
-      </label>
-      <input
-        ref={n => (refs[field.id] = n)}
-        type={field.type}
-        name={field.id}
-        required={field.required}
-        style={{fontFamily: FONT_FAMILY}}
-        maxLength={1000}
-      />
-    </div>;
+    return (
+      <div className="field" key={field.id}>
+        <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
+          {field.label}
+          {field.required &&
+            <span className="required" title={getDisplayString(messages.required)}>
+              {' '}*
+            </span>}
+        </label>
+        <input
+          value={this.state.inputFields[field.id].value}
+          onChange={this.handleFieldInput}
+          type={field.type}
+          name={field.id}
+          required={field.required}
+          style={{fontFamily: FONT_FAMILY}}
+          maxLength={1000}
+        />
+      </div>
+    );
+  };
 
-  const submitForm = (e: SyntheticEvent) => {
+  submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+
+    const {HREF} = QUIQ;
 
     const chatClient = getChatClient();
     const fields: {[string]: string} = {};
-    Object.keys(refs).forEach(k => {
-      fields[k] = refs[k].value;
+    let validationError = false;
+
+    map(this.state.inputFields, (field, key) => {
+      if (field.required && !field.value) validationError = true;
+
+      // Only include field if it was filled out
+      // TODO: API should allow empty strings. Send all fields when this is fixed.
+      if (field.value) fields[key] = field.value;
     });
+
+    // Append field containing referrer (host)
+    fields.Referrer = HREF;
+
+    if (validationError) {
+      this.setState({formValidationError: true});
+      return;
+    }
+
     chatClient
       .sendRegistration(fields)
-      .then(props.onFormSubmit)
-      .catch((err: ApiError) => props.onApiError(err, submitForm));
+      .then(this.props.onFormSubmit)
+      .catch((err: ApiError) => this.props.onApiError(err, this.submitForm));
   };
 
-  return (
-    <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
-      <HeaderMenu onPop={props.onPop} onDock={props.onDock} onMinimize={props.onMinimize} />
-      <div className="welcomeFormBanner" style={{backgroundColor: COLORS.primary}}>
-        <span style={{fontFamily: FONT_FAMILY}}>
-          {form.headerText}
-        </span>
-      </div>
-      <div className="fields">
-        {WELCOME_FORM.fields.map(renderField)}
-      </div>
-      <button
-        className="submit"
-        style={{background: COLORS.primary, fontFamily: FONT_FAMILY}}
-        onClick={submitForm}
-      >
-        {formatMessage(messages.submitWelcomeForm)}
-      </button>
-    </form>
-  );
-};
+  handleFieldInput = (e: SyntheticInputEvent) => {
+    const fieldId = e.target.name;
+    const value = e.target.value;
+    const newState = update(this.state, {
+      inputFields: {
+        [fieldId]: {
+          value: {
+            $set: value,
+          },
+        },
+      },
+    });
+
+    this.setState(newState);
+  };
+
+  render = () => {
+    const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
+
+    // We shouldn't be rendering this component if we didn't find a WELCOME_FORM in the QUIQ object.
+    // But just in case, pass it through so we don't block webchat.
+    if (!WELCOME_FORM) {
+      this.props.onFormSubmit('');
+      return null;
+    }
+
+    return (
+      <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
+        <HeaderMenu
+          onPop={this.props.onPop}
+          onDock={this.props.onDock}
+          onMinimize={this.props.onMinimize}
+        />
+        <div className="welcomeFormBanner" style={{backgroundColor: COLORS.primary}}>
+          <span style={{fontFamily: FONT_FAMILY}}>
+            {WELCOME_FORM.headerText}
+          </span>
+        </div>
+        {this.state.formValidationError &&
+          <span className="formValidationError">
+            {formatMessage(messages.welcomeFormValidationError)}
+          </span>}
+        <div className="fields">
+          {WELCOME_FORM.fields.map(this.renderField)}
+        </div>
+        <button
+          className="submit"
+          style={{background: COLORS.primary, fontFamily: FONT_FAMILY}}
+          onClick={this.submitForm}
+        >
+          {formatMessage(messages.submitWelcomeForm)}
+        </button>
+      </form>
+    );
+  };
+}
 
 export default WelcomeForm;

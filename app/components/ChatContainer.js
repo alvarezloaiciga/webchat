@@ -193,7 +193,7 @@ export class ChatContainer extends Component {
       this.state.welcomeForm &&
       !this.state.loading &&
       !this.state.messages.length &&
-      !chatClient.hasActiveChat()
+      !chatClient.isRegistered()
     ) {
       return (
         <div
