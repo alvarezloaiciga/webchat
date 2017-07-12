@@ -4,16 +4,15 @@ exports[`Launcher component when agents are available renders 1`] = `
 <div
   className="Launcher"
 >
-  <div>
-    <ChatContainer
-      hidden={true}
-      toggleChat={[Function]}
-    />
-    <ToggleChatButton
-      chatOpen={false}
-      toggleChat={[Function]}
-    />
-  </div>
+  <ChatContainer
+    hidden={true}
+    initialized={false}
+    toggleChat={[Function]}
+  />
+  <ToggleChatButton
+    chatOpen={false}
+    toggleChat={[Function]}
+  />
 </div>
 `;
 
@@ -21,16 +20,15 @@ exports[`Launcher component when agents are not available when agents are not av
 <div
   className="Launcher"
 >
-  <div>
-    <ChatContainer
-      hidden={true}
-      toggleChat={[Function]}
-    />
-    <ToggleChatButton
-      chatOpen={false}
-      toggleChat={[Function]}
-    />
-  </div>
+  <ChatContainer
+    hidden={true}
+    initialized={true}
+    toggleChat={[Function]}
+  />
+  <ToggleChatButton
+    chatOpen={false}
+    toggleChat={[Function]}
+  />
 </div>
 `;
 
@@ -38,21 +36,16 @@ exports[`Launcher component when agents are not available when agents are not av
 <div
   className="Launcher"
 >
-  <div>
-    <ChatContainer
-      hidden={false}
-      toggleChat={[Function]}
-    />
-    <ToggleChatButton
-      chatOpen={true}
-      toggleChat={[Function]}
-    />
-  </div>
+  <ChatContainer
+    hidden={true}
+    initialized={true}
+    toggleChat={[Function]}
+  />
+  <ToggleChatButton
+    chatOpen={false}
+    toggleChat={[Function]}
+  />
 </div>
 `;
 
-exports[`Launcher component when agents are not available when there is not a conversation already in progress renders a placeholder 1`] = `
-<div
-  className="Launcher"
-/>
-`;
+exports[`Launcher component when agents are not available when there is not a conversation already in progress hides the launcher 1`] = `null`;

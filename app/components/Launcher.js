@@ -11,10 +11,12 @@ import {noAgentsAvailableClass} from 'appConstants';
 import type {IntlObject} from 'types';
 import './styles/Launcher.scss';
 import {getChatClient} from '../ChatClient';
+import type {QuiqChatClientType} from 'quiq-chat';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
   chatOpen: boolean,
+  initialized: boolean,
 };
 
 export type LauncherProps = {
@@ -25,14 +27,18 @@ export class Launcher extends Component {
   props: LauncherProps;
   state: LauncherState = {
     chatOpen: false,
+    initialized: false,
   };
   checkForAgentsInterval: number;
+  client: QuiqChatClientType;
 
   componentDidMount() {
     registerIntlObject(this.props.intl);
+    this.client = getChatClient();
     if (QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0) {
       this.bindChatButtons();
     }
+
     // Start polling to check for agents available
     this.checkForAgentsInterval = setInterval(this.checkForAgents, 1000 * 60);
     // Check the first time
@@ -55,53 +61,68 @@ export class Launcher extends Component {
   }
 
   checkIfConversation = async () => {
-    const chatClient = getChatClient();
-    const lastEvent = await chatClient.getLastUserEvent();
+    const lastEvent = await this.client.getLastUserEvent();
     const minimized = lastEvent && lastEvent === 'Leave';
-    this.setState({chatOpen: !minimized});
+    if (!this.state.chatOpen && !minimized) {
+      this.toggleChat(false);
+    }
   };
 
   handleAutoPop = () => {
     if (typeof QUIQ.AUTO_POP_TIME === 'number') {
       setTimeout(() => {
-        this.setState({chatOpen: true});
+        if (!this.state.chatOpen && !isIEorSafari()) this.toggleChat();
       }, QUIQ.AUTO_POP_TIME);
     }
   };
 
   checkForAgents = async () => {
-    const chatClient = getChatClient();
-
     // Check if user already initiated a chat, and therefore should bypass the agent
     // availability check.
-    if (chatClient.hasActiveChat()) {
+    if (this.client.hasActiveChat()) {
       if (!this.state.agentsAvailable) {
-        this.setState({agentsAvailable: true}, this.checkIfConversation);
+        this.setState({agentsAvailable: true});
       }
 
-      return;
+      // This is one of two possible scenarios we should initialize the client.
+      // In this scenario, the end-user has already interacted with the webchat
+      // and has since refreshed the page, so we are safe to make this call.
+      if (!this.state.initialized) {
+        await this.client.start();
+        this.setState({initialized: true});
+      }
+
+      return this.checkIfConversation();
     }
 
-    const data = await chatClient.checkForAgents();
+    const data = await this.client.checkForAgents();
     this.setState({
       agentsAvailable: data.available,
     });
   };
 
-  toggleChat = (fireEvent: boolean = true) => {
-    const chatClient = getChatClient();
+  fireJoinLeaveEvent = async (fireEvent: boolean = true) => {
+    // This is one of two possible scenarios we should initialize the client.
+    // In this scenario, the end user has clicked a webchat button, whether
+    // custom or standard, so we are safe to make this call.
+    if (!this.state.initialized) {
+      await this.client.start();
+      this.setState({initialized: true});
+    }
 
+    if (fireEvent) {
+      this.state.chatOpen ? this.client.joinChat() : this.client.leaveChat();
+    }
+  };
+
+  toggleChat = (fireEvent: boolean = true) => {
     if (isIEorSafari()) {
       return openStandaloneMode();
     }
 
     this.setState(
       prevState => ({chatOpen: !prevState.chatOpen}),
-      () => {
-        if (fireEvent) {
-          this.state.chatOpen ? chatClient.joinChat() : chatClient.leaveChat();
-        }
-      },
+      () => this.fireJoinLeaveEvent(fireEvent),
     );
   };
 
@@ -133,19 +154,18 @@ export class Launcher extends Component {
     }
   };
 
-  renderChat = () =>
-    <div>
-      <ChatContainer toggleChat={this.toggleChat} hidden={!this.state.chatOpen} />
-      {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
-        <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />}
-    </div>;
-
   render() {
-    const content = this.state.agentsAvailable === true ? this.renderChat() : null;
+    if (!this.state.agentsAvailable) return null;
 
     return (
       <div className="Launcher">
-        {content}
+        <ChatContainer
+          initialized={this.state.initialized}
+          toggleChat={this.toggleChat}
+          hidden={!this.state.chatOpen}
+        />
+        {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
+          <ToggleChatButton toggleChat={this.toggleChat} chatOpen={this.state.chatOpen} />}
       </div>
     );
   }

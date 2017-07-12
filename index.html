@@ -26,27 +26,6 @@ if (!tenant) {
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
-  WELCOME_FORM: {
-    fields: [
-      {
-        type: 'text',
-        label: 'First name',
-        id: 'firstName',
-        required: true,
-      },
-      {
-        type: 'text',
-        label: 'Last name',
-        id: 'lastName',
-      },
-      {
-        type: 'number',
-        label: 'Phone number',
-        id: 'phoneNumber',
-      },
-    ],
-  },
-  CUSTOM_LAUNCH_BUTTONS: [],
 };
 </script>
 <script>
@@ -54,7 +33,8 @@ window.onload = function() {
   setInterval(function() {
     if (
       !document.querySelector('.ToggleChatButton') &&
-      (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
+      (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS ||
+        !window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
         document.querySelector('button').classList.contains('noAgentsAvailable'))
     ) {
       var warning = document.querySelector('#agentsWarning');
