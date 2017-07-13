@@ -13,8 +13,9 @@ import {getChatClient} from '../../ChatClient';
 jest.useFakeTimers();
 
 const mockClient = {
-  checkForAgents: jest.fn(),
   hasActiveChat: jest.fn(),
+  checkForAgents: jest.fn(),
+  isChatVisible: jest.fn(),
   getLastUserEvent: jest.fn(),
 };
 
@@ -42,7 +43,7 @@ describe('Launcher component', () => {
 
     beforeEach(() => {
       mockClient.checkForAgents.mockReturnValue(mockResponse);
-      mockClient.hasActiveChat.mockReturnValue(false);
+      mockClient.isChatVisible.mockReturnValue(false);
       render();
       jest.runTimersToTime(1000 * 60);
     });
@@ -58,7 +59,7 @@ describe('Launcher component', () => {
 
     beforeEach(() => {
       mockClient.checkForAgents.mockReturnValue(mockResponse);
-      mockClient.hasActiveChat.mockReturnValue(false);
+      mockClient.isChatVisible.mockReturnValue(false);
       render();
     });
 
@@ -151,7 +152,7 @@ describe('Launcher component', () => {
 
     describe('when there is not a conversation already in progress', () => {
       beforeEach(() => {
-        mockClient.hasActiveChat.mockReturnValue(false);
+        mockClient.isChatVisible.mockReturnValue(false);
         render();
         wrapper.setState({chatOpen: true});
       });
@@ -163,33 +164,54 @@ describe('Launcher component', () => {
         expect(wrapper).toMatchSnapshot();
       });
     });
+  });
 
-    describe('when agents are not available', () => {
-      describe('when there is a conversation already in progress', () => {
-        beforeEach(() => {
-          mockClient.hasActiveChat.mockReturnValue(true);
-          render();
-        });
+  describe('isChatVisible', () => {
+    const agentsAvailableResponse = new Promise(resolve => resolve({available: true}));
+    const activeChatResponse = new Promise(resolve => resolve(false));
 
-        it('renders the chat', async () => {
-          await mockResponse;
-          wrapper.update();
-          expect(wrapper).toMatchSnapshot();
-        });
+    beforeEach(() => {
+      mockClient.checkForAgents.mockReturnValue(agentsAvailableResponse);
+      mockClient.hasActiveChat.mockReturnValue(activeChatResponse);
+    });
 
-        describe('after the chat has been closed', () => {
-          beforeEach(() => {
-            mockClient.getLastUserEvent.mockReturnValue('Leave');
-            render();
-            instance.componentDidMount();
-          });
+    describe('when chat is visible', () => {
+      it('displays chat', async () => {
+        mockClient.isChatVisible.mockReturnValue(true);
+        render();
+        await agentsAvailableResponse;
+        await activeChatResponse;
+        expect(wrapper.state('chatOpen')).toBe(true);
+      });
+    });
 
-          it('leaves the chat closed', async () => {
-            await mockResponse;
-            wrapper.update();
-            expect(wrapper).toMatchSnapshot();
-          });
-        });
+    describe('when chat is not visible', () => {
+      it('hides chat', async () => {
+        mockClient.isChatVisible.mockReturnValue(false);
+        render();
+        await agentsAvailableResponse;
+        await activeChatResponse;
+        expect(wrapper.state('chatOpen')).toBe(false);
+      });
+    });
+  });
+
+  describe('active chat', () => {
+    const agentsAvailableResponse = new Promise(resolve => resolve({available: false}));
+    const activeChatResponse = new Promise(resolve => resolve(true));
+
+    beforeEach(() => {
+      mockClient.checkForAgents.mockReturnValue(agentsAvailableResponse);
+      mockClient.hasActiveChat.mockReturnValue(activeChatResponse);
+    });
+
+    describe('when there is an active chat', () => {
+      it('displays chat', async () => {
+        mockClient.isChatVisible.mockReturnValue(true);
+        render();
+        await agentsAvailableResponse;
+        await activeChatResponse;
+        expect(wrapper.state('chatOpen')).toBe(true);
       });
     });
   });
