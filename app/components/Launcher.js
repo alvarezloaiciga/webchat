@@ -54,16 +54,10 @@ export class Launcher extends Component {
     }
   }
 
-  checkIfConversation = async () => {
-    const chatClient = getChatClient();
-    const lastEvent = await chatClient.getLastUserEvent();
-    const minimized = lastEvent && lastEvent === 'Leave';
-    this.setState({chatOpen: !minimized});
-  };
-
   handleAutoPop = () => {
     if (typeof QUIQ.AUTO_POP_TIME === 'number') {
       setTimeout(() => {
+        // We don't update the quiq-chat-visible cookie here, since it wasn't a user action.
         this.setState({chatOpen: true});
       }, QUIQ.AUTO_POP_TIME);
     }
@@ -72,19 +66,11 @@ export class Launcher extends Component {
   checkForAgents = async () => {
     const chatClient = getChatClient();
 
-    // Check if user already initiated a chat, and therefore should bypass the agent
-    // availability check.
-    if (chatClient.hasActiveChat()) {
-      if (!this.state.agentsAvailable) {
-        this.setState({agentsAvailable: true}, this.checkIfConversation);
-      }
-
-      return;
-    }
-
-    const data = await chatClient.checkForAgents();
+    const {available} = await chatClient.checkForAgents();
+    const activeChat = await chatClient.hasActiveChat();
     this.setState({
-      agentsAvailable: data.available,
+      agentsAvailable: activeChat || available,
+      chatOpen: chatClient.isChatVisible(),
     });
   };
 

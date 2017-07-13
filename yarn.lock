@@ -212,8 +212,8 @@ arrify@^1.0.0, arrify@^1.0.1:
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
 asap@~2.0.3:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
 
 asn1.js@^4.0.0:
   version "4.9.1"
@@ -1450,8 +1450,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000525, caniuse-db@^1.0.30000527, caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000639:
-  version "1.0.30000697"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000697.tgz#20ce6a9ceeef4ef4a15dc8e80f2e8fb9049e8d77"
+  version "1.0.30000700"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000700.tgz#97cfc483865eea8577dc7a3674929b9abf553095"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1529,10 +1529,11 @@ ci-info@^1.0.0:
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.0.0.tgz#dc5285f2b4e251821683681c381c3388f46ec534"
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.3.tgz#eeabf194419ce900da3018c207d212f2a6df0a07"
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.4.tgz#8760e4ecc272f4c363532f926d874aae2c1397de"
   dependencies:
     inherits "^2.0.1"
+    safe-buffer "^5.0.1"
 
 circular-json@^0.3.1:
   version "0.3.1"
@@ -1549,8 +1550,8 @@ classnames@2.2.5:
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
 clean-css@4.1.x:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.5.tgz#d09a87a02a5375117589796ae76a063cacdb541a"
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.6.tgz#5a47beb526994cb4f7bf36188a55ed3b45528f0b"
   dependencies:
     source-map "0.5.x"
 
@@ -1610,8 +1611,8 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
 coa@~1.0.1:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.3.tgz#1b54a5e1dcf77c990455d4deea98c564416dc893"
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.4.tgz#a9ef153660d6a86a8bdec0289a5c684d217432fd"
   dependencies:
     q "^1.1.2"
 
@@ -1889,8 +1890,8 @@ cryptiles@2.x.x:
     boom "2.x.x"
 
 crypto-browserify@^3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.11.0.tgz#3652a0906ab9b2a7e0c3ce66a408e957a2485522"
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.11.1.tgz#948945efc6757a400d6e5e5af47194d10064279f"
   dependencies:
     browserify-cipher "^1.0.0"
     browserify-sign "^4.0.0"
@@ -2438,8 +2439,8 @@ es-to-primitive@^1.1.1:
     is-symbol "^1.0.1"
 
 es5-ext@^0.10.14, es5-ext@^0.10.9, es5-ext@~0.10.14:
-  version "0.10.23"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.23.tgz#7578b51be974207a5487821b56538c224e4e7b38"
+  version "0.10.24"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.24.tgz#a55877c9924bc0c8d9bd3c2cbe17495ac1709b14"
   dependencies:
     es6-iterator "2"
     es6-symbol "~3.1"
@@ -2637,7 +2638,11 @@ esprima@^2.6.0, esprima@^2.7.1:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
 
-esprima@^3.1.1, esprima@~3.1.0:
+esprima@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.0.tgz#4499eddcd1110e0b218bacf2fa7f7f59f55ca804"
+
+esprima@~3.1.0:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
 
@@ -3007,12 +3012,12 @@ function-bind@^1.0.2, function-bind@^1.1.0:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.0.tgz#16176714c801798e4e8f2cf7f7529467bb4a5771"
 
 function.prototype.name@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/function.prototype.name/-/function.prototype.name-1.0.0.tgz#5f523ca64e491a5f95aba80cc1e391080a14482e"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/function.prototype.name/-/function.prototype.name-1.0.1.tgz#39aeab26bbf8ab669b7142965d50ea0965d93d7b"
   dependencies:
     define-properties "^1.1.2"
     function-bind "^1.1.0"
-    is-callable "^1.1.2"
+    is-callable "^1.1.3"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -3529,7 +3534,7 @@ is-builtin-module@^1.0.0:
   dependencies:
     builtin-modules "^1.0.0"
 
-is-callable@^1.1.1, is-callable@^1.1.2, is-callable@^1.1.3:
+is-callable@^1.1.1, is-callable@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.1.3.tgz#86eb75392805ddc33af71c92a0eedf74ee7604b2"
 
@@ -3635,10 +3640,10 @@ is-plain-obj@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-1.1.0.tgz#71a50c8429dfca773c92a390a4a03b39fcd51d3e"
 
 is-plain-object@^2.0.1:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.3.tgz#c15bf3e4b66b62d72efaf2925848663ecbc619b6"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
   dependencies:
-    isobject "^3.0.0"
+    isobject "^3.0.1"
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
@@ -3712,7 +3717,7 @@ isobject@^2.0.0:
   dependencies:
     isarray "1.0.0"
 
-isobject@^3.0.0:
+isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
@@ -4005,11 +4010,11 @@ js-tokens@^3.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
 js-yaml@^3.4.3, js-yaml@^3.5.1, js-yaml@^3.7.0:
-  version "3.8.4"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.9.0.tgz#4ffbbf25c2ac963b8299dc74da7e3740de1c18ce"
   dependencies:
     argparse "^1.0.7"
-    esprima "^3.1.1"
+    esprima "^4.0.0"
 
 js-yaml@~3.7.0:
   version "3.7.0"
@@ -4291,8 +4296,8 @@ locate-path@^2.0.0:
     path-exists "^3.0.0"
 
 lock@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/lock/-/lock-0.1.3.tgz#f66c1caa0c41956e1426608039ed59b71bdf1854"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/lock/-/lock-0.1.4.tgz#fec7deaef17e7c3a0a55e1da042803e25d91745d"
 
 lodash._arraycopy@^3.0.0:
   version "3.0.0"
@@ -5784,9 +5789,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.3.1.tgz#457ee6f11f536a8eb9add0f2c7b7dbb1f6a303ec"
+quiq-chat@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.4.1.tgz#0287d542434bc7f899bfe6aa8aa69ff846586edd"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -6672,8 +6677,8 @@ supports-color@^3.1.0, supports-color@^3.1.2, supports-color@^3.2.3:
     has-flag "^1.0.0"
 
 supports-color@^4.0.0, supports-color@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.1.0.tgz#92cc14bb3dad8928ca5656c33e19a19f20af5c7a"
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.2.0.tgz#ad986dc7eb2315d009b4d77c8169c2231a684037"
   dependencies:
     has-flag "^2.0.0"
 
@@ -6766,8 +6771,8 @@ timers-browserify@^1.4.2:
     process "~0.11.0"
 
 tlds@^1.57.0:
-  version "1.191.0"
-  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.191.0.tgz#fb3f58717654c8dfa7bd23a7d02a3f1ea2160045"
+  version "1.192.0"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.192.0.tgz#bfa77badc9dadba211bbecbcd1fb5ce980fb9448"
 
 tmpl@1.0.x:
   version "1.0.4"
@@ -6865,8 +6870,8 @@ uc.micro@^1.0.1:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
 
 uglify-js@3.0.x:
-  version "3.0.23"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.23.tgz#a58c6b97e6d6763d94dbc265fe8e8c1725e64666"
+  version "3.0.24"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.24.tgz#ee93400ad9857fb7a1671778db83f6a23f033121"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
