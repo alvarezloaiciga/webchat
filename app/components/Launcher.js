@@ -39,7 +39,6 @@ export class Launcher extends Component {
       this.bindChatButtons();
     }
 
-    // Start polling to check for agents available
     this.checkForAgentsInterval = setInterval(this.checkForAgents, 1000 * 60);
     // Check the first time
     this.checkForAgents();
@@ -61,10 +60,11 @@ export class Launcher extends Component {
   }
 
   handleAutoPop = () => {
-    if (typeof QUIQ.AUTO_POP_TIME === 'number' && !this.state.chatOpen) {
+    if (!isIEorSafari() && typeof QUIQ.AUTO_POP_TIME === 'number') {
       setTimeout(() => {
-        // We don't update the quiq-chat-visible cookie here, since it wasn't a user action.
-        this.setState({chatOpen: true});
+        if (!this.state.chatOpen) {
+          this.toggleChat(false);
+        }
       }, QUIQ.AUTO_POP_TIME);
     }
   };
@@ -85,9 +85,6 @@ export class Launcher extends Component {
   };
 
   fireJoinLeaveEvent = async (fireEvent: boolean = true) => {
-    // This is one of two possible scenarios we should initialize the client.
-    // In this scenario, the end user has clicked a webchat button, whether
-    // custom or standard, so we are safe to make this call.
     if (!this.state.initialized) {
       await this.client.start();
       this.setState({initialized: true});

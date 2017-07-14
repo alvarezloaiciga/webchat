@@ -63,7 +63,6 @@ export class ChatContainer extends Component {
   };
 
   componentDidMount() {
-    // Validate WELCOME_FORM definition
     validateWelcomeFormDefinition();
 
     getChatClient()
@@ -112,7 +111,6 @@ export class ChatContainer extends Component {
   };
 
   startAgentTyping = () => {
-    // Clear the previous timeout if there was one
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
