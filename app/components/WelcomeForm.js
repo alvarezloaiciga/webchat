@@ -81,26 +81,19 @@ class WelcomeForm extends Component {
     e.preventDefault();
 
     const {HREF} = QUIQ;
-
     const chatClient = getChatClient();
     const fields: {[string]: string} = {};
-    let validationError = false;
+
+    if (!this.validateFormInput()) return;
 
     map(this.state.inputFields, (field, key) => {
-      if (field.required && !field.value) validationError = true;
-
       // Only include field if it was filled out
       // TODO: API should allow empty strings. Send all fields when this is fixed.
-      if (field.value) fields[key] = field.value;
+      if (field.value.length) fields[key] = field.value;
     });
 
     // Append field containing referrer (host)
     fields.Referrer = HREF;
-
-    if (validationError) {
-      this.setState({formValidationError: true});
-      return;
-    }
 
     chatClient
       .sendRegistration(fields)
@@ -121,7 +114,23 @@ class WelcomeForm extends Component {
       },
     });
 
-    this.setState(newState);
+    this.setState(newState, () => {
+      // If we have a validation error, check to see if it can be cleared
+      if (this.state.formValidationError) this.validateFormInput();
+    });
+  };
+
+  validateFormInput = (): boolean => {
+    let validationError = false;
+
+    Object.values(this.state.inputFields).forEach(field => {
+      // $FlowIssue - flow doesn't do well with Object.values
+      if (field.required && !field.value.length) validationError = true;
+    });
+
+    this.setState({formValidationError: validationError});
+
+    return !validationError;
   };
 
   render = () => {
