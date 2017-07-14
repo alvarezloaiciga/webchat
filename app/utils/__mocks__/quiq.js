@@ -43,20 +43,20 @@ const QUIQ: QuiqObject = {
         type: 'number',
         label: 'Number Field',
         id: 'numberField',
-        required: true,
+        required: false,
       },
 
       {
         type: 'email',
         label: 'E-Mail',
         id: 'email',
-        required: true,
+        required: false,
       },
       {
         type: 'tel',
         label: 'Phone Number',
         id: 'phoneNumber',
-        required: true,
+        required: false,
       },
     ],
   },

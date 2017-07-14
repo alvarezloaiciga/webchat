@@ -60,45 +60,28 @@ export class Launcher extends Component {
     }
   }
 
-  checkIfConversation = async () => {
-    const lastEvent = await this.client.getLastUserEvent();
-    const minimized = lastEvent && lastEvent === 'Leave';
-    if (!this.state.chatOpen && !minimized) {
-      this.toggleChat(false);
-    }
-  };
-
   handleAutoPop = () => {
-    if (typeof QUIQ.AUTO_POP_TIME === 'number') {
+    if (typeof QUIQ.AUTO_POP_TIME === 'number' && !this.state.chatOpen) {
       setTimeout(() => {
-        if (!this.state.chatOpen && !isIEorSafari()) this.toggleChat();
+        // We don't update the quiq-chat-visible cookie here, since it wasn't a user action.
+        this.setState({chatOpen: true});
       }, QUIQ.AUTO_POP_TIME);
     }
   };
 
   checkForAgents = async () => {
-    // Check if user already initiated a chat, and therefore should bypass the agent
-    // availability check.
-    if (this.client.hasActiveChat()) {
-      if (!this.state.agentsAvailable) {
-        this.setState({agentsAvailable: true});
-      }
+    const chatClient = getChatClient();
 
-      // This is one of two possible scenarios we should initialize the client.
-      // In this scenario, the end-user has already interacted with the webchat
-      // and has since refreshed the page, so we are safe to make this call.
-      if (!this.state.initialized) {
-        await this.client.start();
-        this.setState({initialized: true});
-      }
+    const {available} = await chatClient.checkForAgents();
+    const activeChat = await chatClient.hasActiveChat();
 
-      return this.checkIfConversation();
-    }
-
-    const data = await this.client.checkForAgents();
     this.setState({
-      agentsAvailable: data.available,
+      agentsAvailable: activeChat || available,
     });
+
+    if (chatClient.isChatVisible() && !this.state.chatOpen) {
+      this.toggleChat(false);
+    }
   };
 
   fireJoinLeaveEvent = async (fireEvent: boolean = true) => {
@@ -147,7 +130,9 @@ export class Launcher extends Component {
         const ele = document.querySelector(selector);
         if (!ele) return displayError(messages.unableToBindCustomLauncherError);
 
-        ele.onclick = this.toggleChat;
+        ele.addEventListener('click', () => {
+          this.toggleChat(true);
+        });
       });
     } catch (e) {
       displayError(`${formatMessage(messages.unableToBindCustomLauncherError)}\n  ${e.message}`);

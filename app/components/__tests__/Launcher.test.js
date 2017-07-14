@@ -15,28 +15,57 @@ jest.useFakeTimers();
 describe('Launcher component', () => {
   let wrapper: ShallowWrapper;
   let instance: any;
-  let render: () => void;
+  let render;
+  let init: () => void;
   let testProps: LauncherProps;
   const client = getChatClient();
 
+  let checkForAgentsResponse;
+  let hasActiveChatResponse;
+  let isChatVisibleResponse;
+
+  const updateAgentsAvailable = (available?: boolean = true) => {
+    checkForAgentsResponse = Promise.resolve({available});
+  };
+
+  const updateHasActiveChat = (active?: boolean = true) => {
+    hasActiveChatResponse = Promise.resolve(active);
+  };
+
+  const updateIsChatVisible = (visible?: boolean = true) => {
+    isChatVisibleResponse = visible;
+  };
+
   beforeEach(() => {
-    render = () => {
+    init = () => {
+      updateAgentsAvailable();
+      updateHasActiveChat();
+      updateIsChatVisible();
+    };
+
+    render = async () => {
+      client.checkForAgents.mockReturnValue(checkForAgentsResponse);
+      client.isChatVisible.mockReturnValue(isChatVisibleResponse);
+      client.hasActiveChat.mockReturnValue(hasActiveChatResponse);
+
       testProps = {
         intl: TestIntlObject,
       };
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
       instance.componentDidMount();
+
+      await checkForAgentsResponse;
+      await hasActiveChatResponse;
+      wrapper.update();
     };
+
+    init();
   });
 
   describe('after a minute', () => {
-    const mockResponse = new Promise(resolve => resolve({available: true}));
-
-    beforeEach(() => {
-      client.checkForAgents.mockReturnValue(mockResponse);
-      client.hasActiveChat.mockReturnValue(false);
-      render();
+    beforeEach(async () => {
+      await render();
       jest.runTimersToTime(1000 * 60);
     });
 
@@ -46,43 +75,16 @@ describe('Launcher component', () => {
   });
 
   describe('when agents are available', () => {
-    const mockResponse = new Promise(resolve => resolve({available: true}));
-    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
-
-    beforeEach(() => {
-      client.checkForAgents.mockReturnValue(mockResponse);
-      client.hasActiveChat.mockReturnValue(false);
-      render();
-    });
-
     it('renders', async () => {
-      await mockResponse;
-      await conversationResponse;
-      wrapper.update();
+      await render();
       expect(wrapper).toMatchSnapshot();
-    });
-
-    describe('when not hidden', () => {
-      beforeEach(() => {
-        wrapper.setState({chatOpen: true});
-      });
-
-      it('renders the chat container', async () => {
-        await mockResponse;
-        await conversationResponse;
-        wrapper.update();
-        expect(wrapper.find('ChatContainer').length).toBe(1);
-      });
     });
 
     describe('customLauncherButtons', () => {
       describe('when defined', () => {
         beforeEach(async () => {
           QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton1', '#customButton2'];
-          render();
-          await mockResponse;
-          await conversationResponse;
-          wrapper.update();
+          await render();
         });
 
         it("doesn't render the default launcher", () => {
@@ -106,10 +108,7 @@ describe('Launcher component', () => {
       describe('when not defined', () => {
         it('renders the default launcher', async () => {
           QUIQ.CUSTOM_LAUNCH_BUTTONS = [];
-          render();
-          await mockResponse;
-          await conversationResponse;
-          wrapper.update();
+          await render();
           expect(wrapper.find('ToggleChatButton').length).toBe(1);
         });
       });
@@ -117,17 +116,12 @@ describe('Launcher component', () => {
   });
 
   describe('auto pop for chat', () => {
-    const mockResponse = new Promise(resolve => resolve({available: true}));
-    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
-
-    beforeEach(() => {
+    beforeEach(async () => {
       QUIQ.AUTO_POP_TIME = 200;
-      render();
+      await render();
     });
 
-    it("opens the chat even if the end user doesn't click on it", async () => {
-      await mockResponse;
-      await conversationResponse;
+    it("opens the chat even if the end user doesn't click on it", () => {
       jest.runTimersToTime(200);
       wrapper.update();
       expect(wrapper.find('ChatContainer').prop('hidden')).toBe(false);
@@ -135,54 +129,52 @@ describe('Launcher component', () => {
   });
 
   describe('when agents are not available', () => {
-    const mockResponse = new Promise(resolve => resolve({available: false}));
-    const conversationResponse = Promise.resolve({id: 'testId', messages: []});
-
-    beforeEach(() => {
-      client.checkForAgents.mockReturnValue(mockResponse);
-    });
-
     describe('when there is not a conversation already in progress', () => {
-      beforeEach(() => {
-        client.hasActiveChat.mockReturnValue(false);
-        render();
-        wrapper.setState({chatOpen: true});
-      });
-
       it('hides the launcher', async () => {
-        await mockResponse;
-        await conversationResponse;
-        wrapper.update();
+        updateAgentsAvailable(false);
+        updateHasActiveChat(false);
+        await render();
+
         expect(wrapper).toMatchSnapshot();
       });
     });
 
-    describe('when agents are not available', () => {
-      describe('when there is a conversation already in progress', () => {
-        beforeEach(() => {
-          client.hasActiveChat.mockReturnValue(true);
-          render();
-        });
+    describe('when there is an active conversation in progress', () => {
+      it('renders the chat', async () => {
+        updateAgentsAvailable(false);
+        await render();
 
-        it('renders the chat', async () => {
-          await mockResponse;
-          wrapper.update();
-          expect(wrapper).toMatchSnapshot();
-        });
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+  });
 
-        describe('after the chat has been closed', () => {
-          beforeEach(() => {
-            client.getLastUserEvent.mockReturnValue('Leave');
-            render();
-            instance.componentDidMount();
-          });
+  describe('isChatVisible', () => {
+    describe('when chat is visible', () => {
+      it('displays chat', async () => {
+        await render();
+        expect(wrapper.state('chatOpen')).toBe(true);
+      });
+    });
 
-          it('leaves the chat closed', async () => {
-            await mockResponse;
-            wrapper.update();
-            expect(wrapper).toMatchSnapshot();
-          });
-        });
+    describe('when chat is not visible', () => {
+      it('hides chat', async () => {
+        updateIsChatVisible(false);
+        await render();
+        expect(wrapper.state('chatOpen')).toBe(false);
+      });
+    });
+  });
+
+  describe('active chat', () => {
+    beforeEach(() => {
+      updateAgentsAvailable(false);
+    });
+
+    describe('when there is an active chat', () => {
+      it('displays chat', async () => {
+        await render();
+        expect(wrapper.state('chatOpen')).toBe(true);
       });
     });
   });

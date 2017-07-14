@@ -2,15 +2,15 @@ $chatContainerBottomRight: 24px;
 
 .ChatContainer {
   &.standaloneMode {
-    width: 100vw;
-    height: 100vh;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
     margin: 0;
     padding: 0;
     position: initial;
     right: 0;
     bottom: 0;
-    max-width: none;
-    max-height: none;
     border: none;
     border-radius: 0;
   }

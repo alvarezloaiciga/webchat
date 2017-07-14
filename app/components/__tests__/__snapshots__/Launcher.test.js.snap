@@ -5,44 +5,28 @@ exports[`Launcher component when agents are available renders 1`] = `
   className="Launcher"
 >
   <ChatContainer
-    hidden={true}
+    hidden={false}
     initialized={false}
     toggleChat={[Function]}
   />
   <ToggleChatButton
-    chatOpen={false}
+    chatOpen={true}
     toggleChat={[Function]}
   />
 </div>
 `;
 
-exports[`Launcher component when agents are not available when agents are not available when there is a conversation already in progress after the chat has been closed leaves the chat closed 1`] = `
+exports[`Launcher component when agents are not available when there is an active conversation in progress renders the chat 1`] = `
 <div
   className="Launcher"
 >
   <ChatContainer
-    hidden={true}
-    initialized={true}
+    hidden={false}
+    initialized={false}
     toggleChat={[Function]}
   />
   <ToggleChatButton
-    chatOpen={false}
-    toggleChat={[Function]}
-  />
-</div>
-`;
-
-exports[`Launcher component when agents are not available when agents are not available when there is a conversation already in progress renders the chat 1`] = `
-<div
-  className="Launcher"
->
-  <ChatContainer
-    hidden={true}
-    initialized={true}
-    toggleChat={[Function]}
-  />
-  <ToggleChatButton
-    chatOpen={false}
+    chatOpen={true}
     toggleChat={[Function]}
   />
 </div>
