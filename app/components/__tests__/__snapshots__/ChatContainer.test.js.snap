@@ -110,7 +110,12 @@ exports[`ChatContainer component rendering renders 1`] = `
   <div
     className="chatContainerBody"
   >
-    <Spinner />
+    <Transcript
+      messages={Array []}
+    />
+    <MessageForm
+      agentTyping={false}
+    />
   </div>
 </div>
 `;

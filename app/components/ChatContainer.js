@@ -1,6 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
 import Spinner from 'Spinner';
 import MessageForm from 'MessageForm';
 import Transcript from 'Transcript';
@@ -11,6 +10,7 @@ import {inStandaloneMode} from 'utils/utils';
 import messages from 'messages';
 import classnames from 'classnames';
 import {getChatClient} from '../ChatClient';
+import {formatMessage} from 'utils/i18n';
 import type {Message, ApiError} from 'types';
 
 import './styles/ChatContainer.scss';
@@ -18,7 +18,6 @@ import './styles/ChatContainer.scss';
 type ChatContainerState = {
   messages: Array<Message>,
   connected: boolean,
-  loading: boolean,
   error: boolean,
   agentTyping: boolean,
   welcomeForm: boolean,
@@ -27,6 +26,7 @@ type ChatContainerState = {
 
 export type ChatContainerProps = {
   hidden?: boolean,
+  initialized: boolean,
   toggleChat?: (fireEvent?: boolean) => void,
 };
 
@@ -37,7 +37,6 @@ export class ChatContainer extends Component {
   state: ChatContainerState = {
     messages: [],
     connected: false,
-    loading: true,
     error: false,
     agentTyping: false,
     welcomeForm: !!QUIQ.WELCOME_FORM,
@@ -63,38 +62,22 @@ export class ChatContainer extends Component {
     }
   };
 
-  initialize = async () => {
-    const client = getChatClient();
+  componentDidMount() {
+    validateWelcomeFormDefinition();
 
-    await client
+    getChatClient()
       .onNewMessages(this.handleNewMessages)
       .onAgentTyping(this.handleAgentTyping)
       .onConnectionStatusChange(this.handleConnectivityChange)
       .onError(this.handleChatError)
       .onErrorResolved(this.handleChatErrorResolved)
-      .onBurn(this.errorOut)
-      .start();
-
-    this.setState({loading: false});
-  };
-
-  componentDidMount() {
-    // Validate WELCOME_FORM definition
-    validateWelcomeFormDefinition();
-
-    if (!this.state.connected && !this.props.hidden) {
-      this.initialize();
-    }
+      .onBurn(this.errorOut);
   }
 
   componentWillReceiveProps(nextProps: ChatContainerProps) {
     // We reset poppedChat when user explicitly re-opens chat
     if (this.props.hidden && !nextProps.hidden) {
       this.setState({poppedChat: false});
-
-      if (!this.state.connected) {
-        this.initialize();
-      }
     }
   }
 
@@ -114,7 +97,6 @@ export class ChatContainer extends Component {
     this.setState({
       connected: false,
       error: true,
-      loading: false,
     });
   };
 
@@ -129,7 +111,6 @@ export class ChatContainer extends Component {
   };
 
   startAgentTyping = () => {
-    // Clear the previous timeout if there was one
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
@@ -174,34 +155,46 @@ export class ChatContainer extends Component {
     this.setState({poppedChat: false});
   };
 
-  render() {
-    const chatClient = getChatClient();
-
-    if (this.props.hidden) return null;
-
+  renderBanner = () => {
     if (this.state.error) {
       return (
-        <div className="ChatContainer" style={{width: WIDTH, maxHeight: HEIGHT}}>
-          <div className="errorBanner">
-            <FormattedMessage {...messages.errorState} />
-          </div>
+        <div className="errorBanner">
+          {formatMessage(messages.errorState)}
+        </div>
+      );
+    } else if (!this.state.connected && this.props.initialized) {
+      return (
+        <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
+          {formatMessage(messages.reconnecting)}
         </div>
       );
     }
 
+    return (
+      <div className="banner" style={{backgroundColor: COLOR}}>
+        <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
+          {HEADER_TEXT}
+        </span>
+      </div>
+    );
+  };
+
+  render() {
+    if (this.props.hidden) return null;
+
+    const classNames = classnames('ChatContainer', {
+      standaloneMode: inStandaloneMode(),
+      hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
+    });
+
     if (
       this.state.welcomeForm &&
-      !this.state.loading &&
+      this.props.initialized &&
       !this.state.messages.length &&
-      !chatClient.isRegistered()
+      !getChatClient().isRegistered()
     ) {
       return (
-        <div
-          className={classnames('ChatContainer', {
-            standaloneMode: inStandaloneMode(),
-          })}
-          style={{width: WIDTH, maxHeight: HEIGHT}}
-        >
+        <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
           <WelcomeForm
             onPop={this.onPop}
             onDock={this.onDock}
@@ -214,29 +207,12 @@ export class ChatContainer extends Component {
     }
 
     return (
-      <div
-        className={classnames('ChatContainer', {
-          standaloneMode: inStandaloneMode(),
-          hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
-        })}
-        style={{width: WIDTH, maxHeight: HEIGHT}}
-      >
+      <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
         <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
-        <div className="banner" style={{backgroundColor: COLOR}}>
-          <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
-            {HEADER_TEXT}
-          </span>
-        </div>
-
-        {!this.state.connected &&
-          !this.state.loading &&
-          <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
-            <FormattedMessage {...messages.reconnecting} />
-          </div>}
-
+        {this.renderBanner()}
         <div className="chatContainerBody">
-          {this.state.loading ? <Spinner /> : <Transcript messages={this.state.messages} />}
-          {!this.state.loading &&
+          {this.props.initialized ? <Transcript messages={this.state.messages} /> : <Spinner />}
+          {this.props.initialized &&
             this.state.connected &&
             <MessageForm agentTyping={this.state.agentTyping} />}
         </div>

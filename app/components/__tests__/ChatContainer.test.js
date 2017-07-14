@@ -24,9 +24,11 @@ describe('ChatContainer component', () => {
 
   beforeEach(() => {
     mockClient.start = jest.fn();
+    QUIQ.WELCOME_FORM = undefined;
     getMockChatClient.mockReturnValue(mockClient);
     testProps = {
       hidden: false,
+      initialized: true,
       onMessage: jest.fn(),
     };
 
@@ -34,6 +36,8 @@ describe('ChatContainer component', () => {
       wrapper = shallow(<ChatContainer {...testProps} />);
       instance = wrapper.instance();
       instance.componentDidMount();
+      instance.setState({connected: true});
+      wrapper.update();
     };
   });
 
@@ -137,12 +141,10 @@ describe('ChatContainer component', () => {
     describe('errorOut', () => {
       it('sets component to an error state', () => {
         wrapper.setState({
-          loading: true,
           error: false,
           connected: true,
         });
         instance.errorOut();
-        expect(wrapper.state('loading')).toBe(false);
         expect(wrapper.state('error')).toBe(true);
         expect(wrapper.state('connected')).toBe(false);
       });
