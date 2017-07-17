@@ -1,83 +1,77 @@
 // @flow
-import React, {Component} from 'react';
-import Spinner from 'Spinner';
-import MessageForm from 'MessageForm';
-import Transcript from 'Transcript';
-import WelcomeForm from 'WelcomeForm';
-import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
-import HeaderMenu from 'HeaderMenu';
-import {inStandaloneMode} from 'utils/utils';
-import messages from 'messages';
-import classnames from 'classnames';
+import React from 'react';
 import {getChatClient} from '../ChatClient';
+import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
+import {inStandaloneMode} from 'utils/utils';
+import classnames from 'classnames';
+import messages from 'messages';
+import WelcomeForm from 'WelcomeForm';
+import MessageForm from 'MessageForm';
+import HeaderMenu from 'HeaderMenu';
+import Transcript from 'Transcript';
+import Spinner from 'Spinner';
 import {formatMessage} from 'utils/i18n';
-import type {Message, ApiError} from 'types';
-
+import {connect} from 'react-redux';
+import chatActions from 'actions/chatActions';
+import {ChatInitializedState} from 'appConstants';
 import './styles/ChatContainer.scss';
+import type {ChatState, ChatInitializedStateType, Message} from 'types';
+import type {QuiqChatClientType} from 'quiq-chat';
 
-type ChatContainerState = {
-  messages: Array<Message>,
-  connected: boolean,
-  error: boolean,
-  agentTyping: boolean,
-  welcomeForm: boolean,
-  poppedChat: boolean,
-};
+const {COLOR, HEADER_TEXT, FONT_FAMILY, WIDTH, HEIGHT, CUSTOM_LAUNCH_BUTTONS} = QUIQ;
 
 export type ChatContainerProps = {
-  hidden?: boolean,
-  initialized: boolean,
-  toggleChat?: (fireEvent?: boolean) => void,
+  hidden: boolean,
+  transcript: Array<Message>,
+  welcomeFormSubmitted: boolean,
+  initializedState: ChatInitializedStateType,
+  setChatHidden: (hidden: boolean) => void,
+  setChatInitialized: (initialized: ChatInitializedStateType) => void,
+  setWelcomeFormSubmitted: (welcomeFormSubmitted: boolean) => void,
+  setAgentTyping: (typing: boolean) => void,
+  updateTranscript: (transcript: Array<Message>) => void,
 };
 
-const {COLOR, HEADER_TEXT, FONT_FAMILY, WIDTH, HEIGHT} = QUIQ;
-
-export class ChatContainer extends Component {
+export class ChatContainer extends React.Component {
   props: ChatContainerProps;
-  state: ChatContainerState = {
-    messages: [],
-    connected: false,
-    error: false,
-    agentTyping: false,
-    welcomeForm: !!QUIQ.WELCOME_FORM,
-    poppedChat: false,
-  };
+  client: QuiqChatClientType;
   typingTimeout: ?number;
 
-  handleChatError = () => {
-    this.setState({error: true});
-  };
-
-  handleChatErrorResolved = () => {
-    this.setState({error: false});
-  };
-
-  handleApiError = (err?: ApiError, retry?: () => ?Promise<*>) => {
-    if (err && err.status && err.status > 404) {
-      if (retry) {
-        setTimeout(retry, 5000);
-      }
-    } else {
-      this.setState({error: true});
-    }
-  };
-
   componentDidMount() {
-    validateWelcomeFormDefinition();
+    if (!this.props.welcomeFormSubmitted) validateWelcomeFormDefinition();
+
+    this.client = getChatClient();
 
     getChatClient()
-      .onNewMessages(this.handleNewMessages)
+      .onNewMessages(this.props.updateTranscript)
       .onAgentTyping(this.handleAgentTyping)
-      .onConnectionStatusChange(this.handleConnectivityChange)
-      .onError(this.handleChatError)
-      .onErrorResolved(this.handleChatErrorResolved)
-      .onBurn(this.errorOut);
+      .onConnectionStatusChange((connected: boolean) =>
+        this.props.setChatInitialized(
+          connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
+        ),
+      )
+      .onError(() => this.props.setChatInitialized(ChatInitializedState.ERROR))
+      .onErrorResolved(() => this.props.setChatInitialized(ChatInitializedState.INITIALIZED))
+      .onBurn(() => this.props.setChatInitialized(ChatInitializedState.ERROR));
+
+    if (inStandaloneMode()) {
+      this.props.setChatHidden(false);
+      this.init();
+    } else if (
+      this.props.initializedState === ChatInitializedState.UNINITIALIZED &&
+      !this.props.hidden
+    ) {
+      this.init();
+    }
   }
 
   componentWillReceiveProps(nextProps: ChatContainerProps) {
-    // We reset poppedChat when user explicitly re-opens chat
-    if (this.props.hidden && !nextProps.hidden) {
-      this.setState({poppedChat: false});
+    if (
+      this.props.initializedState === ChatInitializedState.UNINITIALIZED &&
+      this.props.hidden &&
+      !nextProps.hidden
+    ) {
+      this.init();
     }
   }
 
@@ -85,140 +79,124 @@ export class ChatContainer extends Component {
     if (this.typingTimeout) clearTimeout(this.typingTimeout);
   }
 
-  handleConnectivityChange = (connected: boolean) => {
-    this.setState({connected});
-  };
+  init = async () => {
+    if (this.props.initializedState === ChatInitializedState.LOADING) return;
 
-  /**
-   * Triggered from a BurnItDown message.
-   * This means the chat is in a fatal state and will need to be reloaded
-   */
-  errorOut = () => {
-    this.setState({
-      connected: false,
-      error: true,
-    });
+    try {
+      this.props.setChatInitialized(ChatInitializedState.LOADING);
+      await this.client.start();
+      this.props.setChatInitialized(ChatInitializedState.INITIALIZED);
+      if (this.props.transcript.length > 0) {
+        this.props.setWelcomeFormSubmitted(true);
+      }
+    } catch (e) {
+      this.props.setChatInitialized(ChatInitializedState.ERROR);
+    }
   };
 
   handleAgentTyping = (typing: boolean) => {
-    if (typing) this.startAgentTyping();
-    else this.stopAgentTyping();
-  };
+    this.props.setAgentTyping(typing);
 
-  handleNewMessages = (incomingMessages: Array<Message>) => {
-    const newMessages = incomingMessages.filter(n => !this.state.messages.some(m => n.id === m.id));
-    this.setState(prevState => ({messages: [...prevState.messages, ...newMessages]}));
-  };
-
-  startAgentTyping = () => {
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
+    if (!typing) return;
 
-    this.setState({agentTyping: true});
-    this.typingTimeout = setTimeout(this.stopAgentTyping.bind(this), 10000);
-  };
-
-  stopAgentTyping = () => {
-    this.setState({agentTyping: false});
-  };
-
-  onWelcomeFormSubmit = () => {
-    this.setState({
-      welcomeForm: false,
-    });
-  };
-
-  onPop = (fireEvent: boolean) => {
-    if (this.props.toggleChat) {
-      this.props.toggleChat(fireEvent);
-      this.setState({
-        poppedChat: true,
-      });
-    }
-  };
-
-  onMinimize = (fireEvent: boolean) => {
-    if (this.props.toggleChat && !this.props.hidden) {
-      this.props.toggleChat(fireEvent);
-    }
-  };
-
-  maximizeChat = (fireEvent: boolean) => {
-    if (this.props.toggleChat && this.props.hidden) {
-      this.props.toggleChat(fireEvent);
-    }
-  };
-
-  onDock = (fireEvent: boolean) => {
-    this.maximizeChat(fireEvent);
-    this.setState({poppedChat: false});
+    this.typingTimeout = setTimeout(() => {
+      this.props.setAgentTyping(false);
+    }, 10000);
   };
 
   renderBanner = () => {
-    if (this.state.error) {
-      return (
-        <div className="errorBanner">
-          {formatMessage(messages.errorState)}
-        </div>
-      );
-    } else if (!this.state.connected && this.props.initialized) {
-      return (
-        <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
-          {formatMessage(messages.reconnecting)}
-        </div>
-      );
+    switch (this.props.initializedState) {
+      case ChatInitializedState.INITIALIZED:
+      case ChatInitializedState.LOADING:
+      case ChatInitializedState.UNINITIALIZED:
+        return (
+          <div className="banner" style={{backgroundColor: COLOR}}>
+            <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
+              {HEADER_TEXT}
+            </span>
+          </div>
+        );
+      case ChatInitializedState.DISCONNECTED:
+        return (
+          <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
+            {formatMessage(messages.reconnecting)}
+          </div>
+        );
+      case ChatInitializedState.ERROR:
+      default:
+        return (
+          <div className="errorBanner">
+            {formatMessage(messages.errorState)}
+          </div>
+        );
     }
+  };
 
-    return (
-      <div className="banner" style={{backgroundColor: COLOR}}>
-        <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
-          {HEADER_TEXT}
-        </span>
-      </div>
-    );
+  renderContent = () => {
+    switch (this.props.initializedState) {
+      case ChatInitializedState.INITIALIZED:
+        return (
+          <div className="chatContainerBody">
+            <Transcript />
+            <MessageForm />
+          </div>
+        );
+      case ChatInitializedState.UNINITIALIZED:
+      case ChatInitializedState.LOADING:
+        return (
+          <div className="chatContainerBody">
+            <Spinner />
+          </div>
+        );
+      case ChatInitializedState.DISCONNECTED:
+      case ChatInitializedState.ERROR:
+      default:
+        return (
+          <div className="chatContainerBody">
+            <Transcript />
+          </div>
+        );
+    }
   };
 
   render() {
-    if (this.props.hidden) return null;
-
-    const classNames = classnames('ChatContainer', {
+    const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
+      hasCustomLauncher: !inStandaloneMode() && CUSTOM_LAUNCH_BUTTONS.length > 0,
+      hidden: this.props.hidden,
     });
 
     if (
-      this.state.welcomeForm &&
-      this.props.initialized &&
-      !this.state.messages.length &&
+      this.props.initializedState === ChatInitializedState.INITIALIZED &&
+      !this.props.welcomeFormSubmitted &&
       !getChatClient().isRegistered()
     ) {
       return (
         <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
-          <WelcomeForm
-            onPop={this.onPop}
-            onDock={this.onDock}
-            onMinimize={this.onMinimize}
-            onFormSubmit={this.onWelcomeFormSubmit}
-            onApiError={this.handleApiError}
-          />
+          <WelcomeForm />
         </div>
       );
     }
 
     return (
       <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
-        <HeaderMenu onPop={this.onPop} onDock={this.onDock} onMinimize={this.onMinimize} />
+        <HeaderMenu />
         {this.renderBanner()}
-        <div className="chatContainerBody">
-          {this.props.initialized ? <Transcript messages={this.state.messages} /> : <Spinner />}
-          {this.props.initialized &&
-            this.state.connected &&
-            <MessageForm agentTyping={this.state.agentTyping} />}
-        </div>
+        {this.renderContent()}
       </div>
     );
   }
 }
 
-export default ChatContainer;
+export default connect(
+  (state: ChatState) => ({
+    hidden: state.hidden,
+    initializedState: state.initializedState,
+    welcomeFormSubmitted: state.welcomeFormSubmitted,
+    transcript: state.transcript,
+  }),
+  chatActions,
+)(ChatContainer);

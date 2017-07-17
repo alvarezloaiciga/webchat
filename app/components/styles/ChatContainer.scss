@@ -1,6 +1,10 @@
 $chatContainerBottomRight: 24px;
 
 .ChatContainer {
+  &.hidden {
+    display: none;
+  }
+
   &.standaloneMode {
     width: 100vw !important;
     height: 100vh !important;
@@ -13,6 +17,7 @@ $chatContainerBottomRight: 24px;
     bottom: 0;
     border: none;
     border-radius: 0;
+    animation: none;
   }
 
   // width and max-height set with inline style through config

@@ -3,18 +3,20 @@
 import React from 'react';
 import QUIQ from 'utils/quiq';
 import ChatBubbleIcon from './ChatBubbleIcon';
+import {connect} from 'react-redux';
+import type {ChatState} from 'types';
 import './styles/ToggleChatButton.scss';
 
 export type ToggleChatButtonProps = {
   toggleChat: () => void,
-  chatOpen: boolean,
+  hidden: boolean,
 };
 
 const {COLOR} = QUIQ;
 
-export const ToggleChatButton = ({toggleChat, chatOpen}: ToggleChatButtonProps) =>
+export const ToggleChatButton = ({toggleChat, hidden}: ToggleChatButtonProps) =>
   <button style={{background: COLOR}} onClick={toggleChat} className="ToggleChatButton">
-    {chatOpen
+    {!hidden
       ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" />
           X
@@ -22,4 +24,6 @@ export const ToggleChatButton = ({toggleChat, chatOpen}: ToggleChatButtonProps) 
       : <ChatBubbleIcon />}
   </button>;
 
-export default ToggleChatButton;
+export default connect((state: ChatState) => ({
+  hidden: state.hidden,
+}))(ToggleChatButton);

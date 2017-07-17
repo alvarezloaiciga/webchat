@@ -3,19 +3,17 @@ import React, {Component} from 'react';
 import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
+import {connect} from 'react-redux';
+import chatActions from 'actions/chatActions';
 import {getDisplayString, formatMessage} from 'utils/i18n';
-import type {WelcomeFormField, ApiError} from 'types';
+import type {WelcomeFormField} from 'types';
 import messages from 'messages';
 import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
 
 export type WelcomeFormProps = {
-  onFormSubmit: (formattedString: string) => void,
-  onPop: (fireEvent: boolean) => void,
-  onDock: (fireEvent: boolean) => void,
-  onMinimize: (fireEvent: boolean) => void,
-  onApiError: (err: ApiError, func: (any) => any) => void, // eslint-disable-line react/no-unused-prop-types
+  setWelcomeFormSubmitted: (welcomeFormSubmitted: boolean) => void,
 };
 
 export type WelcomeFormState = {
@@ -77,11 +75,10 @@ class WelcomeForm extends Component {
     );
   };
 
-  submitForm = (e: SyntheticEvent) => {
+  submitForm = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     const {HREF} = QUIQ;
-    const chatClient = getChatClient();
     const fields: {[string]: string} = {};
 
     if (!this.validateFormInput()) return;
@@ -95,10 +92,8 @@ class WelcomeForm extends Component {
     // Append field containing referrer (host)
     fields.Referrer = HREF;
 
-    chatClient
-      .sendRegistration(fields)
-      .then(this.props.onFormSubmit)
-      .catch((err: ApiError) => this.props.onApiError(err, this.submitForm));
+    await getChatClient().sendRegistration(fields);
+    this.props.setWelcomeFormSubmitted(true);
   };
 
   handleFieldInput = (e: SyntheticInputEvent) => {
@@ -139,17 +134,13 @@ class WelcomeForm extends Component {
     // We shouldn't be rendering this component if we didn't find a WELCOME_FORM in the QUIQ object.
     // But just in case, pass it through so we don't block webchat.
     if (!WELCOME_FORM) {
-      this.props.onFormSubmit('');
+      this.props.setWelcomeFormSubmitted(true);
       return null;
     }
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
-        <HeaderMenu
-          onPop={this.props.onPop}
-          onDock={this.props.onDock}
-          onMinimize={this.props.onMinimize}
-        />
+        <HeaderMenu />
         <div className="welcomeFormBanner" style={{backgroundColor: COLORS.primary}}>
           <span style={{fontFamily: FONT_FAMILY}}>
             {WELCOME_FORM.headerText}
@@ -174,4 +165,4 @@ class WelcomeForm extends Component {
   };
 }
 
-export default WelcomeForm;
+export default connect(null, chatActions)(WelcomeForm);
