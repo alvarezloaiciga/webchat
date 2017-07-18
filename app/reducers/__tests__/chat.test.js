@@ -1,13 +1,25 @@
 // @flow
+jest.mock('utils/utils');
 import chat from '../chat';
 import {getMockMessage} from 'utils/testHelpers';
+import {isIEorSafari} from 'utils/utils';
 
 describe('chat reducers', () => {
+  afterEach(() => {
+    (isIEorSafari: any).mockReset();
+  });
+
   describe('CHAT_HIDDEN', () => {
     it('updates state with the new value', () => {
       expect(chat.getState().hidden).toBe(true);
       chat.dispatch({type: 'CHAT_HIDDEN', hidden: false});
       expect(chat.getState().hidden).toBe(false);
+    });
+
+    it('always sets hidden to true in IE/Safari', () => {
+      (isIEorSafari: any).mockReturnValue(true);
+      chat.dispatch({type: 'CHAT_HIDDEN', hidden: false});
+      expect(chat.getState().hidden).toBe(true);
     });
   });
 
@@ -28,6 +40,13 @@ describe('chat reducers', () => {
       chat.dispatch({type: 'CHAT_POPPED', popped: false});
       expect(chat.getState().popped).toBe(false);
       expect(chat.getState().hidden).toBe(false);
+    });
+
+    it('always sets hidden to true in IE/Safari', () => {
+      (isIEorSafari: any).mockReturnValue(true);
+      chat.dispatch({type: 'CHAT_POPPED', popped: false});
+      expect(chat.getState().popped).toBe(false);
+      expect(chat.getState().hidden).toBe(true);
     });
   });
 

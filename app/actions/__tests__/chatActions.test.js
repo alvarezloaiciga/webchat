@@ -1,20 +1,11 @@
 // @flow
-jest.mock('utils/utils');
 import * as chatActions from '../chatActions';
 import {getMockMessage} from 'utils/testHelpers';
-import {isIEorSafari} from 'utils/utils';
 
 describe('chatActions', () => {
   describe('setChatHidden', () => {
     it('builds an action', () => {
       expect(chatActions.setChatHidden(true)).toMatchSnapshot();
-    });
-
-    describe('when in IE or Safari, not in standalone, and not hidden', () => {
-      it('does not build an action', () => {
-        (isIEorSafari: any).mockReturnValue(true);
-        expect(chatActions.setChatHidden(false)).toBe(undefined);
-      });
     });
   });
 
