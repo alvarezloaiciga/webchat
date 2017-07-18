@@ -1,14 +1,9 @@
-import {isIEorSafari, inStandaloneMode} from 'utils/utils';
 import type {ChatInitializedStateType, Message} from 'types';
 
-export const setChatHidden = (hidden: boolean) => {
-  if (!hidden && !inStandaloneMode() && isIEorSafari()) return;
-
-  return {
-    type: 'CHAT_HIDDEN',
-    hidden,
-  };
-};
+export const setChatHidden = (hidden: boolean) => ({
+  type: 'CHAT_HIDDEN',
+  hidden,
+});
 
 export const setChatInitialized = (initializedState: ChatInitializedStateType) => ({
   type: 'CHAT_INITIALIZED_STATE',
