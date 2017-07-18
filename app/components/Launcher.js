@@ -12,6 +12,7 @@ import messages from 'messages';
 import {displayError, isIEorSafari} from 'utils/utils';
 import {noAgentsAvailableClass} from 'appConstants';
 import {connect} from 'react-redux';
+import {compose} from 'redux';
 import type {IntlObject, ChatState} from 'types';
 import type {QuiqChatClientType} from 'quiq-chat';
 
@@ -115,16 +116,13 @@ export class Launcher extends Component {
     if (this.props.popped || isIEorSafari()) {
       return openStandaloneMode({
         onPop: () => {
-          this.props.setChatHidden(true);
           this.props.setChatPopped(true);
           getChatClient().joinChat();
         },
         onFocus: () => {
-          this.props.setChatHidden(true);
           this.props.setChatPopped(true);
         },
         onDock: () => {
-          this.props.setChatHidden(false);
           this.props.setChatPopped(false);
         },
       });
@@ -153,12 +151,13 @@ export class Launcher extends Component {
   }
 }
 
-export default injectIntl(
+export default compose(
+  injectIntl,
   connect(
     (state: ChatState) => ({
       hidden: state.hidden,
       popped: state.popped,
     }),
     {setChatHidden, setChatPopped},
-  )(Launcher),
-);
+  ),
+)(Launcher);

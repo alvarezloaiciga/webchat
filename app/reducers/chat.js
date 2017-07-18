@@ -15,39 +15,20 @@ type ChatAction = {
 
 const reducer = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
-    case 'CHAT_HIDDEN': {
-      const newState = Object.assign({}, state);
-      newState.hidden = action.hidden;
-      return newState;
-    }
-    case 'CHAT_INITIALIZED_STATE': {
-      const newState = Object.assign({}, state);
-      newState.initializedState = action.initializedState;
-      return newState;
-    }
-    case 'CHAT_POPPED': {
-      const newState = Object.assign({}, state);
-      newState.popped = action.popped;
-      return newState;
-    }
-    case 'UPDATE_TRANSCRIPT': {
-      const newState = Object.assign({}, state);
-      newState.transcript = action.transcript || [];
-      return newState;
-    }
-    case 'AGENT_TYPING': {
-      const newState = Object.assign({}, state);
-      newState.agentTyping = action.agentTyping;
-      return newState;
-    }
-    case 'WELCOME_FORM_SUBMITTED': {
-      const newState = Object.assign({}, state);
-      newState.welcomeFormSubmitted = action.welcomeFormSubmitted;
-      return newState;
-    }
-    default: {
+    case 'CHAT_HIDDEN':
+      return Object.assign({}, state, {hidden: action.hidden});
+    case 'CHAT_INITIALIZED_STATE':
+      return Object.assign({}, state, {initializedState: action.initializedState});
+    case 'CHAT_POPPED':
+      return Object.assign({}, state, {hidden: action.popped, popped: action.popped});
+    case 'UPDATE_TRANSCRIPT':
+      return Object.assign({}, state, {transcript: action.transcript || []});
+    case 'AGENT_TYPING':
+      return Object.assign({}, state, {agentTyping: action.agentTyping});
+    case 'WELCOME_FORM_SUBMITTED':
+      return Object.assign({}, state, {welcomeFormSubmitted: action.welcomeFormSubmitted});
+    default:
       return state;
-    }
   }
 };
 

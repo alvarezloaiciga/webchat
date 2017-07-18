@@ -23,15 +23,12 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   const popChat = () => {
     openStandaloneMode({
       onPop: () => {
-        props.setChatHidden(true);
         props.setChatPopped(true);
       },
       onFocus: () => {
-        props.setChatHidden(true);
         props.setChatPopped(true);
       },
       onDock: () => {
-        props.setChatHidden(false);
         props.setChatPopped(false);
       },
     });
