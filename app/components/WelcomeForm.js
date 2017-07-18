@@ -4,7 +4,7 @@ import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {connect} from 'react-redux';
-import chatActions from 'actions/chatActions';
+import {setWelcomeFormSubmitted} from 'actions/chatActions';
 import {getDisplayString, formatMessage} from 'utils/i18n';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
@@ -165,4 +165,4 @@ export class WelcomeForm extends Component {
   };
 }
 
-export default connect(null, chatActions)(WelcomeForm);
+export default connect(null, {setWelcomeFormSubmitted})(WelcomeForm);

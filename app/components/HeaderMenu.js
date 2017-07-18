@@ -4,7 +4,7 @@ import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import {formatMessage} from 'utils/i18n';
 import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import messages from 'messages';
-import chatActions from 'actions/chatActions';
+import {setChatHidden, setChatPopped} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {getChatClient} from '../ChatClient';
 import './styles/HeaderMenu.scss';
@@ -70,4 +70,4 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   );
 };
 
-export default connect(null, chatActions)(HeaderMenu);
+export default connect(null, {setChatHidden, setChatPopped})(HeaderMenu);

@@ -6,7 +6,7 @@ import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import './styles/Launcher.scss';
-import chatActions from 'actions/chatActions';
+import {setChatHidden, setChatPopped} from 'actions/chatActions';
 import {getChatClient} from '../ChatClient';
 import messages from 'messages';
 import {displayError, isIEorSafari} from 'utils/utils';
@@ -159,6 +159,6 @@ export default injectIntl(
       hidden: state.hidden,
       popped: state.popped,
     }),
-    chatActions,
+    {setChatHidden, setChatPopped},
   )(Launcher),
 );

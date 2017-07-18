@@ -12,7 +12,7 @@ import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {formatMessage} from 'utils/i18n';
 import {connect} from 'react-redux';
-import chatActions from 'actions/chatActions';
+import * as chatActions from 'actions/chatActions';
 import {ChatInitializedState} from 'appConstants';
 import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType, Message} from 'types';
