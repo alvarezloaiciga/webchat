@@ -1,17 +1,15 @@
 // @flow
 jest.mock('utils/quiq');
 jest.mock('../../ChatClient');
+jest.mock('utils/utils');
 import React from 'react';
-import ChatContainer from '../ChatContainer';
+import {ChatContainer} from '../ChatContainer';
 import {getMockMessage} from 'utils/testHelpers';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QUIQ from 'utils/quiq';
 import type {ChatContainerProps} from '../ChatContainer';
-import QuiqChatClient from 'quiq-chat';
-import {getChatClient} from '../../ChatClient';
-
-const mockClient = new QuiqChatClient('testHost', 'test');
+import {inStandaloneMode} from 'utils/utils';
 
 jest.useFakeTimers();
 
@@ -20,134 +18,106 @@ describe('ChatContainer component', () => {
   let instance: any;
   let testProps: ChatContainerProps;
   let render: () => void;
-  const getMockChatClient = (getChatClient: any);
 
   beforeEach(() => {
-    mockClient.start = jest.fn();
     QUIQ.WELCOME_FORM = undefined;
-    getMockChatClient.mockReturnValue(mockClient);
     testProps = {
       hidden: false,
-      initialized: true,
-      onMessage: jest.fn(),
+      transcript: [getMockMessage(), getMockMessage(1)],
+      welcomeFormSubmitted: true,
+      initializedState: 'initialized',
+      setChatHidden: jest.fn(),
+      setChatInitialized: jest.fn(),
+      setWelcomeFormSubmitted: jest.fn(),
+      setAgentTyping: jest.fn(),
+      updateTranscript: jest.fn(),
     };
 
     render = () => {
       wrapper = shallow(<ChatContainer {...testProps} />);
       instance = wrapper.instance();
       instance.componentDidMount();
-      instance.setState({connected: true});
       wrapper.update();
     };
   });
 
-  describe('rendering', () => {
-    beforeEach(() => {
+  describe('initializedState', () => {
+    describe('when initialized', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'initialized';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('when uninitialized', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'uninitialized';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('when loading', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'loading';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('when errored', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'error';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe('when disconnected', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'disconnected';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('welcome form', () => {
+    describe('when welcome form has not been submitted', () => {
+      it('renders welcome form', () => {
+        testProps.welcomeFormSubmitted = false;
+        render();
+        expect(wrapper.find('Connect(WelcomeForm)').length).toBe(1);
+      });
+    });
+  });
+
+  describe('custom launcher', () => {
+    it('appends the hasCustomLauncher class', () => {
+      QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton'];
       render();
+      expect(wrapper.hasClass('hasCustomLauncher')).toBe(true);
     });
+  });
 
-    it('renders', () => {
-      expect(wrapper).toMatchSnapshot();
+  describe('standalone mode', () => {
+    it('inits on mount', () => {
+      (inStandaloneMode: any).mockReturnValue(true);
+      render();
+      expect(testProps.setChatHidden).toBeCalledWith(false);
+      expect(testProps.setChatInitialized).toBeCalledWith('loading');
+      expect(wrapper.hasClass('standaloneMode')).toBe(true);
     });
+  });
 
-    describe('loading', () => {
-      describe('when not loading', () => {
-        it('displays transcript', () => {
-          wrapper.setState({loading: false, welcomeForm: false});
-          expect(wrapper.find('Transcript').length).toBe(1);
-          expect(wrapper.find('Spinner').length).toBe(0);
-        });
-
-        describe('when connected', () => {
-          it('displays message form', () => {
-            wrapper.setState({loading: false, connected: true, welcomeForm: false});
-            expect(wrapper.find('Transcript').length).toBe(1);
-            expect(wrapper.find('MessageForm').length).toBe(1);
-            expect(wrapper.find('Spinner').length).toBe(0);
-          });
-        });
-      });
-    });
-
-    describe('messages', () => {
-      it('appends messages to the transcript', () => {
-        wrapper.setState({
-          loading: false,
-          connected: true,
-          messages: [getMockMessage(0), getMockMessage(1), getMockMessage(2)],
-        });
-        expect(wrapper).toMatchSnapshot();
-      });
-    });
-
-    describe('typing indicator', () => {
-      describe('when agent starts typing', () => {
-        beforeEach(() => {
-          jest.clearAllTimers();
-          wrapper.setState({loading: false, connected: true, welcomeForm: false});
-          mockClient.callbacks.onAgentTyping(true);
-          wrapper.update();
-        });
-
-        it('sets agentTyping in the MessageForm', () => {
-          expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(true);
-        });
-
-        describe('when another message comes in', () => {
-          beforeEach(() => {
-            jest.runTimersToTime(2000);
-            mockClient.callbacks.onAgentTyping(true);
-            jest.runTimersToTime(8001); // The time the timer would have expired
-            wrapper.update();
-          });
-
-          it('still shows the agent as typing', () => {
-            expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(true);
-          });
-
-          describe('when the second timer runs out', () => {
-            beforeEach(() => {
-              jest.runTimersToTime(2000);
-              wrapper.update();
-            });
-
-            it('stop showing the agent as typing', () => {
-              expect(wrapper.find('MessageForm').prop('agentTyping')).toBe(false);
-            });
-          });
-        });
-      });
-    });
-
-    describe('when not in standalone mode and CUSTOM_LAUNCH_BUTTONS is defined', () => {
-      beforeEach(() => {
-        QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.button1'];
-        render();
-      });
-
-      it('adds the hasCustomLauncher class', () => {
-        expect(wrapper.find('.ChatContainer').hasClass('hasCustomLauncher')).toBe(true);
-      });
-    });
-
-    describe('hidden', () => {
-      it('hides the component when hidden', () => {
-        testProps.hidden = true;
-        render();
-        expect(wrapper).toMatchSnapshot();
-      });
-    });
-
-    describe('errorOut', () => {
-      it('sets component to an error state', () => {
-        wrapper.setState({
-          error: false,
-          connected: true,
-        });
-        instance.errorOut();
-        expect(wrapper.state('error')).toBe(true);
-        expect(wrapper.state('connected')).toBe(false);
-      });
+  describe('handleAgentTyping', () => {
+    it('handles agent typing', () => {
+      render();
+      instance.handleAgentTyping(true);
+      expect(testProps.setAgentTyping).toBeCalledWith(true);
+      jest.runTimersToTime(11000);
+      expect(testProps.setAgentTyping).toBeCalledWith(false);
     });
   });
 });

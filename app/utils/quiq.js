@@ -173,15 +173,14 @@ export const validateWelcomeFormDefinition = (): void => {
 };
 
 let standaloneWindowTimer;
-export const openStandaloneMode = (
-  onPop?: (fireEvent: boolean) => void,
-  onDock?: (fireEvent: boolean) => void,
-) => {
+export const openStandaloneMode = (callbacks: {
+  onPop: () => void,
+  onFocus: () => void,
+  onDock: () => void,
+}) => {
   if (window.QUIQ_STANDALONE_WINDOW_HANDLE) {
     window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
-    if (onPop) onPop(false);
-
-    return;
+    return callbacks.onFocus();
   }
 
   const width = QUIQ.WIDTH;
@@ -196,7 +195,7 @@ export const openStandaloneMode = (
     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
   );
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
-  if (onPop) onPop(false);
+  callbacks.onPop();
 
   /*
      * Since we popped open webchat into a new window in standalone mode,
@@ -209,7 +208,7 @@ export const openStandaloneMode = (
       if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
       standaloneWindowTimer = undefined;
       window.QUIQ_STANDALONE_WINDOW_HANDLE = undefined;
-      if (onDock) onDock(false);
+      callbacks.onDock();
     }
   }, 500);
 };

@@ -9,6 +9,8 @@ import Redbox from 'redbox-react';
 import QUIQ from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {registerChatClient} from './ChatClient';
+import {Provider} from 'react-redux';
+import chat from 'reducers/chat';
 
 import 'main.scss';
 
@@ -23,11 +25,13 @@ const init = () => {
   document.getElementsByTagName('body')[0].appendChild(root);
 
   render(
-    <IntlProvider locale="en">
-      <AppContainer errorReporter={Redbox}>
-        <Routes />
-      </AppContainer>
-    </IntlProvider>,
+    <Provider store={chat}>
+      <IntlProvider locale="en">
+        <AppContainer errorReporter={Redbox}>
+          <Routes />
+        </AppContainer>
+      </IntlProvider>
+    </Provider>,
     document.getElementById('quiqWebChat'),
   );
 
@@ -36,11 +40,13 @@ const init = () => {
       const NextApp = require('Routes').default; // eslint-disable-line global-require
 
       render(
-        <IntlProvider locale="en">
-          <AppContainer errorReporter={Redbox}>
-            <NextApp />
-          </AppContainer>
-        </IntlProvider>,
+        <Provider store={chat}>
+          <IntlProvider locale="en">
+            <AppContainer errorReporter={Redbox}>
+              <NextApp />
+            </AppContainer>
+          </IntlProvider>
+        </Provider>,
         document.getElementById('quiqWebChat'),
       );
     });

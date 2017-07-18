@@ -12,6 +12,32 @@ export type WelcomeForm = {
   fields: Array<WelcomeFormField>,
 };
 
+export type ChatState = {
+  hidden: boolean,
+  initializedState: ChatInitializedStateType,
+  popped: boolean,
+  transcript: Array<Message>,
+  agentTyping: boolean,
+  welcomeFormSubmitted: boolean,
+};
+
+export type Action = {
+  type:
+    | 'CHAT_HIDDEN'
+    | 'CHAT_INITIALIZED_STATE'
+    | 'CHAT_POPPED'
+    | 'UPDATE_TRANSCRIPT'
+    | 'AGENT_TYPING'
+    | 'WELCOME_FORM_SUBMITTED',
+};
+
+export type ChatInitializedStateType =
+  | 'uninitialized'
+  | 'loading'
+  | 'initialized'
+  | 'error'
+  | 'disconnected';
+
 export type CookieDef = {
   id: string,
   expiration?: number,

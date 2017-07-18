@@ -2,7 +2,7 @@
 jest.mock('utils/quiq');
 import React from 'react';
 import type {WelcomeFormProps} from '../WelcomeForm';
-import WelcomeForm from '../WelcomeForm';
+import {WelcomeForm} from '../WelcomeForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import {registerChatClient} from '../../ChatClient';
@@ -19,11 +19,7 @@ describe('WelcomeForm component', () => {
     registerChatClient(mockClient);
 
     testProps = {
-      onFormSubmit: jest.fn(),
-      onDock: jest.fn(),
-      onMinimize: jest.fn(),
-      onPop: jest.fn(),
-      onApiError: jest.fn(),
+      setWelcomeFormSubmitted: jest.fn(),
     };
 
     render = () => {
@@ -34,10 +30,6 @@ describe('WelcomeForm component', () => {
   describe('rendering', () => {
     beforeEach(() => {
       render();
-    });
-
-    it('renders with default props', () => {
-      expect(wrapper).toMatchSnapshot();
     });
 
     it('renders error message if formValidationError state is true', () => {

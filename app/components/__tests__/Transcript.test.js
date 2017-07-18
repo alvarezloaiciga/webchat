@@ -2,7 +2,7 @@
 import React from 'react';
 import {getMockMessage} from 'utils/testHelpers';
 import type {TranscriptProps} from '../Transcript';
-import Transcript from '../Transcript';
+import {Transcript} from '../Transcript';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 
@@ -13,7 +13,7 @@ describe('Transcript component', () => {
 
   beforeEach(() => {
     testProps = {
-      messages: [getMockMessage(1), getMockMessage(2)],
+      transcript: [getMockMessage(1), getMockMessage(2)],
     };
     render = () => {
       wrapper = shallow(<Transcript {...testProps} />);

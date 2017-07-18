@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import Message from 'Message';
 import QUIQ from 'utils/quiq';
-import type {Message as MessageType} from 'types';
+import {connect} from 'react-redux';
+import type {Message as MessageType, ChatState} from 'types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
-  messages: Array<MessageType>,
+  transcript: Array<MessageType>,
 };
 
 export class Transcript extends Component {
@@ -24,7 +25,7 @@ export class Transcript extends Component {
 
   componentDidUpdate(prevProps) {
     // Scroll to the bottom if you get a new message
-    if (this.props.messages.length > prevProps.messages.length) {
+    if (this.props.transcript.length > prevProps.transcript.length) {
       this.scrollToBottom();
     }
   }
@@ -40,10 +41,12 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: COLORS.transcriptBackground}}
       >
-        {this.props.messages.map(msg => <Message key={msg.id} message={msg} />)}
+        {this.props.transcript.map(msg => <Message key={msg.id} message={msg} />)}
       </div>
     );
   }
 }
 
-export default Transcript;
+export default connect((state: ChatState) => ({
+  transcript: state.transcript,
+}))(Transcript);

@@ -3,7 +3,7 @@ jest.mock('utils/utils');
 jest.mock('../../ChatClient');
 import React from 'react';
 import keycodes from 'keycodes';
-import MessageForm from '../MessageForm';
+import {MessageForm} from '../MessageForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import type {MessageFormProps} from '../MessageForm';

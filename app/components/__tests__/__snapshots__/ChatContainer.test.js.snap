@@ -1,10 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChatContainer component rendering hidden hides the component when hidden 1`] = `null`;
-
-exports[`ChatContainer component rendering messages appends messages to the transcript 1`] = `
+exports[`ChatContainer component initializedState when disconnected renders properly 1`] = `
 <div
-  className="ChatContainer"
+  className="ChatContainer disconnected"
   style={
     Object {
       "maxHeight": 600,
@@ -12,70 +10,28 @@ exports[`ChatContainer component rendering messages appends messages to the tran
     }
   }
 >
-  <HeaderMenu
-    onDock={[Function]}
-    onMinimize={[Function]}
-    onPop={[Function]}
-  />
+  <Connect(HeaderMenu) />
   <div
-    className="banner"
+    className="errorBanner"
     style={
       Object {
-        "backgroundColor": "#333",
+        "fontFamily": "Lato, sans-serif",
       }
     }
   >
-    <span
-      className="messageUs"
-      style={
-        Object {
-          "fontFamily": "Lato, sans-serif",
-        }
-      }
-    >
-      TOOL TIME
-    </span>
+    Reconnecting...
   </div>
   <div
     className="chatContainerBody"
   >
-    <Transcript
-      messages={
-        Array [
-          Object {
-            "authorType": "Customer",
-            "id": "id--0",
-            "text": "text--0",
-            "timestamp": 0,
-            "type": "Text",
-          },
-          Object {
-            "authorType": "Agent",
-            "id": "id--1",
-            "text": "text--1",
-            "timestamp": 1,
-            "type": "Text",
-          },
-          Object {
-            "authorType": "Customer",
-            "id": "id--2",
-            "text": "text--2",
-            "timestamp": 2,
-            "type": "Text",
-          },
-        ]
-      }
-    />
-    <MessageForm
-      agentTyping={false}
-    />
+    <Connect(Transcript) />
   </div>
 </div>
 `;
 
-exports[`ChatContainer component rendering renders 1`] = `
+exports[`ChatContainer component initializedState when errored renders properly 1`] = `
 <div
-  className="ChatContainer"
+  className="ChatContainer error"
   style={
     Object {
       "maxHeight": 600,
@@ -83,11 +39,31 @@ exports[`ChatContainer component rendering renders 1`] = `
     }
   }
 >
-  <HeaderMenu
-    onDock={[Function]}
-    onMinimize={[Function]}
-    onPop={[Function]}
-  />
+  <Connect(HeaderMenu) />
+  <div
+    className="errorBanner"
+  >
+    We're having trouble connecting. Try refreshing the page.
+  </div>
+  <div
+    className="chatContainerBody"
+  >
+    <Connect(Transcript) />
+  </div>
+</div>
+`;
+
+exports[`ChatContainer component initializedState when initialized renders properly 1`] = `
+<div
+  className="ChatContainer initialized"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
+>
+  <Connect(HeaderMenu) />
   <div
     className="banner"
     style={
@@ -110,12 +86,84 @@ exports[`ChatContainer component rendering renders 1`] = `
   <div
     className="chatContainerBody"
   >
-    <Transcript
-      messages={Array []}
-    />
-    <MessageForm
-      agentTyping={false}
-    />
+    <Connect(Transcript) />
+    <Connect(MessageForm) />
+  </div>
+</div>
+`;
+
+exports[`ChatContainer component initializedState when loading renders properly 1`] = `
+<div
+  className="ChatContainer loading"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
+>
+  <Connect(HeaderMenu) />
+  <div
+    className="banner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span
+      className="messageUs"
+      style={
+        Object {
+          "fontFamily": "Lato, sans-serif",
+        }
+      }
+    >
+      TOOL TIME
+    </span>
+  </div>
+  <div
+    className="chatContainerBody"
+  >
+    <Spinner />
+  </div>
+</div>
+`;
+
+exports[`ChatContainer component initializedState when uninitialized renders properly 1`] = `
+<div
+  className="ChatContainer uninitialized"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
+>
+  <Connect(HeaderMenu) />
+  <div
+    className="banner"
+    style={
+      Object {
+        "backgroundColor": "#333",
+      }
+    }
+  >
+    <span
+      className="messageUs"
+      style={
+        Object {
+          "fontFamily": "Lato, sans-serif",
+        }
+      }
+    >
+      TOOL TIME
+    </span>
+  </div>
+  <div
+    className="chatContainerBody"
+  >
+    <Spinner />
   </div>
 </div>
 `;

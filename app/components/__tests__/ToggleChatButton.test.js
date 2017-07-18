@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import type {ToggleChatButtonProps} from '../ToggleChatButton';
-import ToggleChatButton from '../ToggleChatButton';
+import {ToggleChatButton} from '../ToggleChatButton';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 
@@ -13,7 +13,7 @@ describe('ToggleChatButton component', () => {
   beforeEach(() => {
     testProps = {
       toggleChat: jest.fn(),
-      chatOpen: false,
+      hidden: true,
     };
     render = () => {
       wrapper = shallow(<ToggleChatButton {...testProps} />);
@@ -21,18 +21,15 @@ describe('ToggleChatButton component', () => {
   });
 
   describe('rendering', () => {
-    beforeEach(() => {
+    it('renders', () => {
       render();
-    });
-
-    it('renders with default props', () => {
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('open', () => {
     it('switches svgs', () => {
-      testProps.chatOpen = true;
+      testProps.hidden = false;
       render();
 
       expect(wrapper).toMatchSnapshot();

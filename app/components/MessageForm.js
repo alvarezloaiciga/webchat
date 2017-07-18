@@ -5,10 +5,12 @@ import {compatibilityMode, supportsFlexbox} from 'utils/utils';
 import QUIQ from 'utils/quiq';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
+import {connect} from 'react-redux';
 import messages from 'messages';
 import {formatMessage} from 'utils/i18n';
 import {getChatClient} from '../ChatClient';
 import './styles/MessageForm.scss';
+import type {ChatState} from 'types';
 
 const {COLOR, FONT_FAMILY} = QUIQ;
 
@@ -37,14 +39,12 @@ export class MessageForm extends Component {
   }
 
   startTyping = () => {
-    const chatClient = getChatClient();
-    chatClient.updateMessagePreview(this.state.text, true);
+    getChatClient().updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    const chatClient = getChatClient();
-    chatClient.updateMessagePreview(this.state.text, false);
+    getChatClient().updateMessagePreview(this.state.text, false);
   };
 
   startTypingTimers = () => {
@@ -68,11 +68,10 @@ export class MessageForm extends Component {
   };
 
   addMessage = () => {
-    const chatClient = getChatClient();
     const text = this.state.text.trim();
     if (text) {
       this.setState({text: ''}, this.resetTypingTimers);
-      chatClient.sendMessage(text);
+      getChatClient().sendMessage(text);
     }
   };
 
@@ -130,4 +129,6 @@ export class MessageForm extends Component {
   }
 }
 
-export default MessageForm;
+export default connect((state: ChatState) => ({
+  agentTyping: state.agentTyping,
+}))(MessageForm);

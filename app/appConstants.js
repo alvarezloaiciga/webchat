@@ -15,4 +15,12 @@ export const SupportedWebchatUrls = [
   'centricient.dev:41014/app/webchat',
 ];
 
+export const ChatInitializedState = {
+  UNINITIALIZED: 'uninitialized',
+  LOADING: 'loading',
+  INITIALIZED: 'initialized',
+  ERROR: 'error',
+  DISCONNECTED: 'disconnected',
+};
+
 export const noAgentsAvailableClass = 'noAgentsAvailable';

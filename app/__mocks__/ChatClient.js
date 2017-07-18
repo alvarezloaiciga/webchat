@@ -1,11 +1,11 @@
 export const registerChatClient = jest.fn();
 export const getChatClient = jest.fn().mockReturnValue({
-  onNewMessages: jest.fn(),
-  onAgentTyping: jest.fn(),
-  onError: jest.fn(),
-  onErrorResolved: jest.fn(),
-  onConnectionStatusChange: jest.fn(),
-  onBurn: jest.fn(),
+  onNewMessages: jest.fn().mockReturnThis(),
+  onAgentTyping: jest.fn().mockReturnThis(),
+  onError: jest.fn().mockReturnThis(),
+  onErrorResolved: jest.fn().mockReturnThis(),
+  onConnectionStatusChange: jest.fn().mockReturnThis(),
+  onBurn: jest.fn().mockReturnThis(),
   start: jest.fn(),
   stop: jest.fn(),
   getMessages: jest.fn(),
@@ -17,6 +17,6 @@ export const getChatClient = jest.fn().mockReturnValue({
   checkForAgents: jest.fn(),
   hasActiveChat: jest.fn(),
   getLastUserEvent: jest.fn(),
-  isRegistered: jest.fn(),
+  isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),
 });
