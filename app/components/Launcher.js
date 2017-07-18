@@ -129,13 +129,13 @@ export class Launcher extends Component {
     }
 
     if (this.props.hidden) {
-      client.joinChat();
       this.props.setChatHidden(false);
+      client.joinChat();
       return;
     }
 
-    client.leaveChat();
     this.props.setChatHidden(true);
+    client.leaveChat();
   };
 
   render() {
