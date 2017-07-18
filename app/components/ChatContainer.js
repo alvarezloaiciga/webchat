@@ -18,8 +18,6 @@ import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType, Message} from 'types';
 import type {QuiqChatClientType} from 'quiq-chat';
 
-const {COLOR, HEADER_TEXT, FONT_FAMILY, WIDTH, HEIGHT, CUSTOM_LAUNCH_BUTTONS} = QUIQ;
-
 export type ChatContainerProps = {
   hidden: boolean,
   transcript: Array<Message>,
@@ -37,12 +35,15 @@ export class ChatContainer extends React.Component {
   client: QuiqChatClientType;
   typingTimeout: ?number;
 
+  constructor() {
+    super();
+    this.client = getChatClient();
+  }
+
   componentDidMount() {
     if (!this.props.welcomeFormSubmitted) validateWelcomeFormDefinition();
 
-    this.client = getChatClient();
-
-    getChatClient()
+    this.client
       .onNewMessages(this.props.updateTranscript)
       .onAgentTyping(this.handleAgentTyping)
       .onConnectionStatusChange((connected: boolean) =>
@@ -113,15 +114,15 @@ export class ChatContainer extends React.Component {
       case ChatInitializedState.LOADING:
       case ChatInitializedState.UNINITIALIZED:
         return (
-          <div className="banner" style={{backgroundColor: COLOR}}>
-            <span className="messageUs" style={{fontFamily: FONT_FAMILY}}>
-              {HEADER_TEXT}
+          <div className="banner" style={{backgroundColor: QUIQ.COLOR}}>
+            <span className="messageUs" style={{fontFamily: QUIQ.FONT_FAMILY}}>
+              {QUIQ.HEADER_TEXT}
             </span>
           </div>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
-          <div className="errorBanner" style={{fontFamily: FONT_FAMILY}}>
+          <div className="errorBanner" style={{fontFamily: QUIQ.FONT_FAMILY}}>
             {formatMessage(messages.reconnecting)}
           </div>
         );
@@ -165,24 +166,24 @@ export class ChatContainer extends React.Component {
   render() {
     const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && CUSTOM_LAUNCH_BUTTONS.length > 0,
+      hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
       hidden: this.props.hidden,
     });
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
       !this.props.welcomeFormSubmitted &&
-      !getChatClient().isRegistered()
+      !this.client.isRegistered()
     ) {
       return (
-        <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
+        <div className={classNames} style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT}}>
           <WelcomeForm />
         </div>
       );
     }
 
     return (
-      <div className={classNames} style={{width: WIDTH, maxHeight: HEIGHT}}>
+      <div className={classNames} style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT}}>
         <HeaderMenu />
         {this.renderBanner()}
         {this.renderContent()}

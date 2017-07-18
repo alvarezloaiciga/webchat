@@ -62,6 +62,7 @@ const QUIQ: QuiqObject = {
   },
 };
 
+export const openStandaloneMode = jest.fn();
 export const validateWelcomeFormDefinition = jest.fn();
 
 export default QUIQ;

@@ -27,7 +27,7 @@ export type WelcomeFormState = {
   },
 };
 
-class WelcomeForm extends Component {
+export class WelcomeForm extends Component {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,

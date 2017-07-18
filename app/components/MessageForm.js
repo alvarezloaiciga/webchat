@@ -39,14 +39,12 @@ export class MessageForm extends Component {
   }
 
   startTyping = () => {
-    const chatClient = getChatClient();
-    chatClient.updateMessagePreview(this.state.text, true);
+    getChatClient().updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    const chatClient = getChatClient();
-    chatClient.updateMessagePreview(this.state.text, false);
+    getChatClient().updateMessagePreview(this.state.text, false);
   };
 
   startTypingTimers = () => {

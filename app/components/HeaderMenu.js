@@ -14,7 +14,7 @@ export type HeaderMenuProps = {
   setChatPopped: (popped: boolean) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
-const HeaderMenu = (props: HeaderMenuProps) => {
+export const HeaderMenu = (props: HeaderMenuProps) => {
   const minimize = () => {
     props.setChatHidden(true);
     getChatClient().leaveChat();

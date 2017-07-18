@@ -24,7 +24,7 @@ exports[`ToggleChatButton component open switches svgs 1`] = `
 </button>
 `;
 
-exports[`ToggleChatButton component rendering renders with default props 1`] = `
+exports[`ToggleChatButton component rendering renders 1`] = `
 <button
   className="ToggleChatButton"
   onClick={[Function]}

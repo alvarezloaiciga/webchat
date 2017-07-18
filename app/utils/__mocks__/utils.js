@@ -34,3 +34,4 @@ export const supportsFlexbox = () => true;
 export const supportsSVG = () => true;
 export const displayError = (error: string) => error;
 export const isIEorSafari = () => false;
+export const inStandaloneMode = jest.fn(() => false);

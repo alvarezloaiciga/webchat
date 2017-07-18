@@ -1,8 +1,12 @@
 // @flow
+jest.mock('../../ChatClient');
+jest.mock('utils/quiq');
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
-import HeaderMenu from '../HeaderMenu';
+import {HeaderMenu} from '../HeaderMenu';
+import {getChatClient} from '../../ChatClient';
 import {shallow} from 'enzyme';
+import {openStandaloneMode} from 'utils/quiq';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('HeaderMenu component', () => {
@@ -12,28 +16,36 @@ describe('HeaderMenu component', () => {
 
   beforeEach(() => {
     testProps = {
-      onPop: jest.fn(),
-      onMinimize: jest.fn(),
-      onDock: jest.fn(),
+      setChatHidden: jest.fn(),
+      setChatPopped: jest.fn(),
     };
+
     render = () => {
       wrapper = shallow(<HeaderMenu {...testProps} />);
     };
   });
 
   describe('rendering', () => {
-    beforeEach(() => {
-      render();
-    });
-
-    it('renders with default props', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('renders with minimal props', () => {
-      testProps = {};
+    it('renders', () => {
       render();
       expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('minimize', () => {
+    it('calls minimize', () => {
+      render();
+      wrapper.find('.fa-window-minimize').simulate('click');
+      expect(testProps.setChatHidden).toBeCalledWith(true);
+      expect(getChatClient().leaveChat).toBeCalled();
+    });
+  });
+
+  describe('popChat', () => {
+    it('pops chat', () => {
+      render();
+      wrapper.find('.fa-window-maximize').simulate('click');
+      expect(openStandaloneMode).toBeCalled();
     });
   });
 });

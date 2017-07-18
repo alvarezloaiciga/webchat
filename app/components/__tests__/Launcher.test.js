@@ -50,6 +50,10 @@ describe('Launcher component', () => {
 
       testProps = {
         intl: TestIntlObject,
+        setChatHidden: jest.fn(),
+        setChatPopped: jest.fn(),
+        hidden: false,
+        popped: false,
       };
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
@@ -88,7 +92,7 @@ describe('Launcher component', () => {
         });
 
         it("doesn't render the default launcher", () => {
-          expect(wrapper.find('ToggleChatButton').length).toBe(0);
+          expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(0);
         });
 
         describe('agentsAvailable', () => {
@@ -109,7 +113,7 @@ describe('Launcher component', () => {
         it('renders the default launcher', async () => {
           QUIQ.CUSTOM_LAUNCH_BUTTONS = [];
           await render();
-          expect(wrapper.find('ToggleChatButton').length).toBe(1);
+          expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(1);
         });
       });
     });
@@ -124,7 +128,7 @@ describe('Launcher component', () => {
     it("opens the chat even if the end user doesn't click on it", () => {
       jest.runTimersToTime(200);
       wrapper.update();
-      expect(wrapper.find('ChatContainer').prop('hidden')).toBe(false);
+      expect(testProps.setChatHidden).lastCalledWith(false);
     });
   });
 
@@ -145,36 +149,6 @@ describe('Launcher component', () => {
         await render();
 
         expect(wrapper).toMatchSnapshot();
-      });
-    });
-  });
-
-  describe('isChatVisible', () => {
-    describe('when chat is visible', () => {
-      it('displays chat', async () => {
-        await render();
-        expect(wrapper.state('chatOpen')).toBe(true);
-      });
-    });
-
-    describe('when chat is not visible', () => {
-      it('hides chat', async () => {
-        updateIsChatVisible(false);
-        await render();
-        expect(wrapper.state('chatOpen')).toBe(false);
-      });
-    });
-  });
-
-  describe('active chat', () => {
-    beforeEach(() => {
-      updateAgentsAvailable(false);
-    });
-
-    describe('when there is an active chat', () => {
-      it('displays chat', async () => {
-        await render();
-        expect(wrapper.state('chatOpen')).toBe(true);
       });
     });
   });
