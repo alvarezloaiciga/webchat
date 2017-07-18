@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chatActions setAgentTyping builds an action 1`] = `
+Object {
+  "agentTyping": true,
+  "type": "AGENT_TYPING",
+}
+`;
+
+exports[`chatActions setChatHidden builds an action 1`] = `
+Object {
+  "hidden": true,
+  "type": "CHAT_HIDDEN",
+}
+`;
+
+exports[`chatActions setChatInitialized builds an action 1`] = `
+Object {
+  "initializedState": "initialized",
+  "type": "CHAT_INITIALIZED_STATE",
+}
+`;
+
+exports[`chatActions setChatPopped builds an action 1`] = `
+Object {
+  "popped": true,
+  "type": "CHAT_POPPED",
+}
+`;
+
+exports[`chatActions setWelcomeFormSubmitted builds an action 1`] = `
+Object {
+  "type": "WELCOME_FORM_SUBMITTED",
+  "welcomeFormSubmitted": true,
+}
+`;
+
+exports[`chatActions updateTranscript builds an action 1`] = `
+Object {
+  "transcript": Array [
+    Object {
+      "authorType": "Customer",
+      "id": "id--0",
+      "text": "text--0",
+      "timestamp": 0,
+      "type": "Text",
+    },
+  ],
+  "type": "UPDATE_TRANSCRIPT",
+}
+`;
