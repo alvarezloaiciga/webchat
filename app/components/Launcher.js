@@ -124,7 +124,7 @@ export class Launcher extends Component {
   };
 
   init = async () => {
-    this.determineLauncherState();
+    await this.determineLauncherState();
 
     // Standalone Mode
     // Never show launcher
@@ -136,16 +136,12 @@ export class Launcher extends Component {
       return;
     }
 
-    // ChatContainer Visible
-    // Show launcher if transcript length > 0
-    // Always start session, show ChatContainer if launcher visible
+    // ChatContainer Visible from cookie
+    // Always start session, always show launcher
     if (this.client.isChatVisible()) {
       await this.startSession();
-
-      if (!this.props.chatLauncherHidden) {
-        this.updateContainerHidden(false);
-      }
-
+      this.updateLauncherHidden(false);
+      this.updateContainerHidden(false);
       return;
     }
 
@@ -153,7 +149,7 @@ export class Launcher extends Component {
     // Show launcher if transcript length > 0
     // Always start session, don't change ChatContainer
     if (this.client.hasTakenMeaningfulAction()) {
-      this.startSession();
+      await this.startSession();
     }
 
     if (!this.props.chatLauncherHidden) {
