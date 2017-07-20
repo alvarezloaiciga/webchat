@@ -13,7 +13,8 @@ export type WelcomeForm = {
 };
 
 export type ChatState = {
-  hidden: boolean,
+  chatContainerHidden: boolean,
+  chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   popped: boolean,
   transcript: Array<Message>,
@@ -23,7 +24,8 @@ export type ChatState = {
 
 export type Action = {
   type:
-    | 'CHAT_HIDDEN'
+    | 'CHAT_CONTAINER_HIDDEN'
+    | 'CHAT_LAUNCHER_HIDDEN'
     | 'CHAT_INITIALIZED_STATE'
     | 'CHAT_POPPED'
     | 'UPDATE_TRANSCRIPT'

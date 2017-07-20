@@ -7,10 +7,10 @@ Object {
 }
 `;
 
-exports[`chatActions setChatHidden builds an action 1`] = `
+exports[`chatActions setChatContainerHidden builds an action 1`] = `
 Object {
-  "hidden": true,
-  "type": "CHAT_HIDDEN",
+  "chatContainerHidden": true,
+  "type": "CHAT_CONTAINER_HIDDEN",
 }
 `;
 
@@ -18,6 +18,13 @@ exports[`chatActions setChatInitialized builds an action 1`] = `
 Object {
   "initializedState": "initialized",
   "type": "CHAT_INITIALIZED_STATE",
+}
+`;
+
+exports[`chatActions setChatLauncherHidden builds an action 1`] = `
+Object {
+  "chatLauncherHidden": true,
+  "type": "CHAT_LAUNCHER_HIDDEN",
 }
 `;
 

@@ -3,9 +3,15 @@ import * as chatActions from '../chatActions';
 import {getMockMessage} from 'utils/testHelpers';
 
 describe('chatActions', () => {
-  describe('setChatHidden', () => {
+  describe('setChatContainerHidden', () => {
     it('builds an action', () => {
-      expect(chatActions.setChatHidden(true)).toMatchSnapshot();
+      expect(chatActions.setChatContainerHidden(true)).toMatchSnapshot();
+    });
+  });
+
+  describe('setChatLauncherHidden', () => {
+    it('builds an action', () => {
+      expect(chatActions.setChatLauncherHidden(true)).toMatchSnapshot();
     });
   });
 
