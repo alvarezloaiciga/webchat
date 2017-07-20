@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject, formatMessage} from 'utils/i18n';
+import {registerIntlObject} from 'utils/i18n';
 import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
@@ -41,6 +41,7 @@ export class Launcher extends Component {
   props: LauncherProps;
   state: LauncherState = {};
   determineLauncherStateInterval: number;
+  updateCustomChatButtonsInterval: number;
   typingTimeout: ?number;
   autoPopTimeout: ?number;
   client: QuiqChatClientType;
@@ -53,7 +54,6 @@ export class Launcher extends Component {
   componentDidMount() {
     registerIntlObject(this.props.intl);
     this.registerClientCallbacks();
-    this.bindChatButtons();
     this.determineLauncherStateInterval = setInterval(this.determineLauncherState, 1000 * 60);
 
     this.init();
@@ -61,17 +61,9 @@ export class Launcher extends Component {
 
   componentWillUnmount() {
     clearInterval(this.determineLauncherStateInterval);
+    clearInterval(this.updateCustomChatButtonsInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
-  }
-
-  componentWillReceiveProps(nextProps: LauncherProps) {
-    if (
-      QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0 &&
-      this.props.chatLauncherHidden !== nextProps.chatLauncherHidden
-    ) {
-      this.updateCustomChatButtons(!!nextProps.chatLauncherHidden);
-    }
   }
 
   determineLauncherState = async () => {
@@ -125,6 +117,7 @@ export class Launcher extends Component {
 
   init = async () => {
     await this.determineLauncherState();
+    this.bindChatButtons();
 
     // Standalone Mode
     // Never show launcher
@@ -203,32 +196,28 @@ export class Launcher extends Component {
     }
   };
 
-  updateCustomChatButtons = (agentsAvailable: boolean) => {
-    try {
-      QUIQ.CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
-        const ele = document.querySelector(selector);
-        if (!ele) return displayError(messages.unableToFindCustomLauncherError);
-
-        agentsAvailable
-          ? ele.classList.remove(noAgentsAvailableClass)
-          : ele.classList.add(noAgentsAvailableClass);
-      });
-    } catch (e) {
-      displayError(`${formatMessage(messages.unableToFindCustomLauncherError)}\n  ${e.message}`);
-    }
-  };
-
   bindChatButtons = () => {
-    try {
-      QUIQ.CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
+    const {CUSTOM_LAUNCH_BUTTONS} = QUIQ;
+    if (!CUSTOM_LAUNCH_BUTTONS || CUSTOM_LAUNCH_BUTTONS.length === 0) return;
+
+    const updateChatButtons = () => {
+      CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
         const ele = document.querySelector(selector);
         if (!ele) return displayError(messages.unableToBindCustomLauncherError);
 
-        ele.addEventListener('click', this.toggleChat);
+        this.props.chatLauncherHidden
+          ? ele.classList.add(noAgentsAvailableClass)
+          : ele.classList.remove(noAgentsAvailableClass);
       });
-    } catch (e) {
-      displayError(`${formatMessage(messages.unableToBindCustomLauncherError)}\n  ${e.message}`);
-    }
+    };
+
+    CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
+      const ele = document.querySelector(selector);
+      if (!ele) return displayError(messages.unableToBindCustomLauncherError);
+      ele.addEventListener('click', this.toggleChat);
+    });
+    this.updateCustomChatButtonsInterval = setInterval(updateChatButtons, 2000);
+    updateChatButtons();
   };
 
   toggleChat = async () => {
@@ -243,6 +232,9 @@ export class Launcher extends Component {
         },
         onDock: () => {
           this.props.setChatPopped(false);
+          if (isIEorSafari()) {
+            getChatClient().leaveChat();
+          }
         },
       });
     }

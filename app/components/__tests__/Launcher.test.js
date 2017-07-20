@@ -181,17 +181,6 @@ describe('Launcher component', () => {
         it("doesn't render the default launcher", () => {
           expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(0);
         });
-
-        describe('agentsAvailable', () => {
-          describe('when agents change', () => {
-            it('alters the noAgentsAvailable class', () => {
-              wrapper.setProps({chatLauncherHidden: true});
-              expect(instance.updateCustomChatButtons).toBeCalledWith(true);
-              wrapper.setProps({chatLauncherHidden: false});
-              expect(instance.updateCustomChatButtons).toBeCalledWith(false);
-            });
-          });
-        });
       });
 
       describe('when not defined', () => {

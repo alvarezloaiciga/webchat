@@ -30,6 +30,9 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
       },
       onDock: () => {
         props.setChatPopped(false);
+        if (isIEorSafari()) {
+          getChatClient().leaveChat();
+        }
       },
     });
   };
