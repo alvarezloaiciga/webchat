@@ -1,8 +1,13 @@
 import type {ChatInitializedStateType, Message} from 'types';
 
-export const setChatHidden = (hidden: boolean) => ({
-  type: 'CHAT_HIDDEN',
-  hidden,
+export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
+  type: 'CHAT_CONTAINER_HIDDEN',
+  chatContainerHidden,
+});
+
+export const setChatLauncherHidden = (chatLauncherHidden: boolean) => ({
+  type: 'CHAT_LAUNCHER_HIDDEN',
+  chatLauncherHidden,
 });
 
 export const setChatInitialized = (initializedState: ChatInitializedStateType) => ({

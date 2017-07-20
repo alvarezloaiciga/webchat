@@ -15,7 +15,7 @@ export const getChatClient = jest.fn().mockReturnValue({
   updateMessagePreview: jest.fn(),
   sendRegistration: jest.fn(),
   checkForAgents: jest.fn(),
-  hasActiveChat: jest.fn(),
+  hasTakenMeaningfulAction: jest.fn(),
   getLastUserEvent: jest.fn(),
   isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),

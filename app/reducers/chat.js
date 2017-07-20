@@ -6,7 +6,8 @@ import QUIQ from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
 
 type ChatAction = {
-  hidden?: boolean,
+  chatContainerHidden?: boolean,
+  chatLauncherHidden?: boolean,
   initializedState?: ChatInitializedStateType,
   popped?: boolean,
   transcript?: Array<Message>,
@@ -19,13 +20,19 @@ const launchingFromIEorSafari = () => isIEorSafari() && !inStandaloneMode();
 
 const reducer = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
-    case 'CHAT_HIDDEN':
-      return Object.assign({}, state, {hidden: launchingFromIEorSafari() ? true : action.hidden});
+    case 'CHAT_CONTAINER_HIDDEN':
+      return Object.assign({}, state, {
+        chatContainerHidden: launchingFromIEorSafari() ? true : action.chatContainerHidden,
+      });
+    case 'CHAT_LAUNCHER_HIDDEN':
+      return Object.assign({}, state, {
+        chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
+      });
     case 'CHAT_INITIALIZED_STATE':
       return Object.assign({}, state, {initializedState: action.initializedState});
     case 'CHAT_POPPED': {
       return Object.assign({}, state, {
-        hidden: launchingFromIEorSafari() ? true : action.popped,
+        chatContainerHidden: launchingFromIEorSafari() ? true : action.popped,
         popped: action.popped,
       });
     }
@@ -40,11 +47,16 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
   }
 };
 
-export default createStore(reducer, {
-  hidden: true,
-  initializedState: ChatInitializedState.UNINITIALIZED,
-  popped: false,
-  transcript: [],
-  agentTyping: false,
-  welcomeFormSubmitted: !QUIQ.WELCOME_FORM,
-});
+export default createStore(
+  reducer,
+  {
+    chatContainerHidden: true,
+    chatLauncherHidden: true,
+    initializedState: ChatInitializedState.UNINITIALIZED,
+    popped: false,
+    transcript: [],
+    agentTyping: false,
+    welcomeFormSubmitted: !QUIQ.WELCOME_FORM,
+  },
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);

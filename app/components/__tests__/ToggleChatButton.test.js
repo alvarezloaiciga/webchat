@@ -13,7 +13,7 @@ describe('ToggleChatButton component', () => {
   beforeEach(() => {
     testProps = {
       toggleChat: jest.fn(),
-      hidden: true,
+      chatContainerHidden: true,
     };
     render = () => {
       wrapper = shallow(<ToggleChatButton {...testProps} />);
@@ -29,7 +29,7 @@ describe('ToggleChatButton component', () => {
 
   describe('open', () => {
     it('switches svgs', () => {
-      testProps.hidden = false;
+      testProps.chatContainerHidden = false;
       render();
 
       expect(wrapper).toMatchSnapshot();

@@ -16,7 +16,7 @@ describe('HeaderMenu component', () => {
 
   beforeEach(() => {
     testProps = {
-      setChatHidden: jest.fn(),
+      setChatContainerHidden: jest.fn(),
       setChatPopped: jest.fn(),
     };
 
@@ -36,7 +36,7 @@ describe('HeaderMenu component', () => {
     it('calls minimize', () => {
       render();
       wrapper.find('.fa-window-minimize').simulate('click');
-      expect(testProps.setChatHidden).toBeCalledWith(true);
+      expect(testProps.setChatContainerHidden).toBeCalledWith(true);
       expect(getChatClient().leaveChat).toBeCalled();
     });
   });
