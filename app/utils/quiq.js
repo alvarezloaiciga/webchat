@@ -103,6 +103,7 @@ const getQuiqObject = (): QuiqObject => {
     WIDTH: 400,
     HEIGHT: 600,
     CUSTOM_LAUNCH_BUTTONS: [],
+    MOBILE_NUMBER: undefined,
   };
 
   if (!window.QUIQ) {

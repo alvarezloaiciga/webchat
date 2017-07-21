@@ -35,3 +35,4 @@ export const supportsSVG = () => true;
 export const displayError = (error: string) => error;
 export const isIEorSafari = jest.fn(() => false);
 export const inStandaloneMode = jest.fn(() => false);
+export const isMobile = jest.fn(() => false);

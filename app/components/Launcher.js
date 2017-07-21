@@ -67,7 +67,11 @@ export class Launcher extends Component {
   }
 
   determineLauncherState = async () => {
-    if (
+    // If user is on mobile, and they have not set a number, keep Chat hidden
+    if (!QUIQ.MOBILE_NUMBER && isMobile())
+      this.props.setChatLauncherHidden(true);
+
+    else if (
       // User is in active session, allow them to continue
       this.client.isChatVisible() ||
       !this.props.chatContainerHidden ||
