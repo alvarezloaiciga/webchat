@@ -9,8 +9,8 @@ import './styles/Launcher.scss';
 import * as chatActions from 'actions/chatActions';
 import {getChatClient} from '../ChatClient';
 import messages from 'messages';
-import {displayError, isIEorSafari, inStandaloneMode} from 'utils/utils';
-import {noAgentsAvailableClass, ChatInitializedState} from 'appConstants';
+import {displayError, isIEorSafari, isMobile, inStandaloneMode} from 'utils/utils';
+import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'appConstants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
@@ -208,6 +208,8 @@ export class Launcher extends Component {
         this.props.chatLauncherHidden
           ? ele.classList.add(noAgentsAvailableClass)
           : ele.classList.remove(noAgentsAvailableClass);
+
+        if (isMobile()) ele.classList.add(mobileClass);
       });
     };
 
@@ -220,7 +222,16 @@ export class Launcher extends Component {
     updateChatButtons();
   };
 
+  openNativeSMSApp = () => {
+    if (QUIQ.MOBILE_NUMBER) window.location = `sms:${QUIQ.MOBILE_NUMBER}`;
+  };
+
   toggleChat = async () => {
+    if (isMobile()) {
+      this.openNativeSMSApp();
+      return;
+    }
+
     if (this.props.popped || isIEorSafari()) {
       return openStandaloneMode({
         onPop: () => {
@@ -250,6 +261,9 @@ export class Launcher extends Component {
   };
 
   render() {
+    // Do not show chat no agents are available OR we're on a mobile device and no mobile number was provided in QUIQ object
+    if (isMobile() && !QUIQ.MOBILE_NUMBER) return null;
+
     return (
       <div className="Launcher">
         {!this.props.chatContainerHidden && <ChatContainer />}

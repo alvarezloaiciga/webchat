@@ -103,6 +103,11 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - default: `'goquiq.com'`
     - example: `'goquiq.com'`
+  - MOBILE_NUMBER
+    - type: number | string,
+    - description: If the user is on a mobile device, chat will not show. Instead, when the user taps on the launch button their SMS app will open with the `to` field set to this value. If `MOBILE_NUMBER` is not defined, that chat launcher button is not visible on mobile devices.
+    - default: none
+    - examples: `1234567891`, `"+11234567891"`
   - FONT_FAMILY
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values

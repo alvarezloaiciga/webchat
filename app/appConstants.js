@@ -24,3 +24,5 @@ export const ChatInitializedState = {
 };
 
 export const noAgentsAvailableClass = 'noAgentsAvailable';
+
+export const mobileClass = 'mobile';
