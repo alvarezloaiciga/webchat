@@ -44,7 +44,6 @@ describe('ToggleChatButton component', () => {
       });
 
       it('always shows blurb sbg even when hidden is true', () => {
-        testProps.hidden = false;
         render();
         expect(wrapper).toMatchSnapshot();
       });
