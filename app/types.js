@@ -19,7 +19,7 @@ export type ChatState = {
   popped: boolean,
   transcript: Array<Message>,
   agentTyping: boolean,
-  welcomeFormSubmitted: boolean,
+  welcomeFormRegistered: boolean,
 };
 
 export type Action = {
@@ -30,7 +30,7 @@ export type Action = {
     | 'CHAT_POPPED'
     | 'UPDATE_TRANSCRIPT'
     | 'AGENT_TYPING'
-    | 'WELCOME_FORM_SUBMITTED',
+    | 'WELCOME_FORM_REGISTERED',
 };
 
 export type ChatInitializedStateType =
@@ -76,7 +76,7 @@ export type QuiqObject = {
   CUSTOM_LAUNCH_BUTTONS: Array<string>,
 };
 
-export type EventType = 'Text' | 'Join' | 'Leave';
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
 export type AuthorType = 'Customer' | 'Agent';
 export type MessageType = 'Text' | 'ChatMessage';
 
@@ -85,7 +85,14 @@ export type Message = {
   text: string,
   id: string,
   timestamp: number,
+  type: 'Text',
+};
+
+export type Event = {
+  id: string,
+  timestamp: number,
   type: EventType,
+  typing?: boolean,
 };
 
 export type Conversation = {

@@ -82,11 +82,10 @@ describe('chat reducers', () => {
     });
   });
 
-  describe('WELCOME_FORM_SUBMITTED', () => {
+  describe('WELCOME_FORM_REGISTERED', () => {
     it('updates state with the new value', () => {
-      expect(chat.getState().welcomeFormSubmitted).toBe(true);
-      chat.dispatch({type: 'WELCOME_FORM_SUBMITTED', welcomeFormSubmitted: false});
-      expect(chat.getState().welcomeFormSubmitted).toBe(false);
+      chat.dispatch({type: 'WELCOME_FORM_REGISTERED'});
+      expect(chat.getState().welcomeFormRegistered).toBe(true);
     });
   });
 });

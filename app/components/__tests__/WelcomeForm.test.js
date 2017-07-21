@@ -18,10 +18,7 @@ describe('WelcomeForm component', () => {
   beforeEach(() => {
     registerChatClient(mockClient);
 
-    testProps = {
-      setWelcomeFormSubmitted: jest.fn(),
-    };
-
+    testProps = {};
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
     };
@@ -32,37 +29,44 @@ describe('WelcomeForm component', () => {
       render();
     });
 
-    it('renders error message if formValidationError state is true', () => {
+    it('does not render error message if formValidationError state is false', () => {
       wrapper.setState({formValidationError: false});
-      expect(wrapper).toMatchSnapshot();
+      expect(wrapper.find('.formValidationError').length).toBe(0);
     });
 
-    it('does not render error message with formValidationError false', () => {
+    it('renders error message with formValidationError true', () => {
       wrapper.setState({formValidationError: true});
-      expect(wrapper).toMatchSnapshot();
+      expect(wrapper.find('.formValidationError').length).toBe(1);
     });
   });
 
   describe('filling out form and submitting', () => {
-    beforeEach(() => {
-      render();
-    });
-
     it('does not submit if there is a required field left blank', () => {
+      render();
       wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
       expect(mockClient.sendRegistration).not.toHaveBeenCalled();
     });
 
-    it('does submit if all required fields are filled in', () => {
-      wrapper.find('input').at(0).simulate('change', {
-        which: 'a',
-        target: {
-          name: 'firstName',
-          value: 'a',
-        },
+    describe('valid submission', () => {
+      beforeEach(() => {
+        wrapper.find('input').at(0).simulate('change', {
+          which: 'a',
+          target: {
+            name: 'firstName',
+            value: 'a',
+          },
+        });
+        wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+        render();
       });
-      wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
-      expect(mockClient.sendRegistration).toHaveBeenCalled();
+
+      it('does submit if all required fields are filled in', () => {
+        expect(mockClient.sendRegistration).toHaveBeenCalled();
+      });
+
+      it('disables send button and sets text', () => {
+        expect(wrapper.find('button')).toMatchSnapshot();
+      });
     });
   });
 

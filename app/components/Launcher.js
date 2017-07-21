@@ -32,7 +32,7 @@ export type LauncherProps = {
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
-  setWelcomeFormSubmitted: (welcomeFormSubmitted: boolean) => void,
+  setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
 };
@@ -104,6 +104,7 @@ export class Launcher extends Component {
   registerClientCallbacks = () => {
     this.client
       .onNewMessages(this.props.updateTranscript)
+      .onWelcomeFormRegistration(this.props.setWelcomeFormRegistered)
       .onAgentTyping(this.handleAgentTyping)
       .onConnectionStatusChange((connected: boolean) =>
         this.updateInitializedState(
@@ -165,7 +166,7 @@ export class Launcher extends Component {
       // User has session in progress. Send them right to it.
       if (this.props.transcript.length > 0) {
         this.updateLauncherHidden(false);
-        this.props.setWelcomeFormSubmitted(true);
+        this.props.setWelcomeFormRegistered();
       }
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);

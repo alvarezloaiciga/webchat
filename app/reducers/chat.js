@@ -12,7 +12,6 @@ type ChatAction = {
   popped?: boolean,
   transcript?: Array<Message>,
   agentTyping?: boolean,
-  welcomeFormSubmitted?: boolean,
 };
 
 // When docking IE/Safari, we don't want to display the standard chat.
@@ -40,8 +39,8 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {transcript: action.transcript || []});
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
-    case 'WELCOME_FORM_SUBMITTED':
-      return Object.assign({}, state, {welcomeFormSubmitted: action.welcomeFormSubmitted});
+    case 'WELCOME_FORM_REGISTERED':
+      return Object.assign({}, state, {welcomeFormRegistered: true});
     default:
       return state;
   }
@@ -56,7 +55,7 @@ export default createStore(
     popped: false,
     transcript: [],
     agentTyping: false,
-    welcomeFormSubmitted: !QUIQ.WELCOME_FORM,
+    welcomeFormRegistered: !QUIQ.WELCOME_FORM,
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );

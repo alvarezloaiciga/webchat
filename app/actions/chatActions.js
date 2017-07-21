@@ -30,7 +30,6 @@ export const updateTranscript = (transcript: Array<Message>) => ({
   transcript,
 });
 
-export const setWelcomeFormSubmitted = (welcomeFormSubmitted: boolean) => ({
-  type: 'WELCOME_FORM_SUBMITTED',
-  welcomeFormSubmitted,
+export const setWelcomeFormRegistered = () => ({
+  type: 'WELCOME_FORM_REGISTERED',
 });

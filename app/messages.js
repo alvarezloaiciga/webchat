@@ -150,6 +150,11 @@ export default defineMessages({
     description: 'Text of submit button on welcome form',
     defaultMessage: 'Submit',
   },
+  submittingWelcomeForm: {
+    id: 'submittingWelcomeForm',
+    description: 'Text of submit button on welcome form while form is being submitted',
+    defaultMessage: 'Submitting',
+  },
   welcomeFormValidationError: {
     id: 'welcomeFormValidationError',
     description: 'Error displayed when user has not filled in a required field',

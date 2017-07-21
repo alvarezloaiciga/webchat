@@ -39,9 +39,9 @@ describe('chatActions', () => {
     });
   });
 
-  describe('setWelcomeFormSubmitted', () => {
+  describe('setWelcomeFormRegistered', () => {
     it('builds an action', () => {
-      expect(chatActions.setWelcomeFormSubmitted(true)).toMatchSnapshot();
+      expect(chatActions.setWelcomeFormRegistered(true)).toMatchSnapshot();
     });
   });
 });

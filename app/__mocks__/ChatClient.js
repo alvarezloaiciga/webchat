@@ -1,6 +1,7 @@
 export const registerChatClient = jest.fn();
 export const getChatClient = jest.fn().mockReturnValue({
   onNewMessages: jest.fn().mockReturnThis(),
+  onWelcomeFormRegistration: jest.fn().mockReturnThis(),
   onAgentTyping: jest.fn().mockReturnThis(),
   onError: jest.fn().mockReturnThis(),
   onErrorResolved: jest.fn().mockReturnThis(),
