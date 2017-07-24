@@ -81,7 +81,7 @@ describe('ChatContainer component', () => {
 
   describe('welcome form', () => {
     describe('when welcome form has not been submitted', () => {
-      fit('renders welcome form', () => {
+      it('renders welcome form', () => {
         testProps.welcomeFormRegistered = false;
         render();
         expect(wrapper.find('WelcomeForm').length).toBe(1);

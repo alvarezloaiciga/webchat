@@ -130,6 +130,8 @@ export class WelcomeForm extends Component {
   render = () => {
     const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
 
+    if (!WELCOME_FORM) return null;
+
     return (
       <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
         <HeaderMenu />
