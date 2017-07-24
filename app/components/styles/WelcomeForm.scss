@@ -70,10 +70,11 @@
   .field {
     display: flex;
     flex-direction: column;
+    align-self: stretch;
     align-items: stretch;
+    min-width: 99%;
     flex: 0 0 auto;
     margin: 5px 0;
-    min-width: 99%;
 
     label {
       margin-bottom: 4px;

@@ -242,8 +242,6 @@ export class Launcher extends Component {
     }
 
     if (this.props.popped || isIEorSafari()) {
-      // Start session so we can receive websocket messages in the background
-      await this.startSession();
       return openStandaloneMode({
         onPop: () => {
           this.props.setChatPopped(true);

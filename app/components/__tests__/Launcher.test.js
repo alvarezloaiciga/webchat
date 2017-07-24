@@ -109,7 +109,6 @@ describe('Launcher component', () => {
         (isIEorSafari: any).mockReturnValue(() => true);
         await render();
         await instance.toggleChat();
-        expect(client.start).toBeCalled();
         expect(openStandaloneMode).toBeCalled();
         (isIEorSafari: any).mockReset();
       });
