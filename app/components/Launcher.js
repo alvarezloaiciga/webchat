@@ -26,6 +26,7 @@ export type LauncherProps = {
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
+  welcomeFormRegistered: boolean,
   popped: boolean,
 
   setChatPopped: (popped: boolean) => void,
@@ -68,12 +69,18 @@ export class Launcher extends Component {
 
   determineLauncherState = async () => {
     // If user is on mobile, and they have not set a number, keep launcher buttons hidden
+    // console.log(this.client.hasTakenMeaningfulAction());
+    // console.log(this.props.transcript);
+    // console.log(QUIQ.WELCOME_FORM);
     if (!QUIQ.MOBILE_NUMBER && isMobile()) this.props.setChatLauncherHidden(true);
     else if (
       // User is in active session, allow them to continue
       this.client.isChatVisible() ||
+      this.client.hasTakenMeaningfulAction() ||
       !this.props.chatContainerHidden ||
-      this.props.popped
+      this.props.popped ||
+      this.props.transcript.length ||
+      (QUIQ.WELCOME_FORM && this.props.welcomeFormRegistered)
     ) {
       if (this.props.chatLauncherHidden) {
         this.props.setChatLauncherHidden(false);
@@ -238,6 +245,8 @@ export class Launcher extends Component {
     }
 
     if (this.props.popped || isIEorSafari()) {
+      // Start session so we can receive websocket messages in the background
+      await this.startSession();
       return openStandaloneMode({
         onPop: () => {
           this.props.setChatPopped(true);
@@ -290,6 +299,7 @@ export default compose(
       popped: state.popped,
       initializedState: state.initializedState,
       transcript: state.transcript,
+      welcomeFormRegistered: state.welcomeFormRegistered,
     }),
     chatActions,
   ),

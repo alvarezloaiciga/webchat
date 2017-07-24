@@ -47,6 +47,7 @@ describe('Launcher component', () => {
       chatContainerHidden: false,
       chatLauncherHidden: false,
       initializedState: 'initialized',
+      welcomeFormRegistered: true,
       transcript: [],
       popped: false,
 
@@ -104,9 +105,11 @@ describe('Launcher component', () => {
 
     describe('when in IE/Safari', () => {
       it('opens standalone mode', async () => {
+        testProps.initializedState = 'uninitialized';
         (isIEorSafari: any).mockReturnValue(() => true);
         await render();
         await instance.toggleChat();
+        expect(client.start).toBeCalled();
         expect(openStandaloneMode).toBeCalled();
         (isIEorSafari: any).mockReset();
       });
@@ -209,22 +212,24 @@ describe('Launcher component', () => {
   });
 
   describe('after a minute', () => {
-    it('calls checkForAgents again', async () => {
+    beforeEach(async () => {
       updateHasTakenMeaningfulAction(false);
       updateIsChatVisible(false);
       testProps.chatContainerHidden = true;
+      testProps.chatLauncherHidden = true;
+      testProps.transcript = [];
+      testProps.welcomeFormRegistered = false;
       await render();
+    });
+
+    it('calls checkForAgents again', () => {
       expect(client.checkForAgents).toBeCalled();
       jest.runTimersToTime(1000 * 60);
       expect(client.checkForAgents).toBeCalled();
     });
 
     describe('when chat container is not hidden', () => {
-      it('assumes agents available', async () => {
-        testProps.chatLauncherHidden = true;
-        updateHasTakenMeaningfulAction(false);
-        testProps.chatContainerHidden = true;
-        await render();
+      it('assumes agents available', () => {
         wrapper.setProps({chatContainerHidden: false});
         jest.runTimersToTime(1000 * 60);
         expect(testProps.setChatLauncherHidden).lastCalledWith(false);
@@ -232,12 +237,32 @@ describe('Launcher component', () => {
     });
 
     describe('when client is popped into standalone mode', () => {
-      it('assumes agents available', async () => {
-        testProps.chatLauncherHidden = true;
-        updateHasTakenMeaningfulAction(false);
-        testProps.chatContainerHidden = true;
-        await render();
+      it('assumes agents available', () => {
         (inStandaloneMode: any).mockReturnValue(() => false);
+        jest.runTimersToTime(1000 * 60);
+        expect(testProps.setChatLauncherHidden).lastCalledWith(false);
+      });
+    });
+
+    describe('when client hasTakenMeaningfulAction', () => {
+      it('assumes agents available', () => {
+        updateHasTakenMeaningfulAction(false);
+        jest.runTimersToTime(1000 * 60);
+        expect(testProps.setChatLauncherHidden).lastCalledWith(false);
+      });
+    });
+
+    describe('when there is a transcript', () => {
+      it('assumes agents available', () => {
+        wrapper.setProps({transcript: [getMockMessage()]});
+        jest.runTimersToTime(1000 * 60);
+        expect(testProps.setChatLauncherHidden).lastCalledWith(false);
+      });
+    });
+
+    describe('when welcomeForm is registered', () => {
+      it('assumes agents available', () => {
+        wrapper.setProps({welcomeFormRegistered: true});
         jest.runTimersToTime(1000 * 60);
         expect(testProps.setChatLauncherHidden).lastCalledWith(false);
       });
