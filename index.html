@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <h1 id="agentsWarning" style="position:absolute;right:50%;bottom:50%;"></h1>
+    <h1 id="agentsWarning" style="position:absolute;bottom:50%;"></h1>
     <button id="customButton1">Custom Button 1</button>
     <button class="customButton2">Custom Button 2</button>
     <script type="text/javascript" charset="utf-8">
@@ -38,7 +38,7 @@ window.onload = function() {
         document.querySelector('button').classList.contains('noAgentsAvailable'))
     ) {
       var warning = document.querySelector('#agentsWarning');
-      warning.innerText = 'Got Agents?';
+      warning.innerText = 'Got Agents? Got a MOBILE_NUMBER if on a mobile device?';
       warning.style.fontFamily = '"Source Sans Pro", sans-serif';
       warning.style.textTransform = 'uppercase';
       warning.style.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
