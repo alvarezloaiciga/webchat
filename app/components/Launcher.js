@@ -67,10 +67,8 @@ export class Launcher extends Component {
   }
 
   determineLauncherState = async () => {
-    // If user is on mobile, and they have not set a number, keep Chat hidden
-    if (!QUIQ.MOBILE_NUMBER && isMobile())
-      this.props.setChatLauncherHidden(true);
-
+    // If user is on mobile, and they have not set a number, keep launcher buttons hidden
+    if (!QUIQ.MOBILE_NUMBER && isMobile()) this.props.setChatLauncherHidden(true);
     else if (
       // User is in active session, allow them to continue
       this.client.isChatVisible() ||
@@ -190,7 +188,7 @@ export class Launcher extends Component {
   };
 
   handleAutoPop = () => {
-    if (!isIEorSafari() && typeof QUIQ.AUTO_POP_TIME === 'number') {
+    if (!isIEorSafari() && !isMobile() && typeof QUIQ.AUTO_POP_TIME === 'number') {
       this.autoPopTimeout = setTimeout(() => {
         if (this.props.chatLauncherHidden) return;
 
@@ -227,7 +225,9 @@ export class Launcher extends Component {
   };
 
   openNativeSMSApp = () => {
-    if (QUIQ.MOBILE_NUMBER) window.location = `sms:${QUIQ.MOBILE_NUMBER}`;
+    if (QUIQ.MOBILE_NUMBER) {
+      window.location = `sms:${QUIQ.MOBILE_NUMBER}`;
+    }
   };
 
   toggleChat = async () => {
@@ -270,7 +270,7 @@ export class Launcher extends Component {
 
     return (
       <div className="Launcher">
-        {!this.props.chatContainerHidden && <ChatContainer />}
+        {!this.props.chatContainerHidden && !isMobile() && <ChatContainer />}
         {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
           !inStandaloneMode() &&
           !this.props.chatLauncherHidden &&

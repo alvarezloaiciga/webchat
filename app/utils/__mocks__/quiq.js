@@ -23,6 +23,7 @@ const QUIQ: QuiqObject = {
   AUTO_POP_TIME: 2000,
   HREF: window.location.href,
   CUSTOM_LAUNCH_BUTTONS: [],
+  MOBILE_NUMBER: 123,
   WELCOME_FORM: {
     headerText:
       'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',

@@ -74,7 +74,7 @@ export type QuiqObject = {
   WIDTH: number,
   HEIGHT: number,
   CUSTOM_LAUNCH_BUTTONS: Array<string>,
-  MOBILE_NUMBER?: string,
+  MOBILE_NUMBER?: string | number,
 };
 
 export type EventType = 'Text' | 'Join' | 'Leave';

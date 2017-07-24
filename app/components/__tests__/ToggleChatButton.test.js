@@ -1,9 +1,10 @@
 // @flow
+jest.mock('utils/utils');
 import React from 'react';
 import type {ToggleChatButtonProps} from '../ToggleChatButton';
 import {ToggleChatButton} from '../ToggleChatButton';
 import {shallow} from 'enzyme';
-import * as Utils from 'utils/utils';
+import {isMobile} from 'utils/utils';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('ToggleChatButton component', () => {
@@ -38,14 +39,13 @@ describe('ToggleChatButton component', () => {
 
     describe('mobile', () => {
       beforeEach(() => {
-        // $FlowIssue - reassignment to module member
-        Utils.isMobile = jest.fn();
-        Utils.isMobile.mockReturnValueOnce(true);
+        (isMobile: any).mockReturnValueOnce(() => true);
       });
 
       it('always shows blurb sbg even when hidden is true', () => {
         render();
         expect(wrapper).toMatchSnapshot();
+        (isMobile: any).mockReset();
       });
     });
   });
