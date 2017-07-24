@@ -132,6 +132,7 @@ const getQuiqObject = (): QuiqObject => {
     COLOR: primaryColor,
     COLORS: Object.assign({}, QUIQ.COLORS, window.QUIQ.COLORS),
   });
+
   return returnValue;
 };
 

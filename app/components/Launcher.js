@@ -69,9 +69,6 @@ export class Launcher extends Component {
 
   determineLauncherState = async () => {
     // If user is on mobile, and they have not set a number, keep launcher buttons hidden
-    // console.log(this.client.hasTakenMeaningfulAction());
-    // console.log(this.props.transcript);
-    // console.log(QUIQ.WELCOME_FORM);
     if (!QUIQ.MOBILE_NUMBER && isMobile()) this.props.setChatLauncherHidden(true);
     else if (
       // User is in active session, allow them to continue
