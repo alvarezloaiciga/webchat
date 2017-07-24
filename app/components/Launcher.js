@@ -104,7 +104,7 @@ export class Launcher extends Component {
   registerClientCallbacks = () => {
     this.client
       .onNewMessages(this.props.updateTranscript)
-      .onWelcomeFormRegistration(this.props.setWelcomeFormRegistered)
+      .onRegistration(this.props.setWelcomeFormRegistered)
       .onAgentTyping(this.handleAgentTyping)
       .onConnectionStatusChange((connected: boolean) =>
         this.updateInitializedState(
