@@ -1,8 +1,10 @@
 // @flow
+jest.mock('utils/utils');
 import React from 'react';
 import type {ToggleChatButtonProps} from '../ToggleChatButton';
 import {ToggleChatButton} from '../ToggleChatButton';
 import {shallow} from 'enzyme';
+import {isMobile} from 'utils/utils';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('ToggleChatButton component', () => {
@@ -33,6 +35,18 @@ describe('ToggleChatButton component', () => {
       render();
 
       expect(wrapper).toMatchSnapshot();
+    });
+
+    describe('mobile', () => {
+      beforeEach(() => {
+        (isMobile: any).mockReturnValueOnce(() => true);
+      });
+
+      it('always shows blurb sbg even when hidden is true', () => {
+        render();
+        expect(wrapper).toMatchSnapshot();
+        (isMobile: any).mockReset();
+      });
     });
   });
 });

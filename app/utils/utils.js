@@ -37,6 +37,8 @@ export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
 
 export const isIEorSafari = () => getBrowserName() === 'IE' || getBrowserName() === 'Safari';
 
+export const isMobile = () => getDeviceType() === 'mobile';
+
 export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;
 // Modernizr says IE10 doesn't support flexbox.
 // It kind of does, at least for what we need it for... so go ahead and ignore Modernizr in that case

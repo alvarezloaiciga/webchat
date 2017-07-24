@@ -103,6 +103,7 @@ const getQuiqObject = (): QuiqObject => {
     WIDTH: 400,
     HEIGHT: 600,
     CUSTOM_LAUNCH_BUTTONS: [],
+    MOBILE_NUMBER: undefined,
   };
 
   if (!window.QUIQ) {
@@ -123,7 +124,9 @@ const getQuiqObject = (): QuiqObject => {
   window.QUIQ.HOST = QUIQ.HOST;
   // Don't AutoPop IE/Safari since they are always in standalone mode.
   window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
-  window.QUIQ.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode() ? [] : window.QUIQ.CUSTOM_LAUNCH_BUTTONS;
+  window.QUIQ.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode()
+    ? []
+    : window.QUIQ.CUSTOM_LAUNCH_BUTTONS || [];
 
   const returnValue = Object.assign({}, QUIQ, window.QUIQ, {
     COLOR: primaryColor,
