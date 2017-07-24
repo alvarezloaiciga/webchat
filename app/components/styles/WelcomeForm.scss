@@ -60,6 +60,11 @@
     border-radius: 4px;
     padding: 8px;
     transition: all .15s ease-in-out;
+
+    &:disabled {
+      opacity: .7;
+      cursor: not-allowed;
+    }
   }
 
   .field {

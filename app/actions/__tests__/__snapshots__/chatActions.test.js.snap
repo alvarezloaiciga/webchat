@@ -35,10 +35,9 @@ Object {
 }
 `;
 
-exports[`chatActions setWelcomeFormSubmitted builds an action 1`] = `
+exports[`chatActions setWelcomeFormRegistered builds an action 1`] = `
 Object {
-  "type": "WELCOME_FORM_SUBMITTED",
-  "welcomeFormSubmitted": true,
+  "type": "WELCOME_FORM_REGISTERED",
 }
 `;
 

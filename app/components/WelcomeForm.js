@@ -3,8 +3,6 @@ import React, {Component} from 'react';
 import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {connect} from 'react-redux';
-import {setWelcomeFormSubmitted} from 'actions/chatActions';
 import {getDisplayString, formatMessage} from 'utils/i18n';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
@@ -12,9 +10,7 @@ import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
 
-export type WelcomeFormProps = {
-  setWelcomeFormSubmitted: (welcomeFormSubmitted: boolean) => void,
-};
+export type WelcomeFormProps = {};
 
 export type WelcomeFormState = {
   formValidationError: boolean,
@@ -25,6 +21,7 @@ export type WelcomeFormState = {
       required: boolean,
     },
   },
+  submitting: boolean,
 };
 
 export class WelcomeForm extends Component {
@@ -32,6 +29,7 @@ export class WelcomeForm extends Component {
   state: WelcomeFormState = {
     formValidationError: false,
     inputFields: {},
+    submitting: false,
   };
 
   constructor(props: WelcomeFormProps) {
@@ -77,6 +75,7 @@ export class WelcomeForm extends Component {
 
   submitForm = async (e: SyntheticEvent) => {
     e.preventDefault();
+    if (this.state.submitting) return;
 
     const {HREF} = QUIQ;
     const fields: {[string]: string} = {};
@@ -92,8 +91,8 @@ export class WelcomeForm extends Component {
     // Append field containing referrer (host)
     fields.Referrer = HREF;
 
+    this.setState({submitting: true});
     await getChatClient().sendRegistration(fields);
-    this.props.setWelcomeFormSubmitted(true);
   };
 
   handleFieldInput = (e: SyntheticInputEvent) => {
@@ -131,12 +130,7 @@ export class WelcomeForm extends Component {
   render = () => {
     const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
 
-    // We shouldn't be rendering this component if we didn't find a WELCOME_FORM in the QUIQ object.
-    // But just in case, pass it through so we don't block webchat.
-    if (!WELCOME_FORM) {
-      this.props.setWelcomeFormSubmitted(true);
-      return null;
-    }
+    if (!WELCOME_FORM) return null;
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
@@ -155,14 +149,17 @@ export class WelcomeForm extends Component {
         </div>
         <button
           className="submit"
+          disabled={this.state.submitting}
           style={{background: COLORS.primary, fontFamily: FONT_FAMILY}}
           onClick={this.submitForm}
         >
-          {formatMessage(messages.submitWelcomeForm)}
+          {this.state.submitting
+            ? formatMessage(messages.submittingWelcomeForm)
+            : formatMessage(messages.submitWelcomeForm)}
         </button>
       </form>
     );
   };
 }
 
-export default connect(null, {setWelcomeFormSubmitted})(WelcomeForm);
+export default WelcomeForm;

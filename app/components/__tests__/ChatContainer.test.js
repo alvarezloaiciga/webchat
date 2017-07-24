@@ -20,7 +20,7 @@ describe('ChatContainer component', () => {
     QUIQ.WELCOME_FORM = undefined;
     testProps = {
       chatContainerHidden: false,
-      welcomeFormSubmitted: true,
+      welcomeFormRegistered: true,
       initializedState: 'initialized',
     };
 
@@ -82,9 +82,9 @@ describe('ChatContainer component', () => {
   describe('welcome form', () => {
     describe('when welcome form has not been submitted', () => {
       it('renders welcome form', () => {
-        testProps.welcomeFormSubmitted = false;
+        testProps.welcomeFormRegistered = false;
         render();
-        expect(wrapper.find('Connect(WelcomeForm)').length).toBe(1);
+        expect(wrapper.find('WelcomeForm').length).toBe(1);
       });
     });
   });

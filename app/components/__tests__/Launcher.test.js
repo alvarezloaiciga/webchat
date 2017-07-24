@@ -54,7 +54,7 @@ describe('Launcher component', () => {
       setChatContainerHidden: jest.fn(),
       setChatLauncherHidden: jest.fn(),
       setChatInitialized: jest.fn(),
-      setWelcomeFormSubmitted: jest.fn(),
+      setWelcomeFormRegistered: jest.fn(),
       setAgentTyping: jest.fn(),
       updateTranscript: jest.fn(),
     };

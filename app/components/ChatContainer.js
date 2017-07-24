@@ -18,7 +18,7 @@ import type {ChatState, ChatInitializedStateType} from 'types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
-  welcomeFormSubmitted: boolean,
+  welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
 };
 
@@ -26,7 +26,7 @@ export class ChatContainer extends React.Component {
   props: ChatContainerProps;
 
   componentDidMount() {
-    if (!this.props.welcomeFormSubmitted) validateWelcomeFormDefinition();
+    if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
   }
 
   renderBanner = () => {
@@ -94,7 +94,7 @@ export class ChatContainer extends React.Component {
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormSubmitted &&
+      !this.props.welcomeFormRegistered &&
       !getChatClient().isRegistered()
     ) {
       return (
@@ -117,5 +117,5 @@ export class ChatContainer extends React.Component {
 export default connect((state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
-  welcomeFormSubmitted: state.welcomeFormSubmitted,
+  welcomeFormRegistered: state.welcomeFormRegistered,
 }))(ChatContainer);
