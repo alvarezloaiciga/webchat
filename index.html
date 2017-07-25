@@ -26,6 +26,41 @@ if (!tenant) {
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
+  WELCOME_FORM: {
+    fields: [
+      {
+        id: 'firstName',
+        type: 'text',
+        label: 'First Name',
+        required: true
+      },
+      {
+        id: 'story',
+        type: 'textarea',
+        rows: 5,
+        label: 'story',
+        required: true
+      },
+      {
+        id: 'lastName',
+        type: 'text',
+        label: 'Last Name',
+        required: false
+      },
+      {
+        id: 'numberField',
+        type: 'number',
+        label: 'Number Field',
+        required: true
+      },
+      {
+        id: 'email',
+        type: 'email',
+        label: 'E-Mail',
+        required: true
+      }
+    ]
+  },
 };
 </script>
 <script>

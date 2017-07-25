@@ -145,6 +145,12 @@ export default defineMessages({
       'Error message to display when WELCOME_FORM is not valid because there are too many fields',
     defaultMessage: 'Invalid WELCOME_FORM definition: There can be at most 20 fields',
   },
+  invalidWelcomeFormFieldType: {
+    id: 'invalidWelcomeFormFieldType',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because an unsupported field type was given',
+    defaultMessage: 'Invalid WELCOME_FORM definition: "{type}" is not a supported field type.',
+  },
   submitWelcomeForm: {
     id: 'submitWelcomeForm',
     description: 'Text of submit button on welcome form',

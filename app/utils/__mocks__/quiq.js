@@ -59,6 +59,12 @@ const QUIQ: QuiqObject = {
         id: 'phoneNumber',
         required: false,
       },
+      {
+        type: 'textarea',
+        label: 'My life story',
+        id: 'lifeStory',
+        required: false,
+      },
     ],
   },
 };

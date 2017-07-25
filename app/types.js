@@ -1,10 +1,11 @@
 // @flow
 
 export type WelcomeFormField = {
-  type: 'text' | 'number' | 'email' | 'tel',
+  type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
   id: string,
   required?: boolean,
+  rows?: number,
 };
 
 export type WelcomeForm = {

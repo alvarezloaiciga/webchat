@@ -29,14 +29,26 @@ describe('WelcomeForm component', () => {
       render();
     });
 
-    it('does not render error message if formValidationError state is false', () => {
-      wrapper.setState({formValidationError: false});
-      expect(wrapper.find('.formValidationError').length).toBe(0);
+    it('renders correctly', () => {
+      expect(wrapper).toMatchSnapshot();
     });
 
-    it('renders error message with formValidationError true', () => {
-      wrapper.setState({formValidationError: true});
-      expect(wrapper.find('.formValidationError').length).toBe(1);
+    describe('rendering textareas', () => {
+      it('renders textares correctly', () => {
+        expect(wrapper.find('textarea').length).toBe(1);
+      });
+    });
+
+    describe('validation error rendering', () => {
+      it('does not render error message if formValidationError state is false', () => {
+        wrapper.setState({formValidationError: false});
+        expect(wrapper.find('.formValidationError').length).toBe(0);
+      });
+
+      it('renders error message with formValidationError true', () => {
+        wrapper.setState({formValidationError: true});
+        expect(wrapper.find('.formValidationError').length).toBe(1);
+      });
     });
   });
 

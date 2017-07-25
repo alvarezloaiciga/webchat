@@ -60,15 +60,25 @@ export class WelcomeForm extends Component {
               {' '}*
             </span>}
         </label>
-        <input
-          value={this.state.inputFields[field.id].value}
-          onChange={this.handleFieldInput}
-          type={field.type}
-          name={field.id}
-          required={field.required}
-          style={{fontFamily: FONT_FAMILY}}
-          maxLength={1000}
-        />
+        {field.type === 'textarea'
+          ? <textarea
+              value={this.state.inputFields[field.id].value}
+              onChange={this.handleFieldInput}
+              name={field.id}
+              required={field.required}
+              style={{fontFamily: FONT_FAMILY}}
+              maxLength={1000}
+              rows={field.rows || 3}
+            />
+          : <input
+              value={this.state.inputFields[field.id].value}
+              onChange={this.handleFieldInput}
+              type={field.type}
+              name={field.id}
+              required={field.required}
+              style={{fontFamily: FONT_FAMILY}}
+              maxLength={1000}
+            />}
       </div>
     );
   };

@@ -46,7 +46,7 @@ const processWelcomeForm = (form: WelcomeForm): void => {
   const newFormObject = Object.assign({}, form);
   if (form.fields) {
     newFormObject.fields.forEach(field => {
-      // Ensure that id is defined. If not, use camel-cased version of label.
+      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
       // If label is not defined this is an error, and will be caught when WELCOME_FORM is validated.
       if (!field.id && field.label) field.id = camelize(field.label);
     });
@@ -155,6 +155,11 @@ export const validateWelcomeFormDefinition = (): void => {
     // Note that we previously try and build an id from the label if an id was not provided
     if (!f.label || !f.id || !f.type) {
       displayError(messages.invalidWelcomeFormUndefined, {id: f.id, label: f.label});
+    }
+
+    // Ensure type is supported
+    if (!['text', 'number', 'email', 'tel', 'textarea'].includes(f.type)) {
+      displayError(messages.invalidWelcomeFormFieldType, {type: f.type});
     }
 
     // Ensure id meets key-length requirements

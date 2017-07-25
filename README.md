@@ -134,14 +134,25 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
   - WELCOME_FORM
-    - type: JSON
+    - type:
+    ```javascript
+    {
+      fields: [
+        {
+          id: string,
+          type: 'text' | 'textarea' | 'number' | 'email' | 'tel',
+          label: string,
+          required: boolean,
+          rows: boolean, // Only applicable if type is textarea
+        },
+      ]
+    }
+    ```
     - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable. If fields with and an `id` of `firstName` and `lastName` are defined, Quiq will use the values of these form fields to set the first and last name of the customer within the Agent UI.
     - default: `undefined`
     - example:
     ```js
       {
-        headerText:
-          'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
         fields: [
           {
             id: 'firstName',
@@ -161,7 +172,6 @@ The window.QUIQ object contains properties describing how the instance of webcha
             label: 'Number Field',
             required: true
           },
-
           {
             id: 'email',
             type: 'email',
