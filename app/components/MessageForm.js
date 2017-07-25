@@ -2,12 +2,11 @@
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
-import QUIQ from 'utils/quiq';
+import {messageTypes} from 'appConstants';
+import QUIQ, {getMessage} from 'utils/quiq';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
-import messages from 'messages';
-import {formatMessage} from 'utils/i18n';
 import {getChatClient} from '../ChatClient';
 import './styles/MessageForm.scss';
 import type {ChatState} from 'types';
@@ -93,7 +92,7 @@ export class MessageForm extends Component {
             {this.props.agentTyping &&
               <div className="pokeBody">
                 <span style={{fontFamily: FONT_FAMILY}}>
-                  {formatMessage(messages.agentIsTyping)}
+                  {getMessage(messageTypes.AGENT_TYPING_MESSAGE)}
                 </span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
               </div>}
@@ -113,7 +112,7 @@ export class MessageForm extends Component {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={formatMessage(messages.sendUsAMessage)}
+            placeholder={getMessage(messageTypes.MESSAGE_FIELD_PLACEHOLDER)}
           />
           <button
             className="sendBtn"
@@ -121,7 +120,7 @@ export class MessageForm extends Component {
             disabled={sendDisabled}
             style={{color: COLOR, opacity: sendDisabled ? '.5' : '1', fontFamily: FONT_FAMILY}}
           >
-            {formatMessage(messages.send)}
+            {getMessage(messageTypes.SEND_BUTTON_LABEL)}
           </button>
         </div>
       </div>

@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
 import {inStandaloneMode, isIEorSafari} from 'utils/utils';
-import {formatMessage} from 'utils/i18n';
-import QUIQ, {openStandaloneMode} from 'utils/quiq';
-import messages from 'messages';
+import QUIQ, {openStandaloneMode, getMessage} from 'utils/quiq';
+import {messageTypes} from 'appConstants';
 import {setChatContainerHidden, setChatPopped} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {getChatClient} from '../ChatClient';
@@ -43,14 +42,16 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
         {!isIEorSafari() &&
           <i
             className={`fa fa-window-minimize icon`}
-            title={formatMessage(messages.minimizeWindow)}
+            title={getMessage(messageTypes.MINIMIZE_WINDOW_TOOLTIP)}
             onClick={inStandaloneMode() ? window.close : minimize}
           />}
         {!isIEorSafari() &&
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
-            title={formatMessage(
-              inStandaloneMode() ? messages.dockWindow : messages.openInNewWindow,
+            title={getMessage(
+              inStandaloneMode()
+                ? messageTypes.DOCK_WINDOW_TOOLTIP
+                : messageTypes.OPEN_IN_NEW_WINDOW_TOOLTIP,
             )}
             onClick={inStandaloneMode() ? window.close : popChat}
           />}
@@ -59,7 +60,7 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
           height="12"
           width="12"
           onClick={inStandaloneMode() ? window.close : minimize}
-          title={formatMessage(messages.closeWindow)}
+          title={getMessage(messageTypes.CLOSE_WINDOW_TOOLTIP)}
         >
           <line className="cross" x1="1" y1="1" x2="11" y2="11" strokeWidth="2" stroke="white" />
           <line className="cross" x1="11" y1="1" x2="1" y2="11" strokeWidth="2" stroke="white" />

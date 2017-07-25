@@ -93,11 +93,46 @@ The window.QUIQ object contains properties describing how the instance of webcha
     }
     ```
 
-  - HEADER_TEXT
-    - type: string
-    - description: Message to appear at top of chat window.
-    - default: `"We're here to help if you have any questions!"`
-    - example: `"We're here to help if you have any questions!"`
+  - MESSAGES
+    - type: 
+    ```javascript
+    {
+            HEADER_TEXT: string,
+            SEND_BUTTON_LABEL: string,
+            MESSAGE_FIELD_PLACEHOLDER: string,
+            WELCOME_FORM_VALIDATION_ERROR_MESSAGE: string,
+            WELCOME_FORM_SUBMIT_BUTTON_LABEL: string,
+            AGENT_TYPING_MESSAGE: string,
+            CONNECTING_MESSAGE: string,
+            RECONNECTING_MESSAGE: string,
+            ERROR_MESSAGE: string,
+            REQUIRED_FIELD_ARIA_LABEL: string,
+            MINIMIZE_WINDOW_TOOLTIP: string,
+            DOCK_WINDOW_TOOLTIP: string,
+            OPEN_IN_NEW_WINDOW_TOOLTIP: string,
+            CLOSE_WINDOW_TOOLTIP: string,
+    }
+    ```
+    - description: Custom static strings to use in various places throughout the chat client.
+    - default: 
+    ```javascript
+    {
+            HEADER_TEXT: 'We're here to help if you have any questions!',
+            SEND_BUTTON_LABEL: 'Send',
+            MESSAGE_FIELD_PLACEHOLDER: 'Send us a message...',
+            WELCOME_FORM_VALIDATION_ERROR_MESSAGE: 'Please complete all fields marked with an *',
+            WELCOME_FORM_SUBMIT_BUTTON_LABEL: 'Submit',
+            AGENT_TYPING_MESSAGE: 'Agent is typing',
+            CONNECTING_MESSAGE: 'Connecting...',
+            RECONNECTING_MESSAGE: 'Reconnecting...',
+            ERROR_MESSAGE: 'We're having trouble connecting. Try refreshing the page.',
+            REQUIRED_FIELD_ARIA_LABEL: 'Required',
+            MINIMIZE_WINDOW_TOOLTIP: 'Minimize window',
+            DOCK_WINDOW_TOOLTIP: 'Dock chat',
+            OPEN_IN_NEW_WINDOW_TOOLTIP: 'Open chat in new window',
+            CLOSE_WINDOW_TOOLTIP: 'Close window',
+    }
+   
   - HOST
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set

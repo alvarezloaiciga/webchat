@@ -1,18 +1,16 @@
 // @flow
 import React from 'react';
-import QUIQ, {validateWelcomeFormDefinition} from 'utils/quiq';
+import QUIQ, {validateWelcomeFormDefinition, getMessage} from 'utils/quiq';
 import {inStandaloneMode} from 'utils/utils';
 import classnames from 'classnames';
-import messages from 'messages';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import HeaderMenu from 'HeaderMenu';
 import Transcript from 'Transcript';
 import {getChatClient} from '../ChatClient';
 import Spinner from 'Spinner';
-import {formatMessage} from 'utils/i18n';
 import {connect} from 'react-redux';
-import {ChatInitializedState} from 'appConstants';
+import {ChatInitializedState, messageTypes} from 'appConstants';
 import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType} from 'types';
 
@@ -37,21 +35,21 @@ export class ChatContainer extends React.Component {
         return (
           <div className="banner" style={{backgroundColor: QUIQ.COLOR}}>
             <span className="messageUs" style={{fontFamily: QUIQ.FONT_FAMILY}}>
-              {QUIQ.HEADER_TEXT}
+              {getMessage(messageTypes.HEADER_TEXT)}
             </span>
           </div>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
           <div className="errorBanner" style={{fontFamily: QUIQ.FONT_FAMILY}}>
-            {formatMessage(messages.reconnecting)}
+            {getMessage(messageTypes.RECONNECTING_MESSAGE)}
           </div>
         );
       case ChatInitializedState.ERROR:
       default:
         return (
           <div className="errorBanner">
-            {formatMessage(messages.errorState)}
+            {getMessage(messageTypes.ERROR_MESSAGE)}
           </div>
         );
     }
