@@ -5,7 +5,6 @@ import {messageTypes} from 'appConstants';
 import QUIQ, {getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {supportsFlexbox} from 'utils/utils';
-import {setWelcomeFormSubmitted} from 'actions/chatActions';
 import type {WelcomeFormField} from 'types';
 import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
