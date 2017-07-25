@@ -248,7 +248,7 @@ export const openStandaloneMode = (callbacks: {
 export const getMessage = (messageName: string): string => {
   const message = QUIQ.MESSAGES[messageName];
 
-  if (!message) throw new Error('QUIQ: Unknown message name');
+  if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };
