@@ -4,11 +4,13 @@ import update from 'react-addons-update';
 import QUIQ from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {getDisplayString, formatMessage} from 'utils/i18n';
+import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
 import messages from 'messages';
 import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
+import Textarea from 'react-textarea-autosize';
 
 export type WelcomeFormProps = {};
 
@@ -61,14 +63,15 @@ export class WelcomeForm extends Component {
             </span>}
         </label>
         {field.type === 'textarea'
-          ? <textarea
+          ? <Textarea
               value={this.state.inputFields[field.id].value}
               onChange={this.handleFieldInput}
               name={field.id}
               required={field.required}
               style={{fontFamily: FONT_FAMILY}}
               maxLength={1000}
-              rows={field.rows || 3}
+              maxRows={field.rows || 5}
+              minRows={supportsFlexbox() ? 1 : field.rows || 5}
             />
           : <input
               value={this.state.inputFields[field.id].value}

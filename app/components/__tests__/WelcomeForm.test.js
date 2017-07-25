@@ -6,6 +6,7 @@ import {WelcomeForm} from '../WelcomeForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import {registerChatClient} from '../../ChatClient';
+import Textarea from 'react-textarea-autosize';
 
 describe('WelcomeForm component', () => {
   let wrapper: ShallowWrapper;
@@ -35,7 +36,7 @@ describe('WelcomeForm component', () => {
 
     describe('rendering textareas', () => {
       it('renders textares correctly', () => {
-        expect(wrapper.find('textarea').length).toBe(1);
+        expect(wrapper.find(Textarea).length).toBe(1);
       });
     });
 

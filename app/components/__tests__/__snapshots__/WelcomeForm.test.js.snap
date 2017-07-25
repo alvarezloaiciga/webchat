@@ -202,17 +202,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       >
         My life story
       </label>
-      <textarea
+      <TextareaAutosize
         maxLength={1000}
+        maxRows={5}
+        minRows={5}
         name="lifeStory"
         onChange={[Function]}
+        onHeightChange={[Function]}
         required={false}
-        rows={3}
         style={
           Object {
             "fontFamily": "Lato, sans-serif",
           }
         }
+        useCacheForDOMMeasurements={false}
         value=""
       />
     </div>
