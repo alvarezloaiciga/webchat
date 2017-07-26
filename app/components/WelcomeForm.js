@@ -57,7 +57,7 @@ export class WelcomeForm extends Component {
         <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
           {field.label}
           {field.required &&
-            <span className="required" title={getMessage(messageTypes.REQUIRED_FIELD_ARIA_LABEL)}>
+            <span className="required" title={getMessage(messageTypes.requiredFieldAriaLabel)}>
               {' '}*
             </span>}
         </label>
@@ -154,7 +154,7 @@ export class WelcomeForm extends Component {
         </div>
         {this.state.formValidationError &&
           <span className="formValidationError">
-            {getMessage(messageTypes.WELCOME_FORM_VALIDATION_ERROR_MESSAGE)}
+            {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
           </span>}
         <div className="fields">
           {WELCOME_FORM.fields.map(this.renderField)}
@@ -166,8 +166,8 @@ export class WelcomeForm extends Component {
           onClick={this.submitForm}
         >
           {this.state.submitting
-            ? getMessage(messageTypes.WELCOME_FORM_SUBMITTING_BUTTON_LABEL)
-            : getMessage(messageTypes.WELCOME_FORM_SUBMIT_BUTTON_LABEL)}
+            ? getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
+            : getMessage(messageTypes.welcomeFormSubmitButtonLabel)}
         </button>
       </form>
     );

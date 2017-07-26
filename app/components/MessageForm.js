@@ -92,7 +92,7 @@ export class MessageForm extends Component {
             {this.props.agentTyping &&
               <div className="pokeBody">
                 <span style={{fontFamily: FONT_FAMILY}}>
-                  {getMessage(messageTypes.AGENT_TYPING_MESSAGE)}
+                  {getMessage(messageTypes.agentTypingMessage)}
                 </span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
               </div>}
@@ -112,7 +112,7 @@ export class MessageForm extends Component {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={getMessage(messageTypes.MESSAGE_FIELD_PLACEHOLDER)}
+            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
           />
           <button
             className="sendBtn"
@@ -120,7 +120,7 @@ export class MessageForm extends Component {
             disabled={sendDisabled}
             style={{color: COLOR, opacity: sendDisabled ? '.5' : '1', fontFamily: FONT_FAMILY}}
           >
-            {getMessage(messageTypes.SEND_BUTTON_LABEL)}
+            {getMessage(messageTypes.sendButtonLabel)}
           </button>
         </div>
       </div>

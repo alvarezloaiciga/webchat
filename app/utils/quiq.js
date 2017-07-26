@@ -104,21 +104,21 @@ const getQuiqObject = (): QuiqObject => {
     CUSTOM_LAUNCH_BUTTONS: [],
     MOBILE_NUMBER: undefined,
     MESSAGES: {
-      HEADER_TEXT: messages.hereToHelp,
-      SEND_BUTTON_LABEL: messages.send,
-      MESSAGE_FIELD_PLACEHOLDER: messages.sendUsAMessage,
-      WELCOME_FORM_VALIDATION_ERROR_MESSAGE: messages.welcomeFormValidationError,
-      WELCOME_FORM_SUBMIT_BUTTON_LABEL: messages.submitWelcomeForm,
-      WELCOME_FORM_SUBMITTING_BUTTON_LABEL: messages.submittingWelcomeForm,
-      AGENT_TYPING_MESSAGE: messages.agentIsTyping,
-      CONNECTING_MESSAGE: messages.connecting,
-      RECONNECTING_MESSAGE: messages.reconnecting,
-      ERROR_MESSAGE: messages.errorState,
-      REQUIRED_FIELD_ARIA_LABEL: messages.required,
-      MINIMIZE_WINDOW_TOOLTIP: messages.minimizeWindow,
-      DOCK_WINDOW_TOOLTIP: messages.dockWindow,
-      OPEN_IN_NEW_WINDOW_TOOLTIP: messages.openInNewWindow,
-      CLOSE_WINDOW_TOOLTIP: messages.closeWindow,
+      headerText: messages.hereToHelp,
+      sendButtonLabel: messages.send,
+      messageFieldPlaceholder: messages.sendUsAMessage,
+      welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
+      welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
+      welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
+      agentTypingMessage: messages.agentIsTyping,
+      connectingMessage: messages.connecting,
+      reconnectingMessage: messages.reconnecting,
+      errorMessage: messages.errorState,
+      requiredFieldAriaLabel: messages.required,
+      minimizeWindowTooltip: messages.minimizeWindow,
+      dockWindowTooltip: messages.dockWindow,
+      openInNewWindowTooltip: messages.openInNewWindow,
+      closeWindowTooltip: messages.closeWindow,
     },
   };
 
@@ -127,7 +127,7 @@ const getQuiqObject = (): QuiqObject => {
   }
 
   // For backwards compatibility we merge in the deprecated window.QUIQ.HEADER_TEXT property
-  if (window.QUIQ.HEADER_TEXT) QUIQ.MESSAGES.HEADER_TEXT = window.QUIQ.HEADER_TEXT;
+  if (window.QUIQ.HEADER_TEXT) QUIQ.MESSAGES.headerText = window.QUIQ.HEADER_TEXT;
 
   // Merge MESSAGES separately, as Object.assign() does not do deep cloning
   if (window.QUIQ.MESSAGES)

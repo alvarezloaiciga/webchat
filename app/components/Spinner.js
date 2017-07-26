@@ -12,7 +12,7 @@ const Spinner = () =>
     {!isIE9()
       ? <div className="loading" style={{borderColor: COLOR}} />
       : <span className="plainText">
-          {getMessage(messageTypes.CONNECTING_MESSAGE)}
+          {getMessage(messageTypes.connectingMessage)}
         </span>}
   </div>;
 

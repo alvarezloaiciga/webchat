@@ -35,21 +35,21 @@ export class ChatContainer extends React.Component {
         return (
           <div className="banner" style={{backgroundColor: QUIQ.COLOR}}>
             <span className="messageUs" style={{fontFamily: QUIQ.FONT_FAMILY}}>
-              {getMessage(messageTypes.HEADER_TEXT)}
+              {getMessage(messageTypes.headerText)}
             </span>
           </div>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
           <div className="errorBanner" style={{fontFamily: QUIQ.FONT_FAMILY}}>
-            {getMessage(messageTypes.RECONNECTING_MESSAGE)}
+            {getMessage(messageTypes.reconnectingMessage)}
           </div>
         );
       case ChatInitializedState.ERROR:
       default:
         return (
           <div className="errorBanner">
-            {getMessage(messageTypes.ERROR_MESSAGE)}
+            {getMessage(messageTypes.errorMessage)}
           </div>
         );
     }
