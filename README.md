@@ -180,7 +180,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
           type: 'text' | 'textarea' | 'number' | 'email' | 'tel',
           label: string,
           required: boolean,
-          rows: boolean, // Only applicable if type is textarea
+          rows: number, // Only applicable if type is textarea
         },
       ]
     }
