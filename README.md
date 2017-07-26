@@ -118,7 +118,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - default: 
     ```javascript
     {
-            HEADER_TEXT: 'We're here to help if you have any questions!',
+            HEADER_TEXT: 'We\'re here to help if you have any questions!',
             SEND_BUTTON_LABEL: 'Send',
             MESSAGE_FIELD_PLACEHOLDER: 'Send us a message...',
             WELCOME_FORM_VALIDATION_ERROR_MESSAGE: 'Please complete all fields marked with an *',
@@ -127,7 +127,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
             AGENT_TYPING_MESSAGE: 'Agent is typing',
             CONNECTING_MESSAGE: 'Connecting...',
             RECONNECTING_MESSAGE: 'Reconnecting...',
-            ERROR_MESSAGE: 'We're having trouble connecting. Try refreshing the page.',
+            ERROR_MESSAGE: 'We\'re having trouble connecting. Try refreshing the page.',
             REQUIRED_FIELD_ARIA_LABEL: 'Required',
             MINIMIZE_WINDOW_TOOLTIP: 'Minimize window',
             DOCK_WINDOW_TOOLTIP: 'Dock chat',
