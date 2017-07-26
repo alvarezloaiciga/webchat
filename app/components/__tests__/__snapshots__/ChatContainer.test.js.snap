@@ -80,7 +80,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
         }
       }
     >
-      TOOL TIME
+      We're here to help if you have any questions!
     </span>
   </div>
   <div
@@ -119,7 +119,7 @@ exports[`ChatContainer component initializedState when loading renders properly 
         }
       }
     >
-      TOOL TIME
+      We're here to help if you have any questions!
     </span>
   </div>
   <div
@@ -157,7 +157,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
         }
       }
     >
-      TOOL TIME
+      We're here to help if you have any questions!
     </span>
   </div>
   <div

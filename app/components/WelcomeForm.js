@@ -1,12 +1,11 @@
 // @flow
 import React, {Component} from 'react';
 import update from 'react-addons-update';
-import QUIQ from 'utils/quiq';
+import {messageTypes} from 'appConstants';
+import QUIQ, {getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
-import {getDisplayString, formatMessage} from 'utils/i18n';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
-import messages from 'messages';
 import {getChatClient} from '../ChatClient';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
@@ -58,7 +57,7 @@ export class WelcomeForm extends Component {
         <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
           {field.label}
           {field.required &&
-            <span className="required" title={getDisplayString(messages.required)}>
+            <span className="required" title={getMessage(messageTypes.REQUIRED_FIELD_ARIA_LABEL)}>
               {' '}*
             </span>}
         </label>
@@ -155,7 +154,7 @@ export class WelcomeForm extends Component {
         </div>
         {this.state.formValidationError &&
           <span className="formValidationError">
-            {formatMessage(messages.welcomeFormValidationError)}
+            {getMessage(messageTypes.WELCOME_FORM_VALIDATION_ERROR_MESSAGE)}
           </span>}
         <div className="fields">
           {WELCOME_FORM.fields.map(this.renderField)}
@@ -167,8 +166,8 @@ export class WelcomeForm extends Component {
           onClick={this.submitForm}
         >
           {this.state.submitting
-            ? formatMessage(messages.submittingWelcomeForm)
-            : formatMessage(messages.submitWelcomeForm)}
+            ? getMessage(messageTypes.WELCOME_FORM_SUBMITTING_BUTTON_LABEL)
+            : getMessage(messageTypes.WELCOME_FORM_SUBMIT_BUTTON_LABEL)}
         </button>
       </form>
     );

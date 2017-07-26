@@ -1,7 +1,7 @@
 // @flow
 declare var __DEV__: string;
 import messages from 'messages';
-import {formatMessage} from 'utils/i18n';
+import {getDisplayString} from 'utils/i18n';
 import {
   getWebchatUrlFromScriptTag,
   displayError,
@@ -93,7 +93,6 @@ const getQuiqObject = (): QuiqObject => {
       customerMessageBackground: primaryColor,
       transcriptBackground: '#f4f4f8',
     },
-    HEADER_TEXT: formatMessage(messages.hereToHelp),
     HOST: getHostUrl(),
     DEBUG: false,
     WELCOME_FORM: undefined,
@@ -104,11 +103,35 @@ const getQuiqObject = (): QuiqObject => {
     HEIGHT: 600,
     CUSTOM_LAUNCH_BUTTONS: [],
     MOBILE_NUMBER: undefined,
+    MESSAGES: {
+      HEADER_TEXT: messages.hereToHelp,
+      SEND_BUTTON_LABEL: messages.send,
+      MESSAGE_FIELD_PLACEHOLDER: messages.sendUsAMessage,
+      WELCOME_FORM_VALIDATION_ERROR_MESSAGE: messages.welcomeFormValidationError,
+      WELCOME_FORM_SUBMIT_BUTTON_LABEL: messages.submitWelcomeForm,
+      WELCOME_FORM_SUBMITTING_BUTTON_LABEL: messages.submittingWelcomeForm,
+      AGENT_TYPING_MESSAGE: messages.agentIsTyping,
+      CONNECTING_MESSAGE: messages.connecting,
+      RECONNECTING_MESSAGE: messages.reconnecting,
+      ERROR_MESSAGE: messages.errorState,
+      REQUIRED_FIELD_ARIA_LABEL: messages.required,
+      MINIMIZE_WINDOW_TOOLTIP: messages.minimizeWindow,
+      DOCK_WINDOW_TOOLTIP: messages.dockWindow,
+      OPEN_IN_NEW_WINDOW_TOOLTIP: messages.openInNewWindow,
+      CLOSE_WINDOW_TOOLTIP: messages.closeWindow,
+    },
   };
 
   if (!window.QUIQ) {
     return QUIQ;
   }
+
+  // For backwards compatibility we merge in the deprecated window.QUIQ.HEADER_TEXT property
+  if (window.QUIQ.HEADER_TEXT) QUIQ.MESSAGES.HEADER_TEXT = window.QUIQ.HEADER_TEXT;
+
+  // Merge MESSAGES separately, as Object.assign() does not do deep cloning
+  if (window.QUIQ.MESSAGES)
+    window.QUIQ.MESSAGES = Object.assign({}, QUIQ.MESSAGES, window.QUIQ.MESSAGES);
 
   // If welcome form is defined, process it
   if (window.QUIQ.WELCOME_FORM) {
@@ -220,6 +243,14 @@ export const openStandaloneMode = (callbacks: {
       callbacks.onDock();
     }
   }, 500);
+};
+
+export const getMessage = (messageName: string): string => {
+  const message = QUIQ.MESSAGES[messageName];
+
+  if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+
+  return getDisplayString(message);
 };
 
 export default QUIQ;
