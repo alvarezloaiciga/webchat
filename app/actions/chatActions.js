@@ -33,3 +33,7 @@ export const updateTranscript = (transcript: Array<Message>) => ({
 export const setWelcomeFormRegistered = () => ({
   type: 'WELCOME_FORM_REGISTERED',
 });
+
+export const newWebchatSession = () => ({
+  type: 'NEW_WEBCHAT_SESSION',
+});

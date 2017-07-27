@@ -1,6 +1,6 @@
 // @flow
 import {isIEorSafari, inStandaloneMode} from 'utils/utils';
-import {createStore} from 'redux';
+import {createStore, combineReducers} from 'redux';
 import {ChatInitializedState} from 'appConstants';
 import QUIQ from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
@@ -16,6 +16,16 @@ type ChatAction = {
 
 // When docking IE/Safari, we don't want to display the standard chat.
 const launchingFromIEorSafari = () => isIEorSafari() && !inStandaloneMode();
+
+const initialState = {
+  chatContainerHidden: true,
+  chatLauncherHidden: true,
+  initializedState: ChatInitializedState.UNINITIALIZED,
+  popped: false,
+  transcript: [],
+  agentTyping: false,
+  welcomeFormRegistered: !QUIQ.WELCOME_FORM,
+};
 
 const reducer = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
@@ -48,6 +58,17 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {agentTyping: action.agentTyping});
     case 'WELCOME_FORM_REGISTERED':
       return Object.assign({}, state, {welcomeFormRegistered: true});
+    case 'NEW_WEBCHAT_SESSION':
+      // Except for the visibility of the launcher and container, reset state to initial state.
+      // We keep the visibility state from before the new session
+      return Object.assign(
+        {},
+        {...initialState},
+        {
+          chatContainerHidden: state.chatContainerHidden,
+          chatLauncherHidden: state.chatLauncherHidden,
+        },
+      );
     default:
       return state;
   }
@@ -55,14 +76,6 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
 
 export default createStore(
   reducer,
-  {
-    chatContainerHidden: true,
-    chatLauncherHidden: true,
-    initializedState: ChatInitializedState.UNINITIALIZED,
-    popped: false,
-    transcript: [],
-    agentTyping: false,
-    welcomeFormRegistered: !QUIQ.WELCOME_FORM,
-  },
+  initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );

@@ -36,6 +36,7 @@ export type LauncherProps = {
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
+  newWebchatSession: () => void,
 };
 
 export class Launcher extends Component {
@@ -107,6 +108,10 @@ export class Launcher extends Component {
     }
   };
 
+  handleNewSession = () => {
+    this.props.newWebchatSession();
+  };
+
   registerClientCallbacks = () => {
     this.client
       .onNewMessages(this.props.updateTranscript)
@@ -120,6 +125,7 @@ export class Launcher extends Component {
       .onError(() => this.updateInitializedState(ChatInitializedState.ERROR))
       .onErrorResolved(() => this.updateInitializedState(ChatInitializedState.INITIALIZED))
       .onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
+      .onNewSession(this.handleNewSession)
   };
 
   init = async () => {
