@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ChatContainer component initializedState when burned renders properly 1`] = `
+<div
+  className="ChatContainer burned"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
+>
+  <Connect(HeaderMenu) />
+  <div
+    className="errorBanner"
+  >
+    We're having trouble connecting. Try refreshing the page.
+  </div>
+  <div
+    className="chatContainerBody"
+  >
+    <Connect(Transcript) />
+  </div>
+</div>
+`;
+
 exports[`ChatContainer component initializedState when disconnected renders properly 1`] = `
 <div
   className="ChatContainer disconnected"

@@ -46,6 +46,7 @@ export class ChatContainer extends React.Component {
           </div>
         );
       case ChatInitializedState.ERROR:
+      case ChatInitializedState.BURNED:
       default:
         return (
           <div className="errorBanner">
@@ -73,6 +74,7 @@ export class ChatContainer extends React.Component {
         );
       case ChatInitializedState.DISCONNECTED:
       case ChatInitializedState.ERROR:
+      case ChatInitializedState.BURNED:
       default:
         return (
           <div className="chatContainerBody">

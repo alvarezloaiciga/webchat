@@ -119,7 +119,7 @@ export class Launcher extends Component {
       )
       .onError(() => this.updateInitializedState(ChatInitializedState.ERROR))
       .onErrorResolved(() => this.updateInitializedState(ChatInitializedState.INITIALIZED))
-      .onBurn(() => this.updateInitializedState(ChatInitializedState.ERROR));
+      .onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
   };
 
   init = async () => {

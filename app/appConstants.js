@@ -27,6 +27,7 @@ export const ChatInitializedState = {
   INITIALIZED: 'initialized',
   ERROR: 'error',
   DISCONNECTED: 'disconnected',
+  BURNED: 'burned',
 };
 
 export const noAgentsAvailableClass = 'noAgentsAvailable';

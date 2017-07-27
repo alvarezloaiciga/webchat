@@ -27,8 +27,15 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
-    case 'CHAT_INITIALIZED_STATE':
+    case 'CHAT_INITIALIZED_STATE': {
+      if (state.initializedState === ChatInitializedState.BURNED) {
+        // One does not simply become unburned.
+        return state;
+      }
+
       return Object.assign({}, state, {initializedState: action.initializedState});
+    }
+
     case 'CHAT_POPPED': {
       return Object.assign({}, state, {
         chatContainerHidden: launchingFromIEorSafari() ? true : action.popped,

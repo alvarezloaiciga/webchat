@@ -39,7 +39,8 @@ export type ChatInitializedStateType =
   | 'loading'
   | 'initialized'
   | 'error'
-  | 'disconnected';
+  | 'disconnected'
+  | 'burned';
 
 export type CookieDef = {
   id: string,
