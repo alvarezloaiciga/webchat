@@ -44,6 +44,14 @@ describe('chat reducers', () => {
       chat.dispatch({type: 'CHAT_INITIALIZED_STATE', initializedState: 'initialized'});
       expect(chat.getState().initializedState).toBe('initialized');
     });
+
+    describe('when already burned', () => {
+      it('does not update state', () => {
+        chat.dispatch({type: 'CHAT_INITIALIZED_STATE', initializedState: 'burned'});
+        chat.dispatch({type: 'CHAT_INITIALIZED_STATE', initializedState: 'initialized'});
+        expect(chat.getState().initializedState).toBe('burned');
+      });
+    });
   });
 
   describe('CHAT_POPPED', () => {

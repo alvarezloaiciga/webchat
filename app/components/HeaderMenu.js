@@ -2,13 +2,15 @@
 import React from 'react';
 import {inStandaloneMode, isIEorSafari} from 'utils/utils';
 import QUIQ, {openStandaloneMode, getMessage} from 'utils/quiq';
-import {messageTypes} from 'appConstants';
+import {messageTypes, ChatInitializedState} from 'appConstants';
 import {setChatContainerHidden, setChatPopped} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {getChatClient} from '../ChatClient';
+import type {ChatState, ChatInitializedStateType} from 'types';
 import './styles/HeaderMenu.scss';
 
 export type HeaderMenuProps = {
+  initializedState: ChatInitializedStateType,
   setChatContainerHidden: (chatContainerHidden: boolean) => void, // eslint-disable-line react/no-unused-prop-types
   setChatPopped: (popped: boolean) => void, // eslint-disable-line react/no-unused-prop-types
 };
@@ -46,6 +48,7 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
             onClick={inStandaloneMode() ? window.close : minimize}
           />}
         {!isIEorSafari() &&
+          props.initializedState !== ChatInitializedState.BURNED &&
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(
@@ -71,4 +74,9 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   );
 };
 
-export default connect(null, {setChatContainerHidden, setChatPopped})(HeaderMenu);
+export default connect(
+  (state: ChatState) => ({
+    initializedState: state.initializedState,
+  }),
+  {setChatContainerHidden, setChatPopped},
+)(HeaderMenu);

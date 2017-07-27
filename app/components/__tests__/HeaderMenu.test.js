@@ -18,6 +18,7 @@ describe('HeaderMenu component', () => {
     testProps = {
       setChatContainerHidden: jest.fn(),
       setChatPopped: jest.fn(),
+      initializedState: 'initialized',
     };
 
     render = () => {
@@ -38,6 +39,14 @@ describe('HeaderMenu component', () => {
       wrapper.find('.fa-window-minimize').simulate('click');
       expect(testProps.setChatContainerHidden).toBeCalledWith(true);
       expect(getChatClient().leaveChat).toBeCalled();
+    });
+  });
+
+  describe('when burned', () => {
+    it('hides maximize', () => {
+      testProps.initializedState = 'burned';
+      render();
+      expect(wrapper.find('.fa-window-restore').length).toBe(0);
     });
   });
 

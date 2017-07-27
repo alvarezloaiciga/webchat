@@ -54,6 +54,14 @@ describe('ChatContainer component', () => {
       });
     });
 
+    describe('when burned', () => {
+      it('renders properly', () => {
+        testProps.initializedState = 'burned';
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
     describe('when errored', () => {
       it('renders properly', () => {
         testProps.initializedState = 'error';
