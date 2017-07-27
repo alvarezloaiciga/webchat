@@ -10,6 +10,7 @@ import {
   isIEorSafari,
   camelize,
 } from './utils';
+import {compressToEncodedURIComponent, decompressFromEncodedURIComponent} from 'lz-string';
 import {SupportedWebchatUrls} from 'appConstants';
 import qs from 'qs';
 import type {QuiqObject, WelcomeForm} from 'types';
@@ -61,8 +62,7 @@ const assignQuiqObjInStandaloneMode = () => {
   if (!queryString || !queryString.QUIQ) return displayError(messages.standaloneFatalError);
 
   try {
-    const QUIQ = JSON.parse(queryString.QUIQ);
-    window.QUIQ = QUIQ;
+    window.QUIQ = JSON.parse(decompressFromEncodedURIComponent(queryString.QUIQ));
   } catch (e) {
     return displayError(messages.errorParsingStandaloneObject);
   }
@@ -222,7 +222,9 @@ export const openStandaloneMode = (callbacks: {
   window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
     `${__DEV__
       ? 'http://localhost:3000'
-      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${encodeURIComponent(JSON.stringify(QUIQ))}`,
+      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${compressToEncodedURIComponent(
+      JSON.stringify(QUIQ),
+    )}`,
     isIE9() ? '_blank' : 'quiq-standalone-webchat',
     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
   );
