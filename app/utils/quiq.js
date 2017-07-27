@@ -6,13 +6,10 @@ import {
   getWebchatUrlFromScriptTag,
   displayError,
   inStandaloneMode,
-  isIE9,
   isIEorSafari,
   camelize,
 } from './utils';
-import {compressToEncodedURIComponent, decompressFromEncodedURIComponent} from 'lz-string';
 import {SupportedWebchatUrls} from 'appConstants';
-import qs from 'qs';
 import type {QuiqObject, WelcomeForm} from 'types';
 
 const reservedKeyNames = ['Referrer'];
@@ -57,12 +54,9 @@ const processWelcomeForm = (form: WelcomeForm): void => {
 
 const assignQuiqObjInStandaloneMode = () => {
   if (!inStandaloneMode()) return;
-
-  const queryString = qs.parse(window.location.href.split('?')[1]);
-  if (!queryString || !queryString.QUIQ) return displayError(messages.standaloneFatalError);
-
   try {
-    window.QUIQ = JSON.parse(decompressFromEncodedURIComponent(queryString.QUIQ));
+    window.QUIQ = JSON.parse(window.name.split('quiq-standalone-webchat')[1]);
+    window.name = 'quiq-standalone-webchat';
   } catch (e) {
     return displayError(messages.errorParsingStandaloneObject);
   }
@@ -220,12 +214,8 @@ export const openStandaloneMode = (callbacks: {
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
   window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
-    `${__DEV__
-      ? 'http://localhost:3000'
-      : QUIQ.HOST}/app/webchat/standalone?QUIQ=${compressToEncodedURIComponent(
-      JSON.stringify(QUIQ),
-    )}`,
-    isIE9() ? '_blank' : 'quiq-standalone-webchat',
+    `${__DEV__ ? 'http://0.tcp.ngrok.io:17216' : QUIQ.HOST}/app/webchat/standalone`,
+    `quiq-standalone-webchat${JSON.stringify(QUIQ)}`,
     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
   );
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();

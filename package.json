@@ -134,8 +134,6 @@
     "classnames": "2.2.5",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "lz-string": "1.4.4",
-    "qs": "6.4.0",
     "quiq-chat": "1.8.1",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",

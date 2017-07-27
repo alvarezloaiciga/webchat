@@ -6,7 +6,6 @@ import messages from 'messages';
 import {getDisplayString} from 'utils/i18n';
 import {SupportedWebchatUrls} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
-import qs from 'qs';
 import type {BrowserNames, DeviceTypes, OSNames, IntlMessage} from 'types';
 
 const parser = new UAParser();
@@ -55,20 +54,6 @@ export const displayError = (error: IntlMessage | string, values: {[string]: str
 };
 
 export const inStandaloneMode = () => window.location.href.includes('standalone');
-
-export const getCleansedLocation = () => {
-  if (!inStandaloneMode()) return window.location.href;
-
-  const host = window.location.href.split('?')[0];
-  const queryString = qs.parse(window.location.href.split('?')[1]);
-  if (!queryString || !queryString.QUIQ) return window.location.href;
-
-  delete queryString.QUIQ;
-
-  if (Object.keys(queryString).length === 0) return host;
-
-  return `${host}?${qs.stringify(queryString)}`;
-};
 
 export const getWebchatUrlFromScriptTag = () => {
   // eslint-disable-line no-unused-vars
