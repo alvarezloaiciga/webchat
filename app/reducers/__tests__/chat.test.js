@@ -96,4 +96,19 @@ describe('chat reducers', () => {
       expect(chat.getState().welcomeFormRegistered).toBe(true);
     });
   });
+
+  describe('NEW_WEBCHAT_SESSION', () => {
+    it('updates state with initial state merged with current visibility state and "initialized" set to "LOADING"', () => {
+      chat.dispatch({type: 'CHAT_LAUNCHER_HIDDEN', chatLauncherHidden: false});
+      chat.dispatch({type: 'CHAT_POPPED', popped: true});
+      chat.dispatch({type: 'NEW_WEBCHAT_SESSION'});
+      expect(chat.getState().welcomeFormRegistered).toBe(true);
+      expect(chat.getState().initializedState).toBe('loading');
+      expect(chat.getState().chatContainerHidden).toBe(true);
+      expect(chat.getState().popped).toBe(true);
+      expect(chat.getState().chatLauncherHidden).toBe(false);
+      expect(chat.getState().transcript).toEqual([]);
+      expect(chat.getState().agentTyping).toEqual(false);
+    });
+  });
 });

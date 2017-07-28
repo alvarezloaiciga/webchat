@@ -44,4 +44,10 @@ describe('chatActions', () => {
       expect(chatActions.setWelcomeFormRegistered(true)).toMatchSnapshot();
     });
   });
+
+  describe('newWebchatSession', () => {
+    it('builds an action', () => {
+      expect(chatActions.newWebchatSession()).toMatchSnapshot();
+    });
+  });
 });

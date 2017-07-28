@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`chatActions newWebchatSession builds an action 1`] = `
+Object {
+  "type": "NEW_WEBCHAT_SESSION",
+}
+`;
+
 exports[`chatActions setAgentTyping builds an action 1`] = `
 Object {
   "agentTyping": true,

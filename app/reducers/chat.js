@@ -59,14 +59,16 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
     case 'WELCOME_FORM_REGISTERED':
       return Object.assign({}, state, {welcomeFormRegistered: true});
     case 'NEW_WEBCHAT_SESSION':
-      // Except for the visibility of the launcher and container, reset state to initial state.
-      // We keep the visibility state from before the new session
+      // Reset state to initial state.
+      // We keep the visibility state from before the new session, and we set initialized state to LOADING (while socket reconnects)
       return Object.assign(
         {},
         {...initialState},
         {
           chatContainerHidden: state.chatContainerHidden,
           chatLauncherHidden: state.chatLauncherHidden,
+          popped: state.popped,
+          initializedState: ChatInitializedState.LOADING,
         },
       );
     default:

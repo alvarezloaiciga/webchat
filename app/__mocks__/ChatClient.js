@@ -6,6 +6,7 @@ export const getChatClient = jest.fn().mockReturnValue({
   onError: jest.fn().mockReturnThis(),
   onErrorResolved: jest.fn().mockReturnThis(),
   onConnectionStatusChange: jest.fn().mockReturnThis(),
+  onNewSession: jest.fn().mockReturnThis(),
   onBurn: jest.fn().mockReturnThis(),
   start: jest.fn(),
   stop: jest.fn(),

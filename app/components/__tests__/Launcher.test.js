@@ -58,6 +58,7 @@ describe('Launcher component', () => {
       setWelcomeFormRegistered: jest.fn(),
       setAgentTyping: jest.fn(),
       updateTranscript: jest.fn(),
+      newWebchatSession: jest.fn(),
     };
 
     init = () => {
@@ -90,6 +91,14 @@ describe('Launcher component', () => {
       expect(testProps.setAgentTyping).toBeCalledWith(true);
       jest.runTimersToTime(11000);
       expect(testProps.setAgentTyping).toBeCalledWith(false);
+    });
+  });
+
+  describe('new webchat session', () => {
+    it('fires newWebchatSession action', async () => {
+      await render();
+      await instance.handleNewSession();
+      expect(testProps.newWebchatSession.mock.calls.length).toBe(1);
     });
   });
 
