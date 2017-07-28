@@ -22,33 +22,36 @@ exports[`HeaderMenu component rendering renders 1`] = `
       onClick={[Function]}
       title="Open chat in new window"
     />
-    <svg
-      className="icon"
-      height="12"
-      onClick={[Function]}
+    <span
       title="Close window"
-      width="12"
     >
-      <line
-        className="cross"
-        stroke="white"
-        strokeWidth="2"
-        x1="1"
-        x2="11"
-        y1="1"
-        y2="11"
-      />
-      <line
-        className="cross"
-        stroke="white"
-        strokeWidth="2"
-        x1="11"
-        x2="1"
-        y1="1"
-        y2="11"
-      />
-      X
-    </svg>
+      <svg
+        className="icon"
+        height="14"
+        onClick={[Function]}
+        width="14"
+      >
+        <line
+          className="cross"
+          stroke="white"
+          strokeWidth="2"
+          x1="1"
+          x2="13"
+          y1="1"
+          y2="13"
+        />
+        <line
+          className="cross"
+          stroke="white"
+          strokeWidth="2"
+          x1="13"
+          x2="1"
+          y1="1"
+          y2="13"
+        />
+        X
+      </svg>
+    </span>
   </div>
 </div>
 `;
