@@ -179,6 +179,11 @@ export const validateWelcomeFormDefinition = (): void => {
       displayError(messages.invalidWelcomeFormFieldType, {type: f.type});
     }
 
+    // Ensure that if 'rows' is defined, it is of numeric type
+    if (f.type === 'textarea' && f.rows && typeof f.rows !== 'number') {
+      displayError(messages.invalidWelcomeFormFieldRowsType);
+    }
+
     // Ensure id meets key-length requirements
     if (f.id.length > 80) {
       displayError(messages.invalidWelcomeFormDefinitionKeyLength, {id: f.id});
@@ -214,7 +219,7 @@ export const openStandaloneMode = (callbacks: {
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
   window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
-    `${__DEV__ ? 'http://localhsot:3000' : QUIQ.HOST}/app/webchat/standalone`,
+    `${__DEV__ ? 'http://quiq.dev:3000' : QUIQ.HOST}/app/webchat/standalone`,
     `quiq-standalone-webchat${JSON.stringify(QUIQ)}`,
     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
   );

@@ -151,6 +151,13 @@ export default defineMessages({
       'Error message to display when WELCOME_FORM is not valid because an unsupported field type was given',
     defaultMessage: 'Invalid WELCOME_FORM definition: "{type}" is not a supported field type.',
   },
+  invalidWelcomeFormFieldRowsType: {
+    id: 'invalidWelcomeFormFieldRowsType',
+    description:
+      'Error message to display when WELCOME_FORM is not valid because a non-numeric value was specified for a field\'s "rows" parameter',
+    defaultMessage:
+      'Invalid WELCOME_FORM definition: All fields\' "rows" parameters must be of type number',
+  },
   submitWelcomeForm: {
     id: 'submitWelcomeForm',
     description: 'Text of submit button on welcome form',
