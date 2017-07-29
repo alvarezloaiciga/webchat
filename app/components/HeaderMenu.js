@@ -58,18 +58,11 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
             )}
             onClick={inStandaloneMode() ? window.close : popChat}
           />}
-        <span title={getMessage(messageTypes.closeWindowTooltip)}>
-          <svg
-            className="icon"
-            height="14"
-            width="14"
-            onClick={inStandaloneMode() ? window.close : minimize}
-          >
-            <line className="cross" x1="1" y1="1" x2="13" y2="13" strokeWidth="2" stroke="white" />
-            <line className="cross" x1="13" y1="1" x2="1" y2="13" strokeWidth="2" stroke="white" />
-            X
-          </svg>
-        </span>
+        <i
+          className={`fa fa-times icon`}
+          title={getMessage(messageTypes.closeWindowTooltip)}
+          onClick={inStandaloneMode() ? window.close : minimize}
+        />
       </div>
     </div>
   );
