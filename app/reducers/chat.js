@@ -1,6 +1,6 @@
 // @flow
 import {isIEorSafari, inStandaloneMode} from 'utils/utils';
-import {createStore, combineReducers} from 'redux';
+import {createStore} from 'redux';
 import {ChatInitializedState} from 'appConstants';
 import QUIQ from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
