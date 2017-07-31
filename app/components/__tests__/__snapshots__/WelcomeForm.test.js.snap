@@ -7,8 +7,11 @@ exports[`WelcomeForm component filling out form and submitting valid submission 
   onClick={[Function]}
   style={
     Object {
-      "background": "#333",
-      "fontFamily": "Lato, sans-serif",
+      "background": "teal",
+      "backgroundColor": "#333",
+      "fontFamily": "Source Sans Pro",
+      "fontSize": 16,
+      "fontWeight": 700,
     }
   }
 >
@@ -31,30 +34,34 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     style={
       Object {
         "backgroundColor": "#333",
+        "fontFamily": "Lato, sans-serif",
+        "height": "auto",
+        "padding": "8px 30px",
+        "textAlign": "left",
       }
     }
   >
-    <span
-      style={
-        Object {
-          "fontFamily": "Lato, sans-serif",
-        }
-      }
-    >
-      Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.
-    </span>
+    Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.
   </div>
   <div
     className="fields"
   >
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="First Name"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -74,7 +81,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={true}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         type="text"
@@ -83,12 +92,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="Last Name"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -101,7 +118,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={false}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         type="text"
@@ -110,12 +129,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="Number Field"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -128,7 +155,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={false}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         type="number"
@@ -137,12 +166,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="E-Mail"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -155,7 +192,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={false}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         type="email"
@@ -164,12 +203,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="Phone Number"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -182,7 +229,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={false}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         type="tel"
@@ -191,12 +240,20 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
     >
       <label
         htmlFor="My life story"
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
           }
         }
       >
@@ -212,7 +269,9 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={false}
         style={
           Object {
-            "fontFamily": "Lato, sans-serif",
+            "color": "#888",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
           }
         }
         useCacheForDOMMeasurements={false}
@@ -226,8 +285,11 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     onClick={[Function]}
     style={
       Object {
-        "background": "#333",
-        "fontFamily": "Lato, sans-serif",
+        "background": "teal",
+        "backgroundColor": "#333",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 700,
       }
     }
   >

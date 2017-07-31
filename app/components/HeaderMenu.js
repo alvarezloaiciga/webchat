@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {inStandaloneMode, isIEorSafari} from 'utils/utils';
-import QUIQ, {openStandaloneMode, getMessage} from 'utils/quiq';
+import QUIQ, {openStandaloneMode, getStyle, getMessage} from 'utils/quiq';
 import {messageTypes, ChatInitializedState} from 'appConstants';
 import {setChatContainerHidden, setChatPopped} from 'actions/chatActions';
 import {connect} from 'react-redux';
@@ -38,8 +38,12 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
     });
   };
 
+  const {COLORS, STYLES} = QUIQ;
+
+  const headerStyle = getStyle(STYLES.HeaderMenu, {backgroundColor: COLORS.primary});
+
   return (
-    <div className="HeaderMenu" style={{backgroundColor: QUIQ.COLOR}}>
+    <div className="HeaderMenu" style={headerStyle}>
       <div className="buttons">
         {!isIEorSafari() &&
           <i

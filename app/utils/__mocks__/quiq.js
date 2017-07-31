@@ -17,6 +17,92 @@ const QUIQ: QuiqObject = {
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
   },
+  STYLES: {
+    HeaderMenu: {
+      background: '#31bf8b',
+    },
+    HeaderBanner: {
+      background: '#31bf8b',
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+      fontWeight: 500,
+      textTransform: 'uppercase',
+    },
+    ErrorBanner: {
+      background: '#fff',
+      color: 'red',
+      fontFamily: 'Source Sans Pro',
+      textTransform: 'uppercase',
+      fontWeight: 700,
+    },
+    ToggleChatButton: {
+      background: 'teal',
+    },
+    ToggleChatButtonIcon: {
+      opacity: 0.75,
+    },
+    CustomerMessageBubble: {
+      background: '#68b588',
+    },
+    CustomerMessageText: {
+      color: '#fff',
+      fontFamily: 'Source Sans Pro',
+    },
+    AgentMessageBubble: {
+      background: '#fff',
+      border: '1px solid #e0e0e0',
+    },
+    AgentMessageText: {
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    MessageForm: {
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
+      zIndex: 1,
+    },
+    MessageFormInput: {
+      color: '#68b588',
+      fontFamily: 'Source Sans Pro',
+    },
+    MessageFormSend: {
+      color: '#68b588',
+      textTransform: 'uppercase',
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+    },
+    WelcomeFormBanner: {
+      height: 'auto',
+      textAlign: 'left',
+      padding: '8px 30px',
+    },
+    WelcomeFormField: {
+      marginTop: 16,
+    },
+    WelcomeFormFieldLabel: {
+      color: '#555',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldInput: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldTextarea: {
+      outline: 'none',
+      color: '#888',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormSubmitButton: {
+      background: 'teal',
+      fontWeight: 700,
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+    },
+  },
+  POSITION: {},
+  HEADER_TEXT: 'TOOL TIME',
   MESSAGES: {
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
@@ -89,6 +175,9 @@ const QUIQ: QuiqObject = {
 
 export const openStandaloneMode = jest.fn();
 export const validateWelcomeFormDefinition = jest.fn();
+
+export const getStyle = (style?: Object = {}, defaults?: Object = {}) =>
+  Object.assign({}, defaults, style);
 
 export const getMessage = (messageName: string): string => {
   const message = QUIQ.MESSAGES[messageName];

@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import update from 'react-addons-update';
 import {messageTypes} from 'appConstants';
-import QUIQ, {getMessage} from 'utils/quiq';
+import QUIQ, {getStyle, getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
@@ -50,11 +50,15 @@ export class WelcomeForm extends Component {
   }
 
   renderField = (field: WelcomeFormField) => {
-    const {FONT_FAMILY} = QUIQ;
+    const {FONT_FAMILY, STYLES} = QUIQ;
+
+    const labelStyle = getStyle(STYLES.WelcomeFormFieldLabel, {fontFamily: FONT_FAMILY});
+    const inputStyle = getStyle(STYLES.WelcomeFormFieldInput, {fontFamily: FONT_FAMILY});
+    const textareaStyle = getStyle(STYLES.WelcomeFormFieldTextarea, {fontFamily: FONT_FAMILY});
 
     return (
-      <div className="field" key={field.id}>
-        <label htmlFor={field.label} style={{fontFamily: FONT_FAMILY}}>
+      <div className="field" key={field.id} style={getStyle(STYLES.WelcomeFormField)}>
+        <label htmlFor={field.label} style={labelStyle}>
           {field.label}
           {field.required &&
             <span className="required" title={getMessage(messageTypes.requiredFieldAriaLabel)}>
@@ -67,7 +71,7 @@ export class WelcomeForm extends Component {
               onChange={this.handleFieldInput}
               name={field.id}
               required={field.required}
-              style={{fontFamily: FONT_FAMILY}}
+              style={textareaStyle}
               maxLength={1000}
               maxRows={field.rows || 5}
               minRows={supportsFlexbox() ? 1 : field.rows || 5}
@@ -78,7 +82,7 @@ export class WelcomeForm extends Component {
               type={field.type}
               name={field.id}
               required={field.required}
-              style={{fontFamily: FONT_FAMILY}}
+              style={inputStyle}
               maxLength={1000}
             />}
       </div>
@@ -140,17 +144,25 @@ export class WelcomeForm extends Component {
   };
 
   render = () => {
-    const {WELCOME_FORM, FONT_FAMILY, COLORS} = QUIQ;
+    const {WELCOME_FORM, FONT_FAMILY, COLORS, STYLES} = QUIQ;
 
     if (!WELCOME_FORM) return null;
+
+    const bannerStyle = getStyle(STYLES.WelcomeFormBanner, {
+      backgroundColor: COLORS.primary,
+      fontFamily: FONT_FAMILY,
+    });
+
+    const submitButtonStyle = getStyle(STYLES.WelcomeFormSubmitButton, {
+      backgroundColor: COLORS.primary,
+      fontFamily: FONT_FAMILY,
+    });
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
         <HeaderMenu />
-        <div className="welcomeFormBanner" style={{backgroundColor: COLORS.primary}}>
-          <span style={{fontFamily: FONT_FAMILY}}>
-            {WELCOME_FORM.headerText}
-          </span>
+        <div className="welcomeFormBanner" style={bannerStyle}>
+          {WELCOME_FORM.headerText}
         </div>
         {this.state.formValidationError &&
           <span className="formValidationError">
@@ -162,7 +174,7 @@ export class WelcomeForm extends Component {
         <button
           className="submit"
           disabled={this.state.submitting}
-          style={{background: COLORS.primary, fontFamily: FONT_FAMILY}}
+          style={submitButtonStyle}
           onClick={this.submitForm}
         >
           {this.state.submitting

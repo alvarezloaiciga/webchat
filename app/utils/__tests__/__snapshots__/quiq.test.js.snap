@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QUIQ util getStyle when property is not supported throws an error 1`] = `"Your style is using the unsupported style property 'position'."`;

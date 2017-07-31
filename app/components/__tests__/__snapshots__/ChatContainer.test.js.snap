@@ -13,6 +13,15 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   <Connect(HeaderMenu) />
   <div
     className="errorBanner"
+    style={
+      Object {
+        "background": "#fff",
+        "color": "red",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+      }
+    }
   >
     We're having trouble connecting. Try refreshing the page.
   </div>
@@ -39,7 +48,11 @@ exports[`ChatContainer component initializedState when disconnected renders prop
     className="errorBanner"
     style={
       Object {
-        "fontFamily": "Lato, sans-serif",
+        "background": "#fff",
+        "color": "red",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
       }
     }
   >
@@ -66,6 +79,15 @@ exports[`ChatContainer component initializedState when errored renders properly 
   <Connect(HeaderMenu) />
   <div
     className="errorBanner"
+    style={
+      Object {
+        "background": "#fff",
+        "color": "red",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+      }
+    }
   >
     We're having trouble connecting. Try refreshing the page.
   </div>
@@ -92,20 +114,16 @@ exports[`ChatContainer component initializedState when initialized renders prope
     className="banner"
     style={
       Object {
+        "background": "#31bf8b",
         "backgroundColor": "#333",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 500,
+        "textTransform": "uppercase",
       }
     }
   >
-    <span
-      className="messageUs"
-      style={
-        Object {
-          "fontFamily": "Lato, sans-serif",
-        }
-      }
-    >
-      We're here to help if you have any questions!
-    </span>
+    We're here to help if you have any questions!
   </div>
   <div
     className="chatContainerBody"
@@ -131,20 +149,16 @@ exports[`ChatContainer component initializedState when loading renders properly 
     className="banner"
     style={
       Object {
+        "background": "#31bf8b",
         "backgroundColor": "#333",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 500,
+        "textTransform": "uppercase",
       }
     }
   >
-    <span
-      className="messageUs"
-      style={
-        Object {
-          "fontFamily": "Lato, sans-serif",
-        }
-      }
-    >
-      We're here to help if you have any questions!
-    </span>
+    We're here to help if you have any questions!
   </div>
   <div
     className="chatContainerBody"
@@ -169,20 +183,16 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
     className="banner"
     style={
       Object {
+        "background": "#31bf8b",
         "backgroundColor": "#333",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 500,
+        "textTransform": "uppercase",
       }
     }
   >
-    <span
-      className="messageUs"
-      style={
-        Object {
-          "fontFamily": "Lato, sans-serif",
-        }
-      }
-    >
-      We're here to help if you have any questions!
-    </span>
+    We're here to help if you have any questions!
   </div>
   <div
     className="chatContainerBody"

@@ -87,6 +87,9 @@ const getQuiqObject = (): QuiqObject => {
       customerMessageBackground: primaryColor,
       transcriptBackground: '#f4f4f8',
     },
+    STYLES: {},
+    POSITION: {},
+    HEADER_TEXT: messages.hereToHelp,
     HOST: getHostUrl(),
     DEBUG: false,
     WELCOME_FORM: undefined,
@@ -240,6 +243,44 @@ export const openStandaloneMode = (callbacks: {
       callbacks.onDock();
     }
   }, 500);
+};
+
+/**
+ * Strips out styles that would be difficult to keep backwards compatibility for
+ */
+export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
+  const unsupportedStyles = [
+    'float',
+    'clear',
+    'top',
+    'bottom',
+    'left',
+    'right',
+    'position',
+    'transform',
+    'content',
+  ];
+
+  Object.keys(userStyle).forEach(property => {
+    if (unsupportedStyles.includes(property)) {
+      throw new Error(`Your style is using the unsupported style property '${property}'.`);
+    }
+
+    if (property === 'fontFamily' && userStyle.fontFamily) {
+      const font = userStyle.fontFamily;
+
+      ['Comic Sans', 'Papyrus'].forEach(badFont => {
+        if (typeof font === 'string' && font.includes(badFont)) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            `The font ${badFont} is deprecated because it leads to a poor user experience.`,
+          );
+        }
+      });
+    }
+  });
+
+  return Object.assign({}, defaults, userStyle);
 };
 
 export const getMessage = (messageName: string): string => {

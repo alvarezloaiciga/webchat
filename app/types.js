@@ -48,6 +48,30 @@ export type CookieDef = {
   path?: string,
 };
 
+type CustomStyles = {
+  HeaderMenu?: Object,
+  HeaderMenuIcons?: Object,
+  HeaderBanner?: Object,
+  ErrorBanner?: Object,
+  ToggleChatButton?: Object,
+  ToggleChatButtonIcon?: Object,
+  CustomerMessageBubble?: Object,
+  CustomerMessageText?: Object,
+  CustomerAvatar?: Object,
+  AgentMessageBubble?: Object,
+  AgentMessageText?: Object,
+  AgentAvatar?: Object,
+  MessageForm?: Object,
+  MessageFormInput?: Object,
+  MessageFormSend?: Object,
+  WelcomeFormBanner?: Object,
+  WelcomeFormField?: Object,
+  WelcomeFormFieldLabel?: Object,
+  WelcomeFormFieldInput?: Object,
+  WelcomeFormFieldTextarea?: Object,
+  WelcomeFormSubmitButton?: Object,
+};
+
 export type QuiqObject = {
   CONTACT_POINT: string,
   HOST: string,
@@ -62,6 +86,14 @@ export type QuiqObject = {
     customerMessageBackground: string,
     transcriptBackground: string,
   },
+  STYLES: CustomStyles,
+  POSITION: {
+    top?: number | string,
+    bottom?: number | string,
+    left?: number | string,
+    right?: number | string,
+  },
+  HEADER_TEXT: string,
   MESSAGES: {
     headerText: string,
     sendButtonLabel: string,

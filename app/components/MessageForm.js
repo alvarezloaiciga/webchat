@@ -2,8 +2,8 @@
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
+import QUIQ, {getStyle, getMessage} from 'utils/quiq';
 import {messageTypes} from 'appConstants';
-import QUIQ, {getMessage} from 'utils/quiq';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
@@ -11,7 +11,7 @@ import {getChatClient} from '../ChatClient';
 import './styles/MessageForm.scss';
 import type {ChatState} from 'types';
 
-const {COLOR, FONT_FAMILY} = QUIQ;
+const {COLORS, FONT_FAMILY, STYLES} = QUIQ;
 
 export type MessageFormProps = {
   agentTyping: boolean,
@@ -85,8 +85,15 @@ export class MessageForm extends Component {
     const sendDisabled = this.state.text.trim() === '';
     const compatMode = compatibilityMode();
 
+    const inputStyle = getStyle(STYLES.MessageFormInput, {fontFamily: FONT_FAMILY});
+    const buttonStyle = getStyle(STYLES.MessageFormSend, {
+      color: COLORS.primary,
+      opacity: sendDisabled ? '.5' : '1',
+      fontFamily: FONT_FAMILY,
+    });
+
     return (
-      <div className="MessageForm">
+      <div className="MessageForm" style={getStyle(STYLES.MessageForm)}>
         {(!supportsFlexbox() || this.props.agentTyping) &&
           <div className="poke">
             {this.props.agentTyping &&
@@ -103,7 +110,7 @@ export class MessageForm extends Component {
             inputRef={n => {
               this.textArea = n;
             }}
-            style={{fontFamily: FONT_FAMILY}}
+            style={inputStyle}
             name="message"
             value={this.state.text}
             maxRows={supportsFlexbox() ? 6 : 3}
@@ -118,7 +125,7 @@ export class MessageForm extends Component {
             className="sendBtn"
             onClick={this.addMessage}
             disabled={sendDisabled}
-            style={{color: COLOR, opacity: sendDisabled ? '.5' : '1', fontFamily: FONT_FAMILY}}
+            style={buttonStyle}
           >
             {getMessage(messageTypes.sendButtonLabel)}
           </button>

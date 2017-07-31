@@ -26,6 +26,140 @@ if (!tenant) {
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
+  COLORS: {
+    primary: 'red', // (Falls back to `QUIQ.COLOR`)
+    agentMessageText: '#555',
+    agentMessageLinkText: '#2199e8',
+    agentMessageBackground: '#e0e0e0',
+    customerMessageText: 'yellow',
+    customerMessageLinkText: 'yellow',
+    customerMessageBackground: '#2199e8',
+    transcriptBackground: '#f4f4f8',
+  },
+  FONT_FAMILY: 'Raleway',
+  STYLES: {
+    HeaderMenu: {
+      background: '#31bf8b',
+    },
+    HeaderBanner: {
+      background: '#31bf8b',
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+      fontWeight: 500,
+      textTransform: 'uppercase',
+    },
+    ErrorBanner: {
+      background: '#fff',
+      color: 'red',
+      fontFamily: 'Source Sans Pro',
+      textTransform: 'uppercase',
+      fontWeight: 700,
+    },
+    ToggleChatButton: {
+      background: 'teal',
+    },
+    ToggleChatButtonIcon: {
+      opacity: 0.75,
+    },
+    CustomerMessageBubble: {
+      background: '#68b588',
+    },
+    CustomerMessageText: {
+      color: '#fff',
+      fontFamily: 'Source Sans Pro',
+    },
+    AgentMessageBubble: {
+      background: '#fff',
+      border: '1px solid #e0e0e0',
+    },
+    AgentMessageText: {
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    MessageForm: {
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
+      zIndex: 1,
+    },
+    MessageFormInput: {
+      color: '#68b588',
+      fontFamily: 'Source Sans Pro',
+    },
+    MessageFormSend: {
+      color: '#68b588',
+      textTransform: 'uppercase',
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+    },
+    WelcomeFormField: {
+      marginTop: 16,
+    },
+    WelcomeFormFieldLabel: {
+      color: '#555',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldInput: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldTextarea: {
+      outline: 'none',
+      color: '#888',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormSubmitButton: {
+      background: 'teal',
+      fontWeight: 700,
+      fontFamily: 'Source Sans Pro',
+      fontSize: 16,
+    },
+  },
+  WELCOME_FORM: {
+    headerText:
+      'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+    fields: [
+      {
+        type: 'text',
+        label: 'First Name',
+        id: 'firstName',
+        required: true,
+      },
+      {
+        type: 'text',
+        label: 'Last Name',
+        id: 'lastName',
+        required: false,
+      },
+      {
+        type: 'textarea',
+        label: 'Life Story',
+        id: 'story',
+        required: false,
+        rows: 2,
+      },
+      {
+        type: 'number',
+        label: 'Number Field',
+        id: 'numberField',
+        required: false,
+      },
+
+      {
+        type: 'email',
+        label: 'E-Mail',
+        id: 'email',
+        required: false,
+      },
+      {
+        type: 'tel',
+        label: 'Phone Number',
+        id: 'phoneNumber',
+        required: false,
+      },
+    ],
+  },
 };
 </script>
 <script>

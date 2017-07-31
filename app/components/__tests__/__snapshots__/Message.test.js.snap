@@ -2,78 +2,92 @@
 
 exports[`Message component fromAgent colors the message white 1`] = `
 <div
-  className="Message"
-  style={
-    Object {
-      "backgroundColor": "#fff",
-      "color": "#000",
-      "fontFamily": "sans-serif",
-    }
-  }
+  className="messageContainer"
 >
-  <Linkify
-    className="Linkify"
-    component="a"
-    properties={
+  <div
+    className="agentAvatar"
+    style={Object {}}
+  />
+  <div
+    className="Message"
+    style={
       Object {
-        "rel": "noopener noreferrer",
-        "style": Object {
-          "color": "#2199e8",
-          "fontFamily": "sans-serif",
-          "textDecoration": "underline",
-        },
-        "target": "_blank",
+        "backgroundColor": "#fff",
       }
     }
   >
-    <span
-      style={
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
         Object {
-          "fontFamily": "sans-serif",
+          "rel": "noopener noreferrer",
+          "style": Object {
+            "color": "#2199e8",
+            "fontFamily": "sans-serif",
+            "textDecoration": "underline",
+          },
+          "target": "_blank",
         }
       }
     >
-      text--0
-    </span>
-  </Linkify>
+      <span
+        style={
+          Object {
+            "color": "#000",
+            "fontFamily": "sans-serif",
+          }
+        }
+      >
+        text--0
+      </span>
+    </Linkify>
+  </div>
 </div>
 `;
 
 exports[`Message component rendering renders with default props 1`] = `
 <div
-  className="Message fromCustomer"
-  style={
-    Object {
-      "backgroundColor": "#333",
-      "color": "#fff",
-      "fontFamily": "sans-serif",
-    }
-  }
+  className="messageContainer fromCustomer"
 >
-  <Linkify
-    className="Linkify"
-    component="a"
-    properties={
+  <div
+    className="Message fromCustomer"
+    style={
       Object {
-        "rel": "noopener noreferrer",
-        "style": Object {
-          "color": "#fff",
-          "fontFamily": "sans-serif",
-          "textDecoration": "underline",
-        },
-        "target": "_blank",
+        "backgroundColor": "#333",
       }
     }
   >
-    <span
-      style={
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
         Object {
-          "fontFamily": "sans-serif",
+          "rel": "noopener noreferrer",
+          "style": Object {
+            "color": "#fff",
+            "fontFamily": "sans-serif",
+            "textDecoration": "underline",
+          },
+          "target": "_blank",
         }
       }
     >
-      text--0
-    </span>
-  </Linkify>
+      <span
+        style={
+          Object {
+            "color": "#fff",
+            "fontFamily": "sans-serif",
+          }
+        }
+      >
+        text--0
+      </span>
+    </Linkify>
+  </div>
+  <div
+    className="customerAvatar"
+    style={Object {}}
+  />
 </div>
 `;

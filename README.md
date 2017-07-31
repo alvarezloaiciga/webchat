@@ -2,8 +2,9 @@
 This is the end-user client for web chats with Quiq Messaging
 
 ## Customizing
-While technically all css within the Chat Widget is overridable, it is strongly discouraged and not supported.  This is because at any time in the future, we may change HTML structure or CSS class names, causing potentially breaking changes on any site containing the modified code.  We provide some color overrides as well as custom messaging within the fields described above.  
+We provide a way to customize the look and feel of Quiq Webchat to fit your brand's look and feel. You can provide a set of `COLORS` in the `window.QUIQ` configuration object. (See [here](#windowquiq-object) for more details). If you want more control than this, you can also set the `STYLES` property to customize elements in more detail. Information on what all can be customized is listed [here](#setting-styles).
 
+Adding a css file to your page to override the default styles is not supported.  This is because at any time in the future, we may change HTML structure or CSS class names, causing potentially breaking changes on any site containing the modified code.
 If there's some other customization you'd like, please open an issue in this repository describing what you'd like to be customizable.
 
 ## Usage
@@ -92,9 +93,45 @@ The window.QUIQ object contains properties describing how the instance of webcha
       transcriptBackground: '#f4f4f8',
     }
     ```
-
+  - STYLES
+    - type: Object
+    - description: Options to customize the look and feel of your webchat client. See [here](#setting-styles) for available options
+    - default: `{}`
+    - example:
+    ```javascript
+    {
+      HeaderBanner: {
+        fontSize: 18,
+        margin: '8px 4px'
+      }
+    }
+    ```
+  - POSITION
+    - type:
+    ```javascript
+    {
+      top?: string | number,
+      bottom?: string | number,
+      left?: string | number,
+      right?: string | number,
+    }
+    ```
+    - description: Initial position for the chat window
+    - default: `{}`
+    - example:
+    ```javascript
+    {
+      bottom: 0,
+      right: '20px',
+    }
+    ```
+  - HEADER_TEXT _Deprecated: You should set MESSAGES.headerText instead_
+    - type: string
+    - description: Message to appear at top of chat window.
+    - default: `"We're here to help if you have any questions!"`
+    - example: `"We're here to help if you have any questions!"`
   - MESSAGES
-    - type: 
+    - type:
     ```javascript
     {
             headerText: string,
@@ -115,7 +152,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     }
     ```
     - description: Custom static strings to use in various places throughout the chat client.
-    - default: 
+    - default:
     ```javascript
     {
             headerText: "We're here to help if you have any questions!",
@@ -134,7 +171,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
             openInNewWindowTooltip: 'Open chat in new window',
             closeWindowTooltip: 'Close window',
     }
-   
+    ```
   - HOST
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
@@ -218,6 +255,69 @@ The window.QUIQ object contains properties describing how the instance of webcha
         ]
       }
     ```
+
+### Setting Styles
+Values passed into the `STYLES` property of the `window.QUIQ` object will be applied to the elements using inline styles. Properties are named the same as in CSS, except that they are camelCased. For example:
+```
+font-size: 18px;
+```
+becomes
+```javascript
+fontSize: '18px',
+```
+
+Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitalized:
+```javascript
+{
+  transition: 'all',
+  WebkitTransition: 'all',
+  msTransition: 'all'
+}
+```
+
+#### Available Elements
+
+`HeaderMenu`: The top section of the chat container that contains the minimize, maximize, and close icons
+
+`HeaderMenuIcons`: The icons inside `HeaderMenu`
+
+`HeaderBanner`: The banner that is shown above the chat transcript
+
+`ErrorBanner`: The banner that is shown when there is a connection error
+
+`ToggleChatButton`: The button in the bottom corner that opens the chat
+
+`ToggleChatButtonIcon`: The icon in the `ToggleChatButton`
+
+`CustomerMessageBubble`: The message bubble for messages that the customer sent
+
+`CustomerMessageText`: The text for messages that the customer sent
+
+`CustomerAvatar`: The avatar that shows up for the customer. (By default there is nothing here)
+
+`AgentMessageBubble`: The message bubble for messages that the support agent sent
+
+`AgentMessageText`: The text for messages that the support agent sent
+
+`AgentAvatar`: The avatar that shows up for the support agent. (By default there is nothing here)
+
+`MessageForm`: The form at the bottom of the chat that holds the text box and send button
+
+`MessageFormInput`: The text box for sending messages
+
+`MessageFormSend`: The send button for the chat
+
+`WelcomeFormBanner`: The banner that is shown above the welcome form
+
+`WelcomeFormField`: A field in the welcome form
+
+`WelcomeFormFieldLabel`: The label for fields in the welcome form
+
+`WelcomeFormFieldInput`: The input for single line fields in the welcome form
+
+`WelcomeFormFieldTextarea`: The textarea for multi-line fields in the welcome form
+
+`WelcomeFormSubmitButton`: The submit button for the welcome form
 
 ### Production Note
 If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.

@@ -3,6 +3,7 @@
 exports[`MessageForm component agentTyping shows typing indicator 1`] = `
 <div
   className="MessageForm"
+  style={Object {}}
 >
   <div
     className="poke"
@@ -67,6 +68,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
 exports[`MessageForm component rendering renders 1`] = `
 <div
   className="MessageForm"
+  style={Object {}}
 >
   <div
     className="messageArea"

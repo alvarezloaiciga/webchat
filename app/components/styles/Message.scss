@@ -1,6 +1,18 @@
 @import '~styles/animations';
 
+.messageContainer {
+  display: flex;
+  flex: 0 0 auto;
+  align-self: flex-start;
+
+  &.fromCustomer {
+    align-self: flex-end;
+  }
+}
+
 .Message {
+  width: auto;
+  display: inline-block;
   word-wrap: break-word;
   background: #fff;
   border: 1px solid #eaeaea;
@@ -9,11 +21,9 @@
   margin: 8px 16px;
   border-radius: 5px;
   font-size: 14px;
-  align-self: flex-start;
   text-align: left;
   animation: 0.2s 1 messageEnter;
   position: relative;
-  flex: 0 0 auto;
 
   a {
     color: #2199e8;

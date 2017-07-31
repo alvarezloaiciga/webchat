@@ -5,6 +5,7 @@ exports[`HeaderMenu component rendering renders 1`] = `
   className="HeaderMenu"
   style={
     Object {
+      "background": "#31bf8b",
       "backgroundColor": "#333",
     }
   }

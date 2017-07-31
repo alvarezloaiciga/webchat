@@ -7,6 +7,8 @@
 .*/node_modules/fbjs/.*
 .*/node_modules/jsonlint/.*
 .*/node_modules/jest-validate/.*
+.*/node_modules/emotion/src/.*
+.*/node_modules/styled-components/.*
 .*/node_modules/quiq-chat/src.*
 
 [libs]
