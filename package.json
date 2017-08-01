@@ -1,11 +1,13 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.0.124",
+  "version": "1.0.125",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
-  "keywords": ["webchat"],
+  "keywords": [
+    "webchat"
+  ],
   "repository": {
     "type": "git",
     "url": "https://gitlab.quiq.sh/development/webchat"
@@ -35,11 +37,17 @@
     ]
   },
   "jest": {
-    "modulePaths": ["app/components", "app", "node_modules"],
+    "modulePaths": [
+      "app/components",
+      "app",
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js"
     },
-    "snapshotSerializers": ["<rootDir>/../node_modules/enzyme-to-json/serializer"],
+    "snapshotSerializers": [
+      "<rootDir>/../node_modules/enzyme-to-json/serializer"
+    ],
     "globals": {
       "QUIQ": {
         "CONTACT_POINT": "Bob",
@@ -134,7 +142,7 @@
     "classnames": "2.2.5",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "quiq-chat": "1.8.1",
+    "quiq-chat": "1.8.2",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
     "react-dom": "15.6.0",
