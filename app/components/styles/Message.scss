@@ -3,11 +3,11 @@
 .messageContainer {
   display: flex;
   flex: 0 0 auto;
-  align-self: flex-start;
+  align-self: stretch;
+}
 
-  &.fromCustomer {
-    align-self: flex-end;
-  }
+.fromCustomer {
+  align-self: stretch;
 }
 
 .Message {
@@ -25,6 +25,7 @@
   position: relative;
   overflow: hidden;
   hyphens: auto;
+  max-width: 80%;
 
   margin-right: 50px;
 
@@ -45,7 +46,7 @@
 
   &.fromCustomer {
     align-self: flex-end;
-    margin-left: 50px;
+    margin-left: auto;
     margin-right: 16px;
     color: #fff;
 
