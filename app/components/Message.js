@@ -42,31 +42,37 @@ export const Message = (props: MessageProps) => {
 
   const textStyle = getMessageTextStyle(fromCustomer);
 
+  const margin = fromCustomer
+    ? {marginLeft: 'auto', justifyContent: 'flex-end'}
+    : {marginRight: 'auto', justifyContent: 'flex-start'};
+
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      {!fromCustomer && <div className="agentAvatar" style={getStyle(STYLES.AgentAvatar)} />}
-      <div
-        style={getMessageBubbleStyle(fromCustomer)}
-        className={classnames('Message', {fromCustomer})}
-      >
-        <Linkify
-          properties={{
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            style: {
-              fontFamily: FONT_FAMILY,
-              textDecoration: 'underline',
-              ...textStyle,
-              color: fromCustomer ? COLORS.customerMessageLinkText : COLORS.agentMessageLinkText,
-            },
-          }}
+      <div style={{display: 'flex', ...margin}}>
+        {!fromCustomer && <div className="agentAvatar" style={getStyle(STYLES.AgentAvatar)} />}
+        <div
+          style={getMessageBubbleStyle(fromCustomer)}
+          className={classnames('Message', {fromCustomer})}
         >
-          <span style={textStyle}>
-            {props.message.text}
-          </span>
-        </Linkify>
+          <Linkify
+            properties={{
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              style: {
+                fontFamily: FONT_FAMILY,
+                textDecoration: 'underline',
+                ...textStyle,
+                color: fromCustomer ? COLORS.customerMessageLinkText : COLORS.agentMessageLinkText,
+              },
+            }}
+          >
+            <span style={textStyle}>
+              {props.message.text}
+            </span>
+          </Linkify>
+        </div>
+        {fromCustomer && <div className="customerAvatar" style={getStyle(STYLES.CustomerAvatar)} />}
       </div>
-      {fromCustomer && <div className="customerAvatar" style={getStyle(STYLES.CustomerAvatar)} />}
     </div>
   );
 };
