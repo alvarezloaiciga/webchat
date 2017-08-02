@@ -13,7 +13,6 @@
 .Message {
   width: auto;
   display: inline-block;
-  word-wrap: break-word;
   background: #fff;
   border: 1px solid #eaeaea;
   padding: 8px;
@@ -25,7 +24,8 @@
   position: relative;
   overflow: hidden;
   hyphens: auto;
-  max-width: 80%;
+  max-width: 75vw;
+  flex: 0 0 auto;
 
   margin-right: 50px;
 
