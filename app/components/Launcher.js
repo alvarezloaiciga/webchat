@@ -58,7 +58,17 @@ export class Launcher extends Component {
     this.registerClientCallbacks();
     this.determineLauncherStateInterval = setInterval(this.determineLauncherState, 1000 * 60);
 
+    if (!this.props.chatLauncherHidden) {
+      clearTimeout(this.autoPopTimeout);
+    }
+
     this.init();
+  }
+
+  componentWillReceiveProps(nextProps: LauncherProps) {
+    if (this.props.chatContainerHidden && !nextProps.chatContainerHidden) {
+      clearTimeout(this.autoPopTimeout);
+    }
   }
 
   componentWillUnmount() {

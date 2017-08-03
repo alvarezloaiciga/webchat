@@ -217,6 +217,25 @@ describe('Launcher component', () => {
       wrapper.update();
       expect(testProps.setChatContainerHidden).lastCalledWith(false);
     });
+
+    describe('when chat opens before auto_pop_time', () => {
+      it('clears the timer', () => {
+        instance.componentWillReceiveProps({chatContainerHidden: false});
+        jest.runTimersToTime(200);
+        wrapper.update();
+        expect(testProps.setChatContainerHidden).not.toBeCalled();
+      });
+
+      describe('when the chat starts open', () => {
+        it('clears the timer', async () => {
+          updateIsChatVisible(true);
+          testProps.chatContainerHidden = false;
+          QUIQ.AUTO_POP_TIME = 200;
+          await render();
+          expect(testProps.setChatContainerHidden).not.toBeCalled();
+        });
+      });
+    });
   });
 
   describe('after a minute', () => {
