@@ -9,7 +9,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
-const publicPath = cdnUrl ? `${cdnUrl}webchat/` : './';
+// TODO: FIX ME
+const publicPath = cdnUrl ? `${cdnUrl}iframifywebchat/` : './';
 const commitHash = process.env.GIT_COMMIT || 'dev';
 const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
 console.log(`Public Path is ${publicPath}`);
