@@ -1,7 +1,7 @@
 {
   "name" : "webchatiframify",
   "port" : "41999",
-  "adminPort" : "42000",
+  "adminPort" : "42999",
   "healthCheckPort" : "41999",
   "healthCheckUrl" : "/healthcheck",
   "instanceCount": 1,
