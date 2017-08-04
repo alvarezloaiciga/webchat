@@ -25,8 +25,8 @@
           <% } %>
         }
 
+        var quiqScriptCommon;
         window.addEventListener('message', function(event) {
-          var quiqScriptCommon;
           var parentUrl = (window.location !== window.parent.location)
               ? document.referrer
               : document.location.href;
@@ -34,7 +34,7 @@
           var containsQuiqObject = event.data && "QUIQ" in event.data;
 
           if(originMatches && containsQuiqObject) {
-            window.QUIQ = event.data.QUIQ;
+            localStorage.setItem('QUIQ', JSON.stringify(event.data.QUIQ));
 
             if(!quiqScriptCommon) {
               <% for(var chunk in htmlWebpackPlugin.files.chunks) {

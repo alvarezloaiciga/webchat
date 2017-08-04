@@ -1,10 +1,11 @@
 // @flow
 declare var __DEV__: string;
 declare var QuiqModernizr: Object;
+
 import 'modernizr';
-import messages from 'messages';
 import {getDisplayString, formatTime} from 'utils/i18n';
-import {SupportedWebchatUrls} from 'appConstants';
+import messages from 'messages';
+import {SupportedWebchatUrls, StandaloneWindowName} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
 import type {BrowserNames, DeviceTypes, OSNames, IntlMessage} from 'types';
 
@@ -65,24 +66,9 @@ export const displayError = (error: IntlMessage | string, values: {[string]: str
   );
 };
 
-export const inStandaloneMode = () => window.location.href.includes('standalone');
+export const inStandaloneMode = () => window.name === StandaloneWindowName;
 
 export const getWebchatUrlFromScriptTag = () => {
-  // eslint-disable-line no-unused-vars
-  // Local Development should just always supply HOST manually for simplicity
-  // Also catches cases when running standalone built webchat locally
-  if (
-    __DEV__ ||
-    window.location.hostname === 'localhost' ||
-    window.location.origin === 'file://' ||
-    window.location.hostname === 'mymac'
-  ) {
-    if (!window.QUIQ || !window.QUIQ.HOST) {
-      throw new Error('You must specify window.QUIQ.HOST when running locally!');
-    }
-    return window.QUIQ.HOST;
-  }
-
   // Determine host from the script tag that loaded webchat
   const scriptTags = Array.from(document.getElementsByTagName('script'));
 

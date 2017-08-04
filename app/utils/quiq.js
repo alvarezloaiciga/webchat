@@ -2,26 +2,41 @@
 declare var __DEV__: string;
 import messages from 'messages';
 import {getDisplayString} from 'utils/i18n';
-import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, camelize} from './utils';
-import {SupportedWebchatUrls} from 'appConstants';
-import type {QuiqObject, WelcomeForm} from 'types';
 import QuiqChatClient from 'quiq-chat';
+import {getWebchatUrlFromScriptTag, displayError, isIEorSafari, inStandaloneMode, camelize} from './utils';
+import {SupportedWebchatUrls, StandaloneWindowName} from 'appConstants';
+import type {QuiqObject, WelcomeForm} from 'types';
 
 const reservedKeyNames = ['Referrer'];
 
-const getHostUrl = (): string => {
-  // Host will already be defined in standalone mode
-  if (window.QUIQ && window.QUIQ.HOST) return window.QUIQ.HOST;
+const getHostUrl = (quiqObj: QuiqObject): string => {
+  if (
+    __DEV__ ||
+    window.location.hostname === 'localhost' ||
+    window.location.origin === 'file://' ||
+    window.location.hostname === 'mymac'
+  ) {
+    if (!quiqObj.HOST) {
+      throw new Error('You must specify window.QUIQ.HOST when running locally!');
+    }
 
-  const url = SupportedWebchatUrls.find(u => window.location.href.includes(u))
-    ? window.location.href
-    : getWebchatUrlFromScriptTag();
+    return quiqObj.HOST;
+  }
 
-  const host = url.slice(0, url.indexOf('/app/webchat'));
+  return window.location.href.slice(0, window.location.href.indexOf('/app/webchat'));
+};
 
-  if (!host) return displayError(messages.cannotFindScript);
+const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
+  const newFormObject = Object.assign({}, form);
+  if (form.fields) {
+    newFormObject.fields.forEach(field => {
+      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
+      // If label is not defined this is an error, and will be caught when WELCOME_FORM is validated.
+      if (!field.id && field.label) field.id = camelize(field.label);
+    });
+  }
 
-  return host;
+  return newFormObject;
 };
 
 const processCustomCss = (url: string): void => {
@@ -35,114 +50,93 @@ const processCustomCss = (url: string): void => {
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
-const processWelcomeForm = (form: WelcomeForm): void => {
-  const newFormObject = Object.assign({}, form);
-  if (form.fields) {
-    newFormObject.fields.forEach(field => {
-      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
-      // If label is not defined this is an error, and will be caught when WELCOME_FORM is validated.
-      if (!field.id && field.label) field.id = camelize(field.label);
-    });
-  }
-  window.QUIQ.WELCOME_FORM = newFormObject;
-};
-
-const assignQuiqObjInStandaloneMode = () => {
-  if (!inStandaloneMode()) return;
-  try {
-    window.QUIQ = JSON.parse(window.name.split('quiq-standalone-webchat')[1]);
-    window.name = 'quiq-standalone-webchat';
-  } catch (e) {
-    return displayError(messages.errorParsingStandaloneObject);
-  }
-};
 
 const getQuiqObject = (): QuiqObject => {
-  assignQuiqObjInStandaloneMode();
+  if (!navigator.cookieEnabled) {
+    return displayError(messages.cookiesMustBeEnabledError);
+  }
 
+  const rawQuiqObject = JSON.parse(localStorage.getItem('QUIQ') || '');
   const primaryColor =
-    (window.QUIQ && window.QUIQ.COLORS && window.QUIQ.COLORS.primary) ||
-    (window.QUIQ && window.QUIQ.COLOR) ||
-    '#59ad5d';
-
+    (rawQuiqObject.COLORS && rawQuiqObject.COLORS.primary) || rawQuiqObject.COLOR || '#59ad5d';
   const QUIQ = {
     CONTACT_POINT: 'default',
     COLOR: primaryColor,
-    COLORS: {
-      primary: primaryColor,
-      agentMessageText: '#000',
-      agentMessageLinkText: '#2199e8',
-      agentMessageBackground: '#fff',
-      customerMessageText: '#fff',
-      customerMessageLinkText: '#fff',
-      customerMessageBackground: primaryColor,
-      transcriptBackground: '#f4f4f8',
-    },
+    COLORS: Object.assign(
+      {},
+      {
+        primary: primaryColor,
+        agentMessageText: '#000',
+        agentMessageLinkText: '#2199e8',
+        agentMessageBackground: '#fff',
+        customerMessageText: '#fff',
+        customerMessageLinkText: '#fff',
+        customerMessageBackground: primaryColor,
+        transcriptBackground: '#f4f4f8',
+      },
+      rawQuiqObject.COLORS,
+    ),
     STYLES: {},
     POSITION: {},
     HEADER_TEXT: messages.hereToHelp,
-    HOST: getHostUrl(),
+    HOST: getHostUrl(rawQuiqObject),
     DEBUG: false,
-    WELCOME_FORM: undefined,
-    AUTO_POP_TIME: undefined,
+    WELCOME_FORM: rawQuiqObject.WELCOME_FORM
+      ? processWelcomeForm(rawQuiqObject.WELCOME_FORM)
+      : undefined,
+    AUTO_POP_TIME: isIEorSafari() ? undefined : rawQuiqObject.AUTO_POP_TIME,
     HREF: window.location.href, // Standalone uses this to determine original host URL for welcome form
     FONT_FAMILY: 'sans-serif',
     WIDTH: 400,
     HEIGHT: 600,
-    CUSTOM_LAUNCH_BUTTONS: [],
+    CUSTOM_LAUNCH_BUTTONS: inStandaloneMode() ? [] : rawQuiqObject.CUSTOM_LAUNCH_BUTTONS || [],
     MOBILE_NUMBER: undefined,
-    MESSAGES: {
-      headerText: messages.hereToHelp,
-      sendButtonLabel: messages.send,
-      messageFieldPlaceholder: messages.sendUsAMessage,
-      welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
-      welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
-      welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
-      agentTypingMessage: messages.agentIsTyping,
-      connectingMessage: messages.connecting,
-      reconnectingMessage: messages.reconnecting,
-      errorMessage: messages.errorState,
-      inactiveMessage: messages.clientInactive,
-      requiredFieldAriaLabel: messages.required,
-      minimizeWindowTooltip: messages.minimizeWindow,
-      dockWindowTooltip: messages.dockWindow,
-      openInNewWindowTooltip: messages.openInNewWindow,
-      closeWindowTooltip: messages.closeWindow,
-    },
+    MESSAGES: Object.assign(
+      {},
+      {
+        headerText: rawQuiqObject.HEADER_TEXT || messages.hereToHelp,
+        sendButtonLabel: messages.send,
+        messageFieldPlaceholder: messages.sendUsAMessage,
+        welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
+        welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
+        welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
+        agentTypingMessage: messages.agentIsTyping,
+        connectingMessage: messages.connecting,
+        reconnectingMessage: messages.reconnecting,
+        errorMessage: messages.errorState,
+        requiredFieldAriaLabel: messages.required,
+        minimizeWindowTooltip: messages.minimizeWindow,
+        dockWindowTooltip: messages.dockWindow,
+        openInNewWindowTooltip: messages.openInNewWindow,
+        closeWindowTooltip: messages.closeWindow,
+      },
+      rawQuiqObject.MESSAGES,
+    ),
   };
 
   if (!window.QUIQ) {
     return QUIQ;
   }
 
-  // For backwards compatibility we merge in the deprecated window.QUIQ.HEADER_TEXT property
-  if (window.QUIQ.HEADER_TEXT) QUIQ.MESSAGES.headerText = window.QUIQ.HEADER_TEXT;
-
   // Merge MESSAGES separately, as Object.assign() does not do deep cloning
-  if (window.QUIQ.MESSAGES)
+  if (rawQuiqObject.MESSAGES)
     window.QUIQ.MESSAGES = Object.assign({}, QUIQ.MESSAGES, window.QUIQ.MESSAGES);
 
   // If welcome form is defined, process it
-  if (window.QUIQ.WELCOME_FORM) {
+  if (rawQuiqObject.WELCOME_FORM) {
     processWelcomeForm(window.QUIQ.WELCOME_FORM);
   }
 
   // If custom css url is defined in DEBUG, process it
-  if (window.QUIQ.DEBUG && window.QUIQ.DEBUG.CUSTOM_CSS_URL)
-    processCustomCss(window.QUIQ.DEBUG.CUSTOM_CSS_URL);
+  if (rawQuiqObject.DEBUG && rawQuiqObject.DEBUG.CUSTOM_CSS_URL)
+    processCustomCss(rawQuiqObject.DEBUG.CUSTOM_CSS_URL);
 
-  // Ensure host is defined for standalone mode,
-  // since we won't be able to get it from a script tag.
-  window.QUIQ.HOST = QUIQ.HOST;
-  window.QUIQ.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode()
+  rawQuiqObject.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode()
     ? []
-    : window.QUIQ.CUSTOM_LAUNCH_BUTTONS || [];
+    : rawQuiqObject.CUSTOM_LAUNCH_BUTTONS || [];
 
-  const returnValue = Object.assign({}, QUIQ, window.QUIQ, {
-    COLOR: primaryColor,
-    COLORS: Object.assign({}, QUIQ.COLORS, window.QUIQ.COLORS),
-  });
-
+  const returnValue = Object.assign({}, QUIQ, rawQuiqObject);
+  localStorage.setItem('QUIQ', JSON.stringify(returnValue));
   return returnValue;
 };
 
@@ -211,19 +205,21 @@ export const openStandaloneMode = (callbacks: {
   const height = QUIQ.HEIGHT;
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
-  window.QUIQ_STANDALONE_WINDOW_HANDLE = open(
-    `${__DEV__ ? 'http://localhost:3000' : QUIQ.HOST}/app/webchat/standalone`,
-    `quiq-standalone-webchat${JSON.stringify(QUIQ)}`,
-    `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`,
-  );
+  const url = `${__DEV__ ? 'http://localhost:3000' : QUIQ.HOST}/app/webchat/index.html`;
+  const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
+
+  window.QUIQ_STANDALONE_WINDOW_HANDLE = open(url, StandaloneWindowName, params);
+  window.QUIQ_STANDALONE_WINDOW_HANDLE.onload = function () {
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({QUIQ}, url);
+  };
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
   callbacks.onPop();
 
   /*
-     * Since we popped open webchat into a new window in standalone mode,
-     * this instance now needs to start listening for if that new window closes.
-     * If it does, we re-open this instance, since the user re-docked the standalone window
-     */
+   * Since we popped open webchat into a new window in standalone mode,
+   * this instance now needs to start listening for if that new window closes.
+   * If it does, we re-open this instance, since the user re-docked the standalone window
+   */
   if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
   standaloneWindowTimer = setInterval(() => {
     if (window.QUIQ_STANDALONE_WINDOW_HANDLE.closed) {

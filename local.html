@@ -9,14 +9,6 @@
     <title>Quiq Webchat</title>
     <style>
       button.noAgentsAvailable {opacity: .25;}
-      #quiqChatFrame {
-        width: 400px;
-        height: 732px;
-        border: none;
-        position: absolute;
-        bottom: 24px;
-        right: 24px;
-      }
     </style>
   </head>
   <body>
@@ -32,6 +24,7 @@ if (!tenant) {
 
 window.QUIQ = {
   HOST: 'https://' + tenant + '.dev.quiq.sh',
+  AUTO_POP_TIME: 1,
   COLORS: {
     primary: 'red', // (Falls back to `QUIQ.COLOR`)
     agentMessageText: '#555',
@@ -172,9 +165,21 @@ window.QUIQ = {
     <script type="text/javascript">
       var quiqChatFrame = document.createElement('iframe');
       quiqChatFrame.id = 'quiqChatFrame';
-      quiqChatFrame.src = "https://c2224fd9.ngrok.io/app/webchat/index.html";
+      quiqChatFrame.src = "http://localhost:3000/app/webchat/index.html";
+      window.QUIQ = window.QUIQ || {};
+      window.QUIQ.HEIGHT = window.QUIQ.HEIGHT || 600;
+      window.QUIQ.WIDTH = window.QUIQ.WIDTH || 400;
+      quiqChatFrame.height = window.QUIQ.HEIGHT;
+      quiqChatFrame.width = window.QUIQ.WIDTH;
+      quiqChatFrame.style.position = 'fixed';
+      window.QUIQ.POSITION = window.QUIQ.POSITION || {};
+      quiqChatFrame.style.bottom = window.QUIQ.POSITION.bottom || '24px';
+      quiqChatFrame.style.right = window.QUIQ.POSITION.right || '24px';
+      quiqChatFrame.style.left = window.QUIQ.POSITION.left || quiqChatFrame.style.left;
+      quiqChatFrame.style.top = window.QUIQ.POSITION.top || quiqChatFrame.style.top;
+      quiqChatFrame.style.border = 'none';
       quiqChatFrame.onload = function() {
-        this.contentWindow.postMessage(window.QUIQ, 'https://c2224fd9.ngrok.io/app/webchat/index.html');
+        this.contentWindow.postMessage({QUIQ: window.QUIQ}, 'http://localhost:3000/app/webchat/index.html');
       };
       document.body.appendChild(quiqChatFrame);
     </script>

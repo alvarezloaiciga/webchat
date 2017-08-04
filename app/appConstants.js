@@ -10,6 +10,8 @@ export const EventTypes = {
   AGENT_TYPING: 'AgentTyping',
 };
 
+export const StandaloneWindowName = 'quiq-standalone-webchat';
+
 export const SupportedWebchatUrls = [
   'goquiq.com/app/webchat',
   'quiq.sh/app/webchat',

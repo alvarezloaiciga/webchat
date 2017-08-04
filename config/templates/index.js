@@ -38,11 +38,24 @@ try {
   }
 
   function loadQuiqWebchat() {
+    window.QUIQ = window.QUIQ || {};
+
     // TODO: FIX ME!!!!!!!!!!!! DONT FORGET
     var href = getHostName() + "/app/webchatiframify/index.html";
     var quiqChatFrame = document.createElement('iframe');
     quiqChatFrame.id = 'quiqChatFrame';
     quiqChatFrame.src = href;
+    window.QUIQ.HEIGHT = window.QUIQ.HEIGHT || 600;
+    window.QUIQ.WIDTH = window.QUIQ.WIDTH || 400;
+    quiqChatFrame.height = window.QUIQ.HEIGHT;
+    quiqChatFrame.width = window.QUIQ.WIDTH;
+    quiqChatFrame.style.position = 'fixed';
+    window.QUIQ.POSITION = window.QUIQ.POSITION || {};
+    quiqChatFrame.style.bottom = window.QUIQ.POSITION.bottom || '24px';
+    quiqChatFrame.style.right = window.QUIQ.POSITION.right || '24px';
+    quiqChatFrame.style.left = window.QUIQ.POSITION.left || quiqChatFrame.style.left;
+    quiqChatFrame.style.top = window.QUIQ.POSITION.top || quiqChatFrame.style.top;
+    quiqChatFrame.style.border = 'none';
     quiqChatFrame.onload = function() {
       this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
