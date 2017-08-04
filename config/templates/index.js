@@ -38,7 +38,8 @@ try {
   }
 
   function loadQuiqWebchat() {
-    var href = getHostName() + "/app/webchat/index.html";
+    // TODO: FIX ME!!!!!!!!!!!! DONT FORGET
+    var href = getHostName() + "/app/webchatiframify/index.html";
     var quiqChatFrame = document.createElement('iframe');
     quiqChatFrame.id = 'quiqChatFrame';
     quiqChatFrame.src = href;
