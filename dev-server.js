@@ -62,8 +62,12 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     res.sendFile(path.join(__dirname, './standalone/index.html'));
   });
 
-  app.get('*', (req, res) => {
+  app.get('/app/webchat*', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
+  });
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './local.html'));
   });
 
   app.listen(port, host, (err) => {

@@ -7,13 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiq Webchat</title>
-    <script src="https://use.fontawesome.com/89da14f4b6.js"></script>
     <style>
       button.noAgentsAvailable {opacity: .25;}
+      #quiqChatFrame {
+        width: 400px;
+        height: 732px;
+        border: none;
+        position: absolute;
+        bottom: 24px;
+        right: 24px;
+      }
     </style>
   </head>
   <body>
-    <h1 id="agentsWarning" style="position:absolute;bottom:50%;"></h1>
     <button id="customButton1">Custom Button 1</button>
     <button class="customButton2">Custom Button 2</button>
     <script type="text/javascript" charset="utf-8">
@@ -130,23 +136,14 @@ window.QUIQ = {
         type: 'text',
         label: 'Last Name',
         id: 'lastName',
-        required: true,
+        required: false,
       },
       {
         type: 'textarea',
-        label: 'Initial Question',
-        id: 'initialQuestion',
-        required: true,
-        rows: 2,
-        isInitialMessage: true,
-      },
-      {
-        type: 'textarea',
-        label: 'Second Question',
-        id: 'secondQuestion',
+        label: 'Life Story',
+        id: 'story',
         required: false,
         rows: 2,
-        isInitialMessage: true,
       },
       {
         type: 'number',
@@ -171,28 +168,15 @@ window.QUIQ = {
   },
 };
 </script>
-<script>
-window.onload = function() {
-  setInterval(function() {
-    if (
-      !document.querySelector('.ToggleChatButton') &&
-      (!window.QUIQ ||
-        !window.QUIQ.CUSTOM_LAUNCH_BUTTONS ||
-        !window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
-        document.querySelector('button').classList.contains('noAgentsAvailable'))
-    ) {
-      var warning = document.querySelector('#agentsWarning');
-      warning.innerText = 'Got Agents? Got a MOBILE_NUMBER if on a mobile device?';
-      warning.style.fontFamily = '"Source Sans Pro", sans-serif';
-      warning.style.textTransform = 'uppercase';
-      warning.style.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-    } else {
-      document.querySelector('#agentsWarning').innerText = '';
-    }
-  }, 500);
-};
-</script>
-    <script type="text/javascript" src="common.js"></script>
-    <script type="text/javascript" src="webchat.js"></script>
+    <!-- Code to be generated -->
+    <script type="text/javascript">
+      var quiqChatFrame = document.createElement('iframe');
+      quiqChatFrame.id = 'quiqChatFrame';
+      quiqChatFrame.src = "https://c2224fd9.ngrok.io/app/webchat/index.html";
+      quiqChatFrame.onload = function() {
+        this.contentWindow.postMessage(window.QUIQ, 'https://c2224fd9.ngrok.io/app/webchat/index.html');
+      };
+      document.body.appendChild(quiqChatFrame);
+    </script>
   </body>
 </html>
