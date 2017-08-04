@@ -1,5 +1,5 @@
 {
-  "name" : "webchatIFramify",
+  "name" : "webchatiframify",
   "port" : "41999",
   "adminPort" : "42000",
   "healthCheckPort" : "41999",
