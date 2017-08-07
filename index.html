@@ -132,13 +132,13 @@ window.QUIQ = {
         id: 'lastName',
         required: false,
       },
-      {
-        type: 'textarea',
-        label: 'Life Story',
-        id: 'story',
-        required: false,
-        rows: 2,
-      },
+      // {
+      //   type: 'textarea',
+      //   label: 'Life Story',
+      //   id: 'story',
+      //   required: false,
+      //   rows: 2,
+      // },
       {
         type: 'number',
         label: 'Number Field',
@@ -167,7 +167,8 @@ window.onload = function() {
   setInterval(function() {
     if (
       !document.querySelector('.ToggleChatButton') &&
-      (!window.QUIQ.CUSTOM_LAUNCH_BUTTONS ||
+      (!window.QUIQ ||
+        !window.QUIQ.CUSTOM_LAUNCH_BUTTONS ||
         !window.QUIQ.CUSTOM_LAUNCH_BUTTONS.length ||
         document.querySelector('button').classList.contains('noAgentsAvailable'))
     ) {

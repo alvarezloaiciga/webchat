@@ -9,7 +9,7 @@ import {shallow} from 'enzyme';
 import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
-import {inStandaloneMode, isIEorSafari} from 'utils/utils';
+import {inStandaloneMode} from 'utils/utils';
 import {getChatClient} from '../../ChatClient';
 
 jest.useFakeTimers();
@@ -109,17 +109,6 @@ describe('Launcher component', () => {
         await render();
         await instance.toggleChat();
         expect(openStandaloneMode).toBeCalled();
-      });
-    });
-
-    describe('when in IE/Safari', () => {
-      it('opens standalone mode', async () => {
-        testProps.initializedState = 'uninitialized';
-        (isIEorSafari: any).mockReturnValue(() => true);
-        await render();
-        await instance.toggleChat();
-        expect(openStandaloneMode).toBeCalled();
-        (isIEorSafari: any).mockReset();
       });
     });
 

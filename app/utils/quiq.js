@@ -2,13 +2,7 @@
 declare var __DEV__: string;
 import messages from 'messages';
 import {getDisplayString} from 'utils/i18n';
-import {
-  getWebchatUrlFromScriptTag,
-  displayError,
-  inStandaloneMode,
-  isIEorSafari,
-  camelize,
-} from './utils';
+import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, camelize} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject, WelcomeForm} from 'types';
 
@@ -63,10 +57,6 @@ const assignQuiqObjInStandaloneMode = () => {
 };
 
 const getQuiqObject = (): QuiqObject => {
-  if (!navigator.cookieEnabled) {
-    return displayError(messages.cookiesMustBeEnabledError);
-  }
-
   assignQuiqObjInStandaloneMode();
 
   const primaryColor =
@@ -142,8 +132,6 @@ const getQuiqObject = (): QuiqObject => {
   // Ensure host is defined for standalone mode,
   // since we won't be able to get it from a script tag.
   window.QUIQ.HOST = QUIQ.HOST;
-  // Don't AutoPop IE/Safari since they are always in standalone mode.
-  window.QUIQ.AUTO_POP_TIME = isIEorSafari() ? undefined : window.QUIQ.AUTO_POP_TIME;
   window.QUIQ.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode()
     ? []
     : window.QUIQ.CUSTOM_LAUNCH_BUTTONS || [];

@@ -33,9 +33,6 @@ export const compatibilityMode = () => {
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
 export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
-
-export const isIEorSafari = () => getBrowserName() === 'IE' || getBrowserName() === 'Safari';
-
 export const isMobile = () => getDeviceType() === 'mobile';
 
 export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;
