@@ -52,7 +52,7 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      <div style={{display: 'flex', ...margin}}>
+      <div style={margin}>
         {!fromCustomer && <div className="agentAvatar" style={getStyle(STYLES.AgentAvatar)} />}
         <div
           style={getMessageBubbleStyle(fromCustomer)}
