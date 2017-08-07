@@ -4,7 +4,7 @@ import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'utils/i18n';
 import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import ChatContainer from './ChatContainer';
-// import ToggleChatButton from './ToggleChatButton';
+import ToggleChatButton from './ToggleChatButton';
 import './styles/Launcher.scss';
 import {
   setChatContainerHidden,
@@ -299,10 +299,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     return (
       <div className="Launcher">
         {!this.props.chatContainerHidden && !isMobile() && <ChatContainer />}
-        {/* {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
-          !inStandaloneMode() &&
-          !this.props.chatLauncherHidden &&
-          <ToggleChatButton toggleChat={this.toggleChat} />} */}
+        {isIEorSafari() && <ToggleChatButton toggleChat={this.toggleChat} />}{' '}
+        {/* TODO: Remove Safari check */}
       </div>
     );
   }

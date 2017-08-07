@@ -205,16 +205,17 @@ export const openStandaloneMode = (callbacks: {
   const height = QUIQ.HEIGHT;
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
+
   // TODO: Fix me
   const url = __DEV__
-    ? 'http://localhost:3000/app/webchat/index.html'
+    ? 'https://b99436ce.ngrok.io/app/webchat/index.html'
     : `${QUIQ.HOST}/app/webchatiframify/index.html`;
   const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
 
-  window.QUIQ_STANDALONE_WINDOW_HANDLE = open(url, StandaloneWindowName, params);
-  window.QUIQ_STANDALONE_WINDOW_HANDLE.onload = function () {
+  window.QUIQ_STANDALONE_WINDOW_HANDLE = window.open(url, StandaloneWindowName, params);
+  window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener('onload', () => {
     window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({QUIQ}, url);
-  };
+  });
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
   callbacks.onPop();
 

@@ -165,7 +165,7 @@ window.QUIQ = {
     <script type="text/javascript">
       var quiqChatFrame = document.createElement('iframe');
       quiqChatFrame.id = 'quiqChatFrame';
-      quiqChatFrame.src = "http://localhost:3000/app/webchat/index.html";
+      quiqChatFrame.src = "https://b99436ce.ngrok.io/app/webchat/index.html";
       window.QUIQ = window.QUIQ || {};
       window.QUIQ.HEIGHT = window.QUIQ.HEIGHT || 600;
       window.QUIQ.WIDTH = window.QUIQ.WIDTH || 400;
@@ -179,7 +179,7 @@ window.QUIQ = {
       quiqChatFrame.style.top = window.QUIQ.POSITION.top || quiqChatFrame.style.top;
       quiqChatFrame.style.border = 'none';
       quiqChatFrame.onload = function() {
-        this.contentWindow.postMessage({QUIQ: window.QUIQ}, 'http://localhost:3000/app/webchat/index.html');
+        this.contentWindow.postMessage({QUIQ: window.QUIQ}, 'https://b99436ce.ngrok.io/app/webchat/index.html');
       };
       document.body.appendChild(quiqChatFrame);
     </script>

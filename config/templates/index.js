@@ -59,16 +59,11 @@ try {
     quiqChatFrame.onload = function() {
       this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
+
     document.body.appendChild(quiqChatFrame);
   }
 
-  if (window.addEventListener) {
-      window.addEventListener('load', loadQuiqWebchat, false);
-  } else if (window.attachEvent) {
-      window.attachEvent('onload', loadQuiqWebchat);
-  } else {
-      window.onload = loadQuiqWebchat;
-  }
+  window.addEventListener('load', loadQuiqWebchat, false);
 }
 catch(ex) {
   throw new Error('Error loading Quiq Webchat', ex);

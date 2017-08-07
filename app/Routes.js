@@ -7,7 +7,6 @@ const routes = () =>
   <Router>
     <CompatibilityWrapper>
       <Switch>
-        <Route exact path="/app/webchat/standalone" component={Launcher} />
         <Route component={Launcher} />
       </Switch>
     </CompatibilityWrapper>
