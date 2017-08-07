@@ -11,16 +11,20 @@ export type MessageProps = {
   message: MessageType,
 };
 
-const {FONT_FAMILY, COLORS, STYLES} = QUIQ;
+const {FONT_FAMILY, COLORS, STYLES, WIDTH} = QUIQ;
 
 const getMessageBubbleStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
     return getStyle(STYLES.CustomerMessageBubble, {
       backgroundColor: COLORS.customerMessageBackground,
+      maxWidth: WIDTH - 50,
     });
   }
 
-  return getStyle(STYLES.AgentMessageBubble, {backgroundColor: COLORS.agentMessageBackground});
+  return getStyle(STYLES.AgentMessageBubble, {
+    backgroundColor: COLORS.agentMessageBackground,
+    maxWidth: WIDTH - 50,
+  });
 };
 
 const getMessageTextStyle = (fromCustomer: boolean) => {
