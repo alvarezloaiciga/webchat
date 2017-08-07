@@ -212,10 +212,17 @@ export const openStandaloneMode = (callbacks: {
     : `${QUIQ.HOST}/app/webchatiframify/index.html`;
   const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
 
-  window.QUIQ_STANDALONE_WINDOW_HANDLE = window.open(url, StandaloneWindowName, params);
-  window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener('onload', () => {
+  const onLoadCallback = () => {
     window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({QUIQ}, url);
-  });
+  };
+  window.QUIQ_STANDALONE_WINDOW_HANDLE = window.open(url, StandaloneWindowName, params);
+  if (window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener) {
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener('load', onLoadCallback, false);
+  } else if (window.QUIQ_STANDALONE_WINDOW_HANDLE.attachEvent) {
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.attachEvent('onload', onLoadCallback);
+  } else {
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.onload = onLoadCallback;
+  }
   window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
   callbacks.onPop();
 
