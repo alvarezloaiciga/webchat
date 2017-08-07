@@ -145,6 +145,7 @@
     "intl": "1.2.5",
     "lodash": "4.17.4",
     "quiq-chat": "1.12.0",
+    "post-robot": "7.0.6",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
     "react-dom": "15.6.0",

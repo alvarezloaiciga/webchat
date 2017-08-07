@@ -1,5 +1,7 @@
 // @flow
 
+export type ReduxStore = {dispatch: Dispatch, getState: GetState, subscribe: ReduxSubscribe};
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,

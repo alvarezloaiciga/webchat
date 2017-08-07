@@ -72,3 +72,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 };
 
 export default chat;
+
+// Selectors
+export const getChatContainerHidden: boolean = (state: ChatState) => {
+  return state.chatContainerHidden;
+};
