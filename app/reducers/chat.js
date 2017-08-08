@@ -1,5 +1,5 @@
 // @flow
-import {isIEorSafari, inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'utils/utils';
 import {createStore} from 'redux';
 import {ChatInitializedState} from 'appConstants';
 import QUIQ from 'utils/quiq';
@@ -13,9 +13,6 @@ type ChatAction = {
   transcript?: Array<Message>,
   agentTyping?: boolean,
 };
-
-// When docking IE/Safari, we don't want to display the standard chat.
-const launchingFromIEorSafari = () => isIEorSafari() && !inStandaloneMode();
 
 const initialState = {
   chatContainerHidden: true,
@@ -31,7 +28,7 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
     case 'CHAT_CONTAINER_HIDDEN':
       return Object.assign({}, state, {
-        chatContainerHidden: launchingFromIEorSafari() ? true : action.chatContainerHidden,
+        chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
       });
     case 'CHAT_LAUNCHER_HIDDEN':
       return Object.assign({}, state, {
@@ -45,10 +42,9 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
 
       return Object.assign({}, state, {initializedState: action.initializedState});
     }
-
     case 'CHAT_POPPED': {
       return Object.assign({}, state, {
-        chatContainerHidden: launchingFromIEorSafari() ? true : action.popped,
+        chatContainerHidden: inStandaloneMode() ? false : action.popped,
         popped: action.popped,
       });
     }

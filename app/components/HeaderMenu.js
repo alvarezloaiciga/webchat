@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {inStandaloneMode, isIEorSafari} from 'utils/utils';
+import {inStandaloneMode} from 'utils/utils';
 import QUIQ, {openStandaloneMode, getStyle, getMessage} from 'utils/quiq';
 import {messageTypes, ChatInitializedState} from 'appConstants';
 import {setChatContainerHidden, setChatPopped} from 'actions/chatActions';
@@ -31,9 +31,6 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
       },
       onDock: () => {
         props.setChatPopped(false);
-        if (isIEorSafari()) {
-          getChatClient().leaveChat();
-        }
       },
     });
   };
@@ -45,14 +42,12 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   return (
     <div className="HeaderMenu" style={headerStyle}>
       <div className="buttons">
-        {!isIEorSafari() &&
-          <i
-            className={`fa fa-window-minimize icon`}
-            title={getMessage(messageTypes.minimizeWindowTooltip)}
-            onClick={inStandaloneMode() ? window.close : minimize}
-          />}
-        {!isIEorSafari() &&
-          props.initializedState !== ChatInitializedState.BURNED &&
+        <i
+          className={`fa fa-window-minimize icon`}
+          title={getMessage(messageTypes.minimizeWindowTooltip)}
+          onClick={inStandaloneMode() ? window.close : minimize}
+        />
+        {props.initializedState !== ChatInitializedState.BURNED &&
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(

@@ -9,7 +9,7 @@ import './styles/Launcher.scss';
 import * as chatActions from 'actions/chatActions';
 import {getChatClient} from '../ChatClient';
 import messages from 'messages';
-import {displayError, isIEorSafari, isMobile, inStandaloneMode} from 'utils/utils';
+import {displayError, isMobile, inStandaloneMode} from 'utils/utils';
 import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'appConstants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -22,17 +22,17 @@ type LauncherState = {
 
 export type LauncherProps = {
   intl: IntlObject,
+  popped: boolean,
   chatContainerHidden: boolean,
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
   welcomeFormRegistered: boolean,
-  popped: boolean,
 
-  setChatPopped: (popped: boolean) => void,
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
+  setChatPopped: (popped: boolean) => void,
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
@@ -209,7 +209,7 @@ export class Launcher extends Component {
   };
 
   handleAutoPop = () => {
-    if (!isIEorSafari() && !isMobile() && typeof QUIQ.AUTO_POP_TIME === 'number') {
+    if (!isMobile() && typeof QUIQ.AUTO_POP_TIME === 'number') {
       this.autoPopTimeout = setTimeout(() => {
         if (this.props.chatLauncherHidden) return;
 
@@ -257,20 +257,16 @@ export class Launcher extends Component {
       return;
     }
 
-    if (this.props.popped || isIEorSafari()) {
+    if (this.props.popped) {
       return openStandaloneMode({
         onPop: () => {
           this.props.setChatPopped(true);
-          getChatClient().joinChat();
         },
         onFocus: () => {
           this.props.setChatPopped(true);
         },
         onDock: () => {
           this.props.setChatPopped(false);
-          if (isIEorSafari()) {
-            getChatClient().leaveChat();
-          }
         },
       });
     }

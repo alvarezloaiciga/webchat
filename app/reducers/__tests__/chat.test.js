@@ -2,11 +2,10 @@
 jest.mock('utils/utils');
 import chat from '../chat';
 import {getMockMessage} from 'utils/testHelpers';
-import {isIEorSafari, inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'utils/utils';
 
 describe('chat reducers', () => {
   afterEach(() => {
-    (isIEorSafari: any).mockReset();
     (inStandaloneMode: any).mockReset();
   });
 
@@ -15,12 +14,6 @@ describe('chat reducers', () => {
       expect(chat.getState().chatContainerHidden).toBe(true);
       chat.dispatch({type: 'CHAT_CONTAINER_HIDDEN', chatContainerHidden: false});
       expect(chat.getState().chatContainerHidden).toBe(false);
-    });
-
-    it('always sets chatContainerHidden to true in IE/Safari', () => {
-      (isIEorSafari: any).mockReturnValue(true);
-      chat.dispatch({type: 'CHAT_CONTAINER_HIDDEN', chatContainerHidden: false});
-      expect(chat.getState().chatContainerHidden).toBe(true);
     });
   });
 
@@ -63,13 +56,6 @@ describe('chat reducers', () => {
       chat.dispatch({type: 'CHAT_POPPED', popped: false});
       expect(chat.getState().popped).toBe(false);
       expect(chat.getState().chatContainerHidden).toBe(false);
-    });
-
-    it('always sets chatContainerHidden to true in IE/Safari', () => {
-      (isIEorSafari: any).mockReturnValue(true);
-      chat.dispatch({type: 'CHAT_POPPED', popped: false});
-      expect(chat.getState().popped).toBe(false);
-      expect(chat.getState().chatContainerHidden).toBe(true);
     });
   });
 
