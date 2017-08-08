@@ -63,7 +63,7 @@ try {
     };
 
     if(document.readyState == 'complete') {
-      onLoadCallback();
+      onLoadCallback().bind(window);
     }
     else if (window.addEventListener) {
      window.addEventListener('load', onLoadCallback, false);
