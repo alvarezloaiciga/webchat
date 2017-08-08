@@ -56,27 +56,20 @@ try {
     quiqChatFrame.style.left = window.QUIQ.POSITION.left || quiqChatFrame.style.left;
     quiqChatFrame.style.top = window.QUIQ.POSITION.top || quiqChatFrame.style.top;
     quiqChatFrame.style.border = 'none';
-    document.body.appendChild(quiqChatFrame);
-
-    var onLoadCallback = function() {
-      quiqChatFrame.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
+    quiqChatFrame.onload = function() {
+      this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
 
-    if(document.readyState == 'complete') {
-      onLoadCallback();
-    }
-    else if (window.addEventListener) {
-     window.addEventListener('load', onLoadCallback, false);
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', onLoadCallback);
-    } else {
-      window.onload = onLoadCallback;
-    }
-
-
+    document.body.appendChild(quiqChatFrame);
   }
 
-  window.addEventListener('load', loadQuiqWebchat, false);
+  if (window.addEventListener) {
+    window.addEventListener('load', loadQuiqWebchat, false);
+  } else if (window.attachEvent) {
+    window.attachEvent('onload', loadQuiqWebchat);
+  } else {
+    window.onload = loadQuiqWebchat;
+  }
 }
 catch(ex) {
   throw new Error('Error loading Quiq Webchat', ex);
