@@ -60,7 +60,10 @@ try {
       this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
 
-    if (window.addEventListener) {
+    if(document.readyState == 'complete') {
+      onLoadCallback();
+    }
+    else if (window.addEventListener) {
      window.addEventListener('load', onLoadCallback, false);
     } else if (window.attachEvent) {
       window.attachEvent('onload', onLoadCallback);
