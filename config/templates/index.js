@@ -56,6 +56,8 @@ try {
     quiqChatFrame.style.left = window.QUIQ.POSITION.left || quiqChatFrame.style.left;
     quiqChatFrame.style.top = window.QUIQ.POSITION.top || quiqChatFrame.style.top;
     quiqChatFrame.style.border = 'none';
+    document.body.appendChild(quiqChatFrame);
+
     var onLoadCallback = function() {
       this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
@@ -71,7 +73,7 @@ try {
       window.onload = onLoadCallback;
     }
 
-    document.body.appendChild(quiqChatFrame);
+
   }
 
   window.addEventListener('load', loadQuiqWebchat, false);
