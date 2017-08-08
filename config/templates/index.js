@@ -10,7 +10,7 @@ try {
       'quiq.dev:7000/app/webchat',
       'centricient.dev:7000/app/webchat',
       'quiq.dev:41014/app/webchat',
-      'centricient.dev:41014/app/webchat',
+      'centricient.dev:41014/app/webchat'
     ];
 
     var url;
@@ -59,11 +59,11 @@ try {
     document.body.appendChild(quiqChatFrame);
 
     var onLoadCallback = function() {
-      this.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
+      quiqChatFrame.contentWindow.postMessage({ QUIQ: window.QUIQ }, href);
     };
 
     if(document.readyState == 'complete') {
-      onLoadCallback().bind(window);
+      onLoadCallback();
     }
     else if (window.addEventListener) {
      window.addEventListener('load', onLoadCallback, false);
