@@ -130,8 +130,7 @@ const QUIQ: QuiqObject = {
   CUSTOM_LAUNCH_BUTTONS: [],
   MOBILE_NUMBER: 123,
   WELCOME_FORM: {
-    headerText:
-      'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+    headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
     fields: [
       {
         type: 'text',
@@ -152,27 +151,8 @@ const QUIQ: QuiqObject = {
         id: 'numberField',
         required: false,
       },
-
-      {
-        type: 'email',
-        label: 'E-Mail',
-        id: 'email',
-        required: false,
-      },
-      {
-        type: 'tel',
-        label: 'Phone Number',
-        id: 'phoneNumber',
-        required: false,
-      },
-      {
-        type: 'textarea',
-        label: 'My life story',
-        id: 'lifeStory',
-        required: false,
-      },
     ],
-  },
+  }
 };
 
 export const openStandaloneMode = jest.fn();
@@ -188,4 +168,5 @@ export const getMessage = (messageName: string): string => {
 
   return getDisplayString(message);
 };
+
 export default QUIQ;

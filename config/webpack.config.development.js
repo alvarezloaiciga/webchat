@@ -14,7 +14,7 @@ module.exports = merge(config, {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/',
+    publicPath: '/app/webchat/',
   },
   debug: true,
   cache: true,

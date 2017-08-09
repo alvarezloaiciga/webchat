@@ -14,7 +14,7 @@
   },
   "scripts": {
     "prestart": "yarn run rimraf dist",
-    "start": "webpack-dashboard -c cyan -- node dev-server.js",
+    "start": "webpack-dashboard -c cyan -p 9840 -- node dev-server.js",
     "prevmstart": "yarn run rimraf dist",
     "vmstart": "./node_modules/.bin/nf start",
     "prebuild": "yarn run rimraf dist",
