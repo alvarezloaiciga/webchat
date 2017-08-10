@@ -195,4 +195,15 @@ export default defineMessages({
     description: 'Error displayed when css file is not an https url',
     defaultMessage: 'The CUSTOM_CSS_URL must be an HTTPS url.',
   },
+  prClientUndefined: {
+    id: 'prClientUndefined',
+    description:
+      "Error displayed when postRobot client is not defined and we try and run something we shouldn't",
+    defaultMessage: 'PostRobot client is not defined: unable to setup listener or post message',
+  },
+  cannotFindHostingWindow: {
+    id: 'cannotFindHostingWindow',
+    description: "Error for when webchat can't find the host window (where SDK is running)",
+    defaultMessage: 'Unable to find host window',
+  },
 });

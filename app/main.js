@@ -9,6 +9,7 @@ import Redbox from 'redbox-react';
 import QUIQ from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
+import {init as initMalfunctionJunction} from './services/MalfunctionJunction';
 import {Provider} from 'react-redux';
 import chat, {initialState} from 'reducers/chat';
 
@@ -19,6 +20,8 @@ const init = () => {
 
   QuiqChatClient.initialize(QUIQ.HOST, QUIQ.CONTACT_POINT);
   const store = configureStore(chat, initialState);
+
+  initMalfunctionJunction(QUIQ.CLIENT_DOMAIN, store, QuiqChatClient);
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!

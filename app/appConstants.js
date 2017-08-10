@@ -55,3 +55,12 @@ export const messageTypes = {
   openInNewWindowTooltip: 'openInNewWindowTooltip',
   closeWindowTooltip: 'closeWindowTooltip',
 };
+
+export const eventTypes = {
+  chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
+};
+
+export const actionTypes = {
+  setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
+  getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
+};

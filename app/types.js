@@ -80,6 +80,7 @@ type CustomStyles = {
 export type QuiqObject = {
   CONTACT_POINT: string,
   HOST: string,
+  CLIENT_DOMAIN: string,
   COLOR: string, // Deprecated in favor of COLORS.primary
   COLORS: {
     primary: string,

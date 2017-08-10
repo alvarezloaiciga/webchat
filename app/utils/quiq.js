@@ -80,6 +80,7 @@ const getQuiqObject = (): QuiqObject => {
     POSITION: {},
     HEADER_TEXT: messages.hereToHelp,
     HOST: getHostUrl(rawQuiqObject),
+    CLIENT_DOMAIN: undefined,
     DEBUG: false,
     WELCOME_FORM: rawQuiqObject.WELCOME_FORM
       ? processWelcomeForm(rawQuiqObject.WELCOME_FORM)
@@ -207,9 +208,7 @@ export const openStandaloneMode = (callbacks: {
   const top = screen.height / 2 - height / 2;
 
   // TODO: Fix me
-  const url = __DEV__
-    ? 'https://b99436ce.ngrok.io/app/webchat/index.html'
-    : `${QUIQ.HOST}/app/webchatiframify/index.html`;
+  const url = `${QUIQ.HOST}/app/webchatiframify/index.html`;
   const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
 
   const onLoadCallback = () => {

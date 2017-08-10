@@ -46,6 +46,19 @@ export const compatibilityMode = () => {
   return !!compatList.find(i => i.name === name && parseInt(major, 10) <= i.major);
 };
 
+export const getHostingWindow = () => {
+  // If window.opener is defined, then we're in a popup.
+  // Because we are on same domain as the iframe that opened us, we can retrieve iframe's parent, which is the hosting window
+  if (window.opener && window.opener.parent && window.opener.parent !== window.opener)
+    return window.opener.parent;
+
+  // If window.opener is not defined, then we're in iframe
+  // If window.parent is not a reference to ourselves, then we're in an iframe.
+  if (window.parent && window.parent !== window) return window.parent;
+
+  displayError(messages.cannotFindHostingWindow);
+};
+
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
 export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
 export const isMobile = () => getDeviceType() === 'mobile';

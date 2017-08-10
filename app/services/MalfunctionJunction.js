@@ -6,57 +6,75 @@
 
  Before use, an instance of QuiqChatClient must be registered,
  as well as the default Redux store.
-**********************************************************************************/
+ **********************************************************************************/
 
 import postRobot from 'post-robot';
 import * as ChatActions from 'actions/chatActions';
 import {getChatContainerHidden} from 'reducers/chat';
+import {eventTypes, actionTypes} from 'appConstants';
+import {displayError, getHostingWindow} from 'utils/utils';
+import messages from 'messages';
 import type {ReduxStore, QuiqChatClient, ChatState} from 'types';
 
 let dispatch;
 let getState: () => ChatState;
 let chatClient: QuiqChatClient;
-let clientWindow;
 let domain;
+let postRobotClient, postRobotListener;
 
-export const start = (
-  _clientWindow,
-  _domain: string,
-  store: ReduxStore,
-  _chatClient: QuiqChatClient,
-) => {
-  dispatch = store.dispatch;
-  getState = store.getState;
+export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatClient) => {
+  dispatch = _store.dispatch;
+  getState = _store.getState;
   chatClient = _chatClient;
+  domain = _domain;
+
+  const hostWindow = getHostingWindow();
+  postRobotClient = postRobot.client({window: hostWindow, domain});
+  postRobotListener = postRobot.listener({window: hostWindow, domain});
+
   setupListeners();
 };
 
 const setupListeners = () => {
-  // Setup listeners
-  buildPostRobotListener('toggleChatVisibility', toggleChatVisibility);
-  buildPostRobotListener('setChatVisibility', setChatVisibility);
+  if (!postRobotListener) {
+    return displayError(messages.prClientUndefined);
+  }
+
+  postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
+  postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
 };
 
-const buildPostRobotListener = (eventName: string, handler: (event: ?Object) => any) => {
-  postRobot.on(eventName, {window: clientWindow, domain}, handler);
+const postMessage = (messageName: string, data: Object) => {
+  if (!postRobotClient) {
+    return displayError(messages.prClientUndefined);
+  }
+
+  postRobotClient.send(messageName, data);
 };
 
 /**********************************************************************************
- * View facade handlers
+ * Event hooks (webchat -> client)
  **********************************************************************************/
 
-const toggleChatVisibility = () => {
-  const visible = getChatContainerHidden(getState());
-  dispatch(ChatActions.setChatContainerHidden(!visible));
+export const chatVisibilityDidChange = (visible: boolean) => {
+  postMessage(eventTypes.chatVisibilityDidChange, {visible});
 };
+
+/**********************************************************************************
+ * View facade handlers (client -> webchat)
+ **********************************************************************************/
 
 const setChatVisibility = (event: Object) => {
   const visible = event.visible;
   dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
+const getChatVisibility = () => {
+  const visible = getChatContainerHidden(getState());
+};
+
 /**********************************************************************************
- * Controller facade handlers
+ * Controller facade handlers (client -> webchat)
  **********************************************************************************/
 
 // TODO
