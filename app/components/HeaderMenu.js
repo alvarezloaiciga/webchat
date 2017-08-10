@@ -47,7 +47,8 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
           title={getMessage(messageTypes.minimizeWindowTooltip)}
           onClick={inStandaloneMode() ? window.close : minimize}
         />
-        {props.initializedState !== ChatInitializedState.BURNED &&
+        {false &&
+          props.initializedState !== ChatInitializedState.BURNED &&
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(
