@@ -60,6 +60,25 @@ describe('WelcomeForm component', () => {
       expect(mockClient.sendRegistration).not.toHaveBeenCalled();
     });
 
+    it('does not submit if there is a required field containing only whitespace', () => {
+      wrapper.find('input').at(0).simulate('change', {
+        which: '   ',
+        target: {
+          name: 'firstName',
+          value: '   ',
+        },
+      });
+
+      wrapper.find('input').at(0).simulate('blur', {
+        target: {
+          name: 'firstName',
+        },
+      });
+      render();
+      wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+      expect(mockClient.sendRegistration).not.toHaveBeenCalled();
+    });
+
     describe('valid submission', () => {
       beforeEach(() => {
         wrapper.find('input').at(0).simulate('change', {

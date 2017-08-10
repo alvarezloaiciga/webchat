@@ -69,6 +69,7 @@ export class WelcomeForm extends Component {
           ? <Textarea
               value={this.state.inputFields[field.id].value}
               onChange={this.handleFieldInput}
+              onBlur={this.handleTrimFieldInput}
               name={field.id}
               required={field.required}
               style={textareaStyle}
@@ -79,6 +80,7 @@ export class WelcomeForm extends Component {
           : <input
               value={this.state.inputFields[field.id].value}
               onChange={this.handleFieldInput}
+              onBlur={this.handleTrimFieldInput}
               type={field.type}
               name={field.id}
               required={field.required}
@@ -109,6 +111,28 @@ export class WelcomeForm extends Component {
 
     this.setState({submitting: true});
     await getChatClient().sendRegistration(fields);
+  };
+
+  handleTrimFieldInput = (e: SyntheticInputEvent) => {
+    const fieldId = e.target.name;
+    const value = e.target.value;
+
+    if (value) {
+      const newState = update(this.state, {
+        inputFields: {
+          [fieldId]: {
+            value: {
+              $set: value.trim(),
+            },
+          },
+        },
+      });
+
+      this.setState(newState, () => {
+        // If we have a validation error, check to see if it can be cleared
+        if (this.state.formValidationError) this.validateFormInput();
+      });
+    }
   };
 
   handleFieldInput = (e: SyntheticInputEvent) => {

@@ -77,6 +77,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       <input
         maxLength={1000}
         name="firstName"
+        onBlur={[Function]}
         onChange={[Function]}
         required={true}
         style={
@@ -114,6 +115,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       <input
         maxLength={1000}
         name="lastName"
+        onBlur={[Function]}
         onChange={[Function]}
         required={false}
         style={
@@ -151,6 +153,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       <input
         maxLength={1000}
         name="numberField"
+        onBlur={[Function]}
         onChange={[Function]}
         required={false}
         style={
@@ -188,6 +191,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       <input
         maxLength={1000}
         name="email"
+        onBlur={[Function]}
         onChange={[Function]}
         required={false}
         style={
@@ -225,6 +229,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       <input
         maxLength={1000}
         name="phoneNumber"
+        onBlur={[Function]}
         onChange={[Function]}
         required={false}
         style={
@@ -264,6 +269,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         maxRows={5}
         minRows={5}
         name="lifeStory"
+        onBlur={[Function]}
         onChange={[Function]}
         onHeightChange={[Function]}
         required={false}
