@@ -1,6 +1,5 @@
 // @flow
 import {inStandaloneMode} from 'utils/utils';
-import {createStore} from 'redux';
 import {ChatInitializedState} from 'appConstants';
 import QUIQ from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
@@ -14,7 +13,7 @@ type ChatAction = {
   agentTyping?: boolean,
 };
 
-const initialState = {
+export const initialState = {
   chatContainerHidden: true,
   chatLauncherHidden: true,
   initializedState: ChatInitializedState.UNINITIALIZED,
@@ -24,7 +23,7 @@ const initialState = {
   welcomeFormRegistered: !QUIQ.WELCOME_FORM,
 };
 
-const reducer = (state: ChatState, action: Action & ChatAction) => {
+const chat = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
     case 'CHAT_CONTAINER_HIDDEN':
       return Object.assign({}, state, {
@@ -72,8 +71,4 @@ const reducer = (state: ChatState, action: Action & ChatAction) => {
   }
 };
 
-export default createStore(
-  reducer,
-  initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
+export default chat;

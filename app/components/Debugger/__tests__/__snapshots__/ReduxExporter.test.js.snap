@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReduxExporter component rendering renders with default props 1`] = `
+<div
+  className="ReduxExporter"
+>
+  <PhraseListener
+    listeners={
+      Array [
+        Object {
+          "callback": [Function],
+          "caseInsensitive": true,
+          "phrase": "quiqexport",
+        },
+      ]
+    }
+    timeout={5000}
+  />
+  <i
+    className="fa fa-download icon"
+    onClick={[Function]}
+    title="Export Redux State"
+  />
+</div>
+`;
