@@ -1,6 +1,6 @@
 // @flow
 declare var __DEV__: string;
-declare var Modernizr: Object;
+declare var QuiqModernizr: Object;
 import 'modernizr';
 import messages from 'messages';
 import {getDisplayString} from 'utils/i18n';
@@ -36,10 +36,11 @@ export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
 export const isMobile = () => getDeviceType() === 'mobile';
 
 export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;
-// Modernizr says IE10 doesn't support flexbox.
-// It kind of does, at least for what we need it for... so go ahead and ignore Modernizr in that case
-export const supportsFlexbox = () => isIE10() || (Modernizr.flexbox && Modernizr.flexwrap);
-export const supportsSVG = () => Modernizr.svg && Modernizr.svgfilters && Modernizr.inlinesvg;
+// QuiqModernizr says IE10 doesn't support flexbox.
+// It kind of does, at least for what we need it for... so go ahead and ignore QuiqModernizr in that case
+export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqModernizr.flexwrap);
+export const supportsSVG = () =>
+  QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
 export const displayError = (error: IntlMessage | string, values: {[string]: string} = {}) => {
   throw new Error(

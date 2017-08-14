@@ -5796,14 +5796,15 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.9.0.tgz#fb3799973318cc55ea7f71c47cc5c43d7243f234"
+quiq-chat@1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.10.1.tgz#1ddded55b4743aa7a9d35959e761fc7da9f8b157"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
     js-cookie "2.1.4"
     lodash "4.17.4"
+    store "2.0.12"
     ua-parser-js "0.7.12"
 
 randomatic@^1.1.3:
@@ -6591,6 +6592,10 @@ stdout-stream@^1.4.0:
   resolved "https://registry.yarnpkg.com/stdout-stream/-/stdout-stream-1.4.0.tgz#a2c7c8587e54d9427ea9edb3ac3f2cd522df378b"
   dependencies:
     readable-stream "^2.0.1"
+
+store@2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/store/-/store-2.0.12.tgz#8c534e2a0b831f72b75fc5f1119857c44ef5d593"
 
 stream-browserify@^2.0.1:
   version "2.0.1"
