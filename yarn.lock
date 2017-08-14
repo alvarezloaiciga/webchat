@@ -5769,6 +5769,10 @@ qs@6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.1.tgz#ce03c5ff0935bc1d9d69a9f14cbd18e568d67625"
 
+qs@6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
+
 qs@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-2.3.3.tgz#e9e85adbe75da0bbe4c8e0476a086290f863b404"
@@ -5796,14 +5800,15 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.10.1.tgz#1ddded55b4743aa7a9d35959e761fc7da9f8b157"
+quiq-chat@1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.10.2.tgz#d7f2cef71a84be131106871ecbd3acd322e33162"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
     js-cookie "2.1.4"
     lodash "4.17.4"
+    qs "6.5.0"
     store "2.0.12"
     ua-parser-js "0.7.12"
 
