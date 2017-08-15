@@ -20,15 +20,11 @@ export class ReduxExporter extends React.Component {
   props: ReduxExporterProps;
 
   exportReduxState = () => {
-    const fileName = `chat-${getFormattedDateAndTime(new Date())}`
-      .replace(/[^\w\d]/gi, '-')
-      .replace(/-{2,}/g, '-');
-
     saveAs(
       new Blob([JSON.stringify(this.getStateAndActions(), null, 2)], {
         type: 'application/json;charset=utf-8',
       }),
-      fileName,
+      `chat-${getFormattedDateAndTime(new Date())}`,
     );
   };
 

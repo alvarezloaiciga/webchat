@@ -1,8 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Debugger component rendering renders 1`] = `
+exports[`Debugger component rendering renders phrase listener 1`] = `
+<PhraseListener
+  listeners={
+    Array [
+      Object {
+        "callback": [Function],
+        "caseInsensitive": true,
+        "phrase": "quiqdebug",
+      },
+    ]
+  }
+  timeout={5000}
+/>
+`;
+
+exports[`Debugger component rendering when not hidden renders Debugger bar 1`] = `
 <div
-  className="Debugger hidden"
+  className="Debugger"
 >
   <PhraseListener
     listeners={

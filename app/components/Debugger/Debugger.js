@@ -6,7 +6,6 @@ import {inNonProductionCluster, inLocalDevelopment} from 'utils/utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import {getChatClient} from '../../ChatClient';
-import classnames from 'classnames';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
 import type {QuiqChatClientType} from 'quiq-chat';
@@ -28,24 +27,24 @@ export class Debugger extends React.Component {
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
 
+  renderPhraseListener = () =>
+    <PhraseListener
+      listeners={[
+        {
+          phrase: 'quiqdebug',
+          callback: () => this.setState({hidden: !this.state.hidden}),
+          caseInsensitive: true,
+        },
+      ]}
+    />;
+
   render() {
     if (!this.shouldShowDebugger()) return null;
-
-    const classNames = classnames('Debugger', {
-      hidden: this.state.hidden,
-    });
+    if (this.state.hidden) return this.renderPhraseListener();
 
     return (
-      <div className={classNames}>
-        <PhraseListener
-          listeners={[
-            {
-              phrase: 'quiqdebug',
-              callback: () => this.setState({hidden: !this.state.hidden}),
-              caseInsensitive: true,
-            },
-          ]}
-        />
+      <div className="Debugger">
+        {this.renderPhraseListener()}
         <div className="lhsIcons">
           <DevTools />
           {
