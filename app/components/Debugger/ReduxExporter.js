@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import PhraseListener from './PhraseListener';
 import {getFormattedDateAndTime} from 'utils/utils';
 import {saveAs} from 'file-saver';
 
@@ -42,15 +41,6 @@ export class ReduxExporter extends React.Component {
   render() {
     return (
       <div className="ReduxExporter">
-        <PhraseListener
-          listeners={[
-            {
-              phrase: 'quiqexport',
-              callback: this.exportReduxState,
-              caseInsensitive: true,
-            },
-          ]}
-        />
         <i
           className={`fa fa-download icon`}
           title="Export Redux State"
