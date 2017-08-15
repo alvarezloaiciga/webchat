@@ -4,6 +4,7 @@ import update from 'react-addons-update';
 import {messageTypes} from 'appConstants';
 import QUIQ, {getStyle, getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
+import Debugger from './Debugger/Debugger';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
 import {getChatClient} from '../ChatClient';
@@ -188,6 +189,7 @@ export class WelcomeForm extends Component {
         <div className="welcomeFormBanner" style={bannerStyle}>
           {WELCOME_FORM.headerText}
         </div>
+        <Debugger />
         {this.state.formValidationError &&
           <span className="formValidationError">
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}

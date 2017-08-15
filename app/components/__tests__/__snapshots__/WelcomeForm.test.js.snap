@@ -43,6 +43,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
   >
     Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.
   </div>
+  <Debugger />
   <div
     className="fields"
   >

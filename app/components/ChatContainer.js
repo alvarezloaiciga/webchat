@@ -5,6 +5,7 @@ import {inStandaloneMode} from 'utils/utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
+import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
 import Transcript from 'Transcript';
 import {getChatClient} from '../ChatClient';
@@ -120,6 +121,7 @@ export class ChatContainer extends React.Component {
       <div className={classNames} style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT, ...POSITION}}>
         <HeaderMenu />
         {this.renderBanner()}
+        <Debugger />
         {this.renderContent()}
       </div>
     );

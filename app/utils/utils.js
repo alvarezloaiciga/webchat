@@ -3,7 +3,7 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 import 'modernizr';
 import messages from 'messages';
-import {getDisplayString} from 'utils/i18n';
+import {getDisplayString, formatTime} from 'utils/i18n';
 import {SupportedWebchatUrls} from 'appConstants';
 import {UAParser} from 'ua-parser-js';
 import type {BrowserNames, DeviceTypes, OSNames, IntlMessage} from 'types';
@@ -19,6 +19,20 @@ export const getDeviceType = (): DeviceTypes => parser.getResult().device.type;
 export const getOSName = (): OSNames => parser.getResult().os.name;
 
 export const getUAInfo = () => parser.getResult();
+
+/**
+ * @param {number} timestamp - timestamp to format
+ * @return {String} - plain-text formatted date in the format of MM/DD/YY, HH:MM:SS AM/PM
+ */
+export const getFormattedDateAndTime = (timestamp: number): string =>
+  formatTime(timestamp, {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
 
 export const compatibilityMode = () => {
   const compatList = [
@@ -88,3 +102,11 @@ export const camelize = (str: string) =>
       (ltr, idx) => (idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()),
     )
     .replace(/\s+/g, '');
+
+export const inNonProductionCluster = () =>
+  !!window.location.hostname.match(
+    /.*[.-](dev|qa|perf)\.(centricient\.corp|quiq\.sh|goquiq\.com)/g,
+  );
+
+export const inLocalDevelopment = () =>
+  __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);

@@ -1,0 +1,37 @@
+.Debugger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  background-color: white;
+  border-bottom: 1px solid #7e7e7e;
+
+  .lhsIcons {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  .rhsIcons {
+    display: flex;
+    align-items: center;
+
+    .versions {
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      margin-right: 10px;
+    }
+  }
+
+  i {
+    color: lighten(black, 40%);
+    margin: 0 5px;
+
+    &:hover {
+      color: black;
+      cursor: pointer;
+    }
+  }
+}

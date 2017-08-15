@@ -31,7 +31,8 @@ export type Action = {
     | 'CHAT_POPPED'
     | 'UPDATE_TRANSCRIPT'
     | 'AGENT_TYPING'
-    | 'WELCOME_FORM_REGISTERED',
+    | 'WELCOME_FORM_REGISTERED'
+    | 'NEW_WEBCHAT_SESSION',
 };
 
 export type ChatInitializedStateType =
