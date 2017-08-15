@@ -53,7 +53,7 @@ exports[`Debugger component rendering when not hidden renders Debugger bar 1`] =
       </span>
       <span>
         QC: v
-        1.10.3
+        1.10.4
       </span>
     </div>
     <i
