@@ -6,7 +6,7 @@ export type WelcomeFormField = {
   id: string,
   required?: boolean,
   rows?: number,
-  includeInInitialMessage?: boolean,
+  isInitialMessage?: boolean,
 };
 
 export type WelcomeForm = {

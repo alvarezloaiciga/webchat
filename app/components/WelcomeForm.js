@@ -21,7 +21,7 @@ export type WelcomeFormState = {
       value: string,
       label: string,
       required: boolean,
-      includeInInitialMessage: boolean,
+      isInitialMessage: boolean,
     },
   },
   submitting: boolean,
@@ -46,7 +46,7 @@ export class WelcomeForm extends Component {
           value: '',
           label: field.label,
           required: Boolean(field.required),
-          includeInInitialMessage: Boolean(field.includeInInitialMessage),
+          isInitialMessage: Boolean(field.isInitialMessage),
         };
       });
     }
@@ -94,19 +94,13 @@ export class WelcomeForm extends Component {
     );
   };
 
-  sendInitialMessage = async () => {
-    let initialMessage = '';
+  sendInitialMessage = () => {
     map(this.state.inputFields, field => {
       // Only include field if it was filled out and marked as an initial field
-      if (field.value.length && field.includeInInitialMessage) {
-        initialMessage += `${field.label}: ${field.value}\r\n`;
+      if (field.value.length && field.isInitialMessage) {
+        getChatClient().sendMessage(`${field.label}: ${field.value}\r\n`);
       }
     });
-
-    if (initialMessage.length > 0) {
-      console.log('chat client: %O', getChatClient());
-      await getChatClient().sendMessage(initialMessage);
-    }
   };
 
   submitForm = async (e: SyntheticEvent) => {
@@ -129,8 +123,7 @@ export class WelcomeForm extends Component {
 
     this.setState({submitting: true});
     await getChatClient().sendRegistration(fields);
-
-    await this.sendInitialMessage();
+    this.sendInitialMessage();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent) => {
