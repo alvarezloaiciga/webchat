@@ -90,8 +90,8 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   }));
   app.use('/assets', express.static('assets'));
 
-  app.get('/app/webchat/standalone*', (req, res) => {
-    res.sendFile(path.join(__dirname, './standalone/index.html'));
+  app.get('/app/webchat/bridge*', (req, res) => {
+    res.sendFile(path.join(__dirname, './bridge/index.html'));
   });
 
   app.get('/app/webchat*', (req, res) => {

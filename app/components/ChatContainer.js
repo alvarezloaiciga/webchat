@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import QUIQ, {validateWelcomeFormDefinition, getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'utils/quiq';
 import {inStandaloneMode} from 'utils/utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
@@ -29,14 +29,14 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   }
 
   renderBanner = () => {
-    const {COLORS, STYLES, FONT_FAMILY} = QUIQ;
+    const {colors, styles, fontFamily} = quiqOptions;
 
-    const bannerStyle = getStyle(STYLES.HeaderBanner, {
-      backgroundColor: COLORS.primary,
-      fontFamily: FONT_FAMILY,
+    const bannerStyle = getStyle(styles.HeaderBanner, {
+      backgroundColor: colors.primary,
+      fontFamily: fontFamily,
     });
 
-    const errorBannerStyle = getStyle(STYLES.ErrorBanner, {fontFamily: FONT_FAMILY});
+    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily: fontFamily});
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
@@ -102,11 +102,11 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   render() {
     if (this.props.chatContainerHidden) return null;
 
-    const {POSITION} = QUIQ;
+    const {position} = quiqOptions;
 
     const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
+      hasCustomLauncher: !inStandaloneMode() && quiqOptions.customLaunchButtons.length > 0,
     });
 
     if (
@@ -117,7 +117,7 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
       return (
         <div
           className={classNames}
-          style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT, ...POSITION}}
+          style={{width: quiqOptions.width, maxHeight: quiqOptions.height, ...position}}
         >
           <WelcomeForm />
         </div>
@@ -125,7 +125,10 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     }
 
     return (
-      <div className={classNames} style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT, ...POSITION}}>
+      <div
+        className={classNames}
+        style={{width: quiqOptions.width, maxHeight: quiqOptions.height, ...position}}
+      >
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />

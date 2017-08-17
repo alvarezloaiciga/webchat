@@ -3,11 +3,12 @@ import messages from 'messages';
 import {getDisplayString} from 'utils/i18n';
 import type {QuiqObject} from 'types';
 
-const QUIQ: QuiqObject = {
-  CONTACT_POINT: 'Bob',
-  HOST: 'https://bob.dev.centricient.corp',
-  COLOR: '#333',
-  COLORS: {
+const quiqOptions: QuiqObject = {
+  contactPoint: 'Bob',
+  host: 'https://bob.dev.centricient.corp',
+  clientDomain: 'https://customer.com',
+  color: '#333',
+  colors: {
     primary: '#333',
     agentMessageText: '#fff',
     agentMessageLinkText: '#fff',
@@ -17,7 +18,7 @@ const QUIQ: QuiqObject = {
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
   },
-  STYLES: {
+  styles: {
     HeaderMenu: {
       background: '#31bf8b',
     },
@@ -101,9 +102,9 @@ const QUIQ: QuiqObject = {
       fontSize: 16,
     },
   },
-  POSITION: {},
-  HEADER_TEXT: 'TOOL TIME',
-  MESSAGES: {
+  position: {},
+  headerText: 'TOOL TIME',
+  messages: {
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
     messageFieldPlaceholder: messages.sendUsAMessage,
@@ -121,16 +122,17 @@ const QUIQ: QuiqObject = {
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
   },
-  FONT_FAMILY: 'Lato, sans-serif',
-  WIDTH: 400,
-  HEIGHT: 600,
-  DEBUG: false,
-  AUTO_POP_TIME: 2000,
-  HREF: window.location.href,
-  CUSTOM_LAUNCH_BUTTONS: [],
-  MOBILE_NUMBER: 123,
-  WELCOME_FORM: {
-    headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+  fontFamily: 'Lato, sans-serif',
+  width: 400,
+  height: 600,
+  debug: false,
+  autoPopTime: 2000,
+  href: window.location.href,
+  customLaunchButtons: [],
+  mobileNumber: 123,
+  welcomeForm: {
+    headerText:
+      'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
     fields: [
       {
         type: 'text',
@@ -162,11 +164,11 @@ export const getStyle = (style?: Object = {}, defaults?: Object = {}) =>
   Object.assign({}, defaults, style);
 
 export const getMessage = (messageName: string): string => {
-  const message = QUIQ.MESSAGES[messageName];
+  const message = quiqOptions.messages[messageName];
 
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };
 
-export default QUIQ;
+export default quiqOptions;

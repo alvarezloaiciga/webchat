@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'utils/utils';
-import QUIQ, {getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
 import {messageTypes} from 'appConstants';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
@@ -11,7 +11,7 @@ import QuiqChatClient from 'quiq-chat';
 import './styles/MessageForm.scss';
 import type {ChatState} from 'types';
 
-const {COLORS, FONT_FAMILY, STYLES} = QUIQ;
+const {colors, fontFamily, styles} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
@@ -85,20 +85,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const sendDisabled = this.state.text.trim() === '';
     const compatMode = compatibilityMode();
 
-    const inputStyle = getStyle(STYLES.MessageFormInput, {fontFamily: FONT_FAMILY});
-    const buttonStyle = getStyle(STYLES.MessageFormSend, {
-      color: COLORS.primary,
+    const inputStyle = getStyle(styles.MessageFormInput, {fontFamily: fontFamily});
+    const buttonStyle = getStyle(styles.MessageFormSend, {
+      color: colors.primary,
       opacity: sendDisabled ? '.5' : '1',
-      fontFamily: FONT_FAMILY,
+      fontFamily: fontFamily,
     });
 
     return (
-      <div className="MessageForm" style={getStyle(STYLES.MessageForm)}>
+      <div className="MessageForm" style={getStyle(styles.MessageForm)}>
         {(!supportsFlexbox() || this.props.agentTyping) &&
           <div className="poke">
             {this.props.agentTyping &&
               <div className="pokeBody">
-                <span style={{fontFamily: FONT_FAMILY}}>
+                <span style={{fontFamily: fontFamily}}>
                   {getMessage(messageTypes.agentTypingMessage)}
                 </span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />

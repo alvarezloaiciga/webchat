@@ -2,7 +2,7 @@
 jest.mock('utils/utils');
 jest.mock('utils/quiq');
 jest.mock('quiq-chat');
-import QUIQ, {openStandaloneMode} from 'utils/quiq';
+import quiqOptions, {openStandaloneMode} from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
@@ -173,7 +173,7 @@ describe('Launcher component', () => {
     describe('customLauncherButtons', () => {
       describe('when defined', () => {
         beforeEach(async () => {
-          QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton1', '#customButton2'];
+          quiqOptions.customLaunchButtons = ['.customButton1', '#customButton2'];
           await render();
           instance.updateCustomChatButtons = jest.fn();
         });
@@ -185,7 +185,7 @@ describe('Launcher component', () => {
 
       describe('when not defined', () => {
         it('renders the default launcher', async () => {
-          QUIQ.CUSTOM_LAUNCH_BUTTONS = [];
+          quiqOptions.customLaunchButtons = [];
           await render();
           expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(1);
         });
@@ -197,7 +197,7 @@ describe('Launcher component', () => {
     beforeEach(async () => {
       updateIsChatVisible(false);
       testProps.chatContainerHidden = true;
-      QUIQ.AUTO_POP_TIME = 200;
+      quiqOptions.autoPopTime = 200;
       await render();
     });
 
@@ -219,7 +219,7 @@ describe('Launcher component', () => {
         it('clears the timer', async () => {
           updateIsChatVisible(true);
           testProps.chatContainerHidden = false;
-          QUIQ.AUTO_POP_TIME = 200;
+          quiqOptions.autoPopTime = 200;
           await render();
           expect(testProps.setChatContainerHidden).not.toBeCalled();
         });

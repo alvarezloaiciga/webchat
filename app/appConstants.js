@@ -10,8 +10,6 @@ export const EventTypes = {
   AGENT_TYPING: 'AgentTyping',
 };
 
-export const StandaloneWindowName = 'quiq-standalone-webchat';
-
 export const SupportedWebchatUrls = [
   'goquiq.com/app/webchat',
   'quiq.sh/app/webchat',
@@ -32,6 +30,8 @@ export const ChatInitializedState = {
   INACTIVE: 'inactive',
   BURNED: 'burned',
 };
+
+export const StandaloneWindowName = 'quiq-standalone-webchat';
 
 export const noAgentsAvailableClass = 'noAgentsAvailable';
 
@@ -58,9 +58,12 @@ export const messageTypes = {
 
 export const eventTypes = {
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
+  agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
+  standaloneOpen: 'QUIQ_STANDALONE_OPEN',
 };
 
 export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
+  getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
 };

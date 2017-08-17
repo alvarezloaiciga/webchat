@@ -1,26 +1,24 @@
 // @flow
 import {inStandaloneMode} from 'utils/utils';
 import {ChatInitializedState} from 'appConstants';
-import QUIQ from 'utils/quiq';
+import quiqOptions from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
-  chatLauncherHidden?: boolean,
+  agentsAvailable?: boolean,
   initializedState?: ChatInitializedStateType,
-  popped?: boolean,
   transcript?: Array<Message>,
   agentTyping?: boolean,
 };
 
 export const initialState = {
   chatContainerHidden: true,
-  chatLauncherHidden: true,
+  agentsAvailable: false,
   initializedState: ChatInitializedState.UNINITIALIZED,
-  popped: false,
   transcript: [],
   agentTyping: false,
-  welcomeFormRegistered: !QUIQ.WELCOME_FORM,
+  welcomeFormRegistered: !quiqOptions.welcomeForm,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -29,9 +27,9 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
       });
-    case 'CHAT_LAUNCHER_HIDDEN':
+    case 'AGENTS_AVAILABLE':
       return Object.assign({}, state, {
-        chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
+        agentsAvailable: action.agentsAvailable,
       });
     case 'CHAT_INITIALIZED_STATE': {
       if (state.initializedState === ChatInitializedState.BURNED) {
@@ -40,12 +38,6 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       }
 
       return Object.assign({}, state, {initializedState: action.initializedState});
-    }
-    case 'CHAT_POPPED': {
-      return Object.assign({}, state, {
-        chatContainerHidden: inStandaloneMode() ? false : action.popped,
-        popped: action.popped,
-      });
     }
     case 'UPDATE_TRANSCRIPT':
       return Object.assign({}, state, {transcript: action.transcript || []});
@@ -61,8 +53,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         {...initialState},
         {
           chatContainerHidden: state.chatContainerHidden,
-          chatLauncherHidden: state.chatLauncherHidden,
-          popped: state.popped,
+          agentsAvailable: state.agentsAvailable,
           initializedState: ChatInitializedState.LOADING,
         },
       );
@@ -74,6 +65,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 export default chat;
 
 // Selectors
-export const getChatContainerHidden: boolean = (state: ChatState) => {
+export const getChatContainerHidden = (state: ChatState): boolean => {
   return state.chatContainerHidden;
+};
+
+export const getAgentsAvailable = (state: ChatState): boolean => {
+  return state.agentsAvailable;
 };

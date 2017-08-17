@@ -8,56 +8,87 @@
  as well as the default Redux store.
  **********************************************************************************/
 
-import postRobot from 'post-robot';
+import postRobot from 'post-robot/dist/post-robot.ie';
+import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
-import {getChatContainerHidden} from 'reducers/chat';
+import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'appConstants';
-import {displayError, getHostingWindow} from 'utils/utils';
+import {displayError, getHostingWindow, getWindowDomain} from 'utils/utils';
 import messages from 'messages';
-import type {ReduxStore, QuiqChatClient, ChatState} from 'types';
+import type {ReduxStore, ChatState} from 'types';
 
+let reduxWatch;
 let dispatch;
 let getState: () => ChatState;
-let chatClient: QuiqChatClient;
+let chatClient;
 let domain;
 let postRobotClient, postRobotListener;
 
-export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatClient) => {
+export const init = (_domain: string, _store: ReduxStore, _chatClient) => {
   dispatch = _store.dispatch;
   getState = _store.getState;
   chatClient = _chatClient;
   domain = _domain;
 
+  reduxWatch = watchStore(_store);
+
+  // Listen to parent/host page
   const hostWindow = getHostingWindow();
   postRobotClient = postRobot.client({window: hostWindow, domain});
   postRobotListener = postRobot.listener({window: hostWindow, domain});
 
   setupListeners();
+  setupReduxHooks();
 };
 
 const setupListeners = () => {
   if (!postRobotListener) {
-    return displayError(messages.prClientUndefined);
+    return displayError(messages.mfInitNeeded);
   }
 
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
+  postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
 };
 
-const postMessage = (messageName: string, data: Object) => {
+const tellClient = (messageName: string, data: Object = {}) => {
   if (!postRobotClient) {
-    return displayError(messages.prClientUndefined);
+    return displayError(messages.mfInitNeeded);
   }
 
   postRobotClient.send(messageName, data);
 };
 
 /**********************************************************************************
- * Event hooks (webchat -> client)
+ * "Automatic event hooks (webchat -> client)
+ **********************************************************************************/
+const setupReduxHooks = () => {
+  if (!reduxWatch) {
+    return displayError(messages.mfInitNeeded);
+  }
+
+  // Send events to SDK in response to changes in redux state
+  // ChatContainer visibility
+  reduxWatch.watch(ChatSelectors.getChatContainerHidden, hidden =>
+    tellClient(eventTypes.chatVisibilityDidChange, {visible: !hidden}),
+  );
+
+  // Agent availability
+  reduxWatch.watch(ChatSelectors.getAgentsAvailable, available =>
+    tellClient(eventTypes.agentAvailabilityDidChange, {available}),
+  );
+};
+
+/**********************************************************************************
+ * Manual event hooks (webchat -> client)
  **********************************************************************************/
 
 export const chatVisibilityDidChange = (visible: boolean) => {
-  postMessage(eventTypes.chatVisibilityDidChange, {visible});
+  tellClient(eventTypes.chatVisibilityDidChange, {visible});
+};
+
+export const standaloneOpen = () => {
+  tellClient(eventTypes.standaloneOpen);
 };
 
 /**********************************************************************************
@@ -65,12 +96,16 @@ export const chatVisibilityDidChange = (visible: boolean) => {
  **********************************************************************************/
 
 const setChatVisibility = (event: Object) => {
-  const visible = event.visible;
+  const {visible} = event.data;
   dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
 const getChatVisibility = () => {
-  const visible = getChatContainerHidden(getState());
+  return {visible: !ChatSelectors.getChatContainerHidden(getState())};
+};
+
+const getAgentAvailability = () => {
+  return {available: ChatSelectors.getAgentsAvailable(getState())};
 };
 
 /**********************************************************************************

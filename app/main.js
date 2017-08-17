@@ -6,7 +6,7 @@ import {render} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
-import QUIQ from 'utils/quiq';
+import quiqOptions from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
 import {init as initMalfunctionJunction} from './services/MalfunctionJunction';
@@ -18,10 +18,10 @@ import 'main.scss';
 const init = () => {
   if (nonCompatibleBrowser()) return;
 
-  QuiqChatClient.initialize(QUIQ.HOST, QUIQ.CONTACT_POINT);
+  QuiqChatClient.initialize(quiqOptions.host, quiqOptions.contactPoint);
   const store = configureStore(chat, initialState);
 
-  initMalfunctionJunction(QUIQ.CLIENT_DOMAIN, store, QuiqChatClient);
+  initMalfunctionJunction(quiqOptions.clientDomain, store, QuiqChatClient);
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!

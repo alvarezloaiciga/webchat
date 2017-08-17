@@ -16,11 +16,11 @@ const getHostUrl = (quiqObj: QuiqObject): string => {
     window.location.origin === 'file://' ||
     window.location.hostname === 'mymac'
   ) {
-    if (!quiqObj.HOST) {
-      throw new Error('You must specify window.QUIQ.HOST when running locally!');
+    if (!quiqObj.host) {
+      throw new Error('You must specify host option when running locally!');
     }
 
-    return quiqObj.HOST;
+    return quiqObj.host;
   }
 
   return window.location.href.slice(0, window.location.href.indexOf('/app/webchat'));
@@ -31,7 +31,7 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   if (form.fields) {
     newFormObject.fields.forEach(field => {
       // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
-      // If label is not defined this is an error, and will be caught when WELCOME_FORM is validated.
+      // If label is not defined this is an error, and will be caught when welcomeForm is validated.
       if (!field.id && field.label) field.id = camelize(field.label);
     });
   }
@@ -50,19 +50,14 @@ const processCustomCss = (url: string): void => {
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
-
-const getQuiqObject = (): QuiqObject => {
-  if (!navigator.cookieEnabled) {
-    return displayError(messages.cookiesMustBeEnabledError);
-  }
-
-  const rawQuiqObject = JSON.parse(localStorage.getItem('QUIQ') || '');
+const getQuiqOptions = (): QuiqObject => {
+  const rawQuiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '');
   const primaryColor =
-    (rawQuiqObject.COLORS && rawQuiqObject.COLORS.primary) || rawQuiqObject.COLOR || '#59ad5d';
-  const QUIQ = {
-    CONTACT_POINT: 'default',
-    COLOR: primaryColor,
-    COLORS: Object.assign(
+    (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
+  const quiqOptions = {
+    contactPoint: 'default',
+    color: primaryColor,
+    colors: Object.assign(
       {},
       {
         primary: primaryColor,
@@ -74,28 +69,27 @@ const getQuiqObject = (): QuiqObject => {
         customerMessageBackground: primaryColor,
         transcriptBackground: '#f4f4f8',
       },
-      rawQuiqObject.COLORS,
+      rawQuiqObject.colors,
     ),
-    STYLES: {},
-    POSITION: {},
-    HEADER_TEXT: messages.hereToHelp,
-    HOST: getHostUrl(rawQuiqObject),
-    CLIENT_DOMAIN: undefined,
-    DEBUG: false,
-    WELCOME_FORM: rawQuiqObject.WELCOME_FORM
-      ? processWelcomeForm(rawQuiqObject.WELCOME_FORM)
-      : undefined,
-    AUTO_POP_TIME: isIEorSafari() ? undefined : rawQuiqObject.AUTO_POP_TIME,
-    HREF: window.location.href, // Standalone uses this to determine original host URL for welcome form
-    FONT_FAMILY: 'sans-serif',
-    WIDTH: 400,
-    HEIGHT: 600,
-    CUSTOM_LAUNCH_BUTTONS: inStandaloneMode() ? [] : rawQuiqObject.CUSTOM_LAUNCH_BUTTONS || [],
-    MOBILE_NUMBER: undefined,
-    MESSAGES: Object.assign(
+    styles: {},
+    position: {},
+    headerText: messages.hereToHelp,
+    host: getHostUrl(rawQuiqObject),
+    clientDomain: undefined,
+    debug: false,
+    welcomeForm: rawQuiqObject.welcomeForm
+      ? processWelcomeForm(rawQuiqObject.welcomeForm) : undefined,
+    href: window.location.href, // Standalone uses this to determine original host URL for welcome form
+    fontFamily: 'sans-serif',
+    width: 400,
+    height: 600,
+    autoPopTime: undefined,
+    customLaunchButtons: inStandaloneMode() ? [] : rawQuiqObject.customLaunchButtons || [],
+    mobileNumber: undefined,
+    messages: Object.assign(
       {},
       {
-        headerText: rawQuiqObject.HEADER_TEXT || messages.hereToHelp,
+        headerText: rawQuiqObject.headerText || messages.hereToHelp,
         sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
         welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
@@ -111,40 +105,27 @@ const getQuiqObject = (): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
       },
-      rawQuiqObject.MESSAGES,
+      rawQuiqObject.messages,
     ),
   };
 
-  if (!window.QUIQ) {
-    return QUIQ;
-  }
-
-  // Merge MESSAGES separately, as Object.assign() does not do deep cloning
-  if (rawQuiqObject.MESSAGES)
-    window.QUIQ.MESSAGES = Object.assign({}, QUIQ.MESSAGES, window.QUIQ.MESSAGES);
-
-  // If welcome form is defined, process it
-  if (rawQuiqObject.WELCOME_FORM) {
-    processWelcomeForm(window.QUIQ.WELCOME_FORM);
-  }
-
   // If custom css url is defined in DEBUG, process it
-  if (rawQuiqObject.DEBUG && rawQuiqObject.DEBUG.CUSTOM_CSS_URL)
-    processCustomCss(rawQuiqObject.DEBUG.CUSTOM_CSS_URL);
+  if (rawQuiqObject.debug && rawQuiqObject.debug.CUSTOM_CSS_URL)
+    processCustomCss(rawQuiqObject.debug.CUSTOM_CSS_URL);
 
-  rawQuiqObject.CUSTOM_LAUNCH_BUTTONS = inStandaloneMode()
+  rawQuiqObject.customLaunchButtons = inStandaloneMode()
     ? []
-    : rawQuiqObject.CUSTOM_LAUNCH_BUTTONS || [];
+    : rawQuiqObject.customLaunchButtons || [];
 
-  const returnValue = Object.assign({}, QUIQ, rawQuiqObject);
-  localStorage.setItem('QUIQ', JSON.stringify(returnValue));
+  const returnValue = Object.assign({}, quiqOptions, rawQuiqObject);
+  localStorage.setItem('quiqOptions', JSON.stringify(returnValue));
   return returnValue;
 };
 
-const QUIQ: QuiqObject = getQuiqObject();
+const quiqOptions: QuiqObject = getQuiqOptions();
 
 export const validateWelcomeFormDefinition = (): void => {
-  const form = QUIQ.WELCOME_FORM;
+  const form = quiqOptions.welcomeForm;
   if (!form) return;
 
   if (!form.fields || !Array.isArray(form.fields)) {
@@ -202,19 +183,21 @@ export const openStandaloneMode = (callbacks: {
     return callbacks.onFocus();
   }
 
-  const width = QUIQ.WIDTH;
-  const height = QUIQ.HEIGHT;
+  const width = quiqOptions.width;
+  const height = quiqOptions.height;
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
 
-  // TODO: Fix me
-  const url = `${QUIQ.HOST}/app/webchatiframify/index.html`;
+  const url = `${quiqOptions.host}/app/webchat/index.html`;
   const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
 
   const onLoadCallback = () => {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({QUIQ}, url);
+    window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({quiqOptions, name: 'handshake'}, url);
   };
+
+  // Open standalone chat window
   window.QUIQ_STANDALONE_WINDOW_HANDLE = window.open(url, StandaloneWindowName, params);
+
   if (window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener) {
     window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener('load', onLoadCallback, false);
   } else if (window.QUIQ_STANDALONE_WINDOW_HANDLE.attachEvent) {
@@ -281,11 +264,11 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 };
 
 export const getMessage = (messageName: string): string => {
-  const message = QUIQ.MESSAGES[messageName];
+  const message = quiqOptions.messages[messageName];
 
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };
 
-export default QUIQ;
+export default quiqOptions;

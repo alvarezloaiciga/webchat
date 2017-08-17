@@ -6,7 +6,7 @@ import React from 'react';
 import {ChatContainer} from '../ChatContainer';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import QUIQ from 'utils/quiq';
+import quiqOptions from 'utils/quiq';
 import type {ChatContainerProps} from '../ChatContainer';
 
 jest.useFakeTimers();
@@ -17,7 +17,7 @@ describe('ChatContainer component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    QUIQ.WELCOME_FORM = undefined;
+    quiqOptions.welcomeForm = undefined;
     testProps = {
       chatContainerHidden: false,
       welcomeFormRegistered: true,
@@ -107,7 +107,7 @@ describe('ChatContainer component', () => {
 
   describe('custom launcher', () => {
     it('appends the hasCustomLauncher class', () => {
-      QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton'];
+      quiqOptions.customLaunchButtons = ['.customButton'];
       render();
       expect(wrapper.hasClass('hasCustomLauncher')).toBe(true);
     });

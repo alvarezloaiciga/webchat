@@ -55,14 +55,14 @@ export default defineMessages({
   standaloneFatalError: {
     id: 'standaloneFatalError',
     description:
-      'Error to display when we load the QUIQ object from query params in standalone mode',
+      'Error to display when we load the quiqOptions object from query params in standalone mode',
     defaultMessage: 'Error loading standalone mode. Are the query params properly formatted?',
   },
   errorParsingStandaloneObject: {
     id: 'errorParsingStandaloneObject',
     description:
-      "Error to display when we found the QUIQ query param but weren't able to parse it into a valid QUIQ object",
-    defaultMessage: 'Error while trying to parse the standalone QUIQ query object',
+      "Error to display when we found the quiqOptions query param but weren't able to parse it into a valid quiqOptions object",
+    defaultMessage: 'Error while trying to parse the standalone quiqOptions query object',
   },
   cannotDetermineHost: {
     id: 'cannotDetermineHost',
@@ -73,7 +73,7 @@ export default defineMessages({
   quiqFatalError: {
     id: 'quiqFatalError',
     description: 'Message to show a quiq fatal error',
-    defaultMessage: 'QUIQ FATAL ERROR',
+    defaultMessage: 'quiqOptions FATAL ERROR',
   },
   hereToHelp: {
     id: 'hereToHelp',
@@ -195,11 +195,12 @@ export default defineMessages({
     description: 'Error displayed when css file is not an https url',
     defaultMessage: 'The CUSTOM_CSS_URL must be an HTTPS url.',
   },
-  prClientUndefined: {
-    id: 'prClientUndefined',
+  mfInitNeeded: {
+    id: 'mfInitNeeded',
     description:
-      "Error displayed when postRobot client is not defined and we try and run something we shouldn't",
-    defaultMessage: 'PostRobot client is not defined: unable to setup listener or post message',
+      "Error displayed when init() has not been run in malfunction junction and we try and run something we shouldn't",
+    defaultMessage:
+      'MalfunctionJunction.init() must be run before posting a message, setting up listeners, or setting up Redux observers.',
   },
   cannotFindHostingWindow: {
     id: 'cannotFindHostingWindow',

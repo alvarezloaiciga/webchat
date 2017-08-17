@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import QUIQ, {getStyle} from 'utils/quiq';
+import quiqOptions, {getStyle} from 'utils/quiq';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {connect} from 'react-redux';
 import {isMobile} from 'utils/utils';
@@ -13,11 +13,11 @@ export type ToggleChatButtonProps = {
   chatContainerHidden: boolean,
 };
 
-const {COLORS, STYLES} = QUIQ;
+const {colors, styles} = quiqOptions;
 
 export const ToggleChatButton = ({toggleChat, chatContainerHidden}: ToggleChatButtonProps) => {
-  const buttonStyle = getStyle(STYLES.ToggleChatButton, {backgroundColor: COLORS.primary});
-  const iconStyle = getStyle(STYLES.ToggleChatButtonIcon);
+  const buttonStyle = getStyle(styles.ToggleChatButton, {backgroundColor: colors.primary});
+  const iconStyle = getStyle(styles.ToggleChatButtonIcon);
 
   return (
     <button style={buttonStyle} onClick={toggleChat} className="ToggleChatButton">

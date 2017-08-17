@@ -5,19 +5,14 @@ export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   chatContainerHidden,
 });
 
-export const setChatLauncherHidden = (chatLauncherHidden: boolean) => ({
-  type: 'CHAT_LAUNCHER_HIDDEN',
-  chatLauncherHidden,
+export const setAgentsAvailable = (agentsAvailable: boolean) => ({
+  type: 'AGENTS_AVAILABLE',
+  agentsAvailable,
 });
 
 export const setChatInitialized = (initializedState: ChatInitializedStateType) => ({
   type: 'CHAT_INITIALIZED_STATE',
   initializedState,
-});
-
-export const setChatPopped = (popped: boolean) => ({
-  type: 'CHAT_POPPED',
-  popped,
 });
 
 export const setAgentTyping = (agentTyping: boolean) => ({

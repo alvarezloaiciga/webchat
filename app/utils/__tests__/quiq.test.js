@@ -5,7 +5,7 @@ const testStyle = {
   background: '#31bf8b',
 };
 
-describe('QUIQ util', () => {
+describe('quiqOptions util', () => {
   describe('getStyle', () => {
     it('returns the style if it exists', () => {
       expect(getStyle(testStyle)).toEqual({

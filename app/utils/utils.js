@@ -47,6 +47,7 @@ export const compatibilityMode = () => {
 };
 
 export const getHostingWindow = () => {
+  return window.opener || window.parent;
   // If window.opener is defined, then we're in a popup.
   // Because we are on same domain as the iframe that opened us, we can retrieve iframe's parent, which is the hosting window
   if (window.opener && window.opener.parent && window.opener.parent !== window.opener)
@@ -79,7 +80,10 @@ export const displayError = (error: IntlMessage | string, values: {[string]: str
   );
 };
 
-export const inStandaloneMode = () => window.name === StandaloneWindowName;
+// If window.opener is not null, then we're in a popup.
+export const inStandaloneMode = () => !!window.opener;
+
+export const getWindowDomain = () => `${window.location.protocol}//${window.location.host}`;
 
 export const getWebchatUrlFromScriptTag = () => {
   // Determine host from the script tag that loaded webchat

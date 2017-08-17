@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import update from 'react-addons-update';
 import {messageTypes} from 'appConstants';
-import QUIQ, {getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import {supportsFlexbox} from 'utils/utils';
@@ -38,10 +38,10 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   constructor(props: WelcomeFormProps) {
     super(props);
 
-    const {WELCOME_FORM} = QUIQ;
+    const {welcomeForm} = quiqOptions;
 
-    if (WELCOME_FORM) {
-      WELCOME_FORM.fields.forEach(field => {
+    if (welcomeForm) {
+      welcomeForm.fields.forEach(field => {
         this.state.inputFields[field.id] = {
           value: '',
           label: field.label,
@@ -53,14 +53,14 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   }
 
   renderField = (field: WelcomeFormField) => {
-    const {FONT_FAMILY, STYLES} = QUIQ;
+    const {fontFamily, styles} = quiqOptions;
 
-    const labelStyle = getStyle(STYLES.WelcomeFormFieldLabel, {fontFamily: FONT_FAMILY});
-    const inputStyle = getStyle(STYLES.WelcomeFormFieldInput, {fontFamily: FONT_FAMILY});
-    const textareaStyle = getStyle(STYLES.WelcomeFormFieldTextarea, {fontFamily: FONT_FAMILY});
+    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily: fontFamily});
+    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily: fontFamily});
+    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily: fontFamily});
 
     return (
-      <div className="field" key={field.id} style={getStyle(STYLES.WelcomeFormField)}>
+      <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
         <label htmlFor={field.label} style={labelStyle}>
           {field.label}
           {field.required &&
@@ -107,7 +107,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     e.preventDefault();
     if (this.state.submitting) return;
 
-    const {HREF} = QUIQ;
+    const {href} = quiqOptions;
     const fields: {[string]: string} = {};
 
     if (!this.validateFormInput()) return;
@@ -119,7 +119,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     });
 
     // Append field containing referrer (host)
-    fields.Referrer = HREF;
+    fields.Referrer = href;
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);
@@ -181,25 +181,25 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {WELCOME_FORM, FONT_FAMILY, COLORS, STYLES} = QUIQ;
+    const {welcomeForm, fontFamily, colors, styles} = quiqOptions;
 
-    if (!WELCOME_FORM) return null;
+    if (!welcomeForm) return null;
 
-    const bannerStyle = getStyle(STYLES.WelcomeFormBanner, {
-      backgroundColor: COLORS.primary,
-      fontFamily: FONT_FAMILY,
+    const bannerStyle = getStyle(styles.WelcomeFormBanner, {
+      backgroundColor: colors.primary,
+      fontFamily: fontFamily,
     });
 
-    const submitButtonStyle = getStyle(STYLES.WelcomeFormSubmitButton, {
-      backgroundColor: COLORS.primary,
-      fontFamily: FONT_FAMILY,
+    const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
+      backgroundColor: colors.primary,
+      fontFamily: fontFamily,
     });
 
     return (
-      <form className="WelcomeForm" style={{backgroundColor: COLORS.transcriptBackground}}>
+      <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
         <HeaderMenu />
         <div className="welcomeFormBanner" style={bannerStyle}>
-          {WELCOME_FORM.headerText}
+          {welcomeForm.headerText}
         </div>
         <Debugger />
         {this.state.formValidationError &&
@@ -207,7 +207,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
           </span>}
         <div className="fields">
-          {WELCOME_FORM.fields.map(this.renderField)}
+          {welcomeForm.fields.map(this.renderField)}
         </div>
         <button
           className="submit"

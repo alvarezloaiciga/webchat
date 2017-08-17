@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import QUIQ, {getStyle} from 'utils/quiq';
+import quiqObject, {getStyle} from 'utils/quiq';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
 import type {Message as MessageType} from 'types';
@@ -11,33 +11,33 @@ export type MessageProps = {
   message: MessageType,
 };
 
-const {FONT_FAMILY, COLORS, STYLES, WIDTH} = QUIQ;
+const {fontFamily, colors, styles, width} = quiqObject;
 
 const getMessageBubbleStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
-    return getStyle(STYLES.CustomerMessageBubble, {
-      backgroundColor: COLORS.customerMessageBackground,
-      maxWidth: WIDTH - 82,
+    return getStyle(styles.CustomerMessageBubble, {
+      backgroundColor: colors.customerMessageBackground,
+      maxWidth: width - 82,
     });
   }
 
-  return getStyle(STYLES.AgentMessageBubble, {
-    backgroundColor: COLORS.agentMessageBackground,
-    maxWidth: WIDTH - 50,
+  return getStyle(styles.AgentMessageBubble, {
+    backgroundColor: colors.agentMessageBackground,
+    maxWidth: width - 50,
   });
 };
 
 const getMessageTextStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
-    return getStyle(STYLES.CustomerMessageText, {
-      color: COLORS.customerMessageText,
-      fontFamily: FONT_FAMILY,
+    return getStyle(styles.CustomerMessageText, {
+      color: colors.customerMessageText,
+      fontFamily: fontFamily,
     });
   }
 
-  return getStyle(STYLES.AgentMessageText, {
-    color: COLORS.agentMessageText,
-    fontFamily: FONT_FAMILY,
+  return getStyle(styles.AgentMessageText, {
+    color: colors.agentMessageText,
+    fontFamily: fontFamily,
   });
 };
 
@@ -53,7 +53,7 @@ export const Message = (props: MessageProps) => {
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
       <div style={{display: 'flex', ...margin}}>
-        {!fromCustomer && <div className="agentAvatar" style={getStyle(STYLES.AgentAvatar)} />}
+        {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
         <div
           style={getMessageBubbleStyle(fromCustomer)}
           className={classnames('Message', {fromCustomer})}
@@ -63,10 +63,10 @@ export const Message = (props: MessageProps) => {
               target: '_blank',
               rel: 'noopener noreferrer',
               style: {
-                fontFamily: FONT_FAMILY,
+                fontFamily: fontFamily,
                 textDecoration: 'underline',
                 ...textStyle,
-                color: fromCustomer ? COLORS.customerMessageLinkText : COLORS.agentMessageLinkText,
+                color: fromCustomer ? colors.customerMessageLinkText : colors.agentMessageLinkText,
               },
             }}
           >
@@ -75,7 +75,7 @@ export const Message = (props: MessageProps) => {
             </span>
           </Linkify>
         </div>
-        {fromCustomer && <div className="customerAvatar" style={getStyle(STYLES.CustomerAvatar)} />}
+        {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}
       </div>
     </div>
   );

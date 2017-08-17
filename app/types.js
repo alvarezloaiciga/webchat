@@ -18,9 +18,8 @@ export type WelcomeForm = {
 
 export type ChatState = {
   chatContainerHidden: boolean,
-  chatLauncherHidden: boolean,
+  agentsAvailable: boolean,
   initializedState: ChatInitializedStateType,
-  popped: boolean,
   transcript: Array<Message>,
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
@@ -35,7 +34,8 @@ export type Action = {
     | 'UPDATE_TRANSCRIPT'
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
-    | 'NEW_WEBCHAT_SESSION',
+    | 'NEW_WEBCHAT_SESSION'
+    | 'AGENTS_AVAILABLE'
 };
 
 export type ChatInitializedStateType =
@@ -78,11 +78,11 @@ type CustomStyles = {
 };
 
 export type QuiqObject = {
-  CONTACT_POINT: string,
-  HOST: string,
-  CLIENT_DOMAIN: string,
-  COLOR: string, // Deprecated in favor of COLORS.primary
-  COLORS: {
+  contactPoint: string,
+  host: string,
+  clientDomain: string,
+  color: string, // Deprecated in favor of COLORS.primary
+  colors: {
     primary: string,
     agentMessageText: string,
     agentMessageLinkText: string,
@@ -92,15 +92,15 @@ export type QuiqObject = {
     customerMessageBackground: string,
     transcriptBackground: string,
   },
-  STYLES: CustomStyles,
-  POSITION: {
+  styles: CustomStyles,
+  position: {
     top?: number | string,
     bottom?: number | string,
     left?: number | string,
     right?: number | string,
   },
-  HEADER_TEXT: string,
-  MESSAGES: {
+  headerText: string,
+  messages: {
     headerText: string,
     sendButtonLabel: string,
     messageFieldPlaceholder: string,
@@ -117,20 +117,20 @@ export type QuiqObject = {
     openInNewWindowTooltip: string,
     closeWindowTooltip: string,
   },
-  AUTO_POP_TIME?: number,
-  DEBUG:
+  autoPopTime?: number,
+  debug:
     | false
     | {
         transport?: string,
-        CUSTOM_CSS_URL?: string,
+        customCssUrl?: string,
       },
-  WELCOME_FORM?: WelcomeForm,
-  HREF: string,
-  FONT_FAMILY: string,
-  WIDTH: number,
-  HEIGHT: number,
-  CUSTOM_LAUNCH_BUTTONS: Array<string>,
-  MOBILE_NUMBER?: string | number,
+  welcomeForm?: WelcomeForm,
+  href: string,
+  fontFamily: string,
+  width: number,
+  height: number,
+  customLaunchButtons: Array<string>,
+  mobileNumber?: string | number,
 };
 
 export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
