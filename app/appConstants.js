@@ -46,6 +46,7 @@ export const messageTypes = {
   reconnectingMessage: 'reconnectingMessage',
   agentTypingMessage: 'agentTypingMessage',
   errorMessage: 'errorMessage',
+  inactiveMessage: 'inactiveMessage',
   requiredFieldAriaLabel: 'requiredFieldAriaLabel',
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',

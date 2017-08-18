@@ -46,6 +46,12 @@ export class ChatContainer extends React.Component {
             {getMessage(messageTypes.headerText)}
           </div>
         );
+      case ChatInitializedState.INACTIVE:
+        return (
+          <div className="banner" style={errorBannerStyle}>
+            {getMessage(messageTypes.inactiveMessage)}
+          </div>
+        );
       case ChatInitializedState.DISCONNECTED:
         return (
           <div className="errorBanner" style={errorBannerStyle}>
@@ -81,6 +87,7 @@ export class ChatContainer extends React.Component {
         );
       case ChatInitializedState.DISCONNECTED:
       case ChatInitializedState.ERROR:
+      case ChatInitializedState.INACTIVE:
       case ChatInitializedState.BURNED:
       default:
         return (

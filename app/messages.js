@@ -26,6 +26,11 @@ export default defineMessages({
     description: 'Generic Error Message',
     defaultMessage: "We're having trouble connecting. Try refreshing the page.",
   },
+  clientInactive: {
+    id: 'clientInactive',
+    description: 'Generic Client Inactive Message',
+    defaultMessage: 'You have been disconnected due to inactivity. Please reconnect.',
+  },
   agentIsTyping: {
     id: 'agentIsTyping',
     description: 'Message to display when the agent is typing',
