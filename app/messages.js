@@ -29,7 +29,8 @@ export default defineMessages({
   clientInactive: {
     id: 'clientInactive',
     description: 'Generic Client Inactive Message',
-    defaultMessage: 'You have been disconnected due to inactivity. Please reconnect.',
+    defaultMessage:
+      'You have been disconnected due to inactivity. Please refresh the page to reconnect.',
   },
   agentIsTyping: {
     id: 'agentIsTyping',
