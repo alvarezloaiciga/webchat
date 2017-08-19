@@ -220,11 +220,12 @@ The window.QUIQ object contains properties describing how the instance of webcha
           label: string,
           required: boolean,
           rows: number, // Only applicable if type is textarea
+          isInitialMessage: boolean,
         },
       ]
     }
     ```
-    - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable. If fields with and an `id` of `firstName` and `lastName` are defined, Quiq will use the values of these form fields to set the first and last name of the customer within the Agent UI.
+    - description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable. If fields with and an `id` of `firstName` and `lastName` are defined, Quiq will use the values of these form fields to set the first and last name of the customer within the Agent UI. If the isInitialMessage value is set on a field, then it is intended to appear as initial question to the user, and if a value is provided, then this field will be sent as an initial message for the chat.
     - default: `undefined`
     - example:
     ```js
