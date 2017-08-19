@@ -98,7 +98,7 @@ export class WelcomeForm extends Component {
     map(this.state.inputFields, field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        getChatClient().sendMessage(`${field.label}: ${field.value}\r\n`);
+        getChatClient().sendMessage(field.value);
       }
     });
   };
