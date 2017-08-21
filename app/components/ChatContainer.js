@@ -48,7 +48,7 @@ export class ChatContainer extends React.Component {
         );
       case ChatInitializedState.INACTIVE:
         return (
-          <div className="banner" style={errorBannerStyle}>
+          <div className="errorBanner" style={errorBannerStyle}>
             {getMessage(messageTypes.inactiveMessage)}
           </div>
         );
