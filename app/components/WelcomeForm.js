@@ -21,6 +21,7 @@ export type WelcomeFormState = {
       value: string,
       label: string,
       required: boolean,
+      isInitialMessage: boolean,
     },
   },
   submitting: boolean,
@@ -45,6 +46,7 @@ export class WelcomeForm extends Component {
           value: '',
           label: field.label,
           required: Boolean(field.required),
+          isInitialMessage: Boolean(field.isInitialMessage),
         };
       });
     }
@@ -92,6 +94,15 @@ export class WelcomeForm extends Component {
     );
   };
 
+  sendInitialMessage = () => {
+    map(this.state.inputFields, field => {
+      // Only include field if it was filled out and marked as an initial field
+      if (field.value.length && field.isInitialMessage) {
+        getChatClient().sendMessage(field.value);
+      }
+    });
+  };
+
   submitForm = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (this.state.submitting) return;
@@ -112,6 +123,7 @@ export class WelcomeForm extends Component {
 
     this.setState({submitting: true});
     await getChatClient().sendRegistration(fields);
+    this.sendInitialMessage();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent) => {

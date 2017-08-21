@@ -143,6 +143,7 @@ const QUIQ: QuiqObject = {
         label: 'Last Name',
         id: 'lastName',
         required: false,
+        isInitialMessage: true,
       },
       {
         type: 'number',

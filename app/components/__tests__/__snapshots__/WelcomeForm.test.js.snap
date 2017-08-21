@@ -19,6 +19,25 @@ exports[`WelcomeForm component filling out form and submitting valid submission 
 </button>
 `;
 
+exports[`WelcomeForm component filling out form and submitting valid submission with send message disables send button and sets text 1`] = `
+<button
+  className="submit"
+  disabled={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "background": "teal",
+      "backgroundColor": "#333",
+      "fontFamily": "Source Sans Pro",
+      "fontSize": 16,
+      "fontWeight": 700,
+    }
+  }
+>
+  Submit
+</button>
+`;
+
 exports[`WelcomeForm component rendering renders correctly 1`] = `
 <form
   className="WelcomeForm"
