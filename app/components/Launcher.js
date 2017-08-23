@@ -222,7 +222,14 @@ export class Launcher extends Component {
 
   handleClientInactiveTimeout = () => {
     this.updateInitializedState(ChatInitializedState.INACTIVE);
-    this.updateContainerHidden(true);
+    if (inStandaloneMode()) {
+      this.client.leaveChat();
+    } else {
+      if (!this.props.chatContainerHidden && !this.props.popped) {
+        this.updateContainerHidden(true);
+        this.client.leaveChat();
+      }
+    }
   };
 
   bindChatButtons = () => {
