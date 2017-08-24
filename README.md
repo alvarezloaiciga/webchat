@@ -254,6 +254,13 @@ The window.QUIQ object contains properties describing how the instance of webcha
             type: 'email',
             label: 'E-Mail',
             required: true
+          },
+          {
+            id: 'initialQuestion',
+            type: 'textarea',
+            label: 'Initial Question',
+            required: true,
+            isInitialMessage: true,
           }
         ]
       }
