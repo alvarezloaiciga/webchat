@@ -113,6 +113,7 @@ const QUIQ: QuiqObject = {
     agentTypingMessage: messages.agentIsTyping,
     connectingMessage: messages.connecting,
     reconnectingMessage: messages.reconnecting,
+    inactiveMessage: messages.clientInactive,
     errorMessage: messages.errorState,
     requiredFieldAriaLabel: messages.required,
     minimizeWindowTooltip: messages.minimizeWindow,

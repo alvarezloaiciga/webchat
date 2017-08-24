@@ -5,6 +5,7 @@ import {getDisplayString} from 'utils/i18n';
 import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, camelize} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject, WelcomeForm} from 'types';
+import {getChatClient} from '../ChatClient';
 
 const reservedKeyNames = ['Referrer'];
 
@@ -230,6 +231,7 @@ export const openStandaloneMode = (callbacks: {
       standaloneWindowTimer = undefined;
       window.QUIQ_STANDALONE_WINDOW_HANDLE = undefined;
       callbacks.onDock();
+      getChatClient().start();
     }
   }, 500);
 };
