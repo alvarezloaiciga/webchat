@@ -127,6 +127,7 @@ exports[`ChatContainer component initializedState when inactive renders properly
   >
     You have been disconnected due to inactivity. Please refresh the page to reconnect.
   </div>
+  <Debugger />
   <div
     className="chatContainerBody"
   >
