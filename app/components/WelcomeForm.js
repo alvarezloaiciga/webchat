@@ -4,6 +4,7 @@ import update from 'react-addons-update';
 import {messageTypes} from 'appConstants';
 import QUIQ, {getStyle, getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
+import Debugger from './Debugger/Debugger';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
 import {getChatClient} from '../ChatClient';
@@ -20,6 +21,7 @@ export type WelcomeFormState = {
       value: string,
       label: string,
       required: boolean,
+      isInitialMessage: boolean,
     },
   },
   submitting: boolean,
@@ -44,6 +46,7 @@ export class WelcomeForm extends Component {
           value: '',
           label: field.label,
           required: Boolean(field.required),
+          isInitialMessage: Boolean(field.isInitialMessage),
         };
       });
     }
@@ -91,6 +94,15 @@ export class WelcomeForm extends Component {
     );
   };
 
+  sendInitialMessage = () => {
+    map(this.state.inputFields, field => {
+      // Only include field if it was filled out and marked as an initial field
+      if (field.value.length && field.isInitialMessage) {
+        getChatClient().sendMessage(field.value);
+      }
+    });
+  };
+
   submitForm = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (this.state.submitting) return;
@@ -111,6 +123,7 @@ export class WelcomeForm extends Component {
 
     this.setState({submitting: true});
     await getChatClient().sendRegistration(fields);
+    this.sendInitialMessage();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent) => {
@@ -188,6 +201,7 @@ export class WelcomeForm extends Component {
         <div className="welcomeFormBanner" style={bannerStyle}>
           {WELCOME_FORM.headerText}
         </div>
+        <Debugger />
         {this.state.formValidationError &&
           <span className="formValidationError">
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}

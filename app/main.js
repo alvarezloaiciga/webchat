@@ -9,8 +9,9 @@ import Redbox from 'redbox-react';
 import QUIQ from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {registerChatClient} from './ChatClient';
+import {configureStore} from 'store/configureStore';
 import {Provider} from 'react-redux';
-import chat from 'reducers/chat';
+import chat, {initialState} from 'reducers/chat';
 
 import 'main.scss';
 
@@ -19,13 +20,14 @@ const init = () => {
 
   const chatClient = new QuiqChatClient(QUIQ.HOST, QUIQ.CONTACT_POINT);
   registerChatClient(chatClient);
+  const store = configureStore(chat, initialState);
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
   render(
-    <Provider store={chat}>
+    <Provider store={store}>
       <IntlProvider locale="en">
         <AppContainer errorReporter={Redbox}>
           <Routes />
@@ -40,7 +42,7 @@ const init = () => {
       const NextApp = require('Routes').default; // eslint-disable-line global-require
 
       render(
-        <Provider store={chat}>
+        <Provider store={store}>
           <IntlProvider locale="en">
             <AppContainer errorReporter={Redbox}>
               <NextApp />

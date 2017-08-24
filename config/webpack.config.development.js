@@ -38,11 +38,14 @@ module.exports = merge(config, {
         test: /\.scss$/,
         include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
         loaders: [
-          'style',
-          'css',
+          {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
+          {loader: 'css', query: {sourceMap: true, sourceMapContents: true}},
           'postcss',
           {loader: 'namespace-css', query: '#quiqWebChat'},
-          {loader: 'sass', query: {outputStyle: 'expanded'}},
+          {
+            loader: 'sass',
+            query: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
+          },
         ],
       },
       {

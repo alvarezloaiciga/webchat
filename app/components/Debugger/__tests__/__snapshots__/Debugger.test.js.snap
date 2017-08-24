@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Debugger component rendering renders phrase listener 1`] = `
+<PhraseListener
+  listeners={
+    Array [
+      Object {
+        "callback": [Function],
+        "caseInsensitive": true,
+        "phrase": "quiqdebug",
+      },
+    ]
+  }
+  timeout={5000}
+/>
+`;
+
+exports[`Debugger component rendering when not hidden renders Debugger bar 1`] = `
+<div
+  className="Debugger"
+>
+  <PhraseListener
+    listeners={
+      Array [
+        Object {
+          "callback": [Function],
+          "caseInsensitive": true,
+          "phrase": "quiqdebug",
+        },
+      ]
+    }
+    timeout={5000}
+  />
+  <div
+    className="lhsIcons"
+  >
+    <DevTools />
+    <i
+      className="fa fa-sign-in icon"
+      onClick={[Function]}
+      title="Auth User via Secure Cookie (Old Deprecated Way)"
+    />
+  </div>
+  <div
+    className="rhsIcons"
+  >
+    <div
+      className="versions"
+    >
+      <span>
+        WC: v
+        1.0.0
+      </span>
+      <span>
+        QC: v
+        1.11.3
+      </span>
+    </div>
+    <i
+      className="fa fa-close icon"
+      onClick={[Function]}
+      title="Close Debugger"
+    />
+  </div>
+</div>
+`;
