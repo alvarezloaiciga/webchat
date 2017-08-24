@@ -11,6 +11,7 @@ import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
 import {inStandaloneMode} from 'utils/utils';
 import {getChatClient} from '../../ChatClient';
+import {ChatInitializedState} from '../../appConstants';
 
 jest.useFakeTimers();
 
@@ -224,6 +225,22 @@ describe('Launcher component', () => {
           expect(testProps.setChatContainerHidden).not.toBeCalled();
         });
       });
+    });
+  });
+
+  describe('response to client inactivity timeout', () => {
+    it('sets the initialized state to inactive', async () => {
+      await render();
+      expect(testProps.initializedState).toBe(ChatInitializedState.INITIALIZED);
+      await instance.handleClientInactiveTimeout();
+      expect(testProps.setChatInitialized).toHaveBeenCalledWith(ChatInitializedState.INACTIVE);
+    });
+
+    it('restarts the client when chat is toggled', async () => {
+      testProps.initializedState = ChatInitializedState.INACTIVE;
+      await render();
+      await instance.toggleChat();
+      expect(client.start).toBeCalled();
     });
   });
 

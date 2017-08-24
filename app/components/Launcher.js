@@ -135,7 +135,8 @@ export class Launcher extends Component {
       .onError(() => this.updateInitializedState(ChatInitializedState.ERROR))
       .onErrorResolved(() => this.updateInitializedState(ChatInitializedState.INITIALIZED))
       .onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED))
-      .onNewSession(this.handleNewSession);
+      .onNewSession(this.handleNewSession)
+      .onClientInactiveTimeout(this.handleClientInactiveTimeout);
   };
 
   init = async () => {
@@ -216,6 +217,18 @@ export class Launcher extends Component {
         this.startSession();
         this.updateContainerHidden(false);
       }, QUIQ.AUTO_POP_TIME);
+    }
+  };
+
+  handleClientInactiveTimeout = () => {
+    this.updateInitializedState(ChatInitializedState.INACTIVE);
+    if (inStandaloneMode()) {
+      this.client.leaveChat();
+    } else {
+      if (!this.props.chatContainerHidden && !this.props.popped) {
+        this.updateContainerHidden(true);
+        this.client.leaveChat();
+      }
     }
   };
 

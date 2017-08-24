@@ -102,6 +102,40 @@ exports[`ChatContainer component initializedState when errored renders properly 
 </div>
 `;
 
+exports[`ChatContainer component initializedState when inactive renders properly 1`] = `
+<div
+  className="ChatContainer inactive"
+  style={
+    Object {
+      "maxHeight": 600,
+      "width": 400,
+    }
+  }
+>
+  <Connect(HeaderMenu) />
+  <div
+    className="errorBanner"
+    style={
+      Object {
+        "background": "#fff",
+        "color": "red",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+      }
+    }
+  >
+    You have been disconnected due to inactivity. Please refresh the page to reconnect.
+  </div>
+  <Debugger />
+  <div
+    className="chatContainerBody"
+  >
+    <Connect(Transcript) />
+  </div>
+</div>
+`;
+
 exports[`ChatContainer component initializedState when initialized renders properly 1`] = `
 <div
   className="ChatContainer initialized"

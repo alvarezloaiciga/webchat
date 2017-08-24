@@ -27,6 +27,7 @@ export const ChatInitializedState = {
   INITIALIZED: 'initialized',
   ERROR: 'error',
   DISCONNECTED: 'disconnected',
+  INACTIVE: 'inactive',
   BURNED: 'burned',
 };
 
@@ -45,6 +46,7 @@ export const messageTypes = {
   reconnectingMessage: 'reconnectingMessage',
   agentTypingMessage: 'agentTypingMessage',
   errorMessage: 'errorMessage',
+  inactiveMessage: 'inactiveMessage',
   requiredFieldAriaLabel: 'requiredFieldAriaLabel',
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',

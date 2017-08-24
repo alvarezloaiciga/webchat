@@ -42,6 +42,7 @@ export type ChatInitializedStateType =
   | 'initialized'
   | 'error'
   | 'disconnected'
+  | 'inactive'
   | 'burned';
 
 export type CookieDef = {

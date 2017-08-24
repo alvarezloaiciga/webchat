@@ -5,6 +5,7 @@ import {getDisplayString} from 'utils/i18n';
 import {getWebchatUrlFromScriptTag, displayError, inStandaloneMode, camelize} from './utils';
 import {SupportedWebchatUrls} from 'appConstants';
 import type {QuiqObject, WelcomeForm} from 'types';
+import {getChatClient} from '../ChatClient';
 
 const reservedKeyNames = ['Referrer'];
 
@@ -101,6 +102,7 @@ const getQuiqObject = (): QuiqObject => {
       connectingMessage: messages.connecting,
       reconnectingMessage: messages.reconnecting,
       errorMessage: messages.errorState,
+      inactiveMessage: messages.clientInactive,
       requiredFieldAriaLabel: messages.required,
       minimizeWindowTooltip: messages.minimizeWindow,
       dockWindowTooltip: messages.dockWindow,
@@ -229,6 +231,7 @@ export const openStandaloneMode = (callbacks: {
       standaloneWindowTimer = undefined;
       window.QUIQ_STANDALONE_WINDOW_HANDLE = undefined;
       callbacks.onDock();
+      getChatClient().start();
     }
   }, 500);
 };
