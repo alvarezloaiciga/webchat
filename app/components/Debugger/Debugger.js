@@ -50,7 +50,7 @@ export class Debugger extends React.Component {
           {
             <i
               className={`fa fa-sign-in icon`}
-              title="Auth User via Secure Cookie (Old Deprecated Way)"
+              title="AndrewTest Auth User via Secure Cookie (Old Deprecated Way)"
               onClick={this.client.DEPRECATED_AUTH_USER_DO_NOT_USE}
             />
           }
