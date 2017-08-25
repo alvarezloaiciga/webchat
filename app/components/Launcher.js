@@ -7,14 +7,13 @@ import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import './styles/Launcher.scss';
 import * as chatActions from 'actions/chatActions';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import messages from 'messages';
 import {displayError, isMobile, inStandaloneMode} from 'utils/utils';
 import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'appConstants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
-import type {QuiqChatClientType} from 'quiq-chat';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -46,12 +45,6 @@ export class Launcher extends Component {
   updateCustomChatButtonsInterval: number;
   typingTimeout: ?number;
   autoPopTimeout: ?number;
-  client: QuiqChatClientType;
-
-  constructor() {
-    super();
-    this.client = getChatClient();
-  }
 
   componentDidMount() {
     registerIntlObject(this.props.intl);
@@ -83,8 +76,8 @@ export class Launcher extends Component {
     if (!QUIQ.MOBILE_NUMBER && isMobile()) this.props.setChatLauncherHidden(true);
     else if (
       // User is in active session, allow them to continue
-      this.client.isChatVisible() ||
-      this.client.hasTakenMeaningfulAction() ||
+      QuiqChatClient.isChatVisible() ||
+      QuiqChatClient.hasTakenMeaningfulAction() ||
       !this.props.chatContainerHidden ||
       this.props.popped ||
       this.props.transcript.length ||
@@ -96,7 +89,7 @@ export class Launcher extends Component {
       return;
     }
 
-    const {available} = await this.client.checkForAgents();
+    const {available} = await QuiqChatClient.checkForAgents();
     this.updateLauncherHidden(!available);
   };
 
@@ -123,20 +116,21 @@ export class Launcher extends Component {
   };
 
   registerClientCallbacks = () => {
-    this.client
-      .onNewMessages(this.props.updateTranscript)
-      .onRegistration(this.props.setWelcomeFormRegistered)
-      .onAgentTyping(this.handleAgentTyping)
-      .onConnectionStatusChange((connected: boolean) =>
-        this.updateInitializedState(
-          connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
-        ),
-      )
-      .onError(() => this.updateInitializedState(ChatInitializedState.ERROR))
-      .onErrorResolved(() => this.updateInitializedState(ChatInitializedState.INITIALIZED))
-      .onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED))
-      .onNewSession(this.handleNewSession)
-      .onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient.onNewMessages(this.props.updateTranscript);
+    QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
+    QuiqChatClient.onAgentTyping(this.handleAgentTyping);
+    QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
+      this.updateInitializedState(
+        connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
+      ),
+    );
+    QuiqChatClient.onError(() => this.updateInitializedState(ChatInitializedState.ERROR));
+    QuiqChatClient.onErrorResolved(() =>
+      this.updateInitializedState(ChatInitializedState.INITIALIZED),
+    );
+    QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
+    QuiqChatClient.onNewSession(this.handleNewSession);
+    QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
   };
 
   init = async () => {
@@ -155,7 +149,7 @@ export class Launcher extends Component {
 
     // ChatContainer Visible from cookie
     // Always start session, always show launcher
-    if (this.client.isChatVisible()) {
+    if (QuiqChatClient.isChatVisible()) {
       await this.startSession();
       this.updateLauncherHidden(false);
       this.updateContainerHidden(false);
@@ -165,7 +159,7 @@ export class Launcher extends Component {
     // User has submitted welcome form or sent message, ChatContainer not visible
     // Show launcher if transcript length > 0
     // Always start session, don't change ChatContainer
-    if (this.client.hasTakenMeaningfulAction()) {
+    if (QuiqChatClient.hasTakenMeaningfulAction()) {
       await this.startSession();
     }
 
@@ -183,7 +177,7 @@ export class Launcher extends Component {
 
     try {
       this.updateInitializedState(ChatInitializedState.LOADING);
-      await this.client.start();
+      await QuiqChatClient.start();
       this.updateInitializedState(ChatInitializedState.INITIALIZED);
 
       // User has session in progress. Send them right to it.
@@ -223,11 +217,11 @@ export class Launcher extends Component {
   handleClientInactiveTimeout = () => {
     this.updateInitializedState(ChatInitializedState.INACTIVE);
     if (inStandaloneMode()) {
-      this.client.leaveChat();
+      QuiqChatClient.leaveChat();
     } else {
       if (!this.props.chatContainerHidden && !this.props.popped) {
         this.updateContainerHidden(true);
-        this.client.leaveChat();
+        QuiqChatClient.leaveChat();
       }
     }
   };
@@ -287,10 +281,10 @@ export class Launcher extends Component {
     if (this.props.chatContainerHidden) {
       this.updateContainerHidden(false);
       await this.startSession();
-      this.client.joinChat();
+      QuiqChatClient.joinChat();
     } else {
       this.updateContainerHidden(true);
-      this.client.leaveChat();
+      QuiqChatClient.leaveChat();
     }
   };
 

@@ -5,20 +5,17 @@ import type {WelcomeFormProps} from '../WelcomeForm';
 import {WelcomeForm} from '../WelcomeForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import {registerChatClient} from '../../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import Textarea from 'react-textarea-autosize';
 
 describe('WelcomeForm component', () => {
   let wrapper: ShallowWrapper;
   let testProps: WelcomeFormProps;
   let render: () => void;
-  const mockClient = {
-    sendMessage: jest.fn(() => {}),
-    sendRegistration: jest.fn(async () => await {}),
-  };
 
   beforeEach(() => {
-    registerChatClient(mockClient);
+    QuiqChatClient.sendMessage = jest.fn(() => {});
+    QuiqChatClient.sendRegistration = jest.fn(async () => await {});
 
     testProps = {};
     render = () => {
@@ -58,7 +55,7 @@ describe('WelcomeForm component', () => {
     it('does not submit if there is a required field left blank', () => {
       render();
       wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
-      expect(mockClient.sendRegistration).not.toHaveBeenCalled();
+      expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
     it('does not submit if there is a required field containing only whitespace', () => {
@@ -77,7 +74,7 @@ describe('WelcomeForm component', () => {
       });
       render();
       wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
-      expect(mockClient.sendRegistration).not.toHaveBeenCalled();
+      expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
     describe('valid submission', () => {
@@ -94,11 +91,11 @@ describe('WelcomeForm component', () => {
       });
 
       it('does submit if all required fields are filled in', () => {
-        expect(mockClient.sendRegistration).toHaveBeenCalled();
+        expect(QuiqChatClient.sendRegistration).toHaveBeenCalled();
       });
 
       it('does not send message if initial field was not provided', () => {
-        expect(mockClient.sendMessage).not.toHaveBeenCalled();
+        expect(QuiqChatClient.sendMessage).not.toHaveBeenCalled();
       });
 
       it('disables send button and sets text', () => {
@@ -129,12 +126,12 @@ describe('WelcomeForm component', () => {
       });
 
       it('does submit if all required fields are filled in', () => {
-        expect(mockClient.sendRegistration).toHaveBeenCalled();
+        expect(QuiqChatClient.sendRegistration).toHaveBeenCalled();
       });
 
       // Not sure why this is failing, but it is definitely being called...
       // it('does send message if initial field was provided', () => {
-      //   expect(mockClient.sendMessage).toHaveBeenCalled();
+      //   expect(QuiqChatClient.sendMessage).toHaveBeenCalled();
       // });
 
       it('disables send button and sets text', () => {
