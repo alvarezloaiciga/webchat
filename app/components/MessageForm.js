@@ -113,6 +113,7 @@ export class MessageForm extends Component {
             style={inputStyle}
             name="message"
             value={this.state.text}
+            maxLength={1024}
             maxRows={supportsFlexbox() ? 6 : 3}
             minRows={supportsFlexbox() ? 1 : 3}
             // onInput is more responsive, but is an html5 attribute so not supported in older browsers.

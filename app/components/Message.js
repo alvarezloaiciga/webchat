@@ -17,7 +17,7 @@ const getMessageBubbleStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
     return getStyle(STYLES.CustomerMessageBubble, {
       backgroundColor: COLORS.customerMessageBackground,
-      maxWidth: WIDTH - 50,
+      maxWidth: WIDTH - 82,
     });
   }
 
