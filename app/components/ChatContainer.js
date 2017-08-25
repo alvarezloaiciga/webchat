@@ -8,7 +8,7 @@ import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
 import Transcript from 'Transcript';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
 import {ChatInitializedState, messageTypes} from 'appConstants';
@@ -112,7 +112,7 @@ export class ChatContainer extends React.Component {
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
       !this.props.welcomeFormRegistered &&
-      !getChatClient().isRegistered()
+      !QuiqChatClient.isRegistered()
     ) {
       return (
         <div

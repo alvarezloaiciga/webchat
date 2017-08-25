@@ -7,7 +7,7 @@ import {messageTypes} from 'appConstants';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import './styles/MessageForm.scss';
 import type {ChatState} from 'types';
 
@@ -38,12 +38,12 @@ export class MessageForm extends Component {
   }
 
   startTyping = () => {
-    getChatClient().updateMessagePreview(this.state.text, true);
+    QuiqChatClient.updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    getChatClient().updateMessagePreview(this.state.text, false);
+    QuiqChatClient.updateMessagePreview(this.state.text, false);
   };
 
   startTypingTimers = () => {
@@ -70,7 +70,7 @@ export class MessageForm extends Component {
     const text = this.state.text.trim();
     if (text) {
       this.setState({text: ''}, this.resetTypingTimers);
-      getChatClient().sendMessage(text);
+      QuiqChatClient.sendMessage(text);
     }
   };
 

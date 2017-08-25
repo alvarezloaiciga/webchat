@@ -7,7 +7,7 @@ import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
 import Textarea from 'react-textarea-autosize';
@@ -98,7 +98,7 @@ export class WelcomeForm extends Component {
     map(this.state.inputFields, field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        getChatClient().sendMessage(field.value);
+        QuiqChatClient.sendMessage(field.value);
       }
     });
   };
@@ -122,7 +122,7 @@ export class WelcomeForm extends Component {
     fields.Referrer = HREF;
 
     this.setState({submitting: true});
-    await getChatClient().sendRegistration(fields);
+    await QuiqChatClient.sendRegistration(fields);
     this.sendInitialMessage();
   };
 
