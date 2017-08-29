@@ -4,14 +4,19 @@ import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   camelizeToplevelScreamingSnakeCaseKeys,
+  isIFrame,
 } from 'Common/Utils';
 import {buildChatIFrame} from 'managers/FrameManager';
 import {setupButtons} from 'managers/ButtonManager';
-import {setQuiqOptions, setUsingDefaultLaunchButton} from './Globals';
+import {setQuiqOptions, getChatWindow} from './Globals';
 import * as Messenger from './services/Messenger';
 
 const sdkPrototype = {
   setChatVisibility: (visible: boolean) => {
+    // NOTE: Focus must be done from the SDK, not webchat, as call to focus() must originate from user interaction
+    if (!isIFrame(getChatWindow())) {
+      return getChatWindow().focus();
+    }
     Messenger.tellChat(actionTypes.setChatVisibility, {visible});
   },
   getChatVisibility: async (callback): Promise<{visible: boolean}> => {
@@ -36,15 +41,6 @@ export const Quiq = (options: {[string]: any}) => {
   quiqOptions.clientDomain = getWindowDomain();
 
   setQuiqOptions(quiqOptions);
-
-  // Decide whether to show a default launch button
-  if (
-    quiqOptions.showDefaultLaunchButton ||
-    !quiqOptions.customLaunchButtons ||
-    !quiqOptions.customLaunchButtons.length
-  ) {
-    setUsingDefaultLaunchButton(true);
-  }
 
   // Defer DOM-related tasks until DOM is fully loaded
   if (document.readyState === 'loading') {

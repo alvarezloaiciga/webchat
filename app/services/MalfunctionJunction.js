@@ -13,20 +13,19 @@ import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'Common/Constants';
-import {displayError, getHostingWindow, getWindowDomain} from 'Common/Utils';
+import {displayError, getHostingWindow} from 'Common/Utils';
+import {constructApp, appIsMounted} from 'utils/domUtils';
 import messages from 'messages';
 import type {ReduxStore, ChatState} from 'types';
 
 let reduxWatch;
-let dispatch;
-let getState: () => ChatState;
+let store;
 let chatClient;
 let domain;
 let postRobotClient, postRobotListener;
 
 export const init = (_domain: string, _store: ReduxStore, _chatClient) => {
-  dispatch = _store.dispatch;
-  getState = _store.getState;
+  store = _store;
   chatClient = _chatClient;
   domain = _domain;
 
@@ -97,15 +96,20 @@ export const standaloneOpen = () => {
 
 const setChatVisibility = (event: Object) => {
   const {visible} = event.data;
-  dispatch(ChatActions.setChatContainerHidden(!visible));
+
+  if (visible && !appIsMounted()) {
+    constructApp(store);
+  }
+
+  store.dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
 const getChatVisibility = () => {
-  return {visible: !ChatSelectors.getChatContainerHidden(getState())};
+  return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
 };
 
 const getAgentAvailability = () => {
-  return {available: ChatSelectors.getAgentsAvailable(getState())};
+  return {available: ChatSelectors.getAgentsAvailable(store.getState())};
 };
 
 /**********************************************************************************

@@ -1,5 +1,5 @@
-import {getQuiqOptions, getUsingDefaultLaunchButton} from '../Globals';
-import {displayWarning, displayError, isMobile} from 'Common/Utils';
+import {getQuiqOptions, getChatWindow} from '../Globals';
+import {displayWarning, displayError, isMobile, isIFrame} from 'Common/Utils';
 import * as Messenger from '../services/Messenger';
 import {
   actionTypes,
@@ -14,10 +14,12 @@ import ToggleChatButton from '../styles/ToggleChatButton';
 import toInlineStyle from '@f/to-inline-style';
 
 export const setupButtons = () => {
-  if (getUsingDefaultLaunchButton()) {
+  const quiqOptions = getQuiqOptions();
+  if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
+    bindCustomLaunchButtons();
+  } else {
     addDefaultLaunchButton();
   }
-  bindCustomLaunchButtons();
 };
 
 const bindCustomLaunchButtons = () => {
@@ -65,17 +67,22 @@ const addDefaultLaunchButton = () => {
 };
 
 const launchButtonClickHandler = async () => {
+  if (!isIFrame(getChatWindow())) {
+    return getChatWindow().focus();
+  }
+
   const {visible} = await Messenger.askChat(actionTypes.getChatVisibility);
   Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
 const handleAgentAvailabilityChange = data => {
   const {available} = data;
+  const quiqOptions = getQuiqOptions();
   let allLaunchButtons = [];
-  const {customLaunchButtons} = getQuiqOptions();
-  allLaunchButtons = allLaunchButtons.concat(customLaunchButtons || []);
-
-  if (getUsingDefaultLaunchButton()) {
+  if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
+    allLaunchButtons = quiqOptions.customLaunchButtons;
+  } else {
+    // Default launch button
     allLaunchButtons.push(`#${launchButtonId}`);
   }
 

@@ -1,5 +1,4 @@
 // @flow
-declare var __DEV__: string;
 import messages from 'messages';
 import QuiqChatClient from 'quiq-chat';
 import {getWebchatUrlFromScriptTag, displayError, isIEorSafari, inStandaloneMode, camelize} from 'Common/Utils';
@@ -8,23 +7,6 @@ import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
-
-const getHostUrl = (quiqObj: QuiqObject): string => {
-  if (
-    __DEV__ ||
-    window.location.hostname === 'localhost' ||
-    window.location.origin === 'file://' ||
-    window.location.hostname === 'mymac'
-  ) {
-    if (!quiqObj.host) {
-      throw new Error('You must specify host option when running locally!');
-    }
-
-    return quiqObj.host;
-  }
-
-  return window.location.href.slice(0, window.location.href.indexOf('/app/webchat'));
-};
 
 const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   const newFormObject = Object.assign({}, form);
@@ -74,7 +56,7 @@ const getQuiqOptions = (): QuiqObject => {
     styles: {},
     position: {},
     headerText: messages.hereToHelp,
-    host: getHostUrl(rawQuiqObject),
+    host: undefined,
     clientDomain: undefined,
     debug: false,
     welcomeForm: rawQuiqObject.welcomeForm

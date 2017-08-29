@@ -69,6 +69,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     clearInterval(this.updateCustomChatButtonsInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
+    getChatClient().stop();
   }
 
   updateAgentAvailability = async () => {

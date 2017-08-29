@@ -72,7 +72,7 @@ export const askChat = async (
   }
 
   try {
-    let response = await postRobotClient.send(messageName, data || {});
+    const response = await postRobotClient.send(messageName, data || {});
 
     if (callback) {
       callback(response.data, null);

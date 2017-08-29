@@ -1,12 +1,12 @@
-import {webchatPath, eventTypes, quiqChatFrameId} from 'Common/Constants';
-import {setup as setupMessenger, registerEventHandler} from '../services/Messenger';
-import ToggleChatButton from 'styles/ToggleChatButton';
-import {getQuiqOptions, setChatWindow, getChatWindow, getUsingDefaultLaunchButton} from '../Globals';
+import {webchatPath, eventTypes, actionTypes, quiqChatFrameId} from 'Common/Constants';
+import {setup as setupMessenger, registerEventHandler, tellChat} from '../services/Messenger';
+import ToggleChatButton from '../styles/ToggleChatButton';
+import {getQuiqOptions, setChatWindow, getChatWindow} from '../Globals';
 import {displayError, isIFrame, getCalcStyle} from 'Common/Utils';
 
 let standaloneWindowTimer;
 
-export const buildChatIFrame = (hideInitially: boolean = true) => {
+export const buildChatIFrame = () => {
   const quiqOptions = getQuiqOptions();
 
   const framePosition = {
@@ -17,16 +17,16 @@ export const buildChatIFrame = (hideInitially: boolean = true) => {
   };
 
   // Determine actual bottom of iframe based on whether or not we have a custom launch button
-  const launchButtonHeight = getUsingDefaultLaunchButton()
-    ? (quiqOptions.styles.ToggleChatButton && quiqOptions.styles.ToggleChatButton.height) ||
-      ToggleChatButton.height
-    : '0px';
+  const launchButtonHeight = quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length
+    ? '0px'
+    : (quiqOptions.styles.ToggleChatButton && quiqOptions.styles.ToggleChatButton.height) ||
+    ToggleChatButton.height;
 
   if (!document.querySelector(`#${quiqChatFrameId}`)) {
     const quiqChatFrame = document.createElement('iframe');
     quiqChatFrame.id = quiqChatFrameId;
     quiqChatFrame.src = `${quiqOptions.host}/${webchatPath}`;
-    quiqChatFrame.height = hideInitially ? 0 : quiqOptions.height; // When initialized with height of 0, onAgentAvailabilityChange will set to proper height
+    quiqChatFrame.height = 0; // onAgentAvailabilityChange will set to proper height
     quiqChatFrame.width = quiqOptions.width;
     quiqChatFrame.style.position = 'fixed';
     quiqChatFrame.style.bottom = getCalcStyle(launchButtonHeight, framePosition.bottom, '+');
@@ -36,14 +36,14 @@ export const buildChatIFrame = (hideInitially: boolean = true) => {
     quiqChatFrame.style.border = 'none';
     quiqChatFrame.onload = () => {
       handleWindowChange(window.quiqChatFrame);
-      window.quiqChatFrame.contentWindow.postMessage(
+      window[quiqChatFrameId].contentWindow.postMessage(
         {quiqOptions, name: 'handshake'},
         quiqOptions.host,
       );
     };
     document.body.appendChild(quiqChatFrame);
   } else {
-    handleWindowChange(window.quiqChatFrame);
+    handleWindowChange(window[quiqChatFrameId]);
   }
 };
 
@@ -72,9 +72,6 @@ const handleWindowChange = newWindow => {
 const handleStandaloneOpen = () => {
   const quiqOptions = getQuiqOptions();
   const currentChatWindow = getChatWindow();
-  if (getChatWindow().name && getChatWindow().name === StandaloneWindowName) {
-    getChatWindow().focus();
-  }
 
   const width = quiqOptions.width;
   const height = quiqOptions.height;
@@ -107,10 +104,9 @@ const handleStandaloneOpen = () => {
     if (popup.closed) {
       if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
       standaloneWindowTimer = undefined;
-      // Rebuild the iframe, with non-zero initial height
-      //buildChatIFrame(false);
       handleWindowChange(window.quiqChatFrame);
-      window.quiqChatFrame.height = quiqOptions.height;
+      window[quiqChatFrameId].height = quiqOptions.height;
+      tellChat(actionTypes.setChatVisibility, {visible: true});
     }
   }, 500);
 };

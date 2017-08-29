@@ -1,16 +1,10 @@
 import 'babel-polyfill';
 import {nonCompatibleBrowser} from 'Common/Utils';
-import React from 'react';
-import Routes from 'Routes';
-import {render} from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
-import {IntlProvider} from 'react-intl';
-import Redbox from 'redbox-react';
+import {constructApp} from 'utils/domUtils';
 import quiqOptions from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
 import {init as initMalfunctionJunction} from './services/MalfunctionJunction';
-import {Provider} from 'react-redux';
 import chat, {initialState} from 'reducers/chat';
 
 import 'main.scss';
@@ -27,33 +21,7 @@ const init = () => {
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
-  render(
-    <Provider store={store}>
-      <IntlProvider locale="en">
-        <AppContainer errorReporter={Redbox}>
-          <Routes />
-        </AppContainer>
-      </IntlProvider>
-    </Provider>,
-    document.getElementById('quiqWebChat'),
-  );
-
-  if (module.hot) {
-    module.hot.accept('Routes', () => {
-      const NextApp = require('Routes').default; // eslint-disable-line global-require
-
-      render(
-        <Provider store={store}>
-          <IntlProvider locale="en">
-            <AppContainer errorReporter={Redbox}>
-              <NextApp />
-            </AppContainer>
-          </IntlProvider>
-        </Provider>,
-        document.getElementById('quiqWebChat'),
-      );
-    });
-  }
+  constructApp(chat);
 };
 
 // Conditionally load Intl polyfill for old versions of IE

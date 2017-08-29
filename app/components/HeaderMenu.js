@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import {inStandaloneMode} from 'Common/Utils';
-import quiqOptions, {openStandaloneMode, getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
+import {destructApp} from 'utils/domUtils';
 import {messageTypes, ChatInitializedState} from 'Common/Constants';
 import {setChatContainerHidden, setChatInitialized} from 'actions/chatActions';
 import {connect} from 'react-redux';
@@ -23,9 +24,9 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   };
 
   const popChat = () => {
-    getChatClient().stop();
-    props.setChatInitialized(ChatInitializedState.SLEEPING);
     standaloneOpen();
+    props.setChatInitialized(ChatInitializedState.UNINITIALIZED);
+    destructApp();
   };
 
   const {colors, styles} = quiqOptions;

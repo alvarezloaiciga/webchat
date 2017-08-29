@@ -11,8 +11,3 @@ export const getChatWindow = () => chatWindow;
 export const setChatWindow = newChatWindow => {
   chatWindow = newChatWindow;
 };
-
-export const getUsingDefaultLaunchButton = (): boolean => usingDefaultLaunchButton;
-export const setUsingDefaultLaunchButton = (using: boolean) => {
-  usingDefaultLaunchButton = using;
-};
