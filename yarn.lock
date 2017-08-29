@@ -4633,6 +4633,14 @@ log-update@^1.0.2:
     ansi-escapes "^1.0.0"
     cli-cursor "^1.0.2"
 
+loglevel-plugin-prefix@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/loglevel-plugin-prefix/-/loglevel-plugin-prefix-0.5.3.tgz#8e9131b96e4697a0dba517996f76b9e6c3f43210"
+
+loglevel@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.4.1.tgz#95b383f91a3c2756fd4ab093667e4309161f2bcd"
+
 longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
@@ -5824,14 +5832,16 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.11.3:
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.11.3.tgz#af4b02575c4dd12a8f29385da85380ebef4d313b"
+quiq-chat@1.11.5:
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.11.5.tgz#3f976badef4a114899238183e5aa69881c8ba7a5"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
     js-cookie "2.1.4"
     lodash "4.17.4"
+    loglevel "1.4.1"
+    loglevel-plugin-prefix "0.5.3"
     qs "6.5.0"
     store "2.0.12"
     ua-parser-js "0.7.12"

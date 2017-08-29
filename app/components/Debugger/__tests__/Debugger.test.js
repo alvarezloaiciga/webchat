@@ -1,5 +1,5 @@
 // @flow
-jest.mock('../../../ChatClient');
+jest.mock('quiq-chat');
 import React from 'react';
 import Debugger from '../Debugger';
 import {shallow} from 'enzyme';

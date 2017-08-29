@@ -1,10 +1,10 @@
 // @flow
-jest.mock('../../ChatClient');
+jest.mock('quiq-chat');
 jest.mock('utils/quiq');
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
 import {HeaderMenu} from '../HeaderMenu';
-import {getChatClient} from '../../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import {shallow} from 'enzyme';
 import {openStandaloneMode} from 'utils/quiq';
 import type {ShallowWrapper} from 'enzyme';
@@ -38,7 +38,7 @@ describe('HeaderMenu component', () => {
       render();
       wrapper.find('.fa-window-minimize').simulate('click');
       expect(testProps.setChatContainerHidden).toBeCalledWith(true);
-      expect(getChatClient().leaveChat).toBeCalled();
+      expect(QuiqChatClient.leaveChat).toBeCalled();
     });
   });
 

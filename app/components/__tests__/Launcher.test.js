@@ -1,7 +1,7 @@
 // @flow
 jest.mock('utils/utils');
 jest.mock('utils/quiq');
-jest.mock('../../ChatClient');
+jest.mock('quiq-chat');
 import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
@@ -10,7 +10,7 @@ import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
 import {inStandaloneMode} from 'utils/utils';
-import {getChatClient} from '../../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import {ChatInitializedState} from '../../appConstants';
 
 jest.useFakeTimers();
@@ -21,7 +21,6 @@ describe('Launcher component', () => {
   let render;
   let init: () => void;
   let testProps: LauncherProps;
-  const client = getChatClient();
 
   let checkForAgentsResponse;
   let hasTakenMeaningfulActionResponse;
@@ -29,17 +28,17 @@ describe('Launcher component', () => {
 
   const updateAgentsAvailable = (available?: boolean = true) => {
     checkForAgentsResponse = Promise.resolve({available});
-    client.checkForAgents = jest.fn(() => checkForAgentsResponse);
+    QuiqChatClient.checkForAgents = jest.fn(() => checkForAgentsResponse);
   };
 
   const updateHasTakenMeaningfulAction = (hasTakenAction?: boolean = true) => {
     hasTakenMeaningfulActionResponse = hasTakenAction;
-    client.hasTakenMeaningfulAction = jest.fn(() => hasTakenMeaningfulActionResponse);
+    QuiqChatClient.hasTakenMeaningfulAction = jest.fn(() => hasTakenMeaningfulActionResponse);
   };
 
   const updateIsChatVisible = (visible?: boolean = true) => {
     isChatVisibleResponse = visible;
-    client.isChatVisible = jest.fn(() => isChatVisibleResponse);
+    QuiqChatClient.isChatVisible = jest.fn(() => isChatVisibleResponse);
   };
 
   beforeEach(() => {
@@ -69,9 +68,9 @@ describe('Launcher component', () => {
     };
 
     render = async () => {
-      client.checkForAgents.mockReturnValue(checkForAgentsResponse);
-      client.isChatVisible.mockReturnValue(isChatVisibleResponse);
-      client.hasTakenMeaningfulAction.mockReturnValue(hasTakenMeaningfulActionResponse);
+      QuiqChatClient.checkForAgents.mockReturnValue(checkForAgentsResponse);
+      QuiqChatClient.isChatVisible.mockReturnValue(isChatVisibleResponse);
+      QuiqChatClient.hasTakenMeaningfulAction.mockReturnValue(hasTakenMeaningfulActionResponse);
 
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
@@ -160,7 +159,7 @@ describe('Launcher component', () => {
         updateHasTakenMeaningfulAction(true);
         testProps.initializedState = 'uninitialized';
         await render();
-        expect(client.start).toBeCalled();
+        expect(QuiqChatClient.start).toBeCalled();
       });
     });
   });
@@ -240,7 +239,7 @@ describe('Launcher component', () => {
       testProps.initializedState = ChatInitializedState.INACTIVE;
       await render();
       await instance.toggleChat();
-      expect(client.start).toBeCalled();
+      expect(QuiqChatClient.start).toBeCalled();
     });
   });
 
@@ -256,9 +255,9 @@ describe('Launcher component', () => {
     });
 
     it('calls checkForAgents again', () => {
-      expect(client.checkForAgents).toBeCalled();
+      expect(QuiqChatClient.checkForAgents).toBeCalled();
       jest.runTimersToTime(1000 * 60);
-      expect(client.checkForAgents).toBeCalled();
+      expect(QuiqChatClient.checkForAgents).toBeCalled();
     });
 
     describe('when chat container is not hidden', () => {
