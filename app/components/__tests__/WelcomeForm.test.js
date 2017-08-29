@@ -146,7 +146,6 @@ describe('WelcomeForm component', () => {
     });
 
     it('sets validationError state to true if a required field is left blank', () => {
-      // $FlowIssue - flow think instance() returns a generic Component
       wrapper.instance().validateFormInput();
       expect(wrapper.state('formValidationError')).toBe(true);
     });

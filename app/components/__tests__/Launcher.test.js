@@ -74,7 +74,7 @@ describe('Launcher component', () => {
 
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
-      instance.componentDidMount();
+      (instance: any).componentDidMount();
 
       await checkForAgentsResponse;
       await hasTakenMeaningfulActionResponse;

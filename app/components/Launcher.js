@@ -6,7 +6,16 @@ import QUIQ, {openStandaloneMode} from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import ToggleChatButton from './ToggleChatButton';
 import './styles/Launcher.scss';
-import * as chatActions from 'actions/chatActions';
+import {
+  setChatContainerHidden,
+  setChatLauncherHidden,
+  setChatInitialized,
+  setChatPopped,
+  setWelcomeFormRegistered,
+  setAgentTyping,
+  updateTranscript,
+  newWebchatSession,
+} from 'actions/chatActions';
 import QuiqChatClient from 'quiq-chat';
 import messages from 'messages';
 import {displayError, isMobile, inStandaloneMode} from 'utils/utils';
@@ -38,7 +47,7 @@ export type LauncherProps = {
   newWebchatSession: () => void,
 };
 
-export class Launcher extends Component {
+export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
   state: LauncherState = {};
   determineLauncherStateInterval: number;
@@ -315,6 +324,15 @@ export default compose(
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
     }),
-    chatActions,
+    {
+      setChatContainerHidden,
+      setChatLauncherHidden,
+      setChatInitialized,
+      setChatPopped,
+      setWelcomeFormRegistered,
+      setAgentTyping,
+      updateTranscript,
+      newWebchatSession,
+    },
   ),
 )(Launcher);

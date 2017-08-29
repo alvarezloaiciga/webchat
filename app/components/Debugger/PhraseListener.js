@@ -17,7 +17,7 @@ type PhraseListenerState = {
   keys: string,
 };
 
-export class PhraseListener extends React.Component {
+export class PhraseListener extends React.Component<PhraseListenerProps, PhraseListenerState> {
   props: PhraseListenerProps;
   state: PhraseListenerState = {keys: ''};
   timeoutFunctionId: number;

@@ -27,7 +27,7 @@ export type WelcomeFormState = {
   submitting: boolean,
 };
 
-export class WelcomeForm extends Component {
+export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,
@@ -103,7 +103,7 @@ export class WelcomeForm extends Component {
     });
   };
 
-  submitForm = async (e: SyntheticEvent) => {
+  submitForm = async (e: SyntheticEvent<*>) => {
     e.preventDefault();
     if (this.state.submitting) return;
 
@@ -126,7 +126,7 @@ export class WelcomeForm extends Component {
     this.sendInitialMessage();
   };
 
-  handleTrimFieldInput = (e: SyntheticInputEvent) => {
+  handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
     const value = e.target.value;
 
@@ -148,7 +148,7 @@ export class WelcomeForm extends Component {
     }
   };
 
-  handleFieldInput = (e: SyntheticInputEvent) => {
+  handleFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
     const value = e.target.value;
     const newState = update(this.state, {

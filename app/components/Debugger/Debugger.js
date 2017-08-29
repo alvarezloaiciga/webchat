@@ -13,7 +13,7 @@ type DebuggerState = {
   hidden: boolean,
 };
 
-export class Debugger extends React.Component {
+export class Debugger extends React.Component<{}, DebuggerState> {
   state: DebuggerState = {
     hidden: !QUIQ.DEBUG,
   };

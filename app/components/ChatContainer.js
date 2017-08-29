@@ -21,7 +21,7 @@ export type ChatContainerProps = {
   initializedState: ChatInitializedStateType,
 };
 
-export class ChatContainer extends React.Component {
+export class ChatContainer extends React.Component<ChatContainerProps> {
   props: ChatContainerProps;
 
   componentDidMount() {

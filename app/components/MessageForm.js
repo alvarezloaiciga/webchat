@@ -22,7 +22,7 @@ type MessageFormState = {
 };
 
 let updateTimer;
-export class MessageForm extends Component {
+export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   textArea: any;
   props: MessageFormProps;
   state: MessageFormState = {
@@ -58,7 +58,7 @@ export class MessageForm extends Component {
     this.stopTyping();
   };
 
-  handleTextChanged = (e: SyntheticInputEvent) => {
+  handleTextChanged = (e: SyntheticInputEvent<*>) => {
     const state = Object.assign({
       text: e.target.value,
     });
@@ -74,7 +74,7 @@ export class MessageForm extends Component {
     }
   };
 
-  handleKeyDown = (e: SyntheticKeyboardEvent) => {
+  handleKeyDown = (e: SyntheticKeyboardEvent<*>) => {
     if (e.keyCode === keycodes.enter) {
       e.preventDefault();
       this.addMessage();

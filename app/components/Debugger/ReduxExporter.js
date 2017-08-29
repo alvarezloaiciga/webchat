@@ -15,7 +15,7 @@ type ReduxExporterProps = {
   currentStateIndex?: number,
 };
 
-export class ReduxExporter extends React.Component {
+export class ReduxExporter extends React.Component<ReduxExporterProps> {
   props: ReduxExporterProps;
 
   exportReduxState = () => {
