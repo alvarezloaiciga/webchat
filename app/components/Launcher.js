@@ -1,15 +1,16 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'utils/i18n';
+import {registerIntlObject} from 'Common/i18n';
 import quiqOptions, {openStandaloneMode} from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {standaloneOpen} from 'services/MalfunctionJunction';
-import {displayError, isMobile, inStandaloneMode} from 'utils/utils';
-import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'appConstants';
+import messages from 'messages';
+import {displayError, isMobile, inStandaloneMode} from 'Common/Utils';
+import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
@@ -207,21 +208,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   toggleChat = async () => {
-    if (this.props.popped) {
-      standaloneOpen();
-      /*return openStandaloneMode({
-        onPop: () => {
-          this.props.setChatPopped(true);
-        },
-        onFocus: () => {
-          this.props.setChatPopped(true);
-        },
-        onDock: () => {
-          this.props.setChatPopped(false);
-        },
-      });*/
-    }
-
     if (this.props.chatContainerHidden) {
       this.updateContainerHidden(false);
       await this.startSession();

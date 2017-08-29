@@ -1,8 +1,9 @@
 // @flow
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
+
 import chat, {initialState} from '../chat';
 import {getMockMessage} from 'utils/testHelpers';
-import {inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'Common/Utils';
 
 describe('chat reducers', () => {
   afterEach(() => {

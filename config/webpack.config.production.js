@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const fs = require('fs');
 const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
@@ -41,6 +42,15 @@ module.exports = merge(config, {
       filename: 'index.html',
       inject: false,
       chunks: ['common', 'webchat'],
+    }),
+    new HtmlWebpackPlugin({
+      template: 'config/templates/bridge.ejs',
+      filename: 'bridge.html',
+      inject: false,
+      options: {
+        bridgeScript: fs.readFileSync('node_modules/post-robot/dist/post-robot.ie.min.js'),
+      },
+      chunks: [],
     }),
     new HtmlWebpackPlugin({
       template: 'config/templates/standalone.ejs',

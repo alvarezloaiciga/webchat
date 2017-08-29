@@ -1,6 +1,7 @@
 // @flow
-import {inStandaloneMode} from 'utils/utils';
-import {ChatInitializedState} from 'appConstants';
+import {inStandaloneMode} from 'Common/Utils';
+import {createStore} from 'redux';
+import {ChatInitializedState} from 'Common/Constants';
 import quiqOptions from 'utils/quiq';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
 

@@ -2,16 +2,18 @@
 declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
-import 'modernizr';
-import {getDisplayString, formatTime} from 'utils/i18n';
 import messages from 'messages';
-import {SupportedWebchatUrls, StandaloneWindowName} from 'appConstants';
+import {SupportedWebchatUrls} from './Constants';
 import {UAParser} from 'ua-parser-js';
-import type {BrowserNames, DeviceTypes, OSNames, IntlMessage} from 'types';
+import {getDisplayString, formatTime} from './i18n';
+import './modernizr';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
 
 const parser = new UAParser();
 
 export const getBrowserName = (): BrowserNames => parser.getResult().browser.name;
+
+export const getEngine = (): BrowserEngine => parser.getResult().engine.name;
 
 export const getMajor = (): number => parseInt(parser.getResult().browser.major, 10);
 
@@ -46,6 +48,50 @@ export const compatibilityMode = () => {
   return !!compatList.find(i => i.name === name && parseInt(major, 10) <= i.major);
 };
 
+export const isMobile = () => getDeviceType() === 'mobile';
+
+export const getCalcStyle = (val1: number | string, val2: number | string, operand: string) => {
+  const expression = `calc(${val1} ${operand} ${val2})`;
+  switch (getEngine()) {
+    case 'WebKit':
+      return `-webkit-${expression}`;
+    case 'Gecko':
+      return `-moz-${expression}`;
+    default:
+      return expression;
+  }
+};
+
+export const getWebchatHostFromScriptTag = () => {
+  // Determine host from the script tag that loaded webchat
+  const scriptTags = Array.from(document.getElementsByTagName('script'));
+
+  const mainScript = scriptTags.find(
+    tag => tag.src && SupportedWebchatUrls.find(u => tag.src.toLowerCase().includes(u)),
+  );
+
+  if (!mainScript)
+    return displayError('Unable to locate Quiq script tag for determining chat host.');
+
+  const webchatUrl = mainScript.src;
+  return webchatUrl.slice(0, webchatUrl.indexOf('/app/webchat'));
+};
+
+export const getWindowDomain = () => `${window.location.protocol}//${window.location.host}`;
+
+export const isIFrame = (chatWindow): boolean => {
+  return chatWindow instanceof HTMLElement && chatWindow.tagName.toLowerCase() === 'iframe';
+};
+
+export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
+  const newObject = {};
+  Object.keys(obj).forEach(key => {
+    const newKey = camelize(key.toLowerCase());
+    newObject[newKey] = obj[key];
+  });
+  return newObject;
+};
+
 export const getHostingWindow = () => {
   return window.opener || window.parent;
   // If window.opener is defined, then we're in a popup.
@@ -57,12 +103,15 @@ export const getHostingWindow = () => {
   // If window.parent is not a reference to ourselves, then we're in an iframe.
   if (window.parent && window.parent !== window) return window.parent;
 
-  displayError(messages.cannotFindHostingWindow);
+  displayError({
+    id: 'cannotFindHostingWindow',
+    description: 'Message displayed when frame or window containing webchat app cannot be found in DOM',
+    defaultMessage: 'Unable to find iframe or window containing webchat',
+  });
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
 export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
-export const isMobile = () => getDeviceType() === 'mobile';
 
 export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;
 // QuiqModernizr says IE10 doesn't support flexbox.
@@ -72,18 +121,15 @@ export const supportsSVG = () =>
   QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
 export const displayError = (error: IntlMessage | string, values: {[string]: string} = {}) => {
-  throw new Error(
-    `\n
-!!! ${getDisplayString(messages.quiqFatalError)} !!!
-  ${getDisplayString(error, values)}
-!!! ${getDisplayString(messages.quiqFatalError)} !!!\n`,
-  );
+  throw new Error(getDisplayString(error, values));
+};
+
+export const displayWarning = (error: IntlMessage | string, values: {[string]: string} = {}) => {
+  console.warn(getDisplayString(error, values));
 };
 
 // If window.opener is not null, then we're in a popup.
 export const inStandaloneMode = () => !!window.opener;
-
-export const getWindowDomain = () => `${window.location.protocol}//${window.location.host}`;
 
 export const getWebchatUrlFromScriptTag = () => {
   // Determine host from the script tag that loaded webchat

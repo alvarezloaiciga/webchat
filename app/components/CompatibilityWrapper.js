@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {supportsFlexbox, supportsSVG} from 'utils/utils';
+import {supportsFlexbox, supportsSVG} from 'Common/Utils';
 import classnames from 'classnames';
 
 export type CompatibilityWrapperProps = {

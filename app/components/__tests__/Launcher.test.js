@@ -1,7 +1,8 @@
 // @flow
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
 jest.mock('utils/quiq');
 jest.mock('quiq-chat');
+
 import quiqOptions, {openStandaloneMode} from 'utils/quiq';
 import React from 'react';
 import {Launcher} from '../Launcher';
@@ -9,9 +10,9 @@ import {shallow} from 'enzyme';
 import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
-import {inStandaloneMode} from 'utils/utils';
 import QuiqChatClient from 'quiq-chat';
-import {ChatInitializedState} from '../../appConstants';
+import {ChatInitializedState} from 'Common/Constants';
+import {inStandaloneMode} from 'Common/Utils';
 
 jest.useFakeTimers();
 

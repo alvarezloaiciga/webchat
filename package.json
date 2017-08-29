@@ -91,11 +91,11 @@
     "body-parser": "1.16.0",
     "cheerio": "0.22.0",
     "colors": "1.1.2",
-    "cookie-parser": "1.4.3",
     "copy-webpack-plugin": "4.0.1",
     "cors": "2.8.1",
     "cross-env": "2.0.1",
     "css-loader": "0.24.0",
+    "ejs": "^2.5.7",
     "empty": "0.10.1",
     "enzyme": "2.8.2",
     "enzyme-to-json": "1.4.5",
@@ -138,6 +138,7 @@
     "webpack-merge": "0.14.1"
   },
   "dependencies": {
+    "@f/to-inline-style": "0.1.4",
     "babel-polyfill": "6.23.0",
     "babel-runtime": "6.11.6",
     "classnames": "2.2.5",

@@ -1,9 +1,9 @@
 // @flow
 import React from 'react';
-import {inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'Common/Utils';
 import quiqOptions, {openStandaloneMode, getStyle, getMessage} from 'utils/quiq';
-import {messageTypes, ChatInitializedState} from 'appConstants';
-import {setChatContainerHidden} from 'actions/chatActions';
+import {messageTypes, ChatInitializedState} from 'Common/Constants';
+import {setChatContainerHidden, setChatInitialized} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import {standaloneOpen} from 'services/MalfunctionJunction';
@@ -12,6 +12,7 @@ import './styles/HeaderMenu.scss';
 
 export type HeaderMenuProps = {
   initializedState: ChatInitializedStateType,
+  setChatInitialized: (initializedState: ChatInitializedStateType) => void,
   setChatContainerHidden: (chatContainerHidden: boolean) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
@@ -22,18 +23,9 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
   };
 
   const popChat = () => {
+    getChatClient().stop();
+    props.setChatInitialized(ChatInitializedState.SLEEPING);
     standaloneOpen();
-    /*openStandaloneMode({
-      onPop: () => {
-        props.setChatPopped(true);
-      },
-      onFocus: () => {
-        props.setChatPopped(true);
-      },
-      onDock: () => {
-        props.setChatPopped(false);
-      },
-    });*/
   };
 
   const {colors, styles} = quiqOptions;
@@ -73,5 +65,5 @@ export default connect(
   (state: ChatState) => ({
     initializedState: state.initializedState,
   }),
-  {setChatContainerHidden},
+  {setChatContainerHidden, setChatInitialized},
 )(HeaderMenu);

@@ -1,5 +1,5 @@
 // @flow
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
 import React from 'react';
 import type {TypingIndicatorProps} from '../TypingIndicator';
 import TypingIndicator from '../TypingIndicator';

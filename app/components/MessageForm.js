@@ -1,9 +1,9 @@
 // @flow
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
-import {compatibilityMode, supportsFlexbox} from 'utils/utils';
+import {compatibilityMode, supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
-import {messageTypes} from 'appConstants';
+import {messageTypes} from 'Common/Constants';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';

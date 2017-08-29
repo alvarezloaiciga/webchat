@@ -4,7 +4,7 @@ import React from 'react';
 import quiqOptions, {getStyle} from 'utils/quiq';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {connect} from 'react-redux';
-import {isMobile} from 'utils/utils';
+import {isMobile} from 'Common/Utils';
 import type {ChatState} from 'types';
 import './styles/ToggleChatButton.scss';
 

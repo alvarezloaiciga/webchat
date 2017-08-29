@@ -17,8 +17,12 @@ module.exports = {
       path.join(__dirname, '../app/assets'),
       path.join(__dirname, '../app/components'),
       path.join(__dirname, '../app/styles'),
+      path.join(__dirname, '../SDK/src'),
       'node_modules',
     ],
+    alias: {
+      Common: path.join(__dirname, '../Common'),
+    },
     extensions: ['.js', '.scss'],
   },
   plugins: [
@@ -31,7 +35,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: path.resolve(__dirname, '../app'),
+        include: [
+          path.resolve(__dirname, '../app'),
+          path.resolve(__dirname, '../SDK'),
+          path.resolve(__dirname, '../Common'),
+        ],
         loader: 'babel',
       },
       {

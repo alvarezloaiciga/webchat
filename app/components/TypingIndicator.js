@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {supportsSVG} from 'utils/utils';
+import {supportsSVG} from 'Common/Utils';
 import './styles/TypingIndicator.scss';
 
 export type TypingIndicatorProps = {

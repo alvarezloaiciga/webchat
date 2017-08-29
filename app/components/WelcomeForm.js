@@ -1,13 +1,13 @@
 // @flow
 import React, {Component} from 'react';
 import update from 'react-addons-update';
-import {messageTypes} from 'appConstants';
+import {messageTypes} from 'Common/Constants';
 import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
-import {supportsFlexbox} from 'utils/utils';
-import type {WelcomeFormField} from 'types';
 import QuiqChatClient from 'quiq-chat';
+import {supportsFlexbox} from 'Common/Utils';
+import type {WelcomeFormField} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
 import Textarea from 'react-textarea-autosize';

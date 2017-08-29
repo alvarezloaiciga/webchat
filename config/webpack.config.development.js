@@ -20,8 +20,9 @@ module.exports = merge(config, {
   cache: true,
   devtool: 'eval',
   entry: {
-    webchat: ['webpack-hot-middleware/client', 'react-hot-loader/patch', 'development'],
+    webchat: ['react-hot-loader/patch', 'development'],
     common: ['react', 'react-dom'],
+    sdk: './SDK/src/index.js',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

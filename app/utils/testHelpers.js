@@ -1,5 +1,5 @@
 // @flow
-import type {Message, IntlObject, IntlMessage} from 'types';
+import type {Message, IntlObject, IntlMessage} from 'Common/types';
 
 export const getMockMessage = (
   // eslint-disable-line import/prefer-default-export

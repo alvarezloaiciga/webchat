@@ -12,8 +12,8 @@ import postRobot from 'post-robot/dist/post-robot.ie';
 import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
-import {eventTypes, actionTypes} from 'appConstants';
-import {displayError, getHostingWindow, getWindowDomain} from 'utils/utils';
+import {eventTypes, actionTypes} from 'Common/Constants';
+import {displayError, getHostingWindow, getWindowDomain} from 'Common/Utils';
 import messages from 'messages';
 import type {ReduxStore, ChatState} from 'types';
 

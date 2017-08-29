@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import {nonCompatibleBrowser} from 'utils/utils';
+import {nonCompatibleBrowser} from 'Common/Utils';
 import React from 'react';
 import Routes from 'Routes';
 import {render} from 'react-dom';

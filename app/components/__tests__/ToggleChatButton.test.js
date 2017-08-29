@@ -1,10 +1,10 @@
 // @flow
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
 import React from 'react';
 import type {ToggleChatButtonProps} from '../ToggleChatButton';
 import {ToggleChatButton} from '../ToggleChatButton';
 import {shallow} from 'enzyme';
-import {isMobile} from 'utils/utils';
+import {isMobile} from 'Common/Utils';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('ToggleChatButton component', () => {

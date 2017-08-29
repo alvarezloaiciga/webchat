@@ -1,7 +1,8 @@
 // @flow
 jest.mock('utils/quiq');
 jest.mock('quiq-chat');
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
+
 import React from 'react';
 import {ChatContainer} from '../ChatContainer';
 import {shallow} from 'enzyme';

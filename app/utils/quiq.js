@@ -1,11 +1,11 @@
 // @flow
 declare var __DEV__: string;
 import messages from 'messages';
-import {getDisplayString} from 'utils/i18n';
 import QuiqChatClient from 'quiq-chat';
-import {getWebchatUrlFromScriptTag, displayError, isIEorSafari, inStandaloneMode, camelize} from './utils';
-import {SupportedWebchatUrls, StandaloneWindowName} from 'appConstants';
-import type {QuiqObject, WelcomeForm} from 'types';
+import {getWebchatUrlFromScriptTag, displayError, isIEorSafari, inStandaloneMode, camelize} from 'Common/Utils';
+import {SupportedWebchatUrls, StandaloneWindowName} from 'Common/Constants';
+import {getDisplayString} from 'Common/i18n';
+import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
 

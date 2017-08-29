@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'utils/quiq';
-import {inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -11,7 +11,7 @@ import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {ChatInitializedState, messageTypes} from 'appConstants';
+import {ChatInitializedState, messageTypes} from 'Common/Constants';
 import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType} from 'types';
 
