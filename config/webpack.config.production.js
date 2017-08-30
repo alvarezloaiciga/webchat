@@ -10,8 +10,7 @@ const fs = require('fs');
 const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
-// TODO: FIX ME
-const publicPath = cdnUrl ? `${cdnUrl}iframifywebchat/` : './';
+const publicPath = cdnUrl ? `${cdnUrl}` : './';
 const commitHash = process.env.GIT_COMMIT || 'dev';
 const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
 console.log(`Public Path is ${publicPath}`);
@@ -34,12 +33,12 @@ module.exports = merge(config, {
   devtool: 'source-map',
   entry: {
     webchat: 'production',
-    common: ['babel-polyfill', 'react', 'react-dom'],
+    sdk: './SDK/src/index.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'config/templates/index.ejs',
-      filename: 'index.html',
+      template: 'config/templates/webchat.ejs',
+      filename: 'webchat.html',
       inject: false,
       chunks: ['common', 'webchat'],
     }),
@@ -47,16 +46,8 @@ module.exports = merge(config, {
       template: 'config/templates/bridge.ejs',
       filename: 'bridge.html',
       inject: false,
-      options: {
-        bridgeScript: fs.readFileSync('node_modules/post-robot/dist/post-robot.ie.min.js'),
-      },
+      bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),
       chunks: [],
-    }),
-    new HtmlWebpackPlugin({
-      template: 'config/templates/standalone.ejs',
-      filename: 'standalone/index.html',
-      inject: false,
-      chunks: ['common', 'webchat'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
@@ -69,7 +60,7 @@ module.exports = merge(config, {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
+    /*new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
         screw_ie8: true,
@@ -79,16 +70,17 @@ module.exports = merge(config, {
         comments: false,
       },
       sourceMap: true,
-    }),
+    }),*/
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
-      minChunks: Infinity,
-    }),
+    // Uncomment this if we ever use a common chunk
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
+    //   minChunks: Infinity,
+    // }),
     new ExtractTextPlugin({
       filename: `[name]-[chunkhash]-${uniqueUrlPiece}.css`,
       allChunks: true,

@@ -2,6 +2,8 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const config = require('./webpack.config.base');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 
 const GLOBALS = {
   'process.env': {
@@ -21,17 +23,30 @@ module.exports = merge(config, {
   devtool: 'eval',
   entry: {
     webchat: ['react-hot-loader/patch', 'development'],
-    common: ['react', 'react-dom'],
     sdk: './SDK/src/index.js',
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: 'config/templates/webchat.ejs',
+      filename: 'webchat.html',
+      inject: false,
+      chunks: ['common', 'webchat'],
+    }),
+    new HtmlWebpackPlugin({
+      template: 'config/templates/bridge.ejs',
+      filename: 'bridge.html',
+      inject: false,
+      bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),
+      chunks: [],
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
+    // Uncomment this if we ever use a common chunk
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: '[name].js',
+    //   minChunks: Infinity,
+    // }),
   ],
   module: {
     loaders: [

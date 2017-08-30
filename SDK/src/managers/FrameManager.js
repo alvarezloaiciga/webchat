@@ -78,7 +78,7 @@ const handleStandaloneOpen = () => {
   const left = screen.width / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
 
-  const url = `${quiqOptions.host}/app/webchat/index.html`;
+  const url = `${quiqOptions.host}/${webchatPath}`;
   const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
 
   // Open standalone chat window

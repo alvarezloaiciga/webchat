@@ -72,6 +72,8 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   });
 
   webchatApp.use(require('morgan')('dev'));
+
+  // Webpack will serve: webchat.html, bridge.html, sdk.js, webchat,js
   webchatApp.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
@@ -79,15 +81,8 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
       colors: true
     },
   }));
+
   webchatApp.use('/assets', express.static('assets'));
-
-  webchatApp.get('/app/webchat/bridge*', (req, res) => {
-    res.sendFile(path.join(__dirname, './views/bridge.html'));
-  });
-
-  webchatApp.get('/app/webchat*', (req, res) => {
-    res.sendFile(path.join(__dirname, './views/index.html'));
-  });
 
   webchatApp.all('/external/*', proxyToApiGateway);
   webchatApp.all('/websocket/*', proxyToApiGateway);
@@ -110,23 +105,23 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   webchatServer.listen(webchatPort, function () {
     console.log('Webchat app server running on: https://%s.quiq.dev:%s', tenant, webchatPort);
-    console.log('Proxy server ready for clients. \\m/ x__x \\m/');
+    console.log('Webchat will proxy requests. \\m/ x__x \\m/');
   });
 
-  // SDK server
+  // Playground server
   // The sole purpose here is to serve the 'local.html' page on a different port than the webchat app
   // This gives us a realistic cross-domain dev environment
-  var sdkApp = require('express')();
-  var sdkServer = require('https').createServer(require('./devssl'), sdkApp);
+  var playgroundApp = require('express')();
+  var playgroundServer = require('https').createServer(require('./devssl'), playgroundApp);
 
-  sdkApp.set('view engine', 'ejs');
-  sdkApp.use(require('morgan')('dev'));
+  playgroundApp.set('view engine', 'ejs');
+  playgroundApp.use(require('morgan')('dev'));
 
-  sdkApp.get('/', (req, res) => {
+  playgroundApp.get('/', (req, res) => {
     res.render('./playground', {host: ('https://' + tenant + '.quiq.dev:' + webchatPort)})
   });
 
-  sdkServer.listen(sdkPort, function () {
-    console.log('SDK server running on: https://%s.quiq.dev:%s', tenant, sdkPort);
+  playgroundServer.listen(sdkPort, function () {
+    console.log('Playground server running on: https://%s.quiq.dev:%s', tenant, sdkPort);
   });
 });

@@ -32,14 +32,13 @@
     </script>
 
     <!-- Include webchat SDK -->
-    <script src="<%= host %>/app/webchat/common.js"></script>
     <script src="<%= host %>/app/webchat/sdk.js"></script>
 
     <!-- Playground -->
     <script type="text/javascript" charset="utf-8">
         var quiqOptions = {
             host: '<%- host %>',
-            autoPopTime: 1,
+            autoPopTime: 5000,
             colors: {
                 primary: 'red', // (Falls back to `QUIQ.COLOR`)
                 agentMessageText: '#555',
@@ -130,7 +129,7 @@
                     fontSize: 16,
                 },
             },
-            //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
+            customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
             welcomeForm: {
                 headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
                 fields: [

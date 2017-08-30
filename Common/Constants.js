@@ -32,8 +32,8 @@ export const launchButtonIconOpenId = 'quiqToggleChatIconOpen';
 export const launchButtonIconCloseId = 'quiqToggleChatIconClose';
 export const mobileClass = 'mobile';
 
-export const webchatPath = 'app/webchat/index.html';
-export const bridgePath = 'app/webchat/bridge/index.html';
+export const webchatPath = 'app/webchat/webchat.html';
+export const bridgePath = 'app/webchat/bridge.html';
 
 export const StandaloneWindowName = 'quiq-standalone-webchat';
 

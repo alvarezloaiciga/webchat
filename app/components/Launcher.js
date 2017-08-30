@@ -124,9 +124,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // ChatContainer Visible from cookie
     // Always start session, always show launcher
-    if (QuiqChatClient.isChatVisible()) {
-      await this.startSession();
+    if (this.client.isChatVisible()) {
       this.updateContainerHidden(false);
+      await this.startSession();
       return;
     }
 
@@ -135,12 +135,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // Always start session, don't change ChatContainer
     if (QuiqChatClient.hasTakenMeaningfulAction()) {
       await this.startSession();
-      //return;
+      return;
     }
 
-    /*if (!this.props.chatLauncherHidden) {
-      this.handleAutoPop();
-    }*/
+    this.handleAutoPop();
   };
 
   startSession = async () => {
