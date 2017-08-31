@@ -225,13 +225,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleClientInactiveTimeout = () => {
     this.updateInitializedState(ChatInitializedState.INACTIVE);
-    if (inStandaloneMode()) {
-      QuiqChatClient.leaveChat();
-    } else {
-      if (!this.props.chatContainerHidden && !this.props.popped) {
-        this.updateContainerHidden(true);
-        QuiqChatClient.leaveChat();
-      }
+    if (!this.props.chatContainerHidden && !this.props.popped) {
+      this.updateContainerHidden(true);
     }
   };
 
