@@ -9,7 +9,6 @@ RUN mkdir -p /var/www/webchat/app/webchatiframify \
     && mv /var/run /var/run.bak \
     && ln -s /tmp /var/run
 
-COPY dist/webchat.html dist/bridge.html /var/www/webchat/app
-
+COPY temp_docker/webchat.html temp_docker/bridge.html /var/www/webchat/app
+COPY temp_docker/server.conf /etc/nginx/conf.d/server.conf
 COPY build-info.json /var/www/webchat-admin/admin
-COPY server.conf /etc/nginx/conf.d/server.conf

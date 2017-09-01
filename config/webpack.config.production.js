@@ -38,13 +38,13 @@ module.exports = merge(config, {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'config/templates/webchat.html.ejs',
-      filename: `webchat-${uniqueUrlPiece}.html`,
+      filename: `webchat.html`,
       inject: false,
       chunks: ['webchat'],
     }),
     new HtmlWebpackPlugin({
       template: 'config/templates/bridge.html.ejs',
-      filename: `bridge-${uniqueUrlPiece}.html`,
+      filename: `bridge.html`,
       inject: false,
       bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),
       chunks: [],
