@@ -47,9 +47,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.registerClientCallbacks();
     this.updateAgentAvailabilityInterval = setInterval(this.updateAgentAvailability, 1000 * 60);
 
-    /*if (!this.props.chatLauncherHidden) {
+    if (!this.props.chatLauncherHidden) {
       clearTimeout(this.autoPopTimeout);
-    }*/
+    }
 
     this.init();
   }
@@ -145,15 +145,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
 
     // If the launcher is visible, i.e. if there are agents or the user has previously done something meaningful, set the auto pop timeout
+    // NOTE: Because we await the call to updateAgentAvailability above, chatLauncherHidden will be updated by this point.
     if (!this.props.chatLauncherHidden) {
       this.handleAutoPop();
     }
   };
 
   determineInitialLauncherState = () => {
-    // If user is on mobile, and they have not set a number, keep launcher buttons hidden
-    if (isMobile() && !quiqOptions.mobileNumber) this.props.setChatLauncherHidden(true);
-    else if (
+    if (
       // User is in active session, allow them to continue
       QuiqChatClient.isChatVisible() ||
       QuiqChatClient.hasTakenMeaningfulAction() ||
@@ -162,7 +161,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.props.transcript.length ||
       QuiqChatClient.isRegistered()
     ) {
-      return this.props.setChatLauncherHidden(false);
+      this.props.setChatLauncherHidden(false);
+    } else {
+      this.props.setChatLauncherHidden(true);
     }
   };
 
@@ -216,12 +217,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
   };
 
-  openNativeSMSApp = () => {
-    if (quiqOptions.mobileNumber) {
-      window.location = `sms:${quiqOptions.mobileNumber}`;
-    }
-  };
-
   handleChatVisibilityChange = async (hidden: boolean) => {
     if (!hidden) {
       await this.startSession();
@@ -232,13 +227,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   render() {
-    // Do not show chat no agents are available OR we're on a mobile device and no mobile number was provided in quiqOptions object
-    if (isMobile() && !quiqOptions.mobileNumber) return null;
-
     return (
       <div className="Launcher">
         {<ChatContainer />}
-        {/* <ToggleChatButton toggleChat={this.toggleChat} /> */}
       </div>
     );
   }

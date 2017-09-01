@@ -1,7 +1,13 @@
 // @flow
 import messages from 'messages';
 import QuiqChatClient from 'quiq-chat';
-import {getWebchatUrlFromScriptTag, displayError, isIEorSafari, inStandaloneMode, camelize} from 'Common/Utils';
+import {
+  getWebchatUrlFromScriptTag,
+  displayError,
+  isIEorSafari,
+  inStandaloneMode,
+  camelize,
+} from 'Common/Utils';
 import {SupportedWebchatUrls, StandaloneWindowName} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
@@ -60,7 +66,8 @@ const getQuiqOptions = (): QuiqObject => {
     clientDomain: undefined,
     debug: false,
     welcomeForm: rawQuiqObject.welcomeForm
-      ? processWelcomeForm(rawQuiqObject.welcomeForm) : undefined,
+      ? processWelcomeForm(rawQuiqObject.welcomeForm)
+      : undefined,
     href: window.location.href, // Standalone uses this to determine original host URL for welcome form
     fontFamily: 'sans-serif',
     width: 400,
@@ -152,59 +159,6 @@ export const validateWelcomeFormDefinition = (): void => {
 
     return uniqueKeys.concat(f.id);
   }, []);
-};
-
-let standaloneWindowTimer;
-export const openStandaloneMode = (callbacks: {
-  onPop: () => void,
-  onFocus: () => void,
-  onDock: () => void,
-}) => {
-  if (window.QUIQ_STANDALONE_WINDOW_HANDLE) {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
-    return callbacks.onFocus();
-  }
-
-  const width = quiqOptions.width;
-  const height = quiqOptions.height;
-  const left = screen.width / 2 - width / 2;
-  const top = screen.height / 2 - height / 2;
-
-  const url = `${quiqOptions.host}/app/webchat/index.html`;
-  const params = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${top}, left=${left}`;
-
-  const onLoadCallback = () => {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.postMessage({quiqOptions, name: 'handshake'}, url);
-  };
-
-  // Open standalone chat window
-  window.QUIQ_STANDALONE_WINDOW_HANDLE = window.open(url, StandaloneWindowName, params);
-
-  if (window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener) {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.addEventListener('load', onLoadCallback, false);
-  } else if (window.QUIQ_STANDALONE_WINDOW_HANDLE.attachEvent) {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.attachEvent('onload', onLoadCallback);
-  } else {
-    window.QUIQ_STANDALONE_WINDOW_HANDLE.onload = onLoadCallback;
-  }
-  window.QUIQ_STANDALONE_WINDOW_HANDLE.focus();
-  callbacks.onPop();
-
-  /*
-   * Since we popped open webchat into a new window in standalone mode,
-   * this instance now needs to start listening for if that new window closes.
-   * If it does, we re-open this instance, since the user re-docked the standalone window
-   */
-  if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
-  standaloneWindowTimer = setInterval(() => {
-    if (window.QUIQ_STANDALONE_WINDOW_HANDLE.closed) {
-      if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
-      standaloneWindowTimer = undefined;
-      window.QUIQ_STANDALONE_WINDOW_HANDLE = undefined;
-      callbacks.onDock();
-      QuiqChatClient.start();
-    }
-  }, 500);
 };
 
 /**

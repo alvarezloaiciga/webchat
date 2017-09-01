@@ -17,7 +17,8 @@ export const setupButtons = () => {
   const quiqOptions = getQuiqOptions();
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
     bindCustomLaunchButtons();
-  } else {
+  } else if (!isMobile() || (isMobile() && quiqOptions.mobileNumber)) {
+  // If user is on mobile, and no mobileNumber is defined, don't show the default launch button
     addDefaultLaunchButton();
   }
 };
@@ -29,6 +30,7 @@ const bindCustomLaunchButtons = () => {
       const ele = document.querySelector(selector);
       if (!ele) return displayWarning('Unable to bind custom launch button');
 
+      // Add noAgentsAvailable class initially, will be removed when agents are dtermined to be available
       ele.classList.add(noAgentsAvailableClass);
 
       if (isMobile()) ele.classList.add(mobileClass);
@@ -67,10 +69,20 @@ const addDefaultLaunchButton = () => {
 };
 
 const handleLaunchButtonClick = async () => {
+  const quiqOptions = getQuiqOptions();
+  // If we're on mobile, don't show chat. Open SMS app if mobileNumber is defined.
+  if (isMobile()) {
+    if (quiqOptions.mobileNumber)
+      window.location = `sms:${quiqOptions.mobileNumber}`;
+    return;
+  }
+
+  // If chat is in it's own window, focus that window
   if (!isIFrame(getChatWindow())) {
     return getChatWindow().focus();
   }
 
+  // Set visibility of container if chat is docked
   const {visible} = await Messenger.askChat(actionTypes.getChatVisibility);
   Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
