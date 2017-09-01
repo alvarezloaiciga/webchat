@@ -71,7 +71,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async () => {
-    const {available} = await this.client.checkForAgents();
+    const {available} = await QuiqChatClient.checkForAgents();
     this.props.setAgentsAvailable(available);
 
     // Only update launcher visibility if it's currently hidden...we don't want to hide it once it's visible.
@@ -130,7 +130,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // ChatContainer Visible from cookie
     // Always start session, always show launcher
-    if (this.client.isChatVisible()) {
+    if (QuiqChatClient.isChatVisible()) {
       this.updateContainerHidden(false);
       await this.startSession();
       return;
@@ -254,6 +254,6 @@ export default compose(
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
     }),
-    chatActions
+    chatActions,
   ),
 )(Launcher);

@@ -1,4 +1,4 @@
-import {inNonProductionCluster, inLocalDevelopment} from 'utils/utils';
+import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 /* eslint-disable global-require */
 if (inNonProductionCluster() || inLocalDevelopment()) {
   module.exports = require('./configureStore.dev');

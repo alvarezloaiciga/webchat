@@ -2,7 +2,7 @@
 declare var __VERSION__: string;
 import React from 'react';
 import QUIQ from 'utils/quiq';
-import {inNonProductionCluster, inLocalDevelopment} from 'utils/utils';
+import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import QuiqChatClient from 'quiq-chat';

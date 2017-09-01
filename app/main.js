@@ -21,7 +21,7 @@ const init = () => {
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
-  constructApp(chat);
+  constructApp(store);
 };
 
 // Conditionally load Intl polyfill for old versions of IE
