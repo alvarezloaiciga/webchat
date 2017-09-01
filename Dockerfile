@@ -9,6 +9,7 @@ RUN mkdir -p /var/www/webchat/app/webchatiframify \
     && mv /var/run /var/run.bak \
     && ln -s /tmp /var/run
 
-COPY dist /var/www/webchat/app/webchatiframify
+COPY dist/webchat.html dist/bridge.html /var/www/webchat/app
+
 COPY build-info.json /var/www/webchat-admin/admin
 COPY server.conf /etc/nginx/conf.d/server.conf

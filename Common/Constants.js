@@ -40,8 +40,13 @@ export const StandaloneWindowName = 'quiq-standalone-webchat';
 export const eventTypes = {
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
   agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
-  standaloneOpen: 'QUIQ_STANDALONE_OPEN',
+  _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
+  _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE'
 };
+
+// Any eventType that does not begin with "_" is exposed on the Quiq object handed to the client.
+export const publicEventTypes = Object.keys(eventTypes)
+  .reduce((acc, k) => Object.assign({}, acc, k.startsWith('_') ? {} : {[k]: eventTypes[k]}), {});
 
 export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',

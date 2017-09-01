@@ -1,36 +1,14 @@
 // @flow
-import {defaultOptions, actionTypes, eventTypes} from 'Common/Constants';
+import {defaultOptions} from 'Common/Constants';
 import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   camelizeToplevelScreamingSnakeCaseKeys,
-  isIFrame,
 } from 'Common/Utils';
 import {buildChatIFrame} from 'managers/FrameManager';
 import {setupButtons} from 'managers/ButtonManager';
-import {setQuiqOptions, getChatWindow} from './Globals';
-import * as Messenger from './services/Messenger';
-
-const sdkPrototype = {
-  setChatVisibility: (visible: boolean) => {
-    // NOTE: Focus must be done from the SDK, not webchat, as call to focus() must originate from user interaction
-    if (!isIFrame(getChatWindow())) {
-      return getChatWindow().focus();
-    }
-    Messenger.tellChat(actionTypes.setChatVisibility, {visible});
-  },
-  getChatVisibility: async (callback): Promise<{visible: boolean}> => {
-    return await Messenger.askChat(actionTypes.getChatVisibility, {}, callback);
-  },
-  getAgentAvailability: async (callback): Promise<{available: boolean}> => {
-    return await Messenger.askChat(actionTypes.getAgentAvailability, {}, callback);
-  },
-  on: (eventName: string, handler: (data: Object) => any) => {
-    Messenger.removeEventHandler(eventName, handler);
-    Messenger.registerEventHandler(eventName, handler);
-  },
-  eventTypes,
-};
+import {setQuiqOptions} from './Globals';
+import SDKPrototype from './SdkPrototype';
 
 export const Quiq = (options: {[string]: any}) => {
   const quiqOptions = Object.assign({}, defaultOptions, options);
@@ -57,7 +35,7 @@ export const Quiq = (options: {[string]: any}) => {
     pageSetup();
   }
 
-  return Object.create(sdkPrototype);
+  return Object.create(SDKPrototype);
 };
 
 const pageSetup = () => {

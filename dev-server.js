@@ -8,10 +8,6 @@ const config = require('./config/webpack.config.development');
 
 var webchatApp = require('express')();
 var webchatServer = require('https').createServer(require('./devssl'), webchatApp);
-const compiler = webpack(config);
-
-// Apply CLI dashboard for your webpack dev server
-compiler.apply(new DashboardPlugin({port: 9840}));
 
 require('fs').readFile(require('path').join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.centricient', 'ui-override.json'), 'utf8', function (err, data) {
   let parsedData;
@@ -37,6 +33,8 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     console.error("\n\nERROR!!! You must provide a tenant to run webchat locally!'\n\n");
     process.exit(1);
   }
+
+  const webchatHost = ('https://' + tenant + '.quiq.dev:' + webchatPort);
 
   var apiGatewayProxySettings = {
     target: require('./discovery')(tenant).readLocalSettings()['api-gateway'] || 'https://' + tenant + '.' + cluster + '.quiq.sh',
@@ -74,6 +72,9 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   webchatApp.use(require('morgan')('dev'));
 
   // Webpack will serve: webchat.html, bridge.html, sdk.js, webchat,js
+  const compiler = webpack(config);
+  // Apply CLI dashboard for your webpack dev server
+  compiler.apply(new DashboardPlugin({port: 9840}));
   webchatApp.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
@@ -104,7 +105,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   webchatApp.all('/api/*', proxyToApiGateway);
 
   webchatServer.listen(webchatPort, function () {
-    console.log('Webchat app server running on: https://%s.quiq.dev:%s', tenant, webchatPort);
+    console.log('Webchat app server running on: %s', webchatHost);
     console.log('Webchat will proxy requests. \\m/ x__x \\m/');
   });
 
@@ -118,7 +119,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   playgroundApp.use(require('morgan')('dev'));
 
   playgroundApp.get('/', (req, res) => {
-    res.render('./playground', {host: ('https://' + tenant + '.quiq.dev:' + webchatPort)})
+    res.render('./playground', {host: webchatHost});
   });
 
   playgroundServer.listen(sdkPort, function () {

@@ -5,6 +5,11 @@ export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   chatContainerHidden,
 });
 
+export const setChatLauncherHidden = (chatLauncherHidden: boolean) => ({
+  type: 'CHAT_LAUNCHER_HIDDEN',
+  chatLauncherHidden,
+});
+
 export const setAgentsAvailable = (agentsAvailable: boolean) => ({
   type: 'AGENTS_AVAILABLE',
   agentsAvailable,

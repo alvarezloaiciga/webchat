@@ -19,7 +19,7 @@
     "vmstart": "./node_modules/.bin/nf start",
     "prebuild": "yarn run rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
-    "postbuild": "cp config/templates/index.js dist/index.js",
+    "postbuild": "mv dist/server.conf server.conf",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
     "lint": "node ./node_modules/eslint/bin/eslint.js app/",

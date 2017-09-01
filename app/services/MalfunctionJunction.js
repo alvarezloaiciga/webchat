@@ -16,7 +16,7 @@ import {eventTypes, actionTypes} from 'Common/Constants';
 import {displayError, getHostingWindow} from 'Common/Utils';
 import {constructApp, appIsMounted} from 'utils/domUtils';
 import messages from 'messages';
-import type {ReduxStore, ChatState} from 'types';
+import type {ReduxStore, QuiqChatClient} from 'types';
 
 let reduxWatch;
 let store;
@@ -24,7 +24,7 @@ let chatClient;
 let domain;
 let postRobotClient, postRobotListener;
 
-export const init = (_domain: string, _store: ReduxStore, _chatClient) => {
+export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatClient) => {
   store = _store;
   chatClient = _chatClient;
   domain = _domain;
@@ -72,6 +72,11 @@ const setupReduxHooks = () => {
     tellClient(eventTypes.chatVisibilityDidChange, {visible: !hidden}),
   );
 
+  // Chat launcher visibility
+  reduxWatch.watch(ChatSelectors.getChatLauncherHidden, hidden =>
+    tellClient(eventTypes._launchButtonVisibilityShouldChange, {visible: !hidden}),
+  );
+
   // Agent availability
   reduxWatch.watch(ChatSelectors.getAgentsAvailable, available =>
     tellClient(eventTypes.agentAvailabilityDidChange, {available}),
@@ -87,7 +92,7 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 };
 
 export const standaloneOpen = () => {
-  tellClient(eventTypes.standaloneOpen);
+  tellClient(eventTypes._standaloneOpen);
 };
 
 /**********************************************************************************

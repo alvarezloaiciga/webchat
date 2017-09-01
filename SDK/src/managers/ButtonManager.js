@@ -33,7 +33,7 @@ const bindCustomLaunchButtons = () => {
 
       if (isMobile()) ele.classList.add(mobileClass);
 
-      ele.addEventListener('click', launchButtonClickHandler);
+      ele.addEventListener('click', handleLaunchButtonClick);
     });
   }
 };
@@ -63,10 +63,10 @@ const addDefaultLaunchButton = () => {
   if (!buttonElement) {
     displayError('Unable to find default launch button element to bind click handler');
   }
-  buttonElement.addEventListener('click', launchButtonClickHandler);
+  buttonElement.addEventListener('click', handleLaunchButtonClick);
 };
 
-const launchButtonClickHandler = async () => {
+const handleLaunchButtonClick = async () => {
   if (!isIFrame(getChatWindow())) {
     return getChatWindow().focus();
   }
@@ -75,8 +75,8 @@ const launchButtonClickHandler = async () => {
   Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
-const handleAgentAvailabilityChange = data => {
-  const {available} = data;
+const handleLaunchButtonVisibilityChange = data => {
+  const {visible} = data;
   const quiqOptions = getQuiqOptions();
   let allLaunchButtons = [];
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
@@ -89,7 +89,7 @@ const handleAgentAvailabilityChange = data => {
   allLaunchButtons.forEach((selector: string) => {
     const button = document.querySelector(selector);
     if (button) {
-      if (available) {
+      if (visible) {
         button.classList.remove(noAgentsAvailableClass);
       } else {
         button.classList.add(noAgentsAvailableClass);
@@ -101,7 +101,12 @@ const handleAgentAvailabilityChange = data => {
 const handleChatVisibilityChange = data => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
+
+  // If chat is visible, then
+
   const iconStyle = toInlineStyle(styles.ToggleChatButtonIcon || {});
+
+  // Update SVG icon of default launch button, if it exists
   const button = document.querySelector(`#${launchButtonId}`);
   if (button) {
     button.innerHTML = visible
@@ -123,6 +128,6 @@ const handleChatVisibilityChange = data => {
 // Register event handlers for this module
 Messenger.registerEventHandler(eventTypes.chatVisibilityDidChange, handleChatVisibilityChange);
 Messenger.registerEventHandler(
-  eventTypes.agentAvailabilityDidChange,
-  handleAgentAvailabilityChange,
+  eventTypes._launchButtonVisibilityShouldChange,
+  handleLaunchButtonVisibilityChange,
 );

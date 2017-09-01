@@ -18,6 +18,7 @@ export type WelcomeForm = {
 
 export type ChatState = {
   chatContainerHidden: boolean,
+  chatLauncherHidden: boolean,
   agentsAvailable: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,

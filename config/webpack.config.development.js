@@ -5,6 +5,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
+const publicPath = '/app/webchat/';
 const GLOBALS = {
   'process.env': {
     NODE_ENV: JSON.stringify('development'),
@@ -16,7 +17,7 @@ module.exports = merge(config, {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/app/webchat/',
+    publicPath,
   },
   debug: true,
   cache: true,
@@ -27,13 +28,13 @@ module.exports = merge(config, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'config/templates/webchat.ejs',
+      template: 'config/templates/webchat.html.ejs',
       filename: 'webchat.html',
       inject: false,
-      chunks: ['common', 'webchat'],
+      chunks: ['webchat'],
     }),
     new HtmlWebpackPlugin({
-      template: 'config/templates/bridge.ejs',
+      template: 'config/templates/bridge.html.ejs',
       filename: 'bridge.html',
       inject: false,
       bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),

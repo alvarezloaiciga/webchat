@@ -7,6 +7,7 @@ import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
+  chatLauncherHidden?: boolean,
   agentsAvailable?: boolean,
   initializedState?: ChatInitializedStateType,
   transcript?: Array<Message>,
@@ -15,6 +16,7 @@ type ChatAction = {
 
 export const initialState = {
   chatContainerHidden: true,
+  chatLauncherHidden: true,
   agentsAvailable: false,
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: [],
@@ -27,6 +29,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     case 'CHAT_CONTAINER_HIDDEN':
       return Object.assign({}, state, {
         chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
+      });
+    case 'CHAT_LAUNCHER_HIDDEN':
+      return Object.assign({}, state, {
+        chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
     case 'AGENTS_AVAILABLE':
       return Object.assign({}, state, {
@@ -54,6 +60,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         {...initialState},
         {
           chatContainerHidden: state.chatContainerHidden,
+          chatLauncherHidden: state.chatLauncherHidden,
           agentsAvailable: state.agentsAvailable,
           initializedState: ChatInitializedState.LOADING,
         },
@@ -72,4 +79,8 @@ export const getChatContainerHidden = (state: ChatState): boolean => {
 
 export const getAgentsAvailable = (state: ChatState): boolean => {
   return state.agentsAvailable;
+};
+
+export const getChatLauncherHidden = (state: ChatState): boolean => {
+  return state.chatLauncherHidden;
 };

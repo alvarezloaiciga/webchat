@@ -1,10 +1,11 @@
 // @flow
+
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
 import {displayError, displayWarning, isIFrame} from 'Common/Utils';
-import {getChatWindow, setChatWindow, getQuiqOptions} from '../Globals';
+import {getChatWindow, getQuiqOptions} from '../Globals';
 
-let handlers: {[string]: Array<?() => any>} = {};
+const handlers: {[string]: Array<?() => any>} = {};
 let postRobotClient, postRobotListener;
 let listeners = [];
 
@@ -13,23 +14,23 @@ let listeners = [];
  * We listen for each supported event type on the postRobot messaging channel between the SDK and the webchat iframe
  * Each event type is associated with an array of event handling functions. Anything may register a function to handle an event.
  * For example, Quiq.js will register an eventHandler when the user calls the .on() function.
- * When an event is triggered, event handler functions are called in the order they appear in the array.
+ * When stan event is triggered, event handler functions are called in the order they appear in the array.
  *****************************************************/
 
 export const setup = () => {
   const chatWindow = getChatWindow();
-  const domain = getQuiqOptions().host;
+  const host = getQuiqOptions().host;
 
   cancelListeners();
 
   // Build cross-domain bridge (for IE compatibility)
-  postRobot.bridge.openBridge(`${domain}/${bridgePath}`);
+  postRobot.bridge.openBridge(`${host}/${bridgePath}`);
 
   // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
   const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
 
-  postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, domain});
-  postRobotListener = postRobot.listener({window: targetWindow, domain});
+  postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});
+  postRobotListener = postRobot.listener({window: targetWindow, host});
   setupListeners();
 };
 
@@ -56,7 +57,6 @@ export const tellChat = (messageName: string, data: Object) => {
       'You must set the webchat window and domain, and then call Messenger.setup(), before trying to post a message!',
     );
   }
-
   postRobotClient.send(messageName, data);
 };
 

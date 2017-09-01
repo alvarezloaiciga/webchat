@@ -7,7 +7,6 @@ import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import {standaloneOpen} from 'services/MalfunctionJunction';
 import messages from 'messages';
 import {displayError, isMobile, inStandaloneMode} from 'Common/Utils';
 import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'Common/Constants';
@@ -22,11 +21,12 @@ type LauncherState = {
 export type LauncherProps = {
   intl: IntlObject,
   chatContainerHidden: boolean,
+  chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
-  welcomeFormRegistered: boolean,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
+  setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
   setAgentsAvailable: (agentsAvailable: boolean) => void,
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
   setWelcomeFormRegistered: () => void,
@@ -39,7 +39,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
   state: LauncherState = {};
   updateAgentAvailabilityInterval: number;
-  updateCustomChatButtonsInterval: number;
   typingTimeout: ?number;
   autoPopTimeout: ?number;
 
@@ -66,15 +65,19 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   componentWillUnmount() {
     clearInterval(this.updateAgentAvailabilityInterval);
-    clearInterval(this.updateCustomChatButtonsInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
-    getChatClient().stop();
+    QuiqChatClient.stop();
   }
 
   updateAgentAvailability = async () => {
     const {available} = await this.client.checkForAgents();
     this.props.setAgentsAvailable(available);
+
+    // Only update launcher visibility if it's currently hidden...we don't want to hide it once it's visible.
+    if (this.props.chatLauncherHidden) {
+      this.props.setChatLauncherHidden(!available);
+    }
   };
 
   updateContainerHidden = (hidden: boolean) => {
@@ -112,7 +115,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
-    this.updateAgentAvailability();
+    this.determineInitialLauncherState();
+
+    await this.updateAgentAvailability();
+
     // Standalone Mode
     // Never show launcher
     // Always start session, show ChatContainer
@@ -138,7 +144,26 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       return;
     }
 
-    this.handleAutoPop();
+    // If the launcher is visible, i.e. if there are agents or the user has previously done something meaningful, set the auto pop timeout
+    if (!this.props.chatLauncherHidden) {
+      this.handleAutoPop();
+    }
+  };
+
+  determineInitialLauncherState = () => {
+    // If user is on mobile, and they have not set a number, keep launcher buttons hidden
+    if (isMobile() && !quiqOptions.mobileNumber) this.props.setChatLauncherHidden(true);
+    else if (
+      // User is in active session, allow them to continue
+      QuiqChatClient.isChatVisible() ||
+      QuiqChatClient.hasTakenMeaningfulAction() ||
+      !this.props.chatContainerHidden ||
+      inStandaloneMode() ||
+      this.props.transcript.length ||
+      QuiqChatClient.isRegistered()
+    ) {
+      return this.props.setChatLauncherHidden(false);
+    }
   };
 
   startSession = async () => {
@@ -199,20 +224,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleChatVisibilityChange = async (hidden: boolean) => {
     if (!hidden) {
-      //await this.startSession();
-      this.client.joinChat();
-    } else {
-      this.client.leaveChat();
-    }
-  };
-
-  toggleChat = async () => {
-    if (this.props.chatContainerHidden) {
-      this.updateContainerHidden(false);
       await this.startSession();
       QuiqChatClient.joinChat();
     } else {
-      this.updateContainerHidden(true);
       QuiqChatClient.leaveChat();
     }
   };
@@ -235,6 +249,7 @@ export default compose(
   connect(
     (state: ChatState) => ({
       chatContainerHidden: state.chatContainerHidden,
+      chatLauncherHidden: state.chatLauncherHidden,
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,

@@ -1,8 +1,10 @@
+// @flow
+
 import {webchatPath, eventTypes, actionTypes, quiqChatFrameId} from 'Common/Constants';
 import {setup as setupMessenger, registerEventHandler, tellChat} from '../services/Messenger';
 import ToggleChatButton from '../styles/ToggleChatButton';
 import {getQuiqOptions, setChatWindow, getChatWindow} from '../Globals';
-import {displayError, isIFrame, getCalcStyle} from 'Common/Utils';
+import {isIFrame, getCalcStyle} from 'Common/Utils';
 
 let standaloneWindowTimer;
 
@@ -84,7 +86,7 @@ const handleStandaloneOpen = () => {
   // Open standalone chat window
   const popup = window.open(url, JSON.stringify(quiqOptions), params);
 
-  // Hode IFrame (set height to 0)
+  // Hide IFrame (set height to 0)
   if (isIFrame(currentChatWindow)) {
     currentChatWindow.height = 0;
   }
@@ -113,4 +115,4 @@ const handleStandaloneOpen = () => {
 
 // Register event handlers for this module
 registerEventHandler(eventTypes.chatVisibilityDidChange, handleVisibilityChange);
-registerEventHandler(eventTypes.standaloneOpen, handleStandaloneOpen);
+registerEventHandler(eventTypes._standaloneOpen, handleStandaloneOpen);

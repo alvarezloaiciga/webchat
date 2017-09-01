@@ -15,7 +15,7 @@ server {
     root /var/www/webchat;
 
     location = /app/webchat/index.js {
-        return 307 ./sdk-2ddc7f9fdf4fc424af1f-99.0.15-dev.js;
+        return 307 <%= htmlWebpackPlugin.files.chunks.sdk.entry %>;
     }
 
     location /app/webchat {

@@ -37,17 +37,23 @@ module.exports = merge(config, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'config/templates/webchat.ejs',
-      filename: 'webchat.html',
+      template: 'config/templates/webchat.html.ejs',
+      filename: `webchat-${uniqueUrlPiece}.html`,
       inject: false,
-      chunks: ['common', 'webchat'],
+      chunks: ['webchat'],
     }),
     new HtmlWebpackPlugin({
-      template: 'config/templates/bridge.ejs',
-      filename: 'bridge.html',
+      template: 'config/templates/bridge.html.ejs',
+      filename: `bridge-${uniqueUrlPiece}.html`,
       inject: false,
       bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),
       chunks: [],
+    }),
+    new HtmlWebpackPlugin({
+      template: 'config/templates/server.conf.ejs',
+      filename: 'server.conf',
+      inject: false,
+      chunks: ['sdk'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([

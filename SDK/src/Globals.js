@@ -1,4 +1,4 @@
-let quiqOptions, chatWindow, usingDefaultLaunchButton;
+let quiqOptions, chatWindow;
 import type {QuiqObject} from 'types';
 
 // Getters and setters
