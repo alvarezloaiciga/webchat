@@ -102,10 +102,6 @@ const getQuiqOptions = (): QuiqObject => {
   if (rawQuiqObject.debug && rawQuiqObject.debug.CUSTOM_CSS_URL)
     processCustomCss(rawQuiqObject.debug.CUSTOM_CSS_URL);
 
-  rawQuiqObject.customLaunchButtons = inStandaloneMode()
-    ? []
-    : rawQuiqObject.customLaunchButtons || [];
-
   const returnValue = Object.assign({}, quiqOptions, rawQuiqObject);
   localStorage.setItem('quiqOptions', JSON.stringify(returnValue));
   return returnValue;

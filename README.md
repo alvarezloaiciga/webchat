@@ -85,7 +85,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - defaults:
     ```javascript
     {
-      primary: '#59ad5d', quiqOptions
+      primary: '#59ad5d',
       agentMessageText: '#000',
       agentMessageLinkText: '#2199e8',
       agentMessageBackground: '#fff',

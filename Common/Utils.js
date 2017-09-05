@@ -7,7 +7,7 @@ import {SupportedWebchatUrls} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import {getDisplayString, formatTime} from './i18n';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage} from './types';
 
 const parser = new UAParser();
 
@@ -79,7 +79,7 @@ export const getWebchatHostFromScriptTag = () => {
 
 export const getWindowDomain = () => `${window.location.protocol}//${window.location.host}`;
 
-export const isIFrame = (chatWindow): boolean => {
+export const isIFrame = (chatWindow: Object): boolean => {
   return chatWindow instanceof HTMLElement && chatWindow.tagName.toLowerCase() === 'iframe';
 };
 
@@ -93,21 +93,15 @@ export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
 };
 
 export const getHostingWindow = () => {
+  if (!window.opener && window.parent === window.self) {
+    displayError({
+      id: 'cannotFindHostingWindow',
+      description: 'Message displayed when frame or window containing webchat app cannot be found in DOM',
+      defaultMessage: 'Unable to find iframe or window containing webchat',
+    });
+  }
+
   return window.opener || window.parent;
-  // If window.opener is defined, then we're in a popup.
-  // Because we are on same domain as the iframe that opened us, we can retrieve iframe's parent, which is the hosting window
-  if (window.opener && window.opener.parent && window.opener.parent !== window.opener)
-    return window.opener.parent;
-
-  // If window.opener is not defined, then we're in iframe
-  // If window.parent is not a reference to ourselves, then we're in an iframe.
-  if (window.parent && window.parent !== window) return window.parent;
-
-  displayError({
-    id: 'cannotFindHostingWindow',
-    description: 'Message displayed when frame or window containing webchat app cannot be found in DOM',
-    defaultMessage: 'Unable to find iframe or window containing webchat',
-  });
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;

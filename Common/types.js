@@ -1,3 +1,5 @@
+// @flow
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
@@ -99,7 +101,7 @@ export type IntlMessage = {
 };
 
 export type IntlObject = {
-  formatMessage: (msg: IntlMessage, values: ?Object) => string,
+  formatMessage: (msg: IntlMessage, values: ?{[key: string]: string}) => string,
   formatDate: (date: number | moment$Moment) => string,
   formatTime: (timestamp: number, options: ?Object) => string,
   formatRelative: (date: number) => string,
@@ -263,3 +265,149 @@ export type BrowserEngine =
   | 'Trident'
   | 'w3m'
   | 'WebKit'
+
+export type ChatState = {
+  chatContainerHidden: boolean,
+  chatLauncherHidden: boolean,
+  agentsAvailable: boolean,
+  initializedState: ChatInitializedStateType,
+  transcript: Array<Message>,
+  agentTyping: boolean,
+  welcomeFormRegistered: boolean,
+};
+
+export type Action = {
+  type:
+    | 'CHAT_CONTAINER_HIDDEN'
+    | 'CHAT_LAUNCHER_HIDDEN'
+    | 'CHAT_INITIALIZED_STATE'
+    | 'CHAT_POPPED'
+    | 'UPDATE_TRANSCRIPT'
+    | 'AGENT_TYPING'
+    | 'WELCOME_FORM_REGISTERED'
+    | 'NEW_WEBCHAT_SESSION'
+    | 'AGENTS_AVAILABLE'
+};
+
+export type ChatInitializedStateType =
+  | 'uninitialized'
+  | 'loading'
+  | 'initialized'
+  | 'error'
+  | 'disconnected'
+  | 'inactive'
+  | 'burned';
+
+export type CookieDef = {
+  id: string,
+  expiration?: number,
+  path?: string,
+};
+
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
+export type AuthorType = 'Customer' | 'Agent';
+export type MessageType = 'Text' | 'ChatMessage';
+
+export type Message = {
+  authorType: AuthorType,
+  text: string,
+  id: string,
+  timestamp: number,
+  type: 'Text',
+};
+
+export type Event = {
+  id: string,
+  timestamp: number,
+  type: EventType,
+  typing?: boolean,
+};
+
+export type Conversation = {
+  id: string,
+  messages: Array<Message>,
+};
+
+export type AtmosphereTransportType =
+  | 'websocket'
+  | 'long-polling'
+  | 'jsonp'
+  | 'sse'
+  | 'streaming'
+  | 'polling';
+
+export type AtmosphereRequest = {
+  url: string,
+  contentType: string,
+  logLevel: string,
+  transport: AtmosphereTransportType,
+  fallbackTransport: AtmosphereTransportType,
+  trackMessageLength: boolean,
+  maxReconnectOnClose: number,
+  reconnectInterval: number,
+  uuid?: string,
+  onOpen?: (response: AtmosphereResponse) => void,
+  onReopen?: () => void,
+  onReconnect?: (req: AtmosphereRequest, res: AtmosphereResponse) => void,
+  onTransportFailure?: (errorMsg: string, request: AtmosphereRequest) => void,
+  onMessage?: (response: AtmosphereResponse) => void,
+  onError?: (response: AtmosphereResponse) => void,
+  onClientTimeout?: (req: AtmosphereRequest) => void,
+  onClose?: (response: AtmosphereResponse) => void,
+};
+
+export type AtmosphereResponse = {
+  request: AtmosphereRequest,
+  responseBody: Object,
+  status: number,
+  error?: string,
+  state: string,
+};
+
+export type AtmosphereConnectionBuilder = {
+  socketUrl: string,
+  options: {
+    onConnectionLoss: () => void,
+    onConnectionEstablish: () => void,
+    handleMessage: (message: AtmosphereMessage) => void,
+  },
+};
+
+export type AtmosphereConnection = {
+  pingTimeout?: number,
+  upgradeTimeout?: number,
+  pendingPing?: boolean,
+  originalTransport: AtmosphereTransportType,
+  originalFallbackTransport: AtmosphereTransportType,
+  request: {
+    url: string,
+    contentType: string,
+    logLevel: string,
+    transport: AtmosphereTransportType,
+    fallbackTransport: AtmosphereTransportType,
+    trackMessageLength: boolean,
+    maxReconnectOnClose: number,
+    reconnectInterval: number,
+    uuid?: string,
+    onOpen: (response: AtmosphereResponse) => void,
+    onClose: (response: AtmosphereResponse) => void,
+    onReopen: () => void,
+    onReconnect: (req: AtmosphereRequest, res: AtmosphereResponse) => void,
+    onMessage: (response: AtmosphereResponse) => void,
+    onTransportFailure: (errorMsg: string, req: AtmosphereRequest) => void,
+    onError: (response: AtmosphereResponse) => void,
+    onClientTimeout: (req: AtmosphereRequest) => void,
+  },
+};
+
+export type AtmosphereMessage = {
+  data: Object,
+  messageType: MessageType,
+  tenantId: string,
+};
+
+export type ApiError = {
+  code?: number,
+  message?: string,
+  status?: number,
+};

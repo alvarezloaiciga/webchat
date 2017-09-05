@@ -1,3 +1,5 @@
+// @flow
+
 import {getQuiqOptions, getChatWindow} from '../Globals';
 import {displayWarning, displayError, isMobile, isIFrame} from 'Common/Utils';
 import * as Messenger from '../services/Messenger';
@@ -30,7 +32,7 @@ const bindCustomLaunchButtons = () => {
       const ele = document.querySelector(selector);
       if (!ele) return displayWarning('Unable to bind custom launch button');
 
-      // Add noAgentsAvailable class initially, will be removed when agents are dtermined to be available
+      // Add noAgentsAvailable class initially, will be removed when agents are determined to be available
       ele.classList.add(noAgentsAvailableClass);
 
       if (isMobile()) ele.classList.add(mobileClass);
@@ -87,10 +89,11 @@ const handleLaunchButtonClick = async () => {
   Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
-const handleLaunchButtonVisibilityChange = data => {
+const handleLaunchButtonVisibilityChange = (data: {visible: boolean}) => {
   const {visible} = data;
   const quiqOptions = getQuiqOptions();
   let allLaunchButtons = [];
+
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
     allLaunchButtons = quiqOptions.customLaunchButtons;
   } else {
@@ -110,7 +113,7 @@ const handleLaunchButtonVisibilityChange = data => {
   });
 };
 
-const handleChatVisibilityChange = data => {
+const handleChatVisibilityChange = (data: {visible: boolean}) => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
 

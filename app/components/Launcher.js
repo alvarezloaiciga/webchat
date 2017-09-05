@@ -2,14 +2,13 @@
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'Common/i18n';
-import quiqOptions, {openStandaloneMode} from 'utils/quiq';
+import quiqOptions from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import messages from 'messages';
-import {displayError, isMobile, inStandaloneMode} from 'Common/Utils';
-import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'Common/Constants';
+import {isMobile, inStandaloneMode} from 'Common/Utils';
+import {ChatInitializedState} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
@@ -38,14 +37,14 @@ export type LauncherProps = {
 export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
   state: LauncherState = {};
-  updateAgentAvailabilityInterval: number;
+  updateLauncherVisibilityInterval: number;
   typingTimeout: ?number;
   autoPopTimeout: ?number;
 
   componentDidMount() {
     registerIntlObject(this.props.intl);
     this.registerClientCallbacks();
-    this.updateAgentAvailabilityInterval = setInterval(this.updateAgentAvailability, 1000 * 60);
+    this.updateLauncherVisibilityInterval = setInterval(this.updateLauncherState, 1000 * 60);
 
     if (!this.props.chatLauncherHidden) {
       clearTimeout(this.autoPopTimeout);
@@ -61,20 +60,16 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.updateAgentAvailabilityInterval);
+    clearInterval(this.updateLauncherVisibilityInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
     QuiqChatClient.stop();
   }
 
-  updateAgentAvailability = async () => {
+  updateAgentAvailability = async (): Promise<Boolean> => {
     const {available} = await QuiqChatClient.checkForAgents();
     this.props.setAgentsAvailable(available);
-
-    // Only update launcher visibility if it's currently hidden...we don't want to hide it once it's visible.
-    if (this.props.chatLauncherHidden) {
-      this.props.setChatLauncherHidden(!available);
-    }
+    return available;
   };
 
   updateContainerHidden = (hidden: boolean) => {
@@ -112,9 +107,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
-    this.determineInitialLauncherState();
-
-    await this.updateAgentAvailability();
+    // Set initial launcher visibility and agent availability states
+    await this.updateLauncherState();
 
     // Standalone Mode
     // Never show launcher
@@ -148,8 +142,12 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
   };
 
-  determineInitialLauncherState = () => {
+  updateLauncherState = async () => {
+    const agentsAvailable = await this.updateAgentAvailability();
+
     if (
+      // If agents are available, show launcher
+      agentsAvailable ||
       // User is in active session, allow them to continue
       QuiqChatClient.isChatVisible() ||
       QuiqChatClient.hasTakenMeaningfulAction() ||

@@ -1,9 +1,11 @@
 // @flow
+
 import {defaultOptions} from 'Common/Constants';
 import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   camelizeToplevelScreamingSnakeCaseKeys,
+  displayError,
 } from 'Common/Utils';
 import {buildChatIFrame} from 'managers/FrameManager';
 import {setupButtons} from 'managers/ButtonManager';
@@ -26,8 +28,7 @@ export const Quiq = (options: {[string]: any}) => {
       try {
         pageSetup();
       } catch (e) {
-        console.error('Quiq: error bootstrapping webchat.');
-        console.error(e.stack);
+        displayError(`Quiq: error bootstrapping webchat: ${e}`);
       }
     });
   } else {

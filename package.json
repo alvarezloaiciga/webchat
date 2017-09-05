@@ -158,6 +158,6 @@
     "redux": "3.7.2",
     "redux-devtools": "3.4.0",
     "redux-devtools-log-monitor": "1.3.0",
-    "redux-store-watch": "^0.0.11"
+    "redux-store-watch": "0.0.11"
   }
 }

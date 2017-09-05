@@ -1,5 +1,5 @@
 // @flow
-import type {IntlObject, IntlMessage} from 'types';
+import type {IntlObject, IntlMessage} from './types';
 
 let intl;
 

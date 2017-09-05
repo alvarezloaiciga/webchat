@@ -14,7 +14,7 @@ let listeners = [];
  * We listen for each supported event type on the postRobot messaging channel between the SDK and the webchat iframe
  * Each event type is associated with an array of event handling functions. Anything may register a function to handle an event.
  * For example, Quiq.js will register an eventHandler when the user calls the .on() function.
- * When stan event is triggered, event handler functions are called in the order they appear in the array.
+ * When an event is triggered, event handler functions are called in the order they appear in the array.
  *****************************************************/
 
 export const setup = () => {
@@ -34,7 +34,7 @@ export const setup = () => {
   setupListeners();
 };
 
-export const registerEventHandler = (event: string, handler: () => any) => {
+export const registerEventHandler = (event: string, handler: (data: ?Object) => any) => {
   // Ensure this event has a key in the handlers object, if not create it and assign an empty array to it
   if (!Array.isArray(handlers[event])) {
     handlers[event] = [];
@@ -42,7 +42,7 @@ export const registerEventHandler = (event: string, handler: () => any) => {
   handlers[event].push(handler);
 };
 
-export const removeEventHandler = (event: string, handler: () => any) => {
+export const removeEventHandler = (event: string, handler: (data: ?Object) => any) => {
   if (Array.isArray(handlers[event])) {
     const idx = handlers[event].indexOf(handler);
     if (idx > -1) {
@@ -64,7 +64,7 @@ export const askChat = async (
   messageName: string,
   data: ?Object,
   callback: ?(any, Error) => any,
-) => {
+): Promise<Object> => {
   if (!postRobotClient) {
     displayError(
       'You must set the webchat window and domain, and then call Messenger.setup(), before trying to post a message!',

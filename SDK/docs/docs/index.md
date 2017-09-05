@@ -8,7 +8,7 @@ It allows you to integrate our prebuilt user interface with varying degrees of c
 To get started with the standard Webchat setup, include `quiq.js` on your page by adding the following script tag into the `<head>` of your HTML:
 
 ```javascript
-<script src="fdsv" />
+<script src="https://tenant.goquiq.com/app/webchat/index.js" />
 ```
 Next, setup Webchat by calling the `Quiq()` function:
 

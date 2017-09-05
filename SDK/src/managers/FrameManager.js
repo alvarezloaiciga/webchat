@@ -49,8 +49,13 @@ export const buildChatIFrame = () => {
   }
 };
 
+const handleWindowChange = (newWindow: Object) => {
+  setChatWindow(newWindow);
+  setupMessenger();
+};
+
 // Event handlers
-const handleVisibilityChange = data => {
+const handleVisibilityChange = (data: {visible: boolean}) => {
   const quiqOptions = getQuiqOptions();
   const chatWindow = getChatWindow();
   const {visible} = data;
@@ -64,11 +69,6 @@ const handleVisibilityChange = data => {
       chatWindow.height = 0;
     }
   }
-};
-
-const handleWindowChange = newWindow => {
-  setChatWindow(newWindow);
-  setupMessenger();
 };
 
 const handleStandaloneOpen = () => {

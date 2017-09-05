@@ -1,3 +1,5 @@
+// @flow
+
 let quiqOptions, chatWindow;
 import type {QuiqObject} from 'types';
 
@@ -7,7 +9,7 @@ export const setQuiqOptions = (newQuiqOptions: QuiqObject) => {
   quiqOptions = newQuiqOptions;
 };
 
-export const getChatWindow = () => chatWindow;
-export const setChatWindow = newChatWindow => {
+export const getChatWindow = (): Object => chatWindow;
+export const setChatWindow = (newChatWindow: Object) => {
   chatWindow = newChatWindow;
 };
