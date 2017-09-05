@@ -55,9 +55,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   componentWillReceiveProps(nextProps: LauncherProps) {
-    if (this.props.chatContainerHidden && !nextProps.chatContainerHidden) {
-      clearTimeout(this.autoPopTimeout);
-    }
     // Respond to change in chat visibility
     if (nextProps.chatContainerHidden !== this.props.chatContainerHidden)
       this.handleChatVisibilityChange(nextProps.chatContainerHidden);
@@ -219,6 +216,12 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleChatVisibilityChange = async (hidden: boolean) => {
     if (!hidden) {
+      // If container has become visible at any point, we don't want to auto-pop
+      clearTimeout(this.autoPopTimeout);
+
+      // If container ever becomes visible, launch buttons need to be made visible
+      this.props.setChatLauncherHidden(false);
+
       await this.startSession();
       QuiqChatClient.joinChat();
     } else {
