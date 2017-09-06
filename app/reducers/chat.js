@@ -16,7 +16,7 @@ type ChatAction = {
 export const initialState = {
   chatContainerHidden: true,
   chatLauncherHidden: true,
-  agentsAvailable: false,
+  agentsAvailable: undefined,
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: [],
   agentTyping: false,
