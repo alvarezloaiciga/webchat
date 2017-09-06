@@ -2,7 +2,7 @@
 
 import {getQuiqOptions, getChatWindow} from '../Globals';
 import {displayWarning, displayError, isMobile, isIFrame} from 'Common/Utils';
-import * as Messenger from '../services/Messenger';
+import * as Messenger from '../services/Postmaster';
 import {
   actionTypes,
   eventTypes,

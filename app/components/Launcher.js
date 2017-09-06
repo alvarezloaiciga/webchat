@@ -63,6 +63,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     clearInterval(this.updateLauncherVisibilityInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
+
+    // Set to uninitialized in case app will ever be remounted and will need to run through startSession()
+    this.updateInitializedState(ChatInitializedState.UNINITIALIZED);
     QuiqChatClient.stop();
   }
 

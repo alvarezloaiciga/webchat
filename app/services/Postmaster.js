@@ -25,6 +25,8 @@ let chatClient; // eslint-disable-line no-unused-vars
 let domain;
 let postRobotClient, postRobotListener;
 
+postRobot.CONFIG.LOG_LEVEL = 'error';
+
 export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatClient) => {
   store = _store;
   chatClient = _chatClient;
@@ -51,7 +53,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
 };
 
-const tellClient = (messageName: string, data: Object = {}) => {
+export const tellClient = (messageName: string, data: Object = {}) => {
   if (!postRobotClient) {
     return displayError(messages.mfInitNeeded);
   }

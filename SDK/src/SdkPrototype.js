@@ -1,6 +1,6 @@
 // @flow
 
-import * as Messenger from './services/Messenger';
+import * as Messenger from './services/Postmaster';
 import {actionTypes, publicEventTypes} from 'Common/Constants';
 import {isIFrame,} from 'Common/Utils';
 import {getChatWindow} from './Globals';

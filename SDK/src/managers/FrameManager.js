@@ -1,7 +1,7 @@
 // @flow
 
 import {webchatPath, eventTypes, actionTypes, quiqChatFrameId} from 'Common/Constants';
-import {setup as setupMessenger, registerEventHandler, tellChat} from '../services/Messenger';
+import {setup as setupMessenger, registerEventHandler, tellChat} from '../services/Postmaster';
 import ToggleChatButton from '../styles/ToggleChatButton';
 import {getQuiqOptions, setChatWindow, getChatWindow} from '../Globals';
 import {isIFrame, getCalcStyle} from 'Common/Utils';

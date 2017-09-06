@@ -5,6 +5,8 @@ import {eventTypes, bridgePath} from 'Common/Constants';
 import {displayError, displayWarning, isIFrame} from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from '../Globals';
 
+postRobot.CONFIG.LOG_LEVEL = 'error';
+
 const handlers: {[string]: Array<?(data: Object) => any>} = {};
 let postRobotClient, postRobotListener;
 let listeners = [];

@@ -4,7 +4,7 @@ import {constructApp} from 'utils/domUtils';
 import quiqOptions from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
-import {init as initMalfunctionJunction} from './services/MalfunctionJunction';
+import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
 
 import 'main.scss';
