@@ -153,3 +153,50 @@ export const inNonProductionCluster = () =>
 
 export const inLocalDevelopment = () =>
   __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
+
+export const getQuiqKeysFromLocalStorage = (): {[string]: any} => {
+  if (!localStorage) return {};
+  const keys = {
+    'X-Quiq-Access-Token': localStorage.getItem('X-Quiq-Access-Token'),
+    'quiq-chat-container-visible': localStorage.getItem('quiq-chat-container-visible'),
+    'quiq-tracking-id': localStorage.getItem('quiq-tracking-id'),
+    'quiq-user-taken-meaningful-action': localStorage.getItem('quiq-user-taken-meaningful-action'),
+    '__storejs_expire_mixin_X-Quiq-Access-Token': localStorage.getItem('__storejs_expire_mixin_X-Quiq-Access-Token'),
+    '__storejs_expire_mixin_quiq-chat-container-visible': localStorage.getItem('__storejs_expire_mixin_quiq-chat-container-visible'),
+    '__storejs_expire_mixin_quiq-tracking-id': localStorage.getItem('__storejs_expire_mixin_quiq-tracking-id'),
+    '__storejs_expire_mixin_quiq-user-taken-meaningful-action': localStorage.getItem('__storejs_expire_mixin_quiq-user-taken-meaningful-action'),
+  };
+
+  // Remove null/undefined keys returned by localStorage.getItem()
+  Object.keys(keys).forEach(k => {
+    if (!keys[k]) delete keys[k];
+  });
+
+  return keys;
+};
+
+export const setLocalStorageItems = (data: {[string]: any}) => {
+  if (!localStorage) return;
+  Object.keys(data).forEach(k => {
+    localStorage.setItem(k, data[k]);
+  });
+};
+
+export const clearQuiqKeysFromLocalStorage = () => {
+  const keys = [
+    'X-Quiq-Access-Token',
+    'quiq-chat-container-visible',
+    'quiq-tracking-id',
+    'quiq-user-taken-meaningful-action',
+    '__storejs_expire_mixin_X-Quiq-Access-Token',
+    '__storejs_expire_mixin_quiq-chat-container-visible',
+    '__storejs_expire_mixin_quiq-tracking-id',
+    '__storejs_expire_mixin_quiq-user-taken-meaningful-action',
+  ];
+
+  if (!localStorage) return;
+
+  keys.forEach(k => {
+    localStorage.removeItem(k);
+  })
+};

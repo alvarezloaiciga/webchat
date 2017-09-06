@@ -6,6 +6,8 @@ import {
   getWindowDomain,
   camelizeToplevelScreamingSnakeCaseKeys,
   displayError,
+  getQuiqKeysFromLocalStorage,
+  clearQuiqKeysFromLocalStorage,
 } from 'Common/Utils';
 import {buildChatIFrame} from 'managers/FrameManager';
 import {setupButtons} from 'managers/ButtonManager';
@@ -20,7 +22,14 @@ export const Quiq = (options: {[string]: any}) => {
 
   quiqOptions.clientDomain = getWindowDomain();
 
+  // Transfer Quiq keys from this site's localStorage to iframe's local storage
+  // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
+  quiqOptions.localStorageKeys = getQuiqKeysFromLocalStorage();
+
   setQuiqOptions(quiqOptions);
+
+  // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
+  clearQuiqKeysFromLocalStorage();
 
   // Defer DOM-related tasks until DOM is fully loaded
   if (document.readyState === 'loading') {

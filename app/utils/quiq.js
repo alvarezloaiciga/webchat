@@ -1,6 +1,6 @@
 // @flow
 import messages from 'messages';
-import {displayError, inStandaloneMode, camelize} from 'Common/Utils';
+import {displayError, inStandaloneMode, camelize, setLocalStorageItems} from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
@@ -21,6 +21,12 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
 
 const getQuiqOptions = (): QuiqObject => {
   const rawQuiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '');
+
+  // Set local storage items from rawQuiqObject.localStorage Keys
+  if (rawQuiqObject.localStorageKeys) {
+    setLocalStorageItems(rawQuiqObject.localStorageKeys);
+  }
+
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
