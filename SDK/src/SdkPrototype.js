@@ -1,10 +1,9 @@
 // @flow
 
-import * as Postmaster from './services/Postmaster';
+import * as Postmaster from './Postmaster';
 import {actionTypes, publicEventTypes} from 'Common/Constants';
-import {isIFrame,} from 'Common/Utils';
+import {isIFrame, displayWarning} from 'Common/Utils';
 import {getChatWindow} from './Globals';
-import {displayWarning} from 'Common/Utils';
 
 export default {
   setChatVisibility: (visible: boolean) => {
@@ -25,11 +24,7 @@ export default {
 
   on: (eventName: string, handler: (data: Object) => any) => {
     if (!publicEventTypes[eventName]) {
-      displayWarning({
-        id: 'unknownEventNameWarning',
-        description: 'Tried to register for an unknown event type',
-        defaultMessage: 'Can\'t register for an event named "{eventName}": unknown event name.'
-      }, {eventName});
+      displayWarning('Can\'t register for an event named "{eventName}": unknown event name.', {eventName});
       return;
     }
 

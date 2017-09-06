@@ -76,7 +76,7 @@ export const getChatContainerHidden = (state: ChatState): boolean => {
   return state.chatContainerHidden;
 };
 
-export const getAgentsAvailable = (state: ChatState): boolean => {
+export const getAgentsAvailable = (state: ChatState): ?boolean => {
   return state.agentsAvailable;
 };
 

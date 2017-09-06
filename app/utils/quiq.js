@@ -1,7 +1,7 @@
 // @flow
 import messages from 'messages';
 import {displayError, inStandaloneMode, camelize, setLocalStorageItems} from 'Common/Utils';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'utils/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -20,7 +20,7 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
 };
 
 const getQuiqOptions = (): QuiqObject => {
-  const rawQuiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '');
+  const rawQuiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
 
   // Set local storage items from rawQuiqObject.localStorage Keys
   if (rawQuiqObject.localStorageKeys) {

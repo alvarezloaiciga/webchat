@@ -271,7 +271,7 @@ export type BrowserEngine =
 export type ChatState = {
   chatContainerHidden: boolean,
   chatLauncherHidden: boolean,
-  agentsAvailable: boolean,
+  agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
   agentTyping: boolean,

@@ -1,5 +1,5 @@
 // @flow
-import * as i18nService from '../../../Common/i18n';
+import * as i18nService from '../i18n';
 
 const message = {
   id: 'testMessage',

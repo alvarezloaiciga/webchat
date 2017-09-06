@@ -1,5 +1,7 @@
 // @flow
 jest.mock('Common/Utils');
+jest.mock('utils/quiq');
+
 import React from 'react';
 import type {ToggleChatButtonProps} from '../ToggleChatButton';
 import {ToggleChatButton} from '../ToggleChatButton';

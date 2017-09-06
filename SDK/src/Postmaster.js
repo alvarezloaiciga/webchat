@@ -3,7 +3,7 @@
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
 import {displayError, displayWarning, isIFrame} from 'Common/Utils';
-import {getChatWindow, getQuiqOptions} from '../Globals';
+import {getChatWindow, getQuiqOptions} from './Globals';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
 

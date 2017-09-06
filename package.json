@@ -22,7 +22,7 @@
     "postbuild": ". config/postbuild.sh",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
-    "lint": "node ./node_modules/eslint/bin/eslint.js app/",
+    "lint": "node ./node_modules/eslint/bin/eslint.js app/ SDK/ Common/",
     "test": "flow && jest --env=jsdom && node ./node_modules/eslint/bin/eslint.js app/ --quiet",
     "precommit": "lint-staged"
   },
@@ -37,6 +37,9 @@
     ]
   },
   "jest": {
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
     "modulePaths": [
       "./",
       "app/components",
@@ -45,11 +48,10 @@
       "node_modules"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js",
-      "^Common(.*)$": "<rootDir>/Common$1"
+      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
     "snapshotSerializers": [
-      "<rootDir>/../node_modules/enzyme-to-json/serializer"
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "globals": {
       "quiqOptions": {
@@ -70,7 +72,8 @@
       "__DEV__": true,
       "__VERSION__": "1.0.0"
     },
-    "rootDir": "app"
+    "rootDir": "./",
+    "roots": ["app", "Common"]
   },
   "devDependencies": {
     "autoprefixer": "6.4.1",
@@ -117,6 +120,7 @@
     "http-server": "0.9.0",
     "husky": "0.13.3",
     "jest": "19.0.1",
+    "jest-localstorage-mock": "1.2.0",
     "jsdom": "9.4.5",
     "json-loader": "0.5.4",
     "lint-staged": "3.4.0",
@@ -148,8 +152,8 @@
     "file-saver": "1.3.3",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "quiq-chat": "1.12.0",
     "post-robot": "7.0.6",
+    "quiq-chat": "1.12.0",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
     "react-dom": "15.6.0",

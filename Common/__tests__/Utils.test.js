@@ -1,4 +1,4 @@
-import * as Utils from 'utils/utils';
+import * as Utils from 'Common/Utils';
 
 describe('Utils', () => {
   describe('camelize', () => {
@@ -20,6 +20,19 @@ describe('Utils', () => {
 
     it('converts crazy-case_words without blowing up', () => {
       expect(Utils.camelize('crazy-case word')).toBe('crazy-CaseWord');
+    });
+  });
+});
+
+describe('Utils', () => {
+  describe('buildTemplateString', () => {
+    it('renders a normal string as-is', () => {
+      expect(Utils.buildTemplateString("hello there, Homer")).toBe("hello there, Homer");
+    });
+
+    it('renders a template string with replacement', () => {
+      expect(Utils.buildTemplateString("Hi {name1}, my name is {name2}", {name1: 'scary', name2: 'posh'}))
+        .toBe("Hi scary, my name is posh");
     });
   });
 });

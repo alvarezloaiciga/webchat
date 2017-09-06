@@ -3962,6 +3962,10 @@ jest-jasmine2@^19.0.2:
     jest-message-util "^19.0.0"
     jest-snapshot "^19.0.2"
 
+jest-localstorage-mock@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/jest-localstorage-mock/-/jest-localstorage-mock-1.2.0.tgz#4f3b68313b2edf895080d63b723be758a843b57c"
+
 jest-matcher-utils@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-19.0.0.tgz#5ecd9b63565d2b001f61fbf7ec4c7f537964564d"
@@ -4070,10 +4074,6 @@ jest@19.0.1:
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
-
-js-cookie@2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.1.4.tgz#da4ec503866f149d164cf25f579ef31015025d8d"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -5902,13 +5902,12 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.11.6:
-  version "1.11.6"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.11.6.tgz#3959775635bb309a5cd8907981df557214786ef6"
+quiq-chat@1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.12.0.tgz#87dea15e783caed3645e03cad9c934bf4259363f"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
-    js-cookie "2.1.4"
     lodash "4.17.4"
     loglevel "1.4.1"
     loglevel-plugin-prefix "0.5.3"
@@ -6222,7 +6221,7 @@ redux-devtools@3.4.0:
     prop-types "^15.5.7"
     redux-devtools-instrument "^1.0.1"
 
-redux-store-watch@^0.0.11:
+redux-store-watch@0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/redux-store-watch/-/redux-store-watch-0.0.11.tgz#c101144e997e6a309c0dc2aff6197536d247e8c7"
   dependencies:

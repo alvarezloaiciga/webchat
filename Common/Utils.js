@@ -5,9 +5,8 @@ declare var QuiqModernizr: Object;
 import messages from 'messages';
 import {SupportedWebchatUrls} from './Constants';
 import {UAParser} from 'ua-parser-js';
-import {getDisplayString, formatTime} from './i18n';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage} from './types';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
 
 const parser = new UAParser();
 
@@ -22,20 +21,6 @@ export const getDeviceType = (): DeviceTypes => parser.getResult().device.type;
 export const getOSName = (): OSNames => parser.getResult().os.name;
 
 export const getUAInfo = () => parser.getResult();
-
-/**
- * @param {number} timestamp - timestamp to format
- * @return {String} - plain-text formatted date in the format of MM/DD/YY, HH:MM:SS AM/PM
- */
-export const getFormattedDateAndTime = (timestamp: number): string =>
-  formatTime(timestamp, {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  });
 
 export const compatibilityMode = () => {
   const compatList = [
@@ -94,11 +79,7 @@ export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
 
 export const getHostingWindow = () => {
   if (!window.opener && window.parent === window.self) {
-    displayError({
-      id: 'cannotFindHostingWindow',
-      description: 'Message displayed when frame or window containing webchat app cannot be found in DOM',
-      defaultMessage: 'Unable to find iframe or window containing webchat',
-    });
+    displayError('Unable to find iframe or window containing webchat');
   }
 
   return window.opener || window.parent;
@@ -114,12 +95,12 @@ export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqM
 export const supportsSVG = () =>
   QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
-export const displayError = (error: IntlMessage | string, values: {[string]: string} = {}) => {
-  throw new Error(getDisplayString(error, values));
+export const displayError = (error: string, values: {[string]: string} = {}) => {
+  throw new Error(buildTemplateString(error, values));
 };
 
-export const displayWarning = (error: IntlMessage | string, values: {[string]: string} = {}) => {
-  console.warn(getDisplayString(error, values));
+export const displayWarning = (error: string, values: {[string]: string} = {}) => {
+  console.warn(buildTemplateString(error, values));
 };
 
 // If window.opener is not null, then we're in a popup.
@@ -199,4 +180,14 @@ export const clearQuiqKeysFromLocalStorage = () => {
   keys.forEach(k => {
     localStorage.removeItem(k);
   })
+};
+
+// From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement
+export const buildTemplateString = (s: string, values: {[string]: any}): string => {
+  return s.replace(
+    /{(\w*)}/g,
+    (m: string, key: string) => {
+      return values.hasOwnProperty( key ) ? values[key].toString() : "";
+    }
+  );
 };

@@ -210,7 +210,7 @@ describe('Launcher component', () => {
     it('restarts the client when chat is toggled', async () => {
       testProps.initializedState = ChatInitializedState.INACTIVE;
       await render();
-      await instance.toggleChat();
+      await instance.handleChatVisibilityChange(true);
       expect(QuiqChatClient.start).toBeCalled();
     });
   });

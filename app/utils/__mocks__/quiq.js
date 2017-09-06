@@ -1,6 +1,7 @@
 // @flow
+
 import messages from 'messages';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'utils/i18n';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
@@ -151,6 +152,25 @@ const quiqOptions: QuiqObject = {
         type: 'number',
         label: 'Number Field',
         id: 'numberField',
+        required: false,
+      },
+
+      {
+        type: 'email',
+        label: 'E-Mail',
+        id: 'email',
+        required: false,
+      },
+      {
+        type: 'tel',
+        label: 'Phone Number',
+        id: 'phoneNumber',
+        required: false,
+      },
+      {
+        type: 'textarea',
+        label: 'My life story',
+        id: 'lifeStory',
         required: false,
       },
     ],

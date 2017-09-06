@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'Common/i18n';
+import {registerIntlObject} from 'utils/i18n';
 import quiqOptions from 'utils/quiq';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
@@ -135,7 +135,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // Always start session, don't change ChatContainer
     if (QuiqChatClient.hasTakenMeaningfulAction()) {
       await this.startSession();
-      return;
     }
 
     // If the launcher is visible, i.e. if there are agents or the user has previously done something meaningful, set the auto pop timeout

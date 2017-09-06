@@ -6,12 +6,17 @@ exports[`ToggleChatButton component open mobile always shows blurb sbg even when
   onClick={[Function]}
   style={
     Object {
+      "background": "teal",
       "backgroundColor": "#333",
     }
   }
 >
   <ChatBubbleIcon
-    style={Object {}}
+    style={
+      Object {
+        "opacity": 0.75,
+      }
+    }
   />
 </button>
 `;
@@ -22,13 +27,18 @@ exports[`ToggleChatButton component open switches svgs 1`] = `
   onClick={[Function]}
   style={
     Object {
+      "background": "teal",
       "backgroundColor": "#333",
     }
   }
 >
   <svg
     height="24"
-    style={Object {}}
+    style={
+      Object {
+        "opacity": 0.75,
+      }
+    }
     viewBox="0 0 24 24"
     width="24"
     xmlns="http://www.w3.org/2000/svg"
@@ -47,12 +57,17 @@ exports[`ToggleChatButton component rendering renders 1`] = `
   onClick={[Function]}
   style={
     Object {
+      "background": "teal",
       "backgroundColor": "#333",
     }
   }
 >
   <ChatBubbleIcon
-    style={Object {}}
+    style={
+      Object {
+        "opacity": 0.75,
+      }
+    }
   />
 </button>
 `;

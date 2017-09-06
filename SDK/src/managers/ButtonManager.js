@@ -2,7 +2,7 @@
 
 import {getQuiqOptions, getChatWindow} from '../Globals';
 import {displayWarning, displayError, isMobile, isIFrame} from 'Common/Utils';
-import * as Messenger from '../services/Postmaster';
+import * as Postmaster from '../Postmaster';
 import {
   actionTypes,
   eventTypes,
@@ -88,8 +88,8 @@ const handleLaunchButtonClick = async () => {
   }
 
   // Set visibility of container if chat is docked
-  const {visible} = await Messenger.askChat(actionTypes.getChatVisibility);
-  Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
+  const {visible} = await Postmaster.askChat(actionTypes.getChatVisibility);
+  Postmaster.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
 const handleLaunchButtonVisibilityChange = (data: {visible?: boolean}) => {
@@ -144,8 +144,8 @@ const handleChatVisibilityChange = (data: {visible?: boolean}) => {
 };
 
 // Register event handlers for this module
-Messenger.registerEventHandler(eventTypes.chatVisibilityDidChange, handleChatVisibilityChange);
-Messenger.registerEventHandler(
+Postmaster.registerEventHandler(eventTypes.chatVisibilityDidChange, handleChatVisibilityChange);
+Postmaster.registerEventHandler(
   eventTypes._launchButtonVisibilityShouldChange,
   handleLaunchButtonVisibilityChange,
 );

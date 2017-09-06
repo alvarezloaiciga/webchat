@@ -1,5 +1,7 @@
 // @flow
-import type {IntlObject, IntlMessage} from './types';
+
+import {buildTemplateString} from 'Common/Utils';
+import type {IntlObject, IntlMessage} from 'Common/types';
 
 let intl;
 
@@ -18,7 +20,7 @@ export const registerIntlObject = (intlObject: IntlObject): void => {
 export const formatMessage = (message: IntlMessage, values: Object = {}): string => {
   if (!intl) {
     // Intl object not defined, fall back to returning default message
-    return messageTemplate(message.defaultMessage, values);
+    return buildTemplateString(message.defaultMessage, values);
   }
 
   return intl.formatMessage(message, values);
@@ -38,18 +40,22 @@ export const formatDate = (value: number): string => intl.formatDate(value);
 export const formatTime = (timestamp: number, options?: Object) =>
   intl.formatTime(timestamp, options);
 
+/**
+ * @param {number} timestamp - timestamp to format
+ * @return {String} - plain-text formatted date in the format of MM/DD/YY, HH:MM:SS AM/PM
+ */
+export const getFormattedDateAndTime = (timestamp: number): string =>
+  formatTime(timestamp, {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
+
 export const getDisplayString = (message?: string | IntlMessage, values?: Object): string => {
   if (!message) return '';
 
   return typeof message === 'string' ? message : formatMessage(message, values);
-};
-
-// From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement
-const messageTemplate = (s: string, values: {[string]: any}): string => {
-  return s.replace(
-    /{(\w*)}/g,
-      (m: string, key: string) => {
-        return values.hasOwnProperty( key ) ? values[key].toString() : "";
-      }
-    );
 };

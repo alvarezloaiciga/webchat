@@ -1,6 +1,7 @@
 // @flow
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
+jest.mock('utils/quiq');
 
 import React from 'react';
 import keycodes from 'keycodes';

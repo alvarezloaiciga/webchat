@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import {getFormattedDateAndTime} from 'Common/Utils';
+import {getFormattedDateAndTime} from 'utils/i18n';
 import {saveAs} from 'file-saver';
 
 type ReduxExporterProps = {
