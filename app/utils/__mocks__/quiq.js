@@ -1,7 +1,7 @@
 // @flow
 import messages from 'messages';
-import {getDisplayString} from 'utils/i18n';
-import type {QuiqObject} from 'types';
+import {getDisplayString} from 'Common/i18n';
+import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
   contactPoint: 'Bob',
@@ -154,7 +154,7 @@ const quiqOptions: QuiqObject = {
         required: false,
       },
     ],
-  }
+  },
 };
 
 export const openStandaloneMode = jest.fn();

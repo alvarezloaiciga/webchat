@@ -38,12 +38,15 @@
   },
   "jest": {
     "modulePaths": [
+      "./",
       "app/components",
       "app",
+      "SDK/src",
       "node_modules"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js"
+      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js",
+      "^Common(.*)$": "<rootDir>/Common$1"
     },
     "snapshotSerializers": [
       "<rootDir>/../node_modules/enzyme-to-json/serializer"

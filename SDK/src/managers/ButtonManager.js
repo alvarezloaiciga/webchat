@@ -58,14 +58,14 @@ const addDefaultLaunchButton = () => {
   // Append button before end of <body>
   const body = document.querySelector('body');
   if (!body) {
-    displayError("HTML 'body' tag is unavailable, can't add default chat launch button");
+    return displayError("HTML 'body' tag is unavailable, can't add default chat launch button");
   }
   body.insertAdjacentHTML('beforeend', button);
 
   // Add click event and hover event listener to button
   const buttonElement = document.querySelector(`#${launchButtonId}`);
   if (!buttonElement) {
-    displayError('Unable to find default launch button element to bind click handler');
+    return displayError('Unable to find default launch button element to bind click handler');
   }
   buttonElement.addEventListener('click', handleLaunchButtonClick);
 };
@@ -89,7 +89,7 @@ const handleLaunchButtonClick = async () => {
   Messenger.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
-const handleLaunchButtonVisibilityChange = (data: {visible: boolean}) => {
+const handleLaunchButtonVisibilityChange = (data: {visible?: boolean}) => {
   const {visible} = data;
   const quiqOptions = getQuiqOptions();
   let allLaunchButtons = [];
@@ -113,7 +113,7 @@ const handleLaunchButtonVisibilityChange = (data: {visible: boolean}) => {
   });
 };
 
-const handleChatVisibilityChange = (data: {visible: boolean}) => {
+const handleChatVisibilityChange = (data: {visible?: boolean}) => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
 

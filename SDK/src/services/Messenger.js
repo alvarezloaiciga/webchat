@@ -5,7 +5,7 @@ import {eventTypes, bridgePath} from 'Common/Constants';
 import {displayError, displayWarning, isIFrame} from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from '../Globals';
 
-const handlers: {[string]: Array<?() => any>} = {};
+const handlers: {[string]: Array<?(data: Object) => any>} = {};
 let postRobotClient, postRobotListener;
 let listeners = [];
 
@@ -34,7 +34,7 @@ export const setup = () => {
   setupListeners();
 };
 
-export const registerEventHandler = (event: string, handler: (data: ?Object) => any) => {
+export const registerEventHandler = (event: string, handler: (data: Object) => any) => {
   // Ensure this event has a key in the handlers object, if not create it and assign an empty array to it
   if (!Array.isArray(handlers[event])) {
     handlers[event] = [];
@@ -42,7 +42,7 @@ export const registerEventHandler = (event: string, handler: (data: ?Object) => 
   handlers[event].push(handler);
 };
 
-export const removeEventHandler = (event: string, handler: (data: ?Object) => any) => {
+export const removeEventHandler = (event: string, handler: (data: Object) => any) => {
   if (Array.isArray(handlers[event])) {
     const idx = handlers[event].indexOf(handler);
     if (idx > -1) {
@@ -63,7 +63,7 @@ export const tellChat = (messageName: string, data: Object) => {
 export const askChat = async (
   messageName: string,
   data: ?Object,
-  callback: ?(any, Error) => any,
+  callback: ?(data: ?Object, error: ?Error) => any,
 ): Promise<Object> => {
   if (!postRobotClient) {
     displayError(
@@ -94,6 +94,7 @@ const setupListeners = () => {
   }
 
   listeners = Object.values(eventTypes).map(e => {
+    // $FlowIssue - flow cannot infer type of Object.{entries, keys, values}
     return postRobotListener.on(e, handleEvent(e));
   });
 };
@@ -103,9 +104,9 @@ const cancelListeners = () => {
   listeners = [];
 };
 
-const handleEvent = eventName => event => {
+const handleEvent = (eventName: string) => event => {
   if (handlers.hasOwnProperty(eventName)) {
-    handlers[eventName].forEach(f => f(event.data));
+    handlers[eventName].forEach(f => f && f(event.data));
   } else if (!Object.values(eventTypes).includes(eventName)) {
     displayWarning(`QUIQ SDK: Unknown event type received: ${eventName}`);
   }

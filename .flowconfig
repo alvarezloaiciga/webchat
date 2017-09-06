@@ -10,6 +10,8 @@
 .*/node_modules/emotion/src/.*
 .*/node_modules/styled-components/.*
 .*/node_modules/quiq-chat/src.*
+.*/node_modules/post-robot/src.*
+.*/node_modules/zalgo-promise/src.*
 
 [libs]
 flow-typed/npm/

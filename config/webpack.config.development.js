@@ -25,6 +25,7 @@ module.exports = merge(config, {
   entry: {
     webchat: ['react-hot-loader/patch', 'development'],
     sdk: './SDK/src/index.js',
+    postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.min.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -37,8 +38,7 @@ module.exports = merge(config, {
       template: 'config/templates/bridge.html.ejs',
       filename: 'bridge.html',
       inject: false,
-      bridgeScript: fs.readFileSync('./node_modules/post-robot/dist/post-robot.ie.min.js'),
-      chunks: [],
+      chunks: ['postRobotBridge'],
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),

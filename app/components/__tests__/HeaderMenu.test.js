@@ -1,12 +1,14 @@
 // @flow
 jest.mock('quiq-chat');
 jest.mock('utils/quiq');
+jest.mock('services/MalfunctionJunction');
+
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
 import {HeaderMenu} from '../HeaderMenu';
 import QuiqChatClient from 'quiq-chat';
 import {shallow} from 'enzyme';
-import {openStandaloneMode} from 'utils/quiq';
+import {standaloneOpen} from 'services/MalfunctionJunction';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('HeaderMenu component', () => {
@@ -56,7 +58,7 @@ describe('HeaderMenu component', () => {
     it('pops chat', () => {
       render();
       wrapper.find('.fa-window-maximize').simulate('click');
-      expect(openStandaloneMode).toBeCalled();
+      expect(standaloneOpen).toBeCalled();
     });
   });
   /* eslint-disable no-restricted-syntax */

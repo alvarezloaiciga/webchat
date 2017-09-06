@@ -24,17 +24,18 @@ export const buildChatIFrame = () => {
     : (quiqOptions.styles.ToggleChatButton && quiqOptions.styles.ToggleChatButton.height) ||
     ToggleChatButton.height;
 
+  // If chat frame doesn't yet exist, build it and append to body
   if (!document.querySelector(`#${quiqChatFrameId}`)) {
     const quiqChatFrame = document.createElement('iframe');
     quiqChatFrame.id = quiqChatFrameId;
     quiqChatFrame.src = `${quiqOptions.host}/${webchatPath}`;
-    quiqChatFrame.height = 0; // onAgentAvailabilityChange will set to proper height
-    quiqChatFrame.width = quiqOptions.width;
+    quiqChatFrame.height = "0"; // onAgentAvailabilityChange will set to proper height
+    quiqChatFrame.width = quiqOptions.width.toString();
     quiqChatFrame.style.position = 'fixed';
     quiqChatFrame.style.bottom = getCalcStyle(launchButtonHeight, framePosition.bottom, '+');
-    quiqChatFrame.style.right = framePosition.right;
-    quiqChatFrame.style.left = framePosition.left;
-    quiqChatFrame.style.top = framePosition.top;
+    quiqChatFrame.style.right = framePosition.right.toString();
+    quiqChatFrame.style.left = framePosition.left.toString();
+    quiqChatFrame.style.top = framePosition.top.toString();
     quiqChatFrame.style.border = 'none';
     quiqChatFrame.onload = () => {
       handleWindowChange(window.quiqChatFrame);
@@ -43,7 +44,7 @@ export const buildChatIFrame = () => {
         quiqOptions.host,
       );
     };
-    document.body.appendChild(quiqChatFrame);
+    document.body && document.body.appendChild(quiqChatFrame);
   } else {
     handleWindowChange(window[quiqChatFrameId]);
   }

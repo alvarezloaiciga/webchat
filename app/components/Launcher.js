@@ -207,7 +207,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleClientInactiveTimeout = () => {
     this.updateInitializedState(ChatInitializedState.INACTIVE);
-    if (!this.props.chatContainerHidden && !this.props.popped) {
+    if (!this.props.chatContainerHidden && !inStandaloneMode()) {
       this.updateContainerHidden(true);
     }
   };
@@ -238,6 +238,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
 export default compose(
   injectIntl,
+  // $FlowIssue
   connect(
     (state: ChatState) => ({
       chatContainerHidden: state.chatContainerHidden,

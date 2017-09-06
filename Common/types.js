@@ -1,11 +1,14 @@
 // @flow
 
+export type ReduxStore = {dispatch: (any) => any, getState: () => ChatState};
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
   id: string,
   required?: boolean,
   rows?: number,
+  isInitialMessage?: boolean,
 };
 
 export type WelcomeForm = {
@@ -90,7 +93,6 @@ export type QuiqObject = {
   width: number,
   height: number,
   customLaunchButtons: Array<string>,
-  showDefaultLaunchButton: boolean,
   mobileNumber?: string | number,
 };
 

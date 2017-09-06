@@ -1,5 +1,6 @@
 // @flow
 jest.mock('Common/Utils');
+jest.mock('utils/quiq');
 
 import chat, {initialState} from '../chat';
 import {getMockMessage} from 'utils/testHelpers';
@@ -56,10 +57,10 @@ describe('chat reducers', () => {
     });
   });
 
-  describe('CHAT_POPPED', () => {
+  describe('AGENTS_AVAILABLE', () => {
     it('updates state with the new value', () => {
-      expect(chat(initialState, {type: 'CHAT_POPPED', popped: true})).toMatchSnapshot();
-      expect(chat(initialState, {type: 'CHAT_POPPED', popped: false})).toMatchSnapshot();
+      expect(chat(initialState, {type: 'AGENTS_AVAILABLE', popped: true})).toMatchSnapshot();
+      expect(chat(initialState, {type: 'AGENTS_AVAILABLE', popped: false})).toMatchSnapshot();
     });
   });
 
@@ -96,6 +97,7 @@ describe('chat reducers', () => {
         chatLauncherHidden: false,
         transcript: [getMockMessage()],
         agentTyping: true,
+        agentsAvailable: true,
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

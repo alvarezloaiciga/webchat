@@ -16,11 +16,12 @@ import {eventTypes, actionTypes} from 'Common/Constants';
 import {displayError, getHostingWindow} from 'Common/Utils';
 import {constructApp, appIsMounted} from 'utils/domUtils';
 import messages from 'messages';
-import type {ReduxStore, QuiqChatClient} from 'types';
+import type {ReduxStore} from 'types';
+import QuiqChatClient from 'quiq-chat';
 
 let reduxWatch;
 let store;
-let chatClient;
+let chatClient; // eslint-disable-line no-unused-vars
 let domain;
 let postRobotClient, postRobotListener;
 

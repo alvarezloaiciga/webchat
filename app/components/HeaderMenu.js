@@ -4,7 +4,7 @@ import {inStandaloneMode} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
 import {destructApp} from 'utils/domUtils';
 import {messageTypes, ChatInitializedState} from 'Common/Constants';
-import {setChatContainerHidden, setChatInitialized} from 'actions/chatActions';
+import {setChatContainerHidden} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import {standaloneOpen} from 'services/MalfunctionJunction';
@@ -13,7 +13,6 @@ import './styles/HeaderMenu.scss';
 
 export type HeaderMenuProps = {
   initializedState: ChatInitializedStateType,
-  setChatInitialized: (initializedState: ChatInitializedStateType) => void,
   setChatContainerHidden: (chatContainerHidden: boolean) => void, // eslint-disable-line react/no-unused-prop-types
 };
 
@@ -25,7 +24,6 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
 
   const popChat = () => {
     standaloneOpen();
-    props.setChatInitialized(ChatInitializedState.UNINITIALIZED);
     destructApp();
   };
 
@@ -65,5 +63,5 @@ export default connect(
   (state: ChatState) => ({
     initializedState: state.initializedState,
   }),
-  {setChatContainerHidden, setChatInitialized},
+  {setChatContainerHidden},
 )(HeaderMenu);

@@ -1,7 +1,7 @@
 // @flow
 declare var __VERSION__: string;
 import React from 'react';
-import QUIQ from 'utils/quiq';
+import quiqOptions from 'utils/quiq';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
@@ -15,7 +15,7 @@ type DebuggerState = {
 
 export class Debugger extends React.Component<{}, DebuggerState> {
   state: DebuggerState = {
-    hidden: !QUIQ.DEBUG,
+    hidden: !quiqOptions.debug,
   };
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();

@@ -13,10 +13,10 @@ export default {
     }
     Messenger.tellChat(actionTypes.setChatVisibility, {visible});
   },
-  getChatVisibility: async (callback: (data: {visibility: boolean}) => void): Promise<{visible: boolean}> => {
+  getChatVisibility: async (callback: (data: ?{visibility: boolean}, error: ?Error) => void): Promise<{visible: boolean}> => {
     return await Messenger.askChat(actionTypes.getChatVisibility, {}, callback);
   },
-  getAgentAvailability: async (callback: (data: {available: boolean}) => void): Promise<{available: boolean}> => {
+  getAgentAvailability: async (callback: (data: ?{available: boolean}, error: ?Error) => void): Promise<{available: boolean}> => {
     return await Messenger.askChat(actionTypes.getAgentAvailability, {}, callback);
   },
   on: (eventName: string, handler: (data: Object) => any) => {

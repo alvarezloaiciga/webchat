@@ -19,6 +19,11 @@ exports[`HeaderMenu component rendering renders 1`] = `
       title="Minimize window"
     />
     <i
+      className="fa fa-window-maximize icon"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
+    <i
       className="fa fa-times icon"
       onClick={[Function]}
       title="Close window"

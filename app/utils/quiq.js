@@ -1,14 +1,6 @@
 // @flow
 import messages from 'messages';
-import QuiqChatClient from 'quiq-chat';
-import {
-  getWebchatUrlFromScriptTag,
-  displayError,
-  isIEorSafari,
-  inStandaloneMode,
-  camelize,
-} from 'Common/Utils';
-import {SupportedWebchatUrls, StandaloneWindowName} from 'Common/Constants';
+import {displayError, inStandaloneMode, camelize} from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
@@ -25,17 +17,6 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   }
 
   return newFormObject;
-};
-
-const processCustomCss = (url: string): void => {
-  // Verify that this is an HTTPS url (required to avoid mixed content warnings)
-  if (!url.startsWith('https')) return displayError(messages.cssHttpsError);
-
-  const link = document.createElement('link');
-  link.href = url;
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  document.getElementsByTagName('head')[0].appendChild(link);
 };
 
 const getQuiqOptions = (): QuiqObject => {
@@ -97,10 +78,6 @@ const getQuiqOptions = (): QuiqObject => {
       rawQuiqObject.messages,
     ),
   };
-
-  // If custom css url is defined in DEBUG, process it
-  if (rawQuiqObject.debug && rawQuiqObject.debug.CUSTOM_CSS_URL)
-    processCustomCss(rawQuiqObject.debug.CUSTOM_CSS_URL);
 
   const returnValue = Object.assign({}, quiqOptions, rawQuiqObject);
   localStorage.setItem('quiqOptions', JSON.stringify(returnValue));
