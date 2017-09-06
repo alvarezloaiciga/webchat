@@ -56,7 +56,7 @@ export const removeEventHandler = (event: string, handler: (data: Object) => any
 export const tellChat = (messageName: string, data: Object) => {
   if (!postRobotClient) {
     displayError(
-      'You must set the webchat window and domain, and then call Messenger.setup(), before trying to post a message!',
+      'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',
     );
   }
   postRobotClient.send(messageName, data);
@@ -69,7 +69,7 @@ export const askChat = async (
 ): Promise<Object> => {
   if (!postRobotClient) {
     displayError(
-      'You must set the webchat window and domain, and then call Messenger.setup(), before trying to post a message!',
+      'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',
     );
   }
 
@@ -91,7 +91,7 @@ export const askChat = async (
 const setupListeners = () => {
   if (!postRobotListener) {
     displayError(
-      'You must set the webchat window and domain, and then call Messenger.setup(), before trying to create a message listener',
+      'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to create a message listener',
     );
   }
 

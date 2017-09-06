@@ -182,10 +182,10 @@
         var chat = Quiq(quiqOptions);
 
         // Add event listeners
-        chat.on(chat.eventTypes.chatVisibilityDidChange, function (data) {
+        chat.on('chatVisibilityDidChange', function (data) {
             updateState({'Chat is visible': data.visible});
         });
-        chat.on(chat.eventTypes.agentAvailabilityDidChange, function (data) {
+        chat.on('agentAvailabilityDidChange', function (data) {
             updateState({'Agents available': data.available});
         });
 

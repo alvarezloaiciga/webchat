@@ -15,10 +15,10 @@ export const registerIntlObject = (intlObject: IntlObject): void => {
  * @param {object} message - The react-intl message to translate
  * @param {object=} values - An object of values to pass into formatMessage
  */
-export const formatMessage = (message: IntlMessage, values?: Object): string => {
+export const formatMessage = (message: IntlMessage, values: Object = {}): string => {
   if (!intl) {
     // Intl object not defined, fall back to returning default message
-    return message.defaultMessage;
+    return messageTemplate(message.defaultMessage, values);
   }
 
   return intl.formatMessage(message, values);
@@ -42,4 +42,14 @@ export const getDisplayString = (message?: string | IntlMessage, values?: Object
   if (!message) return '';
 
   return typeof message === 'string' ? message : formatMessage(message, values);
+};
+
+// From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement
+const messageTemplate = (s: string, values: {[string]: any}): string => {
+  return s.replace(
+    /{(\w*)}/g,
+      (m: string, key: string) => {
+        return values.hasOwnProperty( key ) ? values[key].toString() : "";
+      }
+    );
 };

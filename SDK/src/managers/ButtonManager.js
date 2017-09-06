@@ -43,10 +43,13 @@ const bindCustomLaunchButtons = () => {
 };
 
 const addDefaultLaunchButton = () => {
-  const {colors, styles} = getQuiqOptions();
+  const {colors, styles, color} = getQuiqOptions();
   const iconStyle = toInlineStyle(styles.ToggleChatButtonIcon || {});
   const buttonStyle = toInlineStyle(
-    Object.assign({}, ToggleChatButton, {backgroundColor: colors.primary}, styles.ToggleChatButton),
+    Object.assign({},
+      ToggleChatButton,
+      {backgroundColor: colors.primary || color || '#59ad5d'},
+      styles.ToggleChatButton),
   );
   const button = `<button id="${launchButtonId}" style="${buttonStyle}" class="ToggleChatButton" onmouseout="this.style.boxShadow='rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'" onmouseover="this.style.boxShadow='rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px'">
                     <svg id="${launchButtonIconOpenId}" style="${iconStyle}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
