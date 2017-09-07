@@ -5,8 +5,8 @@ It allows you to integrate our prebuilt user interface with varying degrees of c
 
 !!! note "Note for existing users"
     If you are currently using a legacy version of Quiq Webchat without the SDK (i.e., you use the `window.QUIQ` object for setup and customization)
-    the SDK is backwards compatible with your existing pages. Things will work out of the box with no changes to your page. 
-    **Note that if the `window.QUIQ` object is defined on a given page (prior to including a `script` tag for webchat), you will not have access to the `Quiq()` function. 
+    the SDK is backwards compatible with your existing pages. Things will work out of the box with no changes to your page.
+    **Note that if the `window.QUIQ` object is defined on a given page (prior to including a `script` tag for webchat), you will not have access to the `Quiq()` function.
     Webchat will configure itself automatically based on the options you provided in `window.QUIQ`.**
     To take advantage of the useful features offered by the SDK we encourage you to follow the Quiqstart guide below to migrate.
 
@@ -55,12 +55,16 @@ Optionally, a callback can be passed to the function which will be called with t
 Returns a Promise with an object containing a single boolean `available` key.
 Optionally, a callback can be passed to the function which will be called with the same object.
 
+#### `sendRegistration([{id: string, value: string}])`
+
+Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
+
 #### `on(eventName: EventType, handler)`
 
 Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs.
 `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
 
-Event | `event` object fields 
---- | --- 
+Event | `event` object fields
+--- | ---
 `agentAvailabilityDidChange` | `available: boolean`
 `chatVisibilityDidChange` | `visible: boolean`
