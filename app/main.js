@@ -8,7 +8,6 @@ import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import QUIQ from 'utils/quiq';
 import QuiqChatClient from 'quiq-chat';
-import {registerChatClient} from './ChatClient';
 import {configureStore} from 'store/configureStore';
 import {Provider} from 'react-redux';
 import chat, {initialState} from 'reducers/chat';
@@ -18,8 +17,7 @@ import 'main.scss';
 const init = () => {
   if (nonCompatibleBrowser()) return;
 
-  const chatClient = new QuiqChatClient(QUIQ.HOST, QUIQ.CONTACT_POINT);
-  registerChatClient(chatClient);
+  QuiqChatClient.initialize(QUIQ.HOST, QUIQ.CONTACT_POINT);
   const store = configureStore(chat, initialState);
 
   const root = document.createElement('div');

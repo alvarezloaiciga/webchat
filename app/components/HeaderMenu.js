@@ -5,7 +5,7 @@ import QUIQ, {openStandaloneMode, getStyle, getMessage} from 'utils/quiq';
 import {messageTypes, ChatInitializedState} from 'appConstants';
 import {setChatContainerHidden, setChatPopped} from 'actions/chatActions';
 import {connect} from 'react-redux';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import type {ChatState, ChatInitializedStateType} from 'types';
 import './styles/HeaderMenu.scss';
 
@@ -18,7 +18,7 @@ export type HeaderMenuProps = {
 export const HeaderMenu = (props: HeaderMenuProps) => {
   const minimize = () => {
     props.setChatContainerHidden(true);
-    getChatClient().leaveChat();
+    QuiqChatClient.leaveChat();
   };
 
   const popChat = () => {

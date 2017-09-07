@@ -5,25 +5,18 @@ import QUIQ from 'utils/quiq';
 import {inNonProductionCluster, inLocalDevelopment} from 'utils/utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
-import {getChatClient} from '../../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
-import type {QuiqChatClientType} from 'quiq-chat';
 
 type DebuggerState = {
   hidden: boolean,
 };
 
-export class Debugger extends React.Component {
+export class Debugger extends React.Component<{}, DebuggerState> {
   state: DebuggerState = {
     hidden: !QUIQ.DEBUG,
   };
-  client: QuiqChatClientType;
-
-  constructor() {
-    super();
-    this.client = getChatClient();
-  }
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
 
@@ -50,8 +43,8 @@ export class Debugger extends React.Component {
           {
             <i
               className={`fa fa-sign-in icon`}
-              title="Auth User via Secure Cookie (Old Deprecated Way)"
-              onClick={this.client.DEPRECATED_AUTH_USER_DO_NOT_USE}
+              title="AndrewTest Auth User via Secure Cookie (Old Deprecated Way)"
+              onClick={QuiqChatClient.DEPRECATED_AUTH_USER_DO_NOT_USE}
             />
           }
         </div>

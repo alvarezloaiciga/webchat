@@ -75,7 +75,7 @@ exports[`Message component rendering renders with default props 1`] = `
       style={
         Object {
           "backgroundColor": "#333",
-          "maxWidth": 350,
+          "maxWidth": 318,
         }
       }
     >

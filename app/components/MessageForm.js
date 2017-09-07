@@ -7,7 +7,7 @@ import {messageTypes} from 'appConstants';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import './styles/MessageForm.scss';
 import type {ChatState} from 'types';
 
@@ -22,7 +22,7 @@ type MessageFormState = {
 };
 
 let updateTimer;
-export class MessageForm extends Component {
+export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   textArea: any;
   props: MessageFormProps;
   state: MessageFormState = {
@@ -38,12 +38,12 @@ export class MessageForm extends Component {
   }
 
   startTyping = () => {
-    getChatClient().updateMessagePreview(this.state.text, true);
+    QuiqChatClient.updateMessagePreview(this.state.text, true);
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    getChatClient().updateMessagePreview(this.state.text, false);
+    QuiqChatClient.updateMessagePreview(this.state.text, false);
   };
 
   startTypingTimers = () => {
@@ -58,7 +58,7 @@ export class MessageForm extends Component {
     this.stopTyping();
   };
 
-  handleTextChanged = (e: SyntheticInputEvent) => {
+  handleTextChanged = (e: SyntheticInputEvent<*>) => {
     const state = Object.assign({
       text: e.target.value,
     });
@@ -70,11 +70,11 @@ export class MessageForm extends Component {
     const text = this.state.text.trim();
     if (text) {
       this.setState({text: ''}, this.resetTypingTimers);
-      getChatClient().sendMessage(text);
+      QuiqChatClient.sendMessage(text);
     }
   };
 
-  handleKeyDown = (e: SyntheticKeyboardEvent) => {
+  handleKeyDown = (e: SyntheticKeyboardEvent<*>) => {
     if (e.keyCode === keycodes.enter) {
       e.preventDefault();
       this.addMessage();
@@ -113,6 +113,7 @@ export class MessageForm extends Component {
             style={inputStyle}
             name="message"
             value={this.state.text}
+            maxLength={1024}
             maxRows={supportsFlexbox() ? 6 : 3}
             minRows={supportsFlexbox() ? 1 : 3}
             // onInput is more responsive, but is an html5 attribute so not supported in older browsers.

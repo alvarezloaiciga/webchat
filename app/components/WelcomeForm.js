@@ -7,7 +7,7 @@ import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import {supportsFlexbox} from 'utils/utils';
 import type {WelcomeFormField} from 'types';
-import {getChatClient} from '../ChatClient';
+import QuiqChatClient from 'quiq-chat';
 import './styles/WelcomeForm.scss';
 import {map} from 'lodash';
 import Textarea from 'react-textarea-autosize';
@@ -27,7 +27,7 @@ export type WelcomeFormState = {
   submitting: boolean,
 };
 
-export class WelcomeForm extends Component {
+export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,
@@ -98,12 +98,12 @@ export class WelcomeForm extends Component {
     map(this.state.inputFields, field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        getChatClient().sendMessage(field.value);
+        QuiqChatClient.sendMessage(field.value);
       }
     });
   };
 
-  submitForm = async (e: SyntheticEvent) => {
+  submitForm = async (e: SyntheticEvent<*>) => {
     e.preventDefault();
     if (this.state.submitting) return;
 
@@ -122,11 +122,11 @@ export class WelcomeForm extends Component {
     fields.Referrer = HREF;
 
     this.setState({submitting: true});
-    await getChatClient().sendRegistration(fields);
+    await QuiqChatClient.sendRegistration(fields);
     this.sendInitialMessage();
   };
 
-  handleTrimFieldInput = (e: SyntheticInputEvent) => {
+  handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
     const value = e.target.value;
 
@@ -148,7 +148,7 @@ export class WelcomeForm extends Component {
     }
   };
 
-  handleFieldInput = (e: SyntheticInputEvent) => {
+  handleFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
     const value = e.target.value;
     const newState = update(this.state, {
