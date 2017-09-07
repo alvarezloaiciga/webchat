@@ -3,6 +3,7 @@
 import * as Postmaster from './Postmaster';
 import {actionTypes, publicEventTypes} from 'Common/Constants';
 import {isIFrame, displayWarning} from 'Common/Utils';
+import type {RegistrationField} from 'Common/types';
 import {getChatWindow} from './Globals';
 
 export default {
@@ -12,6 +13,10 @@ export default {
       return getChatWindow().focus();
     }
     Postmaster.tellChat(actionTypes.setChatVisibility, {visible});
+  },
+
+  sendRegistration: (registrationData: Array<RegistrationField>) => {
+    Postmaster.tellChat(actionTypes.sendRegistration, {registrationData});
   },
 
   getChatVisibility: async (callback: (data: ?{visibility: boolean}, error: ?Error) => void): Promise<{visible: boolean}> => {

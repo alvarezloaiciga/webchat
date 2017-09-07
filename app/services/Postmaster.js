@@ -14,6 +14,7 @@ import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'Common/Constants';
 import {displayError, getHostingWindow} from 'Common/Utils';
+import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
 import messages from 'messages';
 import type {ReduxStore} from 'types';
@@ -51,6 +52,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
+  postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
@@ -110,6 +112,18 @@ const setChatVisibility = (event: Object) => {
   }
 
   store.dispatch(ChatActions.setChatContainerHidden(!visible));
+};
+
+const sendRegistration = (event: Object) => {
+  const registrationData: Array<RegistrationField> = event.data.registrationData;
+  const registrationDictionary: {[string]: string} = {};
+
+  for (let index = 0; index < registrationData.length; index++) {
+    const data = registrationData[index];
+    registrationDictionary[data.id] = data.value;
+  }
+
+  QuiqChatClient.sendRegistration(registrationDictionary);
 };
 
 const getChatVisibility = () => {
