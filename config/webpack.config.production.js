@@ -10,7 +10,7 @@ const fs = require('fs');
 const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
-const publicPath = cdnUrl ? `${cdnUrl}` : './';
+const publicPath = cdnUrl ? `${cdnUrl}webchat/` : './';
 const commitHash = process.env.GIT_COMMIT || 'dev';
 const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
 console.log(`Public Path is ${publicPath}`);
@@ -66,7 +66,7 @@ module.exports = merge(config, {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.DedupePlugin(),
-    /*new webpack.optimize.UglifyJsPlugin({
+    new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
         screw_ie8: true,
@@ -76,7 +76,7 @@ module.exports = merge(config, {
         comments: false,
       },
       sourceMap: true,
-    }),*/
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
