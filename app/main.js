@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import {nonCompatibleBrowser} from 'Common/Utils';
 import {constructApp} from 'utils/domUtils';
-import quiqOptions from 'utils/quiq';
+import quiqOptions from '../Common/QuiqOptions';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
 import {init as initMalfunctionJunction} from './services/Postmaster';

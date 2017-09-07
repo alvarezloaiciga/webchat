@@ -1,7 +1,7 @@
 // @flow
 declare var __VERSION__: string;
 import React from 'react';
-import quiqOptions from 'utils/quiq';
+import quiqOptions from 'Common/QuiqOptions';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';

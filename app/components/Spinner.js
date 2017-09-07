@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {messageTypes} from 'Common/Constants';
-import quiqOptions, {getMessage} from 'utils/quiq';
+import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {isIE9} from 'Common/Utils';
 import './styles/Spinner.scss';
 

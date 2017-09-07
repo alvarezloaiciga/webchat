@@ -1,5 +1,5 @@
 // @flow
-jest.mock('utils/quiq');
+jest.mock('Common/QuiqOptions');
 import React from 'react';
 import type {WelcomeFormProps} from '../WelcomeForm';
 import {WelcomeForm} from '../WelcomeForm';

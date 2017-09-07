@@ -1,4 +1,7 @@
 // @flow
+
+jest.mock('Common/QuiqOptions');
+
 import React from 'react';
 import {getMockMessage} from 'utils/testHelpers';
 import type {TranscriptProps} from '../Transcript';

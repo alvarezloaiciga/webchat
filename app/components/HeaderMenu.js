@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {inStandaloneMode} from 'Common/Utils';
-import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {destructApp} from 'utils/domUtils';
 import {messageTypes, ChatInitializedState} from 'Common/Constants';
 import {setChatContainerHidden} from 'actions/chatActions';

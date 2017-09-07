@@ -1,6 +1,6 @@
 // @flow
 jest.mock('Common/Utils');
-jest.mock('utils/quiq');
+jest.mock('Common/QuiqOptions');
 
 import chat, {initialState} from '../chat';
 import {getMockMessage} from 'utils/testHelpers';

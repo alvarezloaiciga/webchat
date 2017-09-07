@@ -1,7 +1,7 @@
 // @flow
 
-import messages from 'messages';
-import {getDisplayString} from 'utils/i18n';
+import messages from 'Common/messages';
+import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {

@@ -1,11 +1,11 @@
 // @flow
 
 import React from 'react';
-import quiqOptions, {getStyle} from 'utils/quiq';
+import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {connect} from 'react-redux';
 import {isMobile} from 'Common/Utils';
-import type {ChatState} from 'types';
+import type {ChatState} from 'Common/types';
 import './styles/ToggleChatButton.scss';
 
 export type ToggleChatButtonProps = {

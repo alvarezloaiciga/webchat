@@ -1,32 +1,12 @@
 // @flow
-import messages from 'messages';
-import {displayError, inStandaloneMode, camelize, setLocalStorageItems} from 'Common/Utils';
-import {getDisplayString} from 'utils/i18n';
+import messages from 'Common/Messages';
+import {displayError, camelize, setLocalStorageItems} from 'Common/Utils';
+import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
 
-const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
-  const newFormObject = Object.assign({}, form);
-  if (form.fields) {
-    newFormObject.fields.forEach(field => {
-      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
-      // If label is not defined this is an error, and will be caught when welcomeForm is validated.
-      if (!field.id && field.label) field.id = camelize(field.label);
-    });
-  }
-
-  return newFormObject;
-};
-
-const getQuiqOptions = (): QuiqObject => {
-  const rawQuiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
-
-  // Set local storage items from rawQuiqObject.localStorage Keys
-  if (rawQuiqObject.localStorageKeys) {
-    setLocalStorageItems(rawQuiqObject.localStorageKeys);
-  }
-
+export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
@@ -60,7 +40,7 @@ const getQuiqOptions = (): QuiqObject => {
     width: 400,
     height: 600,
     autoPopTime: undefined,
-    customLaunchButtons: inStandaloneMode() ? [] : rawQuiqObject.customLaunchButtons || [],
+    customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
     mobileNumber: undefined,
     messages: Object.assign(
       {},
@@ -85,9 +65,32 @@ const getQuiqOptions = (): QuiqObject => {
     ),
   };
 
-  const returnValue = Object.assign({}, quiqOptions, rawQuiqObject);
-  localStorage.setItem('quiqOptions', JSON.stringify(returnValue));
-  return returnValue;
+  return Object.assign({}, quiqOptions, rawQuiqObject);
+};
+
+const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
+  const newFormObject = Object.assign({}, form);
+  if (form.fields) {
+    newFormObject.fields.forEach(field => {
+      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
+      // If label is not defined this is an error, and will be caught when welcomeForm is validated.
+      if (!field.id && field.label) field.id = camelize(field.label);
+    });
+  }
+
+  return newFormObject;
+};
+
+const getQuiqOptions = (): QuiqObject => {
+  const quiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
+
+  // Set local storage items from quiqObject.localStorage Keys
+  // TODO: In October 2018, this logic won't be needed. It's only for transferring session from customer site to iframe
+  if (quiqObject.localStorageKeys) {
+    setLocalStorageItems(quiqObject.localStorageKeys);
+  }
+
+  return quiqObject;
 };
 
 const quiqOptions: QuiqObject = getQuiqOptions();

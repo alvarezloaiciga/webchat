@@ -15,7 +15,6 @@ import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'Common/Constants';
 import {displayError, getHostingWindow} from 'Common/Utils';
 import {constructApp, appIsMounted} from 'utils/domUtils';
-import messages from 'messages';
 import type {ReduxStore} from 'types';
 import QuiqChatClient from 'quiq-chat';
 
@@ -45,7 +44,7 @@ export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatC
 
 const setupListeners = () => {
   if (!postRobotListener) {
-    return displayError(messages.mfInitNeeded);
+    return displayError('Postmaster.init() must be called prior to setting up listeners.');
   }
 
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
@@ -55,7 +54,7 @@ const setupListeners = () => {
 
 export const tellClient = (messageName: string, data: Object = {}) => {
   if (!postRobotClient) {
-    return displayError(messages.mfInitNeeded);
+    return displayError('Postmaster.init() must be called prior to sending message.');
   }
 
   postRobotClient.send(messageName, data);
@@ -66,7 +65,7 @@ export const tellClient = (messageName: string, data: Object = {}) => {
  **********************************************************************************/
 const setupReduxHooks = () => {
   if (!reduxWatch) {
-    return displayError(messages.mfInitNeeded);
+    return displayError('Postmaster.init() must be called prior to sending message.');
   }
 
   // Send events to SDK in response to changes in redux state

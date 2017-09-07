@@ -1,5 +1,5 @@
 // @flow
-import {getStyle} from '../quiq';
+import {getStyle} from '../QuiqOptions';
 
 const testStyle = {
   background: '#31bf8b',

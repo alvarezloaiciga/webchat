@@ -1,8 +1,8 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'utils/i18n';
-import quiqOptions from 'utils/quiq';
+import {registerIntlObject} from 'Common/i18n';
+import quiqOptions from 'Common/QuiqOptions';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';

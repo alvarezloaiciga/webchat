@@ -2,7 +2,7 @@
 declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
-import messages from 'messages';
+import messages from 'Common/Messages';
 import {SupportedWebchatUrls} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';

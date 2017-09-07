@@ -2,14 +2,14 @@
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {compatibilityMode, supportsFlexbox} from 'Common/Utils';
-import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes} from 'Common/Constants';
 import keycodes from 'keycodes';
 import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import './styles/MessageForm.scss';
-import type {ChatState} from 'types';
+import type {ChatState} from 'Common/types';
 
 const {colors, fontFamily, styles} = quiqOptions;
 

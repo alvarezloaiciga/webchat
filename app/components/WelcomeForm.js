@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import update from 'react-addons-update';
 import {messageTypes} from 'Common/Constants';
-import quiqOptions, {getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';

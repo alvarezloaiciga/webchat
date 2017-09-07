@@ -1,8 +1,8 @@
 // @flow
 import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
-import quiqOptions from 'utils/quiq';
-import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
+import quiqOptions from 'Common/QuiqOptions';
+import type {ChatState, Action, ChatInitializedStateType, Message} from 'Common/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,

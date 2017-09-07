@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react';
-import quiqObject, {getStyle} from 'utils/quiq';
+import quiqObject, {getStyle} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
-import type {Message as MessageType} from 'types';
+import type {Message as MessageType} from 'Common/types';
 import './styles/Message.scss';
 
 export type MessageProps = {

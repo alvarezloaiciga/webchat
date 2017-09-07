@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'utils/quiq';
+import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
 import {inStandaloneMode} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
@@ -13,7 +13,7 @@ import Spinner from 'Spinner';
 import {connect} from 'react-redux';
 import {ChatInitializedState, messageTypes} from 'Common/Constants';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType} from 'types';
+import type {ChatState, ChatInitializedStateType} from 'Common/types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,

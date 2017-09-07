@@ -37,10 +37,12 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   const webchatHost = ('https://' + tenant + '.quiq.dev:' + webchatPort);
 
   var apiGatewayProxySettings = {
-    target: require('./discovery')(tenant).readLocalSettings()['api-gateway'] || 'https://' + tenant + '.' + cluster + '.quiq.sh',
+    target: require('./discovery')(tenant).readLocalSettings()['api-gateway']
+      || `https://${webchatData.host}`
+      || ('https://' + tenant + '.' + cluster + '.quiq.sh'),
     secure: false,
     headers: {
-      Host: tenant + '.quiq.dev:' + webchatPort
+      Host: webchatData.host || (tenant + '.quiq.dev:' + webchatPort)
     }
   };
 

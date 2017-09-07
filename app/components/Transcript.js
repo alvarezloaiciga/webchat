@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Message from 'Message';
-import quiqOptions from 'utils/quiq';
+import quiqOptions from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
-import type {Message as MessageType, ChatState} from 'types';
+import type {Message as MessageType, ChatState} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {

@@ -1,5 +1,5 @@
 // @flow
-jest.mock('utils/quiq');
+jest.mock('Common/QuiqOptions');
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
 
@@ -7,7 +7,7 @@ import React from 'react';
 import {ChatContainer} from '../ChatContainer';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import quiqOptions from 'utils/quiq';
+import quiqOptions from 'Common/QuiqOptions';
 import type {ChatContainerProps} from '../ChatContainer';
 
 jest.useFakeTimers();

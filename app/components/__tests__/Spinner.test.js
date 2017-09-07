@@ -1,6 +1,6 @@
 // @flow
 
-jest.mock('utils/quiq');
+jest.mock('Common/QuiqOptions');
 
 import React from 'react';
 import Spinner from '../Spinner';
