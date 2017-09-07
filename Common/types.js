@@ -11,6 +11,11 @@ export type WelcomeFormField = {
   isInitialMessage?: boolean,
 };
 
+export type RegistrationField = {
+  id: string,
+  value: string,
+}
+
 export type WelcomeForm = {
   headerText: string,
   fields: Array<WelcomeFormField>,

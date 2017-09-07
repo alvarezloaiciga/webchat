@@ -52,6 +52,7 @@ export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
+  sendRegistration: 'QUIQ_SEND_REGISTRATION',
 };
 
 export const MessageTypes = {
@@ -95,4 +96,3 @@ export const messageTypes = {
   openInNewWindowTooltip: 'openInNewWindowTooltip',
   closeWindowTooltip: 'closeWindowTooltip',
 };
-
