@@ -21,12 +21,14 @@ let listeners = [];
 
 export const setup = () => {
   const chatWindow = getChatWindow();
-  const host = getQuiqOptions().host;
+  const {host, clientDomain} = getQuiqOptions();
 
   cancelListeners();
 
-  // Build cross-domain bridge (for IE compatibility)
-  postRobot.bridge.openBridge(`${host}/${bridgePath}`);
+  // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
+  if (host !== clientDomain) {
+    postRobot.bridge.openBridge(`${host}/${bridgePath}`);
+  }
 
   // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
   const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
