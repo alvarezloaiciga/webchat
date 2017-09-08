@@ -20,7 +20,7 @@ export const setupButtons = () => {
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
     bindCustomLaunchButtons();
   } else if (!isMobile() || (isMobile() && quiqOptions.mobileNumber)) {
-  // If user is on mobile, and no mobileNumber is defined, don't show the default launch button
+    // If user is on mobile, and no mobileNumber is defined, don't show the default launch button
     addDefaultLaunchButton();
   }
 };
@@ -49,7 +49,8 @@ const addDefaultLaunchButton = () => {
     Object.assign({},
       ToggleChatButton,
       {backgroundColor: colors.primary || color || '#59ad5d'},
-      styles.ToggleChatButton),
+      styles.ToggleChatButton,
+      {display: 'none'}),   // Default to hidden; will be updated if and when launcherVisibility event is received
   );
   const button = `<button id="${launchButtonId}" style="${buttonStyle}" class="ToggleChatButton" onmouseout="this.style.boxShadow='rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'" onmouseover="this.style.boxShadow='rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px'">
                     <svg id="${launchButtonIconOpenId}" style="${iconStyle}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -92,31 +93,32 @@ const handleLaunchButtonClick = async () => {
   Postmaster.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
-const handleLaunchButtonVisibilityChange = (data: {visible?: boolean}) => {
+const handleLaunchButtonVisibilityChange = (data: { visible?: boolean }) => {
   const {visible} = data;
   const quiqOptions = getQuiqOptions();
-  let allLaunchButtons = [];
 
+  // Add noAgentsAvailable class to custom launch buttons
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
-    allLaunchButtons = quiqOptions.customLaunchButtons;
-  } else {
-    // Default launch button
-    allLaunchButtons.push(`#${launchButtonId}`);
+    quiqOptions.customLaunchButtons.forEach((selector: string) => {
+      const button = document.querySelector(selector);
+      if (button) {
+        if (visible) {
+          button.classList.remove(noAgentsAvailableClass);
+        } else {
+          button.classList.add(noAgentsAvailableClass);
+        }
+      }
+    });
   }
 
-  allLaunchButtons.forEach((selector: string) => {
-    const button = document.querySelector(selector);
-    if (button) {
-      if (visible) {
-        button.classList.remove(noAgentsAvailableClass);
-      } else {
-        button.classList.add(noAgentsAvailableClass);
-      }
-    }
-  });
+  // Hide default launch button
+  const defaultButton = document.getElementById(launchButtonId);
+  if (defaultButton) {
+    defaultButton.style.display = visible ? 'flex' : 'none';
+  }
 };
 
-const handleChatVisibilityChange = (data: {visible?: boolean}) => {
+const handleChatVisibilityChange = (data: { visible?: boolean }) => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
 
