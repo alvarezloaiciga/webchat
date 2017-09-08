@@ -225,7 +225,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       await this.startSession();
       QuiqChatClient.joinChat();
     } else {
-      QuiqChatClient.leaveChat();
+      if (this.props.initializedState !== ChatInitializedState.INACTIVE) {
+        QuiqChatClient.leaveChat();
+      }
     }
   };
 
