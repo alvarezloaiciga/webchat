@@ -77,7 +77,7 @@ export const getWebchatHostFromScriptTag = () => {
 export const getWindowDomain = () => `${window.location.protocol}//${window.location.host}`;
 
 export const isIFrame = (chatWindow: Object): boolean => {
-  return chatWindow instanceof HTMLElement && chatWindow.tagName.toLowerCase() === 'iframe';
+  return chatWindow instanceof HTMLIFrameElement;
 };
 
 export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
@@ -149,7 +149,7 @@ export const inLocalDevelopment = () =>
 
 export const getQuiqKeysFromLocalStorage = (): {[string]: any} => {
   if (!localStorage) return {};
-  const keys = {
+  const keys: {[string]: any} = {
     'X-Quiq-Access-Token': localStorage.getItem('X-Quiq-Access-Token'),
     'quiq-chat-container-visible': localStorage.getItem('quiq-chat-container-visible'),
     'quiq-tracking-id': localStorage.getItem('quiq-tracking-id'),
@@ -165,14 +165,22 @@ export const getQuiqKeysFromLocalStorage = (): {[string]: any} => {
     if (!keys[k]) delete keys[k];
   });
 
+  // Add timestamp key: this is used by chat to determine if it should overwrite its existing keys with these
+  keys.__quiq_keys_timestamp = Date.now();
+
   return keys;
 };
 
-export const setLocalStorageItems = (data: {[string]: any}) => {
+export const setLocalStorageItems = (data: {[string]: any}, overwrite: boolean = false) => {
   if (!localStorage) return;
-  Object.keys(data).forEach(k => {
-    localStorage.setItem(k, data[k]);
-  });
+  // If overwrite flag is set, or the __timestamp of new data is later than that currently in local storage, set keys
+  const currentTimestamp = parseInt(localStorage.getItem('__quiq_keys_timestamp'), 10) || 0;
+  const newTimestamp = data.__quiq_keys_timestamp || 0;
+  if (overwrite || newTimestamp > currentTimestamp) {
+    Object.keys(data).forEach(k => {
+      localStorage.setItem(k, data[k]);
+    });
+  }
 };
 
 export const clearQuiqKeysFromLocalStorage = () => {

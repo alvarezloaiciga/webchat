@@ -120,14 +120,13 @@ const handleChatVisibilityChange = (data: {visible?: boolean}) => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
 
-  // If chat is visible, then
-
   const iconStyle = toInlineStyle(Object.assign({}, styles.ToggleChatButtonIcon, {flex: 1}));
 
   // Update SVG icon of default launch button, if it exists
   const button = document.querySelector(`#${launchButtonId}`);
   if (button) {
-    button.innerHTML = visible
+    // If chat is open in a popup window, we always want buttons to be in "chat is closed" state
+    button.innerHTML = visible && isIFrame(getChatWindow())
       ? `
            <svg id="${launchButtonIconCloseId}" style="${iconStyle}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                <path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" />
@@ -149,3 +148,6 @@ Postmaster.registerEventHandler(
   eventTypes._launchButtonVisibilityShouldChange,
   handleLaunchButtonVisibilityChange,
 );
+
+// When standalone is opened, we want to set buttons to have non-visible state.
+Postmaster.registerEventHandler(eventTypes._standaloneOpen, () => handleChatVisibilityChange({visible: false}));

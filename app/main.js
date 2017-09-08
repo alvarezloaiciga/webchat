@@ -15,7 +15,7 @@ const init = () => {
   QuiqChatClient.initialize(quiqOptions.host, quiqOptions.contactPoint);
   const store = configureStore(chat, initialState);
 
-  initMalfunctionJunction(quiqOptions.clientDomain, store, QuiqChatClient);
+  initMalfunctionJunction(quiqOptions.clientDomain, store);
 
   const root = document.createElement('div');
   root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!

@@ -11,6 +11,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
     contactPoint: 'default',
+    localStorageKeys: {},
     color: primaryColor,
     colors: Object.assign(
       {},
@@ -86,7 +87,7 @@ const getQuiqOptions = (): QuiqObject => {
   const quiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
 
   // Set local storage items from quiqObject.localStorage Keys
-  // TODO: In October 2018, this logic won't be needed. It's only for transferring session from customer site to iframe
+  // This is used for backwards comparability, as well as for transferring session from IFraqme to popup
   if (quiqObject.localStorageKeys) {
     setLocalStorageItems(quiqObject.localStorageKeys);
   }

@@ -6,6 +6,7 @@ import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
   contactPoint: 'Bob',
+  localStorageKeys: {},
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
