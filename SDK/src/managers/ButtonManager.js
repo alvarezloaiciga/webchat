@@ -44,7 +44,7 @@ const bindCustomLaunchButtons = () => {
 
 const addDefaultLaunchButton = () => {
   const {colors, styles, color} = getQuiqOptions();
-  const iconStyle = toInlineStyle(styles.ToggleChatButtonIcon || {});
+  const iconStyle = toInlineStyle(Object.assign({}, styles.ToggleChatButtonIcon, {flex: 1}));
   const buttonStyle = toInlineStyle(
     Object.assign({},
       ToggleChatButton,
@@ -122,7 +122,7 @@ const handleChatVisibilityChange = (data: {visible?: boolean}) => {
 
   // If chat is visible, then
 
-  const iconStyle = toInlineStyle(styles.ToggleChatButtonIcon || {});
+  const iconStyle = toInlineStyle(Object.assign({}, styles.ToggleChatButtonIcon, {flex: 1}));
 
   // Update SVG icon of default launch button, if it exists
   const button = document.querySelector(`#${launchButtonId}`);

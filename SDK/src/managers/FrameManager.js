@@ -38,8 +38,8 @@ export const buildChatIFrame = () => {
     quiqChatFrame.style.top = framePosition.top.toString();
     quiqChatFrame.style.border = 'none';
     quiqChatFrame.onload = () => {
-      handleWindowChange(window.quiqChatFrame);
-      window[quiqChatFrameId].contentWindow.postMessage(
+      handleWindowChange(quiqChatFrame);
+      quiqChatFrame.contentWindow.postMessage(
         {quiqOptions, name: 'handshake'},
         quiqOptions.host,
       );
@@ -107,8 +107,11 @@ const handleStandaloneOpen = () => {
     if (popup.closed) {
       if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
       standaloneWindowTimer = undefined;
-      handleWindowChange(window.quiqChatFrame);
-      window[quiqChatFrameId].height = quiqOptions.height;
+      const chatFrame = ((document.getElementById(quiqChatFrameId): any): HTMLIFrameElement);
+      if (!chatFrame)
+        return;
+      handleWindowChange(chatFrame);
+      chatFrame.height = quiqOptions.height.toString();
       tellChat(actionTypes.setChatVisibility, {visible: true});
     }
   }, 500);

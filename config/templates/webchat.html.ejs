@@ -44,7 +44,7 @@
   window.addEventListener('message', handleMessage);
 
   // If quiqOptions was given to us in window.name, use that for bootstrapping:
-  if (window.name) {
+  if (window.name && window.name !== 'quiqChatFrame') {
     try {
       var quiqOptions = JSON.parse(window.name);
       bootstrap(quiqOptions);
