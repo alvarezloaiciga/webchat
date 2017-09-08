@@ -12,7 +12,9 @@ const parser = new UAParser();
 
 export const getBrowserName = (): BrowserNames => parser.getResult().browser.name;
 
-export const getEngine = (): BrowserEngine => parser.getResult().engine.name;
+export const getEngineName = (): BrowserEngine => parser.getResult().engine.name;
+
+export const getEngineVersion = (): number => parseInt(parser.getResult().engine.version, 10);
 
 export const getMajor = (): number => parseInt(parser.getResult().browser.major, 10);
 
@@ -37,11 +39,21 @@ export const isMobile = () => getDeviceType() === 'mobile';
 
 export const getCalcStyle = (val1: number | string, val2: number | string, operand: string) => {
   const expression = `calc(${val1} ${operand} ${val2})`;
-  switch (getEngine()) {
+  switch (getEngineName()) {
     case 'WebKit':
-      return `-webkit-${expression}`;
+      // Later versions of Safari and Chrome do not need vendor prefix
+      if ((getBrowserName() === 'Safari' && getMajor() >= 7) || (getBrowserName() === 'Chrome' && getMajor() >= 26)) {
+        return expression;
+      } else {
+        return `-webkit-${expression}`;
+      }
     case 'Gecko':
-      return `-moz-${expression}`;
+      // Later versions of Gecko engine must not be vendor prefixed
+      if (getEngineVersion() >= 16) {
+        return expression;
+      } else {
+        return `-moz-${expression}`;
+      }
     default:
       return expression;
   }
