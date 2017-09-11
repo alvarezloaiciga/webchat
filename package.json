@@ -25,14 +25,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "app/**/*.js": [
-      "prettier --single-quote --trailing-comma all --parser flow --no-bracket-spacing --print-width 100 --write",
-      "git add"
-    ],
-    "app/**/*.scss": [
-      "prettier --single-quote --trailing-comma all --parser flow --no-bracket-spacing --print-width 100 --write",
-      "git add"
-    ]
+    "app/**/*.js": ["prettier --write", "git add"],
+    "app/**/*.scss": ["prettier --write", "git add"]
   },
   "jest": {
     "setupFiles": ["jest-localstorage-mock", "./jest.setup.js"],
@@ -118,7 +112,7 @@
     "ngrok": "2.2.9",
     "node-sass": "4.5.2",
     "postcss-loader": "0.11.1",
-    "prettier": "1.5.2",
+    "prettier": "1.6.1",
     "react-addons-test-utils": "15.6.0",
     "react-hot-loader": "3.0.0-beta.2",
     "react-test-renderer": "^15.5.4",

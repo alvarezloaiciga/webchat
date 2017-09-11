@@ -6,7 +6,6 @@ jest.mock('services/Postmaster');
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
 import {HeaderMenu} from '../HeaderMenu';
-import QuiqChatClient from 'quiq-chat';
 import {shallow} from 'enzyme';
 import {standaloneOpen} from 'services/Postmaster';
 import type {ShallowWrapper} from 'enzyme';

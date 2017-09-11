@@ -7,7 +7,7 @@ export type CompatibilityWrapperProps = {
   children: any,
 };
 
-const CompatibilityWrapper = (props: CompatibilityWrapperProps) =>
+const CompatibilityWrapper = (props: CompatibilityWrapperProps) => (
   <div
     className={classnames('CompatibilityWrapper', {
       noFlexbox: !supportsFlexbox(),
@@ -15,6 +15,7 @@ const CompatibilityWrapper = (props: CompatibilityWrapperProps) =>
     })}
   >
     {props.children}
-  </div>;
+  </div>
+);
 
 export default CompatibilityWrapper;

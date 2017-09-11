@@ -7,13 +7,14 @@ import './styles/Spinner.scss';
 
 const {color} = quiqOptions;
 
-const Spinner = () =>
+const Spinner = () => (
   <div className="Spinner">
-    {!isIE9()
-      ? <div className="loading" style={{borderColor: color}} />
-      : <span className="plainText">
-          {getMessage(messageTypes.connectingMessage)}
-        </span>}
-  </div>;
+    {!isIE9() ? (
+      <div className="loading" style={{borderColor: color}} />
+    ) : (
+      <span className="plainText">{getMessage(messageTypes.connectingMessage)}</span>
+    )}
+  </div>
+);
 
 export default Spinner;

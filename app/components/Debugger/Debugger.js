@@ -19,7 +19,7 @@ export class Debugger extends React.Component<{}, DebuggerState> {
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
 
-  renderPhraseListener = () =>
+  renderPhraseListener = () => (
     <PhraseListener
       listeners={[
         {
@@ -28,7 +28,8 @@ export class Debugger extends React.Component<{}, DebuggerState> {
           caseInsensitive: true,
         },
       ]}
-    />;
+    />
+  );
 
   render() {
     if (!this.shouldShowDebugger()) return null;
@@ -42,12 +43,8 @@ export class Debugger extends React.Component<{}, DebuggerState> {
         </div>
         <div className="rhsIcons">
           <div className="versions">
-            <span>
-              WC: v{__VERSION__}
-            </span>
-            <span>
-              QC: v{version}
-            </span>
+            <span>WC: v{__VERSION__}</span>
+            <span>QC: v{version}</span>
           </div>
           <i
             className={`fa fa-close icon`}
