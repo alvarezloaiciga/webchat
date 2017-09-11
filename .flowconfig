@@ -12,6 +12,7 @@
 .*/node_modules/quiq-chat/src.*
 .*/node_modules/post-robot/src.*
 .*/node_modules/zalgo-promise/src.*
+.*/node_modules/cross-domain-utils/dist.*
 
 [libs]
 flow-typed/npm/
