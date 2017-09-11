@@ -1,5 +1,3 @@
-console.log("webChatMain");
-
 var quiqWebchatScript;
 
 function bootstrap(quiqOptions) {
@@ -7,10 +5,6 @@ function bootstrap(quiqOptions) {
   window.removeEventListener('message', handleMessage);
 
   localStorage.setItem('quiqOptions', JSON.stringify(quiqOptions));
-
-  console.log("bootstrap");
-
-  console.log("webChatSrc: %O", window.webChatSrc);
 
   if (!quiqWebchatScript) {
     quiqWebchatScript = document.createElement('script');
@@ -61,9 +55,7 @@ function pageSetup() {
   metaCharset.charset="utf-8";
   headTag.append(metaCharset);
 
-  var titleTag = document.createElement('title');
-  titleTag.content = "Quiq Webchat";
-  headTag.append(titleTag);
+  document.title = "Quiq Webchat";
 
   var metaAppName = document.createElement('meta');
   metaAppName.name="application-name";
