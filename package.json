@@ -1,13 +1,11 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
-  "keywords": [
-    "webchat"
-  ],
+  "keywords": ["webchat"],
   "repository": {
     "type": "git",
     "url": "https://gitlab.quiq.sh/development/webchat"
@@ -37,22 +35,13 @@
     ]
   },
   "jest": {
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ],
-    "modulePaths": [
-      "./",
-      "app/components",
-      "app",
-      "SDK/src",
-      "node_modules"
-    ],
+    "setupFiles": ["jest-localstorage-mock", "./jest.setup.js"],
+    "notify": true,
+    "modulePaths": ["./", "app/components", "app", "SDK/src", "node_modules"],
     "moduleNameMapper": {
       "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/enzyme-to-json/serializer"
-    ],
+    "snapshotSerializers": ["<rootDir>/node_modules/enzyme-to-json/serializer"],
     "globals": {
       "quiqOptions": {
         "contactPoint": "Bob",

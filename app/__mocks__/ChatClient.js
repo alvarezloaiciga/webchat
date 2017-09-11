@@ -22,5 +22,4 @@ export const getChatClient = jest.fn().mockReturnValue({
   getLastUserEvent: jest.fn(),
   isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),
-  DEPRECATED_AUTH_USER_DO_NOT_USE: jest.fn(),
 });
