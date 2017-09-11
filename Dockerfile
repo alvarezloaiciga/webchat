@@ -1,7 +1,7 @@
 FROM nginx:stable-alpine
 MAINTAINER talon.daniels@goquiq.com
 
-RUN mkdir -p /var/www/webchat/app/webchatiframify \
+RUN mkdir -p /var/www/webchat/app/webchat \
     && mkdir -p /var/www/webchat-admin/admin \
     && rm /etc/nginx/conf.d/default.conf \
     && mv /var/cache/nginx /var/cache/nginx.bak \

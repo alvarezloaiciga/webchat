@@ -40,7 +40,6 @@ describe('HeaderMenu component', () => {
       render();
       wrapper.find('.fa-window-minimize').simulate('click');
       expect(testProps.setChatContainerHidden).toBeCalledWith(true);
-      expect(QuiqChatClient.leaveChat).toBeCalled();
     });
   });
 
