@@ -3,7 +3,7 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
-import {SupportedWebchatUrls} from './Constants';
+import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
 import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
@@ -149,55 +149,44 @@ export const inLocalDevelopment = () =>
 
 export const getQuiqKeysFromLocalStorage = (): {[string]: any} => {
   if (!localStorage) return {};
-  const keys: {[string]: any} = {
-    'X-Quiq-Access-Token': localStorage.getItem('X-Quiq-Access-Token'),
-    'quiq-chat-container-visible': localStorage.getItem('quiq-chat-container-visible'),
-    'quiq-tracking-id': localStorage.getItem('quiq-tracking-id'),
-    'quiq-user-taken-meaningful-action': localStorage.getItem('quiq-user-taken-meaningful-action'),
-    '__storejs_expire_mixin_X-Quiq-Access-Token': localStorage.getItem('__storejs_expire_mixin_X-Quiq-Access-Token'),
-    '__storejs_expire_mixin_quiq-chat-container-visible': localStorage.getItem('__storejs_expire_mixin_quiq-chat-container-visible'),
-    '__storejs_expire_mixin_quiq-tracking-id': localStorage.getItem('__storejs_expire_mixin_quiq-tracking-id'),
-    '__storejs_expire_mixin_quiq-user-taken-meaningful-action': localStorage.getItem('__storejs_expire_mixin_quiq-user-taken-meaningful-action'),
-  };
-
-  // Remove null/undefined keys returned by localStorage.getItem()
-  Object.keys(keys).forEach(k => {
-    if (!keys[k]) delete keys[k];
+  const quiqKeys = {};
+  localStorageKeys.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v !== null && v !== undefined ) {
+      quiqKeys[k] = v;
+    }
   });
 
-  // Add timestamp key: this is used by chat to determine if it should overwrite its existing keys with these
-  keys.__quiq_keys_timestamp = Date.now();
-
-  return keys;
+  return quiqKeys;
 };
 
-export const setLocalStorageItems = (data: {[string]: any}, overwrite: boolean = false) => {
+export const setLocalStorageItemsIfNewer = (data: {[string]: any}) => {
   if (!localStorage) return;
-  // If overwrite flag is set, or the __timestamp of new data is later than that currently in local storage, set keys
-  const currentTimestamp = parseInt(localStorage.getItem('__quiq_keys_timestamp'), 10) || 0;
-  const newTimestamp = data.__quiq_keys_timestamp || 0;
-  if (overwrite || newTimestamp > currentTimestamp) {
-    Object.keys(data).forEach(k => {
+
+  Object.keys(data).forEach(k => {
+    // Ignore storejs metadata keys
+    if (k.startsWith('__')) return;
+    const newModifiedTime = data[`__storejs_modified_timestamp_mixin_${k}`] || 0;
+    const existingModifiedTime = parseInt(localStorage.getItem(`__storejs_modified_timestamp_mixin_${k}`) || 0, 10);
+
+    // Write a key to localStorage only if 1) the key does not exist or 2) the existing key was modified earlier than the new key
+    if (newModifiedTime > existingModifiedTime) {
+      // Write key itself, plus storejs metadata keys
       localStorage.setItem(k, data[k]);
-    });
-  }
+      if (data[`__storejs_modified_timestamp_mixin_${k}`]) {
+        localStorage.setItem(`__storejs_modified_timestamp_mixin_${k}`, data[`__storejs_modified_timestamp_mixin_${k}`]);
+      }
+      if (data[`__storejs_expire_mixin_${k}`]) {
+        localStorage.setItem(`__storejs_expire_mixin_${k}`, data[`__storejs_expire_mixin_${k}`]);
+      }
+    }
+  });
 };
 
 export const clearQuiqKeysFromLocalStorage = () => {
-  const keys = [
-    'X-Quiq-Access-Token',
-    'quiq-chat-container-visible',
-    'quiq-tracking-id',
-    'quiq-user-taken-meaningful-action',
-    '__storejs_expire_mixin_X-Quiq-Access-Token',
-    '__storejs_expire_mixin_quiq-chat-container-visible',
-    '__storejs_expire_mixin_quiq-tracking-id',
-    '__storejs_expire_mixin_quiq-user-taken-meaningful-action',
-  ];
-
   if (!localStorage) return;
 
-  keys.forEach(k => {
+  localStorageKeys.forEach(k => {
     localStorage.removeItem(k);
   })
 };

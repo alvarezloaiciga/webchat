@@ -1,6 +1,6 @@
 // @flow
 import messages from 'Common/Messages';
-import {displayError, camelize, setLocalStorageItems} from 'Common/Utils';
+import {displayError, camelize, setLocalStorageItemsIfNewer} from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
@@ -87,9 +87,9 @@ const getQuiqOptions = (): QuiqObject => {
   const quiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
 
   // Set local storage items from quiqObject.localStorage Keys
-  // This is used for backwards comparability, as well as for transferring session from IFraqme to popup
+  // This is used for backwards comparability, as well as for transferring session data from IFraqme to popup
   if (quiqObject.localStorageKeys) {
-    setLocalStorageItems(quiqObject.localStorageKeys);
+    setLocalStorageItemsIfNewer(quiqObject.localStorageKeys);
   }
 
   return quiqObject;
