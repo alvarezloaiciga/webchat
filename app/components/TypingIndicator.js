@@ -28,7 +28,7 @@ const TypingIndicator = ({
   const width = xScale * 24;
   const height = yScale * 30;
 
-  const opacityLayer = (begin: string) =>
+  const opacityLayer = (begin: string) => (
     <animate
       attributeName="opacity"
       attributeType="XML"
@@ -36,7 +36,8 @@ const TypingIndicator = ({
       begin={begin}
       dur={`${duration}s`}
       repeatCount="indefinite"
-    />;
+    />
+  );
 
   const heightLayer = (begin: string) => {
     const yStart = 10 * yScale;
@@ -90,24 +91,26 @@ const TypingIndicator = ({
     );
   };
 
-  return supportsSVG()
-    ? <svg
-        className="TypingIndicator"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0"
-        y="0"
-        width={`${width}px`}
-        height={`${height}px`}
-        viewBox={`0 0 ${width} ${height}`}
-        xmlSpace="preserve"
-      >
-        ...
-        {rect(0, `${0 * duration}s`)}
-        {rect(8, `${0.3 * duration}s`)}
-        {rect(16, `${0.6 * duration}s`)}
-      </svg>
-    : <span className="plainText">...</span>;
+  return supportsSVG() ? (
+    <svg
+      className="TypingIndicator"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      x="0"
+      y="0"
+      width={`${width}px`}
+      height={`${height}px`}
+      viewBox={`0 0 ${width} ${height}`}
+      xmlSpace="preserve"
+    >
+      ...
+      {rect(0, `${0 * duration}s`)}
+      {rect(8, `${0.3 * duration}s`)}
+      {rect(16, `${0.6 * duration}s`)}
+    </svg>
+  ) : (
+    <span className="plainText">...</span>
+  );
 };
 
 export default TypingIndicator;

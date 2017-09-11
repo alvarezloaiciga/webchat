@@ -70,9 +70,7 @@ export const Message = (props: MessageProps) => {
               },
             }}
           >
-            <span style={textStyle}>
-              {props.message.text}
-            </span>
+            <span style={textStyle}>{props.message.text}</span>
           </Linkify>
         </div>
         {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}

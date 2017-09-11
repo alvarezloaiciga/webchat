@@ -63,33 +63,37 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
         <label htmlFor={field.label} style={labelStyle}>
           {field.label}
-          {field.required &&
+          {field.required && (
             <span className="required" title={getMessage(messageTypes.requiredFieldAriaLabel)}>
-              {' '}*
-            </span>}
+              {' '}
+              *
+            </span>
+          )}
         </label>
-        {field.type === 'textarea'
-          ? <Textarea
-              value={this.state.inputFields[field.id].value}
-              onChange={this.handleFieldInput}
-              onBlur={this.handleTrimFieldInput}
-              name={field.id}
-              required={field.required}
-              style={textareaStyle}
-              maxLength={1000}
-              maxRows={field.rows || 5}
-              minRows={supportsFlexbox() ? 1 : field.rows || 5}
-            />
-          : <input
-              value={this.state.inputFields[field.id].value}
-              onChange={this.handleFieldInput}
-              onBlur={this.handleTrimFieldInput}
-              type={field.type}
-              name={field.id}
-              required={field.required}
-              style={inputStyle}
-              maxLength={1000}
-            />}
+        {field.type === 'textarea' ? (
+          <Textarea
+            value={this.state.inputFields[field.id].value}
+            onChange={this.handleFieldInput}
+            onBlur={this.handleTrimFieldInput}
+            name={field.id}
+            required={field.required}
+            style={textareaStyle}
+            maxLength={1000}
+            maxRows={field.rows || 5}
+            minRows={supportsFlexbox() ? 1 : field.rows || 5}
+          />
+        ) : (
+          <input
+            value={this.state.inputFields[field.id].value}
+            onChange={this.handleFieldInput}
+            onBlur={this.handleTrimFieldInput}
+            type={field.type}
+            name={field.id}
+            required={field.required}
+            style={inputStyle}
+            maxLength={1000}
+          />
+        )}
       </div>
     );
   };
@@ -202,22 +206,23 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           {welcomeForm.headerText}
         </div>
         <Debugger />
-        {this.state.formValidationError &&
+        {this.state.formValidationError && (
           <span className="formValidationError">
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
-          </span>}
-        <div className="fields">
-          {welcomeForm.fields.map(this.renderField)}
-        </div>
+          </span>
+        )}
+        <div className="fields">{welcomeForm.fields.map(this.renderField)}</div>
         <button
           className="submit"
           disabled={this.state.submitting}
           style={submitButtonStyle}
           onClick={this.submitForm}
         >
-          {this.state.submitting
-            ? getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
-            : getMessage(messageTypes.welcomeFormSubmitButtonLabel)}
+          {this.state.submitting ? (
+            getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
+          ) : (
+            getMessage(messageTypes.welcomeFormSubmitButtonLabel)
+          )}
         </button>
       </form>
     );

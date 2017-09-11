@@ -94,16 +94,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {(!supportsFlexbox() || this.props.agentTyping) &&
+        {(!supportsFlexbox() || this.props.agentTyping) && (
           <div className="poke">
-            {this.props.agentTyping &&
+            {this.props.agentTyping && (
               <div className="pokeBody">
                 <span style={{fontFamily: fontFamily}}>
                   {getMessage(messageTypes.agentTypingMessage)}
                 </span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
-              </div>}
-          </div>}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="messageArea">
           <Textarea

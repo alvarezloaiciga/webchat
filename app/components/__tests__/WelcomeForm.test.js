@@ -54,39 +54,57 @@ describe('WelcomeForm component', () => {
   describe('filling out form and submitting', () => {
     it('does not submit if there is a required field left blank', () => {
       render();
-      wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+      wrapper
+        .find('button')
+        .first()
+        .simulate('click', {preventDefault: jest.fn()});
       expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
     it('does not submit if there is a required field containing only whitespace', () => {
-      wrapper.find('input').at(0).simulate('change', {
-        which: '   ',
-        target: {
-          name: 'firstName',
-          value: '   ',
-        },
-      });
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('change', {
+          which: '   ',
+          target: {
+            name: 'firstName',
+            value: '   ',
+          },
+        });
 
-      wrapper.find('input').at(0).simulate('blur', {
-        target: {
-          name: 'firstName',
-        },
-      });
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('blur', {
+          target: {
+            name: 'firstName',
+          },
+        });
       render();
-      wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+      wrapper
+        .find('button')
+        .first()
+        .simulate('click', {preventDefault: jest.fn()});
       expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
     describe('valid submission', () => {
       beforeEach(() => {
-        wrapper.find('input').at(0).simulate('change', {
-          which: 'a',
-          target: {
-            name: 'firstName',
-            value: 'a',
-          },
-        });
-        wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+        wrapper
+          .find('input')
+          .at(0)
+          .simulate('change', {
+            which: 'a',
+            target: {
+              name: 'firstName',
+              value: 'a',
+            },
+          });
+        wrapper
+          .find('button')
+          .first()
+          .simulate('click', {preventDefault: jest.fn()});
         render();
       });
 
@@ -105,23 +123,32 @@ describe('WelcomeForm component', () => {
 
     describe('valid submission with send message', () => {
       beforeEach(() => {
-        wrapper.find('input').at(1).simulate('change', {
-          which: 'brad',
-          target: {
-            name: 'lastName',
-            value: 'brad',
-          },
-        });
+        wrapper
+          .find('input')
+          .at(1)
+          .simulate('change', {
+            which: 'brad',
+            target: {
+              name: 'lastName',
+              value: 'brad',
+            },
+          });
 
-        wrapper.find('input').at(0).simulate('change', {
-          which: 'a',
-          target: {
-            name: 'firstName',
-            value: 'a',
-          },
-        });
+        wrapper
+          .find('input')
+          .at(0)
+          .simulate('change', {
+            which: 'a',
+            target: {
+              name: 'firstName',
+              value: 'a',
+            },
+          });
 
-        wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
+        wrapper
+          .find('button')
+          .first()
+          .simulate('click', {preventDefault: jest.fn()});
         render();
       });
 

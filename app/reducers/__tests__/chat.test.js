@@ -14,8 +14,10 @@ describe('chat reducers', () => {
   describe('CHAT_CONTAINER_HIDDEN', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_CONTAINER_HIDDEN', chatContainerHidden: false})
-          .chatContainerHidden,
+        chat(initialState, {
+          type: 'CHAT_CONTAINER_HIDDEN',
+          chatContainerHidden: false,
+        }).chatContainerHidden,
       ).toBe(false);
     });
   });
@@ -23,16 +25,20 @@ describe('chat reducers', () => {
   describe('CHAT_LAUNCHER_HIDDEN', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_LAUNCHER_HIDDEN', chatLauncherHidden: false})
-          .chatLauncherHidden,
+        chat(initialState, {
+          type: 'CHAT_LAUNCHER_HIDDEN',
+          chatLauncherHidden: false,
+        }).chatLauncherHidden,
       ).toBe(false);
     });
 
     it('always sets chatLauncherHidden to true in standalone mode', () => {
       (inStandaloneMode: any).mockReturnValue(true);
       expect(
-        chat(initialState, {type: 'CHAT_LAUNCHER_HIDDEN', chatLauncherHidden: false})
-          .chatLauncherHidden,
+        chat(initialState, {
+          type: 'CHAT_LAUNCHER_HIDDEN',
+          chatLauncherHidden: false,
+        }).chatLauncherHidden,
       ).toBe(true);
     });
   });
@@ -40,8 +46,10 @@ describe('chat reducers', () => {
   describe('CHAT_INITIALIZED_STATE', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_INITIALIZED_STATE', initializedState: 'initialized'})
-          .initializedState,
+        chat(initialState, {
+          type: 'CHAT_INITIALIZED_STATE',
+          initializedState: 'initialized',
+        }).initializedState,
       ).toBe('initialized');
     });
 
