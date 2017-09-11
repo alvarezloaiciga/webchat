@@ -20,7 +20,7 @@ export const setupButtons = () => {
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
     bindCustomLaunchButtons();
   } else if (!isMobile() || (isMobile() && quiqOptions.mobileNumber)) {
-  // If user is on mobile, and no mobileNumber is defined, don't show the default launch button
+    // If user is on mobile, and no mobileNumber is defined, don't show the default launch button
     addDefaultLaunchButton();
   }
 };
@@ -49,7 +49,8 @@ const addDefaultLaunchButton = () => {
     Object.assign({},
       ToggleChatButton,
       {backgroundColor: colors.primary || color || '#59ad5d'},
-      styles.ToggleChatButton),
+      styles.ToggleChatButton,
+      {display: 'none'}),   // Default to hidden; will be updated if and when launcherVisibility event is received
   );
   const button = `<button id="${launchButtonId}" style="${buttonStyle}" class="ToggleChatButton" onmouseout="this.style.boxShadow='rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'" onmouseover="this.style.boxShadow='rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px'">
                     <svg id="${launchButtonIconOpenId}" style="${iconStyle}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -92,42 +93,42 @@ const handleLaunchButtonClick = async () => {
   Postmaster.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
-const handleLaunchButtonVisibilityChange = (data: {visible?: boolean}) => {
+const handleLaunchButtonVisibilityChange = (data: { visible?: boolean }) => {
   const {visible} = data;
   const quiqOptions = getQuiqOptions();
-  let allLaunchButtons = [];
 
+  // Add noAgentsAvailable class to custom launch buttons
   if (quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length) {
-    allLaunchButtons = quiqOptions.customLaunchButtons;
-  } else {
-    // Default launch button
-    allLaunchButtons.push(`#${launchButtonId}`);
+    quiqOptions.customLaunchButtons.forEach((selector: string) => {
+      const button = document.querySelector(selector);
+      if (button) {
+        if (visible) {
+          button.classList.remove(noAgentsAvailableClass);
+        } else {
+          button.classList.add(noAgentsAvailableClass);
+        }
+      }
+    });
   }
 
-  allLaunchButtons.forEach((selector: string) => {
-    const button = document.querySelector(selector);
-    if (button) {
-      if (visible) {
-        button.classList.remove(noAgentsAvailableClass);
-      } else {
-        button.classList.add(noAgentsAvailableClass);
-      }
-    }
-  });
+  // Hide default launch button
+  const defaultButton = document.getElementById(launchButtonId);
+  if (defaultButton) {
+    defaultButton.style.display = visible ? 'flex' : 'none';
+  }
 };
 
-const handleChatVisibilityChange = (data: {visible?: boolean}) => {
+const handleChatVisibilityChange = (data: { visible?: boolean }) => {
   const {visible} = data;
   const {styles} = getQuiqOptions();
-
-  // If chat is visible, then
 
   const iconStyle = toInlineStyle(Object.assign({}, styles.ToggleChatButtonIcon, {flex: 1}));
 
   // Update SVG icon of default launch button, if it exists
   const button = document.querySelector(`#${launchButtonId}`);
   if (button) {
-    button.innerHTML = visible
+    // If chat is open in a popup window, we always want buttons to be in "chat is closed" state
+    button.innerHTML = visible && isIFrame(getChatWindow())
       ? `
            <svg id="${launchButtonIconCloseId}" style="${iconStyle}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                <path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" />
@@ -149,3 +150,6 @@ Postmaster.registerEventHandler(
   eventTypes._launchButtonVisibilityShouldChange,
   handleLaunchButtonVisibilityChange,
 );
+
+// When standalone is opened, we want to set buttons to have non-visible state.
+Postmaster.registerEventHandler(eventTypes._standaloneOpen, () => handleChatVisibilityChange({visible: false}));

@@ -13,7 +13,7 @@ import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'Common/Constants';
-import {displayError, getHostingWindow} from 'Common/Utils';
+import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
 import type {ReduxStore} from 'types';
@@ -21,15 +21,13 @@ import QuiqChatClient from 'quiq-chat';
 
 let reduxWatch;
 let store;
-let chatClient; // eslint-disable-line no-unused-vars
 let domain;
 let postRobotClient, postRobotListener;
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
 
-export const init = (_domain: string, _store: ReduxStore, _chatClient: QuiqChatClient) => {
+export const init = (_domain: string, _store: ReduxStore) => {
   store = _store;
-  chatClient = _chatClient;
   domain = _domain;
 
   reduxWatch = watchStore(_store);
@@ -96,7 +94,8 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 };
 
 export const standaloneOpen = () => {
-  tellClient(eventTypes._standaloneOpen);
+  store.dispatch(ChatActions.setChatContainerHidden(true));
+  tellClient(eventTypes._standaloneOpen, {localStorageKeys: getQuiqKeysFromLocalStorage()});
 };
 
 /**********************************************************************************
@@ -113,18 +112,6 @@ const setChatVisibility = (event: Object) => {
   store.dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
-const sendRegistration = (event: Object) => {
-  const registrationData: Array<RegistrationField> = event.data.registrationData;
-  const registrationDictionary: {[string]: string} = {};
-
-  for (let index = 0; index < registrationData.length; index++) {
-    const data = registrationData[index];
-    registrationDictionary[data.id] = data.value;
-  }
-
-  QuiqChatClient.sendRegistration(registrationDictionary);
-};
-
 const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
 };
@@ -137,4 +124,14 @@ const getAgentAvailability = () => {
  * Controller facade handlers (client -> webchat)
  **********************************************************************************/
 
-// TODO
+const sendRegistration = (event: Object) => {
+  const registrationData: Array<RegistrationField> = event.data.registrationData;
+  const registrationDictionary: {[string]: string} = {};
+
+  for (let index = 0; index < registrationData.length; index++) {
+    const data = registrationData[index];
+    registrationDictionary[data.id] = data.value;
+  }
+
+  QuiqChatClient.sendRegistration(registrationDictionary);
+};

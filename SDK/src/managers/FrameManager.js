@@ -72,9 +72,14 @@ const handleVisibilityChange = (data: {visible: boolean}) => {
   }
 };
 
-const handleStandaloneOpen = () => {
+const handleStandaloneOpen = (data: {localStorageKeys: ?{[string]: any}}) => {
   const quiqOptions = getQuiqOptions();
   const currentChatWindow = getChatWindow();
+
+  // If we got an access token, append it to quiq Options
+  if (data && data.localStorageKeys) {
+    quiqOptions.localStorageKeys = data.localStorageKeys;
+  }
 
   const width = quiqOptions.width;
   const height = quiqOptions.height;

@@ -49,6 +49,7 @@ export type QuiqObject = {
   contactPoint: string,
   host: string,
   clientDomain: string,
+  localStorageKeys: {[string]: any},
   color: string, // Deprecated in favor of COLORS.primary
   colors: {
     primary: string,
