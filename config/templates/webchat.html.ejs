@@ -1,58 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <title>Quiq Webchat</title>
-    <meta name="application-name" content="Quiq Chat"/>
-    <meta name="msapplication-TileColor" content="#"/>
+  <head>
     <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>" />
-    <script src="https://use.fontawesome.com/89da14f4b6.js"></script>
-</head>
-<body style="margin:0">
-<script>
-  var quiqWebchatScript;
-
-  function bootstrap(quiqOptions) {
-    // We need to remove message event listener at this point, since Webchat will have its own postRobot listener
-    window.removeEventListener('message', handleMessage);
-
-    localStorage.setItem('quiqOptions', JSON.stringify(quiqOptions));
-
-    if (!quiqWebchatScript) {
-      quiqWebchatScript = document.createElement('script');
-      quiqWebchatScript.src = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>';
-      quiqWebchatScript.async = false;
-      document.getElementsByTagName('body')[0].appendChild(quiqWebchatScript);
-    }
-  }
-
-  // Bootstrapping: Listen for handshake message from parent window containing quiqOptions object
-  function handleMessage(event) {
-    var parentUrl = (window.location !== window.parent.location)
-      ? document.referrer
-      : document.location.href;
-    var originMatches = event.origin.indexOf(parentUrl) !== -1 || parentUrl.indexOf(event.origin) !== -1;
-    var isHandshake = event.data.name && event.data.name === 'handshake';
-    var containsQuiqObject = event.data && "quiqOptions" in event.data;
-    if (originMatches && isHandshake && containsQuiqObject) {
-      bootstrap(event.data.quiqOptions);
-    }
-  }
-
-  // Listen for handshake form SDK
-  window.addEventListener('message', handleMessage);
-
-  // If quiqOptions was given to us in window.name, use that for bootstrapping:
-  if (window.name && window.name !== 'quiqChatFrame') {
-    try {
-      var quiqOptions = JSON.parse(window.name);
-      bootstrap(quiqOptions);
-    }
-    catch (e) {
-      console.warn("Quiq Webchat could not parse the options provided in window.name");
-    }
-  }
-</script>
-</body>
-</html>
+    <script>
+      var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
+    </script>
+    <!-- <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>" /> -->
+    <script type="text/javascript" src="./webchatMain.js" />
+  </head>
+  <body/>
+<html>

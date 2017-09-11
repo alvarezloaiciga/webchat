@@ -34,7 +34,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.jsx?!(webchatMain)$/,
         include: [
           path.resolve(__dirname, '../app'),
           path.resolve(__dirname, '../SDK'),
