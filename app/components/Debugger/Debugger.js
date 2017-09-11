@@ -5,7 +5,6 @@ import quiqOptions from 'Common/QuiqOptions';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
-import QuiqChatClient from 'quiq-chat';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
 
@@ -40,13 +39,6 @@ export class Debugger extends React.Component<{}, DebuggerState> {
         {this.renderPhraseListener()}
         <div className="lhsIcons">
           <DevTools />
-          {
-            <i
-              className={`fa fa-sign-in icon`}
-              title="AndrewTest Auth User via Secure Cookie (Old Deprecated Way)"
-              onClick={QuiqChatClient.DEPRECATED_AUTH_USER_DO_NOT_USE}
-            />
-          }
         </div>
         <div className="rhsIcons">
           <div className="versions">
