@@ -112,7 +112,7 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
       !this.props.welcomeFormRegistered &&
-      !QuiqChatClient.isRegistered()
+      !QuiqChatClient.hasTakenMeaningfulAction()
     ) {
       return (
         <div

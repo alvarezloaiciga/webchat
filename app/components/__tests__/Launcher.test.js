@@ -265,7 +265,7 @@ describe('Launcher component', () => {
 
     describe('when welcomeForm is registered', () => {
       it('assumes agents available', () => {
-        QuiqChatClient.isRegistered.mockReturnValueOnce(true);
+        QuiqChatClient.hasTakenMeaningfulAction.mockReturnValueOnce(true);
         jest.runTimersToTime(1000 * 60);
         expect(testProps.setChatLauncherHidden).lastCalledWith(false);
       });
