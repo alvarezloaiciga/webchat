@@ -76,7 +76,9 @@ const setupReduxHooks = () => {
 
   // Chat launcher visibility
   reduxWatch.watch(ChatSelectors.getChatLauncherHidden, hidden =>
-    tellClient(eventTypes._launchButtonVisibilityShouldChange, {visible: !hidden}),
+    tellClient(eventTypes._launchButtonVisibilityShouldChange, {
+      visible: !hidden,
+    }),
   );
 
   // Agent availability
@@ -95,7 +97,9 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 
 export const standaloneOpen = () => {
   store.dispatch(ChatActions.setChatContainerHidden(true));
-  tellClient(eventTypes._standaloneOpen, {localStorageKeys: getQuiqKeysFromLocalStorage()});
+  tellClient(eventTypes._standaloneOpen, {
+    localStorageKeys: getQuiqKeysFromLocalStorage(),
+  });
 };
 
 /**********************************************************************************

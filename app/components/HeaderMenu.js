@@ -37,7 +37,7 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
           title={getMessage(messageTypes.minimizeWindowTooltip)}
           onClick={inStandaloneMode() ? window.close : minimize}
         />
-        {props.initializedState !== ChatInitializedState.BURNED &&
+        {props.initializedState !== ChatInitializedState.BURNED && (
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(
@@ -46,7 +46,8 @@ export const HeaderMenu = (props: HeaderMenuProps) => {
                 : messageTypes.openInNewWindowTooltip,
             )}
             onClick={inStandaloneMode() ? window.close : popChat}
-          />}
+          />
+        )}
         <i
           className={`fa fa-times icon`}
           title={getMessage(messageTypes.closeWindowTooltip)}

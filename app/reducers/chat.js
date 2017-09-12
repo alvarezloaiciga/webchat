@@ -43,7 +43,9 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         return state;
       }
 
-      return Object.assign({}, state, {initializedState: action.initializedState});
+      return Object.assign({}, state, {
+        initializedState: action.initializedState,
+      });
     }
     case 'UPDATE_TRANSCRIPT':
       return Object.assign({}, state, {transcript: action.transcript || []});

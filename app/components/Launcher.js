@@ -232,11 +232,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   render() {
-    return (
-      <div className="Launcher">
-        {<ChatContainer />}
-      </div>
-    );
+    return <div className="Launcher">{<ChatContainer />}</div>;
   }
 }
 
