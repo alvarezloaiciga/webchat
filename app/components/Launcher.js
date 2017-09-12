@@ -156,7 +156,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       !this.props.chatContainerHidden ||
       inStandaloneMode() ||
       this.props.transcript.length ||
-      QuiqChatClient.hasTakenMeaningfulAction()
+      QuiqChatClient.isRegistered()
     ) {
       this.props.setChatLauncherHidden(false);
     } else {
