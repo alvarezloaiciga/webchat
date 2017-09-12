@@ -69,7 +69,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.stop();
   }
 
-  updateAgentAvailability = async (): Promise<Boolean> => {
+  updateAgentAvailability = async (): Promise<boolean> => {
     const {available} = await QuiqChatClient.checkForAgents();
     this.props.setAgentsAvailable(available);
     return available;
@@ -137,31 +137,26 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       await this.startSession();
     }
 
-    // If the launcher is visible, i.e. if there are agents or the user has previously done something meaningful, set the auto pop timeout
-    // NOTE: Because we await the call to updateAgentAvailability above, chatLauncherHidden will be updated by this point.
-    if (!this.props.chatLauncherHidden) {
-      this.handleAutoPop();
-    }
+    this.handleAutoPop();
   };
 
   updateLauncherState = async () => {
-    const agentsAvailable = await this.updateAgentAvailability();
-
-    if (
-      // If agents are available, show launcher
-      agentsAvailable ||
-      // User is in active session, allow them to continue
+    const sessionInProgress =
       QuiqChatClient.isChatVisible() ||
       QuiqChatClient.hasTakenMeaningfulAction() ||
       !this.props.chatContainerHidden ||
       inStandaloneMode() ||
       this.props.transcript.length ||
-      QuiqChatClient.isRegistered()
-    ) {
+      QuiqChatClient.isRegistered();
+
+    if (sessionInProgress) {
       this.props.setChatLauncherHidden(false);
-    } else {
-      this.props.setChatLauncherHidden(true);
+      return true;
     }
+
+    const agentsAvailable = await this.updateAgentAvailability();
+    this.props.setChatLauncherHidden(!agentsAvailable);
+    return agentsAvailable;
   };
 
   startSession = async () => {
@@ -200,8 +195,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleAutoPop = () => {
     if (!isMobile() && typeof quiqOptions.autoPopTime === 'number') {
-      this.autoPopTimeout = setTimeout(() => {
-        this.startSession();
+      this.autoPopTimeout = setTimeout(async () => {
+        if (!await this.updateLauncherState()) return;
+        await this.startSession();
         this.updateContainerHidden(false);
       }, quiqOptions.autoPopTime);
     }
