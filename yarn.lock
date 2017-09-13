@@ -6001,9 +6001,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.13.0.tgz#18f4881fcb3e95e06e13651a67a217d92abbe450"
+quiq-chat@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.14.0.tgz#4cefca0eb8a4296ca06827f9232524fde206a3b8"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -6011,6 +6011,7 @@ quiq-chat@1.13.0:
     loglevel "1.4.1"
     loglevel-plugin-prefix "0.5.3"
     qs "6.5.0"
+    raven-js "3.17.0"
     store "2.0.12"
     ua-parser-js "0.7.12"
 
@@ -6030,6 +6031,10 @@ randombytes@^2.0.0, randombytes@^2.0.1:
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
+
+raven-js@3.17.0:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.17.0.tgz#779457ac7910512c3c2cc9bb6d0a9eeb59a969ec"
 
 raw-body@~2.2.0:
   version "2.2.0"
