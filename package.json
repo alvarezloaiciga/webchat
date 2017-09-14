@@ -16,7 +16,8 @@
     "prevmstart": "yarn run rimraf dist",
     "vmstart": "./node_modules/.bin/nf start",
     "prebuild": "yarn run rimraf dist temp_docker",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
+    "build":
+      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
     "postbuild": ". config/postbuild.sh",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",

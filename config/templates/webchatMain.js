@@ -49,27 +49,27 @@ function pageSetup() {
   var metaHttpEquiv = document.createElement('meta');
   metaHttpEquiv.httpEquiv="X-UA-Compatible";
   metaHttpEquiv.content="IE-edge";
-  headTag.append(metaHttpEquiv);
+  headTag.appendChild(metaHttpEquiv);
 
   var metaCharset = document.createElement('meta');
   metaCharset.charset="utf-8";
-  headTag.append(metaCharset);
+  headTag.appendChild(metaCharset);
 
   document.title = "Quiq Webchat";
 
   var metaAppName = document.createElement('meta');
   metaAppName.name="application-name";
   metaAppName.content="Quiq Chat";
-  headTag.append(metaAppName);
+  headTag.appendChild(metaAppName);
 
   var metaTileColor = document.createElement('meta');
   metaTileColor.name="msapplication-TileColor";
   metaTileColor.content="#";
-  headTag.append(metaTileColor);
+  headTag.appendChild(metaTileColor);
 
   var fontawesomeScript = document.createElement('script');
   fontawesomeScript.src="https://use.fontawesome.com/89da14f4b6.js";
-  headTag.append(fontawesomeScript);
+  headTag.appendChild(fontawesomeScript);
 
   var quiqWebchatScript;
 
