@@ -168,15 +168,27 @@ describe('Launcher component', () => {
   describe('auto pop for chat', () => {
     beforeEach(async () => {
       updateIsChatVisible(false);
+      updateHasTakenMeaningfulAction(false);
       testProps.chatContainerHidden = true;
       quiqOptions.autoPopTime = 200;
       await render();
     });
 
-    it("opens the chat even if the end user doesn't click on it", () => {
-      jest.runTimersToTime(200);
-      wrapper.update();
-      expect(testProps.setChatContainerHidden).lastCalledWith(false);
+    describe('when agents are not available', () => {
+      it('does not pop chat', () => {
+        jest.runTimersToTime(200);
+        wrapper.update();
+        expect(testProps.setChatContainerHidden).not.toBeCalled();
+      });
+    });
+
+    describe('when agents are available', () => {
+      it("opens the chat even if the end user doesn't click on it", async () => {
+        await render();
+        jest.runTimersToTime(200);
+        wrapper.update();
+        expect(testProps.setAgentsAvailable).toBeCalledWith(true);
+      });
     });
 
     describe('when chat opens before auto_pop_time', () => {

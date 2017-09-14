@@ -377,7 +377,7 @@ babel-code-frame@^6.11.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0, ba
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@6.24.0, babel-core@^6.0.0, babel-core@^6.24.0:
+babel-core@6.24.0, babel-core@^6.24.0:
   version "6.24.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.24.0.tgz#8f36a0a77f5c155aed6f920b844d23ba56742a02"
   dependencies:
@@ -401,7 +401,7 @@ babel-core@6.24.0, babel-core@^6.0.0, babel-core@^6.24.0:
     slash "^1.0.0"
     source-map "^0.5.0"
 
-babel-core@^6.26.0:
+babel-core@^6.0.0, babel-core@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.0.tgz#af32f78b31a6fcef119c87b0fd8d9753f03a0bb8"
   dependencies:
@@ -3850,19 +3850,7 @@ istanbul-lib-hook@^1.0.7:
   dependencies:
     append-transform "^0.4.0"
 
-istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.8.0.tgz#66f6c9421cc9ec4704f76f2db084ba9078a2b532"
-  dependencies:
-    babel-generator "^6.18.0"
-    babel-template "^6.16.0"
-    babel-traverse "^6.18.0"
-    babel-types "^6.18.0"
-    babylon "^6.18.0"
-    istanbul-lib-coverage "^1.1.1"
-    semver "^5.3.0"
-
-istanbul-lib-instrument@^1.7.2:
+istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.2:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.7.5.tgz#adb596f8f0cb8b95e739206351a38a586af21b1e"
   dependencies:
@@ -3871,6 +3859,18 @@ istanbul-lib-instrument@^1.7.2:
     babel-traverse "^6.18.0"
     babel-types "^6.18.0"
     babylon "^6.17.4"
+    istanbul-lib-coverage "^1.1.1"
+    semver "^5.3.0"
+
+istanbul-lib-instrument@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.8.0.tgz#66f6c9421cc9ec4704f76f2db084ba9078a2b532"
+  dependencies:
+    babel-generator "^6.18.0"
+    babel-template "^6.16.0"
+    babel-traverse "^6.18.0"
+    babel-types "^6.18.0"
+    babylon "^6.18.0"
     istanbul-lib-coverage "^1.1.1"
     semver "^5.3.0"
 
@@ -6001,9 +6001,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.13.0.tgz#18f4881fcb3e95e06e13651a67a217d92abbe450"
+quiq-chat@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.14.0.tgz#4cefca0eb8a4296ca06827f9232524fde206a3b8"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -6011,6 +6011,7 @@ quiq-chat@1.13.0:
     loglevel "1.4.1"
     loglevel-plugin-prefix "0.5.3"
     qs "6.5.0"
+    raven-js "3.17.0"
     store "2.0.12"
     ua-parser-js "0.7.12"
 
@@ -6030,6 +6031,10 @@ randombytes@^2.0.0, randombytes@^2.0.1:
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
+
+raven-js@3.17.0:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.17.0.tgz#779457ac7910512c3c2cc9bb6d0a9eeb59a969ec"
 
 raw-body@~2.2.0:
   version "2.2.0"
