@@ -848,14 +848,30 @@ function needsBridgeForWin(win: any) {
 function needsBridgeForDomain(domain: ?string, win: any) {
   if (domain) {
     if (getDomain() !== getDomainFromUrl(domain)) {
+      alert(
+        JSON.stringify({
+          branch: 1,
+          domain1: getDomain(),
+          domain2: getDomainFromUrl(domain),
+        }),
+      );
       return true;
     }
   } else if (win) {
     if (!isSameDomain(win)) {
-      return true;
+      alert(
+        JSON.stringify({
+          branch: 2,
+          isActuallySameDomain: isActuallySameDomain(win),
+          isBlankDomain: isBlankDomain(win),
+          getDomainWindow: getDomain(window),
+          getDomainWin: getDomain(win),
+        }),
+      );
     }
   }
 
+  alert('Domain: false');
   return false;
 }
 
