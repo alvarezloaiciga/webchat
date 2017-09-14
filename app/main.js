@@ -24,7 +24,6 @@ const init = () => {
 
   testStuff();
 };
-
 // Conditionally load Intl polyfill for old versions of IE
 // TODO: Load correct locale once we add i18n
 if (!global.Intl) {
@@ -41,7 +40,7 @@ function isRegex(item: any) {
   return Object.prototype.toString.call(item) === '[object RegExp]';
 }
 
-const CONSTANTS = {
+var CONSTANTS = {
   MOCK_PROTOCOL: 'mock:',
   FILE_PROTOCOL: 'file:',
   WILDCARD: '*',
@@ -60,7 +59,7 @@ function getActualDomain(win: any) {
     throw new Error(`Can not read window protocol`);
   }
 
-  if (protocol === CONSTANTS.FILE_PROTOCOL) {
+  if (protocol === 'file:') {
     return 'file://';
   }
 
@@ -143,7 +142,7 @@ function isSameDomain(win: any) {
   } catch (err) {
     // pass
   }
-
+  alert('6');
   return false;
 }
 
@@ -846,33 +845,26 @@ function needsBridgeForWin(win: any) {
 }
 
 function needsBridgeForDomain(domain: ?string, win: any) {
-  if (domain) {
-    if (getDomain() !== getDomainFromUrl(domain)) {
+  if (win) {
+    if (!isSameDomain(win)) {
       alert(
-        JSON.stringify({
-          branch: 1,
-          domain1: getDomain(),
-          domain2: getDomainFromUrl(domain),
-        }),
+        JSON.stringify(
+          {
+            branch: 2,
+            isActuallySameDomain: isActuallySameDomain(win),
+            isBlankDomain: isBlankDomain(win),
+            getDomainWindow: getDomain(window),
+            getDomainWin: getDomain(win),
+          },
+          2,
+        ),
       );
       return true;
     }
-  } else if (win) {
-    if (!isSameDomain(win)) {
-      alert(
-        JSON.stringify({
-          branch: 2,
-          isActuallySameDomain: isActuallySameDomain(win),
-          isBlankDomain: isBlankDomain(win),
-          getDomainWindow: getDomain(window),
-          getDomainWin: getDomain(win),
-        }),
-      );
-    }
+  } else {
+    alert('Domain: false');
+    return false;
   }
-
-  alert('Domain: false');
-  return false;
 }
 
 function needsBridge({win, domain}: {win: any, domain?: string}) {
@@ -893,15 +885,15 @@ function needsBridge({win, domain}: {win: any, domain?: string}) {
 
 function testStuff() {
   const win = getOpener(window);
-  const nbfb = needsBridgeForBrowser();
-  const nbfw = needsBridgeForWin(win);
-  const nbfd = needsBridgeForDomain(undefined, win);
+  // const nbfb = needsBridgeForBrowser();
+  // const nbfw = needsBridgeForWin(win);
 
-  alert(
-    JSON.stringify({
-      needsBridgeForWin: nbfw,
-      needsBridgeForDomain: nbfd,
-      needsBridgeForBrowser: nbfb,
-    }),
-  );
+  needsBridgeForDomain(undefined, win);
+  // alert(
+  //   JSON.stringify({
+  //     // needsBridgeForWin: nbfw,
+  //     needsBridgeForDomain: needsBridgeForDomain(undefined, win),
+  //     // needsBridgeForBrowser: nbfb,
+  //   }),
+  // );
 }
