@@ -25,12 +25,6 @@ const init = () => {
   testStuff();
 };
 
-function testStuff() {
-  console.log('needsBridgeForWin', needsBridgeForWin());
-  console.log('needsBridgeForDomain', needsBridgeForDomain());
-  console.log('needsBridgeForBrowser', needsBridgeForBrowser());
-}
-
 // Conditionally load Intl polyfill for old versions of IE
 // TODO: Load correct locale once we add i18n
 if (!global.Intl) {
@@ -800,7 +794,7 @@ function isWindow(obj: Object) {
   return false;
 }
 
-function needsBridgeForBrowser(): boolean {
+function needsBridgeForBrowser() {
   if (getUserAgent(window).match(/MSIE|trident|edge/i)) {
     return true;
   }
@@ -843,7 +837,7 @@ function isSameTopWindow(win1: any, win2: any) {
   }
 }
 
-function needsBridgeForWin(win: any): boolean {
+function needsBridgeForWin(win: any) {
   if (!isSameTopWindow(window, win)) {
     return true;
   }
@@ -851,7 +845,7 @@ function needsBridgeForWin(win: any): boolean {
   return false;
 }
 
-function needsBridgeForDomain(domain: ?string, win: any): boolean {
+function needsBridgeForDomain(domain: ?string, win: any) {
   if (domain) {
     if (getDomain() !== getDomainFromUrl(domain)) {
       return true;
@@ -865,7 +859,7 @@ function needsBridgeForDomain(domain: ?string, win: any): boolean {
   return false;
 }
 
-function needsBridge({win, domain}: {win: any, domain?: string}): boolean {
+function needsBridge({win, domain}: {win: any, domain?: string}) {
   if (!needsBridgeForBrowser()) {
     return false;
   }
@@ -879,4 +873,19 @@ function needsBridge({win, domain}: {win: any, domain?: string}): boolean {
   }
 
   return true;
+}
+
+function testStuff() {
+  const win = getOpener(window);
+  const nbfb = needsBridgeForBrowser();
+  const nbfw = needsBridgeForWin(win);
+  const nbfd = needsBridgeForDomain(undefined, win);
+
+  alert(
+    JSON.stringify({
+      needsBridgeForWin: nbfw,
+      needsBridgeForDomain: nbfd,
+      needsBridgeForBrowser: nbfb,
+    }),
+  );
 }
