@@ -119,7 +119,7 @@ const handleStandaloneOpen = (data: {localStorageKeys: ?{[string]: any}}) => {
       chatFrame.height = quiqOptions.height.toString();
       tellChat(actionTypes.setChatVisibility, {visible: true});
     }
-  }, 500);
+  }, 20);
 };
 
 // Register event handlers for this module

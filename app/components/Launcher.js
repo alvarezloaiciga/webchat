@@ -149,12 +149,15 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.props.transcript.length ||
       QuiqChatClient.isRegistered();
 
+    // We need to always call updateAgentAvailability() to keep the agentsAvailable state up to data from
+    // minute to minute
+    const agentsAvailable = await this.updateAgentAvailability();
+
     if (sessionInProgress) {
       this.props.setChatLauncherHidden(false);
       return true;
     }
 
-    const agentsAvailable = await this.updateAgentAvailability();
     this.props.setChatLauncherHidden(!agentsAvailable);
     return agentsAvailable;
   };
