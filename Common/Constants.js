@@ -1,14 +1,3 @@
-export const defaultOptions = {
-  height: 600,
-  width: 400,
-  position: {
-    bottom: '24px',
-    right: '24px',
-    top: 'inherit',
-    left: 'inherit',
-  },
-};
-
 export const SupportedWebchatUrls = [
   'goquiq.com/app/webchat',
   'quiq.sh/app/webchat',

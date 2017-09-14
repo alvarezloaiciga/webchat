@@ -1,18 +1,22 @@
 // @flow
 import messages from 'Common/Messages';
-import {displayError, camelize, setLocalStorageItemsIfNewer} from 'Common/Utils';
+import {displayError, camelize, setLocalStorageItemsIfNewer, getWebchatHostFromScriptTag, getWindowDomain, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
 
+// This should be called from the client site, by the SDK.
+// If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
-    contactPoint: 'default',
-    localStorageKeys: {},
-    color: primaryColor,
+    contactPoint: rawQuiqObject.contactPoint || 'default',
+    // Transfer Quiq keys from this site's localStorage to iframe's local storage
+    // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
+    localStorageKeys: rawQuiqObject.localStorageKeys || getQuiqKeysFromLocalStorage(),
+    color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
       {
@@ -27,22 +31,22 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       },
       rawQuiqObject.colors,
     ),
-    styles: {},
-    position: {},
-    headerText: messages.hereToHelp,
-    host: undefined,
-    clientDomain: undefined,
-    debug: false,
+    styles: rawQuiqObject.styles || {},
+    position: rawQuiqObject.position || {bottom: '24px', right: '24px', top: 'inherit', left: 'inherit'},
+    headerText: rawQuiqObject.headerText || messages.hereToHelp,
+    host: rawQuiqObject.host || getWebchatHostFromScriptTag(),
+    clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
+    href: window.location.href, // Standalone uses this to determine original host URL for welcome form
+    debug: rawQuiqObject.debug || false,
     welcomeForm: rawQuiqObject.welcomeForm
       ? processWelcomeForm(rawQuiqObject.welcomeForm)
       : undefined,
-    href: window.location.href, // Standalone uses this to determine original host URL for welcome form
-    fontFamily: 'sans-serif',
-    width: 400,
-    height: 600,
-    autoPopTime: undefined,
+    fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
+    width: rawQuiqObject.width || 400,
+    height: rawQuiqObject.height || 600,
+    autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
-    mobileNumber: undefined,
+    mobileNumber: rawQuiqObject.mobileNumber,
     messages: Object.assign(
       {},
       {
@@ -67,7 +71,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     ),
   };
 
-  return Object.assign({}, quiqOptions, rawQuiqObject);
+  return quiqOptions;
 };
 
 const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {

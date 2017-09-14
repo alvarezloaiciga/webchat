@@ -1,13 +1,9 @@
 // @flow
 
 import 'babel-polyfill';
-import {defaultOptions} from 'Common/Constants';
 import {
-  getWebchatHostFromScriptTag,
-  getWindowDomain,
   camelizeToplevelScreamingSnakeCaseKeys,
   displayError,
-  getQuiqKeysFromLocalStorage,
   clearQuiqKeysFromLocalStorage,
 } from 'Common/Utils';
 import {buildQuiqObject} from 'Common/QuiqOptions';
@@ -17,18 +13,7 @@ import {setQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
 
 export const Quiq = (options: {[string]: any}) => {
-  const quiqOptions = Object.assign({}, defaultOptions, options);
-
-  // If HOST is explicitly defined in options, use that. If not, try to find from script tag URL
-  quiqOptions.host = quiqOptions.host || getWebchatHostFromScriptTag();
-
-  quiqOptions.clientDomain = getWindowDomain();
-
-  // Transfer Quiq keys from this site's localStorage to iframe's local storage
-  // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
-  quiqOptions.localStorageKeys = getQuiqKeysFromLocalStorage();
-
-  setQuiqOptions(buildQuiqObject(quiqOptions));
+  setQuiqOptions(buildQuiqObject(options));
 
   // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
   clearQuiqKeysFromLocalStorage();
