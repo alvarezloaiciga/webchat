@@ -26,7 +26,7 @@ export const setup = () => {
   cancelListeners();
 
   // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
-  if ((getBrowserName() === 'IE' || getBrowserName() === 'Edge') && host !== clientDomain) {
+  if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
     postRobot.bridge.openBridge(`${host}/${bridgePath}`);
   }
 
