@@ -23,8 +23,8 @@ module.exports = merge(config, {
   cache: true,
   devtool: 'eval',
   entry: {
-    webchat: ['react-hot-loader/patch', 'development'],
-    sdk: './SDK/src/index.js',
+    webchat: ['babel-polyfill', 'react-hot-loader/patch', 'development'],
+    sdk: ['babel-polyfill', './SDK/src/index.js'],
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.min.js',
   },
   plugins: [

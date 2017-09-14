@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import ReactDOM, {render} from 'react-dom';
 import React from 'react';
 import Routes from 'Routes';
