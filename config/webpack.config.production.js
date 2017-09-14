@@ -34,6 +34,7 @@ module.exports = merge(config, {
   entry: {
     webchat: 'production',
     sdk: './SDK/src/index.js',
+    webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.min.js',
   },
   plugins: [
@@ -41,7 +42,7 @@ module.exports = merge(config, {
       template: 'config/templates/webchat.html.ejs',
       filename: `webchat.html`,
       inject: false,
-      chunks: ['webchat'],
+      chunks: ['webchat', 'webchatMain'],
     }),
     new HtmlWebpackPlugin({
       template: 'config/templates/bridge.html.ejs',
