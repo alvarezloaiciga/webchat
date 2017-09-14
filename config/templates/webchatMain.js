@@ -32,7 +32,7 @@ if (document.readyState === 'loading') {
     try {
       pageSetup();
     } catch (e) {
-      console.error(`Quiq: error bootstrapping webchat: ${e}`);
+      console.error('Quiq: error bootstrapping webchat: ' + e.message);
     }
   });
 } else {

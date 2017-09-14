@@ -1,5 +1,6 @@
 // @flow
 
+import 'babel-polyfill';
 import {defaultOptions} from 'Common/Constants';
 import {
   getWebchatHostFromScriptTag,

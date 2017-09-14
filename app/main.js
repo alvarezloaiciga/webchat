@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import {nonCompatibleBrowser} from 'Common/Utils';
 import {constructApp} from 'utils/domUtils';
 import quiqOptions from '../Common/QuiqOptions';

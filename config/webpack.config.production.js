@@ -32,8 +32,8 @@ module.exports = merge(config, {
   debug: false,
   devtool: 'source-map',
   entry: {
-    webchat: 'production',
-    sdk: './SDK/src/index.js',
+    webchat: ['babel-polyfill', 'production'],
+    sdk: ['babel-polyfill', './SDK/src/index.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.min.js',
   },
