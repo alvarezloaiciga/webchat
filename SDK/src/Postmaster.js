@@ -28,9 +28,13 @@ export const setup = () => {
   // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
   const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
 
-  // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
-  if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
-    postRobot.bridge.openBridge(`${host}/${bridgePath}`);
+  try {
+    // Build cross-domain bridge (for IE compatibility)
+    if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
+      postRobot.bridge.openBridge(`${host}/${bridgePath}`);
+    }
+  } catch (e) {
+    console.warn(`Error building postRobot Bridge: ${e.message}\nProceeding as normal.`);
   }
 
   postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});
