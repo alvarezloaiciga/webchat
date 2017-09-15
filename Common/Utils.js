@@ -132,12 +132,7 @@ export const getWebchatUrlFromScriptTag = () => {
 };
 
 export const camelize = (str: string) =>
-  str
-    .replace(
-      /(?:^\w|[A-Z]|\b\w)/g,
-      (ltr, idx) => (idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()),
-    )
-    .replace(/\s+/g, '');
+  str.replace(/[_-]+([^_-])/g, (a, b) => b.toUpperCase());
 
 export const inNonProductionCluster = () =>
   !!window.location.hostname.match(
