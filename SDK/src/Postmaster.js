@@ -2,14 +2,7 @@
 
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
-import {
-  displayError,
-  displayWarning,
-  isIFrame,
-  getMajor,
-  getBrowserName,
-  inStandaloneMode,
-} from 'Common/Utils';
+import {displayError, displayWarning, isIFrame, getMajor, getBrowserName} from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from './Globals';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
@@ -32,17 +25,16 @@ export const setup = () => {
 
   cancelListeners();
 
+  // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
+  const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
+
   // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
   if (
-    !inStandaloneMode() &&
-    host !== clientDomain &&
-    (getBrowserName() === 'IE' || getBrowserName() === 'Edge')
+    (getBrowserName() === 'IE' || getBrowserName() === 'Edge') &&
+    postRobot.bridge.needsBridgeForDomain(undefined, targetWindow)
   ) {
     postRobot.bridge.openBridge(`${host}/${bridgePath}`);
   }
-
-  // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
-  const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
 
   postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});
   postRobotListener = postRobot.listener({window: targetWindow, host});
