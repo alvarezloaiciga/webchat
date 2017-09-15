@@ -29,10 +29,7 @@ export const setup = () => {
   const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
 
   // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
-  if (
-    (getBrowserName() === 'IE' || getBrowserName() === 'Edge') &&
-    postRobot.bridge.needsBridgeForDomain(undefined, targetWindow)
-  ) {
+  if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
     postRobot.bridge.openBridge(`${host}/${bridgePath}`);
   }
 
