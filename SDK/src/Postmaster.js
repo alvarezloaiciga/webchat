@@ -25,13 +25,17 @@ export const setup = () => {
 
   cancelListeners();
 
-  // Build cross-domain bridge (for IE compatibility), iff this domain is different than host domain
-  if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
-    postRobot.bridge.openBridge(`${host}/${bridgePath}`);
-  }
-
   // Because of an oddity in post-robot, we can't pass an iframe into postRobot.listener(). Need to find the associated window.
   const targetWindow = isIFrame(chatWindow) ? chatWindow.contentWindow : chatWindow;
+
+  try {
+    // Build cross-domain bridge (for IE compatibility)
+    if (getBrowserName() === 'IE' || getBrowserName() === 'Edge') {
+      postRobot.bridge.openBridge(`${host}/${bridgePath}`);
+    }
+  } catch (e) {
+    console.warn(`Error building postRobot Bridge: ${e.message}\nProceeding as normal.`);
+  }
 
   postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});
   postRobotListener = postRobot.listener({window: targetWindow, host});
