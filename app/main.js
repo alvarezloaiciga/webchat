@@ -497,6 +497,36 @@ function anyMatch(collection1, collection2) {
   }
 }
 
+function needsBridge({win, domain}: {win: any, domain?: string}): boolean {
+  if (!needsBridgeForBrowser()) {
+    return false;
+  }
+
+  if (domain && !needsBridgeForDomain(domain, win)) {
+    return false;
+  }
+
+  if (win && !needsBridgeForWin(win)) {
+    return false;
+  }
+
+  return true;
+}
+
+function needsBridgeForDomain(domain: ?string, win: any): boolean {
+  if (domain) {
+    if (getDomain() !== getDomainFromUrl(domain)) {
+      return true;
+    }
+  } else if (win) {
+    if (!isSameDomain(win)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function testStuff() {
   const win = getOpener(window);
   const nbfb = needsBridgeForBrowser();
