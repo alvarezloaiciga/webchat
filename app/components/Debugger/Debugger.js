@@ -2,7 +2,7 @@
 declare var __VERSION__: string;
 import React from 'react';
 import quiqOptions from 'Common/QuiqOptions';
-import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
+import {inNonProductionCluster, inLocalDevelopment, inStandaloneMode} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import {version} from '../../../node_modules/quiq-chat/package.json';
@@ -40,6 +40,7 @@ export class Debugger extends React.Component<{}, DebuggerState> {
         {this.renderPhraseListener()}
         <div className="lhsIcons">
           <DevTools />
+          <div>inStandaloneMode: {inStandaloneMode() ? 'true' : 'false'}</div>
         </div>
         <div className="rhsIcons">
           <div className="versions">
