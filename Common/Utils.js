@@ -90,7 +90,7 @@ export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
 };
 
 export const getHostingWindow = (): ?Object => {
-  const parent = window.parent !== window ? window.parent : null;
+  const parent = window.parent !== window.self ? window.parent : null;
   return window.opener || parent;
 };
 
