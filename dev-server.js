@@ -117,9 +117,13 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   var playgroundServer = require('https').createServer(require('./devssl'), playgroundApp);
 
   playgroundApp.set('view engine', 'ejs');
+  webchatApp.set('view engine', 'ejs');
   playgroundApp.use(require('morgan')('dev'));
 
   playgroundApp.get('/', (req, res) => {
+    res.render('./playground', {host: webchatHost});
+  });
+  webchatApp.get('/', (req, res) => {
     res.render('./playground', {host: webchatHost});
   });
 
