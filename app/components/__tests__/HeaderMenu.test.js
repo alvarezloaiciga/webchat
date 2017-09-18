@@ -2,12 +2,14 @@
 jest.mock('quiq-chat');
 jest.mock('Common/QuiqOptions');
 jest.mock('services/Postmaster');
+jest.mock('Common/Utils');
 
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
 import {HeaderMenu} from '../HeaderMenu';
 import {shallow} from 'enzyme';
 import {standaloneOpen} from 'services/Postmaster';
+import * as Utils from 'Common/Utils';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('HeaderMenu component', () => {
@@ -31,6 +33,21 @@ describe('HeaderMenu component', () => {
     it('renders', () => {
       render();
       expect(wrapper).toMatchSnapshot();
+    });
+
+    describe('when not in standalone mode', () => {
+      beforeEach(() => {
+        (Utils.inStandaloneMode: any).mockImplementation(() => false);
+      });
+
+      afterEach(() => {
+        (Utils.inStandaloneMode: any).mockReset();
+      });
+
+      it('renders', () => {
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
     });
   });
 

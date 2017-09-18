@@ -19,7 +19,7 @@ export type HeaderMenuState = {
   openingWindowExists?: boolean,
 };
 
-export class HeaderMenu extends Component {
+export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
   props: HeaderMenuProps;
   state: HeaderMenuState = {
     openingWindowExists: true,
