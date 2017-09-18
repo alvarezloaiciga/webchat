@@ -132,7 +132,10 @@ export const getWebchatUrlFromScriptTag = () => {
 };
 
 export const camelize = (str: string) =>
-  str.replace(/[_-]+([^_-])/g, (a, b) => b.toUpperCase());
+  // First, lowercase all uppercase characters not adjacent to a lowercase character
+  str.replace(/[A-Z]{2,}|^[A-Z]|[A-Z]$/g, a => a.toLowerCase())
+    // Then remove symbols and uppercase starts of words
+    .replace(/[_\- ]+([^_\- ])/g, (a, b) => b.toUpperCase());
 
 export const inNonProductionCluster = () =>
   !!window.location.hostname.match(

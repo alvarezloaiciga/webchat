@@ -19,7 +19,7 @@ describe('Utils', () => {
     });
 
     it('converts crazy-case_words without blowing up', () => {
-      expect(Utils.camelize('crazy-case word')).toBe('crazy-CaseWord');
+      expect(Utils.camelize('crazy-case word')).toBe('crazyCaseWord');
     });
   });
 });
