@@ -5596,9 +5596,9 @@ portfinder@0.4.x:
     async "0.9.0"
     mkdirp "0.5.x"
 
-"post-robot@git+https://github.com/Quiq/post-robot.git":
+post-robot@Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752:
   version "7.0.15"
-  resolved "git+https://github.com/Quiq/post-robot.git#62bc4bcdb7fe5103090ae4607f928e34a298c779"
+  resolved "https://codeload.github.com/Quiq/post-robot/tar.gz/394568a87d63fd24b9289bb2a1f0223b9bd18752"
   dependencies:
     cross-domain-safe-weakmap "^1.0.1"
     cross-domain-utils "^1.0.1"
