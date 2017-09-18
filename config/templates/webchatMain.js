@@ -27,18 +27,12 @@ function handleMessage(event) {
   }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    try {
-      pageSetup();
-    } catch (e) {
-      console.error('Quiq: error bootstrapping webchat: ' + e.message);
-    }
-  });
-} else {
-  // document.readyState === 'interactive' | 'loaded'
+if (document.readyState === 'complete') {
   pageSetup();
+} else {
+  window.addEventListener('load', pageSetup);
 }
+
 
 function pageSetup() {
   var headTag = document.getElementsByTagName('head')[0];
