@@ -1,6 +1,13 @@
 // @flow
 import messages from 'Common/Messages';
-import {displayError, camelize, setLocalStorageItemsIfNewer, getWebchatHostFromScriptTag, getWindowDomain, getQuiqKeysFromLocalStorage} from 'Common/Utils';
+import {
+  displayError,
+  camelize,
+  setLocalStorageItemsIfNewer,
+  getWebchatHostFromScriptTag,
+  getWindowDomain,
+  getQuiqKeysFromLocalStorage,
+} from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
@@ -32,7 +39,12 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       rawQuiqObject.colors,
     ),
     styles: rawQuiqObject.styles || {},
-    position: rawQuiqObject.position || {bottom: '24px', right: '24px', top: 'inherit', left: 'inherit'},
+    position: rawQuiqObject.position || {
+      bottom: '24px',
+      right: '24px',
+      top: 'inherit',
+      left: 'inherit',
+    },
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
     host: rawQuiqObject.host || getWebchatHostFromScriptTag(),
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
@@ -87,16 +99,21 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   return newFormObject;
 };
 
+// $FlowIssue - It's possible for this to return undefined if localStorage is disabled. We are ok with this.
 const getQuiqOptions = (): QuiqObject => {
-  const quiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
+  try {
+    const quiqObject = JSON.parse(localStorage.getItem('quiqOptions') || '{}');
 
-  // Set local storage items from quiqObject.localStorage Keys
-  // This is used for backwards comparability, as well as for transferring session data from IFraqme to popup
-  if (quiqObject.localStorageKeys) {
-    setLocalStorageItemsIfNewer(quiqObject.localStorageKeys);
+    // Set local storage items from quiqObject.localStorage Keys
+    // This is used for backwards comparability, as well as for transferring session data from IFraqme to popup
+    if (quiqObject.localStorageKeys) {
+      setLocalStorageItemsIfNewer(quiqObject.localStorageKeys);
+    }
+
+    return quiqObject;
+  } catch (e) {
+    displayError('Quiq Chat Fatal Error: Local Storage disabled. Unable to continue.');
   }
-
-  return quiqObject;
 };
 
 const quiqOptions: QuiqObject = getQuiqOptions();

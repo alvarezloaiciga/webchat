@@ -19,17 +19,22 @@ export default {
     Postmaster.tellChat(actionTypes.sendRegistration, {registrationData});
   },
 
-  getChatVisibility: async (callback: (data: ?{visibility: boolean}, error: ?Error) => void): Promise<{visible: boolean}> => {
+  getChatVisibility: async (
+    callback: (data: ?{visibility: boolean}, error: ?Error) => void,
+  ): Promise<{visible: boolean}> => {
     return await Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
   },
 
-  getAgentAvailability: async (callback: (data: ?{available: boolean}, error: ?Error) => void): Promise<{available: boolean}> => {
-    return await Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback);
-  },
+  getAgentAvailability: async (
+    callback: (data: ?{available: boolean}, error: ?Error) => void,
+  ): Promise<{available: boolean}> =>
+    await Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback),
 
   on: (eventName: string, handler: (data: Object) => any) => {
     if (!publicEventTypes[eventName]) {
-      displayWarning('Can\'t register for an event named "{eventName}": unknown event name.', {eventName});
+      displayWarning('Can\'t register for an event named "{eventName}": unknown event name.', {
+        eventName,
+      });
       return;
     }
 

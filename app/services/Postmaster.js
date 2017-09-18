@@ -120,9 +120,7 @@ const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
 };
 
-const getAgentAvailability = () => {
-  return {available: ChatSelectors.getAgentsAvailable(store.getState())};
-};
+const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
 
 /**********************************************************************************
  * Controller facade handlers (client -> webchat)

@@ -2,7 +2,7 @@
 
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
-import {displayError, displayWarning, isIFrame, getMajor, getBrowserName} from 'Common/Utils';
+import {displayError, displayWarning, isIFrame, getBrowserName} from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from './Globals';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
@@ -30,7 +30,7 @@ export const setup = () => {
 
   try {
     // Build cross-domain bridge (for IE compatibility)
-    if (getBrowserName() === 'IE' || getBrowserName() === 'Edge' && clientDomain !== host) {
+    if (getBrowserName() === 'IE' || (getBrowserName() === 'Edge' && clientDomain !== host)) {
       postRobot.bridge.openBridge(`${host}/${bridgePath}`);
     }
   } catch (e) {
