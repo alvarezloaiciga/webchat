@@ -112,7 +112,7 @@ const getQuiqOptions = (): QuiqObject => {
 
     return quiqObject;
   } catch (e) {
-    displayError('Local Storage disabled. Unable to continue.');
+    displayError('Quiq Chat Fatal Error: Local Storage disabled. Unable to continue.');
   }
 };
 
