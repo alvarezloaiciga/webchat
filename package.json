@@ -136,7 +136,7 @@
     "file-saver": "1.3.3",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "post-robot": "git+https://github.com/Quiq/post-robot.git",
+    "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",
     "quiq-chat": "1.15.0",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
