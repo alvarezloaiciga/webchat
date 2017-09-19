@@ -29,7 +29,7 @@ export const setup = () => {
 
   try {
     // Build cross-domain bridge (for IE compatibility)
-    if (getBrowserName() === 'IE' || (getBrowserName() === 'Edge' && clientDomain !== host)) {
+    if ((getBrowserName() === 'IE' || getBrowserName() === 'Edge') && clientDomain !== host) {
       postRobot.bridge.openBridge(`${host}/${bridgePath}`);
     }
   } catch (e) {

@@ -90,12 +90,9 @@ export const camelizeToplevelScreamingSnakeCaseKeys = (obj: Object) => {
   return newObject;
 };
 
-export const getHostingWindow = () => {
-  if (!window.opener && window.parent === window.self) {
-    displayError('Unable to find iframe or window containing webchat');
-  }
-
-  return window.opener || window.parent;
+export const getHostingWindow = (): ?Object => {
+  const parent = window.parent !== window.self ? window.parent : null;
+  return window.opener || parent;
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
@@ -117,7 +114,16 @@ export const displayWarning = (error: string, values: {[string]: string} = {}) =
 };
 
 // If window.opener is not null, then we're in a popup.
-export const inStandaloneMode = () => !!window.opener;
+export const inStandaloneMode = () => {
+  // If this fails, it's because of a cross origin exception.
+  // This means we  must be in an iFrame, since window and window.top are on different domains.
+  // Thus, return false in the catch block.
+  try {
+    return window.self === window.top;
+  } catch (e) {
+    return false;
+  }
+};
 
 export const getWebchatUrlFromScriptTag = () => {
   // Determine host from the script tag that loaded webchat
