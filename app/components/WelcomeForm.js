@@ -9,7 +9,7 @@ import QuiqChatClient from 'quiq-chat';
 import {supportsFlexbox} from 'Common/Utils';
 import type {WelcomeFormField} from 'Common/types';
 import './styles/WelcomeForm.scss';
-import {map} from 'lodash';
+import map from 'lodash/map';
 import Textarea from 'react-textarea-autosize';
 
 export type WelcomeFormProps = {};
