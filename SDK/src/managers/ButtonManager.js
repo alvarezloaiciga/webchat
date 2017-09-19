@@ -1,7 +1,7 @@
 // @flow
 
 import {getQuiqOptions, getChatWindow} from '../Globals';
-import {displayWarning, displayError, isIFrame} from 'Common/Utils';
+import {displayWarning, isIFrame} from 'Common/Utils';
 import {usingCustomLauncher} from 'Common/QuiqOptions';
 import * as Postmaster from '../Postmaster';
 import {
@@ -14,8 +14,6 @@ import {
   hasMobileNumberClass,
 } from 'Common/Constants';
 import {constructDefaultLauncher} from '../../components/Launcher';
-import ToggleChatButton from '../styles/ToggleChatButton';
-import toInlineStyle from '@f/to-inline-style';
 
 export const setupButtons = () => {
   if (!usingCustomLauncher()) constructDefaultLauncher();
