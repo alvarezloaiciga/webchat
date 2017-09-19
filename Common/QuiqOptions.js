@@ -7,22 +7,29 @@ import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
+  getDeviceType,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
+import QuiqChatClient from 'quiq-chat';
+import {getQuiqOptions as getQuiqOptionsFromSDK} from '../SDK/src/Globals';
 
 const reservedKeyNames = ['Referrer'];
 
 // This should be called from the client site, by the SDK.
 // If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
+  const isStorageEnabled = QuiqChatClient.isStorageEnabled();
+  const isMobile = !!getDeviceType();
+
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
     contactPoint: rawQuiqObject.contactPoint || 'default',
     // Transfer Quiq keys from this site's localStorage to iframe's local storage
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
-    localStorageKeys: rawQuiqObject.localStorageKeys || getQuiqKeysFromLocalStorage(),
+    localStorageKeys:
+      rawQuiqObject.localStorageKeys || (isStorageEnabled ? getQuiqKeysFromLocalStorage() : {}),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -45,6 +52,9 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       top: 'inherit',
       left: 'inherit',
     },
+    isSupportedBrowser: QuiqChatClient.isSupportedBrowser(),
+    isStorageEnabled,
+    isMobile,
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
     host: rawQuiqObject.host || getWebchatHostFromScriptTag(),
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
@@ -112,7 +122,9 @@ const getQuiqOptions = (): QuiqObject => {
 
     return quiqObject;
   } catch (e) {
-    displayError('Quiq Chat Fatal Error: Local Storage disabled. Unable to continue.');
+    return {
+      localStorageDisabled: true,
+    };
   }
 };
 
@@ -210,6 +222,12 @@ export const getMessage = (messageName: string): string => {
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
+};
+
+export const usingCustomLauncher = () => {
+  // Check SDK for options first since we may be calling this before Webchat has been bootstrapped
+  const options = getQuiqOptionsFromSDK() || quiqOptions;
+  return options.customLaunchButtons.length > 0;
 };
 
 export default quiqOptions;

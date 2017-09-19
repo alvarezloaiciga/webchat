@@ -9,13 +9,17 @@ import {
 import {buildQuiqObject} from 'Common/QuiqOptions';
 import {buildChatIFrame} from 'managers/FrameManager';
 import {setupButtons} from 'managers/ButtonManager';
-import {setQuiqOptions} from './Globals';
+import {setQuiqOptions, getQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
+import QuiqChatClient from 'quiq-chat';
 
 const bootstrap = () => {
   try {
-    buildChatIFrame();
+    // Setup Launcher even for unsupported browsers and no storage so we can add the css class to custom launchers
     setupButtons();
+
+    if (!getQuiqOptions().isStorageEnabled || !getQuiqOptions().isSupportedBrowser) return;
+    buildChatIFrame();
   } catch (e) {
     displayError(`Quiq: error bootstrapping webchat: ${e}`);
   }
@@ -23,7 +27,6 @@ const bootstrap = () => {
 
 export const Quiq = (options: {[string]: any}) => {
   setQuiqOptions(buildQuiqObject(options));
-
   // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
   clearQuiqKeysFromLocalStorage();
 

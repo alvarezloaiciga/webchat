@@ -10,6 +10,9 @@ const quiqOptions: QuiqObject = {
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
+  isStorageEnabled: true,
+  isSupportedBrowser: true,
+  isMobile: false,
   colors: {
     primary: '#333',
     agentMessageText: '#fff',

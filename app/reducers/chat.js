@@ -26,6 +26,7 @@ export const initialState = {
 const chat = (state: ChatState, action: Action & ChatAction) => {
   switch (action.type) {
     case 'CHAT_CONTAINER_HIDDEN':
+      console.log(action.chatContainerHidden);
       return Object.assign({}, state, {
         chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
       });

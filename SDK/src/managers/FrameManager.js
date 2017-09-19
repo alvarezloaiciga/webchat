@@ -5,6 +5,7 @@ import {setup as setupMessenger, registerEventHandler, tellChat} from '../Postma
 import ToggleChatButton from '../styles/ToggleChatButton';
 import {getQuiqOptions, setChatWindow, getChatWindow} from '../Globals';
 import {isIFrame, getCalcStyle} from 'Common/Utils';
+import {usingCustomLauncher} from 'Common/QuiqOptions';
 
 let standaloneWindowTimer;
 
@@ -19,17 +20,17 @@ export const buildChatIFrame = () => {
   };
 
   // Determine actual bottom of iframe based on whether or not we have a custom launch button
-  const launchButtonHeight = quiqOptions.customLaunchButtons && quiqOptions.customLaunchButtons.length
+  const launchButtonHeight = usingCustomLauncher()
     ? '0px'
     : (quiqOptions.styles.ToggleChatButton && quiqOptions.styles.ToggleChatButton.height) ||
-    ToggleChatButton.height;
+      ToggleChatButton.height;
 
   // If chat frame doesn't yet exist, build it and append to body
   if (!document.querySelector(`#${quiqChatFrameId}`)) {
     const quiqChatFrame = document.createElement('iframe');
     quiqChatFrame.id = quiqChatFrameId;
     quiqChatFrame.src = `${quiqOptions.host}/${webchatPath}`;
-    quiqChatFrame.height = "0"; // onAgentAvailabilityChange will set to proper height
+    quiqChatFrame.height = '0'; // onAgentAvailabilityChange will set to proper height
     quiqChatFrame.width = quiqOptions.width.toString();
     quiqChatFrame.style.position = 'fixed';
     quiqChatFrame.style.bottom = getCalcStyle(launchButtonHeight, framePosition.bottom, '+');
@@ -39,10 +40,7 @@ export const buildChatIFrame = () => {
     quiqChatFrame.style.border = 'none';
     quiqChatFrame.onload = () => {
       handleWindowChange(quiqChatFrame);
-      quiqChatFrame.contentWindow.postMessage(
-        {quiqOptions, name: 'handshake'},
-        quiqOptions.host,
-      );
+      quiqChatFrame.contentWindow.postMessage({quiqOptions, name: 'handshake'}, quiqOptions.host);
     };
     document.body && document.body.appendChild(quiqChatFrame);
   } else {
@@ -113,8 +111,7 @@ const handleStandaloneOpen = (data: {localStorageKeys: ?{[string]: any}}) => {
       if (standaloneWindowTimer) clearInterval(standaloneWindowTimer);
       standaloneWindowTimer = undefined;
       const chatFrame = ((document.getElementById(quiqChatFrameId): any): HTMLIFrameElement);
-      if (!chatFrame)
-        return;
+      if (!chatFrame) return;
       handleWindowChange(chatFrame);
       chatFrame.height = quiqOptions.height.toString();
       tellChat(actionTypes.setChatVisibility, {visible: true});

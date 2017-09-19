@@ -4,7 +4,6 @@ import React from 'react';
 import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {connect} from 'react-redux';
-import {isMobile} from 'Common/Utils';
 import type {ChatState} from 'Common/types';
 import './styles/ToggleChatButton.scss';
 
@@ -13,7 +12,7 @@ export type ToggleChatButtonProps = {
   chatContainerHidden: boolean,
 };
 
-const {colors, styles} = quiqOptions;
+const {colors, styles, isMobile} = quiqOptions;
 
 export const ToggleChatButton = ({toggleChat, chatContainerHidden}: ToggleChatButtonProps) => {
   const buttonStyle = getStyle(styles.ToggleChatButton, {backgroundColor: colors.primary});
@@ -21,7 +20,7 @@ export const ToggleChatButton = ({toggleChat, chatContainerHidden}: ToggleChatBu
 
   return (
     <button style={buttonStyle} onClick={toggleChat} className="ToggleChatButton">
-      {!chatContainerHidden && !isMobile() ? (
+      {!chatContainerHidden && !isMobile ? (
         <svg
           style={iconStyle}
           xmlns="http://www.w3.org/2000/svg"

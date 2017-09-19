@@ -2,6 +2,7 @@
 import React from 'react';
 import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
 import {inStandaloneMode} from 'Common/Utils';
+import {usingCustomLauncher} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -100,13 +101,13 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   };
 
   render() {
-    if (this.props.chatContainerHidden) return null;
+    const {position, isSupportedBrowser, isStorageEnabled} = quiqOptions;
 
-    const {position} = quiqOptions;
+    if (this.props.chatContainerHidden || !isSupportedBrowser || !isStorageEnabled) return null;
 
     const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && quiqOptions.customLaunchButtons.length > 0,
+      hasCustomLauncher: !inStandaloneMode() && usingCustomLauncher(),
     });
 
     if (

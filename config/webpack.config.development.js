@@ -54,7 +54,11 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
+        include: [
+          path.resolve(__dirname, '../app'),
+          path.resolve(__dirname, '../app/components'),
+          path.resolve(__dirname, '../SDK/components'),
+        ],
         loaders: [
           {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
           {loader: 'css', query: {sourceMap: true, sourceMapContents: true}},

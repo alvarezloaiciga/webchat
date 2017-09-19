@@ -98,7 +98,11 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
+        include: [
+          path.resolve(__dirname, '../app'),
+          path.resolve(__dirname, '../app/components'),
+          path.resolve(__dirname, '../app/SDK/components'),
+        ],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style',
           loader: [

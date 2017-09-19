@@ -3,6 +3,7 @@ import {constructApp} from 'utils/domUtils';
 import quiqOptions from '../Common/QuiqOptions';
 import QuiqChatClient from 'quiq-chat';
 import {configureStore} from 'store/configureStore';
+import {quiqContainerId} from 'Common/Constants';
 import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
 
@@ -17,7 +18,7 @@ const init = () => {
   initMalfunctionJunction(quiqOptions.clientDomain, store);
 
   const root = document.createElement('div');
-  root.id = 'quiqWebChat'; // If for some reason you change this, make sure you update the webpack config to match it!
+  root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
   constructApp(store);
