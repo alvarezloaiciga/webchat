@@ -23,7 +23,12 @@ module.exports = merge(config, {
   cache: true,
   devtool: 'eval',
   entry: {
-    webchat: ['babel-polyfill', 'react-hot-loader/patch', 'development'],
+    webchat: [
+      'webpack-hot-middleware/client',
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      'development',
+    ],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
