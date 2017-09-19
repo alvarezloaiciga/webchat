@@ -101,7 +101,7 @@ module.exports = merge(config, {
         include: [
           path.resolve(__dirname, '../app'),
           path.resolve(__dirname, '../app/components'),
-          path.resolve(__dirname, '../app/SDK/components'),
+          path.resolve(__dirname, '../SDK/src/components'),
         ],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style',

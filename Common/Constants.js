@@ -10,8 +10,6 @@ export const SupportedWebchatUrls = [
   'centricient.dev:41014/app/webchat',
 ];
 
-export const quiqChatFrameId = 'quiqChatFrame';
-
 // Default launch button classes and id's
 export const noAgentsAvailableClass = 'noAgentsAvailable';
 export const mobileClass = 'mobile';

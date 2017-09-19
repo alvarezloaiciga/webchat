@@ -57,7 +57,7 @@ module.exports = merge(config, {
         include: [
           path.resolve(__dirname, '../app'),
           path.resolve(__dirname, '../app/components'),
-          path.resolve(__dirname, '../SDK/components'),
+          path.resolve(__dirname, '../SDK/src/components'),
         ],
         loaders: [
           {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},

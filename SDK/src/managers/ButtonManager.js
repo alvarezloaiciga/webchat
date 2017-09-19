@@ -13,14 +13,10 @@ import {
   storageDisabledClass,
   hasMobileNumberClass,
 } from 'Common/Constants';
-import {constructDefaultLauncher} from '../../components/Launcher';
 
-export const setupButtons = () => {
-  if (!usingCustomLauncher()) constructDefaultLauncher();
-  else bindLaunchButtons();
-};
+export const bindLaunchButtons = () => {
+  if (!usingCustomLauncher()) return;
 
-const bindLaunchButtons = () => {
   const {
     isMobile,
     isStorageEnabled,
@@ -29,7 +25,7 @@ const bindLaunchButtons = () => {
     mobileNumber,
   } = getQuiqOptions();
 
-  getQuiqOptions().customLaunchButtons.forEach((selector: string) => {
+  customLaunchButtons.forEach((selector: string) => {
     const ele = document.querySelector(selector);
     if (!ele) return displayWarning('Unable to bind launch button');
     ele.addEventListener('click', handleLaunchButtonClick);

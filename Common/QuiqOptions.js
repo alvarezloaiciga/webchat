@@ -22,6 +22,15 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const isStorageEnabled = QuiqChatClient.isStorageEnabled();
   const isMobile = !!getDeviceType();
 
+  let host = rawQuiqObject.host;
+  if (host) {
+    if (host.endsWith('/')) {
+      host = host.slice(0, -1);
+    }
+  } else {
+    host = getWebchatHostFromScriptTag();
+  }
+
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
@@ -46,17 +55,12 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       rawQuiqObject.colors,
     ),
     styles: rawQuiqObject.styles || {},
-    position: rawQuiqObject.position || {
-      bottom: '24px',
-      right: '24px',
-      top: 'inherit',
-      left: 'inherit',
-    },
+    position: rawQuiqObject.position || {},
     isSupportedBrowser: QuiqChatClient.isSupportedBrowser(),
     isStorageEnabled,
     isMobile,
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
-    host: rawQuiqObject.host || getWebchatHostFromScriptTag(),
+    host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
     href: window.location.href, // Standalone uses this to determine original host URL for welcome form
     debug: rawQuiqObject.debug || false,

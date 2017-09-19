@@ -1,28 +1,40 @@
 // @flow
 
 import 'babel-polyfill';
-import {
-  camelizeToplevelScreamingSnakeCaseKeys,
-  displayError,
-  clearQuiqKeysFromLocalStorage,
-} from 'Common/Utils';
+import {camelizeToplevelScreamingSnakeCaseKeys, clearQuiqKeysFromLocalStorage} from 'Common/Utils';
+import ReactDOM, {render} from 'react-dom';
+import React from 'react';
 import {buildQuiqObject} from 'Common/QuiqOptions';
-import {buildChatIFrame} from 'managers/FrameManager';
-import {setupButtons} from 'managers/ButtonManager';
-import {setQuiqOptions, getQuiqOptions} from './Globals';
+import {quiqContainerId} from 'Common/Constants';
+import {bindLaunchButtons} from 'managers/ButtonManager';
+import {setQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
-import QuiqChatClient from 'quiq-chat';
+import SDKLauncher from './components/SDKLauncher';
+
+export const destructLauncher = () => {
+  ReactDOM.unmountComponentAtNode(document.getElementById(quiqContainerId));
+};
+
+const constructLauncher = () => {
+  const root = document.createElement('div');
+  root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
+  document.getElementsByTagName('body')[0].appendChild(root);
+
+  render(<SDKLauncher />, document.getElementById(quiqContainerId));
+
+  // Hot Module Replacement API
+  if (module.hot) {
+    // $FlowIssue
+    module.hot.accept('./components/SDKLauncher', () => {
+      const NextSDKLauncher = require('./components/SDKLauncher').default; // eslint-disable-line global-require
+      ReactDOM.render(<NextSDKLauncher />, document.getElementById(quiqContainerId));
+    });
+  }
+};
 
 const bootstrap = () => {
-  try {
-    // Setup Launcher even for unsupported browsers and no storage so we can add the css class to custom launchers
-    setupButtons();
-
-    if (!getQuiqOptions().isStorageEnabled || !getQuiqOptions().isSupportedBrowser) return;
-    buildChatIFrame();
-  } catch (e) {
-    displayError(`Quiq: error bootstrapping webchat: ${e}`);
-  }
+  constructLauncher();
+  bindLaunchButtons();
 };
 
 export const Quiq = (options: {[string]: any}) => {

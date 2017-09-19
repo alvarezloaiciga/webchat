@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
-import {getQuiqOptions} from '../src/Globals';
+import {getQuiqOptions} from 'Globals';
 import {getStyle} from 'Common/QuiqOptions';
 
 export type ChatBubbleIconProps = {
   visible: boolean,
 };
 
-const ChatBubbleIcon = ({style, visible}: ChatBubbleIconProps) => (
+const ChatBubbleIcon = ({visible}: ChatBubbleIconProps) => (
   <svg
     style={getStyle(getQuiqOptions().styles.ToggleChatButtonIcon)}
     xmlns="http://www.w3.org/2000/svg"

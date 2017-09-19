@@ -12,7 +12,6 @@ export default {
     if (!isIFrame(getChatWindow())) {
       return getChatWindow().focus();
     }
-    console.log('2');
     Postmaster.tellChat(actionTypes.setChatVisibility, {visible});
   },
 

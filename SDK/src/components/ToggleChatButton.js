@@ -3,10 +3,9 @@ import React from 'react';
 import {eventTypes} from 'Common/Constants';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {getStyle, usingCustomLauncher} from 'Common/QuiqOptions';
-import {getQuiqOptions} from '../src/Globals';
-import * as Postmaster from '../src/Postmaster';
-import {handleLaunchButtonClick} from '../src/managers/ButtonManager';
-import classnames from 'classnames';
+import {getQuiqOptions} from 'Globals';
+import * as Postmaster from 'Postmaster';
+import {handleLaunchButtonClick} from 'managers/ButtonManager';
 import './styles/ToggleChatButton.scss';
 
 export type ToggleChatButtonProps = {};

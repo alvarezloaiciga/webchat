@@ -195,4 +195,6 @@ export const getMessage = (messageName: string): string => {
   return getDisplayString(message);
 };
 
+export const usingCustomLauncher = () => quiqOptions.customLaunchButtons.length > 0;
+
 export default quiqOptions;
