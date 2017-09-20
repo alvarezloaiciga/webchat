@@ -1,5 +1,6 @@
 // @flow
-import React from 'react';
+/** @jsx h */
+import {Component, h} from 'preact';
 import {eventTypes} from 'Common/Constants';
 import ChatBubbleIcon from './ChatBubbleIcon';
 import {getStyle, usingCustomLauncher} from 'Common/QuiqOptions';
@@ -13,10 +14,7 @@ type ToggleChatButtonState = {
   launcherVisible: boolean,
   containerVisible: boolean,
 };
-export class ToggleChatButton extends React.Component<
-  ToggleChatButtonProps,
-  ToggleChatButtonState,
-> {
+export class ToggleChatButton extends Component<ToggleChatButtonProps, ToggleChatButtonState> {
   props: ToggleChatButtonProps;
   state: ToggleChatButtonState = {
     launcherVisible: false,

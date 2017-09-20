@@ -1,5 +1,6 @@
 // @flow
-import React from 'react';
+/** @jsx h */
+import {h} from 'preact';
 import ToggleChatButton from './ToggleChatButton';
 import SDKChatContainer from './SDKChatContainer';
 import {usingCustomLauncher} from 'Common/QuiqOptions';

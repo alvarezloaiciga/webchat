@@ -1,19 +1,14 @@
 // @flow
-
+/** @jsx h */
 import 'babel-polyfill';
 import {camelizeToplevelScreamingSnakeCaseKeys, clearQuiqKeysFromLocalStorage} from 'Common/Utils';
-import ReactDOM, {render} from 'react-dom';
-import React from 'react';
+import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
 import {quiqContainerId} from 'Common/Constants';
 import {bindLaunchButtons} from 'managers/ButtonManager';
 import {setQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
 import SDKLauncher from './components/SDKLauncher';
-
-export const destructLauncher = () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById(quiqContainerId));
-};
 
 const constructLauncher = () => {
   const root = document.createElement('div');
@@ -27,7 +22,7 @@ const constructLauncher = () => {
     // $FlowIssue
     module.hot.accept('./components/SDKLauncher', () => {
       const NextSDKLauncher = require('./components/SDKLauncher').default; // eslint-disable-line global-require
-      ReactDOM.render(<NextSDKLauncher />, document.getElementById(quiqContainerId));
+      render(<NextSDKLauncher />, document.getElementById(quiqContainerId));
     });
   }
 };
