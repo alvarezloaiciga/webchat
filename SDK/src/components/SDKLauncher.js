@@ -3,11 +3,11 @@
 import {h} from 'preact';
 import ToggleChatButton from './ToggleChatButton';
 import SDKChatContainer from './SDKChatContainer';
-import {usingCustomLauncher} from 'Common/QuiqOptions';
+import {getQuiqOptions} from 'Globals';
 
 const SDKLauncher = () => (
   <div>
-    {!usingCustomLauncher() && <ToggleChatButton />}
+    {getQuiqOptions().customLaunchButtons.length === 0 && <ToggleChatButton />}
     <SDKChatContainer />
   </div>
 );

@@ -10,9 +10,6 @@ const quiqOptions: QuiqObject = {
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
-  isStorageEnabled: true,
-  isSupportedBrowser: true,
-  isMobile: false,
   colors: {
     primary: '#333',
     agentMessageText: '#fff',
@@ -194,7 +191,5 @@ export const getMessage = (messageName: string): string => {
 
   return getDisplayString(message);
 };
-
-export const usingCustomLauncher = () => quiqOptions.customLaunchButtons.length > 0;
 
 export default quiqOptions;

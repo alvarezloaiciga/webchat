@@ -35,4 +35,6 @@ export const supportsSVG = () => true;
 export const displayError = (error: string) => error;
 export const inStandaloneMode = jest.fn(() => false);
 export const isMobile = jest.fn(() => false);
+export const isStorageEnabled = jest.fn(() => true);
+export const isSupportedBrowser = jest.fn(() => true);
 export const buildTemplateString = (s: string) => s;

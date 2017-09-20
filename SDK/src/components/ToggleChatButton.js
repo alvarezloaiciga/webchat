@@ -3,7 +3,8 @@
 import {Component, h} from 'preact';
 import {eventTypes} from 'Common/Constants';
 import ChatBubbleIcon from './ChatBubbleIcon';
-import {getStyle, usingCustomLauncher} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
+import {isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import {getQuiqOptions} from 'Globals';
 import * as Postmaster from 'Postmaster';
 import {handleLaunchButtonClick} from 'managers/ButtonManager';
@@ -40,15 +41,16 @@ export class ToggleChatButton extends Component<ToggleChatButtonProps, ToggleCha
 
   handleChatVisibilityChange = (e: {visible: boolean}) =>
     this.setState({containerVisible: e.visible});
+
   handleLaunchButtonVisibilityChange = (e: {visible: boolean}) =>
     this.setState({launcherVisible: e.visible});
 
   render() {
-    const {colors, styles, isStorageEnabled, isSupportedBrowser} = getQuiqOptions();
+    const {colors, styles, customLaunchButtons} = getQuiqOptions();
     if (
-      !isStorageEnabled ||
-      !isSupportedBrowser ||
-      usingCustomLauncher() ||
+      !isStorageEnabled() ||
+      !isSupportedBrowser() ||
+      customLaunchButtons.length > 0 ||
       !this.state.launcherVisible
     )
       return null;

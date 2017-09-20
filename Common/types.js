@@ -49,9 +49,6 @@ export type QuiqObject = {
   contactPoint: string,
   host: string,
   clientDomain: string,
-  isStorageEnabled: boolean,
-  isSupportedBrowser: boolean,
-  isMobile: boolean,
   localStorageKeys: {[string]: any},
   color: string, // Deprecated in favor of COLORS.primary
   colors: {

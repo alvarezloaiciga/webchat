@@ -7,21 +7,16 @@ import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
-  getDeviceType,
+  isStorageEnabled,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
-import QuiqChatClient from 'quiq-chat';
-import {getQuiqOptions as getQuiqOptionsFromSDK} from '../SDK/src/Globals';
 
 const reservedKeyNames = ['Referrer'];
 
 // This should be called from the client site, by the SDK.
 // If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
-  const isStorageEnabled = QuiqChatClient.isStorageEnabled();
-  const isMobile = !!getDeviceType();
-
   let host = rawQuiqObject.host;
   if (host) {
     if (host.endsWith('/')) {
@@ -38,7 +33,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     // Transfer Quiq keys from this site's localStorage to iframe's local storage
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled ? getQuiqKeysFromLocalStorage() : {}),
+      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage() : {}),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -56,9 +51,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     ),
     styles: rawQuiqObject.styles || {},
     position: rawQuiqObject.position || {},
-    isSupportedBrowser: QuiqChatClient.isSupportedBrowser(),
-    isStorageEnabled,
-    isMobile,
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
     host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
@@ -226,12 +218,6 @@ export const getMessage = (messageName: string): string => {
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
-};
-
-export const usingCustomLauncher = () => {
-  // Check SDK for options first since we may be calling this before Webchat has been bootstrapped
-  const options = getQuiqOptionsFromSDK() || quiqOptions;
-  return options.customLaunchButtons.length > 0;
 };
 
 export default quiqOptions;

@@ -1,8 +1,13 @@
 // @flow
 
 import {getQuiqOptions, getChatWindow} from '../Globals';
-import {displayWarning, isIFrame} from 'Common/Utils';
-import {usingCustomLauncher} from 'Common/QuiqOptions';
+import {
+  displayWarning,
+  isIFrame,
+  isMobile,
+  isStorageEnabled,
+  isSupportedBrowser,
+} from 'Common/Utils';
 import * as Postmaster from '../Postmaster';
 import {
   actionTypes,
@@ -15,15 +20,7 @@ import {
 } from 'Common/Constants';
 
 export const bindLaunchButtons = () => {
-  if (!usingCustomLauncher()) return;
-
-  const {
-    isMobile,
-    isStorageEnabled,
-    isSupportedBrowser,
-    customLaunchButtons,
-    mobileNumber,
-  } = getQuiqOptions();
+  const {customLaunchButtons, mobileNumber} = getQuiqOptions();
 
   customLaunchButtons.forEach((selector: string) => {
     const ele = document.querySelector(selector);
@@ -33,16 +30,16 @@ export const bindLaunchButtons = () => {
 
   // Add noAgentsAvailable class initially, will be removed when agents are determined to be available
   toggleClassOnCustomLaunchers(noAgentsAvailableClass, true);
-  toggleClassOnCustomLaunchers(mobileClass, isMobile);
-  toggleClassOnCustomLaunchers(unsupportedBrowserClass, !isSupportedBrowser);
-  toggleClassOnCustomLaunchers(storageDisabledClass, !isStorageEnabled);
+  toggleClassOnCustomLaunchers(mobileClass, isMobile());
+  toggleClassOnCustomLaunchers(unsupportedBrowserClass, !isSupportedBrowser());
+  toggleClassOnCustomLaunchers(storageDisabledClass, !isStorageEnabled());
   toggleClassOnCustomLaunchers(hasMobileNumberClass, !!mobileNumber);
 };
 
 export const handleLaunchButtonClick = async () => {
   const quiqOptions = getQuiqOptions();
   // If we're on mobile, don't show chat. Open SMS app if mobileNumber is defined.
-  if (quiqOptions.isMobile) {
+  if (isMobile()) {
     if (quiqOptions.mobileNumber) window.location = `sms:${quiqOptions.mobileNumber}`;
     return;
   }
