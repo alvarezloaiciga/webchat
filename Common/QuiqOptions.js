@@ -6,7 +6,7 @@ import {
   setLocalStorageItemsIfNewer,
   getWebchatHostFromScriptTag,
   getWindowDomain,
-  getQuiqKeysFromLocalStorage,
+  getQuiqKeysFromLocalStorageForContactPoint,
   isStorageEnabled,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
@@ -28,12 +28,13 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
 
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
+  const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
-    contactPoint: rawQuiqObject.contactPoint || 'default',
+    contactPoint,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage() : {}),
+      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorageForContactPoint(contactPoint) : {}),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},

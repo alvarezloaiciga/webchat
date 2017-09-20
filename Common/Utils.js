@@ -116,13 +116,13 @@ export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor(
 // It kind of does, at least for what we need it for... so go ahead and ignore QuiqModernizr in that case
 export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqModernizr.flexwrap);
 export const supportsSVG = () =>
-  QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
+QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
-export const displayError = (error: string, values: {[string]: string} = {}) => {
+export const displayError = (error: string, values: { [string]: string } = {}) => {
   throw new Error(buildTemplateString(error, values));
 };
 
-export const displayWarning = (error: string, values: {[string]: string} = {}) => {
+export const displayWarning = (error: string, values: { [string]: string } = {}) => {
   console.warn(buildTemplateString(error, values));
 };
 
@@ -164,26 +164,30 @@ export const inNonProductionCluster = () =>
   );
 
 export const inLocalDevelopment = () =>
-  __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
+__DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
 
-export const getQuiqKeysFromLocalStorage = (): {[string]: any} => {
+export const getQuiqKeysFromLocalStorageForContactPoint = (contactPoint: string): { [string]: any } => {
   try {
     if (!localStorage) return {};
-    const quiqKeys = {};
-    localStorageKeys.forEach(k => {
-      const v = localStorage.getItem(k);
-      if (v !== null && v !== undefined) {
-        quiqKeys[k] = v;
-      }
+    const ls = {};
+    const allKeys = localStorageKeys.flatMap(k => [
+      `${k}_${contactPoint}`,
+      `__storejs_expire_mixin_${k}_${contactPoint}`,
+      `__storejs_modified_timestamp_mixin_${k}_${contactPoint}`
+    ]);
+
+    allKeys.forEach(k => {
+      const value = localStorage.getItem(k);
+      if (value) ls[k] = value;
     });
 
-    return quiqKeys;
+    return ls;
   } catch (e) {
     return {}; // localStorage Disabled. Pass it through until we can display
   }
 };
 
-export const setLocalStorageItemsIfNewer = (data: {[string]: any}) => {
+export const setLocalStorageItemsIfNewer = (data: { [string]: any }) => {
   if (!localStorage) return;
 
   Object.keys(data).forEach(k => {
@@ -219,11 +223,12 @@ export const clearQuiqKeysFromLocalStorage = () => {
     localStorageKeys.forEach(k => {
       localStorage.removeItem(k);
     });
-  } catch (e) {} // eslint-disable-line no-empty
+  } catch (e) {
+  } // eslint-disable-line no-empty
 };
 
 // From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement
-export const buildTemplateString = (s: string, values: {[string]: any}): string => {
+export const buildTemplateString = (s: string, values: { [string]: any }): string => {
   return s.replace(/{(\w*)}/g, (m: string, key: string) => {
     return values.hasOwnProperty(key) ? values[key].toString() : '';
   });
