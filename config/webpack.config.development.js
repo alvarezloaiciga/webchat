@@ -23,7 +23,12 @@ module.exports = merge(config, {
   cache: true,
   devtool: 'eval',
   entry: {
-    webchat: ['babel-polyfill', 'react-hot-loader/patch', 'development'],
+    webchat: [
+      'babel-polyfill',
+      'webpack-hot-middleware/client',
+      'react-hot-loader/patch',
+      'development',
+    ],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
@@ -54,7 +59,11 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
+        include: [
+          path.resolve(__dirname, '../app'),
+          path.resolve(__dirname, '../app/components'),
+          path.resolve(__dirname, '../SDK/src/components'),
+        ],
         loaders: [
           {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
           {loader: 'css', query: {sourceMap: true, sourceMapContents: true}},

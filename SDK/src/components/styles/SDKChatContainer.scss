@@ -1,0 +1,12 @@
+.SDKChatContainer {
+  position: fixed;
+  border: none;
+  bottom: 90px;
+  right: 24px;
+  top: inherit;
+  left: inherit;
+
+  &.hasCustomLauncher {
+    bottom: 24px;
+  }
+}

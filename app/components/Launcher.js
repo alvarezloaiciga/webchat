@@ -7,7 +7,7 @@ import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import {isMobile, inStandaloneMode} from 'Common/Utils';
+import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -206,7 +206,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   handleAutoPop = () => {
-    if (!isMobile() && typeof quiqOptions.autoPopTime === 'number') {
+    if (!quiqOptions.isMobile && typeof quiqOptions.autoPopTime === 'number') {
       this.autoPopTimeout = setTimeout(async () => {
         if (!await this.updateLauncherState()) return;
         await this.startSession();

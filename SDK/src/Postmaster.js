@@ -1,5 +1,4 @@
 // @flow
-
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
 import {displayError, displayWarning, isIFrame, getBrowserName} from 'Common/Utils';

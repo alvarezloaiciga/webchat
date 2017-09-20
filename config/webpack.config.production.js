@@ -110,6 +110,17 @@ module.exports = merge(config, {
         }),
       },
       {
+        test: /\.scss$/,
+        include: [path.resolve(__dirname, '../SDK/src/components')],
+        loader: [
+          'style',
+          {loader: 'css', query: {sourceMap: true}},
+          'postcss',
+          {loader: 'namespace-css', query: '#quiqWebChat'},
+          {loader: 'sass', query: {outputStyle: 'compressed'}},
+        ],
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url',
         query: {

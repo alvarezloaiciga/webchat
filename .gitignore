@@ -6,3 +6,4 @@ dist
 build
 *.log*
 npm-debug.log
+temp_docker

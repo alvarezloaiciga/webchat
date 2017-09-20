@@ -82,7 +82,10 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     stats: {
       colors: true
     },
+    historyApiFallback: true
   }));
+
+  webchatApp.use(webpackHotMiddleware(compiler));
   webchatApp.use('/assets', express.static('assets'));
   webchatApp.set('view engine', 'ejs');
 

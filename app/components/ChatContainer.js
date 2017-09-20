@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
-import {inStandaloneMode} from 'Common/Utils';
+import {inStandaloneMode, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -100,9 +100,7 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   };
 
   render() {
-    if (this.props.chatContainerHidden) return null;
-
-    const {position} = quiqOptions;
+    if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
     const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
@@ -115,20 +113,14 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
       !QuiqChatClient.isRegistered()
     ) {
       return (
-        <div
-          className={classNames}
-          style={{width: quiqOptions.width, maxHeight: quiqOptions.height, ...position}}
-        >
+        <div className={classNames}>
           <WelcomeForm />
         </div>
       );
     }
 
     return (
-      <div
-        className={classNames}
-        style={{width: quiqOptions.width, maxHeight: quiqOptions.height, ...position}}
-      >
+      <div className={classNames}>
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />

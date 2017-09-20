@@ -21,7 +21,8 @@ function handleMessage(event) {
     : document.location.href;
   var originMatches = event.origin.indexOf(parentUrl) !== -1 || parentUrl.indexOf(event.origin) !== -1;
   var isHandshake = event.data.name && event.data.name === 'handshake';
-  var containsQuiqObject = event.data && "quiqOptions" in event.data;
+
+  var containsQuiqObject = event.data && typeof event.data === 'object' && "quiqOptions" in event.data;
   if (originMatches && isHandshake && containsQuiqObject) {
     bootstrap(event.data.quiqOptions);
   }
