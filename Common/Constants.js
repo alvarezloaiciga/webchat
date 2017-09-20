@@ -54,6 +54,7 @@ export const EventTypes = {
   LEAVE: 'Leave',
   REGISTER: 'Register',
   AGENT_TYPING: 'AgentTyping',
+  AGENT_ENDED_CONVERSATION: 'AgentEndedConversation',
 };
 
 export const ChatInitializedState = {
@@ -77,6 +78,7 @@ export const messageTypes = {
   connectingMessage: 'connectingMessage',
   reconnectingMessage: 'reconnectingMessage',
   agentTypingMessage: 'agentTypingMessage',
+  agentEndedConversationMessage: 'agentEndedConversationMessage',
   errorMessage: 'errorMessage',
   inactiveMessage: 'inactiveMessage',
   requiredFieldAriaLabel: 'requiredFieldAriaLabel',

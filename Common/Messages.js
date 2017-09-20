@@ -37,6 +37,11 @@ export default defineMessages({
     description: 'Message to display when the agent is typing',
     defaultMessage: 'Agent is typing',
   },
+  agentEndedConversation: {
+    id: 'agentEndedConversation',
+    description: 'Message to display when the agent ends conversation',
+    defaultMessage: 'Agent ended conversation.',
+  },
   required: {
     id: 'required',
     description: 'Required',

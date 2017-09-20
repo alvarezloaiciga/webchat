@@ -24,6 +24,7 @@ describe('MessageForm component', () => {
     render = () => {
       testProps = {
         agentTyping: false,
+        agentEndedConversation: false,
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

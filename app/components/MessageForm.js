@@ -15,6 +15,7 @@ const {colors, fontFamily, styles} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
+  agentEndedConversation: boolean,
 };
 
 type MessageFormState = {
@@ -85,11 +86,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const sendDisabled = this.state.text.trim() === '';
     const compatMode = compatibilityMode();
 
-    const inputStyle = getStyle(styles.MessageFormInput, {fontFamily: fontFamily});
+    const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
       opacity: sendDisabled ? '.5' : '1',
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     return (
@@ -98,9 +99,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           <div className="poke">
             {this.props.agentTyping && (
               <div className="pokeBody">
-                <span style={{fontFamily: fontFamily}}>
-                  {getMessage(messageTypes.agentTypingMessage)}
-                </span>
+                <span style={{fontFamily}}>{getMessage(messageTypes.agentTypingMessage)}</span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
               </div>
             )}
@@ -133,6 +132,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             {getMessage(messageTypes.sendButtonLabel)}
           </button>
         </div>
+        {this.props.agentEndedConversation && (
+          <span className="Message">{getMessage(messageTypes.agentEndedConversationMessage)}</span>
+        )}
       </div>
     );
   }
@@ -140,4 +142,5 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
 export default connect((state: ChatState) => ({
   agentTyping: state.agentTyping,
+  agentEndedConversation: state.agentEndedConversation,
 }))(MessageForm);
