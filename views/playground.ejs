@@ -48,89 +48,89 @@
     customerMessageText: 'yellow',
     customerMessageLinkText: 'yellow',
     customerMessageBackground: '#2199e8',
-    transcriptBackground: '#f4f4f8'
+    transcriptBackground: '#f4f4f8',
   },
   fontFamily: 'Raleway',
   styles: {
     HeaderMenu: {
-      background: '#31bf8b'
+      background: '#31bf8b',
     },
     HeaderBanner: {
       background: '#31bf8b',
       fontFamily: 'Source Sans Pro',
       fontSize: 16,
       fontWeight: 500,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
     },
     ErrorBanner: {
       background: '#fff',
       color: 'red',
       fontFamily: 'Source Sans Pro',
       textTransform: 'uppercase',
-      fontWeight: 700
+      fontWeight: 700,
     },
     ToggleChatButton: {
-      background: 'teal'
+      background: 'teal',
     },
     ToggleChatButtonIcon: {
-      opacity: 0.75
+      opacity: 0.75,
     },
     CustomerMessageBubble: {
-      background: '#68b588'
+      background: '#68b588',
     },
     CustomerMessageText: {
       color: '#fff',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     AgentMessageBubble: {
       background: '#fff',
-      border: '1px solid #e0e0e0'
+      border: '1px solid #e0e0e0',
     },
     AgentMessageText: {
       color: '#555',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     MessageForm: {
       boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
-      zIndex: 1
+      zIndex: 1,
     },
     MessageFormInput: {
       color: '#68b588',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     MessageFormSend: {
       color: '#68b588',
       textTransform: 'uppercase',
       fontFamily: 'Source Sans Pro',
-      fontSize: 16
+      fontSize: 16,
     },
     WelcomeFormField: {
-      marginTop: 16
+      marginTop: 16,
     },
     WelcomeFormFieldLabel: {
       color: '#555',
       fontWeight: 700,
       textTransform: 'uppercase',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     WelcomeFormFieldInput: {
       outline: 'none',
       color: '#555',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     WelcomeFormFieldTextarea: {
       outline: 'none',
       color: '#888',
-      fontFamily: 'Source Sans Pro'
+      fontFamily: 'Source Sans Pro',
     },
     WelcomeFormSubmitButton: {
       background: 'teal',
       fontWeight: 700,
       fontFamily: 'Source Sans Pro',
-      fontSize: 16
-    }
+      fontSize: 16,
+    },
   },
-  //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
+  // customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
   welcomeForm: {
     headerText:
       'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
@@ -139,13 +139,13 @@
         type: 'text',
         label: 'First Name',
         id: 'firstName',
-        required: true
+        required: true,
       },
       {
         type: 'text',
         label: 'Last Name',
         id: 'lastName',
-        required: false
+        required: false,
       },
       {
         type: 'textarea',
@@ -153,29 +153,29 @@
         id: 'initialQuestion',
         required: false,
         rows: 2,
-        isInitialMessage: true
+        isInitialMessage: true,
       },
       {
         type: 'number',
         label: 'Number Field',
         id: 'numberField',
-        required: false
+        required: false,
       },
 
       {
         type: 'email',
         label: 'E-Mail',
         id: 'email',
-        required: false
+        required: false,
       },
       {
         type: 'tel',
         label: 'Phone Number',
         id: 'phoneNumber',
-        required: false
-      }
-    ]
-  }
+        required: false,
+      },
+    ],
+  },
 };
 // Playground
 var state = {};
@@ -224,20 +224,20 @@ function sendRegistration() {
   var registrationData = [
     {
       id: 'firstName',
-      value: 'Duke'
+      value: 'Duke',
     },
     {
       id: 'lastName',
-      value: 'Nukem'
+      value: 'Nukem',
     },
     {
       id: 'phoneNumber',
-      value: '406-555-5555'
+      value: '406-555-5555',
     },
     {
       id: 'email',
-      value: 'my@email.com'
-    }
+      value: 'my@email.com',
+    },
   ];
 
   chat.sendRegistration(registrationData);

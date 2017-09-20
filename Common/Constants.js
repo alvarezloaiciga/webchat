@@ -10,16 +10,16 @@ export const SupportedWebchatUrls = [
   'centricient.dev:41014/app/webchat',
 ];
 
-export const quiqChatFrameId = 'quiqChatFrame';
-
 // Default launch button classes and id's
 export const noAgentsAvailableClass = 'noAgentsAvailable';
+export const mobileClass = 'mobile';
+export const unsupportedBrowserClass = 'unsupportedBrowser';
+export const storageDisabledClass = 'storageDisabled';
+export const hasMobileNumberClass = 'hasMobileNumber';
+
 export const chatClosedClass = 'ChatClosed';
 export const chatOpenClass = 'ChatOpen';
-export const launchButtonId = 'quiqChatDefaultLaunchButton';
-export const launchButtonIconOpenId = 'quiqToggleChatIconOpen';
-export const launchButtonIconCloseId = 'quiqToggleChatIconClose';
-export const mobileClass = 'mobile';
+export const quiqContainerId = 'quiqWebChat';
 
 export const webchatPath = 'app/webchat/webchat.html';
 export const bridgePath = 'app/webchat/bridge.html';
@@ -30,12 +30,14 @@ export const eventTypes: {[string]: string} = {
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
   agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
-  _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE'
+  _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE',
 };
 
 // Any eventType that does not begin with "_" is exposed on the Quiq object handed to the client.
-export const publicEventTypes = Object.keys(eventTypes)
-  .reduce((acc, k) => Object.assign({}, acc, k.startsWith('_') ? {} : {[k]: eventTypes[k]}), {});
+export const publicEventTypes = Object.keys(eventTypes).reduce(
+  (acc, k) => Object.assign({}, acc, k.startsWith('_') ? {} : {[k]: eventTypes[k]}),
+  {},
+);
 
 export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',

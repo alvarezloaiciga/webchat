@@ -1,19 +1,20 @@
 import ReactDOM, {render} from 'react-dom';
 import React from 'react';
 import Routes from 'Routes';
+import {quiqContainerId} from 'Common/Constants';
 import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import {Provider} from 'react-redux';
 
 export const appIsMounted = (): boolean => {
-  const container = document.getElementById('quiqWebChat');
+  const container = document.getElementById(quiqContainerId);
   if (!container) return false;
   return container.childElementCount > 0;
 };
 
 export const destructApp = () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById('quiqWebChat'));
+  ReactDOM.unmountComponentAtNode(document.getElementById(quiqContainerId));
 };
 
 export const constructApp = store => {
@@ -25,7 +26,7 @@ export const constructApp = store => {
         </AppContainer>
       </IntlProvider>
     </Provider>,
-    document.getElementById('quiqWebChat'),
+    document.getElementById(quiqContainerId),
   );
 
   if (module.hot) {
@@ -40,7 +41,7 @@ export const constructApp = store => {
             </AppContainer>
           </IntlProvider>
         </Provider>,
-        document.getElementById('quiqWebChat'),
+        document.getElementById(quiqContainerId),
       );
     });
   }

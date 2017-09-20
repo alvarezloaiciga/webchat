@@ -7,6 +7,7 @@ import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
+  isStorageEnabled,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
@@ -16,13 +17,23 @@ const reservedKeyNames = ['Referrer'];
 // This should be called from the client site, by the SDK.
 // If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
+  let host = rawQuiqObject.host;
+  if (host) {
+    if (host.endsWith('/')) {
+      host = host.slice(0, -1);
+    }
+  } else {
+    host = getWebchatHostFromScriptTag();
+  }
+
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const quiqOptions = {
     contactPoint: rawQuiqObject.contactPoint || 'default',
     // Transfer Quiq keys from this site's localStorage to iframe's local storage
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
-    localStorageKeys: rawQuiqObject.localStorageKeys || getQuiqKeysFromLocalStorage(),
+    localStorageKeys:
+      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage() : {}),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -39,14 +50,9 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       rawQuiqObject.colors,
     ),
     styles: rawQuiqObject.styles || {},
-    position: rawQuiqObject.position || {
-      bottom: '24px',
-      right: '24px',
-      top: 'inherit',
-      left: 'inherit',
-    },
+    position: rawQuiqObject.position || {},
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
-    host: rawQuiqObject.host || getWebchatHostFromScriptTag(),
+    host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
     href: window.location.href, // Standalone uses this to determine original host URL for welcome form
     debug: rawQuiqObject.debug || false,
@@ -112,7 +118,9 @@ const getQuiqOptions = (): QuiqObject => {
 
     return quiqObject;
   } catch (e) {
-    displayError('Quiq Chat Fatal Error: Local Storage disabled. Unable to continue.');
+    return {
+      localStorageDisabled: true,
+    };
   }
 };
 

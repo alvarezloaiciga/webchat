@@ -1,6 +1,6 @@
 // @flow
 
-export type ReduxStore = {dispatch: (any) => any, getState: () => ChatState};
+export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
@@ -14,7 +14,7 @@ export type WelcomeFormField = {
 export type RegistrationField = {
   id: string,
   value: string,
-}
+};
 
 export type WelcomeForm = {
   headerText: string,
@@ -90,9 +90,9 @@ export type QuiqObject = {
   debug:
     | false
     | {
-    transport?: string,
-    CUSTOM_CSS_URL?: string,
-  },
+        transport?: string,
+        CUSTOM_CSS_URL?: string,
+      },
   welcomeForm?: WelcomeForm,
   href: string,
   fontFamily: string,
@@ -272,7 +272,7 @@ export type BrowserEngine =
   | 'Tasman'
   | 'Trident'
   | 'w3m'
-  | 'WebKit'
+  | 'WebKit';
 
 export type ChatState = {
   chatContainerHidden: boolean,
@@ -294,7 +294,7 @@ export type Action = {
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
-    | 'AGENTS_AVAILABLE'
+    | 'AGENTS_AVAILABLE',
 };
 
 export type ChatInitializedStateType =
