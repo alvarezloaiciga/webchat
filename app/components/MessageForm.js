@@ -121,7 +121,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
+            placeholder={
+              this.props.agentEndedConversation ? (
+                getMessage(messageTypes.agentEndedConversationMessage)
+              ) : (
+                getMessage(messageTypes.messageFieldPlaceholder)
+              )
+            }
           />
           <button
             className="sendBtn"
@@ -132,9 +138,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             {getMessage(messageTypes.sendButtonLabel)}
           </button>
         </div>
-        {this.props.agentEndedConversation && (
-          <span className="Message">{getMessage(messageTypes.agentEndedConversationMessage)}</span>
-        )}
       </div>
     );
   }
