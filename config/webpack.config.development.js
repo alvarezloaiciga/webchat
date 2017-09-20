@@ -21,7 +21,7 @@ module.exports = merge(config, {
   },
   debug: true,
   cache: true,
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: {
     webchat: [
       'babel-polyfill',
