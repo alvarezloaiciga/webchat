@@ -115,6 +115,7 @@ const quiqOptions: QuiqObject = {
     welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
     agentTypingMessage: messages.agentIsTyping,
     agentEndedConversationMessage: messages.agentEndedConversation,
+    agentsNotAvailableMessage: messages.agentsNotAvailable,
     connectingMessage: messages.connecting,
     reconnectingMessage: messages.reconnecting,
     inactiveMessage: messages.clientInactive,

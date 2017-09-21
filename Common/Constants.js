@@ -80,6 +80,7 @@ export const messageTypes = {
   connectingMessage: 'connectingMessage',
   reconnectingMessage: 'reconnectingMessage',
   agentTypingMessage: 'agentTypingMessage',
+  agentsNotAvailableMessage: 'agentsNotAvailableMessage',
   agentEndedConversationMessage: 'agentEndedConversationMessage',
   errorMessage: 'errorMessage',
   inactiveMessage: 'inactiveMessage',

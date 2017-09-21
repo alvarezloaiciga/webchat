@@ -20,6 +20,7 @@ export type MessageFormProps = {
 
 type MessageFormState = {
   text: string,
+  agentsAvailable: boolean,
 };
 
 let updateTimer;
@@ -28,6 +29,23 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   props: MessageFormProps;
   state: MessageFormState = {
     text: '',
+    agentsAvailable: true,
+  };
+  checkAvailabilityPollingTimer: number;
+  checkAvailabilityAfterConversationEndedTimer: number;
+
+  checkAvailabilityPolling = async () => {
+    const available = await QuiqChatClient.checkForAgents();
+
+    this.setState({agentsAvailable: available.available});
+  };
+
+  checkAvailabilityAfterConversationEnded = async () => {
+    const available = await QuiqChatClient.checkForAgents();
+
+    this.setState({agentsAvailable: available.available});
+
+    this.checkAvailabilityPollingTimer = setInterval(this.checkAvailabilityPolling, 6 * 1000);
   };
 
   componentDidMount() {
@@ -36,6 +54,15 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         this.textArea.focus();
       }
     }, 200);
+  }
+
+  componentWillUpdate(nextProps: MessageFormProps) {
+    if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
+      this.checkAvailabilityAfterConversationEndedTimer = setTimeout(
+        this.checkAvailabilityAfterConversationEnded,
+        12 * 1000,
+      );
+    }
   }
 
   startTyping = () => {
@@ -60,8 +87,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
+    clearTimeout(this.checkAvailabilityAfterConversationEndedTimer);
+    clearInterval(this.checkAvailabilityPollingTimer);
+
     const state = Object.assign({
       text: e.target.value,
+      agentsAvailable: true,
     });
 
     this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
@@ -83,7 +114,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
-    const sendDisabled = this.state.text.trim() === '';
+    const sendDisabled = this.state.text.trim() === '' || !this.state.agentsAvailable;
     const compatMode = compatibilityMode();
 
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
@@ -118,12 +149,25 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
+        {(!supportsFlexbox() || !this.state.agentsAvailable) && (
+          <div className="poke">
+            {!this.state.agentsAvailable && (
+              <div className="pokeBody">
+                <span style={{fontFamily}}>
+                  {getMessage(messageTypes.agentsNotAvailableMessage)}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="messageArea">
           <Textarea
             inputRef={n => {
               this.textArea = n;
             }}
             style={inputStyle}
+            disabled={!this.state.agentsAvailable}
             name="message"
             value={this.state.text}
             maxLength={1024}
