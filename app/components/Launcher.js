@@ -30,6 +30,7 @@ export type LauncherProps = {
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
+  setAgentEndedConversation: (ended: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
   newWebchatSession: () => void,
 };
@@ -85,6 +86,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (newState !== this.props.initializedState) {
       this.props.setChatInitialized(newState);
     }
+    if (newState === ChatInitializedState.INITIALIZED) {
+      this.props.setAgentEndedConversation(false);
+    }
   };
 
   handleNewSession = () => {
@@ -95,6 +99,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onNewMessages(this.props.updateTranscript);
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
+    QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
         connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
@@ -112,6 +117,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   init = async () => {
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
+
+    if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
+      QuiqChatClient.setChatVisible(false);
+    }
 
     // Standalone Mode
     // Never show launcher
@@ -133,7 +142,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // User has submitted welcome form or sent message, ChatContainer not visible
     // Show launcher if transcript length > 0
     // Always start session, don't change ChatContainer
-    if (QuiqChatClient.hasTakenMeaningfulAction()) {
+    if (QuiqChatClient.isUserSubscribed()) {
       await this.startSession();
     }
 
@@ -181,6 +190,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }
+  };
+
+  handleAgentEndedConversation = () => {
+    this.props.setAgentEndedConversation(true);
   };
 
   handleAgentTyping = (typing: boolean) => {

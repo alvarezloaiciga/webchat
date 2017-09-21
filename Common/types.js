@@ -78,6 +78,7 @@ export type QuiqObject = {
     welcomeFormSubmitButtonLabel: string,
     welcomeFormSubmittingButtonLabel: string,
     agentTypingMessage: string,
+    agentEndedConversationMessage: string,
     connectingMessage: string,
     reconnectingMessage: string,
     errorMessage: string,
@@ -284,6 +285,7 @@ export type ChatState = {
   transcript: Array<Message>,
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
+  agentEndedConversation: boolean,
 };
 
 export type Action = {
