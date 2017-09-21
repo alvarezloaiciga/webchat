@@ -20,6 +20,7 @@ export const initialState = {
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: [],
   agentTyping: false,
+  agentEndedConversation: false,
   welcomeFormRegistered: !quiqOptions.welcomeForm,
 };
 
@@ -51,6 +52,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {transcript: action.transcript || []});
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
+    case 'AGENT_ENDED_CONVERSATION':
+      return Object.assign({}, state, {agentEndedConversation: action.ended});
     case 'WELCOME_FORM_REGISTERED':
       return Object.assign({}, state, {welcomeFormRegistered: true});
     case 'NEW_WEBCHAT_SESSION':

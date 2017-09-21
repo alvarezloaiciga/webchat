@@ -106,6 +106,7 @@ describe('chat reducers', () => {
         transcript: [getMockMessage()],
         agentTyping: true,
         agentsAvailable: true,
+        agentEndedConversation: false,
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();
