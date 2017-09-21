@@ -119,7 +119,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     await this.updateLauncherState();
 
     if (!QuiqChatClient.isUserSubscribed()) {
-      QuiqChatClient.setIsChatVisible(false);
+      QuiqChatClient.setChatVisible(false);
     }
 
     // Standalone Mode
