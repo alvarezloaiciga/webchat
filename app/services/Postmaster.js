@@ -13,11 +13,7 @@ import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, actionTypes} from 'Common/Constants';
-import {
-  displayError,
-  getHostingWindow,
-  getQuiqKeysFromLocalStorageForContactPoint,
-} from 'Common/Utils';
+import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
@@ -102,7 +98,7 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 export const standaloneOpen = () => {
   store.dispatch(ChatActions.setChatContainerHidden(true));
   tellClient(eventTypes._standaloneOpen, {
-    localStorageKeys: getQuiqKeysFromLocalStorageForContactPoint(quiqOptions.contactPoint),
+    localStorageKeys: getQuiqKeysFromLocalStorage(quiqOptions.contactPoint),
   });
 };
 
