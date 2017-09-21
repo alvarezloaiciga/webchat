@@ -19,6 +19,7 @@ import {constructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
 import quiqOptions from 'Common/QuiqOptions';
 import type {ReduxStore} from 'types';
+
 let reduxWatch;
 let store;
 let domain;

@@ -237,8 +237,7 @@ export const clearQuiqKeysFromLocalStorage = () => {
     localStorageKeys.forEach(k => {
       localStorage.removeItem(k);
     });
-  } catch (e) {
-  } // eslint-disable-line no-empty
+  } catch (e) {} // eslint-disable-line no-empty
 };
 
 // From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement

@@ -3,8 +3,6 @@
 import {h, Component} from 'preact';
 import ToggleChatButton from './ToggleChatButton';
 import SDKChatContainer from './SDKChatContainer';
-import NonChat from './NonChat';
-import {isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import {getQuiqOptions} from 'Globals';
 import * as Postmaster from 'Postmaster';
 import {handleLaunchButtonClick} from 'managers/ButtonManager';
