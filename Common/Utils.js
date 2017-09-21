@@ -183,7 +183,7 @@ export const setLocalStorageItemsIfNewer = (data: {[string]: any}) => {
     );
 
     // Write a key to localStorage only if 1) the key does not exist or 2) the existing key was modified earlier than the new key
-    if (newModifiedTime > existingModifiedTime) {
+    if (!localStorage.getItem(k) || newModifiedTime > existingModifiedTime) {
       // Write key itself, plus storejs metadata keys
       localStorage.setItem(k, data[k]);
       if (data[`__storejs_modified_timestamp_mixin_${k}`]) {
