@@ -1,30 +1,33 @@
 // @flow
 /** @jsx h */
 import 'babel-polyfill';
-import {camelizeToplevelScreamingSnakeCaseKeys, clearQuiqKeysFromLocalStorage} from 'Common/Utils';
+import {
+  camelizeToplevelScreamingSnakeCaseKeys,
+  clearQuiqKeysFromLocalStorage,
+  isStorageEnabled,
+  isSupportedBrowser,
+} from 'Common/Utils';
 import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
 import {quiqContainerId} from 'Common/Constants';
-import {bindLaunchButtons} from 'managers/ButtonManager';
-import {setQuiqOptions} from './Globals';
-import SDKPrototype from './SdkPrototype';
+import NonChat from './components/NonChat';
 import SDKLauncher from './components/SDKLauncher';
+import {bindLaunchButtons} from 'managers/ButtonManager';
+import {setQuiqOptions, getQuiqOptions} from './Globals';
+import SDKPrototype from './SdkPrototype';
 
 const constructLauncher = () => {
+  const unsupported = !isStorageEnabled() || !isSupportedBrowser();
+
+  // We will add the unsupported classes to their custom launchers.
+  // There's nothing for us to render.
+  if (unsupported && getQuiqOptions().customLaunchButtons.length > 0) return;
+
   const root = document.createElement('div');
   root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
-  render(<SDKLauncher />, document.getElementById(quiqContainerId));
-
-  // Hot Module Replacement API
-  if (module.hot) {
-    // $FlowIssue
-    module.hot.accept('./components/SDKLauncher', () => {
-      const NextSDKLauncher = require('./components/SDKLauncher').default; // eslint-disable-line global-require
-      render(<NextSDKLauncher />, document.getElementById(quiqContainerId));
-    });
-  }
+  render(unsupported ? <NonChat /> : <SDKLauncher />, document.getElementById(quiqContainerId));
 };
 
 const bootstrap = () => {
