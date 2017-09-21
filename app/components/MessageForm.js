@@ -31,10 +31,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     text: '',
     agentsAvailable: true,
   };
-  checkAvailabilityPollingTimer: number;
+  checkAvailabilityTimer: number;
   checkAvailabilityAfterConversationEndedTimer: number;
 
-  checkAvailabilityPolling = async () => {
+  checkAvailability = async () => {
     const available = await QuiqChatClient.checkForAgents();
 
     this.setState({agentsAvailable: available.available});
@@ -45,7 +45,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.setState({agentsAvailable: available.available});
 
-    this.checkAvailabilityPollingTimer = setInterval(this.checkAvailabilityPolling, 6 * 1000);
+    this.checkAvailabilityTimer = setInterval(this.checkAvailability, 6 * 1000);
   };
 
   componentDidMount() {
@@ -54,6 +54,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         this.textArea.focus();
       }
     }, 200);
+
+    clearInterval(this.checkAvailabilityTimer);
+    this.checkAvailability();
+    this.checkAvailabilityTimer = setInterval(this.checkAvailability, 6 * 1000);
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -88,7 +92,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
     clearTimeout(this.checkAvailabilityAfterConversationEndedTimer);
-    clearInterval(this.checkAvailabilityPollingTimer);
+    clearInterval(this.checkAvailabilityTimer);
 
     const state = Object.assign({
       text: e.target.value,
