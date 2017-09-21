@@ -118,6 +118,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
 
+    if (!QuiqChatClient.isUserSubscribed()) {
+      QuiqChatClient.setIsChatVisible(false);
+    }
+
     // Standalone Mode
     // Never show launcher
     // Always start session, show ChatContainer
