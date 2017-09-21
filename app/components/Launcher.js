@@ -138,7 +138,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // User has submitted welcome form or sent message, ChatContainer not visible
     // Show launcher if transcript length > 0
     // Always start session, don't change ChatContainer
-    if (QuiqChatClient.hasTakenMeaningfulAction()) {
+    if (QuiqChatClient.isUserSubscribed()) {
       await this.startSession();
     }
 
