@@ -118,7 +118,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
 
-    if (!QuiqChatClient.isUserSubscribed()) {
+    if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);
     }
 
