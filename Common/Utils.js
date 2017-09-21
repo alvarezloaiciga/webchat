@@ -172,6 +172,7 @@ __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
  * If undefined, will search for legacy, non-namespaced keys.
  * @param postfix {string} - If defined, will append this contact point as a namespace
  * to the end of each key in the return object.
+ * Useful if we need to lookup non-namespaced keys, but want the returned object to be namespaced by contact point.
  * @returns {{}} - A map of local storage keys onto values.
  */
 export const getQuiqKeysFromLocalStorage = (contactPoint: ?string, postfix: ?string): { [string]: any } => {
@@ -212,8 +213,8 @@ export const setLocalStorageItemsIfNewer = (data: { [string]: any }) => {
       10,
     );
 
-    // Write a key to localStorage only if 1) the key does not exist or 2) the existing key was modified earlier than the new key
-    if (newModifiedTime > existingModifiedTime) {
+    // Write a key to localStorage only if 1) the key does not currently exist or 2) the existing key was modified earlier than the new key
+    if (!localStorage.getItem(k) || newModifiedTime > existingModifiedTime) {
       // Write key itself, plus storejs metadata keys
       localStorage.setItem(k, data[k]);
       if (data[`__storejs_modified_timestamp_mixin_${k}`]) {

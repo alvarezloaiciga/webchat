@@ -95,4 +95,5 @@ export const localStorageKeys = [
   'quiq-chat-container-visible',
   'quiq-tracking-id',
   'quiq-user-taken-meaningful-action',
+  'quiq-user-subscribed',
 ];
