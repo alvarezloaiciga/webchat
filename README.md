@@ -1,59 +1,23 @@
 # Quiq WebChat [![Build Status](https://travis-ci.org/Quiq/webchat.svg?branch=master)](https://travis-ci.org/Quiq/webchat) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 This is the end-user client for web chats with Quiq Messaging
 
-Some options described in this document may not be deployed yet. For the current version of the documentation, please check [here](https://github.com/Quiq/webchat/blob/1.0.133/README.md)
-
 ## Customizing
 We provide a way to customize the look and feel of Quiq Webchat to fit your brand's look and feel. You can provide a set of `COLORS` in the `window.QUIQ` configuration object. (See [here](#windowquiq-object) for more details). If you want more control than this, you can also set the `STYLES` property to customize elements in more detail. Information on what all can be customized is listed [here](#setting-styles).
 
-Adding a css file to your page to override the default styles is not supported.  This is because at any time in the future, we may change HTML structure or CSS class names, causing potentially breaking changes on any site containing the modified code.
-If there's some other customization you'd like, please open an issue in this repository describing what you'd like to be customizable.
-
 ## Usage
+### Enabling Webchat on your Tenant
+To enable Webchat on your Quiq tenant, you will need to reach out to your Quiq representative.
 
-### Setup
-Ensure you have registered the `default` contactPoint with Chatterbox at `POST /external/chat/registration`
-```json
-  {
-    "endpoints": [
-      {
-        "id": "default",
-        "label": "default"
-      }
-    ]
-  }
-```
-
-### Running on a hosted site
-Include this at the bottom of your index.html
+### Adding Webchat to your site
+Include this at the bottom of your web page's HTML.
 ```html
 <script type="text/javascript">
-  // Any options should be passed in here
   window.QUIQ = {
-    CONTACT_POINT: 'myCustomContactPoint',
+    // Any options should be passed in here
   };
 </script>
 <script src="https://yourTenant.goquiq.com/app/webchat/index.js" type="text/javascript"></script>
 ```
-
-### Running Locally
-
-First install all dependencies by running `npm install` or `yarn`
-
-Start the dev server with `TENANT='yourTenant' npm start` or `TENANT='yourTenant' yarn start`
-
-The first portion of that command specifies which tenant the webchat should connect to.  For example, if your company's name is 'Foo', you'd type `TENANT='foo' npm start` or `TENANT='foo' yarn start`
-
-You should now be able to go to `localhost:3000` to see a page that's blank except for quiq webchat.
-
-This dev server has hot-reloading enabled, so saving a file in the project should push the changes to your browser without you needing to reload the page.
-
-### Running from a VM locally (e.g for testing IE)
-We use Ngrok to expose localhost over a public url.  To use this feature, do the following.
-1. `yarn vmstart`
-2. Take note of the red text.  It tells you what URL to go to.
-3. Go to that URL in your vm.
-Note: This process is a bit flimsy, so if the page doesn't load in 10 or so seconds, try refreshing the page.
 
 ### window.QUIQ Object
 The window.QUIQ object contains properties describing how the instance of webchat should act.  All properties are optional.
@@ -151,6 +115,8 @@ The window.QUIQ object contains properties describing how the instance of webcha
             dockWindowTooltip: string,
             openInNewWindowTooltip: string,
             closeWindowTooltip: string,
+            unsupportedBrowser?: string,
+            storageDisabled?: string.
     }
     ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -173,6 +139,8 @@ The window.QUIQ object contains properties describing how the instance of webcha
             dockWindowTooltip: 'Dock chat',
             openInNewWindowTooltip: 'Open chat in new window',
             closeWindowTooltip: 'Close window',
+            unsupportedBrowser: undefined,
+            storageDisabled: undefined,
     }
     ```
   - HOST
@@ -207,9 +175,15 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - example: `2000`
   - CUSTOM_LAUNCH_BUTTONS
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. The `noAgentsAvailable` class will be added to the element when no agents are available and removed once an agent becomes available. If the `CUSTOM_LAUNCH_BUTTONS` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `CUSTOM_LAUNCH_BUTTONS` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
+    - The following css classes will be appending to the custom launch buttons in the following cases.
+      - `.noAgentsAvailable` - There are no agents available to chat.  This could mean they are at their queue limits, or are offline.
+      - `.mobile` - The user is on a non-desktop environment
+      - `.unsupportedBrowser` - The user is using a browser unsupported by Quiq
+      - `.storageDisabled` - Quiq is unable to access window.localStorage, which is required for chat to function.
+      - `.hasMobileNumber` - The MOBILE_NUMBER Quiq property is defined.
   - WELCOME_FORM
     - type:
     ```javascript
@@ -330,14 +304,4 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 
 `WelcomeFormSubmitButton`: The submit button for the welcome form
 
-### Production Note
-If running Webchat in IE9, it is _required_ to have the following at the **top** of your webpage's `<head>`.
-
-`<meta http-equiv="X-UA-Compatible" content="IE=edge">`
-
-### isIE9
-
-Things IE9 doesn't support.
-- Flexbox
-- Websockets
-- LocalStorage
+`NonChat`: Message Area that displays in place of chat when chat is unable to display. Only Displays if the `unsupportedBrowser` or `storageDisabled` message is set, and the client's browser fails one of these checks.

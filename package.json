@@ -1,13 +1,11 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.49",
+  "version": "1.1.50",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
-  "keywords": [
-    "webchat"
-  ],
+  "keywords": ["webchat"],
   "repository": {
     "type": "git",
     "url": "https://gitlab.quiq.sh/development/webchat"
@@ -18,7 +16,8 @@
     "prevmstart": "yarn run rimraf dist",
     "vmstart": "./node_modules/.bin/nf start",
     "prebuild": "yarn run rimraf dist temp_docker",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
+    "build":
+      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
     "postbuild": ". config/postbuild.sh",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
@@ -27,34 +26,17 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "app/**/*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "app/**/*.scss": [
-      "prettier --write",
-      "git add"
-    ]
+    "app/**/*.js": ["prettier --write", "git add"],
+    "app/**/*.scss": ["prettier --write", "git add"]
   },
   "jest": {
-    "setupFiles": [
-      "jest-localstorage-mock",
-      "./jest.setup.js"
-    ],
+    "setupFiles": ["jest-localstorage-mock", "./jest.setup.js"],
     "notify": true,
-    "modulePaths": [
-      "./",
-      "app/components",
-      "app",
-      "SDK/src",
-      "node_modules"
-    ],
+    "modulePaths": ["./", "app/components", "app", "SDK/src", "node_modules"],
     "moduleNameMapper": {
       "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/enzyme-to-json/serializer"
-    ],
+    "snapshotSerializers": ["<rootDir>/node_modules/enzyme-to-json/serializer"],
     "globals": {
       "quiqOptions": {
         "contactPoint": "Bob",
@@ -75,10 +57,7 @@
       "__VERSION__": "1.0.0"
     },
     "rootDir": "./",
-    "roots": [
-      "app",
-      "Common"
-    ]
+    "roots": ["app", "Common"]
   },
   "devDependencies": {
     "autoprefixer": "6.4.1",

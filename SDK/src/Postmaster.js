@@ -1,7 +1,14 @@
 // @flow
 import postRobot from 'post-robot/dist/post-robot.ie';
 import {eventTypes, bridgePath} from 'Common/Constants';
-import {displayError, displayWarning, isIFrame, getBrowserName} from 'Common/Utils';
+import {
+  displayError,
+  displayWarning,
+  isIFrame,
+  getBrowserName,
+  isStorageEnabled,
+  isSupportedBrowser,
+} from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from './Globals';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
@@ -59,6 +66,10 @@ export const removeEventHandler = (event: string, handler: (data: Object) => any
 };
 
 export const tellChat = (messageName: string, data: Object) => {
+  if (!isStorageEnabled() || !isSupportedBrowser()) {
+    displayError('Client browser did not meet all requirements for SDK communication. Aborting');
+  }
+
   if (!postRobotClient) {
     displayError(
       'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',
@@ -72,6 +83,10 @@ export const askChat = async (
   data: ?Object,
   callback: ?(data: ?Object, error: ?Error) => any,
 ): Promise<Object> => {
+  if (!isStorageEnabled() || !isSupportedBrowser()) {
+    displayError('Client browser did not meet all requirements for SDK communication. Aborting');
+  }
+
   if (!postRobotClient) {
     displayError(
       'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',

@@ -43,6 +43,7 @@ type CustomStyles = {
   WelcomeFormFieldInput?: Object,
   WelcomeFormFieldTextarea?: Object,
   WelcomeFormSubmitButton?: Object,
+  NonChat?: Object,
 };
 
 export type QuiqObject = {
@@ -86,6 +87,8 @@ export type QuiqObject = {
     dockWindowTooltip: string,
     openInNewWindowTooltip: string,
     closeWindowTooltip: string,
+    unsupportedBrowser?: string,
+    storageDisabled?: string,
   },
   autoPopTime?: number,
   debug:
@@ -189,8 +192,7 @@ export type BrowserNames =
   | 'Vivaldi'
   | 'w3m'
   | 'WeChat'
-  | 'Yandex'
-  | null;
+  | 'Yandex';
 export type OSNames =
   | 'AIX'
   | 'Amiga OS'
