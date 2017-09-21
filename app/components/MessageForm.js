@@ -106,6 +106,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
+        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
+          <div className="poke">
+            {this.props.agentEndedConversation && (
+              <div className="pokeBody">
+                <span style={{fontFamily}}>
+                  {getMessage(messageTypes.agentEndedConversationMessage)}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="messageArea">
           <Textarea
             inputRef={n => {
@@ -121,13 +133,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={
-              this.props.agentEndedConversation ? (
-                getMessage(messageTypes.agentEndedConversationMessage)
-              ) : (
-                getMessage(messageTypes.messageFieldPlaceholder)
-              )
-            }
+            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
           />
           <button
             className="sendBtn"
