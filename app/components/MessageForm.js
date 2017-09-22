@@ -20,6 +20,7 @@ export type MessageFormProps = {
 
 type MessageFormState = {
   text: string,
+  agentsAvailable: boolean,
 };
 
 let updateTimer;
@@ -28,7 +29,21 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   props: MessageFormProps;
   state: MessageFormState = {
     text: '',
+    agentsAvailable: true,
   };
+  checkAvailabilityTimer: number;
+
+  checkAvailability = async () => {
+    const available = await QuiqChatClient.checkForAgents();
+
+    this.setState({agentsAvailable: available.available});
+    clearTimeout(this.checkAvailabilityTimer);
+    this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 60 * 1000);
+  };
+
+  componentWillUnmount() {
+    clearTimeout(this.checkAvailabilityTimer);
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -36,6 +51,16 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         this.textArea.focus();
       }
     }, 200);
+
+    if (this.props.agentEndedConversation) {
+      this.checkAvailability();
+    }
+  }
+
+  componentWillUpdate(nextProps: MessageFormProps) {
+    if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
+      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 120 * 1000);
+    }
   }
 
   startTyping = () => {
@@ -60,8 +85,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
+    clearTimeout(this.checkAvailabilityTimer);
+
     const state = Object.assign({
       text: e.target.value,
+      agentsAvailable: true,
     });
 
     this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
@@ -83,7 +111,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
-    const sendDisabled = this.state.text.trim() === '';
+    const sendDisabled = this.state.text.trim() === '' || !this.state.agentsAvailable;
     const compatMode = compatibilityMode();
 
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
@@ -106,12 +134,37 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
+        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
+          <div className="poke">
+            {this.props.agentEndedConversation && (
+              <div className="pokeBody">
+                <span style={{fontFamily}}>
+                  {getMessage(messageTypes.agentEndedConversationMessage)}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {(!supportsFlexbox() || !this.state.agentsAvailable) && (
+          <div className="poke">
+            {!this.state.agentsAvailable && (
+              <div className="pokeBody">
+                <span style={{fontFamily}}>
+                  {getMessage(messageTypes.agentsNotAvailableMessage)}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="messageArea">
           <Textarea
             inputRef={n => {
               this.textArea = n;
             }}
             style={inputStyle}
+            disabled={!this.state.agentsAvailable}
             name="message"
             value={this.state.text}
             maxLength={1024}
@@ -121,13 +174,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={
-              this.props.agentEndedConversation ? (
-                getMessage(messageTypes.agentEndedConversationMessage)
-              ) : (
-                getMessage(messageTypes.messageFieldPlaceholder)
-              )
-            }
+            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
           />
           <button
             className="sendBtn"

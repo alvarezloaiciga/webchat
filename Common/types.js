@@ -79,6 +79,7 @@ export type QuiqObject = {
     welcomeFormSubmittingButtonLabel: string,
     agentTypingMessage: string,
     agentEndedConversationMessage: string,
+    agentsNotAvailableMessage: string,
     connectingMessage: string,
     reconnectingMessage: string,
     errorMessage: string,

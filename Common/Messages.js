@@ -40,7 +40,12 @@ export default defineMessages({
   agentEndedConversation: {
     id: 'agentEndedConversation',
     description: 'Message to display when the agent ends conversation',
-    defaultMessage: 'Agent had ended the conversation. If you have another question please send it as a new message.',
+    defaultMessage: 'Agent has ended the conversation. If you have another question please submit it as a new message.',
+  },
+  agentsNotAvailable: {
+    id: 'agentsNotAvailable',
+    description: 'Message to display when no agents are avialable.',
+    defaultMessage: 'No agents are currently available.',
   },
   required: {
     id: 'required',
