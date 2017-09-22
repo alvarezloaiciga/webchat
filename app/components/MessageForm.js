@@ -32,21 +32,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     agentsAvailable: true,
   };
   checkAvailabilityTimer: number;
-  checkAvailabilityAfterConversationEndedTimer: number;
 
   checkAvailability = async () => {
     const available = await QuiqChatClient.checkForAgents();
 
     this.setState({agentsAvailable: available.available});
+    clearTimeout(this.checkAvailabilityTimer);
+    this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 6 * 1000);
   };
 
-  checkAvailabilityAfterConversationEnded = async () => {
-    const available = await QuiqChatClient.checkForAgents();
-
-    this.setState({agentsAvailable: available.available});
-
-    this.checkAvailabilityTimer = setInterval(this.checkAvailability, 60 * 1000);
-  };
+  componentWillUnmount() {
+    clearTimeout(this.checkAvailabilityTimer);
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -56,18 +53,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }, 200);
 
     if (this.props.agentEndedConversation) {
-      clearInterval(this.checkAvailabilityTimer);
       this.checkAvailability();
-      this.checkAvailabilityTimer = setInterval(this.checkAvailability, 120 * 1000);
     }
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
     if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
-      this.checkAvailabilityAfterConversationEndedTimer = setTimeout(
-        this.checkAvailabilityAfterConversationEnded,
-        12 * 1000,
-      );
+      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 12 * 1000);
     }
   }
 
@@ -93,7 +85,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
-    clearTimeout(this.checkAvailabilityAfterConversationEndedTimer);
     clearInterval(this.checkAvailabilityTimer);
 
     const state = Object.assign({
