@@ -115,12 +115,12 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
-    // Set initial launcher visibility and agent availability states
-    await this.updateLauncherState();
-
     if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);
     }
+
+    // Set initial launcher visibility and agent availability states
+    await this.updateLauncherState();
 
     // Standalone Mode
     // Never show launcher
@@ -152,6 +152,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   updateLauncherState = async () => {
     const sessionInProgress =
       QuiqChatClient.isChatVisible() ||
+      QuiqChatClient.isUserSubscribed() ||
       QuiqChatClient.hasTakenMeaningfulAction() ||
       !this.props.chatContainerHidden ||
       inStandaloneMode() ||
