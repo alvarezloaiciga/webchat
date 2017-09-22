@@ -16,8 +16,9 @@ import {eventTypes, actionTypes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
-import type {ReduxStore} from 'types';
 import QuiqChatClient from 'quiq-chat';
+import quiqOptions from 'Common/QuiqOptions';
+import type {ReduxStore} from 'types';
 
 let reduxWatch;
 let store;
@@ -98,7 +99,7 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 export const standaloneOpen = () => {
   store.dispatch(ChatActions.setChatContainerHidden(true));
   tellClient(eventTypes._standaloneOpen, {
-    localStorageKeys: getQuiqKeysFromLocalStorage(),
+    localStorageKeys: getQuiqKeysFromLocalStorage(quiqOptions.contactPoint),
   });
 };
 
@@ -120,10 +121,8 @@ const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
 };
 
-const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
-
 /**********************************************************************************
- * Controller facade handlers (client -> webchat)
+ * Controller (QuiqChatClient) facade handlers (client -> webchat)
  **********************************************************************************/
 
 const sendRegistration = (event: Object) => {
@@ -137,3 +136,5 @@ const sendRegistration = (event: Object) => {
 
   QuiqChatClient.sendRegistration(registrationDictionary);
 };
+
+const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();

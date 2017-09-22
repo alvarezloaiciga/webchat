@@ -96,12 +96,5 @@ export const localStorageKeys = [
   'quiq-chat-container-visible',
   'quiq-tracking-id',
   'quiq-user-taken-meaningful-action',
-  '__storejs_expire_mixin_X-Quiq-Access-Token',
-  '__storejs_expire_mixin_quiq-chat-container-visible',
-  '__storejs_expire_mixin_quiq-tracking-id',
-  '__storejs_expire_mixin_quiq-user-taken-meaningful-action',
-  '__storejs_modified_timestamp_mixin_X-Quiq-Access-Token',
-  '__storejs_modified_timestamp_mixin_quiq-chat-container-visible',
-  '__storejs_modified_timestamp_mixin_quiq-tracking-id',
-  '__storejs_modified_timestamp_mixin_quiq-user-taken-meaningful-action',
+  'quiq-user-subscribed',
 ];

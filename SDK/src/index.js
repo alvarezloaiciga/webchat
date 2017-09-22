@@ -37,6 +37,7 @@ const bootstrap = () => {
 
 export const Quiq = (options: {[string]: any}) => {
   setQuiqOptions(buildQuiqObject(options));
+
   // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
   clearQuiqKeysFromLocalStorage();
 
