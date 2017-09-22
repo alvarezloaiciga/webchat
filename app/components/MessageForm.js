@@ -45,7 +45,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.setState({agentsAvailable: available.available});
 
-    this.checkAvailabilityTimer = setInterval(this.checkAvailability, 6 * 1000);
+    this.checkAvailabilityTimer = setInterval(this.checkAvailability, 60 * 1000);
   };
 
   componentDidMount() {
@@ -58,7 +58,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     if (this.props.agentEndedConversation) {
       clearInterval(this.checkAvailabilityTimer);
       this.checkAvailability();
-      this.checkAvailabilityTimer = setInterval(this.checkAvailability, 6 * 1000);
+      this.checkAvailabilityTimer = setInterval(this.checkAvailability, 120 * 1000);
     }
   }
 
