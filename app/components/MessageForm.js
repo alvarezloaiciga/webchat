@@ -38,7 +38,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.setState({agentsAvailable: available.available});
     clearTimeout(this.checkAvailabilityTimer);
-    this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 6 * 1000);
+    this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 60 * 1000);
   };
 
   componentWillUnmount() {
@@ -59,7 +59,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   componentWillUpdate(nextProps: MessageFormProps) {
     if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
-      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 12 * 1000);
+      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 120 * 1000);
     }
   }
 
@@ -85,7 +85,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
-    clearInterval(this.checkAvailabilityTimer);
+    clearTimeout(this.checkAvailabilityTimer);
 
     const state = Object.assign({
       text: e.target.value,
