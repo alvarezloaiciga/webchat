@@ -38,7 +38,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.setState({agentsAvailable: available.available});
     clearTimeout(this.checkAvailabilityTimer);
-    this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 60 * 1000);
+    this.checkAvailabilityTimer = setTimeout(
+      this.checkAvailability,
+      quiqOptions.agentsAvailableTimer,
+    );
   };
 
   componentWillUnmount() {
@@ -59,7 +62,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   componentWillUpdate(nextProps: MessageFormProps) {
     if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
-      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, 120 * 1000);
+      this.checkAvailability();
     }
   }
 
@@ -113,6 +116,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   render() {
     const sendDisabled = this.state.text.trim() === '' || !this.state.agentsAvailable;
     const compatMode = compatibilityMode();
+    const messagePlaceholder = this.state.agentsAvailable
+      ? getMessage(messageTypes.messageFieldPlaceholder)
+      : getMessage(messageTypes.agentsNotAvailableMessage);
 
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
@@ -146,18 +152,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
-        {(!supportsFlexbox() || !this.state.agentsAvailable) && (
-          <div className="poke">
-            {!this.state.agentsAvailable && (
-              <div className="pokeBody">
-                <span style={{fontFamily}}>
-                  {getMessage(messageTypes.agentsNotAvailableMessage)}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
-
         <div className="messageArea">
           <Textarea
             inputRef={n => {
@@ -174,7 +168,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
+            placeholder={messagePlaceholder}
           />
           <button
             className="sendBtn"

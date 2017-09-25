@@ -47,6 +47,7 @@ type CustomStyles = {
 };
 
 export type QuiqObject = {
+  agentsAvailableTimer: number,
   contactPoint: string,
   host: string,
   clientDomain: string,
