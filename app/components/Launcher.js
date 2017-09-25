@@ -45,7 +45,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   componentDidMount() {
     registerIntlObject(this.props.intl);
     this.registerClientCallbacks();
-    this.updateLauncherVisibilityInterval = setInterval(this.updateLauncherState, 1000 * 60);
+    this.updateLauncherVisibilityInterval = setInterval(
+      this.updateLauncherState,
+      1000 * quiqOptions.agentsAvailableTimer,
+    );
 
     if (!this.props.chatLauncherHidden) {
       clearTimeout(this.autoPopTimeout);
