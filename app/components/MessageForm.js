@@ -40,7 +40,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     clearTimeout(this.checkAvailabilityTimer);
     this.checkAvailabilityTimer = setTimeout(
       this.checkAvailability,
-      quiqOptions.agentsAvailableTimer * 1000,
+      quiqOptions.agentsAvailableTimer,
     );
   };
 
