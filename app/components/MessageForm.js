@@ -16,6 +16,7 @@ const {colors, fontFamily, styles} = quiqOptions;
 export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
+  agentsInitiallyAvailable?: boolean,
 };
 
 type MessageFormState = {
@@ -55,7 +56,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }
     }, 200);
 
-    if (this.props.agentEndedConversation) {
+    if (
+      (!this.props.agentsInitiallyAvailable && !QuiqChatClient.isUserSubscribed()) ||
+      this.props.agentEndedConversation
+    ) {
       this.checkAvailability();
     }
   }
@@ -187,4 +191,5 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 export default connect((state: ChatState) => ({
   agentTyping: state.agentTyping,
   agentEndedConversation: state.agentEndedConversation,
+  agentsInitiallyAvailable: state.agentsAvailable,
 }))(MessageForm);
