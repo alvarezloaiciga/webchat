@@ -35,7 +35,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   checkAvailabilityTimer: number;
 
   checkAvailability = async () => {
-    if (quiqOptions.checkAgentsAvailability) {
+    if (quiqOptions.enforceAgentAvailability) {
       const available = await QuiqChatClient.checkForAgents();
 
       this.setState({agentsAvailable: available.available});

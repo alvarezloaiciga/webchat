@@ -8,7 +8,7 @@ const quiqOptions: QuiqObject = {
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
   localStorageKeys: {},
-  checkAgentsAvailability: true,
+  enforceAgentAvailability: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
