@@ -116,7 +116,9 @@ The window.QUIQ object contains properties describing how the instance of webcha
             openInNewWindowTooltip: string,
             closeWindowTooltip: string,
             unsupportedBrowser?: string,
-            storageDisabled?: string.
+            storageDisabled?: string,
+            agentEndedConversationMessage: string,
+            agentsNotAvailableMessage: string,
     }
     ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -141,8 +143,18 @@ The window.QUIQ object contains properties describing how the instance of webcha
             closeWindowTooltip: 'Close window',
             unsupportedBrowser: undefined,
             storageDisabled: undefined,
+            agentEndedConversationMessage: 'Agent has ended the conversation.',
+            agentsNotAvailableMessage: 'No agents are currently available.',
     }
     ```
+  - AGENTS_AVAILABLE_TIMER
+    - type: number
+    - description: The amount of time between agent availability checks.
+    - default: 60000
+  - ENFORCE_AGENTS_AVAILABILITY
+    - type: boolean
+    - description: Determines if the webchat application respects if there are agents available or not.
+    - default: true
   - HOST
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set

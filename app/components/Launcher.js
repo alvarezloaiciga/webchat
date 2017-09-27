@@ -74,9 +74,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    const {available} = await QuiqChatClient.checkForAgents();
-    this.props.setAgentsAvailable(available);
-    return available;
+    if (quiqOptions.enforceAgentAvailability) {
+      const {available} = await QuiqChatClient.checkForAgents();
+      this.props.setAgentsAvailable(available);
+
+      return available;
+    }
+
+    return true;
   };
 
   updateContainerHidden = (hidden: boolean) => {

@@ -49,6 +49,7 @@ type CustomStyles = {
 export type QuiqObject = {
   agentsAvailableTimer: number,
   contactPoint: string,
+  enforceAgentAvailability: bool,
   host: string,
   clientDomain: string,
   localStorageKeys: {[string]: any},

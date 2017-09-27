@@ -35,14 +35,16 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   checkAvailabilityTimer: number;
 
   checkAvailability = async () => {
-    const available = await QuiqChatClient.checkForAgents();
+    if (quiqOptions.enforceAgentAvailability) {
+      const available = await QuiqChatClient.checkForAgents();
 
-    this.setState({agentsAvailable: available.available});
-    clearTimeout(this.checkAvailabilityTimer);
-    this.checkAvailabilityTimer = setTimeout(
-      this.checkAvailability,
-      quiqOptions.agentsAvailableTimer,
-    );
+      this.setState({agentsAvailable: available.available});
+      clearTimeout(this.checkAvailabilityTimer);
+      this.checkAvailabilityTimer = setTimeout(
+        this.checkAvailability,
+        quiqOptions.agentsAvailableTimer,
+      );
+    }
   };
 
   componentWillUnmount() {
