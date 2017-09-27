@@ -94,15 +94,16 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
-    // This can get raised in IE 11 and in automation even if text hasn't been
-    // entered. So ignore if we are in the agents not available state.
-    if (this.state.agentsAvailable) {
-      clearTimeout(this.checkAvailabilityTimer);
+    const state = Object.assign({
+      text: e.target.value,
+      agentsAvailable: true,
+    });
 
-      const state = Object.assign({
-        text: e.target.value,
-        agentsAvailable: true,
-      });
+    // This can get raised in IE 11 and in automation even if text hasn't been
+    // entered. So ignore if we are in the agents not available state, or if the
+    // text hasn't actually changed.
+    if (this.state.agentsAvailable && state.text !== this.state.text) {
+      clearTimeout(this.checkAvailabilityTimer);
 
       this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
     }

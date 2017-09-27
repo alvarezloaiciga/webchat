@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.59",
+  "version": "1.1.61",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -137,7 +137,7 @@
     "lodash": "4.17.4",
     "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",
     "preact": "8.2.5",
-    "quiq-chat": "1.18.0",
+    "quiq-chat": "1.18.1",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
     "react-dom": "15.6.0",
