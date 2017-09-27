@@ -1,4 +1,7 @@
 // @flow
+
+jest.mock('Common/QuiqOptions');
+
 import React from 'react';
 import Spinner from '../Spinner';
 import {shallow} from 'enzyme';

@@ -1,7 +1,12 @@
 // @flow
 import React from 'react';
-import QUIQ, {validateWelcomeFormDefinition, getStyle, getMessage} from 'utils/quiq';
-import {inStandaloneMode} from 'utils/utils';
+import quiqOptions, {
+  validateWelcomeFormDefinition,
+  getStyle,
+  getMessage,
+  usingCustomLauncher,
+} from 'Common/QuiqOptions';
+import {inStandaloneMode} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -11,9 +16,9 @@ import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {ChatInitializedState, messageTypes} from 'appConstants';
+import {ChatInitializedState, messageTypes} from 'Common/Constants';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType} from 'types';
+import type {ChatState, ChatInitializedStateType} from 'Common/types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
@@ -29,14 +34,14 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   }
 
   renderBanner = () => {
-    const {COLORS, STYLES, FONT_FAMILY} = QUIQ;
+    const {colors, styles, fontFamily} = quiqOptions;
 
-    const bannerStyle = getStyle(STYLES.HeaderBanner, {
-      backgroundColor: COLORS.primary,
-      fontFamily: FONT_FAMILY,
+    const bannerStyle = getStyle(styles.HeaderBanner, {
+      backgroundColor: colors.primary,
+      fontFamily: fontFamily,
     });
 
-    const errorBannerStyle = getStyle(STYLES.ErrorBanner, {fontFamily: FONT_FAMILY});
+    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily: fontFamily});
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
@@ -100,13 +105,13 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   };
 
   render() {
-    if (this.props.chatContainerHidden) return null;
+    const {isSupportedBrowser, isStorageEnabled} = quiqOptions;
 
-    const {POSITION} = QUIQ;
+    if (this.props.chatContainerHidden || !isSupportedBrowser || !isStorageEnabled) return null;
 
     const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
       standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && QUIQ.CUSTOM_LAUNCH_BUTTONS.length > 0,
+      hasCustomLauncher: !inStandaloneMode() && usingCustomLauncher(),
     });
 
     if (
@@ -115,17 +120,14 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
       !QuiqChatClient.isRegistered()
     ) {
       return (
-        <div
-          className={classNames}
-          style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT, ...POSITION}}
-        >
+        <div className={classNames}>
           <WelcomeForm />
         </div>
       );
     }
 
     return (
-      <div className={classNames} style={{width: QUIQ.WIDTH, maxHeight: QUIQ.HEIGHT, ...POSITION}}>
+      <div className={classNames}>
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />

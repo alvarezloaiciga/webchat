@@ -10,13 +10,23 @@
 .*/node_modules/emotion/src/.*
 .*/node_modules/styled-components/.*
 .*/node_modules/quiq-chat/src.*
+.*/node_modules/post-robot/src.*
+.*/node_modules/zalgo-promise/src.*
+.*/node_modules/cross-domain-utils/dist.*
 
 [libs]
 flow-typed/npm/
 
 [options]
+
+# Include Common module alias
+module.name_mapper='^Common\/\(.*\)$' -> '<PROJECT_ROOT>/Common/\1'
+
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/app/components/\1'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/app/\1'
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/SDK/\1'
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/SDK/src/\1'
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/Common/\1'
 module.name_mapper.extension='scss' -> 'empty/object'
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable

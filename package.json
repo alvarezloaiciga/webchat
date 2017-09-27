@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.0.157",
+  "version": "1.1.48.1",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -12,42 +12,39 @@
   },
   "scripts": {
     "prestart": "yarn run rimraf dist",
-    "start": "webpack-dashboard -c cyan -- node dev-server.js",
+    "start": "webpack-dashboard -c cyan -p 9840 -- node dev-server.js",
     "prevmstart": "yarn run rimraf dist",
     "vmstart": "./node_modules/.bin/nf start",
-    "prebuild": "yarn run rimraf dist",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
-    "postbuild": "mv dist/index.html dist/index.js",
+    "prebuild": "yarn run rimraf dist temp_docker",
+    "build":
+      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
+    "postbuild": ". config/postbuild.sh",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
-    "lint": "node ./node_modules/eslint/bin/eslint.js app/",
+    "lint": "node ./node_modules/eslint/bin/eslint.js app/ SDK/ Common/",
     "test": "flow && jest --env=jsdom && node ./node_modules/eslint/bin/eslint.js app/ --quiet",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "app/**/*.js": [
-      "prettier --single-quote --trailing-comma all --parser flow --no-bracket-spacing --print-width 100 --write",
-      "git add"
-    ],
-    "app/**/*.scss": [
-      "prettier --single-quote --trailing-comma all --parser flow --no-bracket-spacing --print-width 100 --write",
-      "git add"
-    ]
+    "app/**/*.js": ["prettier --write", "git add"],
+    "app/**/*.scss": ["prettier --write", "git add"]
   },
   "jest": {
-    "modulePaths": ["app/components", "app", "node_modules"],
+    "setupFiles": ["jest-localstorage-mock", "./jest.setup.js"],
+    "notify": true,
+    "modulePaths": ["./", "app/components", "app", "SDK/src", "node_modules"],
     "moduleNameMapper": {
-      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/EmptyModule.js"
+      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
-    "snapshotSerializers": ["<rootDir>/../node_modules/enzyme-to-json/serializer"],
+    "snapshotSerializers": ["<rootDir>/node_modules/enzyme-to-json/serializer"],
     "globals": {
-      "QUIQ": {
-        "CONTACT_POINT": "Bob",
-        "HOST": "https://bob.dev.centricient.corp",
-        "COLOR": "#333",
-        "HEADER_TEXT": "TOOL TIME",
-        "DEBUG": false,
-        "WELCOME_FORM": null
+      "quiqOptions": {
+        "contactPoint": "Bob",
+        "host": "https://bob.dev.centricient.corp",
+        "color": "#333",
+        "headerText": "TOOL TIME",
+        "debug": false,
+        "welcomeForm": null
       },
       "Modernizr": {
         "flexbox": true,
@@ -59,14 +56,15 @@
       "__DEV__": true,
       "__VERSION__": "1.0.0"
     },
-    "rootDir": "app"
+    "rootDir": "./",
+    "roots": ["app", "Common"]
   },
   "devDependencies": {
     "autoprefixer": "6.4.1",
     "babel-cli": "6.24.0",
     "babel-core": "6.24.0",
     "babel-eslint": "6.1.2",
-    "babel-jest": "19.0.0",
+    "babel-jest": "21.0.2",
     "babel-loader": "6.4.1",
     "babel-plugin-react-intl": "2.3.1",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
@@ -83,11 +81,11 @@
     "body-parser": "1.16.0",
     "cheerio": "0.22.0",
     "colors": "1.1.2",
-    "cookie-parser": "1.4.3",
     "copy-webpack-plugin": "4.0.1",
     "cors": "2.8.1",
     "cross-env": "2.0.1",
     "css-loader": "0.24.0",
+    "ejs": "^2.5.7",
     "empty": "0.10.1",
     "enzyme": "2.8.2",
     "enzyme-to-json": "1.4.5",
@@ -100,12 +98,13 @@
     "express": "4.14.0",
     "extract-text-webpack-plugin": "2.0.0-beta.3",
     "file-loader": "0.9.0",
-    "flow-bin": "0.53.0",
+    "flow-bin": "0.54.1",
     "foreman": "2.0.0",
     "html-webpack-plugin": "2.28.0",
     "http-server": "0.9.0",
     "husky": "0.13.3",
-    "jest": "19.0.1",
+    "jest": "21.0.2",
+    "jest-localstorage-mock": "1.2.0",
     "jsdom": "9.4.5",
     "json-loader": "0.5.4",
     "lint-staged": "3.4.0",
@@ -114,7 +113,7 @@
     "ngrok": "2.2.9",
     "node-sass": "4.5.2",
     "postcss-loader": "0.11.1",
-    "prettier": "1.5.2",
+    "prettier": "1.6.1",
     "react-addons-test-utils": "15.6.0",
     "react-hot-loader": "3.0.0-beta.2",
     "react-test-renderer": "^15.5.4",
@@ -136,7 +135,8 @@
     "file-saver": "1.3.3",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "quiq-chat": "1.11.6",
+    "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",
+    "quiq-chat": "1.15.5",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
     "react-dom": "15.6.0",
@@ -147,6 +147,7 @@
     "react-textarea-autosize": "5.1.0",
     "redux": "3.7.2",
     "redux-devtools": "3.4.0",
-    "redux-devtools-log-monitor": "1.3.0"
+    "redux-devtools-log-monitor": "1.3.0",
+    "redux-store-watch": "0.0.11"
   }
 }

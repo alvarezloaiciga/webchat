@@ -1,25 +1,14 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'utils/i18n';
-import QUIQ, {openStandaloneMode} from 'utils/quiq';
+import {registerIntlObject} from 'Common/i18n';
+import quiqOptions from 'Common/QuiqOptions';
 import ChatContainer from './ChatContainer';
-import ToggleChatButton from './ToggleChatButton';
 import './styles/Launcher.scss';
-import {
-  setChatContainerHidden,
-  setChatLauncherHidden,
-  setChatInitialized,
-  setChatPopped,
-  setWelcomeFormRegistered,
-  setAgentTyping,
-  updateTranscript,
-  newWebchatSession,
-} from 'actions/chatActions';
 import QuiqChatClient from 'quiq-chat';
-import messages from 'messages';
-import {displayError, isMobile, inStandaloneMode} from 'utils/utils';
-import {noAgentsAvailableClass, mobileClass, ChatInitializedState} from 'appConstants';
+import * as chatActions from 'actions/chatActions';
+import {inStandaloneMode} from 'Common/Utils';
+import {ChatInitializedState} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
@@ -30,17 +19,15 @@ type LauncherState = {
 
 export type LauncherProps = {
   intl: IntlObject,
-  popped: boolean,
   chatContainerHidden: boolean,
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
-  welcomeFormRegistered: boolean,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
+  setAgentsAvailable: (agentsAvailable: boolean) => void,
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
-  setChatPopped: (popped: boolean) => void,
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
@@ -50,15 +37,14 @@ export type LauncherProps = {
 export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
   state: LauncherState = {};
-  determineLauncherStateInterval: number;
-  updateCustomChatButtonsInterval: number;
+  updateLauncherVisibilityInterval: number;
   typingTimeout: ?number;
   autoPopTimeout: ?number;
 
   componentDidMount() {
     registerIntlObject(this.props.intl);
     this.registerClientCallbacks();
-    this.determineLauncherStateInterval = setInterval(this.determineLauncherState, 1000 * 60);
+    this.updateLauncherVisibilityInterval = setInterval(this.updateLauncherState, 1000 * 60);
 
     if (!this.props.chatLauncherHidden) {
       clearTimeout(this.autoPopTimeout);
@@ -68,44 +54,25 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   componentWillReceiveProps(nextProps: LauncherProps) {
-    if (this.props.chatContainerHidden && !nextProps.chatContainerHidden) {
-      clearTimeout(this.autoPopTimeout);
-    }
+    // Respond to change in chat visibility
+    if (nextProps.chatContainerHidden !== this.props.chatContainerHidden)
+      this.handleChatVisibilityChange(nextProps.chatContainerHidden);
   }
 
   componentWillUnmount() {
-    clearInterval(this.determineLauncherStateInterval);
-    clearInterval(this.updateCustomChatButtonsInterval);
+    clearInterval(this.updateLauncherVisibilityInterval);
     clearTimeout(this.typingTimeout);
     clearTimeout(this.autoPopTimeout);
+
+    // Set to uninitialized in case app will ever be remounted and will need to run through startSession()
+    this.updateInitializedState(ChatInitializedState.UNINITIALIZED);
+    QuiqChatClient.stop();
   }
 
-  determineLauncherState = async () => {
-    // If user is on mobile, and they have not set a number, keep launcher buttons hidden
-    if (!QUIQ.MOBILE_NUMBER && isMobile()) this.props.setChatLauncherHidden(true);
-    else if (
-      // User is in active session, allow them to continue
-      QuiqChatClient.isChatVisible() ||
-      QuiqChatClient.hasTakenMeaningfulAction() ||
-      !this.props.chatContainerHidden ||
-      this.props.popped ||
-      this.props.transcript.length ||
-      (QUIQ.WELCOME_FORM && this.props.welcomeFormRegistered)
-    ) {
-      if (this.props.chatLauncherHidden) {
-        this.props.setChatLauncherHidden(false);
-      }
-      return;
-    }
-
+  updateAgentAvailability = async (): Promise<boolean> => {
     const {available} = await QuiqChatClient.checkForAgents();
-    this.updateLauncherHidden(!available);
-  };
-
-  updateLauncherHidden = (hidden: boolean) => {
-    if (hidden !== this.props.chatLauncherHidden) {
-      this.props.setChatLauncherHidden(hidden);
-    }
+    this.props.setAgentsAvailable(available);
+    return available;
   };
 
   updateContainerHidden = (hidden: boolean) => {
@@ -143,25 +110,23 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
-    await this.determineLauncherState();
-    this.bindChatButtons();
+    // Set initial launcher visibility and agent availability states
+    await this.updateLauncherState();
 
     // Standalone Mode
     // Never show launcher
     // Always start session, show ChatContainer
     if (inStandaloneMode()) {
-      this.updateLauncherHidden(true);
       this.updateContainerHidden(false);
-      this.startSession();
+      await this.startSession();
       return;
     }
 
     // ChatContainer Visible from cookie
     // Always start session, always show launcher
     if (QuiqChatClient.isChatVisible()) {
-      await this.startSession();
-      this.updateLauncherHidden(false);
       this.updateContainerHidden(false);
+      await this.startSession();
       return;
     }
 
@@ -172,9 +137,29 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       await this.startSession();
     }
 
-    if (!this.props.chatLauncherHidden) {
-      this.handleAutoPop();
+    this.handleAutoPop();
+  };
+
+  updateLauncherState = async () => {
+    const sessionInProgress =
+      QuiqChatClient.isChatVisible() ||
+      QuiqChatClient.hasTakenMeaningfulAction() ||
+      !this.props.chatContainerHidden ||
+      inStandaloneMode() ||
+      this.props.transcript.length ||
+      QuiqChatClient.isRegistered();
+
+    // We need to always call updateAgentAvailability() to keep the agentsAvailable state up to data from
+    // minute to minute
+    const agentsAvailable = await this.updateAgentAvailability();
+
+    if (sessionInProgress) {
+      this.props.setChatLauncherHidden(false);
+      return true;
     }
+
+    this.props.setChatLauncherHidden(!agentsAvailable);
+    return agentsAvailable;
   };
 
   startSession = async () => {
@@ -191,7 +176,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       // User has session in progress. Send them right to it.
       if (this.props.transcript.length > 0) {
-        this.updateLauncherHidden(false);
         this.props.setWelcomeFormRegistered();
       }
     } catch (e) {
@@ -213,126 +197,55 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   handleAutoPop = () => {
-    if (!isMobile() && typeof QUIQ.AUTO_POP_TIME === 'number') {
-      this.autoPopTimeout = setTimeout(() => {
-        if (this.props.chatLauncherHidden) return;
-
-        this.startSession();
+    if (!quiqOptions.isMobile && typeof quiqOptions.autoPopTime === 'number') {
+      this.autoPopTimeout = setTimeout(async () => {
+        if (!await this.updateLauncherState()) return;
+        await this.startSession();
         this.updateContainerHidden(false);
-      }, QUIQ.AUTO_POP_TIME);
+      }, quiqOptions.autoPopTime);
     }
   };
 
   handleClientInactiveTimeout = () => {
     this.updateInitializedState(ChatInitializedState.INACTIVE);
-    if (inStandaloneMode()) {
-      QuiqChatClient.leaveChat();
+    if (!this.props.chatContainerHidden && !inStandaloneMode()) {
+      this.updateContainerHidden(true);
+    }
+  };
+
+  handleChatVisibilityChange = async (hidden: boolean) => {
+    if (!hidden) {
+      // If container has become visible at any point, we don't want to auto-pop
+      clearTimeout(this.autoPopTimeout);
+
+      // If container ever becomes visible, launch buttons need to be made visible
+      this.props.setChatLauncherHidden(false);
+
+      await this.startSession();
+      QuiqChatClient.joinChat();
     } else {
-      if (!this.props.chatContainerHidden && !this.props.popped) {
-        this.updateContainerHidden(true);
+      if (this.props.initializedState !== ChatInitializedState.INACTIVE) {
         QuiqChatClient.leaveChat();
       }
     }
   };
 
-  bindChatButtons = () => {
-    const {CUSTOM_LAUNCH_BUTTONS} = QUIQ;
-    if (!CUSTOM_LAUNCH_BUTTONS || CUSTOM_LAUNCH_BUTTONS.length === 0) return;
-
-    const updateChatButtons = () => {
-      CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
-        const ele = document.querySelector(selector);
-        if (!ele) return displayError(messages.unableToBindCustomLauncherError);
-
-        this.props.chatLauncherHidden
-          ? ele.classList.add(noAgentsAvailableClass)
-          : ele.classList.remove(noAgentsAvailableClass);
-
-        if (isMobile()) ele.classList.add(mobileClass);
-      });
-    };
-
-    CUSTOM_LAUNCH_BUTTONS.forEach((selector: string) => {
-      const ele = document.querySelector(selector);
-      if (!ele) return displayError(messages.unableToBindCustomLauncherError);
-      ele.addEventListener('click', this.toggleChat);
-    });
-    this.updateCustomChatButtonsInterval = setInterval(updateChatButtons, 2000);
-    updateChatButtons();
-  };
-
-  openNativeSMSApp = () => {
-    if (QUIQ.MOBILE_NUMBER) {
-      window.location = `sms:${QUIQ.MOBILE_NUMBER}`;
-    }
-  };
-
-  toggleChat = async () => {
-    if (isMobile()) {
-      this.openNativeSMSApp();
-      return;
-    }
-
-    if (this.props.popped) {
-      return openStandaloneMode({
-        onPop: () => {
-          this.props.setChatPopped(true);
-        },
-        onFocus: () => {
-          this.props.setChatPopped(true);
-        },
-        onDock: () => {
-          this.props.setChatPopped(false);
-        },
-      });
-    }
-
-    if (this.props.chatContainerHidden) {
-      this.updateContainerHidden(false);
-      await this.startSession();
-      QuiqChatClient.joinChat();
-    } else {
-      this.updateContainerHidden(true);
-      QuiqChatClient.leaveChat();
-    }
-  };
-
   render() {
-    // Do not show chat no agents are available OR we're on a mobile device and no mobile number was provided in QUIQ object
-    if (isMobile() && !QUIQ.MOBILE_NUMBER) return null;
-
-    return (
-      <div className="Launcher">
-        {!this.props.chatContainerHidden && !isMobile() && <ChatContainer />}
-        {QUIQ.CUSTOM_LAUNCH_BUTTONS.length === 0 &&
-          !inStandaloneMode() &&
-          !this.props.chatLauncherHidden &&
-          <ToggleChatButton toggleChat={this.toggleChat} />}
-      </div>
-    );
+    return <div className="Launcher">{<ChatContainer />}</div>;
   }
 }
 
 export default compose(
   injectIntl,
+  // $FlowIssue
   connect(
     (state: ChatState) => ({
       chatContainerHidden: state.chatContainerHidden,
       chatLauncherHidden: state.chatLauncherHidden,
-      popped: state.popped,
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
     }),
-    {
-      setChatContainerHidden,
-      setChatLauncherHidden,
-      setChatInitialized,
-      setChatPopped,
-      setWelcomeFormRegistered,
-      setAgentTyping,
-      updateTranscript,
-      newWebchatSession,
-    },
+    chatActions,
   ),
 )(Launcher);

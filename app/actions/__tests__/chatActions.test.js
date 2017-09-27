@@ -21,12 +21,6 @@ describe('chatActions', () => {
     });
   });
 
-  describe('setChatPopped', () => {
-    it('builds an action', () => {
-      expect(chatActions.setChatPopped(true)).toMatchSnapshot();
-    });
-  });
-
   describe('setAgentTyping', () => {
     it('builds an action', () => {
       expect(chatActions.setAgentTyping(true)).toMatchSnapshot();

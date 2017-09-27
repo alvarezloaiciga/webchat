@@ -1,12 +1,15 @@
 // @flow
 jest.mock('quiq-chat');
-jest.mock('utils/quiq');
+jest.mock('Common/QuiqOptions');
+jest.mock('services/Postmaster');
+jest.mock('Common/Utils');
+
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
 import {HeaderMenu} from '../HeaderMenu';
-import QuiqChatClient from 'quiq-chat';
 import {shallow} from 'enzyme';
-import {openStandaloneMode} from 'utils/quiq';
+import {standaloneOpen} from 'services/Postmaster';
+import * as Utils from 'Common/Utils';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('HeaderMenu component', () => {
@@ -31,6 +34,21 @@ describe('HeaderMenu component', () => {
       render();
       expect(wrapper).toMatchSnapshot();
     });
+
+    describe('when not in standalone mode', () => {
+      beforeEach(() => {
+        (Utils.inStandaloneMode: any).mockImplementation(() => false);
+      });
+
+      afterEach(() => {
+        (Utils.inStandaloneMode: any).mockReset();
+      });
+
+      it('renders', () => {
+        render();
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
   });
 
   describe('minimize', () => {
@@ -38,7 +56,6 @@ describe('HeaderMenu component', () => {
       render();
       wrapper.find('.fa-window-minimize').simulate('click');
       expect(testProps.setChatContainerHidden).toBeCalledWith(true);
-      expect(QuiqChatClient.leaveChat).toBeCalled();
     });
   });
 
@@ -56,7 +73,7 @@ describe('HeaderMenu component', () => {
     it('pops chat', () => {
       render();
       wrapper.find('.fa-window-maximize').simulate('click');
-      expect(openStandaloneMode).toBeCalled();
+      expect(standaloneOpen).toBeCalled();
     });
   });
   /* eslint-disable no-restricted-syntax */

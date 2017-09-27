@@ -1,4 +1,7 @@
 // @flow
+
+jest.mock('Common/QuiqOptions');
+
 import React from 'react';
 import {getMockMessage} from 'utils/testHelpers';
 import type {MessageProps} from '../Message';
@@ -31,7 +34,7 @@ describe('Message component', () => {
   });
 
   describe('fromAgent', () => {
-    it('colors the message white', () => {
+    it('colors the message according to quiqOptions', () => {
       testProps.message = getMockMessage(0, {authorType: 'Agent'});
       render();
       expect(wrapper).toMatchSnapshot();

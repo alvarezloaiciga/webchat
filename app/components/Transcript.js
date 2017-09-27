@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Message from 'Message';
-import QUIQ from 'utils/quiq';
+import quiqOptions from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
-import type {Message as MessageType, ChatState} from 'types';
+import type {Message as MessageType, ChatState} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
@@ -31,7 +31,7 @@ export class Transcript extends Component {
   }
 
   render() {
-    const {COLORS} = QUIQ;
+    const {colors} = quiqOptions;
 
     return (
       <div
@@ -39,7 +39,7 @@ export class Transcript extends Component {
         ref={n => {
           this.transcript = n;
         }}
-        style={{backgroundColor: COLORS.transcriptBackground}}
+        style={{backgroundColor: colors.transcriptBackground}}
       >
         {this.props.transcript.map(msg => <Message key={msg.id} message={msg} />)}
       </div>

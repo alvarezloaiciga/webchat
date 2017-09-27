@@ -23,14 +23,5 @@ describe('Debugger component', () => {
     it('renders phrase listener', () => {
       expect(wrapper).toMatchSnapshot();
     });
-
-    describe('when not hidden', () => {
-      it('renders Debugger bar', () => {
-        render();
-        wrapper.setState({hidden: false});
-        wrapper.update();
-        expect(wrapper).toMatchSnapshot();
-      });
-    });
   });
 });

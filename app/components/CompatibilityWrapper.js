@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
-import {supportsFlexbox, supportsSVG} from 'utils/utils';
+import {supportsFlexbox, supportsSVG} from 'Common/Utils';
 import classnames from 'classnames';
 
 export type CompatibilityWrapperProps = {
   children: any,
 };
 
-const CompatibilityWrapper = (props: CompatibilityWrapperProps) =>
+const CompatibilityWrapper = (props: CompatibilityWrapperProps) => (
   <div
     className={classnames('CompatibilityWrapper', {
       noFlexbox: !supportsFlexbox(),
@@ -15,6 +15,7 @@ const CompatibilityWrapper = (props: CompatibilityWrapperProps) =>
     })}
   >
     {props.children}
-  </div>;
+  </div>
+);
 
 export default CompatibilityWrapper;

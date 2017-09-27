@@ -1,14 +1,14 @@
 // @flow
-import {inStandaloneMode} from 'utils/utils';
-import {ChatInitializedState} from 'appConstants';
-import QUIQ from 'utils/quiq';
-import type {ChatState, Action, ChatInitializedStateType, Message} from 'types';
+import {inStandaloneMode} from 'Common/Utils';
+import {ChatInitializedState} from 'Common/Constants';
+import quiqOptions from 'Common/QuiqOptions';
+import type {ChatState, Action, ChatInitializedStateType, Message} from 'Common/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
   chatLauncherHidden?: boolean,
+  agentsAvailable?: boolean,
   initializedState?: ChatInitializedStateType,
-  popped?: boolean,
   transcript?: Array<Message>,
   agentTyping?: boolean,
 };
@@ -16,11 +16,11 @@ type ChatAction = {
 export const initialState = {
   chatContainerHidden: true,
   chatLauncherHidden: true,
+  agentsAvailable: undefined,
   initializedState: ChatInitializedState.UNINITIALIZED,
-  popped: false,
   transcript: [],
   agentTyping: false,
-  welcomeFormRegistered: !QUIQ.WELCOME_FORM,
+  welcomeFormRegistered: !quiqOptions.welcomeForm,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -33,18 +33,18 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
+    case 'AGENTS_AVAILABLE':
+      return Object.assign({}, state, {
+        agentsAvailable: action.agentsAvailable,
+      });
     case 'CHAT_INITIALIZED_STATE': {
       if (state.initializedState === ChatInitializedState.BURNED) {
         // One does not simply become unburned.
         return state;
       }
 
-      return Object.assign({}, state, {initializedState: action.initializedState});
-    }
-    case 'CHAT_POPPED': {
       return Object.assign({}, state, {
-        chatContainerHidden: inStandaloneMode() ? false : action.popped,
-        popped: action.popped,
+        initializedState: action.initializedState,
       });
     }
     case 'UPDATE_TRANSCRIPT':
@@ -62,7 +62,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         {
           chatContainerHidden: state.chatContainerHidden,
           chatLauncherHidden: state.chatLauncherHidden,
-          popped: state.popped,
+          agentsAvailable: state.agentsAvailable,
           initializedState: ChatInitializedState.LOADING,
         },
       );
@@ -72,3 +72,16 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 };
 
 export default chat;
+
+// Selectors
+export const getChatContainerHidden = (state: ChatState): boolean => {
+  return state.chatContainerHidden;
+};
+
+export const getAgentsAvailable = (state: ChatState): ?boolean => {
+  return state.agentsAvailable;
+};
+
+export const getChatLauncherHidden = (state: ChatState): boolean => {
+  return state.chatLauncherHidden;
+};

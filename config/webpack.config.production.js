@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const fs = require('fs');
 const {version} = require('../package.json');
 
 const cdnUrl = process.env.QUIQ_CDN;
@@ -31,21 +32,29 @@ module.exports = merge(config, {
   debug: false,
   devtool: 'source-map',
   entry: {
-    webchat: 'production',
-    common: ['babel-polyfill', 'react', 'react-dom'],
+    webchat: ['babel-polyfill', 'production'],
+    sdk: ['babel-polyfill', './SDK/src/index.js'],
+    webchatMain: './config/templates/webchatMain.js',
+    postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'config/templates/index.ejs',
-      filename: 'index.html',
+      template: 'config/templates/webchat.html.ejs',
+      filename: `webchat.html`,
       inject: false,
-      chunks: ['common', 'webchat'],
+      chunks: ['webchat', 'webchatMain'],
     }),
     new HtmlWebpackPlugin({
-      template: 'config/templates/standalone.ejs',
-      filename: 'standalone/index.html',
+      template: 'config/templates/bridge.html.ejs',
+      filename: `bridge.html`,
       inject: false,
-      chunks: ['common', 'webchat'],
+      chunks: ['postRobotBridge'],
+    }),
+    new HtmlWebpackPlugin({
+      template: 'config/templates/server.conf.ejs',
+      filename: 'server.conf',
+      inject: false,
+      chunks: ['sdk'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
@@ -73,11 +82,12 @@ module.exports = merge(config, {
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
-      minChunks: Infinity,
-    }),
+    // Uncomment this if we ever use a common chunk
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
+    //   minChunks: Infinity,
+    // }),
     new ExtractTextPlugin({
       filename: `[name]-[chunkhash]-${uniqueUrlPiece}.css`,
       allChunks: true,
@@ -88,7 +98,11 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
+        include: [
+          path.resolve(__dirname, '../app'),
+          path.resolve(__dirname, '../app/components'),
+          path.resolve(__dirname, '../SDK/src/components'),
+        ],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style',
           loader: [

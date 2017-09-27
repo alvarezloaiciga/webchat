@@ -19,6 +19,43 @@ exports[`HeaderMenu component rendering renders 1`] = `
       title="Minimize window"
     />
     <i
+      className="fa fa-window-maximize icon"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
+    <i
+      className="fa fa-times icon"
+      onClick={[Function]}
+      title="Close window"
+    />
+  </div>
+</div>
+`;
+
+exports[`HeaderMenu component rendering when not in standalone mode renders 1`] = `
+<div
+  className="HeaderMenu"
+  style={
+    Object {
+      "background": "#31bf8b",
+      "backgroundColor": "#333",
+    }
+  }
+>
+  <div
+    className="buttons"
+  >
+    <i
+      className="fa fa-window-minimize icon"
+      onClick={[Function]}
+      title="Minimize window"
+    />
+    <i
+      className="fa fa-window-maximize icon"
+      onClick={[Function]}
+      title="Open chat in new window"
+    />
+    <i
       className="fa fa-times icon"
       onClick={[Function]}
       title="Close window"

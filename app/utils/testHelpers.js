@@ -1,5 +1,5 @@
 // @flow
-import type {Message, IntlObject, IntlMessage} from 'types';
+import type {Message, IntlObject, IntlMessage} from 'Common/types';
 
 export const getMockMessage = (
   // eslint-disable-line import/prefer-default-export
@@ -20,7 +20,7 @@ export const getMockMessage = (
 /**
  * Stub out formatMessage so that it will return the defaultMessage with basic variable replacement
  */
-const formatTestMessage = (msg: IntlMessage, values?: {[key: string]: string}) => {
+const formatTestMessage = (msg: IntlMessage, values: ?{[key: string]: string}) => {
   if (!values) {
     return msg.defaultMessage;
   }

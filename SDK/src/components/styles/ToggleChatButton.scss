@@ -1,0 +1,31 @@
+.ToggleChatButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  box-sizing: border-box;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 100%;
+  color: #fff;
+  fill: #fff;
+  cursor: pointer;
+  transition: 0.15s ease-in-out all;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    fill: #fff;
+    flex: 1 1 auto;
+  }
+}

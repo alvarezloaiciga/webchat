@@ -1,6 +1,8 @@
 $HeaderMenuColor: #fff;
 
 .HeaderMenu {
+  min-height: 18px;
+  max-height: 18px;
   display: flex;
   justify-content: flex-end;
   padding: 5px 7px 3px;

@@ -1,11 +1,10 @@
 // @flow
 declare var __VERSION__: string;
 import React from 'react';
-import QUIQ from 'utils/quiq';
-import {inNonProductionCluster, inLocalDevelopment} from 'utils/utils';
+import quiqOptions from 'Common/QuiqOptions';
+import {inNonProductionCluster, inLocalDevelopment, inStandaloneMode} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
-import QuiqChatClient from 'quiq-chat';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
 
@@ -15,12 +14,12 @@ type DebuggerState = {
 
 export class Debugger extends React.Component<{}, DebuggerState> {
   state: DebuggerState = {
-    hidden: !QUIQ.DEBUG,
+    hidden: !quiqOptions.debug,
   };
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
 
-  renderPhraseListener = () =>
+  renderPhraseListener = () => (
     <PhraseListener
       listeners={[
         {
@@ -29,7 +28,8 @@ export class Debugger extends React.Component<{}, DebuggerState> {
           caseInsensitive: true,
         },
       ]}
-    />;
+    />
+  );
 
   render() {
     if (!this.shouldShowDebugger()) return null;
@@ -40,22 +40,12 @@ export class Debugger extends React.Component<{}, DebuggerState> {
         {this.renderPhraseListener()}
         <div className="lhsIcons">
           <DevTools />
-          {
-            <i
-              className={`fa fa-sign-in icon`}
-              title="AndrewTest Auth User via Secure Cookie (Old Deprecated Way)"
-              onClick={QuiqChatClient.DEPRECATED_AUTH_USER_DO_NOT_USE}
-            />
-          }
+          <div>inStandaloneMode: {inStandaloneMode() ? 'true' : 'false'}</div>
         </div>
         <div className="rhsIcons">
           <div className="versions">
-            <span>
-              WC: v{__VERSION__}
-            </span>
-            <span>
-              QC: v{version}
-            </span>
+            <span>WC: v{__VERSION__}</span>
+            <span>QC: v{version}</span>
           </div>
           <i
             className={`fa fa-close icon`}

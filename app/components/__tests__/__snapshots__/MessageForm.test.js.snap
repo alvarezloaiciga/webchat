@@ -3,7 +3,12 @@
 exports[`MessageForm component agentTyping shows typing indicator 1`] = `
 <div
   className="MessageForm"
-  style={Object {}}
+  style={
+    Object {
+      "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
+      "zIndex": 1,
+    }
+  }
 >
   <div
     className="poke"
@@ -14,7 +19,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       <span
         style={
           Object {
-            "fontFamily": "sans-serif",
+            "fontFamily": "Lato, sans-serif",
           }
         }
       >
@@ -42,7 +47,8 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       placeholder="Send us a message..."
       style={
         Object {
-          "fontFamily": "sans-serif",
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
         }
       }
       useCacheForDOMMeasurements={false}
@@ -54,9 +60,11 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       onClick={[Function]}
       style={
         Object {
-          "color": "#333",
-          "fontFamily": "sans-serif",
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 16,
           "opacity": ".5",
+          "textTransform": "uppercase",
         }
       }
     >
@@ -69,7 +77,12 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
 exports[`MessageForm component rendering renders 1`] = `
 <div
   className="MessageForm"
-  style={Object {}}
+  style={
+    Object {
+      "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
+      "zIndex": 1,
+    }
+  }
 >
   <div
     className="messageArea"
@@ -87,7 +100,8 @@ exports[`MessageForm component rendering renders 1`] = `
       placeholder="Send us a message..."
       style={
         Object {
-          "fontFamily": "sans-serif",
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
         }
       }
       useCacheForDOMMeasurements={false}
@@ -99,9 +113,11 @@ exports[`MessageForm component rendering renders 1`] = `
       onClick={[Function]}
       style={
         Object {
-          "color": "#333",
-          "fontFamily": "sans-serif",
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 16,
           "opacity": ".5",
+          "textTransform": "uppercase",
         }
       }
     >

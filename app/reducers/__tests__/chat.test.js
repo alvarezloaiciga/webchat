@@ -1,8 +1,10 @@
 // @flow
-jest.mock('utils/utils');
+jest.mock('Common/Utils');
+jest.mock('Common/QuiqOptions');
+
 import chat, {initialState} from '../chat';
 import {getMockMessage} from 'utils/testHelpers';
-import {inStandaloneMode} from 'utils/utils';
+import {inStandaloneMode} from 'Common/Utils';
 
 describe('chat reducers', () => {
   afterEach(() => {
@@ -12,8 +14,10 @@ describe('chat reducers', () => {
   describe('CHAT_CONTAINER_HIDDEN', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_CONTAINER_HIDDEN', chatContainerHidden: false})
-          .chatContainerHidden,
+        chat(initialState, {
+          type: 'CHAT_CONTAINER_HIDDEN',
+          chatContainerHidden: false,
+        }).chatContainerHidden,
       ).toBe(false);
     });
   });
@@ -21,16 +25,20 @@ describe('chat reducers', () => {
   describe('CHAT_LAUNCHER_HIDDEN', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_LAUNCHER_HIDDEN', chatLauncherHidden: false})
-          .chatLauncherHidden,
+        chat(initialState, {
+          type: 'CHAT_LAUNCHER_HIDDEN',
+          chatLauncherHidden: false,
+        }).chatLauncherHidden,
       ).toBe(false);
     });
 
     it('always sets chatLauncherHidden to true in standalone mode', () => {
       (inStandaloneMode: any).mockReturnValue(true);
       expect(
-        chat(initialState, {type: 'CHAT_LAUNCHER_HIDDEN', chatLauncherHidden: false})
-          .chatLauncherHidden,
+        chat(initialState, {
+          type: 'CHAT_LAUNCHER_HIDDEN',
+          chatLauncherHidden: false,
+        }).chatLauncherHidden,
       ).toBe(true);
     });
   });
@@ -38,8 +46,10 @@ describe('chat reducers', () => {
   describe('CHAT_INITIALIZED_STATE', () => {
     it('updates state with the new value', () => {
       expect(
-        chat(initialState, {type: 'CHAT_INITIALIZED_STATE', initializedState: 'initialized'})
-          .initializedState,
+        chat(initialState, {
+          type: 'CHAT_INITIALIZED_STATE',
+          initializedState: 'initialized',
+        }).initializedState,
       ).toBe('initialized');
     });
 
@@ -55,10 +65,10 @@ describe('chat reducers', () => {
     });
   });
 
-  describe('CHAT_POPPED', () => {
+  describe('AGENTS_AVAILABLE', () => {
     it('updates state with the new value', () => {
-      expect(chat(initialState, {type: 'CHAT_POPPED', popped: true})).toMatchSnapshot();
-      expect(chat(initialState, {type: 'CHAT_POPPED', popped: false})).toMatchSnapshot();
+      expect(chat(initialState, {type: 'AGENTS_AVAILABLE', popped: true})).toMatchSnapshot();
+      expect(chat(initialState, {type: 'AGENTS_AVAILABLE', popped: false})).toMatchSnapshot();
     });
   });
 
@@ -95,6 +105,7 @@ describe('chat reducers', () => {
         chatLauncherHidden: false,
         transcript: [getMockMessage()],
         agentTyping: true,
+        agentsAvailable: true,
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

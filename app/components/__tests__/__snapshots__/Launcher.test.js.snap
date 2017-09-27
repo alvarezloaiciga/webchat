@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Launcher component initial states chatVisisble when there is a transcript goes straight to the chat 1`] = `
-<div
-  className="Launcher"
->
-  <Connect(ChatContainer) />
-  <Connect(ToggleChatButton)
-    toggleChat={[Function]}
-  />
-</div>
-`;
-
 exports[`Launcher component initial states standaloneMode sets state for standalone 1`] = `
 <div
   className="Launcher"
@@ -24,8 +13,5 @@ exports[`Launcher component when agents are available renders 1`] = `
   className="Launcher"
 >
   <Connect(ChatContainer) />
-  <Connect(ToggleChatButton)
-    toggleChat={[Function]}
-  />
 </div>
 `;

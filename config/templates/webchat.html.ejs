@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>" />
+    <script>
+      var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
+    </script>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
+  </head>
+  <body></body>
+</html>

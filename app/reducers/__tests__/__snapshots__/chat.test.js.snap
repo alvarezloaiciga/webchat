@@ -1,37 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`chat reducers CHAT_POPPED updates state with the new value 1`] = `
+exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 1`] = `
 Object {
   "agentTyping": false,
+  "agentsAvailable": undefined,
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "initializedState": "uninitialized",
-  "popped": true,
   "transcript": Array [],
-  "welcomeFormRegistered": true,
+  "welcomeFormRegistered": false,
 }
 `;
 
-exports[`chat reducers CHAT_POPPED updates state with the new value 2`] = `
+exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 2`] = `
 Object {
   "agentTyping": false,
-  "chatContainerHidden": false,
+  "agentsAvailable": undefined,
+  "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "initializedState": "uninitialized",
-  "popped": false,
   "transcript": Array [],
-  "welcomeFormRegistered": true,
+  "welcomeFormRegistered": false,
 }
 `;
 
 exports[`chat reducers NEW_WEBCHAT_SESSION updates state with initial state merged with current visibility state and "initialized" set to "LOADING" 1`] = `
 Object {
   "agentTyping": false,
+  "agentsAvailable": true,
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
   "initializedState": "loading",
-  "popped": false,
   "transcript": Array [],
-  "welcomeFormRegistered": true,
+  "welcomeFormRegistered": false,
 }
 `;

@@ -34,13 +34,6 @@ Object {
 }
 `;
 
-exports[`chatActions setChatPopped builds an action 1`] = `
-Object {
-  "popped": true,
-  "type": "CHAT_POPPED",
-}
-`;
-
 exports[`chatActions setWelcomeFormRegistered builds an action 1`] = `
 Object {
   "type": "WELCOME_FORM_REGISTERED",

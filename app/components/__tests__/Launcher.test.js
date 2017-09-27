@@ -1,17 +1,18 @@
 // @flow
-jest.mock('utils/utils');
-jest.mock('utils/quiq');
+jest.mock('Common/Utils');
+jest.mock('Common/QuiqOptions');
 jest.mock('quiq-chat');
-import QUIQ, {openStandaloneMode} from 'utils/quiq';
+
+import quiqOptions from 'Common/QuiqOptions';
 import React from 'react';
 import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
 import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
-import {inStandaloneMode} from 'utils/utils';
 import QuiqChatClient from 'quiq-chat';
-import {ChatInitializedState} from '../../appConstants';
+import {ChatInitializedState} from 'Common/Constants';
+import {inStandaloneMode} from 'Common/Utils';
 
 jest.useFakeTimers();
 
@@ -49,9 +50,7 @@ describe('Launcher component', () => {
       initializedState: 'initialized',
       welcomeFormRegistered: true,
       transcript: [],
-      popped: false,
 
-      setChatPopped: jest.fn(),
       setChatContainerHidden: jest.fn(),
       setChatLauncherHidden: jest.fn(),
       setChatInitialized: jest.fn(),
@@ -59,6 +58,7 @@ describe('Launcher component', () => {
       setAgentTyping: jest.fn(),
       updateTranscript: jest.fn(),
       newWebchatSession: jest.fn(),
+      setAgentsAvailable: jest.fn(),
     };
 
     init = () => {
@@ -102,27 +102,21 @@ describe('Launcher component', () => {
     });
   });
 
-  describe('toggleChat', () => {
-    describe('when popped', () => {
-      it('focuses standalone mode', async () => {
-        testProps.popped = true;
+  describe('handleChatVisibilityChange', () => {
+    describe('when chat container is visible', () => {
+      it('starts session and joins chat', async () => {
         await render();
-        await instance.toggleChat();
-        expect(openStandaloneMode).toBeCalled();
+        await instance.handleChatVisibilityChange(false);
+        expect(testProps.setChatLauncherHidden).toBeCalledWith(false);
+        expect(QuiqChatClient.joinChat).toBeCalled();
       });
     });
 
     describe('when chat container is not visible', () => {
-      it('toggles chat', async () => {
+      it('leaves chat', async () => {
         await render();
-        wrapper.setProps({chatContainerHidden: false});
-        wrapper.update();
-        await instance.toggleChat();
-        expect(testProps.setChatContainerHidden).toBeCalledWith(true);
-        wrapper.setProps({chatContainerHidden: true});
-        wrapper.update();
-        await instance.toggleChat();
-        expect(testProps.setChatContainerHidden).toBeCalledWith(false);
+        await instance.handleChatVisibilityChange(true);
+        expect(QuiqChatClient.leaveChat).toBeCalled();
       });
     });
   });
@@ -148,7 +142,7 @@ describe('Launcher component', () => {
           testProps.initializedState = 'uninitialized';
           testProps.transcript = [getMockMessage()];
           await render();
-          expect(wrapper).toMatchSnapshot();
+          expect(testProps.setChatLauncherHidden).toBeCalledWith(false);
         });
       });
     });
@@ -169,42 +163,32 @@ describe('Launcher component', () => {
       await render();
       expect(wrapper).toMatchSnapshot();
     });
-
-    describe('customLauncherButtons', () => {
-      describe('when defined', () => {
-        beforeEach(async () => {
-          QUIQ.CUSTOM_LAUNCH_BUTTONS = ['.customButton1', '#customButton2'];
-          await render();
-          instance.updateCustomChatButtons = jest.fn();
-        });
-
-        it("doesn't render the default launcher", () => {
-          expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(0);
-        });
-      });
-
-      describe('when not defined', () => {
-        it('renders the default launcher', async () => {
-          QUIQ.CUSTOM_LAUNCH_BUTTONS = [];
-          await render();
-          expect(wrapper.find('Connect(ToggleChatButton)').length).toBe(1);
-        });
-      });
-    });
   });
 
   describe('auto pop for chat', () => {
     beforeEach(async () => {
       updateIsChatVisible(false);
+      updateHasTakenMeaningfulAction(false);
       testProps.chatContainerHidden = true;
-      QUIQ.AUTO_POP_TIME = 200;
+      quiqOptions.autoPopTime = 200;
       await render();
     });
 
-    it("opens the chat even if the end user doesn't click on it", () => {
-      jest.runTimersToTime(200);
-      wrapper.update();
-      expect(testProps.setChatContainerHidden).lastCalledWith(false);
+    describe('when agents are not available', () => {
+      it('does not pop chat', () => {
+        jest.runTimersToTime(200);
+        wrapper.update();
+        expect(testProps.setChatContainerHidden).not.toBeCalled();
+      });
+    });
+
+    describe('when agents are available', () => {
+      it("opens the chat even if the end user doesn't click on it", async () => {
+        await render();
+        jest.runTimersToTime(200);
+        wrapper.update();
+        expect(testProps.setAgentsAvailable).toBeCalledWith(true);
+      });
     });
 
     describe('when chat opens before auto_pop_time', () => {
@@ -219,7 +203,7 @@ describe('Launcher component', () => {
         it('clears the timer', async () => {
           updateIsChatVisible(true);
           testProps.chatContainerHidden = false;
-          QUIQ.AUTO_POP_TIME = 200;
+          quiqOptions.autoPopTime = 200;
           await render();
           expect(testProps.setChatContainerHidden).not.toBeCalled();
         });
@@ -238,7 +222,7 @@ describe('Launcher component', () => {
     it('restarts the client when chat is toggled', async () => {
       testProps.initializedState = ChatInitializedState.INACTIVE;
       await render();
-      await instance.toggleChat();
+      await instance.handleChatVisibilityChange(true);
       expect(QuiqChatClient.start).toBeCalled();
     });
   });
@@ -250,7 +234,6 @@ describe('Launcher component', () => {
       testProps.chatContainerHidden = true;
       testProps.chatLauncherHidden = true;
       testProps.transcript = [];
-      testProps.welcomeFormRegistered = false;
       await render();
     });
 
@@ -294,7 +277,7 @@ describe('Launcher component', () => {
 
     describe('when welcomeForm is registered', () => {
       it('assumes agents available', () => {
-        wrapper.setProps({welcomeFormRegistered: true});
+        QuiqChatClient.isRegistered.mockReturnValueOnce(true);
         jest.runTimersToTime(1000 * 60);
         expect(testProps.setChatLauncherHidden).lastCalledWith(false);
       });
