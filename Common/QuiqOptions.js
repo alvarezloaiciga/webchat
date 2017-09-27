@@ -37,7 +37,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
       rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.checkAgentsAvailability,
+    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.enforceAgentAvailability,
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
