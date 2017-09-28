@@ -132,7 +132,6 @@ The window.QUIQ object contains properties describing how the instance of webcha
             welcomeFormSubmitButtonLabel: 'Submit',
             welcomeFormSubmittingButtonLabel: 'Submitting',
             agentTypingMessage: 'Agent is typing',
-            agentEndedConversationMessage: 'Agent ended conversation.',
             connectingMessage: 'Connecting...',
             reconnectingMessage: 'Reconnecting...',
             errorMessage: "We're having trouble connecting. Try refreshing the page.",
