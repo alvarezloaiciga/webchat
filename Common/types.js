@@ -107,6 +107,10 @@ export type QuiqObject = {
   height: number,
   customLaunchButtons: Array<string>,
   mobileNumber?: string | number,
+  // The following are internal, intentionally undocumented and unsupported options used for E2E testing
+  _internal: {
+    captureRequests?: boolean,
+  },
 };
 
 export type IntlMessage = {

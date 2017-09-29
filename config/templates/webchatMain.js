@@ -65,9 +65,7 @@ function pageSetup() {
   var fontawesomeScript = document.createElement('script');
   fontawesomeScript.src="https://use.fontawesome.com/89da14f4b6.js";
   headTag.appendChild(fontawesomeScript);
-
-  var quiqWebchatScript;
-
+  
   // Listen for handshake form SDK
   window.addEventListener('message', handleMessage);
 

@@ -93,6 +93,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       },
       rawQuiqObject.messages,
     ),
+    // The following are internal, unsupported options used for E2E testing
+    _internal: rawQuiqObject._internal || {},
   };
 
   return quiqOptions;
@@ -111,6 +113,28 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   return newFormObject;
 };
 
+const processInternalOptions = (quiqOptions: QuiqObject) => {
+  const {captureRequests} = quiqOptions._internal;
+
+  // Setup request hook. This overrides the native fetch and xhr methods.
+  // That's why we only do this when this option is specified.
+  if (captureRequests) {
+    window.__quiq__capturedRequests = [];
+    const originalFetch = window.fetch;
+    const originalXhrOpen = window.XMLHttpRequest.prototype.open;
+    window.XMLHttpRequest.prototype.open = function(method: string, url: string) {
+      window.__quiq__capturedRequests.push({method, url});
+      return originalXhrOpen.call(this, method, url);
+    };
+
+    window.fetch = function(url: string, request: Object) {
+      const method = request.method || 'GET';
+      window.__quiq__capturedRequests.push({method, url});
+      return originalFetch.call(this, url, request);
+    };
+  }
+};
+
 // $FlowIssue - It's possible for this to return undefined if localStorage is disabled. We are ok with this.
 const getQuiqOptions = (): QuiqObject => {
   try {
@@ -121,6 +145,9 @@ const getQuiqOptions = (): QuiqObject => {
     if (quiqObject.localStorageKeys) {
       setLocalStorageItemsIfNewer(quiqObject.localStorageKeys);
     }
+
+    // Do any setup based on internal options, such as setting up hooks
+    processInternalOptions(quiqObject);
 
     return quiqObject;
   } catch (e) {
