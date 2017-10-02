@@ -6,6 +6,7 @@ import {
   clearQuiqKeysFromLocalStorage,
   isStorageEnabled,
   isSupportedBrowser,
+  displayError
 } from 'Common/Utils';
 import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
@@ -35,7 +36,8 @@ const bootstrap = () => {
   bindLaunchButtons();
 };
 
-export const Quiq = (options: {[string]: any}) => {
+export const Quiq = (options: {[string]: any} = {}) => {
+
   setQuiqOptions(buildQuiqObject(options));
 
   // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.

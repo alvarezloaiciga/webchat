@@ -114,7 +114,7 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
 };
 
 const processInternalOptions = (quiqOptions: QuiqObject) => {
-  const {captureRequests} = quiqOptions._internal;
+  const {captureRequests, captureWebsockets} = quiqOptions._internal;
 
   // Setup request hook. This overrides the native fetch and xhr methods.
   // That's why we only do this when this option is specified.
@@ -131,6 +131,16 @@ const processInternalOptions = (quiqOptions: QuiqObject) => {
       const method = request.method || 'GET';
       window.__quiq__capturedRequests.push({method, url});
       return originalFetch.call(this, url, request);
+    };
+  }
+
+  if (captureWebsockets) {
+    window.__quiq__ws_instanhces = [];
+    const originalWS = window.WebSocket;
+    window.WebSocket = function(url: string, protocols: string) {
+      const ws = new originalWS(url, protocols);
+      window.__quiq__ws_instanhces.push(ws);
+      return ws;
     };
   }
 };
