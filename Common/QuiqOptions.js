@@ -135,11 +135,18 @@ const processInternalOptions = (quiqOptions: QuiqObject) => {
   }
 
   if (captureWebsockets) {
-    window.__quiq__ws_instanhces = [];
+    window.__quiq__ws = {
+      instances: [],
+      // $FlowIssue - Flow doesn't know how to handle get/set
+      get connectedCount() {
+        return this.instances.filter(ws => ws.readyState === 1).length
+      }
+    };
+
     const originalWS = window.WebSocket;
     window.WebSocket = function(url: string, protocols: string) {
       const ws = new originalWS(url, protocols);
-      window.__quiq__ws_instanhces.push(ws);
+      window.__quiq__ws.instances.push(ws);
       return ws;
     };
   }

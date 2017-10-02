@@ -180,6 +180,7 @@ const quiqOptions: QuiqObject = {
       },
     ],
   },
+  _internal: {},
 };
 
 export const openStandaloneMode = jest.fn();
