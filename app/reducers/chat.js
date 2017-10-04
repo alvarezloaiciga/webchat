@@ -21,7 +21,7 @@ export const initialState = {
   transcript: [],
   agentTyping: false,
   agentEndedConversation: false,
-  welcomeFormRegistered: !quiqOptions.welcomeForm,
+  welcomeFormRegistered: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {

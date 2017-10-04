@@ -1,18 +1,28 @@
 // @flow
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import update from 'react-addons-update';
 import {messageTypes} from 'Common/Constants';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import quiqOptions, {
+  getStyle,
+  getMessage,
+  buildQuiqObject,
+  validateWelcomeFormDefinition,
+} from 'Common/QuiqOptions';
+import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
 import {supportsFlexbox} from 'Common/Utils';
-import type {WelcomeFormField} from 'Common/types';
+import type {WelcomeFormField, WelcomeForm as WelcomeFormType, ChatState} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import Textarea from 'react-textarea-autosize';
 
-export type WelcomeFormProps = {};
+export type WelcomeFormProps = {
+  setWelcomeFormRegistered: () => void,
+  welcomeFormRegistered: boolean,
+};
 
 export type WelcomeFormState = {
   formValidationError: boolean,
@@ -25,30 +35,58 @@ export type WelcomeFormState = {
     },
   },
   submitting: boolean,
+  loading: boolean,
 };
 
 export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,
+    loading: !quiqOptions.welcomeForm,
     inputFields: {},
     submitting: false,
   };
 
-  constructor(props: WelcomeFormProps) {
-    super(props);
+  processWelcomeForm = (welcomeForm: WelcomeFormType) => {
+    const inputFields = {};
+    welcomeForm.fields.forEach(field => {
+      inputFields[field.id] = {
+        value: '',
+        label: field.label,
+        required: Boolean(field.required),
+        isInitialMessage: Boolean(field.isInitialMessage),
+      };
+    });
 
+    this.setState({inputFields, loading: false});
+  };
+
+  fetchWelcomeForm = async () => {
+    const metadata = await QuiqChatClient.getMetadata();
+    const welcomeForm = metadata.registrationForm;
+    if (!welcomeForm) {
+      this.props.setWelcomeFormRegistered();
+    }
+
+    buildQuiqObject(Object.assign(quiqOptions, {welcomeForm}));
+    console.log(quiqOptions.welcomeForm);
+    if (quiqOptions.welcomeForm) {
+      this.processWelcomeForm(quiqOptions.welcomeForm);
+    }
+  };
+
+  componentWillMount() {
     const {welcomeForm} = quiqOptions;
-
     if (welcomeForm) {
-      welcomeForm.fields.forEach(field => {
-        this.state.inputFields[field.id] = {
-          value: '',
-          label: field.label,
-          required: Boolean(field.required),
-          isInitialMessage: Boolean(field.isInitialMessage),
-        };
-      });
+      // No need to fetch a form since we already have our definition and it's not being used.
+      if (QuiqChatClient.isRegistered()) return this.props.setWelcomeFormRegistered();
+
+      // Form was defined on quiqObject, skip fetching it from the API and run validation logic.
+      validateWelcomeFormDefinition();
+      this.processWelcomeForm(welcomeForm);
+    } else {
+      // Only fetch welcome form from server if it is not already defined in the Quiq Object.
+      this.fetchWelcomeForm();
     }
   }
 
@@ -187,7 +225,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   render = () => {
     const {welcomeForm, fontFamily, colors, styles} = quiqOptions;
 
-    if (!welcomeForm) return null;
+    if (!welcomeForm || this.props.welcomeFormRegistered || this.state.loading) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,
@@ -229,4 +267,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 }
 
-export default WelcomeForm;
+export default connect(
+  (state: ChatState) => ({
+    welcomeFormRegistered: state.welcomeFormRegistered,
+  }),
+  {setWelcomeFormRegistered},
+)(WelcomeForm);

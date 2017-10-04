@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {inStandaloneMode, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
@@ -23,10 +23,6 @@ export type ChatContainerProps = {
 
 export class ChatContainer extends React.Component<ChatContainerProps> {
   props: ChatContainerProps;
-
-  componentDidMount() {
-    if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
-  }
 
   renderBanner = () => {
     const {colors, styles, fontFamily} = quiqOptions;
@@ -109,8 +105,7 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormRegistered &&
-      !QuiqChatClient.isRegistered()
+      !this.props.welcomeFormRegistered
     ) {
       return (
         <div className={classNames}>
