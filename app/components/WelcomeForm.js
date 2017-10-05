@@ -3,12 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import update from 'react-addons-update';
 import {messageTypes} from 'Common/Constants';
-import quiqOptions, {
-  getStyle,
-  getMessage,
-  buildQuiqObject,
-  validateWelcomeFormDefinition,
-} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
@@ -20,7 +15,7 @@ import map from 'lodash/map';
 import Textarea from 'react-textarea-autosize';
 
 export type WelcomeFormProps = {
-  setWelcomeFormRegistered: () => void,
+  setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
   welcomeFormRegistered: boolean,
 };
 
@@ -35,21 +30,20 @@ export type WelcomeFormState = {
     },
   },
   submitting: boolean,
-  loading: boolean,
+  form?: WelcomeFormType,
 };
 
 export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
     formValidationError: false,
-    loading: !quiqOptions.welcomeForm,
     inputFields: {},
     submitting: false,
   };
 
-  processWelcomeForm = (welcomeForm: WelcomeFormType) => {
+  processWelcomeForm = (form: WelcomeFormType) => {
     const inputFields = {};
-    welcomeForm.fields.forEach(field => {
+    form.fields.forEach(field => {
       inputFields[field.id] = {
         value: '',
         label: field.label,
@@ -58,44 +52,37 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       };
     });
 
-    this.setState({inputFields, loading: false});
-  };
-
-  fetchWelcomeForm = async () => {
-    const metadata = await QuiqChatClient.getMetadata();
-    const welcomeForm = metadata.registrationForm;
-    if (!welcomeForm) {
-      this.props.setWelcomeFormRegistered();
-    }
-
-    buildQuiqObject(Object.assign(quiqOptions, {welcomeForm}));
-    console.log(quiqOptions.welcomeForm);
-    if (quiqOptions.welcomeForm) {
-      this.processWelcomeForm(quiqOptions.welcomeForm);
-    }
+    this.setState({inputFields});
   };
 
   componentWillMount() {
-    const {welcomeForm} = quiqOptions;
-    if (welcomeForm) {
-      // No need to fetch a form since we already have our definition and it's not being used.
-      if (QuiqChatClient.isRegistered()) return this.props.setWelcomeFormRegistered();
-
-      // Form was defined on quiqObject, skip fetching it from the API and run validation logic.
-      validateWelcomeFormDefinition();
-      this.processWelcomeForm(welcomeForm);
-    } else {
-      // Only fetch welcome form from server if it is not already defined in the Quiq Object.
-      this.fetchWelcomeForm();
+    if (QuiqChatClient.isRegistered()) {
+      this.props.setWelcomeFormRegistered();
+      return;
     }
+
+    this.fetchWelcomeForm();
   }
+
+  fetchWelcomeForm = async () => {
+    const data = await QuiqChatClient.getChatConfiguration();
+    const form = data.registrationForm || quiqOptions.welcomeForm;
+
+    if (!form) {
+      this.props.setWelcomeFormRegistered();
+      return;
+    }
+
+    this.processWelcomeForm(form);
+    this.setState({form});
+  };
 
   renderField = (field: WelcomeFormField) => {
     const {fontFamily, styles} = quiqOptions;
 
-    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily: fontFamily});
-    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily: fontFamily});
-    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily: fontFamily});
+    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily});
+    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
+    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
 
     return (
       <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
@@ -223,25 +210,25 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {welcomeForm, fontFamily, colors, styles} = quiqOptions;
-
-    if (!welcomeForm || this.props.welcomeFormRegistered || this.state.loading) return null;
+    const {fontFamily, colors, styles} = quiqOptions;
+    const welcomeForm = this.state.form;
+    if (this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
         <HeaderMenu />
         <div className="welcomeFormBanner" style={bannerStyle}>
-          {welcomeForm.headerText}
+          {welcomeForm && welcomeForm.headerText}
         </div>
         <Debugger />
         {this.state.formValidationError && (
@@ -249,7 +236,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
           </span>
         )}
-        <div className="fields">{welcomeForm.fields.map(this.renderField)}</div>
+        <div className="fields">{welcomeForm && welcomeForm.fields.map(this.renderField)}</div>
         <button
           className="submit"
           disabled={this.state.submitting}
@@ -271,5 +258,7 @@ export default connect(
   (state: ChatState) => ({
     welcomeFormRegistered: state.welcomeFormRegistered,
   }),
-  {setWelcomeFormRegistered},
+  {
+    setWelcomeFormRegistered,
+  },
 )(WelcomeForm);

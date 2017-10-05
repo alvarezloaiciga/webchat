@@ -200,4 +200,12 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
 </div>
 `;
 
+exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
+<div
+  className="ChatContainer initialized"
+>
+  <Connect(WelcomeForm) />
+</div>
+`;
+
 exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `null`;

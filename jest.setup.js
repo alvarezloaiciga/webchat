@@ -3,7 +3,8 @@ const blackListedStrings = [
   'Warning: Accessing PropTypes via the main React package is deprecated, and will be removed in  React v16.0. Use the latest available v15.* prop-types package from npm instead. For info on usage, compatibility, migration and more, see https://fb.me/prop-types-docs',
 ];
 
-const includesString = s => blackListedStrings.find(b => s.indexOf(b) !== -1);
+const includesString = s =>
+  blackListedStrings.find(b => typeof s === 'string' && s.indexOf(b) !== -1);
 
 const warn = console.warn;
 console.warn = jest.fn(w => {

@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QuiqChatClient from 'quiq-chat';
 import Textarea from 'react-textarea-autosize';
+import quiqOptions from 'Common/QuiqOptions';
 
 describe('WelcomeForm component', () => {
   let wrapper: ShallowWrapper;
@@ -16,16 +17,25 @@ describe('WelcomeForm component', () => {
   beforeEach(() => {
     QuiqChatClient.sendMessage = jest.fn(() => {});
     QuiqChatClient.sendRegistration = jest.fn(async () => await {});
+    QuiqChatClient.getChatConfiguration = jest.fn(() =>
+      Promise.resolve(() => ({
+        form: quiqOptions.welcomeForm,
+      })),
+    );
 
-    testProps = {};
+    testProps = {
+      setWelcomeFormRegistered: jest.fn(),
+      welcomeFormRegistered: false,
+    };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
     };
   });
 
   describe('rendering', () => {
-    beforeEach(() => {
-      render();
+    beforeEach(async () => {
+      await render();
+      wrapper.update();
     });
 
     it('renders correctly', () => {
@@ -52,8 +62,9 @@ describe('WelcomeForm component', () => {
   });
 
   describe('filling out form and submitting', () => {
-    it('does not submit if there is a required field left blank', () => {
-      render();
+    it('does not submit if there is a required field left blank', async () => {
+      await render();
+      wrapper.update();
       wrapper
         .find('button')
         .first()
@@ -61,7 +72,7 @@ describe('WelcomeForm component', () => {
       expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
-    it('does not submit if there is a required field containing only whitespace', () => {
+    it('does not submit if there is a required field containing only whitespace', async () => {
       wrapper
         .find('input')
         .at(0)
@@ -81,7 +92,8 @@ describe('WelcomeForm component', () => {
             name: 'firstName',
           },
         });
-      render();
+      await render();
+      wrapper.update();
       wrapper
         .find('button')
         .first()
@@ -90,7 +102,7 @@ describe('WelcomeForm component', () => {
     });
 
     describe('valid submission', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper
           .find('input')
           .at(0)
@@ -105,7 +117,8 @@ describe('WelcomeForm component', () => {
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
-        render();
+        await render();
+        wrapper.update();
       });
 
       it('does submit if all required fields are filled in', () => {
@@ -122,7 +135,7 @@ describe('WelcomeForm component', () => {
     });
 
     describe('valid submission with send message', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper
           .find('input')
           .at(1)
@@ -149,7 +162,8 @@ describe('WelcomeForm component', () => {
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
-        render();
+        await render();
+        wrapper.update();
       });
 
       it('does submit if all required fields are filled in', () => {
@@ -168,8 +182,9 @@ describe('WelcomeForm component', () => {
   });
 
   describe('form validation', () => {
-    beforeEach(() => {
-      render();
+    beforeEach(async () => {
+      await render();
+      wrapper.update();
     });
 
     it('sets validationError state to true if a required field is left blank', () => {

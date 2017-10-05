@@ -1,7 +1,6 @@
 // @flow
 import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
-import quiqOptions from 'Common/QuiqOptions';
 import type {ChatState, Action, ChatInitializedStateType, Message} from 'Common/types';
 
 type ChatAction = {

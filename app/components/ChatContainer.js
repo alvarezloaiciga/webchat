@@ -8,7 +8,6 @@ import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
 import Transcript from 'Transcript';
-import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
 import {ChatInitializedState, messageTypes} from 'Common/Constants';
@@ -29,10 +28,10 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
 
     const bannerStyle = getStyle(styles.HeaderBanner, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
-    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily: fontFamily});
+    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
