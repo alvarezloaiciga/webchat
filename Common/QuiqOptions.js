@@ -30,6 +30,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
+    demoMode: rawQuiqObject.demoMode,
     agentsAvailableTimer: rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000 ? rawQuiqObject.agentsAvailableTimer : 60000,
     contactPoint,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage.

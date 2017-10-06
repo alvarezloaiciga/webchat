@@ -141,6 +141,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     if (!this.validateFormInput()) return;
 
+    if (quiqOptions.demoMode) return;
+
     map(this.state.inputFields, (field, key) => {
       // Only include field if it was filled out
       // TODO: API should allow empty strings. Send all fields when this is fixed.

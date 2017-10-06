@@ -41,6 +41,7 @@
           captureRequests: false,
           captureWebsockets: false,
         },
+        demoMode: true,
         agentsAvailableTimer: 60000,
         enforceAgentAvailability: true,
         host: '<%- host %>',
@@ -137,50 +138,50 @@
             fontSize: 16,
           },
         },
-        customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
-        // welcomeForm: {
-        //   headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
-        //   fields: [
-        //     {
-        //       type: 'text',
-        //       label: 'First Name',
-        //       id: 'firstName',
-        //       required: true,
-        //     },
-        //     {
-        //       type: 'text',
-        //       label: 'Last Name',
-        //       id: 'lastName',
-        //       required: false,
-        //     },
-        //     {
-        //       type: 'textarea',
-        //       label: 'Initial Question',
-        //       id: 'initialQuestion',
-        //       required: false,
-        //       rows: 2,
-        //       isInitialMessage: true,
-        //     },
-        //     {
-        //       type: 'number',
-        //       label: 'Number Field',
-        //       id: 'numberField',
-        //       required: false,
-        //     },
-        //     {
-        //       type: 'email',
-        //       label: 'E-Mail',
-        //       id: 'email',
-        //       required: false,
-        //     },
-        //     {
-        //       type: 'tel',
-        //       label: 'Phone Number',
-        //       id: 'phoneNumber',
-        //       required: false,
-        //     },
-        //   ],
-        // },
+        //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
+        welcomeForm: {
+          headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+          fields: [
+            {
+              type: 'text',
+              label: 'First Name',
+              id: 'firstName',
+              required: true,
+            },
+            {
+              type: 'text',
+              label: 'Last Name',
+              id: 'lastName',
+              required: false,
+            },
+            {
+              type: 'textarea',
+              label: 'Initial Question',
+              id: 'initialQuestion',
+              required: false,
+              rows: 2,
+              isInitialMessage: true,
+            },
+            {
+              type: 'number',
+              label: 'Number Field',
+              id: 'numberField',
+              required: false,
+            },
+            {
+              type: 'email',
+              label: 'E-Mail',
+              id: 'email',
+              required: false,
+            },
+            {
+              type: 'tel',
+              label: 'Phone Number',
+              id: 'phoneNumber',
+              required: false,
+            },
+          ],
+        },
       };
       // Playground
       var state = {};

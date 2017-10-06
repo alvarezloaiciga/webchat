@@ -47,6 +47,7 @@ type CustomStyles = {
 };
 
 export type QuiqObject = {
+  demoMode: boolean,
   agentsAvailableTimer: number,
   contactPoint: string,
   enforceAgentAvailability: bool,
