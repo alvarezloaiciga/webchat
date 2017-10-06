@@ -65,32 +65,36 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
 
     return (
       <div className="HeaderMenu" style={headerStyle}>
-        <div className="buttons">
-          {(this.state.openingWindowExists || !inStandaloneMode()) && (
+        {!quiqOptions.demoMode && (
+          <div className="buttons">
+            {(this.state.openingWindowExists || !inStandaloneMode()) && (
+              <i
+                className={`fa fa-window-minimize icon`}
+                title={getMessage(messageTypes.minimizeWindowTooltip)}
+                onClick={inStandaloneMode() ? window.close : this.minimize}
+              />
+            )}
+            {this.props.initializedState !== ChatInitializedState.BURNED &&
+            (this.state.openingWindowExists || !inStandaloneMode()) && (
+              <i
+                className={`fa fa-${inStandaloneMode()
+                  ? 'window-restore'
+                  : 'window-maximize'} icon`}
+                title={getMessage(
+                  inStandaloneMode()
+                    ? messageTypes.dockWindowTooltip
+                    : messageTypes.openInNewWindowTooltip,
+                )}
+                onClick={inStandaloneMode() ? window.close : this.popChat}
+              />
+            )}
             <i
-              className={`fa fa-window-minimize icon`}
-              title={getMessage(messageTypes.minimizeWindowTooltip)}
+              className={`fa fa-times icon`}
+              title={getMessage(messageTypes.closeWindowTooltip)}
               onClick={inStandaloneMode() ? window.close : this.minimize}
             />
-          )}
-          {this.props.initializedState !== ChatInitializedState.BURNED &&
-          (this.state.openingWindowExists || !inStandaloneMode()) && (
-            <i
-              className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
-              title={getMessage(
-                inStandaloneMode()
-                  ? messageTypes.dockWindowTooltip
-                  : messageTypes.openInNewWindowTooltip,
-              )}
-              onClick={inStandaloneMode() ? window.close : this.popChat}
-            />
-          )}
-          <i
-            className={`fa fa-times icon`}
-            title={getMessage(messageTypes.closeWindowTooltip)}
-            onClick={inStandaloneMode() ? window.close : this.minimize}
-          />
-        </div>
+          </div>
+        )}
       </div>
     );
   }

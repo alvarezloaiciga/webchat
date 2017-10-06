@@ -5,6 +5,7 @@ import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
+  anchorElement: '',
   demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
