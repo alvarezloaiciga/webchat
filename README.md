@@ -1,7 +1,7 @@
 # Quiq WebChat [![Build Status](https://travis-ci.org/Quiq/webchat.svg?branch=master)](https://travis-ci.org/Quiq/webchat) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 This is the end-user client for web chats with Quiq Messaging
 
-## Customizing
+## Customizing 
 We provide a way to customize the look and feel of Quiq Webchat to fit your brand's look and feel. You can provide a set of `COLORS` in the `window.QUIQ` configuration object. (See [here](#windowquiq-object) for more details). If you want more control than this, you can also set the `STYLES` property to customize elements in more detail. Information on what all can be customized is listed [here](#setting-styles).
 
 ## Usage
