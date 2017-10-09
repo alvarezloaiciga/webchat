@@ -41,9 +41,10 @@
           captureRequests: false,
           captureWebsockets: false,
         },
+        anchorElement: 'anchorPoint',
         demoMode: true,
         agentsAvailableTimer: 60000,
-        enforceAgentAvailability: true,
+        enforceAgentAvailability: false,
         host: '<%- host %>',
         contactPoint: 'default',
         autoPopTime: 120000,
@@ -292,6 +293,8 @@
                 <tbody>
                 </tbody>
             </table>
+
+            <div id="anchorPoint"></div>
 
             <!-- SDK methods -->
             <div class="page-header">

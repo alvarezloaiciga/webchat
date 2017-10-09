@@ -107,7 +107,7 @@ export type QuiqObject = {
   width: number,
   height: number,
   customLaunchButtons: Array<string>,
-  anchorElement?: string,
+  anchorElement: string,
   mobileNumber?: string | number,
   // The following are internal, intentionally undocumented and unsupported options used for E2E testing
   _internal: {
