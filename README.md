@@ -199,6 +199,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - type:
     ```javascript
     {
+      headerText?: string,
       fields: [
         {
           id: string,
@@ -216,6 +217,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - example:
     ```js
       {
+        headerText: 'Please tell us a little about yourself.',
         fields: [
           {
             id: 'firstName',
