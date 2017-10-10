@@ -1,6 +1,6 @@
 // @flow
 /** @jsx h */
-import 'babel-polyfill';
+// import 'babel-polyfill'; TODO: PUT ME BACK
 import {
   camelizeToplevelScreamingSnakeCaseKeys,
   clearQuiqKeysFromLocalStorage,
@@ -27,8 +27,7 @@ const constructLauncher = () => {
   let anchorElement = null;
   if (options.anchorElement && options.anchorElement !== '') {
     anchorElement = document.querySelector(options.anchorElement);
-  }
-  else {
+  } else {
     const root = document.createElement('div');
     root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
     document.getElementsByTagName('body')[0].appendChild(root);

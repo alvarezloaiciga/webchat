@@ -29,7 +29,7 @@ module.exports = merge(config, {
       'react-hot-loader/patch',
       'development',
     ],
-    sdk: ['babel-polyfill', './SDK/src/index.js'],
+    sdk: ['./SDK/src/index.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },

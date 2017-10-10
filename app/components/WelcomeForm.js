@@ -65,6 +65,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   }
 
   fetchWelcomeForm = async () => {
+    if (quiqOptions.demoMode && quiqOptions.welcomeForm) {
+      this.processWelcomeForm(quiqOptions.welcomeForm);
+      this.setState({form: quiqOptions.welcomeForm});
+      return;
+    }
+
     const data = await QuiqChatClient.getChatConfiguration();
     const form = data.registrationForm || quiqOptions.welcomeForm;
 
