@@ -98,11 +98,11 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     );
   };
 
-  sendInitialMessage = () => {
-    map(this.state.inputFields, field => {
+  sendInitialMessage = async () => {
+    await map(this.state.inputFields, async field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        QuiqChatClient.sendMessage(field.value);
+        await QuiqChatClient.sendMessage(field.value);
       }
     });
   };
@@ -127,7 +127,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);
-    this.sendInitialMessage();
+    await this.sendInitialMessage();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {
