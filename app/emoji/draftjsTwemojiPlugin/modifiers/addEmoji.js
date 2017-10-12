@@ -72,7 +72,7 @@ const addEmoji = (editorState, emoji, mode = Mode.INSERT) => {
     }
 
     default:
-      throw new Error('Unidentified value of "mode"');
+      throw new Error(`Unidentified value "${mode}" of enum mode`);
   }
 
   // If the emoji is inserted at the end, a space is appended right after for
