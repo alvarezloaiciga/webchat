@@ -6,7 +6,6 @@ import {
   clearQuiqKeysFromLocalStorage,
   isStorageEnabled,
   isSupportedBrowser,
-  displayError
 } from 'Common/Utils';
 import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
