@@ -74,7 +74,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
             />
           )}
           {this.props.initializedState !== ChatInitializedState.BURNED &&
-          (this.state.openingWindowExists || !inStandaloneMode()) && (
+          (!inStandaloneMode() || this.state.openingWindowExists) && (
             <i
               className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
               title={getMessage(

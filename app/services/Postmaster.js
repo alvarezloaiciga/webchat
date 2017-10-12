@@ -42,6 +42,25 @@ export const init = (_domain: string, _store: ReduxStore) => {
   setupReduxHooks();
 };
 
+/**
+ * Ensure that the postRobot client is in a good state, and that hosting window exists.
+ * @returns {boolean}
+ */
+const preflight = (): boolean => {
+  const hostingWindow = getHostingWindow();
+
+  if (!postRobotClient) {
+    return displayError('Postmaster.init() must be called prior to sending message.');
+  }
+
+  // Do not post message if parent window has been closed
+  if (!hostingWindow || hostingWindow.closed) {
+    return false;
+  }
+
+  return true;
+};
+
 const setupListeners = () => {
   if (!postRobotListener) {
     return displayError('Postmaster.init() must be called prior to setting up listeners.');
@@ -54,11 +73,9 @@ const setupListeners = () => {
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
-  if (!postRobotClient) {
-    return displayError('Postmaster.init() must be called prior to sending message.');
+  if (preflight()) {
+    postRobotClient.send(messageName, data);
   }
-
-  postRobotClient.send(messageName, data);
 };
 
 /**********************************************************************************
