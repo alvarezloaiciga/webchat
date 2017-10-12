@@ -13,7 +13,7 @@ export type EmojiPickerProps = {
   addEmoji: (emoji: Emoji) => void,
   visible?: boolean,
   onOutsideClick?: () => void,
-  ignoreOutsideClick?: Array<string>,
+  ignoreOutsideClickOnSelectors?: Array<string>,
   emojiFilter?: (e: Emoji) => boolean,
 };
 
@@ -107,8 +107,8 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
   const handleClickOutside = (e: SyntheticMouseEvent<*>) => {
     if (!props.visible) return;
 
-    if (Array.isArray(props.ignoreOutsideClick)) {
-      for (const selector of props.ignoreOutsideClick) {
+    if (Array.isArray(props.ignoreOutsideClickOnSelectors)) {
+      for (const selector of props.ignoreOutsideClickOnSelectors) {
         const nodes = document.querySelectorAll(selector);
         for (const node of nodes) {
           if (e.target instanceof Node) {

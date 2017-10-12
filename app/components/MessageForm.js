@@ -224,7 +224,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             addEmoji={this.handleEmojiSelection}
             emojiFilter={EmojiUtils.emojiFilter}
             onOutsideClick={this.toggleEmojiPicker}
-            ignoreOutsideClick={['.emojiBtn']}
+            ignoreOutsideClickOnSelectors={['.emojiBtn']}
           />
         </div>
       </div>
