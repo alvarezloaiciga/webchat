@@ -9,6 +9,7 @@ const U200D = String.fromCharCode(0x200d);
 // Courtesy of react-easy-emoji
 // https://github.com/appfigures/react-easy-emoji
 // Converts an emoji unicode to hexadecimal code point
+// Note: this function originates from Twemoji itself, and encapsulates their file naming paradigm.
 const unicodeToCodePoint = (unicodeSurrogates, sep) => {
   const r = [];
   let c = 0,
@@ -37,15 +38,7 @@ const unicodeToCodePoint = (unicodeSurrogates, sep) => {
 const grabTheRightIcon = rawText =>
   unicodeToCodePoint(rawText.indexOf(U200D) < 0 ? rawText.replace(UFE0FgRegEx, '') : rawText);
 
-const Emoji = ({
-  imagePath,
-  imageSize,
-  imageType,
-  className,
-  decoratedText,
-  useNativeArt,
-  ...props
-}) => {
+export const Emoji = ({imagePath, imageSize, imageType, decoratedText, useNativeArt, ...props}) => {
   let emojiDisplay = null;
   if (useNativeArt === true) {
     emojiDisplay = <span>{props.children}</span>;
