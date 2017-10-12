@@ -2,7 +2,6 @@ import {Modifier, EditorState} from 'draft-js';
 import getSearchText from '../utils/getSearchText';
 
 // This modifier can inserted emoji to current cursor position (with replace selected fragment),
-// or replaced emoji shortname like ":thumbsup:". Behavior determined by `Mode` parameter.
 const Mode = {
   INSERT: 'INSERT', // insert emoji to current cursor position
   REPLACE: 'REPLACE', // replace emoji shortname
