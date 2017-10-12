@@ -5,7 +5,9 @@
   "author": "Quiq",
   "license": "ISC",
   "private": true,
-  "keywords": ["webchat"],
+  "keywords": [
+    "webchat"
+  ],
   "repository": {
     "type": "git",
     "url": "https://gitlab.quiq.sh/development/webchat"
@@ -16,8 +18,7 @@
     "prevmstart": "yarn run rimraf dist",
     "vmstart": "./node_modules/.bin/nf start",
     "prebuild": "yarn run rimraf dist temp_docker",
-    "build":
-      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
     "postbuild": ". config/postbuild.sh",
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
@@ -26,17 +27,34 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "app/**/*.js": ["prettier --write", "git add"],
-    "app/**/*.scss": ["prettier --write", "git add"]
+    "app/**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "app/**/*.scss": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
-    "setupFiles": ["jest-localstorage-mock", "./jest.setup.js"],
+    "setupFiles": [
+      "jest-localstorage-mock",
+      "./jest.setup.js"
+    ],
     "notify": true,
-    "modulePaths": ["./", "app/components", "app", "SDK/src", "node_modules"],
+    "modulePaths": [
+      "./",
+      "app/components",
+      "app",
+      "SDK/src",
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
-    "snapshotSerializers": ["<rootDir>/node_modules/enzyme-to-json/serializer"],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
     "globals": {
       "quiqOptions": {
         "contactPoint": "Bob",
@@ -57,7 +75,10 @@
       "__VERSION__": "1.0.0"
     },
     "rootDir": "./",
-    "roots": ["app", "Common"]
+    "roots": [
+      "app",
+      "Common"
+    ]
   },
   "devDependencies": {
     "autoprefixer": "6.4.1",
@@ -132,6 +153,10 @@
     "babel-polyfill": "6.23.0",
     "babel-runtime": "6.11.6",
     "classnames": "2.2.5",
+    "draft-js": "^0.10.3",
+    "draft-js-plugins-editor": "beta",
+    "emoji-mart": "2.0.1",
+    "emoji-regex": "6.5.1",
     "file-saver": "1.3.3",
     "intl": "1.2.5",
     "lodash": "4.17.4",
@@ -140,7 +165,9 @@
     "quiq-chat": "1.20.1",
     "react": "15.6.0",
     "react-addons-update": "15.6.0",
+    "react-click-outside-component": "1.1.1",
     "react-dom": "15.6.0",
+    "react-easy-emoji": "1.1.0",
     "react-intl": "2.3.0",
     "react-linkify": "0.2.1",
     "react-redux": "5.0.5",

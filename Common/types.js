@@ -107,6 +107,8 @@ export type QuiqObject = {
   height: number,
   customLaunchButtons: Array<string>,
   mobileNumber?: string | number,
+  includeEmojis: Array<string>,
+  excludeEmojis: Array<string>,
   // The following are internal, intentionally undocumented and unsupported options used for E2E testing
   _internal: {
     captureRequests?: boolean,
@@ -116,8 +118,8 @@ export type QuiqObject = {
 
 export type IntlMessage = {
   id: string,
-  description: string,
-  defaultMessage: string,
+  description?: string,
+  defaultMessage?: string,
 };
 
 export type IntlObject = {
@@ -430,4 +432,18 @@ export type ApiError = {
   code?: number,
   message?: string,
   status?: number,
+};
+
+export type Emoji = {
+  id: string,
+  name: string,
+  colons: string,
+  text: string,
+  emoticons: Array<string>,
+  skin?: number,
+  native: string,
+};
+
+export type EmojiMetadata = {
+  short_names: Array<string>,
 };

@@ -69,6 +69,9 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
     mobileNumber: rawQuiqObject.mobileNumber,
+    enableEmoji: rawQuiqObject.enableEmoji || true,
+    includeEmojis: rawQuiqObject.includeEmojis || [],
+    excludeEmojis: rawQuiqObject.excludeEmojis || [],
     messages: Object.assign(
       {},
       {

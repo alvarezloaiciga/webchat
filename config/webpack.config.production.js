@@ -110,7 +110,7 @@ module.exports = merge(config, {
         }),
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         include: [path.resolve(__dirname, '../SDK/src/components')],
         loader: [
           'style',

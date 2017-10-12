@@ -23,7 +23,7 @@ module.exports = {
     alias: {
       Common: path.join(__dirname, '../Common'),
     },
-    extensions: ['.js', '.scss'],
+    extensions: ['.js', '.scss', '.css'],
   },
   plugins: [
     new webpack.DefinePlugin(GLOBALS),

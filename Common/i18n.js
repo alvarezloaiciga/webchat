@@ -19,6 +19,8 @@ export const registerIntlObject = (intlObject: IntlObject): void => {
  */
 export const formatMessage = (message: IntlMessage, values: Object = {}): string => {
   if (!intl) {
+    if (!message.defaultMessage)
+      return '';
     // Intl object not defined, fall back to returning default message
     return buildTemplateString(message.defaultMessage, values);
   }
