@@ -111,10 +111,8 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
       for (const selector of props.ignoreOutsideClickOnSelectors) {
         const nodes = document.querySelectorAll(selector);
         for (const node of nodes) {
-          if (e.target instanceof Node) {
-            if (node.contains(e.target)) {
-              return;
-            }
+          if (e.target instanceof Node && node.contains(e.target)) {
+            return;
           }
         }
       }
