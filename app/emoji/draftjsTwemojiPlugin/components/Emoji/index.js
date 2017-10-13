@@ -29,10 +29,11 @@ const unicodeToCodePoint = (unicodeSurrogates, sep) => {
   return r.join(sep || '-');
 };
 
+// Note: this function originates from Twemoji itself, and encapsulates their file naming paradigm.
 /**
- * Used to both remove the possible variant
+ * Used to both remove the possible variant (skin tone characters)
  * and to convert utf16 into code points.
- * If there is a zero-width-joiner (U+200D), leave the variants in.
+ * If there is a zero-width-joiner (U+200D) present, leave the variants in.
  * @param rawText {string} - The raw text of the emoji match
  */
 const grabTheRightIcon = rawText =>

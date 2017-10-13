@@ -1,5 +1,5 @@
 import {EditorState, Modifier, SelectionState} from 'draft-js';
-import findWithRegex from '../utils/finWithRegex';
+import findWithRegex from '../utils/findWithRegex';
 import emojiRegex from 'emoji-regex';
 
 const unicodeRegex = emojiRegex();

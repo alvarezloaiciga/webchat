@@ -1,9 +1,17 @@
 import {emojiIndex} from 'emoji-mart';
+import emojiRegexFactory from 'emoji-regex';
 import type {EmojiMetadata, Emoji} from 'Common/Types';
 import quiqOptions from 'Common/QuiqOptions';
 
-// NOTE: In emoji-mart land, id === short_codes[0]
+const emojiRegex = emojiRegexFactory();
 
+export const isSingleEmoji = (text: string): boolean => {
+  const emojis = text.match(emojiRegex);
+  const emojiCharCount = emojis.reduce((count, e) => count + e.length, 0);
+  return emojis.length === 1 && text.length === emojiCharCount;
+};
+
+// NOTE: In emoji-mart land, id === short_codes[0]
 export const convertUnicodeToEmojiObject = (u: string): ?Emoji => {
   const emojiId = Object.keys(emojiIndex.emojis).find(k => emojiIndex.emojis[k].native === u);
   return emojiIndex.emojis[emojiId];

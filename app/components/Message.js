@@ -5,6 +5,7 @@ import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
 import Twemoji from 'react-easy-emoji';
+import {isSingleEmoji} from '../utils/emojiUtils';
 import type {Message as MessageType} from 'Common/types';
 import './styles/Message.scss';
 
@@ -15,21 +16,21 @@ export type MessageProps = {
 /**
  * Convert Emoji characters to <img> tags pointed at twemoji.
  * @param text {string} - String to emojify.
- * @param largeEmojis {boolean} - Whether or not emojis should be rendered larger.
- * We use to make single emojis appear big.
  * @return Array of React elements
  */
-const emojify = (text: string, largeEmojis: boolean = false): Array<React$Element<*>> =>
-  Twemoji(text, {
+const emojify = (text: string): Array<React$Element<*>> => {
+  const singleEmoji = isSingleEmoji(text);
+  return Twemoji(text, {
     props: {
       style: {
-        height: largeEmojis ? '30px' : '1em',
-        width: largeEmojis ? '30px' : '1em',
+        height: singleEmoji ? '30px' : '1em',
+        width: singleEmoji ? '30px' : '1em',
         margin: '0px 0.05em 0px 0.1em',
         verticalAlign: '-0.2em',
       },
     },
   });
+};
 
 const {fontFamily, colors, styles, width} = quiqOptions;
 
@@ -70,10 +71,6 @@ export const Message = (props: MessageProps) => {
     ? {marginLeft: 'auto', justifyContent: 'flex-end'}
     : {marginRight: 'auto', justifyContent: 'flex-start'};
 
-  // If a message contains only two characters, if an emoji is found it must be the ONLY symbol in the  message.
-  // This will make messages containing only one emoji larger.
-  const useLargeEmoji = props.message.text.length === 2;
-
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
       <div style={{display: 'flex', ...margin}}>
@@ -94,7 +91,7 @@ export const Message = (props: MessageProps) => {
               },
             }}
           >
-            <span style={textStyle}>{emojify(props.message.text, useLargeEmoji)}</span>
+            <span style={textStyle}>{emojify(props.message.text)}</span>
           </Linkify>
         </div>
         {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}

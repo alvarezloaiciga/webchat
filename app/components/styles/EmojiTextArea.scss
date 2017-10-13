@@ -40,6 +40,7 @@
     the best value, but hopefully a good enough approximation for most fonts.
     */
     display: inline-block;
+    visibility: visible;
     overflow: hidden;
     max-width: 1.95ch;
     /*
@@ -49,11 +50,6 @@
     max-height: 1em;
     line-height: inherit;
     margin: -.2ex 0em 0.2ex;
-    /*
-    In the past we used opacity: 0 to hide the original Emoji icon no matter what
-    system it is. Recently we switched to color: transparent since it started to
-    work in recent iOS version.
-    */
     color: transparent;
   }
 }

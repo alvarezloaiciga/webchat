@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
-import {EditorState, ContentState, SelectionState, Modifier} from 'draft-js';
+import {EditorState, ContentState, Modifier} from 'draft-js';
 import createEmojiPlugin from '../emoji/draftjsTwemojiPlugin';
-//import 'draft-js-twemoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css';
 import './styles/EmojiTextArea.scss';
 
 export type EmojiTextareaProps = {
   onReturn?: () => void,
-  onChange?: string => void,
+  onChange?: (text: string) => void,
   style?: Object,
   maxLength?: number,
 };
@@ -31,9 +30,8 @@ export default class EmojiTextArea extends Component {
     this.editor.focus();
   };
 
-  addEmoji = (emoji: string) => {
-    // See https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/addEmoji.js
-
+  // See https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-emoji-plugin/src/modifiers/addEmoji.js
+  insertEmoji = (emoji: string) => {
     const contentState = this.state.editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity('emoji', 'IMMUTABLE', {
       emojiUnicode: emoji,

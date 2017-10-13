@@ -150,7 +150,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   addEmoji = (emoji: Emoji) => {
-    this.textArea.addEmoji(emoji.native);
+    this.textArea.insertEmoji(emoji.native);
   };
 
   render() {
