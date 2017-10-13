@@ -253,7 +253,17 @@ The window.QUIQ object contains properties describing how the instance of webcha
         ]
       }
     ```
+    - INCLUDE_EMOJIS
+        - type: Array<string>
+        - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `EXCLUDE_EMOJIS`.**
+        - default: `[]`
+        - example: `['hatching_chick', 'stuck_out_tongue']`
 
+    - EXCLUDE_EMOJIS
+            - type: Array<string>
+            - description: An array of emoji names to not allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `EXCLUDE_EMOJIS`.**
+            - default: `[]`
+            - example: `['hatching_chick', 'stuck_out_tongue']`
 ### Setting Styles
 Values passed into the `STYLES` property of the `window.QUIQ` object will be applied to the elements using inline styles. Properties are named the same as in CSS, except that they are camelCased. For example:
 ```
