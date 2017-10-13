@@ -17,6 +17,9 @@ import {bindLaunchButtons} from 'managers/ButtonManager';
 import {setQuiqOptions, getQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
 
+// Flag indicating whether or not chat has been bootstrapped
+let initialized = false;
+
 const constructLauncher = () => {
   const unsupported = !isStorageEnabled() || !isSupportedBrowser();
 
@@ -37,10 +40,19 @@ const bootstrap = () => {
 };
 
 export const Quiq = (options: {[string]: any} = {}) => {
+  // We should only initialize once. Throw error if called twice.
+  if (initialized) {
+    throw new Error(`Quiq Chat has already been initialized. 
+      Quiq() should only be called once.
+      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`
+    );
+  }
+
+  initialized = true;
 
   setQuiqOptions(buildQuiqObject(options));
 
-  // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
+  // Remove any Quiq keys from localStorage--we only wanted to send them to webchat the first time iframes were used.
   clearQuiqKeysFromLocalStorage();
 
   if (document.readyState === 'complete') {
@@ -55,9 +67,19 @@ export const Quiq = (options: {[string]: any} = {}) => {
 export default Quiq;
 
 /*****************************************************************************************/
-// If window.QUIQ is defined, build chat instance automatically for backwards-compatibility
+// If window.QUIQ is defined, build chat instance automatically for backwards-compatibility.
+
 if (window.QUIQ) {
   Quiq(camelizeToplevelScreamingSnakeCaseKeys(window.QUIQ));
 } else {
+  // Expose Quiq() initialization function.
   window.Quiq = Quiq;
+
+  // Add even listener for page load to check for window.QUIQ and bootstrap
+  // This is needed for legacy customers who include us prior to defining window.QUIQ
+  window.addEventListener('load', () => {
+    if (!initialized && window.QUIQ) {
+      Quiq(camelizeToplevelScreamingSnakeCaseKeys(window.QUIQ));
+    }
+  });
 }
