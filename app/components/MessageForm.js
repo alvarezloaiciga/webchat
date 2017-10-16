@@ -9,7 +9,7 @@ import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmojiPicker from 'EmojiPicker';
 import emojiRegexFactory from 'emoji-regex';
-import * as EmojiUtils from '../utils/EmojiUtils';
+import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji} from 'Common/types';
 

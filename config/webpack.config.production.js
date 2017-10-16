@@ -111,7 +111,12 @@ module.exports = merge(config, {
       },
       {
         test: /\.s?css$/,
-        include: [path.resolve(__dirname, '../SDK/src/components')],
+        include: [
+          path.resolve(__dirname, '../SDK/src/components'),
+          path.resolve(__dirname, '../node_modules/emoji-mart'),
+          path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
+          path.resolve(__dirname, '../node_modules/draft-js')
+        ],
         loader: [
           'style',
           {loader: 'css', query: {sourceMap: true}},
