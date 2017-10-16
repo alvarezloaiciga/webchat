@@ -10,6 +10,9 @@ export type EmojiTextareaProps = {
   onChange?: (text: string) => void,
   style?: Object,
   maxLength?: number,
+  disabled?: boolean,
+  maxLength?: number,
+  placeholder?: string,
 };
 
 export type EmojiTextareaState = {

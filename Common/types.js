@@ -107,8 +107,8 @@ export type QuiqObject = {
   height: number,
   customLaunchButtons: Array<string>,
   mobileNumber?: string | number,
-  includeEmojis: Array<string>,
-  excludeEmojis: Array<string>,
+  includeEmojis?: Array<string>,
+  excludeEmojis?: Array<string>,
   // The following are internal, intentionally undocumented and unsupported options used for E2E testing
   _internal: {
     captureRequests?: boolean,

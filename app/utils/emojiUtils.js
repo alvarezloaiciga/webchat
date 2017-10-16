@@ -1,6 +1,5 @@
 import {emojiIndex} from 'emoji-mart';
 import emojiRegexFactory from 'emoji-regex';
-import invertBy from 'lodash/invertBy';
 import type {EmojiMetadata, Emoji} from 'Common/Types';
 import quiqOptions from 'Common/QuiqOptions';
 

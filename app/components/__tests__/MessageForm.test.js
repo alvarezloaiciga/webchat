@@ -2,16 +2,17 @@
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
+jest.mock('components/EmojiTextarea');
 
 import React from 'react';
 import {MessageForm} from '../MessageForm';
-import {shallow, mount} from 'enzyme';
-import type {ReactWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
+import type {ShallowWrapper} from 'enzyme';
 import type {MessageFormProps} from '../MessageForm';
 import QuiqChatClient from 'quiq-chat';
 
 describe('MessageForm component', () => {
-  let wrapper: ReactWrapper;
+  let wrapper: ShallowWrapper;
   let testProps: MessageFormProps;
   let instance: any;
   let render: () => void;
@@ -25,7 +26,7 @@ describe('MessageForm component', () => {
         agentTyping: false,
         agentEndedConversation: false,
       };
-      wrapper = mount(<MessageForm {...testProps} />);
+      wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();
     };
   });
@@ -44,21 +45,6 @@ describe('MessageForm component', () => {
     it('handling textarea onchange', () => {
       instance.handleTextChanged('foo');
       expect(wrapper.state('hasText')).toBe(true);
-    });
-
-    describe('pressing enter', () => {
-      beforeEach(() => {
-        instance.handleReturnKey();
-      });
-
-      it('adds text', () => {
-        expect(QuiqChatClient.sendMessage).toBeCalled();
-      });
-
-      it('clears message form', () => {
-        wrapper.update();
-        expect(instance.textArea.setText).toBeCalledWith('');
-      });
     });
   });
 

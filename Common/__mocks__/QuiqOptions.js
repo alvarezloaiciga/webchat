@@ -180,6 +180,7 @@ const quiqOptions: QuiqObject = {
       },
     ],
   },
+  excludeEmojis: ['hankey'],
   _internal: {},
 };
 

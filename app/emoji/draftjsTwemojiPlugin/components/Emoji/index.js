@@ -20,7 +20,7 @@ const unicodeToCodePoint = (unicodeSurrogates, sep) => {
     if (p) {
       r.push((0x10000 + ((p - 0xd800) << 10) + (c - 0xdc00)).toString(16));
       p = 0;
-    } else if (0xd800 <= c && c <= 0xdbff) {
+    } else if (c >= 0xd800 && c <= 0xdbff) {
       p = c;
     } else {
       r.push(c.toString(16));
