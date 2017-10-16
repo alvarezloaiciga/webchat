@@ -1,35 +1,37 @@
 // @flow
-
+/** @jsx h */
 import 'babel-polyfill';
-import {camelizeToplevelScreamingSnakeCaseKeys, clearQuiqKeysFromLocalStorage} from 'Common/Utils';
-import ReactDOM, {render} from 'react-dom';
-import React from 'react';
+import {
+  camelizeToplevelScreamingSnakeCaseKeys,
+  clearQuiqKeysFromLocalStorage,
+  isStorageEnabled,
+  isSupportedBrowser,
+  displayError
+} from 'Common/Utils';
+import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
 import {quiqContainerId} from 'Common/Constants';
-import {bindLaunchButtons} from 'managers/ButtonManager';
-import {setQuiqOptions} from './Globals';
-import SDKPrototype from './SdkPrototype';
+import NonChat from './components/NonChat';
 import SDKLauncher from './components/SDKLauncher';
+import {bindLaunchButtons} from 'managers/ButtonManager';
+import {setQuiqOptions, getQuiqOptions} from './Globals';
+import SDKPrototype from './SdkPrototype';
 
-export const destructLauncher = () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById(quiqContainerId));
-};
+// Flag indicating whether or not chat has been bootstrapped
+let initialized = false;
 
 const constructLauncher = () => {
+  const unsupported = !isStorageEnabled() || !isSupportedBrowser();
+
+  // We will add the unsupported classes to their custom launchers.
+  // There's nothing for us to render.
+  if (unsupported && getQuiqOptions().customLaunchButtons.length > 0) return;
+
   const root = document.createElement('div');
   root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
   document.getElementsByTagName('body')[0].appendChild(root);
 
-  render(<SDKLauncher />, document.getElementById(quiqContainerId));
-
-  // Hot Module Replacement API
-  if (module.hot) {
-    // $FlowIssue
-    module.hot.accept('./components/SDKLauncher', () => {
-      const NextSDKLauncher = require('./components/SDKLauncher').default; // eslint-disable-line global-require
-      ReactDOM.render(<NextSDKLauncher />, document.getElementById(quiqContainerId));
-    });
-  }
+  render(unsupported ? <NonChat /> : <SDKLauncher />, document.getElementById(quiqContainerId));
 };
 
 const bootstrap = () => {
@@ -37,9 +39,20 @@ const bootstrap = () => {
   bindLaunchButtons();
 };
 
-export const Quiq = (options: {[string]: any}) => {
+export const Quiq = (options: {[string]: any} = {}) => {
+  // We should only initialize once. Throw error if called twice.
+  if (initialized) {
+    throw new Error(`Quiq Chat has already been initialized. 
+      Quiq() should only be called once.
+      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`
+    );
+  }
+
+  initialized = true;
+
   setQuiqOptions(buildQuiqObject(options));
-  // Remove any Quiq keys from localStorage--we only wanted to send them webchat the first iframes were used.
+
+  // Remove any Quiq keys from localStorage--we only wanted to send them to webchat the first time iframes were used.
   clearQuiqKeysFromLocalStorage();
 
   if (document.readyState === 'complete') {
@@ -54,9 +67,19 @@ export const Quiq = (options: {[string]: any}) => {
 export default Quiq;
 
 /*****************************************************************************************/
-// If window.QUIQ is defined, build chat instance automatically for backwards-compatibility
+// If window.QUIQ is defined, build chat instance automatically for backwards-compatibility.
+
 if (window.QUIQ) {
   Quiq(camelizeToplevelScreamingSnakeCaseKeys(window.QUIQ));
 } else {
+  // Expose Quiq() initialization function.
   window.Quiq = Quiq;
+
+  // Add even listener for page load to check for window.QUIQ and bootstrap
+  // This is needed for legacy customers who include us prior to defining window.QUIQ
+  window.addEventListener('load', () => {
+    if (!initialized && window.QUIQ) {
+      Quiq(camelizeToplevelScreamingSnakeCaseKeys(window.QUIQ));
+    }
+  });
 }

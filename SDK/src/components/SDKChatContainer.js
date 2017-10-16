@@ -1,10 +1,10 @@
 // @flow
-import React from 'react';
+/** @jsx h */
+import {Component, h} from 'preact';
 import {getQuiqOptions, setChatWindow, getChatWindow} from 'Globals';
 import {webchatPath, eventTypes, actionTypes} from 'Common/Constants';
 import {setup, registerEventHandler, tellChat} from 'Postmaster';
-import {isIFrame} from 'Common/Utils';
-import {usingCustomLauncher} from 'Common/QuiqOptions';
+import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
 import './styles/SDKChatContainer.scss';
 
@@ -13,10 +13,7 @@ type SDKChatContainerState = {
   containerVisible: boolean,
 };
 
-export class SDKChatContainer extends React.Component<
-  SDKChatContainerProps,
-  SDKChatContainerState,
-> {
+export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatContainerState> {
   props: SDKChatContainerProps;
   state: SDKChatContainerState = {
     containerVisible: false,
@@ -79,11 +76,11 @@ export class SDKChatContainer extends React.Component<
   };
 
   render() {
-    const {isStorageEnabled, isSupportedBrowser, width, host, height, position} = getQuiqOptions();
+    const {width, host, height, position, customLaunchButtons} = getQuiqOptions();
 
-    if (!isStorageEnabled || !isSupportedBrowser) return null;
+    if (!isStorageEnabled() || !isSupportedBrowser()) return null;
     const classNames = classnames('SDKChatContainer', {
-      hasCustomLauncher: usingCustomLauncher(),
+      hasCustomLauncher: customLaunchButtons.length > 0,
     });
 
     return (

@@ -15,10 +15,13 @@ const {colors, fontFamily, styles} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
+  agentEndedConversation: boolean,
+  agentsInitiallyAvailable?: boolean,
 };
 
 type MessageFormState = {
   text: string,
+  agentsAvailable: boolean,
 };
 
 let updateTimer;
@@ -27,7 +30,26 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   props: MessageFormProps;
   state: MessageFormState = {
     text: '',
+    agentsAvailable: true,
   };
+  checkAvailabilityTimer: number;
+
+  checkAvailability = async () => {
+    if (quiqOptions.enforceAgentAvailability) {
+      const available = await QuiqChatClient.checkForAgents();
+
+      this.setState({agentsAvailable: available.available});
+      clearTimeout(this.checkAvailabilityTimer);
+      this.checkAvailabilityTimer = setTimeout(
+        this.checkAvailability,
+        quiqOptions.agentsAvailableTimer,
+      );
+    }
+  };
+
+  componentWillUnmount() {
+    clearTimeout(this.checkAvailabilityTimer);
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -35,6 +57,19 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         this.textArea.focus();
       }
     }, 200);
+
+    if (
+      (!this.props.agentsInitiallyAvailable && !QuiqChatClient.isUserSubscribed()) ||
+      this.props.agentEndedConversation
+    ) {
+      this.checkAvailability();
+    }
+  }
+
+  componentWillUpdate(nextProps: MessageFormProps) {
+    if (!this.props.agentEndedConversation && nextProps.agentEndedConversation) {
+      this.checkAvailability();
+    }
   }
 
   startTyping = () => {
@@ -61,9 +96,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   handleTextChanged = (e: SyntheticInputEvent<*>) => {
     const state = Object.assign({
       text: e.target.value,
+      agentsAvailable: true,
     });
 
-    this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
+    // This can get raised in IE 11 and in automation even if text hasn't been
+    // entered. So ignore if we are in the agents not available state, or if the
+    // text hasn't actually changed.
+    if (this.state.agentsAvailable && state.text !== this.state.text) {
+      clearTimeout(this.checkAvailabilityTimer);
+
+      this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
+    }
   };
 
   addMessage = () => {
@@ -82,14 +125,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
-    const sendDisabled = this.state.text.trim() === '';
+    const sendDisabled = this.state.text.trim() === '' || !this.state.agentsAvailable;
     const compatMode = compatibilityMode();
+    const messagePlaceholder = this.state.agentsAvailable
+      ? getMessage(messageTypes.messageFieldPlaceholder)
+      : getMessage(messageTypes.agentsNotAvailableMessage);
 
-    const inputStyle = getStyle(styles.MessageFormInput, {fontFamily: fontFamily});
+    const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
       opacity: sendDisabled ? '.5' : '1',
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     return (
@@ -98,10 +144,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           <div className="poke">
             {this.props.agentTyping && (
               <div className="pokeBody">
-                <span style={{fontFamily: fontFamily}}>
-                  {getMessage(messageTypes.agentTypingMessage)}
-                </span>
+                <span style={{fontFamily}}>{getMessage(messageTypes.agentTypingMessage)}</span>
                 <TypingIndicator yScale={0.5} xScale={0.75} />
+              </div>
+            )}
+          </div>
+        )}
+
+        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
+          <div className="poke">
+            {this.props.agentEndedConversation && (
+              <div className="pokeBody">
+                <span style={{fontFamily}}>
+                  {getMessage(messageTypes.agentEndedConversationMessage)}
+                </span>
               </div>
             )}
           </div>
@@ -113,6 +169,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               this.textArea = n;
             }}
             style={inputStyle}
+            disabled={!this.state.agentsAvailable}
             name="message"
             value={this.state.text}
             maxLength={1024}
@@ -122,7 +179,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onInput={compatMode ? undefined : this.handleTextChanged}
             onChange={compatMode ? this.handleTextChanged : undefined}
             onKeyDown={this.handleKeyDown}
-            placeholder={getMessage(messageTypes.messageFieldPlaceholder)}
+            placeholder={messagePlaceholder}
           />
           <button
             className="sendBtn"
@@ -140,4 +197,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
 export default connect((state: ChatState) => ({
   agentTyping: state.agentTyping,
+  agentEndedConversation: state.agentEndedConversation,
+  agentsInitiallyAvailable: state.agentsAvailable,
 }))(MessageForm);

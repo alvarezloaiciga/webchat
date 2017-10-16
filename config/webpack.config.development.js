@@ -21,11 +21,11 @@ module.exports = merge(config, {
   },
   debug: true,
   cache: true,
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: {
     webchat: [
-      'webpack-hot-middleware/client',
       'babel-polyfill',
+      'webpack-hot-middleware/client',
       'react-hot-loader/patch',
       'development',
     ],

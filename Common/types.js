@@ -43,15 +43,15 @@ type CustomStyles = {
   WelcomeFormFieldInput?: Object,
   WelcomeFormFieldTextarea?: Object,
   WelcomeFormSubmitButton?: Object,
+  NonChat?: Object,
 };
 
 export type QuiqObject = {
+  agentsAvailableTimer: number,
   contactPoint: string,
+  enforceAgentAvailability: bool,
   host: string,
   clientDomain: string,
-  isStorageEnabled: boolean,
-  isSupportedBrowser: boolean,
-  isMobile: boolean,
   localStorageKeys: {[string]: any},
   color: string, // Deprecated in favor of COLORS.primary
   colors: {
@@ -80,6 +80,8 @@ export type QuiqObject = {
     welcomeFormSubmitButtonLabel: string,
     welcomeFormSubmittingButtonLabel: string,
     agentTypingMessage: string,
+    agentEndedConversationMessage: string,
+    agentsNotAvailableMessage: string,
     connectingMessage: string,
     reconnectingMessage: string,
     errorMessage: string,
@@ -88,6 +90,8 @@ export type QuiqObject = {
     dockWindowTooltip: string,
     openInNewWindowTooltip: string,
     closeWindowTooltip: string,
+    unsupportedBrowser?: string,
+    storageDisabled?: string,
   },
   autoPopTime?: number,
   debug:
@@ -103,6 +107,11 @@ export type QuiqObject = {
   height: number,
   customLaunchButtons: Array<string>,
   mobileNumber?: string | number,
+  // The following are internal, intentionally undocumented and unsupported options used for E2E testing
+  _internal: {
+    captureRequests?: boolean,
+    captureWebsockets?: boolean,
+  },
 };
 
 export type IntlMessage = {
@@ -191,8 +200,7 @@ export type BrowserNames =
   | 'Vivaldi'
   | 'w3m'
   | 'WeChat'
-  | 'Yandex'
-  | null;
+  | 'Yandex';
 export type OSNames =
   | 'AIX'
   | 'Amiga OS'
@@ -285,6 +293,7 @@ export type ChatState = {
   transcript: Array<Message>,
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
+  agentEndedConversation: boolean,
 };
 
 export type Action = {

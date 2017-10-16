@@ -98,11 +98,7 @@ module.exports = merge(config, {
     loaders: [
       {
         test: /\.scss$/,
-        include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../app/components'),
-          path.resolve(__dirname, '../SDK/src/components'),
-        ],
+        include: [path.resolve(__dirname, '../app'), path.resolve(__dirname, '../app/components')],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style',
           loader: [
@@ -112,6 +108,17 @@ module.exports = merge(config, {
             {loader: 'sass', query: {outputStyle: 'compressed'}},
           ],
         }),
+      },
+      {
+        test: /\.scss$/,
+        include: [path.resolve(__dirname, '../SDK/src/components')],
+        loader: [
+          'style',
+          {loader: 'css', query: {sourceMap: true}},
+          'postcss',
+          {loader: 'namespace-css', query: '#quiqWebChat'},
+          {loader: 'sass', query: {outputStyle: 'compressed'}},
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,

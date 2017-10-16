@@ -2,6 +2,7 @@
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 1`] = `
 Object {
+  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
@@ -14,6 +15,7 @@ Object {
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 2`] = `
 Object {
+  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
@@ -26,6 +28,7 @@ Object {
 
 exports[`chat reducers NEW_WEBCHAT_SESSION updates state with initial state merged with current visibility state and "initialized" set to "LOADING" 1`] = `
 Object {
+  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": true,
   "chatContainerHidden": false,

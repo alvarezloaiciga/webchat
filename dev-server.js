@@ -89,9 +89,13 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   webchatApp.use('/assets', express.static('assets'));
   webchatApp.set('view engine', 'ejs');
 
-  // This allows the payground to run on same host as webchat. Useful for testing edge case of goquiq.com chat
+  // This allows the playground to run on same host as webchat. Useful for testing edge case of goquiq.com chat
   webchatApp.get('/', (req, res) => {
     res.render('./playground', {host: webchatHost});
+  });
+  // Testbed
+  webchatApp.get('/testbed', (req, res) => {
+    res.render('./testbed', {host: webchatHost});
   });
 
   webchatApp.all('/external/*', proxyToApiGateway);
@@ -129,6 +133,11 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   playgroundApp.get('/', (req, res) => {
     res.render('./playground', {host: webchatHost});
+  });
+
+  // Testbed
+  playgroundApp.get('/testbed', (req, res) => {
+    res.render('./testbed', {host: webchatHost});
   });
 
   playgroundServer.listen(sdkPort, function () {

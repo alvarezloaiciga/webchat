@@ -7,21 +7,16 @@ import {
   getWebchatHostFromScriptTag,
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
-  getDeviceType,
+  isStorageEnabled,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
-import QuiqChatClient from 'quiq-chat';
-import {getQuiqOptions as getQuiqOptionsFromSDK} from '../SDK/src/Globals';
 
 const reservedKeyNames = ['Referrer'];
 
 // This should be called from the client site, by the SDK.
 // If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
-  const isStorageEnabled = QuiqChatClient.isStorageEnabled();
-  const isMobile = !!getDeviceType();
-
   let host = rawQuiqObject.host;
   if (host) {
     if (host.endsWith('/')) {
@@ -33,12 +28,16 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
 
   const primaryColor =
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
+  const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
-    contactPoint: rawQuiqObject.contactPoint || 'default',
-    // Transfer Quiq keys from this site's localStorage to iframe's local storage
+    agentsAvailableTimer: rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000 ? rawQuiqObject.agentsAvailableTimer : 60000,
+    contactPoint,
+    // Transfer Quiq keys from this site's localStorage to iframe's local storage.
+    // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled ? getQuiqKeysFromLocalStorage() : {}),
+      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
+    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.enforceAgentAvailability,
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -56,9 +55,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     ),
     styles: rawQuiqObject.styles || {},
     position: rawQuiqObject.position || {},
-    isSupportedBrowser: QuiqChatClient.isSupportedBrowser(),
-    isStorageEnabled,
-    isMobile,
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
     host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
@@ -83,6 +79,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
         welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
         agentTypingMessage: messages.agentIsTyping,
+        agentEndedConversationMessage: messages.agentEndedConversation,
+        agentsNotAvailableMessage: messages.agentsNotAvailable,
         connectingMessage: messages.connecting,
         reconnectingMessage: messages.reconnecting,
         errorMessage: messages.errorState,
@@ -95,6 +93,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       },
       rawQuiqObject.messages,
     ),
+    // The following are internal, unsupported options used for E2E testing
+    _internal: rawQuiqObject._internal || {},
   };
 
   return quiqOptions;
@@ -113,6 +113,45 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
   return newFormObject;
 };
 
+const processInternalOptions = (quiqOptions: QuiqObject) => {
+  const {captureRequests, captureWebsockets} = quiqOptions._internal;
+
+  // Setup request hook. This overrides the native fetch and xhr methods.
+  // That's why we only do this when this option is specified.
+  if (captureRequests) {
+    window.__quiq__capturedRequests = [];
+    const originalFetch = window.fetch;
+    const originalXhrOpen = window.XMLHttpRequest.prototype.open;
+    window.XMLHttpRequest.prototype.open = function(method: string, url: string) {
+      window.__quiq__capturedRequests.push({method, url});
+      return originalXhrOpen.call(this, method, url);
+    };
+
+    window.fetch = function(url: string, request: Object) {
+      const method = request.method || 'GET';
+      window.__quiq__capturedRequests.push({method, url});
+      return originalFetch.call(this, url, request);
+    };
+  }
+
+  if (captureWebsockets) {
+    window.__quiq__ws = {
+      instances: [],
+      // $FlowIssue - Flow doesn't know how to handle get/set
+      get connectedCount() {
+        return this.instances.filter(ws => ws.readyState === 1).length
+      }
+    };
+
+    const originalWS = window.WebSocket;
+    window.WebSocket = function(url: string, protocols: string) {
+      const ws = new originalWS(url, protocols);
+      window.__quiq__ws.instances.push(ws);
+      return ws;
+    };
+  }
+};
+
 // $FlowIssue - It's possible for this to return undefined if localStorage is disabled. We are ok with this.
 const getQuiqOptions = (): QuiqObject => {
   try {
@@ -123,6 +162,9 @@ const getQuiqOptions = (): QuiqObject => {
     if (quiqObject.localStorageKeys) {
       setLocalStorageItemsIfNewer(quiqObject.localStorageKeys);
     }
+
+    // Do any setup based on internal options, such as setting up hooks
+    processInternalOptions(quiqObject);
 
     return quiqObject;
   } catch (e) {
@@ -226,12 +268,6 @@ export const getMessage = (messageName: string): string => {
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
-};
-
-export const usingCustomLauncher = () => {
-  // Check SDK for options first since we may be calling this before Webchat has been bootstrapped
-  const options = getQuiqOptionsFromSDK() || quiqOptions;
-  return options.customLaunchButtons.length > 0;
 };
 
 export default quiqOptions;

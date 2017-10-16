@@ -1,5 +1,6 @@
 // @flow
-import React from 'react';
+/** @jsx h */
+import {h} from 'preact';
 import {getQuiqOptions} from 'Globals';
 import {getStyle} from 'Common/QuiqOptions';
 

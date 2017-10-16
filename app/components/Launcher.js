@@ -30,6 +30,7 @@ export type LauncherProps = {
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
+  setAgentEndedConversation: (ended: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
   newWebchatSession: () => void,
 };
@@ -44,7 +45,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   componentDidMount() {
     registerIntlObject(this.props.intl);
     this.registerClientCallbacks();
-    this.updateLauncherVisibilityInterval = setInterval(this.updateLauncherState, 1000 * 60);
+    this.updateLauncherVisibilityInterval = setInterval(
+      this.updateLauncherState,
+      quiqOptions.agentsAvailableTimer,
+    );
 
     if (!this.props.chatLauncherHidden) {
       clearTimeout(this.autoPopTimeout);
@@ -70,9 +74,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    const {available} = await QuiqChatClient.checkForAgents();
-    this.props.setAgentsAvailable(available);
-    return available;
+    if (quiqOptions.enforceAgentAvailability) {
+      const {available} = await QuiqChatClient.checkForAgents();
+      this.props.setAgentsAvailable(available);
+
+      return available;
+    }
+
+    return true;
   };
 
   updateContainerHidden = (hidden: boolean) => {
@@ -85,6 +94,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (newState !== this.props.initializedState) {
       this.props.setChatInitialized(newState);
     }
+    if (newState === ChatInitializedState.INITIALIZED) {
+      this.props.setAgentEndedConversation(false);
+    }
   };
 
   handleNewSession = () => {
@@ -95,6 +107,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onNewMessages(this.props.updateTranscript);
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
+    QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
         connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
@@ -110,6 +123,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
+    if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
+      QuiqChatClient.setChatVisible(false);
+    }
+
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
 
@@ -133,7 +150,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // User has submitted welcome form or sent message, ChatContainer not visible
     // Show launcher if transcript length > 0
     // Always start session, don't change ChatContainer
-    if (QuiqChatClient.hasTakenMeaningfulAction()) {
+    if (QuiqChatClient.isUserSubscribed()) {
       await this.startSession();
     }
 
@@ -143,6 +160,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   updateLauncherState = async () => {
     const sessionInProgress =
       QuiqChatClient.isChatVisible() ||
+      QuiqChatClient.isUserSubscribed() ||
       QuiqChatClient.hasTakenMeaningfulAction() ||
       !this.props.chatContainerHidden ||
       inStandaloneMode() ||
@@ -181,6 +199,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }
+  };
+
+  handleAgentEndedConversation = () => {
+    this.props.setAgentEndedConversation(true);
   };
 
   handleAgentTyping = (typing: boolean) => {

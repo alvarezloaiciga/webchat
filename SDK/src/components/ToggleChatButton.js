@@ -1,70 +1,39 @@
 // @flow
-import React from 'react';
-import {eventTypes} from 'Common/Constants';
-import ChatBubbleIcon from './ChatBubbleIcon';
-import {getStyle, usingCustomLauncher} from 'Common/QuiqOptions';
+/** @jsx h */
+import {h} from 'preact';
+import {getStyle} from 'Common/QuiqOptions';
 import {getQuiqOptions} from 'Globals';
-import * as Postmaster from 'Postmaster';
-import {handleLaunchButtonClick} from 'managers/ButtonManager';
 import './styles/ToggleChatButton.scss';
 
-export type ToggleChatButtonProps = {};
-type ToggleChatButtonState = {
-  launcherVisible: boolean,
-  containerVisible: boolean,
+export type ToggleChatButtonProps = {
+  onClick: () => void,
+  open: boolean,
 };
-export class ToggleChatButton extends React.Component<
-  ToggleChatButtonProps,
-  ToggleChatButtonState,
-> {
-  props: ToggleChatButtonProps;
-  state: ToggleChatButtonState = {
-    launcherVisible: false,
-    containerVisible: false,
-  };
 
-  componentWillMount() {
-    // When standalone is opened, we want to set buttons to have non-visible state.
-    Postmaster.registerEventHandler(eventTypes._standaloneOpen, () =>
-      this.handleChatVisibilityChange({visible: true}),
-    );
+const ToggleChatButton = ({onClick, open}: ToggleChatButtonProps) => {
+  const {styles, colors} = getQuiqOptions();
 
-    Postmaster.registerEventHandler(
-      eventTypes._launchButtonVisibilityShouldChange,
-      this.handleLaunchButtonVisibilityChange,
-    );
-
-    Postmaster.registerEventHandler(
-      eventTypes.chatVisibilityDidChange,
-      this.handleChatVisibilityChange,
-    );
-  }
-
-  handleChatVisibilityChange = (e: {visible: boolean}) =>
-    this.setState({containerVisible: e.visible});
-  handleLaunchButtonVisibilityChange = (e: {visible: boolean}) =>
-    this.setState({launcherVisible: e.visible});
-
-  render() {
-    const {colors, styles, isStorageEnabled, isSupportedBrowser} = getQuiqOptions();
-    if (
-      !isStorageEnabled ||
-      !isSupportedBrowser ||
-      usingCustomLauncher() ||
-      !this.state.launcherVisible
-    )
-      return null;
-
-    return (
-      <button
-        style={getStyle(styles.ToggleChatButton, {backgroundColor: colors.primary})}
-        onClick={handleLaunchButtonClick}
-        className="ToggleChatButton"
+  return (
+    <button
+      style={getStyle(styles.ToggleChatButton, {backgroundColor: colors.primary})}
+      onClick={onClick}
+      className="ToggleChatButton"
+    >
+      <svg
+        style={getStyle(styles.ToggleChatButtonIcon)}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
       >
-        <ChatBubbleIcon visible={this.state.containerVisible} />
-      </button>
-    );
-  }
-}
+        {open ? (
+          <path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" />
+        ) : (
+          <path d="M12 1c-6.628 0-12 4.573-12 10.213 0 2.39.932 4.591 2.427 6.164l-2.427 5.623 7.563-2.26c9.495 2.598 16.437-3.251 16.437-9.527 0-5.64-5.372-10.213-12-10.213z" />
+        )}
+      </svg>
+    </button>
+  );
+};
 
 export default ToggleChatButton;

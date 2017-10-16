@@ -25,6 +25,11 @@ export const setAgentTyping = (agentTyping: boolean) => ({
   agentTyping,
 });
 
+export const setAgentEndedConversation = (ended: boolean) => ({
+  type: 'AGENT_ENDED_CONVERSATION',
+  ended,
+});
+
 export const updateTranscript = (transcript: Array<Message>) => ({
   type: 'UPDATE_TRANSCRIPT',
   transcript,

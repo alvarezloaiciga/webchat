@@ -5,14 +5,13 @@ import {getDisplayString} from 'Common/i18n';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
+  agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
   localStorageKeys: {},
+  enforceAgentAvailability: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
-  isStorageEnabled: true,
-  isSupportedBrowser: true,
-  isMobile: false,
   colors: {
     primary: '#333',
     agentMessageText: '#fff',
@@ -117,6 +116,8 @@ const quiqOptions: QuiqObject = {
     welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
     welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
     agentTypingMessage: messages.agentIsTyping,
+    agentEndedConversationMessage: messages.agentEndedConversation,
+    agentsNotAvailableMessage: messages.agentsNotAvailable,
     connectingMessage: messages.connecting,
     reconnectingMessage: messages.reconnecting,
     inactiveMessage: messages.clientInactive,
@@ -179,6 +180,7 @@ const quiqOptions: QuiqObject = {
       },
     ],
   },
+  _internal: {},
 };
 
 export const openStandaloneMode = jest.fn();
@@ -194,7 +196,5 @@ export const getMessage = (messageName: string): string => {
 
   return getDisplayString(message);
 };
-
-export const usingCustomLauncher = () => quiqOptions.customLaunchButtons.length > 0;
 
 export default quiqOptions;

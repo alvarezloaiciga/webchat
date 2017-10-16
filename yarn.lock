@@ -1568,8 +1568,8 @@ circular-json@^0.3.1:
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
 clap@^1.0.9:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.2.tgz#683f6f93a320794d129386d74b2a1d2d66fede7e"
   dependencies:
     chalk "^1.1.3"
 
@@ -5858,6 +5858,10 @@ postcss@^6.0.1:
     source-map "^0.5.7"
     supports-color "^4.4.0"
 
+preact@8.2.5:
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-8.2.5.tgz#cbfa3962a8012768159f6d01d46f9c1eb3213c0a"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
@@ -6001,9 +6005,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.15.5:
-  version "1.15.5"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.15.5.tgz#262f51a5114f46f071b91027c8478845f029a9fb"
+quiq-chat@1.18.1:
+  version "1.18.1"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.18.1.tgz#8a080f86a7eb927963b09b41b7051471ca287eb7"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -7151,8 +7155,8 @@ touch@0.0.3:
     nopt "~1.0.10"
 
 tough-cookie@^2.3.1, tough-cookie@^2.3.2, tough-cookie@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.2.tgz#f081f76e4c85720e6c37a5faced737150d84072a"
   dependencies:
     punycode "^1.4.1"
 
@@ -7709,5 +7713,5 @@ yeast@0.1.2:
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 zalgo-promise@^1.0.11, zalgo-promise@^1.0.3:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/zalgo-promise/-/zalgo-promise-1.0.18.tgz#889a5436c659ac1059e1c9b8cacdff89240ea0ba"
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/zalgo-promise/-/zalgo-promise-1.0.17.tgz#b09464ac08ce9b43bfc0a4463468f84d2dde9c86"
