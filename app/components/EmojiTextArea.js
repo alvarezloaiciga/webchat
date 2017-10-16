@@ -93,11 +93,11 @@ export default class EmojiTextArea extends Component {
       this.state.editorState.getCurrentContent().getPlainText() !==
       editorState.getCurrentContent().getPlainText();
 
-    this.setState({editorState});
-
-    if (textChanged && this.props.onChange) {
-      this.props.onChange(editorState.getCurrentContent().getPlainText());
-    }
+    this.setState({editorState}, () => {
+      if (textChanged && this.props.onChange) {
+        this.props.onChange(editorState.getCurrentContent().getPlainText());
+      }
+    });
   };
 
   _maxLengthReached = (additionalCharacters: number): boolean => {

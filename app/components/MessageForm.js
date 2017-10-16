@@ -125,7 +125,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }
 
     // Even if there was no text to send after filtering, we still clear the form and reset timers.
-    this.resetTypingTimers();
+    // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
     this.textArea.setText('');
   };
 
