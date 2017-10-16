@@ -19,8 +19,7 @@ export const isSingleEmoji = (text: string): boolean => {
   // 2) The number of characters in that emoji === the number of characters in the string
   const emojis = text.match(emojiRegex);
 
-  if (!emojis)
-    return false;
+  if (!emojis) return false;
 
   const emojiCharCount = emojis.reduce((count, e) => count + e.length, 0);
   return emojis.length === 1 && text.length === emojiCharCount;
@@ -36,25 +35,31 @@ export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
   let emojiId;
   // emoji-mart will call this function when user is searching, but it only passes unicode string:
   if (typeof e === 'string') {
-    emojiId =  emojiIdByUnified[e.toLowerCase()];
+    emojiId = emojiIdByUnified[e.toLowerCase()];
   } else {
     // NOTE: In emoji-mart land, id === short_codes[0]
     emojiId = e.id || e.short_names[0];
   }
 
   // Don't include any emojis that don't have id or shortcode (we don't know what they are)
-  if (!emojiId)
-    return false;
+  if (!emojiId) return false;
 
   const {includeEmojis, excludeEmojis} = quiqOptions;
   // Prioritize include over exclude. Only one of the should be defined by customer, however.
   if (Array.isArray(includeEmojis)) {
     return includeEmojis.includes(emojiId);
-  }
-  else if (Array.isArray(excludeEmojis)) {
+  } else if (Array.isArray(excludeEmojis)) {
     return !excludeEmojis.includes(emojiId);
   }
 
   // If neither exclude nor include was defined, always include emoji.
   return true;
+};
+
+/**
+ * Emojis are entirely disabled if the customer passes an empty array for the `emojisEnabled` quiq option
+ */
+export const emojisEnabledByCustomer = () => {
+  const {includeEmojis} = quiqOptions;
+  return !(Array.isArray(includeEmojis) && includeEmojis.length === 0);
 };

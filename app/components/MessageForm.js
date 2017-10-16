@@ -155,7 +155,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   render() {
     const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
-    const emopjisDisabled = !this.state.agentsAvailable;
+    const emopjiPickerDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
@@ -204,13 +204,15 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             onReturn={this.handleReturnKey}
             placeholder={messagePlaceholder}
           />
-          <button
-            className="messageFormBtn emojiBtn"
-            disabled={emopjisDisabled}
-            onClick={this.toggleEmojiPicker}
-          >
-            <i className="fa fa-smile-o" title={getMessage(messageTypes.minimizeWindowTooltip)} />
-          </button>
+          {EmojiUtils.emojisEnabledByCustomer() && (
+            <button
+              className="messageFormBtn emojiBtn"
+              disabled={emopjiPickerDisabled}
+              onClick={this.toggleEmojiPicker}
+            >
+              <i className="fa fa-smile-o" title={getMessage(messageTypes.minimizeWindowTooltip)} />
+            </button>
+          )}
           <button
             className="messageFormBtn sendBtn"
             onClick={this.addMessage}
@@ -219,13 +221,15 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           >
             {getMessage(messageTypes.sendButtonLabel)}
           </button>
-          <EmojiPicker
-            visible={this.state.emojiPickerVisible}
-            addEmoji={this.handleEmojiSelection}
-            emojiFilter={EmojiUtils.emojiFilter}
-            onOutsideClick={this.toggleEmojiPicker}
-            ignoreOutsideClickOnSelectors={['.emojiBtn']}
-          />
+          {EmojiUtils.emojisEnabledByCustomer() && (
+            <EmojiPicker
+              visible={this.state.emojiPickerVisible}
+              addEmoji={this.handleEmojiSelection}
+              emojiFilter={EmojiUtils.emojiFilter}
+              onOutsideClick={this.toggleEmojiPicker}
+              ignoreOutsideClickOnSelectors={['.emojiBtn']}
+            />
+          )}
         </div>
       </div>
     );

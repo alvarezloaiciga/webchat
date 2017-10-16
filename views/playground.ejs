@@ -41,8 +41,8 @@
           captureRequests: false,
           captureWebsockets: false,
         },
-        excludeEmojis: ['hankey'],
-        includeEmojis: ['hatching_chick', 'stuck_out_tongue'],
+        excludeEmojis: [],
+        //includeEmojis: [],            // Set to `[]` to disable emojis
         agentsAvailableTimer: 60000,
         enforceAgentAvailability: true,
         host: '<%- host %>',
@@ -60,7 +60,7 @@
           transcriptBackground: '#f4f4f8',
         },
         fontFamily: 'Raleway',
-        /*styles: {
+        styles: {
           HeaderMenu: {
             background: '#31bf8b',
           },
@@ -112,6 +112,7 @@
             textTransform: 'uppercase',
             fontFamily: 'Source Sans Pro',
             fontSize: 16,
+            marginTop: '2px',
           },
           WelcomeFormField: {
             marginTop: 16,
@@ -138,7 +139,7 @@
             fontFamily: 'Source Sans Pro',
             fontSize: 16,
           },
-        }, */
+        },
         //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
         welcomeForm: {
           headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
