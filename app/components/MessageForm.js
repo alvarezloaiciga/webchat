@@ -210,7 +210,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               disabled={emopjiPickerDisabled}
               onClick={this.toggleEmojiPicker}
             >
-              <i className="fa fa-smile-o" title={getMessage(messageTypes.minimizeWindowTooltip)} />
+              <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
             </button>
           )}
           <button

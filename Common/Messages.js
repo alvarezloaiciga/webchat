@@ -95,6 +95,11 @@ export default defineMessages({
     description: 'Message to display on open in new window icon',
     defaultMessage: 'Open chat in new window',
   },
+  emojiPickerTooltip: {
+    id: 'emojiPickerTooltip',
+    description: 'Tooltip for emoji picker toggle button',
+    defaultMessage: 'Emoji picker',
+  },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
     description:

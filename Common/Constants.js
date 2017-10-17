@@ -89,6 +89,7 @@ export const messageTypes = {
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
   closeWindowTooltip: 'closeWindowTooltip',
+  emojiPickerTooltip: 'emojiPickerTooltip',
 };
 
 export const localStorageKeys = [

@@ -92,6 +92,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         dockWindowTooltip: messages.dockWindow,
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
+        emojiPickerTooltip: messages.emojiPickerTooltip,
       },
       rawQuiqObject.messages,
     ),

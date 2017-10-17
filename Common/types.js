@@ -92,6 +92,7 @@ export type QuiqObject = {
     closeWindowTooltip: string,
     unsupportedBrowser?: string,
     storageDisabled?: string,
+    emojiPickerTooltip: string,
   },
   autoPopTime?: number,
   debug:

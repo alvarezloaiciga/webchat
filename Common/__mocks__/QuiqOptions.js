@@ -127,6 +127,7 @@ const quiqOptions: QuiqObject = {
     dockWindowTooltip: messages.dockWindow,
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
+    emojiPickerTooltip: messages.emojiPickerTooltip,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

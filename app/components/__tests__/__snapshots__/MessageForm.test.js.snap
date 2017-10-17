@@ -55,7 +55,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
     >
       <i
         className="fa fa-smile-o"
-        title="Minimize window"
+        title="Emoji picker"
       />
     </button>
     <button
@@ -122,7 +122,7 @@ exports[`MessageForm component rendering renders 1`] = `
     >
       <i
         className="fa fa-smile-o"
-        title="Minimize window"
+        title="Emoji picker"
       />
     </button>
     <button
