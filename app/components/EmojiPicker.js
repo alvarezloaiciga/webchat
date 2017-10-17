@@ -6,7 +6,7 @@ import ClickOutside from 'react-click-outside-component';
 import {defineMessages} from 'react-intl';
 import {getDisplayString} from 'Common/i18n';
 import quiqOptions from 'Common/QuiqOptions';
-import 'emoji-mart/css/emoji-mart.css';
+import './styles/EmojiMart.scss';
 import type {Emoji, IntlMessage} from 'Common/types';
 
 export type EmojiPickerProps = {
