@@ -48,31 +48,19 @@ type CustomStyles = {
 };
 
 export type QuiqObject = {
+  /**
+   * Documented Properties. If you modify this,
+   * be sure to update the README
+   */
   agentsAvailableTimer: number,
+  autoPopTime?: number,
   contactPoint: string,
-  enforceAgentAvailability: bool,
+  customLaunchButtons: Array<string>,
+  enforceAgentAvailability: boolean,
+  excludeEmojis?: Array<string>,
+  height: number,
   host: string,
-  clientDomain: string,
-  localStorageKeys: {[string]: any},
-  color: string, // Deprecated in favor of COLORS.primary
-  colors: {
-    primary: string,
-    agentMessageText: string,
-    agentMessageLinkText: string,
-    agentMessageBackground: string,
-    customerMessageText: string,
-    customerMessageLinkText: string,
-    customerMessageBackground: string,
-    transcriptBackground: string,
-  },
-  styles: CustomStyles,
-  position: {
-    top?: number | string,
-    bottom?: number | string,
-    left?: number | string,
-    right?: number | string,
-  },
-  headerText: string,
+  includeEmojis?: Array<string>,
   messages: {
     titleText: string,
     headerText: string,
@@ -96,23 +84,42 @@ export type QuiqObject = {
     storageDisabled?: string,
     emojiPickerTooltip: string,
   },
-  autoPopTime?: number,
+  mobileNumber?: string | number,
+  position: {
+    top?: number | string,
+    bottom?: number | string,
+    left?: number | string,
+    right?: number | string,
+  },
+  styles: CustomStyles,
+  welcomeForm?: WelcomeForm,
+  width: number,
+  /**
+   * Undocument Properties
+   */
+  clientDomain: string,
+  color: string, // Deprecated in favor styles object
+  colors: {
+    // Deprecated in favor styles object
+    primary: string,
+    agentMessageText: string,
+    agentMessageLinkText: string,
+    agentMessageBackground: string,
+    customerMessageText: string,
+    customerMessageLinkText: string,
+    customerMessageBackground: string,
+    transcriptBackground: string,
+  },
   debug:
     | false
     | {
         transport?: string,
         CUSTOM_CSS_URL?: string,
       },
-  welcomeForm?: WelcomeForm,
+  fontFamily: string, // Deprecated in favor of styles object
+  headerText: string, // Deprecated in favor of messages object
   href: string,
-  fontFamily: string,
-  width: number,
-  height: number,
-  customLaunchButtons: Array<string>,
-  mobileNumber?: string | number,
-  includeEmojis?: Array<string>,
-  excludeEmojis?: Array<string>,
-  // The following are internal, intentionally undocumented and unsupported options used for E2E testing
+  localStorageKeys: {[string]: any},
   _internal: {
     captureRequests?: boolean,
     captureWebsockets?: boolean,
