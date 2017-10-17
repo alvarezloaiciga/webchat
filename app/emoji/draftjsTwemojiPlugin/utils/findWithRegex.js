@@ -4,8 +4,8 @@ const findWithRegex = (regex, contentBlock, callback) => {
   let matchArr;
   let start; // eslint-disable-line
   // Go through all matches in the text and return the indices to the callback
+  // eslint-disable-next-line no-cond-assign
   while ((matchArr = regex.exec(text)) !== null) {
-    // eslint-disable-line no-cond-assign
     start = matchArr.index;
     callback(start, start + matchArr[0].length);
   }

@@ -23,6 +23,7 @@ export type WelcomeForm = {
 
 type CustomStyles = {
   HeaderMenu?: Object,
+  TitleText?: Object,
   HeaderMenuIcons?: Object,
   HeaderBanner?: Object,
   ErrorBanner?: Object,
@@ -73,6 +74,7 @@ export type QuiqObject = {
   },
   headerText: string,
   messages: {
+    titleText: string,
     headerText: string,
     sendButtonLabel: string,
     messageFieldPlaceholder: string,

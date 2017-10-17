@@ -110,6 +110,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - type:
     ```javascript
     {
+            titleText: "",
             headerText: string,
             sendButtonLabel: string,
             messageFieldPlaceholder: string,
@@ -135,6 +136,7 @@ The window.QUIQ object contains properties describing how the instance of webcha
     - default:
     ```javascript
     {
+            titleText: "",
             headerText: "We're here to help if you have any questions!",
             sendButtonLabel: 'Send',
             messageFieldPlaceholder: 'Send us a message...',
@@ -296,6 +298,8 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 #### Available Elements
 
 `HeaderMenu`: The top section of the chat container that contains the minimize, maximize, and close icons
+
+`TitleText`: The text that appears in the upper left of the chat container, corresponding to the `TitleText` message
 
 `HeaderMenuIcons`: The icons inside `HeaderMenu`
 

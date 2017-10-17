@@ -71,6 +71,7 @@ export const ChatInitializedState = {
 };
 
 export const messageTypes = {
+  titleText: 'titleText',
   headerText: 'headerText',
   sendButtonLabel: 'sendButtonLabel',
   messageFieldPlaceholder: 'messageFieldPlaceholder',

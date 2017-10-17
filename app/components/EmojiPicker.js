@@ -108,12 +108,11 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
     if (!props.visible) return;
 
     if (Array.isArray(props.ignoreOutsideClickOnSelectors)) {
+      // eslint-disable-next-line no-restricted-syntax
       for (const selector of props.ignoreOutsideClickOnSelectors) {
-        // eslint-disable-line no-restricted-syntax
         const nodes = document.querySelectorAll(selector);
+        // eslint-disable-next-line no-restricted-syntax
         for (const node of nodes) {
-          // eslint-disable-line no-restricted-syntax
-          // eslint-disable-line no-restricted-syntax
           if (e.target instanceof Node && node.contains(e.target)) {
             return;
           }

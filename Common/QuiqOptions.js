@@ -74,6 +74,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     messages: Object.assign(
       {},
       {
+        titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
         sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
@@ -268,7 +269,7 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 export const getMessage = (messageName: string): string => {
   const message = quiqOptions.messages[messageName];
 
-  if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+  if (message === null || message === undefined) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };
