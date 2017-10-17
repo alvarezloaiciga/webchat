@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import quiqOptions from 'Common/QuiqOptions';
 import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
 import {EditorState, ContentState, Modifier} from 'draft-js';
 import createEmojiPlugin from '../emoji/draftjsTwemojiPlugin';
@@ -28,6 +29,16 @@ export default class EmojiTextArea extends Component {
   state: EmojiTextareaState = {
     editorState: createEditorStateWithText(''),
   };
+
+  constructor() {
+    super();
+    // If specified (for testing) make `setText` available on window.
+    // this is required for programatically interacting with draft-js
+    const internal = quiqOptions._internal;
+    if (internal.exposeDraftJsSetText) {
+      window.__quiq__setText = this.setText;
+    }
+  }
 
   focus = () => {
     this.editor.focus();
