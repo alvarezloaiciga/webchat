@@ -91,7 +91,7 @@ Read on to learn how to style the UI to match your brand, listen for webchat eve
 The Quiq() function contains properties describing how the instance of webchat should act.  All properties are optional.
   - #### agentsAvailableTimer
     - type: number
-    - description: The amount of time between agent availability checks.
+    - description: The amount of time, in milliseconds, between agent availability checks.
     - default: 60000
   - #### autoPopTime
     - type: number
