@@ -109,6 +109,7 @@ const quiqOptions: QuiqObject = {
   position: {},
   headerText: 'TOOL TIME',
   messages: {
+    titleText: '',
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
     messageFieldPlaceholder: messages.sendUsAMessage,

@@ -54,10 +54,22 @@ export type QuiqObject = {
    */
   agentsAvailableTimer: number,
   autoPopTime?: number,
+  colors: {
+    // Deprecated in favor styles object
+    primary: string,
+    agentMessageText: string,
+    agentMessageLinkText: string,
+    agentMessageBackground: string,
+    customerMessageText: string,
+    customerMessageLinkText: string,
+    customerMessageBackground: string,
+    transcriptBackground: string,
+  },
   contactPoint: string,
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
+  fontFamily: string,
   height: number,
   host: string,
   includeEmojis?: Array<string>,
@@ -99,24 +111,12 @@ export type QuiqObject = {
    */
   clientDomain: string,
   color: string, // Deprecated in favor styles object
-  colors: {
-    // Deprecated in favor styles object
-    primary: string,
-    agentMessageText: string,
-    agentMessageLinkText: string,
-    agentMessageBackground: string,
-    customerMessageText: string,
-    customerMessageLinkText: string,
-    customerMessageBackground: string,
-    transcriptBackground: string,
-  },
   debug:
     | false
     | {
         transport?: string,
         CUSTOM_CSS_URL?: string,
       },
-  fontFamily: string, // Deprecated in favor of styles object
   headerText: string, // Deprecated in favor of messages object
   href: string,
   localStorageKeys: {[string]: any},

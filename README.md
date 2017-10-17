@@ -10,10 +10,12 @@
   * [Customizing The Webchat Client](#customizing-the-webchat-client)
     + [agentsAvailableTimer](#agentsavailabletimer)
     + [autoPopTime](#autopoptime)
+    + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
+    + [fontFamily](#fontfamily)
     + [height](#height)
     + [host](#host)
     + [includeEmojis](#includeemojis)
@@ -40,6 +42,7 @@
       - [MessageFormSend](#messageformsend)
       - [NonChat](#nonchat)
       - [ToggleChatButton](#togglechatbutton)
+      - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
       - [WelcomeFormBanner](#welcomeformbanner)
       - [WelcomeFormField](#welcomeformfield)
@@ -55,8 +58,6 @@
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
 - [Supported Browsers](#supported-browsers)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Webchat Client
 
@@ -97,6 +98,34 @@ The Quiq() function contains properties describing how the instance of webchat s
     - description: Number, in milliseconds, until the webchat automatically pops open on its own. Leave undefined to disable.
     - default: `undefined`
     - example: `2000`
+  - #### colors
+    - type:
+      ```javascript
+      {
+        primary: string,
+        agentMessageText: string, // Text color for messages sent by the support agent
+        agentMessageLinkText: string, // Text color for links sent by the support agent
+        agentMessageBackground: string, // Message bubble color for links sent by the support agent
+        customerMessageText: string, // Text color for messages sent by the end user
+        customerMessageLinkText: string, // Text color for links sent by the end user
+        customerMessageBackground: string, // Message bubble color for links sent by the end user
+        transcriptBackground: string, // Background color for the chat transcript
+      }
+      ```
+    - description: Color values for the webchat
+    - defaults:
+      ```javascript
+      {
+        primary: '#59ad5d',
+        agentMessageText: '#000',
+        agentMessageLinkText: '#2199e8',
+        agentMessageBackground: '#fff',
+        customerMessageText: '#fff',
+        customerMessageLinkText: '#fff',
+        customerMessageBackground: COLORS.primary,
+        transcriptBackground: '#f4f4f8',
+      }
+      ```
   - #### contactPoint
     - type: string
     - description: The contact point for this webchat interface
@@ -122,6 +151,11 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
+  - #### fontFamily
+    - type: string
+    - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
+    - default: `'sans-serif'`
+    - example: `'Lato, sans-serif'`
   - #### height
     - type: number
     - description: The max height (px) of the webchat
@@ -141,52 +175,52 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type:
       ```javascript
       {
-              titleText: string,
-              headerText: string,
-              sendButtonLabel: string,
-              messageFieldPlaceholder: string,
-              welcomeFormValidationErrorMessage: string,
-              welcomeFormSubmitButtonLabel: string,
-              welcomeFormSubmittingButtonLabel: string,
-              agentTypingMessage: string,
-              connectingMessage: string,
-              reconnectingMessage: string,
-              errorMessage: string,
-              requiredFieldAriaLabel: string,
-              minimizeWindowTooltip: string,
-              dockWindowTooltip: string,
-              openInNewWindowTooltip: string,
-              closeWindowTooltip: string,
-              unsupportedBrowser?: string,
-              storageDisabled?: string,
-              agentEndedConversationMessage: string,
-              agentsNotAvailableMessage: string,
+        titleText: string,
+        headerText: string,
+        sendButtonLabel: string,
+        messageFieldPlaceholder: string,
+        welcomeFormValidationErrorMessage: string,
+        welcomeFormSubmitButtonLabel: string,
+        welcomeFormSubmittingButtonLabel: string,
+        agentTypingMessage: string,
+        connectingMessage: string,
+        reconnectingMessage: string,
+        errorMessage: string,
+        requiredFieldAriaLabel: string,
+        minimizeWindowTooltip: string,
+        dockWindowTooltip: string,
+        openInNewWindowTooltip: string,
+        closeWindowTooltip: string,
+        unsupportedBrowser?: string,
+        storageDisabled?: string,
+        agentEndedConversationMessage: string,
+        agentsNotAvailableMessage: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
     - default:
       ```javascript
       {
-              titleText: "",
-              headerText: "We're here to help if you have any questions!",
-              sendButtonLabel: 'Send',
-              messageFieldPlaceholder: 'Send us a message...',
-              welcomeFormValidationErrorMessage: 'Please complete all fields marked with an *',
-              welcomeFormSubmitButtonLabel: 'Submit',
-              welcomeFormSubmittingButtonLabel: 'Submitting',
-              agentTypingMessage: 'Agent is typing',
-              connectingMessage: 'Connecting...',
-              reconnectingMessage: 'Reconnecting...',
-              errorMessage: "We're having trouble connecting. Try refreshing the page.",
-              requiredFieldAriaLabel: 'Required',
-              minimizeWindowTooltip: 'Minimize window',
-              dockWindowTooltip: 'Dock chat',
-              openInNewWindowTooltip: 'Open chat in new window',
-              closeWindowTooltip: 'Close window',
-              unsupportedBrowser: undefined,
-              storageDisabled: undefined,
-              agentEndedConversationMessage: 'Agent has ended the conversation.',
-              agentsNotAvailableMessage: 'No agents are currently available.',
+        titleText: "",
+        headerText: "We're here to help if you have any questions!",
+        sendButtonLabel: 'Send',
+        messageFieldPlaceholder: 'Send us a message...',
+        welcomeFormValidationErrorMessage: 'Please complete all fields marked with an *',
+        welcomeFormSubmitButtonLabel: 'Submit',
+        welcomeFormSubmittingButtonLabel: 'Submitting',
+        agentTypingMessage: 'Agent is typing',
+        connectingMessage: 'Connecting...',
+        reconnectingMessage: 'Reconnecting...',
+        errorMessage: "We're having trouble connecting. Try refreshing the page.",
+        requiredFieldAriaLabel: 'Required',
+        minimizeWindowTooltip: 'Minimize window',
+        dockWindowTooltip: 'Dock chat',
+        openInNewWindowTooltip: 'Open chat in new window',
+        closeWindowTooltip: 'Close window',
+        unsupportedBrowser: undefined,
+        storageDisabled: undefined,
+        agentEndedConversationMessage: 'Agent has ended the conversation.',
+        agentsNotAvailableMessage: 'No agents are currently available.',
       }
       ```
   - #### mobileNumber
@@ -437,7 +471,7 @@ The following browsers with versions greater than or equal to the following are 
 * Microsoft Edge 12
 * Most Modern Mobile Devices
 
-
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 <!-- DEPRECATED VALUES - Don't document them anymore.
@@ -446,42 +480,9 @@ The following browsers with versions greater than or equal to the following are 
       - description: Color to control appearance of chat UI in hex format.
       - default: `'#59ad5d'` (green)
       - example: `'#59ad5d'`
-  - COLORS _Deprecated: You should use styles to set styles._
-    - type:
-    ```javascript
-    {
-      primary: string,
-      agentMessageText: string, // Text color for messages sent by the support agent
-      agentMessageLinkText: string, // Text color for links sent by the support agent
-      agentMessageBackground: string, // Message bubble color for links sent by the support agent
-      customerMessageText: string, // Text color for messages sent by the end user
-      customerMessageLinkText: string, // Text color for links sent by the end user
-      customerMessageBackground: string, // Message bubble color for links sent by the end user
-      transcriptBackground: string, // Background color for the chat transcript
-    }
-    ```
-    - description: Color values for the webchat
-    - defaults:
-    ```javascript
-    {
-      primary: '#59ad5d',
-      agentMessageText: '#000',
-      agentMessageLinkText: '#2199e8',
-      agentMessageBackground: '#fff',
-      customerMessageText: '#fff',
-      customerMessageLinkText: '#fff',
-      customerMessageBackground: COLORS.primary,
-      transcriptBackground: '#f4f4f8',
-    }
-    ```
   - HEADER_TEXT _Deprecated: You should set MESSAGES.headerText instead_
     - type: string
     - description: Message to appear at top of chat window.
     - default: `"We're here to help if you have any questions!"`
     - example: `"We're here to help if you have any questions!"`
-  - FONT_FAMILY _Deprecated: You should use styles to set styles._
-    - type: string
-    - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
-    - default: `'sans-serif'`
-    - example: `'Lato, sans-serif'`
 -->
