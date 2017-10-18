@@ -89,9 +89,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const text = this.textArea.getPlaintext().trim();
     // Filter emojis based on includeEmojis/excludeEmojis
     const filteredText = EmojiUtils.filterEmojisFromText(text);
-    if (filteredText) {
-      QuiqChatClient.updateMessagePreview(filteredText, false);
-    }
+    QuiqChatClient.updateMessagePreview(filteredText, false);
   };
 
   startTypingTimers = () => {
