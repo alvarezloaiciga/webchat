@@ -18,10 +18,21 @@ export const isSingleEmoji = (text: string): boolean => {
   // 2) The number of characters in that emoji === the number of characters in the string
   const emojis = text.match(emojiRegex);
 
-  if (!emojis) return false;
+  // If no emojis or more than one emoji were found, we can return false.
+  if (!emojis || emojis.length > 1) return false;
 
-  const emojiCharCount = emojis.reduce((count, e) => count + e.length, 0);
-  return emojis.length === 1 && text.length === emojiCharCount;
+  const e = emojis[0];
+  const emojiCharCount = e.length;
+  const emojiVariationSelectorCount = (e.match('\uFE0F') || []).length;
+  const totalVariationSelectorCount = (text.match('\uFE0F') || []).length;
+
+  // We want number of characters in emoji to match number of characters in string.
+  // However, if we can explain away the difference by stray variation selector characters,
+  // we still have a single emoji.
+  const lengthDifference =
+    text.length - emojiCharCount - totalVariationSelectorCount + emojiVariationSelectorCount;
+
+  return lengthDifference === 0;
 };
 
 export const filterEmojisFromText = (text: string): string =>

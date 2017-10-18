@@ -21,6 +21,11 @@ describe('Emoji Utils', () => {
       expect(EmojiUtils.isSingleEmoji('⏱')).toBe(true);
       expect(EmojiUtils.isSingleEmoji('👩‍👩‍👦‍👦')).toBe(true); // Family
       expect(EmojiUtils.isSingleEmoji('👨‍🎓')).toBe(true); // Student
+      expect(EmojiUtils.isSingleEmoji('⌚️')).toBe(true);
+      expect(EmojiUtils.isSingleEmoji('\u26fa\uFe0f')).toBe(true);
+    });
+    it('returns false with strings containing strange emojis', () => {
+      expect(EmojiUtils.isSingleEmoji('⌚ hey️')).toBe(false);
     });
   });
   describe('convertUnicodeToEmojiObject', () => {
