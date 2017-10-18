@@ -24,12 +24,20 @@ export const isSingleEmoji = (text: string): boolean => {
   return emojis.length === 1 && text.length === emojiCharCount;
 };
 
+export const filterEmojisFromText = (text: string): string =>
+  text.trim().replace(emojiRegex, u => {
+    const emoji = convertUnicodeToEmojiObject(u);
+    if (emoji && !emojiFilter(emoji)) return '';
+    return u;
+  });
+
 export const convertUnicodeToEmojiObject = (u: string): ?Emoji => {
   const emojiId = Object.keys(emojiIndex.emojis).find(k => emojiIndex.emojis[k].native === u);
   return emojiIndex.emojis[emojiId];
 };
 
 // This function is used for filtering emojis in our picker, as well as redacting emojis prior to sending a message.
+// Note that the string passed to this function must be the unified code, but NOT the actual unicode. (IE101, not \uIE101)
 export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
   let emojiId;
   // emoji-mart will call this function when user is searching, but it only passes unicode string:
@@ -37,6 +45,7 @@ export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
     emojiId = emojiIdByUnified[e.toLowerCase()];
   } else {
     // NOTE: In emoji-mart land, id === short_codes[0]
+    // This is difference between Emoji and EmojiMetadata types
     emojiId = e.id || e.short_names[0];
   }
 
