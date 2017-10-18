@@ -3,6 +3,7 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
+import {getDisplayString} from 'Common/i18n';
 import {SupportedWebchatUrls, localStorageKeys, unknownErrorMessage} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
@@ -119,12 +120,11 @@ export const supportsSVG = () =>
 QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
 export const displayError = (error: string | IntlMessage, values: { [string]: string } = {}) => {
-  const message = typeof error === 'string' ? error : (error.defaultMessage || unknownErrorMessage);
-  throw new Error(buildTemplateString(message, values));
+  throw new Error(getDisplayString(error, values));
 };
 
-export const displayWarning = (error: string, values: { [string]: string } = {}) => {
-  console.warn(buildTemplateString(error, values));
+export const displayWarning = (error: string | IntlMessage, values: { [string]: string } = {}) => {
+  console.warn(getDisplayString(error, values));
 };
 
 // If window.opener is not null, then we're in a popup.
