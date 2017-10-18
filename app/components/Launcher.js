@@ -121,7 +121,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
-    QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
+    //QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
   init = async () => {
