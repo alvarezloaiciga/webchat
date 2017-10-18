@@ -1,5 +1,5 @@
 import {emojiIndex} from 'emoji-mart';
-import emojiRegexFactory from 'emoji-regex';
+import emojiRegexFactory from 'emoji-regex/text';
 import type {EmojiMetadata, Emoji} from 'Common/Types';
 import quiqOptions from 'Common/QuiqOptions';
 
