@@ -11,6 +11,19 @@ exports[`HeaderMenu component rendering renders 1`] = `
   }
 >
   <div
+    className="title"
+  >
+    <span
+      style={
+        Object {
+          "fontFamily": "Lato, sans-serif",
+        }
+      }
+    >
+      Quiq Webchat
+    </span>
+  </div>
+  <div
     className="buttons"
   >
     <i
@@ -42,6 +55,19 @@ exports[`HeaderMenu component rendering when not in standalone mode renders 1`] 
     }
   }
 >
+  <div
+    className="title"
+  >
+    <span
+      style={
+        Object {
+          "fontFamily": "Lato, sans-serif",
+        }
+      }
+    >
+      Quiq Webchat
+    </span>
+  </div>
   <div
     className="buttons"
   >

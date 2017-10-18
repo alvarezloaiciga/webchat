@@ -30,13 +30,14 @@ export default class EmojiTextArea extends Component {
     editorState: createEditorStateWithText(''),
   };
 
-  constructor() {
-    super();
-    // If specified (for testing) make `setText` available on window.
-    // this is required for programatically interacting with draft-js
+  componentDidMount() {
     const internal = quiqOptions._internal;
-    if (internal.exposeDraftJsSetText) {
-      window.__quiq__setText = this.setText;
+    if (internal.exposeDraftJsFunctions) {
+      window.__quiq__draftJs = {
+        setText: this.setText,
+        getText: this.getPlaintext,
+        getDisabled: () => this.props.disabled,
+      };
     }
   }
 

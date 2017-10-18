@@ -1,5 +1,7 @@
 // @flow
 
+// "Twemoji" emoji artwork by Twitter is licensed under CC BY 4.0
+
 import React from 'react';
 import {Picker} from 'emoji-mart';
 import ClickOutside from 'react-click-outside-component';

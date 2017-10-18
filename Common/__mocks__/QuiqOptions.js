@@ -109,7 +109,7 @@ const quiqOptions: QuiqObject = {
   position: {},
   headerText: 'TOOL TIME',
   messages: {
-    titleText: '',
+    titleText: 'Quiq Webchat',
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
     messageFieldPlaceholder: messages.sendUsAMessage,

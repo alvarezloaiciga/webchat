@@ -123,7 +123,7 @@ export type QuiqObject = {
   _internal: {
     captureRequests?: boolean,
     captureWebsockets?: boolean,
-    exposeDraftJsSetText?: boolean,
+    exposeDraftJsFunctions?: boolean,
   },
 };
 
