@@ -13,6 +13,8 @@ Object.keys(emojiIndex.emojis).forEach(id => {
 });
 
 export const isSingleEmoji = (text: string): boolean => {
+  const variationSelectorChar = '\uFE0F';
+
   // We know a string contains only one emoji iff
   // 1) An emoji regex finds only one match in the string, and
   // 2) The number of characters in that emoji === the number of characters in the string
@@ -23,8 +25,8 @@ export const isSingleEmoji = (text: string): boolean => {
 
   const e = emojis[0];
   const emojiCharCount = e.length;
-  const emojiVariationSelectorCount = (e.match('\uFE0F') || []).length;
-  const totalVariationSelectorCount = (text.match('\uFE0F') || []).length;
+  const emojiVariationSelectorCount = (e.match(variationSelectorChar) || []).length;
+  const totalVariationSelectorCount = (text.match(variationSelectorChar) || []).length;
 
   // We want number of characters in emoji to match number of characters in string.
   // However, if we can explain away the difference by stray variation selector characters,
