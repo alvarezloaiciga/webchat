@@ -3,10 +3,10 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
-import {SupportedWebchatUrls, localStorageKeys} from './Constants';
+import {SupportedWebchatUrls, localStorageKeys, unknownErrorMessage} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage} from './types';
 
 const parser = new UAParser();
 
@@ -118,8 +118,9 @@ export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqM
 export const supportsSVG = () =>
 QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
-export const displayError = (error: string, values: { [string]: string } = {}) => {
-  throw new Error(buildTemplateString(error, values));
+export const displayError = (error: string | IntlMessage, values: { [string]: string } = {}) => {
+  const message = typeof error === 'string' ? error : (error.defaultMessage || unknownErrorMessage);
+  throw new Error(buildTemplateString(message, values));
 };
 
 export const displayWarning = (error: string, values: { [string]: string } = {}) => {
