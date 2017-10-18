@@ -69,7 +69,7 @@ To get started with the standard Webchat setup, include `quiq.js` on your page b
 (Replace `<tenant>` with the name of your Quiq tenant.)
 
   ```javascript
-  <script src="https://<tenant>.goquiq.com/app/webchat/index.js" />
+  <script src="https://<tenant>.goquiq.com/app/webchat/index.js"></script>
   ```
 
 Next, setup Webchat by calling the `Quiq()` function in the body of your page  2:
