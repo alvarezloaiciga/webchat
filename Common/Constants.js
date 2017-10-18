@@ -43,6 +43,7 @@ export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
+  getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
 };
 

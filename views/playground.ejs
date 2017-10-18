@@ -2,351 +2,367 @@
 <!-- Note: Don't auto-prettify this file.  It messed up old versions of IE -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiq Webchat</title>
-    <style>
-        button.noAgentsAvailable {
-            opacity: .25;
-            cursor: not-allowed;
-            color: darkgrey;
-        }
-    </style>
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiq Webchat</title>
+  <style>
+    button.noAgentsAvailable {
+      opacity: .25;
+      cursor: not-allowed;
+      color: darkgrey;
+    }
+  </style>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous">
     </script>
 
-    <!-- Include webchat SDK -->
-    <script src="<%= host %>/app/webchat/sdk.js"></script>
+  <!-- Include webchat SDK -->
+  <script src="<%= host %>/app/webchat/sdk.js"></script>
 
-    <!-- Playground -->
-    <script type="text/javascript" charset="utf-8">
-      var quiqOptions = {
-        _internal: {
-          captureRequests: false,
-          captureWebsockets: false,
-          exposeDraftJsFunctions: false,
+  <!-- Playground -->
+  <script type="text/javascript" charset="utf-8">
+    var quiqOptions = {
+      _internal: {
+        captureRequests: false,
+        captureWebsockets: false,
+        exposeDraftJsFunctions: false,
+      },
+      excludeEmojis: [],
+      //includeEmojis: [],            // Set to `[]` to disable emojis
+      agentsAvailableTimer: 60000,
+      enforceAgentAvailability: true,
+      host: '<%- host %>',
+      contactPoint: 'default',
+      autoPopTime: 120000,
+      mobileNumber: 33,
+      messages: {
+        titleText: 'Quiq Webchat',
+      },
+      colors: {
+        primary: 'red', // (Falls back to `QUIQ.COLOR`)
+        agentMessageText: '#555',
+        agentMessageLinkText: '#2199e8',
+        agentMessageBackground: '#e0e0e0',
+        customerMessageText: 'yellow',
+        customerMessageLinkText: 'yellow',
+        customerMessageBackground: '#2199e8',
+        transcriptBackground: '#f4f4f8',
+      },
+      fontFamily: 'Raleway',
+      styles: {
+        HeaderMenu: {
+          background: '#31bf8b',
         },
-        excludeEmojis: [],
-        //includeEmojis: [],            // Set to `[]` to disable emojis
-        agentsAvailableTimer: 60000,
-        enforceAgentAvailability: true,
-        host: '<%- host %>',
-        contactPoint: 'default',
-        autoPopTime: 120000,
-        mobileNumber: 33,
-        messages: {
-          titleText: 'Quiq Webchat',
+        TitleText: {
+          //fontSize: '20px',
         },
-        colors: {
-          primary: 'red', // (Falls back to `QUIQ.COLOR`)
-          agentMessageText: '#555',
-          agentMessageLinkText: '#2199e8',
-          agentMessageBackground: '#e0e0e0',
-          customerMessageText: 'yellow',
-          customerMessageLinkText: 'yellow',
-          customerMessageBackground: '#2199e8',
-          transcriptBackground: '#f4f4f8',
+        HeaderBanner: {
+          background: '#31bf8b',
+          fontFamily: 'Source Sans Pro',
+          fontSize: 16,
+          fontWeight: 500,
+          textTransform: 'uppercase',
         },
-        fontFamily: 'Raleway',
-        styles: {
-          HeaderMenu: {
-            background: '#31bf8b',
-          },
-          TitleText: {
-            //fontSize: '20px',
-          },
-          HeaderBanner: {
-            background: '#31bf8b',
-            fontFamily: 'Source Sans Pro',
-            fontSize: 16,
-            fontWeight: 500,
-            textTransform: 'uppercase',
-          },
-          ErrorBanner: {
-            background: '#fff',
-            color: 'red',
-            fontFamily: 'Source Sans Pro',
-            textTransform: 'uppercase',
-            fontWeight: 700,
-          },
-          ToggleChatButton: {
-            background: 'teal',
-          },
-          ToggleChatButtonIcon: {
-            opacity: 0.75,
-          },
-          CustomerMessageBubble: {
-            background: '#68b588',
-          },
-          CustomerMessageText: {
-            color: '#fff',
-            fontFamily: 'Source Sans Pro',
-          },
-          AgentMessageBubble: {
-            background: '#fff',
-            border: '1px solid #e0e0e0',
-          },
-          AgentMessageText: {
-            color: '#555',
-            fontFamily: 'Source Sans Pro',
-          },
-          MessageForm: {
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
-            zIndex: 1,
-          },
-          MessageFormInput: {
-            color: '#68b588',
-            fontFamily: 'Source Sans Pro',
-          },
-          MessageFormSend: {
-            color: '#68b588',
-            textTransform: 'uppercase',
-            fontFamily: 'Source Sans Pro',
-            fontSize: 16,
-            marginTop: '2px',
-          },
-          WelcomeFormField: {
-            marginTop: 16,
-          },
-          WelcomeFormFieldLabel: {
-            color: '#555',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            fontFamily: 'Source Sans Pro',
-          },
-          WelcomeFormFieldInput: {
-            outline: 'none',
-            color: '#555',
-            fontFamily: 'Source Sans Pro',
-          },
-          WelcomeFormFieldTextarea: {
-            outline: 'none',
-            color: '#888',
-            fontFamily: 'Source Sans Pro',
-          },
-          WelcomeFormSubmitButton: {
-            background: 'teal',
-            fontWeight: 700,
-            fontFamily: 'Source Sans Pro',
-            fontSize: 16,
-          },
+        ErrorBanner: {
+          background: '#fff',
+          color: 'red',
+          fontFamily: 'Source Sans Pro',
+          textTransform: 'uppercase',
+          fontWeight: 700,
         },
-        //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
-        welcomeForm: {
-          headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
-          fields: [
-            {
-              type: 'text',
-              label: 'First Name',
-              id: 'firstName',
-              required: true,
-            },
-            {
-              type: 'text',
-              label: 'Last Name',
-              id: 'lastName',
-              required: false,
-            },
-            {
-              type: 'textarea',
-              label: 'Initial Question',
-              id: 'initialQuestion',
-              required: false,
-              rows: 2,
-              isInitialMessage: true,
-            },
-            {
-              type: 'number',
-              label: 'Number Field',
-              id: 'numberField',
-              required: false,
-            },
-            {
-              type: 'email',
-              label: 'E-Mail',
-              id: 'email',
-              required: false,
-            },
-            {
-              type: 'tel',
-              label: 'Phone Number',
-              id: 'phoneNumber',
-              required: false,
-            },
-          ],
+        ToggleChatButton: {
+          background: 'teal',
         },
-      };
-      // Playground
-      var state = {};
-
-      // Initialize chat
-      var chat = Quiq(quiqOptions);
-
-      // Add event listeners
-      chat.on('chatVisibilityDidChange', function (data) {
-        updateState({'Chat is visible': data.visible});
-      });
-      chat.on('agentAvailabilityDidChange', function (data) {
-        updateState({'Agents available': data.available});
-      });
-
-      // State table methods
-      function updateState(data) {
-        Object.keys(data).forEach(function (k) {
-          state[k] = data[k];
-        });
-        updateStateTable();
-      }
-
-      function updateStateTable() {
-        var rows = '';
-        $.each(state, function (property, value) {
-          var row = '<tr>';
-          row += '<td>' + property + '</td>';
-          row += '<td>' + value + '</td>';
-          rows += row + '<tr>';
-        });
-        $('#stateTable')
-          .children('tbody')
-          .html(rows);
-      }
-
-      // SDK method wrappers
-      function toggleChatVisibility() {
-        chat.getChatVisibility().then(function (data) {
-          var visible = data.visible;
-          chat.setChatVisibility(!visible);
-        });
-      }
-
-      function sendRegistration() {
-        var registrationData = [
+        ToggleChatButtonIcon: {
+          opacity: 0.75,
+        },
+        CustomerMessageBubble: {
+          background: '#68b588',
+        },
+        CustomerMessageText: {
+          color: '#fff',
+          fontFamily: 'Source Sans Pro',
+        },
+        AgentMessageBubble: {
+          background: '#fff',
+          border: '1px solid #e0e0e0',
+        },
+        AgentMessageText: {
+          color: '#555',
+          fontFamily: 'Source Sans Pro',
+        },
+        MessageForm: {
+          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
+          zIndex: 1,
+        },
+        MessageFormInput: {
+          color: '#68b588',
+          fontFamily: 'Source Sans Pro',
+        },
+        MessageFormSend: {
+          color: '#68b588',
+          textTransform: 'uppercase',
+          fontFamily: 'Source Sans Pro',
+          fontSize: 16,
+          marginTop: '2px',
+        },
+        WelcomeFormField: {
+          marginTop: 16,
+        },
+        WelcomeFormFieldLabel: {
+          color: '#555',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          fontFamily: 'Source Sans Pro',
+        },
+        WelcomeFormFieldInput: {
+          outline: 'none',
+          color: '#555',
+          fontFamily: 'Source Sans Pro',
+        },
+        WelcomeFormFieldTextarea: {
+          outline: 'none',
+          color: '#888',
+          fontFamily: 'Source Sans Pro',
+        },
+        WelcomeFormSubmitButton: {
+          background: 'teal',
+          fontWeight: 700,
+          fontFamily: 'Source Sans Pro',
+          fontSize: 16,
+        },
+      },
+      //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
+      welcomeForm: {
+        headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+        fields: [
           {
+            type: 'text',
+            label: 'First Name',
             id: 'firstName',
-            value: 'Duke',
+            required: true,
           },
           {
+            type: 'text',
+            label: 'Last Name',
             id: 'lastName',
-            value: 'Nukem',
+            required: false,
           },
           {
-            id: 'phoneNumber',
-            value: '406-555-5555',
+            type: 'textarea',
+            label: 'Initial Question',
+            id: 'initialQuestion',
+            required: false,
+            rows: 5,
+            isInitialMessage: true,
           },
           {
+            type: 'number',
+            label: 'Number Field',
+            id: 'numberField',
+            required: false,
+          },
+          {
+            type: 'email',
+            label: 'E-Mail',
             id: 'email',
-            value: 'my@email.com',
+            required: false,
           },
-        ];
+          {
+            type: 'tel',
+            label: 'Phone Number',
+            id: 'phoneNumber',
+            required: false,
+          },
+        ],
+      },
+    };
+    // Playground
+    var state = {};
 
-        chat.sendRegistration(registrationData);
-      }
+    // Initialize chat
+    var chat = Quiq(quiqOptions);
 
-      function getAgentAvailability() {
-        chat.getAgentAvailability();
-      }
+    // Add event listeners
+    chat.on('chatVisibilityDidChange', function (data) {
+      updateState({ 'Chat is visible': data.visible });
+    });
+    chat.on('agentAvailabilityDidChange', function (data) {
+      updateState({ 'Agents available': data.available });
+    });
 
-      $(document).ready(function () {
-        if (quiqOptions.autoPopTime) {
-          var time = quiqOptions.autoPopTime;
-          var interval = setInterval(function () {
-            time -= 100;
-            if (time <= 0) {
-              clearInterval(interval);
-            }
-            $('#autoPopTime').text('Auto Pop Time:' + time + 'ms');
-          }, 100);
-        } else {
-          $('#autoPopTime').remove();
-        }
+    // State table methods
+    function updateState(data) {
+      Object.keys(data).forEach(function (k) {
+        state[k] = data[k];
       });
-    </script>
+      updateStateTable();
+    }
+
+    function updateStateTable() {
+      var rows = '';
+      $.each(state, function (property, value) {
+        var row = '<tr>';
+        row += '<td>' + property + '</td>';
+        row += '<td>' + value + '</td>';
+        rows += row + '<tr>';
+      });
+      $('#stateTable')
+        .children('tbody')
+        .html(rows);
+    }
+
+    // SDK method wrappers
+    function toggleChatVisibility() {
+      chat.getChatVisibility().then(function (data) {
+        var visible = data.visible;
+        chat.setChatVisibility(!visible);
+      });
+    }
+
+    function sendRegistration() {
+      var registrationData = [
+        {
+          id: 'firstName',
+          value: 'Duke',
+        },
+        {
+          id: 'lastName',
+          value: 'Nukem',
+        },
+        {
+          id: 'phoneNumber',
+          value: '406-555-5555',
+        },
+        {
+          id: 'email',
+          value: 'my@email.com',
+        },
+      ];
+
+      chat.sendRegistration(registrationData);
+    }
+
+    function getAgentAvailability() {
+      chat.getAgentAvailability(function (availability) {
+        console.log(availability);
+        document.getElementById('agentAvailabilityDiv').innerText = availability.available;
+      });
+    }
+
+    function getHandle() {
+      chat.getHandle(function (handle) {
+        console.log(handle);
+        document.getElementById('handleDiv').innerText = handle;
+      })
+    }
+
+    $(document).ready(function () {
+      if (quiqOptions.autoPopTime) {
+        var time = quiqOptions.autoPopTime;
+        var interval = setInterval(function () {
+          time -= 100;
+          if (time <= 0) {
+            clearInterval(interval);
+          }
+          $('#autoPopTime').text('Auto Pop Time:' + time + 'ms');
+        }, 100);
+      } else {
+        $('#autoPopTime').remove();
+      }
+    });
+  </script>
 </head>
+
 <body>
-<h1>Webchat Playground</h1>
+  <h1>Webchat Playground</h1>
 
-<div class="container theme-showcase" role="main">
+  <div class="container theme-showcase" role="main">
     <div class="row">
-        <div class="col-xs-6">
-            <!-- Event handling -->
-            <div class="page-header">
-                <h1>Event handling</h1>
-            </div>
-            <p>
-                The state below is kept up-to-date by registering and listening to events with the SDK.
-            </p>
-            <table id="stateTable" class="table">
-                <thead>
-                <tr>
-                    <th>Property</th>
-                    <th>Value</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-
-            <!-- SDK methods -->
-            <div class="page-header">
-                <h1>Exposed methods</h1>
-            </div>
-            <p>
-                These buttons call into the SDK to interact with webchat.
-            </p>
-            <div class="row">
-                <p>
-                    <button type="button" id="action_toggleChat" class="btn btn-lg btn-success"
-                            onclick="toggleChatVisibility()">
-                        Toggle chat visibility
-                    </button>
-                </p>
-                <p>
-                    <button type="button" id="action_sendRegistration" class="btn btn-lg btn-success"
-                            onclick="sendRegistration()">
-                        Send Registration
-                    </button>
-                </p>
-                <p>
-                    <button type="button" id="action_getAgentAvailability" class="btn btn-lg btn-success"
-                            onclick="getAgentAvailability()">
-                        Get Agent Availability
-                    </button>
-                </p>
-            </div>
-
-            <!-- Custom launch buttons -->
-            <div class="page-header">
-                <h1>Custom launch buttons</h1>
-            </div>
-            <p>
-                These buttons are managed by the SDK. They will appear ghosted when no agents are available. They will
-                toggle chat visibility when clicked.
-            </p>
-            <p>
-                <button type="button" id="customLaunchBtn1" class="btn btn-lg btn-primary">Launch chat</button>
-                <button type="button" id="customLaunchBtn2" class="btn btn-lg btn-primary">Chat with us</button>
-            </p>
-
-            <!-- Auto Pop Time -->
-            <h1 id="autoPopTime" class="page-header">Auto Pop Time</h1>
+      <div class="col-xs-6">
+        <!-- Event handling -->
+        <div class="page-header">
+          <h1>Event handling</h1>
         </div>
+        <p>
+          The state below is kept up-to-date by registering and listening to events with the SDK.
+        </p>
+        <table id="stateTable" class="table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <!-- SDK methods -->
+        <div class="page-header">
+          <h1>Exposed methods</h1>
+        </div>
+        <p>
+          These buttons call into the SDK to interact with webchat.
+        </p>
+        <div class="row">
+          <p>
+            <button type="button" id="action_toggleChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility()">
+              Toggle chat visibility
+            </button>
+          </p>
+          <p>
+            <button type="button" id="action_sendRegistration" class="btn btn-lg btn-success" onclick="sendRegistration()">
+              Send Registration
+            </button>
+          </p>
+          <p>
+            <button type="button" id="action_getAgentAvailability" class="btn btn-lg btn-success" onclick="getAgentAvailability()">
+              Get Agent Availability
+            </button>
+            <div id="agentAvailabilityDiv"></div>
+          </p>
+          <p>
+            <button type="button" id="action_getHandle" class="btn btn-lg btn-success" onclick="getHandle()">
+              Get Handle
+            </button>
+            <div id="handleDiv"></div>
+          </p>
+        </div>
+
+        <!-- Custom launch buttons -->
+        <div class="page-header">
+          <h1>Custom launch buttons</h1>
+        </div>
+        <p>
+          These buttons are managed by the SDK. They will appear ghosted when no agents are available. They will toggle chat visibility
+          when clicked.
+        </p>
+        <p>
+          <button type="button" id="customLaunchBtn1" class="btn btn-lg btn-primary">Launch chat</button>
+          <button type="button" id="customLaunchBtn2" class="btn btn-lg btn-primary">Chat with us</button>
+        </p>
+
+        <!-- Auto Pop Time -->
+        <h1 id="autoPopTime" class="page-header">Auto Pop Time</h1>
+      </div>
     </div>
-</div>
+  </div>
 </body>
+
 </html>

@@ -68,6 +68,7 @@ const setupListeners = () => {
 
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
+  postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
 };
@@ -155,3 +156,4 @@ const sendRegistration = (event: Object) => {
 };
 
 const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
+const getHandle = async () => await QuiqChatClient.getHandle(quiqOptions.host);
