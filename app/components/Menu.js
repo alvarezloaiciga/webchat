@@ -86,7 +86,7 @@ const Menu = (props: MenuProps) => {
   return (
     <MenuContainer className={props.className || ''} style={props.containerStyle}>
       {props.items.map(i => (
-        <MenuItem key={i.id} title={i.title || i.label} style={i.style}>
+        <MenuItem onClick={i.onClick} key={i.id} title={i.title || i.label} style={i.style}>
           {i.icon && <Icon style={i.icon.style} className={`fa fa-fw fa-${i.icon.name}`} />}
           <Text>{i.label}</Text>
         </MenuItem>

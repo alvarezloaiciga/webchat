@@ -7,6 +7,7 @@ import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
+import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'MenuButton';
 import Menu from 'Menu';
@@ -34,6 +35,7 @@ type MessageFormState = {
   hasText: boolean,
   agentsAvailable: boolean,
   emojiPickerVisible: boolean,
+  inputtingEmail: boolean,
 };
 
 let updateTimer;
@@ -44,6 +46,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     hasText: false,
     agentsAvailable: true,
     emojiPickerVisible: false,
+    inputtingEmail: false,
   };
   checkAvailabilityTimer: number;
 
@@ -161,6 +164,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.textArea.insertEmoji(emoji.native);
   };
 
+  toggleEmailInput = () => {
+    console.log('in');
+    this.setState((prevState: MessageFormState) => ({
+      inputtingEmail: !prevState.inputtingEmail,
+    }));
+  };
+
   renderMenu = () => {
     const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
       Object.values(MenuItemKeys).includes(k),
@@ -169,7 +179,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     const options = [
       {
-        onClick: () => {},
+        onClick: this.toggleEmailInput,
         label: getMessage(messageTypes.emailTranscriptMenuMessage),
         title: getMessage(messageTypes.emailTranscriptMenuTooltip),
         id: MenuItemKeys.EMAIL_TRANSCRIPT,
@@ -248,47 +258,55 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
-        <div className="messageArea">
-          {this.renderMenu()}
-          <EmojiTextarea
-            ref={n => {
-              this.textArea = n;
-            }}
-            style={inputStyle}
-            disabled={!this.state.agentsAvailable}
-            name="message"
-            maxLength={1024}
-            onChange={this.handleTextChanged}
-            onReturn={this.handleReturnKey}
-            placeholder={messagePlaceholder}
-          />
-          {EmojiUtils.emojisEnabledByCustomer() && (
-            <button
-              className="messageFormBtn emojiBtn"
-              disabled={emopjiPickerDisabled}
-              onClick={this.toggleEmojiPicker}
-            >
-              <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
-            </button>
-          )}
-          <button
-            className="messageFormBtn sendBtn"
-            onClick={this.addMessage}
-            disabled={sendDisabled}
-            style={buttonStyle}
-          >
-            {getMessage(messageTypes.sendButtonLabel)}
-          </button>
-          {EmojiUtils.emojisEnabledByCustomer() && (
-            <EmojiPicker
-              visible={this.state.emojiPickerVisible}
-              addEmoji={this.handleEmojiSelection}
-              emojiFilter={EmojiUtils.emojiFilter}
-              onOutsideClick={this.toggleEmojiPicker}
-              ignoreOutsideClickOnSelectors={['.emojiBtn']}
+        {this.state.inputtingEmail && (
+          <div className="messageArea">
+            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+          </div>
+        )}
+
+        {!this.state.inputtingEmail && (
+          <div className="messageArea">
+            {this.renderMenu()}
+            <EmojiTextarea
+              ref={n => {
+                this.textArea = n;
+              }}
+              style={inputStyle}
+              disabled={!this.state.agentsAvailable}
+              name="message"
+              maxLength={1024}
+              onChange={this.handleTextChanged}
+              onReturn={this.handleReturnKey}
+              placeholder={messagePlaceholder}
             />
-          )}
-        </div>
+            {EmojiUtils.emojisEnabledByCustomer() && (
+              <button
+                className="messageFormBtn emojiBtn"
+                disabled={emopjiPickerDisabled}
+                onClick={this.toggleEmojiPicker}
+              >
+                <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
+              </button>
+            )}
+            <button
+              className="messageFormBtn sendBtn"
+              onClick={this.addMessage}
+              disabled={sendDisabled}
+              style={buttonStyle}
+            >
+              {getMessage(messageTypes.sendButtonLabel)}
+            </button>
+            {EmojiUtils.emojisEnabledByCustomer() && (
+              <EmojiPicker
+                visible={this.state.emojiPickerVisible}
+                addEmoji={this.handleEmojiSelection}
+                emojiFilter={EmojiUtils.emojiFilter}
+                onOutsideClick={this.toggleEmojiPicker}
+                ignoreOutsideClickOnSelectors={['.emojiBtn']}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }
