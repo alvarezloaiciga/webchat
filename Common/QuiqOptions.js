@@ -121,7 +121,9 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
     newFormObject.fields.forEach(field => {
       // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
       // If label is not defined this is an error, and will be caught when welcomeForm is validated.
+      /* eslint-disable no-param-reassign */
       if (!field.id && field.label) field.id = camelize(field.label);
+      /* eslint-disable no-param-reassign */
     });
   }
 

@@ -55,9 +55,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   renderField = (field: WelcomeFormField) => {
     const {fontFamily, styles} = quiqOptions;
 
-    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily: fontFamily});
-    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily: fontFamily});
-    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily: fontFamily});
+    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily});
+    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
+    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
 
     return (
       <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
@@ -191,12 +191,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     return (

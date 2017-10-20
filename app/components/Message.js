@@ -52,13 +52,13 @@ const getMessageTextStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
     return getStyle(styles.CustomerMessageText, {
       color: colors.customerMessageText,
-      fontFamily: fontFamily,
+      fontFamily,
     });
   }
 
   return getStyle(styles.AgentMessageText, {
     color: colors.agentMessageText,
-    fontFamily: fontFamily,
+    fontFamily,
   });
 };
 
@@ -84,7 +84,7 @@ export const Message = (props: MessageProps) => {
               target: '_blank',
               rel: 'noopener noreferrer',
               style: {
-                fontFamily: fontFamily,
+                fontFamily,
                 textDecoration: 'underline',
                 ...textStyle,
                 color: fromCustomer ? colors.customerMessageLinkText : colors.agentMessageLinkText,

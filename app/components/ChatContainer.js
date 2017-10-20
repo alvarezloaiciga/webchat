@@ -33,10 +33,10 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
 
     const bannerStyle = getStyle(styles.HeaderBanner, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
-    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily: fontFamily});
+    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
