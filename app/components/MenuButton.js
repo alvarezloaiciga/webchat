@@ -44,6 +44,7 @@ const MenuButtonIcon = styled.div`
 /* eslint-disable no-confusing-arrow */
 const PrimaryMenuContainer = styled.div`
   position: absolute;
+  display: flex;
   ${props =>
     props.position.includes('top') ? `bottom: ${props.offset.vertical}` : 'bottom: auto'};
   ${props => (props.position.includes('bottom') ? `top: ${props.offset.vertical}` : 'top: auto')};
@@ -76,7 +77,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
   static defaultProps = {
     title: messages.buttonTitle,
     menuPosition: 'top-right',
-    icon: 'plus',
+    icon: 'bars',
     className: '',
     offset: {
       vertical: '40px',

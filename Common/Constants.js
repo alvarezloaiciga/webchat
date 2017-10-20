@@ -108,3 +108,7 @@ export const localStorageKeys = [
   'quiq-user-taken-meaningful-action',
   'quiq-user-subscribed',
 ];
+
+export const MenuItemKeys = {
+  EMAIL_TRANSCRIPT: 'emailTranscript',
+};

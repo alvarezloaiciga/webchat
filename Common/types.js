@@ -47,8 +47,9 @@ type CustomStyles = {
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,
   OptionsMenuContainer?: Object,
-  EmailTranscriptLineItem?: Object,
-  EmailTranscriptLineItemIcon?: Object,
+  EmailTranscriptMenuContainer?: Object,
+  EmailTranscriptMenuLineItem?: Object,
+  EmailTranscriptMenuLineItemIcon?: Object,
   EmailTranscriptPromptContainer?: Object,
   EmailTranscriptPromptMessageForm?: Object,
   EmailTranscriptPromptSubmitButton?: Object,
@@ -110,6 +111,9 @@ export type QuiqObject = {
     emailTranscriptMenuTooltip: string,
     emailTranscriptMessage: string,
     emailTranscriptInlineMessage: string,
+  },
+  menuOptions: {
+    emailTranscript: boolean,
   },
   mobileNumber?: string | number,
   position: {

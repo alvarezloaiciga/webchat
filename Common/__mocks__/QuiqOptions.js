@@ -115,10 +115,13 @@ const quiqOptions: QuiqObject = {
       fontFamily: 'Source Sans Pro',
       color: '#888',
     },
-    EmailTranscriptLineItem: {
+    EmailTranscriptMenuContainer: {
+      backround: 'green',
+    },
+    EmailTranscriptMenuLineItem: {
       fontFamily: 'Comic Sans',
     },
-    EmailTranscriptLineItemIcon: {
+    EmailTranscriptMenuLineItemIcon: {
       fontSize: 20,
     },
     EmailTranscriptPromptContainer: {
@@ -172,6 +175,9 @@ const quiqOptions: QuiqObject = {
   debug: false,
   autoPopTime: 2000,
   href: window.location.href,
+  menuOptions: {
+    emailTranscript: true,
+  },
   customLaunchButtons: [],
   mobileNumber: 123,
   welcomeForm: {

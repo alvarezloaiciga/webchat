@@ -10,6 +10,7 @@ import {
   isStorageEnabled,
 } from 'Common/Utils';
 import {getDisplayString} from 'Common/i18n';
+import {MenuItemKeys} from 'Common/Constants';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -78,6 +79,9 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
+    menuOptions: rawQuiqObject.menuOptions || {
+      [MenuItemKeys.EMAIL_TRANSCRIPT]: true,
+    },
     messages: Object.assign(
       {},
       {

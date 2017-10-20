@@ -3,18 +3,26 @@ import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {messageTypes} from 'Common/Constants';
+import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'MenuButton';
-import PrimaryMenu from 'PrimaryMenu';
+import Menu from 'Menu';
+import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji} from 'Common/types';
 
-const {colors, fontFamily, styles} = quiqOptions;
+const {
+  colors,
+  fontFamily,
+  styles,
+  menuOptions,
+  enforceAgentAvailability,
+  agentsAvailableTimer,
+} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
@@ -40,15 +48,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   checkAvailabilityTimer: number;
 
   checkAvailability = async () => {
-    if (quiqOptions.enforceAgentAvailability) {
+    if (enforceAgentAvailability) {
       const available = await QuiqChatClient.checkForAgents();
 
       this.setState({agentsAvailable: available.available});
       clearTimeout(this.checkAvailabilityTimer);
-      this.checkAvailabilityTimer = setTimeout(
-        this.checkAvailability,
-        quiqOptions.agentsAvailableTimer,
-      );
+      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, agentsAvailableTimer);
     }
   };
 
@@ -156,6 +161,55 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.textArea.insertEmoji(emoji.native);
   };
 
+  renderMenu = () => {
+    const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
+      Object.values(MenuItemKeys).includes(k),
+    );
+    if (!keys.length) return null;
+
+    const options = [
+      {
+        onClick: () => {},
+        label: getMessage(messageTypes.emailTranscriptMenuMessage),
+        title: getMessage(messageTypes.emailTranscriptMenuTooltip),
+        id: MenuItemKeys.EMAIL_TRANSCRIPT,
+        icon: {
+          name: 'envelope-o',
+          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+            color: colors.agentMessageLinkText,
+          }),
+        },
+        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+          color: colors.agentMessageLinkText,
+          fontFamily,
+        }),
+      },
+    ];
+
+    return (
+      <MenuButton
+        buttonStyles={getStyle(
+          {
+            borderRight: '2px solid rgb(244, 244, 248)',
+          },
+          styles.OptionsMenuButton,
+        )}
+        iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
+          color: colors.primary,
+        })}
+        title={getMessage(messageTypes.optionsMenuTooltip)}
+        disabled={!this.state.agentsAvailable}
+      >
+        <Menu
+          items={options.filter(o => keys.includes(o.id))}
+          containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
+            fontFamily,
+          })}
+        />
+      </MenuButton>
+    );
+  };
+
   render() {
     const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
     const emopjiPickerDisabled = !this.state.agentsAvailable;
@@ -195,21 +249,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         )}
 
         <div className="messageArea">
-          <MenuButton
-            buttonStyles={getStyle(
-              {
-                borderRight: '2px solid rgb(244, 244, 248)',
-              },
-              styles.OptionsMenuButton,
-            )}
-            iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
-              color: colors.primary,
-            })}
-            title={getMessage(messageTypes.optionsMenuTooltip)}
-            disabled={!this.state.agentsAvailable}
-          >
-            <PrimaryMenu />
-          </MenuButton>
+          {this.renderMenu()}
           <EmojiTextarea
             ref={n => {
               this.textArea = n;
