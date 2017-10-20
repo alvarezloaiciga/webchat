@@ -3030,9 +3030,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@0.54.1:
-  version "0.54.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.54.1.tgz#7101bcccf006dc0652714a8aef0c72078a760510"
+flow-bin@0.57.3:
+  version "0.57.3"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.57.3.tgz#843fb80a821b6d0c5847f7bb3f42365ffe53b27b"
 
 for-each@~0.3.2:
   version "0.3.2"
@@ -6063,9 +6063,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.20.1:
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.20.1.tgz#8e984b2fe52f6bdf7b3d0b77b14078efcfaf7340"
+quiq-chat@1.22.1:
+  version "1.22.1"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.22.1.tgz#a355fbd4245bc9eaa2e3031145218280cf49e989"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
