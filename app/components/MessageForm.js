@@ -206,6 +206,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               color: colors.primary,
             })}
             title={getMessage(messageTypes.optionsMenuTooltip)}
+            disabled={!this.state.agentsAvailable}
           >
             <PrimaryMenu />
           </MenuButton>

@@ -14,6 +14,7 @@ export type MenuButtonProps = {
   buttonText?: string | IntlMessage,
   title: string | IntlMessage,
   icon: string,
+  disabled?: boolean,
   menuPosition: 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left',
   className: string,
   offset: {
@@ -27,10 +28,11 @@ const MenuButtonContainer = css`
   justify-content: center;
   position: relative;
   align-items: center;
-  cursor: pointer;
 `;
 
 const MenuButtonIcon = styled.div`
+  ${({disabled}) => (disabled ? 'cursor: default' : 'cursor: pointer')};
+  ${({disabled}) => (disabled ? 'opacity: .5' : 'opacity: 1')};
   height: 100%;
   display: flex;
   align-items: center;
@@ -82,6 +84,8 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
   menuButton: any;
 
   toggleMenu = () => {
+    if (this.props.disabled) return false;
+
     this.setState((prevState: MenuButtonState) => ({menuVisible: !prevState.menuVisible}));
   };
 
@@ -107,6 +111,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
           </ClickOutside>
         )}
         <MenuButtonIcon
+          disabled={this.props.disabled}
           innerRef={r => {
             this.menuButton = r;
           }}
