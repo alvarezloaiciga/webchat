@@ -17,6 +17,16 @@ describe('Emoji Utils', () => {
     it('returns true when exactly one emoji is in text', () => {
       expect(EmojiUtils.isSingleEmoji('😀')).toBe(true);
     });
+    it('returns true with single modified, strange emojis', () => {
+      expect(EmojiUtils.isSingleEmoji('⏱')).toBe(true);
+      expect(EmojiUtils.isSingleEmoji('👩‍👩‍👦‍👦')).toBe(true); // Family
+      expect(EmojiUtils.isSingleEmoji('👨‍🎓')).toBe(true); // Student
+      expect(EmojiUtils.isSingleEmoji('⌚️')).toBe(true);
+      expect(EmojiUtils.isSingleEmoji('\u26fa\uFe0f')).toBe(true);
+    });
+    it('returns false with strings containing strange emojis', () => {
+      expect(EmojiUtils.isSingleEmoji('⌚ hey️')).toBe(false);
+    });
   });
   describe('convertUnicodeToEmojiObject', () => {
     it('returns an emoji-mart object given a unicode string', () => {

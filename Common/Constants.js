@@ -10,6 +10,8 @@ export const SupportedWebchatUrls = [
   'centricient.dev:41014/app/webchat',
 ];
 
+export const unknownErrorMessage = 'An unknown error occurred.';
+
 // Default launch button classes and id's
 export const noAgentsAvailableClass = 'noAgentsAvailable';
 export const mobileClass = 'mobile';

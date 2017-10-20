@@ -56,8 +56,8 @@ export const getFormattedDateAndTime = (timestamp: number): string =>
     second: 'numeric',
   });
 
-export const getDisplayString = (message?: string | IntlMessage, values?: Object): string => {
+export const getDisplayString = (message?: string | IntlMessage, values: Object = {}): string => {
   if (!message) return '';
 
-  return typeof message === 'string' ? message : formatMessage(message, values);
+  return typeof message === 'string' ? buildTemplateString(message, values) : formatMessage(message, values);
 };

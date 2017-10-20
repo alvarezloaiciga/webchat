@@ -16,8 +16,6 @@ import type {ChatState, Emoji} from 'Common/types';
 
 const {colors, fontFamily, styles} = quiqOptions;
 
-const emojiRegex = emojiRegexFactory();
-
 export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
@@ -80,12 +78,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   startTyping = () => {
-    QuiqChatClient.updateMessagePreview(this.textArea.getPlaintext().trim(), true);
+    const text = this.textArea.getPlaintext().trim();
+    // Filter emojis based on includeEmojis/excludeEmojis
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
+    if (filteredText) {
+      QuiqChatClient.updateMessagePreview(filteredText, true);
+    }
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    QuiqChatClient.updateMessagePreview(this.textArea.getPlaintext().trim(), false);
+    const text = this.textArea.getPlaintext().trim();
+    // Filter emojis based on includeEmojis/excludeEmojis
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
+    QuiqChatClient.updateMessagePreview(filteredText, false);
   };
 
   startTypingTimers = () => {
@@ -114,11 +120,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const text = this.textArea.getPlaintext().trim();
 
     // Filter emojis based on includeEmojis/excludeEmojis
-    const filteredText = text.replace(emojiRegex, u => {
-      const emoji = EmojiUtils.convertUnicodeToEmojiObject(u);
-      if (emoji && !EmojiUtils.emojiFilter(emoji)) return '';
-      return u;
-    });
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
 
     // Don't send message if there's only an empty string left after filtering
     if (filteredText) {

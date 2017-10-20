@@ -1,5 +1,5 @@
 import {emojiIndex} from 'emoji-mart';
-import emojiRegexFactory from 'emoji-regex';
+import emojiRegexFactory from 'emoji-regex/text';
 import type {EmojiMetadata, Emoji} from 'Common/Types';
 import quiqOptions from 'Common/QuiqOptions';
 
@@ -13,16 +13,36 @@ Object.keys(emojiIndex.emojis).forEach(id => {
 });
 
 export const isSingleEmoji = (text: string): boolean => {
+  const variationSelectorChar = '\uFE0F';
+
   // We know a string contains only one emoji iff
   // 1) An emoji regex finds only one match in the string, and
   // 2) The number of characters in that emoji === the number of characters in the string
   const emojis = text.match(emojiRegex);
 
-  if (!emojis) return false;
+  // If no emojis or more than one emoji were found, we can return false.
+  if (!emojis || emojis.length > 1) return false;
 
-  const emojiCharCount = emojis.reduce((count, e) => count + e.length, 0);
-  return emojis.length === 1 && text.length === emojiCharCount;
+  const e = emojis[0];
+  const emojiCharCount = e.length;
+  const emojiVariationSelectorCount = (e.match(variationSelectorChar) || []).length;
+  const totalVariationSelectorCount = (text.match(variationSelectorChar) || []).length;
+
+  // We want number of characters in emoji to match number of characters in string.
+  // However, if we can explain away the difference by stray variation selector characters,
+  // we still have a single emoji.
+  const lengthDifference =
+    text.length - emojiCharCount - totalVariationSelectorCount + emojiVariationSelectorCount;
+
+  return lengthDifference === 0;
 };
+
+export const filterEmojisFromText = (text: string): string =>
+  text.trim().replace(emojiRegex, u => {
+    const emoji = convertUnicodeToEmojiObject(u);
+    if (emoji && !emojiFilter(emoji)) return '';
+    return u;
+  });
 
 export const convertUnicodeToEmojiObject = (u: string): ?Emoji => {
   const emojiId = Object.keys(emojiIndex.emojis).find(k => emojiIndex.emojis[k].native === u);
@@ -30,6 +50,7 @@ export const convertUnicodeToEmojiObject = (u: string): ?Emoji => {
 };
 
 // This function is used for filtering emojis in our picker, as well as redacting emojis prior to sending a message.
+// Note that the string passed to this function must be the unified code, but NOT the actual unicode. (IE101, not \uIE101)
 export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
   let emojiId;
   // emoji-mart will call this function when user is searching, but it only passes unicode string:
@@ -37,6 +58,7 @@ export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
     emojiId = emojiIdByUnified[e.toLowerCase()];
   } else {
     // NOTE: In emoji-mart land, id === short_codes[0]
+    // This is difference between Emoji and EmojiMetadata types
     emojiId = e.id || e.short_names[0];
   }
 
