@@ -25,17 +25,19 @@ export type MenuButtonProps = {
 
 const MenuButtonContainer = css`
   display: flex;
+  flex: 0 0 auto;
   justify-content: center;
-  position: relative;
   align-items: center;
+  position: relative;
+  outline: none;
+  user-select: none;
 `;
 
 const MenuButtonIcon = styled.div`
   ${({disabled}) => (disabled ? 'cursor: default' : 'cursor: pointer')};
   ${({disabled}) => (disabled ? 'opacity: .5' : 'opacity: 1')};
-  height: 100%;
-  display: flex;
-  align-items: center;
+  flex: 1 0 auto;
+  max-width: 100%; // Hack for IE
   padding: 5px 12px;
 `;
 
@@ -84,7 +86,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
   menuButton: any;
 
   toggleMenu = () => {
-    if (this.props.disabled) return false;
+    if (!this.state.menuVisible && this.props.disabled) return;
 
     this.setState((prevState: MenuButtonState) => ({menuVisible: !prevState.menuVisible}));
   };
