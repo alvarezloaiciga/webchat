@@ -90,6 +90,11 @@ export const messageTypes = {
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
+  optionsMenuTooltip: 'optionsMenuTooltip',
+  emailTranscriptMenuMessage: 'emailTranscriptMenuMessage',
+  emailTranscriptMenuTooltip: 'emailTranscriptMenuTooltip',
+  emailTranscriptMessage: 'emailTranscriptMessage',
+  emailTranscriptInlineMessage: 'emailTranscriptInlineMessage',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
 };

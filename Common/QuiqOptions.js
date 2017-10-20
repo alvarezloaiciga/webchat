@@ -30,14 +30,21 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
-    agentsAvailableTimer: rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000 ? rawQuiqObject.agentsAvailableTimer : 60000,
+    agentsAvailableTimer:
+      rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
+        ? rawQuiqObject.agentsAvailableTimer
+        : 60000,
     contactPoint,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage.
     // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.enforceAgentAvailability,
+      rawQuiqObject.localStorageKeys ||
+      (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
+    enforceAgentAvailability:
+      rawQuiqObject.enforceAgentAvailability === undefined
+        ? true
+        : rawQuiqObject.enforceAgentAvailability,
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -94,6 +101,10 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
         emojiPickerTooltip: messages.emojiPickerTooltip,
+        optionsMenuTooltip: messages.optionsMenuTooltip,
+        emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+        emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+        emailTranscriptMessage: messages.emailTranscriptMessage,
       },
       rawQuiqObject.messages,
     ),
@@ -143,8 +154,8 @@ const processInternalOptions = (quiqOptions: QuiqObject) => {
       instances: [],
       // $FlowIssue - Flow doesn't know how to handle get/set
       get connectedCount() {
-        return this.instances.filter(ws => ws.readyState === 1).length
-      }
+        return this.instances.filter(ws => ws.readyState === 1).length;
+      },
     };
 
     const originalWS = window.WebSocket;
@@ -269,7 +280,8 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 export const getMessage = (messageName: string): string => {
   const message = quiqOptions.messages[messageName];
 
-  if (message === null || message === undefined) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+  if (message === null || message === undefined)
+    throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };

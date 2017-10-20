@@ -8,7 +8,8 @@ import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmojiPicker from 'EmojiPicker';
-import emojiRegexFactory from 'emoji-regex';
+import MenuButton from 'MenuButton';
+import PrimaryMenu from 'PrimaryMenu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji} from 'Common/types';
@@ -192,6 +193,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         )}
 
         <div className="messageArea">
+          <MenuButton
+            buttonStyles={getStyle(
+              {
+                borderRight: '2px solid rgb(244, 244, 248)',
+              },
+              styles.OptionsMenuButton,
+            )}
+            iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
+              color: colors.primary,
+            })}
+            title={getMessage(messageTypes.optionsMenuTooltip)}
+          >
+            <PrimaryMenu />
+          </MenuButton>
           <EmojiTextarea
             ref={n => {
               this.textArea = n;

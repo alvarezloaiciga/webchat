@@ -100,6 +100,28 @@ export default defineMessages({
     description: 'Tooltip for emoji picker toggle button',
     defaultMessage: 'Emoji picker',
   },
+  optionsMenuTooltip: {
+    id: 'optionsMenuTooltip',
+    description: 'Tooltip for the options button to the left of the MessageForm',
+    defaultMessage: 'Options',
+  },
+  emailTranscriptMenuMessage: {
+    id: 'emailTranscriptMenuMessage',
+    description:
+      'Message to display in the options menu for the user to get an email containing the transcript of the chat',
+    defaultMessage: 'E-Mail My Transcript',
+  },
+  emailTranscriptMenuTooltip: {
+    id: 'emailTranscriptMenuTooltip',
+    description: 'Tooltip for e-mail transcript menu button',
+    defaultMessage: 'E-Mail a full transcript of the current chat',
+  },
+  emailTranscriptMessage: {
+    id: 'emailTranscriptMessage',
+    description:
+      'Message to display to user when they need to enter an e-mail to receive their transcript',
+    defaultMessage: 'Enter your E-Mail address',
+  },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
     description:

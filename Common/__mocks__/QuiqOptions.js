@@ -105,6 +105,37 @@ const quiqOptions: QuiqObject = {
       fontFamily: 'Source Sans Pro',
       fontSize: 16,
     },
+    OptionsMenuButton: {
+      background: 'red',
+    },
+    OptionsMenuButtonIcon: {
+      display: 'none',
+    },
+    OptionsMenuContainer: {
+      fontFamily: 'Source Sans Pro',
+      color: '#888',
+    },
+    EmailTranscriptLineItem: {
+      fontFamily: 'Comic Sans',
+    },
+    EmailTranscriptLineItemIcon: {
+      fontSize: 20,
+    },
+    EmailTranscriptPromptContainer: {
+      border: '1px solid black',
+    },
+    EmailTranscriptPromptMessageForm: {
+      outline: 'none',
+    },
+    EmailTranscriptPromptSubmitButton: {
+      borderRadius: '10px',
+    },
+    EmailTranscriptPromptCancelButton: {
+      borderRadius: '10px',
+    },
+    InlineEmailTranscriptButton: {
+      backgroundColor: 'grey',
+    },
   },
   position: {},
   headerText: 'TOOL TIME',
@@ -129,6 +160,11 @@ const quiqOptions: QuiqObject = {
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
     emojiPickerTooltip: messages.emojiPickerTooltip,
+    optionsMenuTooltip: messages.optionsMenuTooltip,
+    emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+    emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+    emailTranscriptMessage: messages.emailTranscriptMessage,
+    emailTranscriptInlineMessage: messages.emailTranscriptInlineMessage,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

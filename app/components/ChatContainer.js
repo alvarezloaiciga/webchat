@@ -73,6 +73,10 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   renderContent = () => {
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
+      // TODO REMOVE ME
+      case ChatInitializedState.UNINITIALIZED:
+      case ChatInitializedState.LOADING:
+        // TODO REMOVE ME
         return (
           <div className="chatContainerBody">
             <Transcript />

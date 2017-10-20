@@ -44,6 +44,16 @@ type CustomStyles = {
   WelcomeFormFieldInput?: Object,
   WelcomeFormFieldTextarea?: Object,
   WelcomeFormSubmitButton?: Object,
+  OptionsMenuButton?: Object,
+  OptionsMenuButtonIcon?: Object,
+  OptionsMenuContainer?: Object,
+  EmailTranscriptLineItem?: Object,
+  EmailTranscriptLineItemIcon?: Object,
+  EmailTranscriptPromptContainer?: Object,
+  EmailTranscriptPromptMessageForm?: Object,
+  EmailTranscriptPromptSubmitButton?: Object,
+  EmailTranscriptPromptCancelButton?: Object,
+  InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
 
@@ -95,6 +105,11 @@ export type QuiqObject = {
     unsupportedBrowser?: string,
     storageDisabled?: string,
     emojiPickerTooltip: string,
+    optionsMenuTooltip: string,
+    emailTranscriptMenuMessage: string,
+    emailTranscriptMenuTooltip: string,
+    emailTranscriptMessage: string,
+    emailTranscriptInlineMessage: string,
   },
   mobileNumber?: string | number,
   position: {
