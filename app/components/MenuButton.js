@@ -21,6 +21,8 @@ export type MenuButtonProps = {
     vertical: string, // eslint-disable-line react/no-unused-prop-types
     horizontal: string, // eslint-disable-line react/no-unused-prop-types
   },
+  closeOnChildClick: boolean,
+  keepChildrenMounted: boolean,
 };
 
 const MenuButtonContainer = css`
@@ -44,7 +46,7 @@ const MenuButtonIcon = styled.div`
 /* eslint-disable no-confusing-arrow */
 const PrimaryMenuContainer = styled.div`
   position: absolute;
-  display: flex;
+  ${props => (props.visible ? 'display: flex' : 'display: none')};
   ${props =>
     props.position.includes('top') ? `bottom: ${props.offset.vertical}` : 'bottom: auto'};
   ${props => (props.position.includes('bottom') ? `top: ${props.offset.vertical}` : 'top: auto')};
@@ -83,6 +85,8 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
       vertical: '40px',
       horizontal: '15px',
     },
+    closeOnChildClick: true,
+    keepChildrenMounted: false,
   };
   menuButton: any;
 
@@ -100,15 +104,24 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
     this.toggleMenu();
   };
 
+  handleChildClick = () => {
+    if (this.props.closeOnChildClick) this.toggleMenu();
+  };
+
   render() {
     return (
       <div
         style={this.props.buttonStyles}
         className={`${this.props.className} MenuButton ${MenuButtonContainer}`}
       >
-        {this.state.menuVisible && (
+        {(this.state.menuVisible || this.props.keepChildrenMounted) && (
           <ClickOutside onClickOutside={this.handleClickOutside}>
-            <PrimaryMenuContainer offset={this.props.offset} position={this.props.menuPosition}>
+            <PrimaryMenuContainer
+              onClick={this.handleChildClick}
+              offset={this.props.offset}
+              position={this.props.menuPosition}
+              visible={this.state.menuVisible}
+            >
               {this.props.children}
             </PrimaryMenuContainer>
           </ClickOutside>
