@@ -21,6 +21,7 @@ const quiqOptions: QuiqObject = {
     customerMessageLinkText: '#0085f4',
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
+    attachmentMessageColor: '#9c9c9f',
   },
   styles: {
     HeaderMenu: {

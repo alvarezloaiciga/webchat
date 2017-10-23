@@ -31,9 +31,13 @@ type CustomStyles = {
   ToggleChatButton?: Object,
   ToggleChatButtonIcon?: Object,
   CustomerMessageBubble?: Object,
+  CustomerAttachmentBubble?: Object,
+  CustomerAttachmentText?: Object,
   CustomerMessageText?: Object,
   CustomerAvatar?: Object,
   AgentMessageBubble?: Object,
+  AgentAttachmentBubble?: Object,
+  AgentAttachmentText?: Object,
   AgentMessageText?: Object,
   AgentAvatar?: Object,
   MessageForm?: Object,
@@ -74,6 +78,7 @@ export type QuiqObject = {
     customerMessageText: string,
     customerMessageLinkText: string,
     customerMessageBackground: string,
+    attachmentMessageColor: string,
     transcriptBackground: string,
   },
   contactPoint: string,
@@ -330,7 +335,7 @@ export type ChatState = {
   chatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
-  transcript: Array<Message>,
+  transcript: {[string]: Message},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
@@ -367,13 +372,30 @@ export type CookieDef = {
 export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
+export type MessageStatusType = 'pending' | 'delivered';
 
-export type Message = {
+export type Message = TextMessage | AttachmentMessage;
+
+export type TextMessage = {
   authorType: AuthorType,
   text: string,
   id: string,
   timestamp: number,
   type: 'Text',
+  localKey?: string,
+  uploadProgress?: number,
+};
+
+export type AttachmentMessage = {
+  id: string,
+  localKey?: string,
+  timestamp: number,
+  type: 'Attachment',
+  authorType: AuthorType,
+  url: string,
+  contentType: string,
+  status?: MessageStatusType,
+  uploadProgress?: number,
 };
 
 export type Event = {

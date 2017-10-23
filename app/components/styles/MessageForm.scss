@@ -15,7 +15,7 @@
     }
 
     .messageFormBtn {
-      padding: 10px;
+      padding: 10px 7px;
       flex: 0 0 auto;
       border: none;
       font-size: 14px;
@@ -42,7 +42,8 @@
         }
       }
 
-      &.emojiBtn {
+      &.emojiBtn,
+      &.attachmentBtn {
         color: #848484;
         font-size: 16px;
       }

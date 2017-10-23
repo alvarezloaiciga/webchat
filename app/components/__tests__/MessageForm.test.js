@@ -27,6 +27,7 @@ describe('MessageForm component', () => {
         agentTyping: false,
         agentEndedConversation: false,
         transcript: [getMockMessage(), getMockMessage(1)],
+        openFileBrowser: jest.fn(),
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

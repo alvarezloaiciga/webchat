@@ -10,6 +10,7 @@ import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'MenuButton';
+import {getTranscript} from 'reducers/chat';
 import Menu from 'Menu';
 import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
@@ -30,6 +31,7 @@ export type MessageFormProps = {
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   transcript: Array<Message>,
+  openFileBrowser: () => void,
 };
 
 type MessageFormState = {
@@ -91,7 +93,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     // Filter emojis based on includeEmojis/excludeEmojis
     const filteredText = EmojiUtils.filterEmojisFromText(text);
     if (filteredText) {
-      QuiqChatClient.updateMessagePreview(filteredText, true);
+      QuiqChatClient.updateTypingIndicator(filteredText, true);
     }
     updateTimer = undefined;
   };
@@ -100,7 +102,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const text = this.textArea.getPlaintext().trim();
     // Filter emojis based on includeEmojis/excludeEmojis
     const filteredText = EmojiUtils.filterEmojisFromText(text);
-    QuiqChatClient.updateMessagePreview(filteredText, false);
+    QuiqChatClient.updateTypingIndicator(filteredText, false);
   };
 
   startTypingTimers = () => {
@@ -133,7 +135,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     // Don't send message if there's only an empty string left after filtering
     if (filteredText) {
-      QuiqChatClient.sendMessage(filteredText);
+      QuiqChatClient.sendTextMessage(filteredText);
     }
 
     // Even if there was no text to send after filtering, we still clear the form and reset timers.
@@ -222,7 +224,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   render() {
     const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
-    const emopjiPickerDisabled = !this.state.agentsAvailable;
+    const contentButtonsDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
@@ -286,6 +288,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               onReturn={this.handleReturnKey}
               placeholder={messagePlaceholder}
             />
+            <button
+              className="messageFormBtn attachmentBtn"
+              disabled={contentButtonsDisabled}
+              onClick={this.props.openFileBrowser}
+            >
+              <i className="fa fa-paperclip" title={getMessage(messageTypes.attachmentBtnTooltip)} />
+            </button>
             {EmojiUtils.emojisEnabledByCustomer() && (
               <button
                 className="messageFormBtn emojiBtn"
@@ -321,7 +330,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
 export default connect(
   (state: ChatState) => ({
-    transcript: state.transcript,
+    transcript: getTranscript(state),
     agentTyping: state.agentTyping,
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,

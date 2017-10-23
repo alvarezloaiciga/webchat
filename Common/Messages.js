@@ -137,6 +137,10 @@ export default defineMessages({
     description:
       'Text to display on the Email Transcript button that shows inline when agent ends convo',
     defaultMessage: 'Email Transcript',
+  attachmentBtnTooltip: {
+    id: 'attachmentBtnTooltip',
+    description: 'Tooltip for attachment button',
+    defaultMessage: 'Send file',
   },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
