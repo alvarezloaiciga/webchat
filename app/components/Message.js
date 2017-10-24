@@ -1,9 +1,11 @@
 // @flow
 
 import React from 'react';
-import quiqObject, {getStyle} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
+import Twemoji from 'react-easy-emoji';
+import {isSingleEmoji} from '../utils/emojiUtils';
 import type {Message as MessageType} from 'Common/types';
 import './styles/Message.scss';
 
@@ -11,7 +13,26 @@ export type MessageProps = {
   message: MessageType,
 };
 
-const {fontFamily, colors, styles, width} = quiqObject;
+/**
+ * Convert Emoji characters to <img> tags pointed at twemoji.
+ * @param text {string} - String to emojify.
+ * @return Array of React elements
+ */
+const emojify = (text: string): Array<React$Element<*>> => {
+  const singleEmoji = isSingleEmoji(text);
+  return Twemoji(text, {
+    props: {
+      style: {
+        height: singleEmoji ? '30px' : '1em',
+        width: singleEmoji ? '30px' : '1em',
+        margin: '0px 0.05em 0px 0.1em',
+        verticalAlign: '-0.2em',
+      },
+    },
+  });
+};
+
+const {fontFamily, colors, styles, width} = quiqOptions;
 
 const getMessageBubbleStyle = (fromCustomer: boolean) => {
   if (fromCustomer) {
@@ -70,7 +91,7 @@ export const Message = (props: MessageProps) => {
               },
             }}
           >
-            <span style={textStyle}>{props.message.text}</span>
+            <span style={textStyle}>{emojify(props.message.text)}</span>
           </Linkify>
         </div>
         {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}

@@ -124,8 +124,11 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
   }
 }
 
-export default connect((state: ChatState) => ({
+const mapStateToProps = (state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
-}))(ChatContainer);
+});
+
+// The dispatch thing is to fix a flow error
+export default connect(mapStateToProps, dispatch => ({dispatch}))(ChatContainer);

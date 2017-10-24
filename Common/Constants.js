@@ -10,6 +10,8 @@ export const SupportedWebchatUrls = [
   'centricient.dev:41014/app/webchat',
 ];
 
+export const unknownErrorMessage = 'An unknown error occurred.';
+
 // Default launch button classes and id's
 export const noAgentsAvailableClass = 'noAgentsAvailable';
 export const mobileClass = 'mobile';
@@ -43,6 +45,7 @@ export const actionTypes = {
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
+  getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
 };
 
@@ -71,6 +74,7 @@ export const ChatInitializedState = {
 };
 
 export const messageTypes = {
+  titleText: 'titleText',
   headerText: 'headerText',
   sendButtonLabel: 'sendButtonLabel',
   messageFieldPlaceholder: 'messageFieldPlaceholder',
@@ -89,6 +93,7 @@ export const messageTypes = {
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
   closeWindowTooltip: 'closeWindowTooltip',
+  emojiPickerTooltip: 'emojiPickerTooltip',
 };
 
 export const localStorageKeys = [

@@ -11,6 +11,7 @@ import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import {getMetadataForSentry} from 'utils/errorUtils';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
 
 type LauncherState = {
@@ -120,6 +121,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
   init = async () => {

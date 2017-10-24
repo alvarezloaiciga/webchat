@@ -19,6 +19,8 @@ export const registerIntlObject = (intlObject: IntlObject): void => {
  */
 export const formatMessage = (message: IntlMessage, values: Object = {}): string => {
   if (!intl) {
+    if (!message.defaultMessage)
+      return '';
     // Intl object not defined, fall back to returning default message
     return buildTemplateString(message.defaultMessage, values);
   }
@@ -54,8 +56,8 @@ export const getFormattedDateAndTime = (timestamp: number): string =>
     second: 'numeric',
   });
 
-export const getDisplayString = (message?: string | IntlMessage, values?: Object): string => {
+export const getDisplayString = (message?: string | IntlMessage, values: Object = {}): string => {
   if (!message) return '';
 
-  return typeof message === 'string' ? message : formatMessage(message, values);
+  return typeof message === 'string' ? buildTemplateString(message, values) : formatMessage(message, values);
 };

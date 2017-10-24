@@ -10,32 +10,37 @@
     flex: 0 0 auto;
     padding: 5px;
 
-    textarea {
-      background: #fff;
-      line-height: 1.3em;
-      margin: auto 0 auto 10px;
-      flex: 1 1 auto;
-      width: 100%;
-      border: none;
-      resize: none;
-      font-size: 14px;
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    .sendBtn {
+    .messageFormBtn {
       padding: 10px;
       flex: 0 0 auto;
       border: none;
       font-size: 14px;
-      background: #fff;
+      background: transparent;
       font-weight: bold;
       transition: 0.15s ease-in-out color;
+      cursor: pointer;
+      color: #59ad5d;
 
-      &:not([disabled]) {
-        color: #59ad5d;
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      &:enabled {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      &:hover {
+        &:enabled {
+          /* This is not supported in IE 10/11. Ah well. */
+          filter: brightness(85%);
+        }
+      }
+
+      &.emojiBtn {
+        color: #848484;
+        font-size: 16px;
       }
     }
   }
@@ -73,14 +78,6 @@
   .messageArea {
     display: table;
     width: 100%;
-
-    textarea {
-      max-height: 50px;
-      min-height: 50px;
-      height: 50px;
-      overflow: auto;
-      width: 320px; // 320 + 10padding = 330
-    }
 
     .sendBtn {
       display: table-cell;

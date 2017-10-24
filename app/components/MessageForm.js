@@ -1,15 +1,16 @@
 // @flow
 import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
-import {compatibilityMode, supportsFlexbox} from 'Common/Utils';
+import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes} from 'Common/Constants';
-import keycodes from 'keycodes';
-import Textarea from 'react-textarea-autosize';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
+import EmojiTextarea from 'EmojiTextArea';
+import EmojiPicker from 'EmojiPicker';
+import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState} from 'Common/types';
+import type {ChatState, Emoji} from 'Common/types';
 
 const {colors, fontFamily, styles} = quiqOptions;
 
@@ -20,17 +21,19 @@ export type MessageFormProps = {
 };
 
 type MessageFormState = {
-  text: string,
+  hasText: boolean,
   agentsAvailable: boolean,
+  emojiPickerVisible: boolean,
 };
 
 let updateTimer;
 export class MessageForm extends Component<MessageFormProps, MessageFormState> {
-  textArea: any;
+  textArea: EmojiTextarea;
   props: MessageFormProps;
   state: MessageFormState = {
-    text: '',
+    hasText: false,
     agentsAvailable: true,
+    emojiPickerVisible: false,
   };
   checkAvailabilityTimer: number;
 
@@ -73,12 +76,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   startTyping = () => {
-    QuiqChatClient.updateMessagePreview(this.state.text, true);
+    const text = this.textArea.getPlaintext().trim();
+    // Filter emojis based on includeEmojis/excludeEmojis
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
+    if (filteredText) {
+      QuiqChatClient.updateMessagePreview(filteredText, true);
+    }
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    QuiqChatClient.updateMessagePreview(this.state.text, false);
+    const text = this.textArea.getPlaintext().trim();
+    // Filter emojis based on includeEmojis/excludeEmojis
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
+    QuiqChatClient.updateMessagePreview(filteredText, false);
   };
 
   startTypingTimers = () => {
@@ -93,40 +104,59 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.stopTyping();
   };
 
-  handleTextChanged = (e: SyntheticInputEvent<*>) => {
-    const state = Object.assign({
-      text: e.target.value,
-      agentsAvailable: true,
-    });
-
-    // This can get raised in IE 11 and in automation even if text hasn't been
-    // entered. So ignore if we are in the agents not available state, or if the
-    // text hasn't actually changed.
-    if (this.state.agentsAvailable && state.text !== this.state.text) {
-      clearTimeout(this.checkAvailabilityTimer);
-
-      this.setState(state, e.target.value ? this.startTypingTimers : this.resetTypingTimers);
+  handleTextChanged = (text: string) => {
+    if (text) {
+      this.startTypingTimers();
+    } else {
+      this.resetTypingTimers();
     }
+
+    this.setState({hasText: !!text});
   };
 
   addMessage = () => {
-    const text = this.state.text.trim();
-    if (text) {
-      this.setState({text: ''}, this.resetTypingTimers);
-      QuiqChatClient.sendMessage(text);
+    const text = this.textArea.getPlaintext().trim();
+
+    // Filter emojis based on includeEmojis/excludeEmojis
+    const filteredText = EmojiUtils.filterEmojisFromText(text);
+
+    // Don't send message if there's only an empty string left after filtering
+    if (filteredText) {
+      QuiqChatClient.sendMessage(filteredText);
     }
+
+    // Even if there was no text to send after filtering, we still clear the form and reset timers.
+    // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
+    this.textArea.setText('');
   };
 
-  handleKeyDown = (e: SyntheticKeyboardEvent<*>) => {
-    if (e.keyCode === keycodes.enter) {
-      e.preventDefault();
-      this.addMessage();
-    }
+  handleReturnKey = () => {
+    this.addMessage();
+  };
+
+  toggleEmojiPicker = () => {
+    this.setState(
+      state => ({emojiPickerVisible: !state.emojiPickerVisible}),
+      () => {
+        if (!this.state.emojiPickerVisible) {
+          this.textArea.focus();
+        }
+      },
+    );
+  };
+
+  handleEmojiSelection = (emoji: Emoji) => {
+    this.setState({emojiPickerVisible: false});
+    this.addEmoji(emoji);
+  };
+
+  addEmoji = (emoji: Emoji) => {
+    this.textArea.insertEmoji(emoji.native);
   };
 
   render() {
-    const sendDisabled = this.state.text.trim() === '' || !this.state.agentsAvailable;
-    const compatMode = compatibilityMode();
+    const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
+    const emopjiPickerDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
@@ -134,7 +164,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
-      opacity: sendDisabled ? '.5' : '1',
       fontFamily,
     });
 
@@ -164,39 +193,55 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         )}
 
         <div className="messageArea">
-          <Textarea
-            inputRef={n => {
+          <EmojiTextarea
+            ref={n => {
               this.textArea = n;
             }}
             style={inputStyle}
             disabled={!this.state.agentsAvailable}
             name="message"
-            value={this.state.text}
             maxLength={1024}
-            maxRows={supportsFlexbox() ? 6 : 3}
-            minRows={supportsFlexbox() ? 1 : 3}
-            // onInput is more responsive, but is an html5 attribute so not supported in older browsers.
-            onInput={compatMode ? undefined : this.handleTextChanged}
-            onChange={compatMode ? this.handleTextChanged : undefined}
-            onKeyDown={this.handleKeyDown}
+            onChange={this.handleTextChanged}
+            onReturn={this.handleReturnKey}
             placeholder={messagePlaceholder}
           />
+          {EmojiUtils.emojisEnabledByCustomer() && (
+            <button
+              className="messageFormBtn emojiBtn"
+              disabled={emopjiPickerDisabled}
+              onClick={this.toggleEmojiPicker}
+            >
+              <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
+            </button>
+          )}
           <button
-            className="sendBtn"
+            className="messageFormBtn sendBtn"
             onClick={this.addMessage}
             disabled={sendDisabled}
             style={buttonStyle}
           >
             {getMessage(messageTypes.sendButtonLabel)}
           </button>
+          {EmojiUtils.emojisEnabledByCustomer() && (
+            <EmojiPicker
+              visible={this.state.emojiPickerVisible}
+              addEmoji={this.handleEmojiSelection}
+              emojiFilter={EmojiUtils.emojiFilter}
+              onOutsideClick={this.toggleEmojiPicker}
+              ignoreOutsideClickOnSelectors={['.emojiBtn']}
+            />
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default connect((state: ChatState) => ({
-  agentTyping: state.agentTyping,
-  agentEndedConversation: state.agentEndedConversation,
-  agentsInitiallyAvailable: state.agentsAvailable,
-}))(MessageForm);
+export default connect(
+  (state: ChatState) => ({
+    agentTyping: state.agentTyping,
+    agentEndedConversation: state.agentEndedConversation,
+    agentsInitiallyAvailable: state.agentsAvailable,
+  }),
+  dispatch => ({dispatch}),
+)(MessageForm);

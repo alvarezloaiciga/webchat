@@ -23,6 +23,7 @@ export type WelcomeForm = {
 
 type CustomStyles = {
   HeaderMenu?: Object,
+  TitleText?: Object,
   HeaderMenuIcons?: Object,
   HeaderBanner?: Object,
   ErrorBanner?: Object,
@@ -47,15 +48,14 @@ type CustomStyles = {
 };
 
 export type QuiqObject = {
-  demoMode: boolean,
+  /**
+   * Documented Properties. If you modify this,
+   * be sure to update the README
+   */
   agentsAvailableTimer: number,
-  contactPoint: string,
-  enforceAgentAvailability: bool,
-  host: string,
-  clientDomain: string,
-  localStorageKeys: {[string]: any},
-  color: string, // Deprecated in favor of COLORS.primary
+  autoPopTime?: number,
   colors: {
+    // Deprecated in favor styles object
     primary: string,
     agentMessageText: string,
     agentMessageLinkText: string,
@@ -65,15 +65,17 @@ export type QuiqObject = {
     customerMessageBackground: string,
     transcriptBackground: string,
   },
-  styles: CustomStyles,
-  position: {
-    top?: number | string,
-    bottom?: number | string,
-    left?: number | string,
-    right?: number | string,
-  },
-  headerText: string,
+  contactPoint: string,
+  customLaunchButtons: Array<string>,
+  demoMode: boolean,
+  enforceAgentAvailability: boolean,
+  excludeEmojis?: Array<string>,
+  fontFamily: string,
+  height: number,
+  host: string,
+  includeEmojis?: Array<string>,
   messages: {
+    titleText: string,
     headerText: string,
     sendButtonLabel: string,
     messageFieldPlaceholder: string,
@@ -93,16 +95,32 @@ export type QuiqObject = {
     closeWindowTooltip: string,
     unsupportedBrowser?: string,
     storageDisabled?: string,
+    emojiPickerTooltip: string,
   },
-  autoPopTime?: number,
+  mobileNumber?: string | number,
+  position: {
+    top?: number | string,
+    bottom?: number | string,
+    left?: number | string,
+    right?: number | string,
+  },
+  styles: CustomStyles,
+  welcomeForm?: WelcomeForm,
+  width: number,
+  /**
+   * Undocument Properties
+   */
+  clientDomain: string,
+  color: string, // Deprecated in favor styles object
   debug:
     | false
     | {
         transport?: string,
         CUSTOM_CSS_URL?: string,
       },
-  welcomeForm?: WelcomeForm,
+  headerText: string, // Deprecated in favor of messages object
   href: string,
+<<<<<<< HEAD
   fontFamily: string,
   width: number,
   height: number,
@@ -110,16 +128,20 @@ export type QuiqObject = {
   anchorElement: string,
   mobileNumber?: string | number,
   // The following are internal, intentionally undocumented and unsupported options used for E2E testing
+=======
+  localStorageKeys: {[string]: any},
+>>>>>>> f0a7d770641ea688243a8eb162fb97fd4b1309cb
   _internal: {
     captureRequests?: boolean,
     captureWebsockets?: boolean,
+    exposeDraftJsFunctions?: boolean,
   },
 };
 
 export type IntlMessage = {
   id: string,
-  description: string,
-  defaultMessage: string,
+  description?: string,
+  defaultMessage?: string,
 };
 
 export type IntlObject = {
@@ -432,4 +454,18 @@ export type ApiError = {
   code?: number,
   message?: string,
   status?: number,
+};
+
+export type Emoji = {
+  id: string,
+  name: string,
+  colons: string,
+  text: string,
+  emoticons: Array<string>,
+  skin?: number,
+  native: string,
+};
+
+export type EmojiMetadata = {
+  short_names: Array<string>,
 };
