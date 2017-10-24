@@ -96,6 +96,7 @@ const Menu = (props: MenuProps) => {
           key={i.id}
           title={i.title || i.label}
           style={i.style}
+          data-test="menuItem"
         >
           {i.icon && <Icon className={`fa fa-fw fa-${i.icon.name}`} />}
           <Text>{i.label}</Text>

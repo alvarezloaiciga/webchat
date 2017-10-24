@@ -148,6 +148,7 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
           style={getStyle(styles.EmailTranscriptInputSubmitButton)}
           title={getMessage(messageTypes.emailTranscriptInputSubmitTooltip)}
           onClick={this.submit}
+          data-test="submitButton"
           className={`fa fa-check`}
         />
       </EmailInputContainer>

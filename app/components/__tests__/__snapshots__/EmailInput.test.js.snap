@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailInput component input value doesn't call onsubmit with invalid emails 1`] = `
+<Styled(div)
+  className="EmailInput"
+  style={
+    Object {
+      "border": "1px solid black",
+    }
+  }
+>
+  <Styled(input)
+    error={true}
+    innerRef={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Enter your Email..."
+    style={
+      Object {
+        "fontFamily": "Lato, sans-serif",
+        "outline": "none",
+      }
+    }
+    value="invalidEmail"
+  />
+  <Styled(i)
+    className="fa fa-times"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Cancel Email Transcript"
+  />
+  <Styled(i)
+    className="fa fa-check"
+    data-test="submitButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Email Transcript"
+  />
+</Styled(div)>
+`;
+
+exports[`EmailInput component rendering renders 1`] = `
+<Styled(div)
+  className="EmailInput"
+  style={
+    Object {
+      "border": "1px solid black",
+    }
+  }
+>
+  <Styled(input)
+    error={false}
+    innerRef={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Enter your Email..."
+    style={
+      Object {
+        "fontFamily": "Lato, sans-serif",
+        "outline": "none",
+      }
+    }
+    value=""
+  />
+  <Styled(i)
+    className="fa fa-times"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Cancel Email Transcript"
+  />
+  <Styled(i)
+    className="fa fa-check"
+    data-test="submitButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Email Transcript"
+  />
+</Styled(div)>
+`;

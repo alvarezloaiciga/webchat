@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu component rendering minimal props renders 1`] = `
+<Styled(div)
+  className=""
+/>
+`;
+
+exports[`Menu component rendering renders 1`] = `
+<Styled(div)
+  className="PICKLE_RIIIIIIIIIICCCCCCKKKKKK"
+  style={Object {}}
+>
+  <Styled(div)
+    data-test="menuItem"
+    disabled={false}
+    onClick={[Function]}
+    style={Object {}}
+    title="title"
+  >
+    <Styled(i)
+      className="fa fa-fw fa-iconName"
+    />
+    <Styled(div)>
+      label
+    </Styled(div)>
+  </Styled(div)>
+</Styled(div)>
+`;

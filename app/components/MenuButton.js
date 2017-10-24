@@ -118,6 +118,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
           <ClickOutside onClickOutside={this.handleClickOutside}>
             <PrimaryMenuContainer
               onClick={this.handleChildClick}
+              data-test="childContainer"
               offset={this.props.offset}
               position={this.props.menuPosition}
               visible={this.state.menuVisible}
@@ -132,6 +133,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
             this.menuButton = r;
           }}
           onClick={this.toggleMenu}
+          data-test="menuButton"
           title={getDisplayString(this.props.title)}
         >
           {this.props.buttonText && (
