@@ -95,7 +95,9 @@ export const messageTypes = {
   optionsMenuTooltip: 'optionsMenuTooltip',
   emailTranscriptMenuMessage: 'emailTranscriptMenuMessage',
   emailTranscriptMenuTooltip: 'emailTranscriptMenuTooltip',
-  emailTranscriptMessage: 'emailTranscriptMessage',
+  emailTranscriptInputPlaceholder: 'emailTranscriptInputPlaceholder',
+  emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
+  emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
   emailTranscriptInlineMessage: 'emailTranscriptInlineMessage',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
@@ -112,3 +114,5 @@ export const localStorageKeys = [
 export const MenuItemKeys = {
   EMAIL_TRANSCRIPT: 'emailTranscript',
 };
+
+export const UserEmailKey = 'quiq-client-data';

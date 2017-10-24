@@ -1,4 +1,5 @@
 // @flow
+import {MenuItemKeys} from 'Common/Constants';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
@@ -50,10 +51,10 @@ type CustomStyles = {
   EmailTranscriptMenuContainer?: Object,
   EmailTranscriptMenuLineItem?: Object,
   EmailTranscriptMenuLineItemIcon?: Object,
-  EmailTranscriptPromptContainer?: Object,
-  EmailTranscriptPromptMessageForm?: Object,
-  EmailTranscriptPromptSubmitButton?: Object,
-  EmailTranscriptPromptCancelButton?: Object,
+  EmailTranscriptInputContainer?: Object,
+  EmailTranscriptInput?: Object,
+  EmailTranscriptInputCancelButton?: Object,
+  EmailTranscriptInputSubmitButton?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
@@ -109,11 +110,10 @@ export type QuiqObject = {
     optionsMenuTooltip: string,
     emailTranscriptMenuMessage: string,
     emailTranscriptMenuTooltip: string,
-    emailTranscriptMessage: string,
-    emailTranscriptInlineMessage: string,
+    emailTranscriptInputPlaceholder: string,
   },
   menuOptions: {
-    emailTranscript: boolean,
+    [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
   },
   mobileNumber?: string | number,
   position: {
@@ -144,6 +144,12 @@ export type QuiqObject = {
     captureWebsockets?: boolean,
     exposeDraftJsFunctions?: boolean,
   },
+};
+
+export type EmailTranscriptPayload = {
+  email: string,
+  originUrl: string,
+  timezone?: string,
 };
 
 export type IntlMessage = {
@@ -357,7 +363,7 @@ export type CookieDef = {
 };
 
 export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
-export type AuthorType = 'Customer' | 'Agent';
+export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
 
 export type Message = {

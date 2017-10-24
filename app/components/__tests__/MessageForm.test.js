@@ -8,6 +8,7 @@ import React from 'react';
 import {MessageForm} from '../MessageForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
+import {getMockMessage} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import QuiqChatClient from 'quiq-chat';
 
@@ -25,6 +26,7 @@ describe('MessageForm component', () => {
       testProps = {
         agentTyping: false,
         agentEndedConversation: false,
+        transcript: [getMockMessage(), getMockMessage(1)],
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

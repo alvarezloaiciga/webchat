@@ -116,11 +116,21 @@ export default defineMessages({
     description: 'Tooltip for Email transcript menu button',
     defaultMessage: 'Email a full transcript of the current chat',
   },
-  emailTranscriptMessage: {
-    id: 'emailTranscriptMessage',
+  emailTranscriptInputPlaceholder: {
+    id: 'emailTranscriptInputPlaceholder',
     description:
       'Message to display to user when they need to enter an Email to receive their transcript',
-    defaultMessage: 'Enter your Email address',
+    defaultMessage: 'Enter your Email...',
+  },
+  emailTranscriptInputCancelTooltip: {
+    id: 'emailTranscriptInputCancelTooltip',
+    description: 'Tooltip to display above the Cancel button on the email transcript input',
+    defaultMessage: 'Cancel Email Transcript',
+  },
+  emailTranscriptInputSubmitTooltip: {
+    id: 'emailTranscriptInputSubmitTooltip',
+    description: 'Tooltip to display above the Submit button on the email transcript input',
+    defaultMessage: 'Email Transcript',
   },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',

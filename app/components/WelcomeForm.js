@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import update from 'react-addons-update';
-import {messageTypes} from 'Common/Constants';
+import {messageTypes, UserEmailKey} from 'Common/Constants';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
@@ -124,6 +124,14 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     // Append field containing referrer (host)
     fields.Referrer = href;
+
+    // We store the e-mail in localStorage if it is there so we can
+    // prepopulate the e-mail transcript input later
+    if (fields.email) {
+      try {
+        localStorage.setItem(UserEmailKey, btoa(fields.email));
+      } catch (e) {} // eslint-disable-line
+    }
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);

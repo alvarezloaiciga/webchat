@@ -124,16 +124,16 @@ const quiqOptions: QuiqObject = {
     EmailTranscriptMenuLineItemIcon: {
       fontSize: 20,
     },
-    EmailTranscriptPromptContainer: {
+    EmailTranscriptInputContainer: {
       border: '1px solid black',
     },
-    EmailTranscriptPromptMessageForm: {
+    EmailTranscriptInput: {
       outline: 'none',
     },
-    EmailTranscriptPromptSubmitButton: {
+    EmailTranscriptInputCancelButton: {
       borderRadius: '10px',
     },
-    EmailTranscriptPromptCancelButton: {
+    EmailTranscriptInputSubmitButton: {
       borderRadius: '10px',
     },
     InlineEmailTranscriptButton: {
@@ -166,8 +166,7 @@ const quiqOptions: QuiqObject = {
     optionsMenuTooltip: messages.optionsMenuTooltip,
     emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
     emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
-    emailTranscriptMessage: messages.emailTranscriptMessage,
-    emailTranscriptInlineMessage: messages.emailTranscriptInlineMessage,
+    emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

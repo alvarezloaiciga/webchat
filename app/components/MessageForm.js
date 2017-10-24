@@ -14,7 +14,7 @@ import Menu from 'Menu';
 import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji} from 'Common/types';
+import type {ChatState, Emoji, Message} from 'Common/types';
 
 const {
   colors,
@@ -29,6 +29,7 @@ export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
+  transcript: Array<Message>,
 };
 
 type MessageFormState = {
@@ -165,7 +166,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   toggleEmailInput = () => {
-    console.log('in');
     this.setState((prevState: MessageFormState) => ({
       inputtingEmail: !prevState.inputtingEmail,
     }));
@@ -176,7 +176,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       Object.values(MenuItemKeys).includes(k),
     );
     if (!keys.length) return null;
-
     const options = [
       {
         onClick: this.toggleEmailInput,
@@ -193,6 +192,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.agentMessageLinkText,
           fontFamily,
         }),
+        disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
       },
     ];
 
@@ -313,6 +313,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 }
 
 export default connect((state: ChatState) => ({
+  transcript: state.transcript,
   agentTyping: state.agentTyping,
   agentEndedConversation: state.agentEndedConversation,
   agentsInitiallyAvailable: state.agentsAvailable,

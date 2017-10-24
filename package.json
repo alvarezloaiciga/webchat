@@ -162,6 +162,8 @@
     "file-saver": "1.3.3",
     "intl": "1.2.5",
     "lodash": "4.17.4",
+    "moment-timezone": "0.5.13",
+    "polished": "^1.8.1",
     "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",
     "preact": "8.2.5",
     "quiq-chat": "1.22.1",

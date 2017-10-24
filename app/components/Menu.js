@@ -8,6 +8,7 @@ type MenuItemType = {
   label: string,
   title?: string,
   id: string,
+  disabled?: boolean,
   icon?: {
     name: string,
     style?: Object,
@@ -64,18 +65,21 @@ const MenuContainer = styled.div`
   font-size: 15px;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
   animation: dropDownOpen 0.3s 1;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
 `;
 
 const MenuItem = styled.div`
   transition: 0.15s ease-in-out all;
+  min-width: 150px;
   padding: 5px;
   flex: 0 0 auto;
   display: flex;
 
-  ${hoverBackground('transparent', 'rgba(0,0,0,0.15)', 'rgba(0,0,0,0.25)')};
+  ${props => props.disabled && 'opacity: .5'};
+  ${props => (props.disabled ? 'cursor: not-allowed' : 'cursor: pointer;')};
+  ${props =>
+    !props.disabled && hoverBackground('transparent', 'rgba(0,0,0,0.15)', 'rgba(0,0,0,0.25)')};
 `;
 
 const Icon = styled.i`margin-right: 5px;`;
@@ -86,8 +90,14 @@ const Menu = (props: MenuProps) => {
   return (
     <MenuContainer className={props.className || ''} style={props.containerStyle}>
       {props.items.map(i => (
-        <MenuItem onClick={i.onClick} key={i.id} title={i.title || i.label} style={i.style}>
-          {i.icon && <Icon style={i.icon.style} className={`fa fa-fw fa-${i.icon.name}`} />}
+        <MenuItem
+          disabled={i.disabled}
+          onClick={i.disabled ? undefined : i.onClick}
+          key={i.id}
+          title={i.title || i.label}
+          style={i.style}
+        >
+          {i.icon && <Icon className={`fa fa-fw fa-${i.icon.name}`} />}
           <Text>{i.label}</Text>
         </MenuItem>
       ))}
