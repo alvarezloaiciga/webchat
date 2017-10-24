@@ -312,9 +312,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 }
 
-export default connect((state: ChatState) => ({
-  transcript: state.transcript,
-  agentTyping: state.agentTyping,
-  agentEndedConversation: state.agentEndedConversation,
-  agentsInitiallyAvailable: state.agentsAvailable,
-}))(MessageForm);
+export default connect(
+  (state: ChatState) => ({
+    transcript: state.transcript,
+    agentTyping: state.agentTyping,
+    agentEndedConversation: state.agentEndedConversation,
+    agentsInitiallyAvailable: state.agentsAvailable,
+  }),
+  dispatch => ({dispatch}),
+)(MessageForm);
