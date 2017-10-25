@@ -68,7 +68,7 @@ type EmailInputState = {
 
 const getInitialValue = () => {
   try {
-    return atob(localStorage.getItem(`${UserEmailKey}_${quiqOptions.contactPoint}`) || '');
+    return atob(localStorage.getItem(`${UserEmailKey}_${contactPoint}`) || '');
   } catch (e) {
     return '';
   }
