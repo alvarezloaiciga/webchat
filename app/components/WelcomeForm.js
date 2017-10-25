@@ -129,7 +129,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     // prepopulate the e-mail transcript input later
     if (fields.email) {
       try {
-        localStorage.setItem(UserEmailKey, btoa(fields.email));
+        localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(fields.email));
       } catch (e) {} // eslint-disable-line
     }
 

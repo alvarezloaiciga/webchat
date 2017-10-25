@@ -40,7 +40,7 @@ describe('EmailInput component', () => {
   describe('input value', () => {
     it('retrieves the intial value from localStorage when available', () => {
       const email = 'andrew.jenkins@goquiq.com';
-      localStorage.setItem(UserEmailKey, btoa(email));
+      localStorage.setItem(`${UserEmailKey}_Bob`, btoa(email));
       render();
       expect(wrapper.state('value')).toBe(email);
       localStorage.clear();
