@@ -248,19 +248,22 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             )}
           </div>
         )}
-
-        <div className="poke">
-          <div className="pokeBody">
-            <div className="agentEndedConvo">
-              <span style={{fontFamily}}>
-                {getMessage(messageTypes.agentEndedConversationMessage)}
-              </span>
-              <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
-                {getMessage(messageTypes.emailTranscriptInlineButton)}
-              </button>
-            </div>
+        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
+          <div className="poke">
+            {this.props.agentEndedConversation && (
+              <div className="pokeBody">
+                <div className="agentEndedConvo">
+                  <span style={{fontFamily}}>
+                    {getMessage(messageTypes.agentEndedConversationMessage)}
+                  </span>
+                  <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
+                    {getMessage(messageTypes.emailTranscriptInlineButton)}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+        )}
 
         {this.state.inputtingEmail && (
           <div className="messageArea">

@@ -4,6 +4,7 @@ import styled from 'react-emotion';
 import moment from 'moment-timezone';
 import {css} from 'emotion';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
 import {UserEmailKey, messageTypes} from 'Common/Constants';
@@ -17,12 +18,10 @@ const EmailInputContainer = styled.div`
   background: #fff;
 `;
 
-const ErrorStyle = css`
-  border: 2px solid red;
-  outline: thick none;
-`;
+const ErrorStyle = css`box-shadow: inset 0px 0px 7px red;`;
 
 const Input = styled.input`
+  height: 100%;
   flex: 1 1 auto;
   border: 2px solid transparent;
   padding: 10px;
@@ -50,9 +49,6 @@ const IconCSS = (color: string) => css`
 const CancelButton = styled.i`${IconCSS('red')};`;
 
 const SubmitButton = styled.i`${IconCSS('green')};`;
-
-// Taken from http://emailregex.com/ - RFC-5322 compliant. 99.99% accurate
-const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
 const {fontFamily, styles, host, contactPoint} = quiqOptions;
 
@@ -97,7 +93,7 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
   }
 
   submit = () => {
-    if (emailRegex.test(this.state.value)) {
+    if (isValidEmail(this.state.value)) {
       QuiqChatClient.emailTranscript({
         email: this.state.value.trim(),
         originUrl: host,
