@@ -8,6 +8,7 @@
   .messageArea {
     display: flex;
     flex: 0 0 auto;
+    height: 40px;
 
     .EmojiTextArea {
       padding: 5px 0;
@@ -61,6 +62,20 @@
       .TypingIndicator {
         margin-left: 5px;
         vertical-align: text-bottom;
+      }
+    }
+
+    .agentEndedConvo {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        outline: none;
+        user-select: none;
+        cursor: pointer;
+        border: none;
+        color: white;
+        border-radius: 4px;
       }
     }
   }

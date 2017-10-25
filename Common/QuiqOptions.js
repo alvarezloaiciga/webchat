@@ -111,6 +111,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
         emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
         emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+        emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
       },
       rawQuiqObject.messages,
     ),

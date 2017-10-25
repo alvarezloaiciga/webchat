@@ -132,6 +132,12 @@ export default defineMessages({
     description: 'Tooltip to display above the Submit button on the email transcript input',
     defaultMessage: 'Email Transcript',
   },
+  emailTranscriptInlineButton: {
+    id: 'emailTranscriptInlineButton',
+    description:
+      'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    defaultMessage: 'Email Transcript',
+  },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
     description:

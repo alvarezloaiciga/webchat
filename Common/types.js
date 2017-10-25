@@ -110,7 +110,7 @@ export type QuiqObject = {
     optionsMenuTooltip: string,
     emailTranscriptMenuMessage: string,
     emailTranscriptMenuTooltip: string,
-    emailTranscriptInputPlaceholder: string,
+    emailTranscriptInlineButton: string,
   },
   menuOptions: {
     [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,

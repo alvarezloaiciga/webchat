@@ -226,10 +226,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
-
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
+      fontFamily,
+    });
+    const emailTranscriptButtonStyle = getStyle(styles.InlineEmailTranscriptButton, {
+      backgroundColor: colors.primary,
       fontFamily,
     });
 
@@ -246,17 +249,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           </div>
         )}
 
-        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
-          <div className="poke">
-            {this.props.agentEndedConversation && (
-              <div className="pokeBody">
-                <span style={{fontFamily}}>
-                  {getMessage(messageTypes.agentEndedConversationMessage)}
-                </span>
-              </div>
-            )}
+        <div className="poke">
+          <div className="pokeBody">
+            <div className="agentEndedConvo">
+              <span style={{fontFamily}}>
+                {getMessage(messageTypes.agentEndedConversationMessage)}
+              </span>
+              <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
+                {getMessage(messageTypes.emailTranscriptInlineButton)}
+              </button>
+            </div>
           </div>
-        )}
+        </div>
 
         {this.state.inputtingEmail && (
           <div className="messageArea">

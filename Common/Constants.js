@@ -98,7 +98,7 @@ export const messageTypes = {
   emailTranscriptInputPlaceholder: 'emailTranscriptInputPlaceholder',
   emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
   emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
-  emailTranscriptInlineMessage: 'emailTranscriptInlineMessage',
+  emailTranscriptInlineButton: 'emailTranscriptInlineButton',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
 };
