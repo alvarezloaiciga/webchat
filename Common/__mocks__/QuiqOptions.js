@@ -111,10 +111,6 @@ const quiqOptions: QuiqObject = {
     OptionsMenuButtonIcon: {
       display: 'none',
     },
-    OptionsMenuContainer: {
-      fontFamily: 'Source Sans Pro',
-      color: '#888',
-    },
     EmailTranscriptMenuContainer: {
       backround: 'green',
     },
@@ -169,6 +165,7 @@ const quiqOptions: QuiqObject = {
     emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
     emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
     emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+    emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

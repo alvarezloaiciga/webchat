@@ -19,6 +19,7 @@
     + [height](#height)
     + [host](#host)
     + [includeEmojis](#includeemojis)
+    + [menuOptions](#menuoptions)
     + [messages](#messages)
     + [mobileNumber](#mobilenumber)
     + [position](#position)
@@ -33,14 +34,24 @@
       - [CustomerAvatar](#customeravatar)
       - [CustomerMessageBubble](#customermessagebubble)
       - [CustomerMessageText](#customermessagetext)
+      - [EmailTranscriptInput](#emailtranscriptinput)
+      - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
+      - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
+      - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
+      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
+      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
+      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
       - [ErrorBanner](#errorbanner)
       - [HeaderBanner](#headerbanner)
       - [HeaderMenu](#headermenu)
       - [HeaderMenuIcons](#headermenuicons)
+      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
       - [MessageForm](#messageform)
       - [MessageFormInput](#messageforminput)
       - [MessageFormSend](#messageformsend)
       - [NonChat](#nonchat)
+      - [OptionsMenuButton](#optionsmenubutton)
+      - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
@@ -54,6 +65,7 @@
   * [The Quiq object](#the-quiq-object)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
+    + [getHandle](#gethandle)
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
@@ -171,6 +183,20 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
+  - #### menuOptions
+    - type:
+      ```javascript 
+      {
+        emailTranscript: boolean,
+      }
+      ```
+    - description: Object containing the menu items you want displayed to the end user.
+    - default: 
+      ```javascript
+      {
+        emailTranscript: true,
+      }
+      ```
   - #### messages
     - type:
       ```javascript
@@ -195,6 +221,13 @@ The Quiq() function contains properties describing how the instance of webchat s
         storageDisabled?: string,
         agentEndedConversationMessage: string,
         agentsNotAvailableMessage: string,
+        optionsMenuTooltip: string,
+        emailTranscriptInlineButton: string,
+        emailTranscriptMenuMessage: string,
+        emailTranscriptMenuTooltip: string,
+        emailTranscriptInputPlaceholder: string,
+        emailTranscriptInputCancelTooltip: string,
+        emailTranscriptInputSubmitTooltip: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -221,6 +254,13 @@ The Quiq() function contains properties describing how the instance of webchat s
         storageDisabled: undefined,
         agentEndedConversationMessage: 'Agent has ended the conversation.',
         agentsNotAvailableMessage: 'No agents are currently available.',
+        optionsMenuTooltip: 'Options',
+        emailTranscriptInlineButton: 'Email Transcript',
+        emailTranscriptMenuMessage: 'Email Transcript',
+        emailTranscriptMenuTooltip: 'Email a full transcript of the current chat',
+        emailTranscriptInputPlaceholder: 'Enter your Email...',
+        emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
+        emailTranscriptInputSubmitTooltip: 'Email Transcript',
       }
       ```
   - #### mobileNumber
@@ -373,6 +413,27 @@ The message bubble for messages that the customer sent
 ##### CustomerMessageText
 The text for messages that the customer sent
 
+##### EmailTranscriptInput
+Input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputCancelButton
+Cancel button for the `EmailTranscriptInput`
+
+##### EmailTranscriptInputContainer
+Container for the input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputSubmitButton
+Submit button for the `EmailTranscriptInput`
+
+##### EmailTranscriptMenuContainer
+Container for the Menu that pops when clicking the `OptionsMenuButton`
+
+##### EmailTranscriptMenuLineItem
+Individual line items within the `EmailTranscriptMenuContainer`
+
+##### EmailTranscriptMenuLineItemIcon
+Icon for individual `EmailTranscriptMenuLineItems`
+
 ##### ErrorBanner
 The banner that is shown when there is a connection error
 
@@ -385,6 +446,9 @@ The top section of the chat container that contains the minimize, maximize, and 
 ##### HeaderMenuIcons
 The icons inside `HeaderMenu`
 
+##### InlineEmailTranscriptButton
+Button that displays inline when the agent ends a conversation allowing user to request an email transcript of the conversation
+
 ##### MessageForm
 The form at the bottom of the chat that holds the text box and send button
 
@@ -396,6 +460,12 @@ The send button for the chat
 
 ##### NonChat
 Message Area that displays in place of chat when chat is unable to display. Only Displays if the `unsupportedBrowser` or `storageDisabled` message is set, and the client's browser fails one of these checks.
+
+##### OptionsMenuButton
+Button container for the Options menu at the bottom left of the web chat
+
+##### OptionsMenuButtonIcon
+Icon for the `OptionsMenuButton`
 
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat
