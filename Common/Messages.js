@@ -134,9 +134,9 @@ export default defineMessages({
   },
   emailTranscriptInlineButton: {
     id: 'emailTranscriptInlineButton',
-    description:
-      'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    description: 'Text to display on the Email Transcript button that shows inline when agent ends convo',
     defaultMessage: 'Email Transcript',
+  },
   attachmentBtnTooltip: {
     id: 'attachmentBtnTooltip',
     description: 'Tooltip for attachment button',

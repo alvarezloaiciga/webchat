@@ -18,7 +18,7 @@ import {
   maxAttachmentSize,
 } from 'Common/Constants';
 import Dropzone from 'react-dropzone';
-import * as ChatActions from 'actions/ChatActions';
+import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType} from 'Common/types';
 

@@ -224,6 +224,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   render() {
     const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
+    const emopjiPickerDisabled = !this.state.agentsAvailable;
     const contentButtonsDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
@@ -293,7 +294,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               disabled={contentButtonsDisabled}
               onClick={this.props.openFileBrowser}
             >
-              <i className="fa fa-paperclip" title={getMessage(messageTypes.attachmentBtnTooltip)} />
+              <i
+                className="fa fa-paperclip"
+                title={getMessage(messageTypes.attachmentBtnTooltip)}
+              />
             </button>
             {EmojiUtils.emojisEnabledByCustomer() && (
               <button
