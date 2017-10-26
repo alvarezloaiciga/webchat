@@ -5,14 +5,23 @@
     "transform-decorators-legacy",
     "transform-flow-strip-types",
     "react-hot-loader/babel",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "emotion"
   ],
   "env": {
     "production": {
       "plugins": ["transform-react-remove-prop-types", "transform-react-constant-elements"]
     },
+    "development": {
+      "plugins": [
+        ["emotion", {"sourceMap": true}],
+        "react-hot-loader/babel",
+        "transform-object-rest-spread",
+        "transform-decorators-legacy"
+      ]
+    },
     "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
+      "plugins": ["emotion", "transform-es2015-modules-commonjs"]
     }
   }
 }

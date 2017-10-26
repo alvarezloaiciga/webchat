@@ -100,6 +100,44 @@ export default defineMessages({
     description: 'Tooltip for emoji picker toggle button',
     defaultMessage: 'Emoji picker',
   },
+  optionsMenuTooltip: {
+    id: 'optionsMenuTooltip',
+    description: 'Tooltip for the options button to the left of the MessageForm',
+    defaultMessage: 'Options',
+  },
+  emailTranscriptMenuMessage: {
+    id: 'emailTranscriptMenuMessage',
+    description:
+      'Message to display in the options menu for the user to get an email containing the transcript of the chat',
+    defaultMessage: 'Email Transcript',
+  },
+  emailTranscriptMenuTooltip: {
+    id: 'emailTranscriptMenuTooltip',
+    description: 'Tooltip for Email transcript menu button',
+    defaultMessage: 'Email a full transcript of the current chat',
+  },
+  emailTranscriptInputPlaceholder: {
+    id: 'emailTranscriptInputPlaceholder',
+    description:
+      'Message to display to user when they need to enter an Email to receive their transcript',
+    defaultMessage: 'Enter your Email...',
+  },
+  emailTranscriptInputCancelTooltip: {
+    id: 'emailTranscriptInputCancelTooltip',
+    description: 'Tooltip to display above the Cancel button on the email transcript input',
+    defaultMessage: 'Cancel Email Transcript',
+  },
+  emailTranscriptInputSubmitTooltip: {
+    id: 'emailTranscriptInputSubmitTooltip',
+    description: 'Tooltip to display above the Submit button on the email transcript input',
+    defaultMessage: 'Email Transcript',
+  },
+  emailTranscriptInlineButton: {
+    id: 'emailTranscriptInlineButton',
+    description:
+      'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    defaultMessage: 'Email Transcript',
+  },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
     description:

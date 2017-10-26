@@ -7,7 +7,7 @@ export const getMockMessage = (
   overrides?: Message | {} = {},
 ) => {
   const message = {
-    authorType: id % 2 === 0 ? 'Customer' : 'Agent',
+    authorType: id % 2 === 0 ? 'Customer' : 'User',
     text: `text--${id}`,
     id: `id--${id}`,
     timestamp: id,

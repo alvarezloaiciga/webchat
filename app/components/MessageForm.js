@@ -3,27 +3,40 @@ import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {messageTypes} from 'Common/Constants';
+import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
+import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
+import MenuButton from 'MenuButton';
+import Menu from 'Menu';
+import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji} from 'Common/types';
+import type {ChatState, Emoji, Message} from 'Common/types';
 
-const {colors, fontFamily, styles} = quiqOptions;
+const {
+  colors,
+  fontFamily,
+  styles,
+  menuOptions,
+  enforceAgentAvailability,
+  agentsAvailableTimer,
+} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
+  transcript: Array<Message>,
 };
 
 type MessageFormState = {
   hasText: boolean,
   agentsAvailable: boolean,
   emojiPickerVisible: boolean,
+  inputtingEmail: boolean,
 };
 
 let updateTimer;
@@ -34,19 +47,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     hasText: false,
     agentsAvailable: true,
     emojiPickerVisible: false,
+    inputtingEmail: false,
   };
   checkAvailabilityTimer: number;
 
   checkAvailability = async () => {
-    if (quiqOptions.enforceAgentAvailability) {
+    if (enforceAgentAvailability) {
       const available = await QuiqChatClient.checkForAgents();
 
       this.setState({agentsAvailable: available.available});
       clearTimeout(this.checkAvailabilityTimer);
-      this.checkAvailabilityTimer = setTimeout(
-        this.checkAvailability,
-        quiqOptions.agentsAvailableTimer,
-      );
+      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, agentsAvailableTimer);
     }
   };
 
@@ -154,16 +165,74 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.textArea.insertEmoji(emoji.native);
   };
 
+  toggleEmailInput = () => {
+    this.setState((prevState: MessageFormState) => ({
+      inputtingEmail: !prevState.inputtingEmail,
+    }));
+  };
+
+  renderMenu = () => {
+    const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
+      Object.values(MenuItemKeys).includes(k),
+    );
+    if (!keys.length) return null;
+    const options = [
+      {
+        onClick: this.toggleEmailInput,
+        label: getMessage(messageTypes.emailTranscriptMenuMessage),
+        title: getMessage(messageTypes.emailTranscriptMenuTooltip),
+        id: MenuItemKeys.EMAIL_TRANSCRIPT,
+        icon: {
+          name: 'envelope-o',
+          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+            color: colors.agentMessageLinkText,
+          }),
+        },
+        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+          color: colors.agentMessageLinkText,
+          fontFamily,
+        }),
+        disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
+      },
+    ];
+
+    return (
+      <MenuButton
+        buttonStyles={getStyle(
+          {
+            borderRight: '2px solid rgb(244, 244, 248)',
+          },
+          styles.OptionsMenuButton,
+        )}
+        iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
+          color: colors.primary,
+        })}
+        title={getMessage(messageTypes.optionsMenuTooltip)}
+        disabled={!this.state.agentsAvailable}
+      >
+        <Menu
+          items={options.filter(o => keys.includes(o.id))}
+          containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
+            fontFamily,
+          })}
+        />
+      </MenuButton>
+    );
+  };
+
   render() {
     const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
     const emopjiPickerDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
-
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const buttonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
+      fontFamily,
+    });
+    const emailTranscriptButtonStyle = getStyle(styles.InlineEmailTranscriptButton, {
+      backgroundColor: colors.primary,
       fontFamily,
     });
 
@@ -179,59 +248,72 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             )}
           </div>
         )}
-
         {(!supportsFlexbox() || this.props.agentEndedConversation) && (
           <div className="poke">
             {this.props.agentEndedConversation && (
               <div className="pokeBody">
-                <span style={{fontFamily}}>
-                  {getMessage(messageTypes.agentEndedConversationMessage)}
-                </span>
+                <div className="agentEndedConvo">
+                  <span style={{fontFamily}}>
+                    {getMessage(messageTypes.agentEndedConversationMessage)}
+                  </span>
+                  <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
+                    {getMessage(messageTypes.emailTranscriptInlineButton)}
+                  </button>
+                </div>
               </div>
             )}
           </div>
         )}
 
-        <div className="messageArea">
-          <EmojiTextarea
-            ref={n => {
-              this.textArea = n;
-            }}
-            style={inputStyle}
-            disabled={!this.state.agentsAvailable}
-            name="message"
-            maxLength={1024}
-            onChange={this.handleTextChanged}
-            onReturn={this.handleReturnKey}
-            placeholder={messagePlaceholder}
-          />
-          {EmojiUtils.emojisEnabledByCustomer() && (
-            <button
-              className="messageFormBtn emojiBtn"
-              disabled={emopjiPickerDisabled}
-              onClick={this.toggleEmojiPicker}
-            >
-              <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
-            </button>
-          )}
-          <button
-            className="messageFormBtn sendBtn"
-            onClick={this.addMessage}
-            disabled={sendDisabled}
-            style={buttonStyle}
-          >
-            {getMessage(messageTypes.sendButtonLabel)}
-          </button>
-          {EmojiUtils.emojisEnabledByCustomer() && (
-            <EmojiPicker
-              visible={this.state.emojiPickerVisible}
-              addEmoji={this.handleEmojiSelection}
-              emojiFilter={EmojiUtils.emojiFilter}
-              onOutsideClick={this.toggleEmojiPicker}
-              ignoreOutsideClickOnSelectors={['.emojiBtn']}
+        {this.state.inputtingEmail && (
+          <div className="messageArea">
+            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+          </div>
+        )}
+
+        {!this.state.inputtingEmail && (
+          <div className="messageArea">
+            {this.renderMenu()}
+            <EmojiTextarea
+              ref={n => {
+                this.textArea = n;
+              }}
+              style={inputStyle}
+              disabled={!this.state.agentsAvailable}
+              name="message"
+              maxLength={1024}
+              onChange={this.handleTextChanged}
+              onReturn={this.handleReturnKey}
+              placeholder={messagePlaceholder}
             />
-          )}
-        </div>
+            {EmojiUtils.emojisEnabledByCustomer() && (
+              <button
+                className="messageFormBtn emojiBtn"
+                disabled={emopjiPickerDisabled}
+                onClick={this.toggleEmojiPicker}
+              >
+                <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
+              </button>
+            )}
+            <button
+              className="messageFormBtn sendBtn"
+              onClick={this.addMessage}
+              disabled={sendDisabled}
+              style={buttonStyle}
+            >
+              {getMessage(messageTypes.sendButtonLabel)}
+            </button>
+            {EmojiUtils.emojisEnabledByCustomer() && (
+              <EmojiPicker
+                visible={this.state.emojiPickerVisible}
+                addEmoji={this.handleEmojiSelection}
+                emojiFilter={EmojiUtils.emojiFilter}
+                onOutsideClick={this.toggleEmojiPicker}
+                ignoreOutsideClickOnSelectors={['.emojiBtn']}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -239,6 +321,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
 export default connect(
   (state: ChatState) => ({
+    transcript: state.transcript,
     agentTyping: state.agentTyping,
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,

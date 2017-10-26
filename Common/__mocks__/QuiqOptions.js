@@ -105,6 +105,36 @@ const quiqOptions: QuiqObject = {
       fontFamily: 'Source Sans Pro',
       fontSize: 16,
     },
+    OptionsMenuButton: {
+      background: 'red',
+    },
+    OptionsMenuButtonIcon: {
+      display: 'none',
+    },
+    EmailTranscriptMenuContainer: {
+      backround: 'green',
+    },
+    EmailTranscriptMenuLineItem: {
+      fontFamily: 'Comic Sans',
+    },
+    EmailTranscriptMenuLineItemIcon: {
+      fontSize: 20,
+    },
+    EmailTranscriptInputContainer: {
+      border: '1px solid black',
+    },
+    EmailTranscriptInput: {
+      outline: 'none',
+    },
+    EmailTranscriptInputCancelButton: {
+      borderRadius: '10px',
+    },
+    EmailTranscriptInputSubmitButton: {
+      borderRadius: '10px',
+    },
+    InlineEmailTranscriptButton: {
+      backgroundColor: 'grey',
+    },
   },
   position: {},
   headerText: 'TOOL TIME',
@@ -129,6 +159,13 @@ const quiqOptions: QuiqObject = {
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
     emojiPickerTooltip: messages.emojiPickerTooltip,
+    optionsMenuTooltip: messages.optionsMenuTooltip,
+    emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+    emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+    emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
+    emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
+    emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+    emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
@@ -136,6 +173,9 @@ const quiqOptions: QuiqObject = {
   debug: false,
   autoPopTime: 2000,
   href: window.location.href,
+  menuOptions: {
+    emailTranscript: true,
+  },
   customLaunchButtons: [],
   mobileNumber: 123,
   welcomeForm: {

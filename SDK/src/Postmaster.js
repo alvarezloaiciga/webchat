@@ -40,7 +40,9 @@ export const setup = () => {
       postRobot.bridge.openBridge(`${host}/${bridgePath}`);
     }
   } catch (e) {
+    /* eslint-disable no-console */
     console.warn(`Error building postRobot Bridge: ${e.message}\nProceeding as normal.`);
+    /* eslint-disable no-console */
   }
 
   postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});

@@ -8,7 +8,11 @@
   .messageArea {
     display: flex;
     flex: 0 0 auto;
-    padding: 5px;
+    height: 40px;
+
+    .EmojiTextArea {
+      padding: 5px 0;
+    }
 
     .messageFormBtn {
       padding: 10px;
@@ -60,6 +64,20 @@
         vertical-align: text-bottom;
       }
     }
+
+    .agentEndedConvo {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        outline: none;
+        user-select: none;
+        cursor: pointer;
+        border: none;
+        color: white;
+        border-radius: 4px;
+      }
+    }
   }
 }
 
@@ -80,6 +98,7 @@
     width: 100%;
 
     .sendBtn {
+      padding: 5px 5px 5px;
       display: table-cell;
       vertical-align: middle;
       width: 50px; // 50 + 20padding = 70

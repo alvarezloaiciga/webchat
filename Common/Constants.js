@@ -92,6 +92,13 @@ export const messageTypes = {
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
+  optionsMenuTooltip: 'optionsMenuTooltip',
+  emailTranscriptMenuMessage: 'emailTranscriptMenuMessage',
+  emailTranscriptMenuTooltip: 'emailTranscriptMenuTooltip',
+  emailTranscriptInputPlaceholder: 'emailTranscriptInputPlaceholder',
+  emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
+  emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
+  emailTranscriptInlineButton: 'emailTranscriptInlineButton',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
 };
@@ -103,3 +110,9 @@ export const localStorageKeys = [
   'quiq-user-taken-meaningful-action',
   'quiq-user-subscribed',
 ];
+
+export const MenuItemKeys = {
+  EMAIL_TRANSCRIPT: 'emailTranscript',
+};
+
+export const UserEmailKey = 'quiq-client-data';

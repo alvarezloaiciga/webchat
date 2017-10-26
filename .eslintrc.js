@@ -191,7 +191,6 @@ module.exports = {
     'space-before-blocks': [0, 'always'],
     'react/jsx-wrap-multilines': 0,
     'arrow-spacing': 0,
-    'spaced-comment': 1,
     'no-else-return': 1,
     'keyword-spacing': 0, //There's a bunch of options for this
 
