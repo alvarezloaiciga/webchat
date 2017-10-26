@@ -100,6 +100,11 @@ export default defineMessages({
     description: 'Tooltip for emoji picker toggle button',
     defaultMessage: 'Emoji picker',
   },
+  sendButtonTooltip: {
+    id: 'sendButtonTooltip',
+    description: 'Tooltip for send button',
+    defaultMessage: 'Send message',
+  },
   optionsMenuTooltip: {
     id: 'optionsMenuTooltip',
     description: 'Tooltip for the options button to the left of the MessageForm',

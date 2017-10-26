@@ -88,7 +88,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
-        sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
         welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
@@ -106,6 +105,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
         emojiPickerTooltip: messages.emojiPickerTooltip,
+        sendButtonTooltip: messages.sendButtonTooltip,
         attachmentBtnTooltip: messages.attachmentBtnTooltip,
         optionsMenuTooltip: messages.optionsMenuTooltip,
         emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,

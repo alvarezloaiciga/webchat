@@ -92,7 +92,6 @@ export type QuiqObject = {
   messages: {
     titleText: string,
     headerText: string,
-    sendButtonLabel: string,
     messageFieldPlaceholder: string,
     welcomeFormValidationErrorMessage: string,
     welcomeFormSubmitButtonLabel: string,
@@ -111,6 +110,7 @@ export type QuiqObject = {
     unsupportedBrowser?: string,
     storageDisabled?: string,
     emojiPickerTooltip: string,
+    sendButtonTooltip: string,
     optionsMenuTooltip: string,
     emailTranscriptInlineButton: string,
     emailTranscriptMenuMessage: string,

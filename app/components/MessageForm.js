@@ -230,7 +230,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       ? getMessage(messageTypes.messageFieldPlaceholder)
       : getMessage(messageTypes.agentsNotAvailableMessage);
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
-    const buttonStyle = getStyle(styles.MessageFormSend, {
+    const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
       fontFamily,
     });
@@ -312,9 +312,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               className="messageFormBtn sendBtn"
               onClick={this.addMessage}
               disabled={sendDisabled}
-              style={buttonStyle}
+              style={sendButtonStyle}
             >
-              {getMessage(messageTypes.sendButtonLabel)}
+              <i className="fa fa-paper-plane" title={getMessage(messageTypes.sendButtonTooltip)} />
             </button>
             {EmojiUtils.emojisEnabledByCustomer() && (
               <EmojiPicker

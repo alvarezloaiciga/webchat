@@ -63,7 +63,7 @@ export const addPendingAttachmentMessage = (
       localKey: tempId,
       type: 'Attachment',
       timestamp: Date.now(),
-      authorType: fromCustomer ? 'Customer' : 'Agent',
+      authorType: fromCustomer ? 'Customer' : 'User',
       status: 'pending',
       contentType,
       url,
