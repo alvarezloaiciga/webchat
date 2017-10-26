@@ -130,7 +130,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     if (fields.email) {
       try {
         localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(fields.email));
-      } catch (e) {} // eslint-disable-line
+      } catch (ex) {} // eslint-disable-line no-empty
     }
 
     this.setState({submitting: true});
