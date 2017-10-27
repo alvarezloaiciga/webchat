@@ -109,12 +109,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onNewMessages((transcript: Array<Message>) => {
       this.props.updateTranscript(transcript);
 
-      if (
-        this.props.initializedState === ChatInitializedState.INITIALIZED &&
-        transcript.length > 0 &&
-        transcript[transcript.length - 1].authorType === 'User'
-      ) {
-        tellClient(eventTypes.agentMessageArrived, {});
+      if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
+        tellClient(eventTypes.messageArrived, {transcript});
       }
     });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);

@@ -4,17 +4,22 @@ import {registerEventHandler} from 'Postmaster';
 import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions} from 'Globals';
+import type {Message} from 'Common/types';
 
-const handleAgentMessageArrived = () => {
+const handleMessageArrived = (e: {transcript: Array<Message>}) => {
   const options = getQuiqOptions();
 
-  if (options.flashNotificationOnNewMessage) {
+  if (
+    options.flashNotificationOnNewMessage &&
+    e.transcript.length > 0 &&
+    e.transcript[e.transcript.length - 1].authorType === 'User'
+  ) {
     flashTitle(getDisplayString(options.messages.messageArrivedNotification));
   }
 };
 
 export const init = () => {
-  registerEventHandler(eventTypes.agentMessageArrived, handleAgentMessageArrived);
+  registerEventHandler(eventTypes.messageArrived, handleMessageArrived);
 };
 
 /**
