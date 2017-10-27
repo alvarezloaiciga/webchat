@@ -1,12 +1,12 @@
 // @flow
-import type {Message, IntlObject, IntlMessage} from 'Common/types';
+import type {IntlObject, IntlMessage, TextMessage} from 'Common/types';
 
 export const getMockMessage = (
   // eslint-disable-line import/prefer-default-export
   id?: number = 0,
-  overrides?: Message | {} = {},
-) => {
-  const message = {
+  overrides?: TextMessage | {} = {},
+): TextMessage => {
+  const message: TextMessage = {
     authorType: id % 2 === 0 ? 'Customer' : 'User',
     text: `text--${id}`,
     id: `id--${id}`,

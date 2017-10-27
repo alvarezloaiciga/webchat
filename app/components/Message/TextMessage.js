@@ -5,12 +5,12 @@ import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
 import Twemoji from 'react-easy-emoji';
-import {isSingleEmoji} from '../utils/emojiUtils';
-import type {Message as MessageType} from 'Common/types';
-import './styles/Message.scss';
+import {isSingleEmoji} from 'utils/emojiUtils';
+import type {TextMessage as TextMessageType} from 'Common/types';
+import './styles/TextMessage.scss';
 
-export type MessageProps = {
-  message: MessageType,
+export type TextMessageProps = {
+  message: TextMessageType,
 };
 
 /**
@@ -62,42 +62,31 @@ const getMessageTextStyle = (fromCustomer: boolean) => {
   });
 };
 
-export const Message = (props: MessageProps) => {
+export const TextMessage = (props: TextMessageProps) => {
   const fromCustomer = props.message.authorType === 'Customer';
-
   const textStyle = getMessageTextStyle(fromCustomer);
 
-  const margin = fromCustomer
-    ? {marginLeft: 'auto', justifyContent: 'flex-end'}
-    : {marginRight: 'auto', justifyContent: 'flex-start'};
-
   return (
-    <div className={classnames('messageContainer', {fromCustomer})}>
-      <div style={{display: 'flex', ...margin}}>
-        {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
-        <div
-          style={getMessageBubbleStyle(fromCustomer)}
-          className={classnames('Message', {fromCustomer})}
-        >
-          <Linkify
-            properties={{
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              style: {
-                fontFamily,
-                textDecoration: 'underline',
-                ...textStyle,
-                color: fromCustomer ? colors.customerMessageLinkText : colors.agentMessageLinkText,
-              },
-            }}
-          >
-            <span style={textStyle}>{emojify(props.message.text)}</span>
-          </Linkify>
-        </div>
-        {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}
-      </div>
+    <div
+      style={getMessageBubbleStyle(fromCustomer)}
+      className={classnames('TextMessage', {fromCustomer})}
+    >
+      <Linkify
+        properties={{
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          style: {
+            fontFamily,
+            textDecoration: 'underline',
+            ...textStyle,
+            color: fromCustomer ? colors.customerMessageLinkText : colors.agentMessageLinkText,
+          },
+        }}
+      >
+        <span style={textStyle}>{emojify(props.message.text)}</span>
+      </Linkify>
     </div>
   );
 };
 
-export default Message;
+export default TextMessage;

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import Message from 'Message';
+import Message from 'Message/Message';
 import quiqOptions from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
+import {getTranscript} from 'reducers/chat';
 import type {Message as MessageType, ChatState} from 'Common/types';
 import './styles/Transcript.scss';
 
@@ -11,14 +12,25 @@ export type TranscriptProps = {
 
 export class Transcript extends Component {
   props: TranscriptProps;
-  transcript: any;
+  scrollLock: boolean = false;
+  transcript: HTMLElement;
 
   componentDidMount() {
-    this.transcript.scrollTop = this.transcript.scrollHeight;
+    this.scrollToBottom();
+    // Listen for scroll, set scrollLock flag
+    if (this.transcript) {
+      this.transcript.addEventListener(
+        'wheel',
+        () => {
+          this.scrollLock = true;
+        },
+        {passive: true},
+      );
+    }
   }
 
   scrollToBottom = () => {
-    if (!this.transcript) return;
+    if (!this.transcript || this.scrollLock) return;
 
     this.transcript.scrollTop = this.transcript.scrollHeight;
   };
@@ -26,12 +38,14 @@ export class Transcript extends Component {
   componentDidUpdate(prevProps) {
     // Scroll to the bottom if you get a new message
     if (this.props.transcript.length > prevProps.transcript.length) {
+      this.scrollLock = false;
       this.scrollToBottom();
     }
   }
 
   render() {
     const {colors} = quiqOptions;
+    const messages = this.props.transcript.sort((a, b) => a.timestamp - b.timestamp);
 
     return (
       <div
@@ -41,12 +55,18 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
-        {this.props.transcript.map(msg => <Message key={msg.id} message={msg} />)}
+        {messages.map(msg => (
+          <Message
+            key={msg.localKey || msg.id}
+            message={msg}
+            scrollToBottom={this.scrollToBottom}
+          />
+        ))}
       </div>
     );
   }
 }
 
 export default connect((state: ChatState) => ({
-  transcript: state.transcript,
+  transcript: getTranscript(state),
 }))(Transcript);

@@ -34,6 +34,52 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
   <div
     className="messageArea"
   >
+    <EmojiTextArea
+      disabled={false}
+      maxLength={1024}
+      name="message"
+      onChange={[Function]}
+      onReturn={[Function]}
+      placeholder="Send us a message..."
+      style={
+        Object {
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
+        }
+      }
+    />
+    <button
+      className="messageFormBtn attachmentBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+    >
+      <i
+        className="fa fa-paperclip"
+        title="Send file"
+      />
+    </button>
+    <button
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+    >
+      <i
+        className="fa fa-smile-o"
+        title="Emoji picker"
+      />
+    </button>
     <MenuButton
       buttonStyles={
         Object {
@@ -44,15 +90,16 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       className=""
       closeOnChildClick={true}
       disabled={false}
-      icon="bars"
+      icon="ellipsis-h"
       iconStyles={
         Object {
-          "color": "#333",
+          "color": "#848484",
           "display": "none",
+          "fontSize": "30px",
         }
       }
       keepChildrenMounted={false}
-      menuPosition="top-right"
+      menuPosition="top-left"
       offset={
         Object {
           "horizontal": "15px",
@@ -92,45 +139,6 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
         }
       />
     </MenuButton>
-    <EmojiTextArea
-      disabled={false}
-      maxLength={1024}
-      name="message"
-      onChange={[Function]}
-      onReturn={[Function]}
-      placeholder="Send us a message..."
-      style={
-        Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-        }
-      }
-    />
-    <button
-      className="messageFormBtn emojiBtn"
-      disabled={false}
-      onClick={[Function]}
-    >
-      <i
-        className="fa fa-smile-o"
-        title="Emoji picker"
-      />
-    </button>
-    <button
-      className="messageFormBtn sendBtn"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-          "fontSize": 16,
-          "textTransform": "uppercase",
-        }
-      }
-    >
-      Send
-    </button>
     <EmojiPicker
       addEmoji={[Function]}
       emojiFilter={[Function]}
@@ -159,6 +167,52 @@ exports[`MessageForm component rendering renders 1`] = `
   <div
     className="messageArea"
   >
+    <EmojiTextArea
+      disabled={false}
+      maxLength={1024}
+      name="message"
+      onChange={[Function]}
+      onReturn={[Function]}
+      placeholder="Send us a message..."
+      style={
+        Object {
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
+        }
+      }
+    />
+    <button
+      className="messageFormBtn attachmentBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+    >
+      <i
+        className="fa fa-paperclip"
+        title="Send file"
+      />
+    </button>
+    <button
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+    >
+      <i
+        className="fa fa-smile-o"
+        title="Emoji picker"
+      />
+    </button>
     <MenuButton
       buttonStyles={
         Object {
@@ -169,15 +223,16 @@ exports[`MessageForm component rendering renders 1`] = `
       className=""
       closeOnChildClick={true}
       disabled={false}
-      icon="bars"
+      icon="ellipsis-h"
       iconStyles={
         Object {
-          "color": "#333",
+          "color": "#848484",
           "display": "none",
+          "fontSize": "30px",
         }
       }
       keepChildrenMounted={false}
-      menuPosition="top-right"
+      menuPosition="top-left"
       offset={
         Object {
           "horizontal": "15px",
@@ -217,45 +272,6 @@ exports[`MessageForm component rendering renders 1`] = `
         }
       />
     </MenuButton>
-    <EmojiTextArea
-      disabled={false}
-      maxLength={1024}
-      name="message"
-      onChange={[Function]}
-      onReturn={[Function]}
-      placeholder="Send us a message..."
-      style={
-        Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-        }
-      }
-    />
-    <button
-      className="messageFormBtn emojiBtn"
-      disabled={false}
-      onClick={[Function]}
-    >
-      <i
-        className="fa fa-smile-o"
-        title="Emoji picker"
-      />
-    </button>
-    <button
-      className="messageFormBtn sendBtn"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-          "fontSize": 16,
-          "textTransform": "uppercase",
-        }
-      }
-    >
-      Send
-    </button>
     <EmojiPicker
       addEmoji={[Function]}
       emojiFilter={[Function]}

@@ -1,3 +1,4 @@
+import {actionTypes} from 'Common/Constants';
 import type {ChatInitializedStateType, Message} from 'types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
@@ -41,4 +42,37 @@ export const setWelcomeFormRegistered = () => ({
 
 export const newWebchatSession = () => ({
   type: 'NEW_WEBCHAT_SESSION',
+});
+
+export const setUploadProgress = (messageId: string, progress: number) => ({
+  type: actionTypes.uploadProgress,
+  messageId,
+  progress,
+});
+
+export const addPendingAttachmentMessage = (
+  tempId: string,
+  contentType: string,
+  url: string,
+  fromCustomer: boolean,
+) => {
+  return {
+    type: actionTypes.addPendingMessage,
+    message: {
+      id: tempId,
+      localKey: tempId,
+      type: 'Attachment',
+      timestamp: Date.now(),
+      authorType: fromCustomer ? 'Customer' : 'User',
+      status: 'pending',
+      contentType,
+      url,
+    },
+  };
+};
+
+export const updatePendingAttachmentId = (tempId: string, newId: string) => ({
+  type: actionTypes.updatePendingMessageId,
+  tempId,
+  newId,
 });

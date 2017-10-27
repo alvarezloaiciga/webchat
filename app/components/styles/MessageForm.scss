@@ -8,14 +8,13 @@
   .messageArea {
     display: flex;
     flex: 0 0 auto;
-    height: 40px;
 
     .EmojiTextArea {
       padding: 5px 0;
     }
 
     .messageFormBtn {
-      padding: 10px;
+      padding: 10px 7px;
       flex: 0 0 auto;
       border: none;
       font-size: 14px;
@@ -40,11 +39,6 @@
           /* This is not supported in IE 10/11. Ah well. */
           filter: brightness(85%);
         }
-      }
-
-      &.emojiBtn {
-        color: #848484;
-        font-size: 16px;
       }
     }
   }

@@ -139,9 +139,13 @@ export default defineMessages({
   },
   emailTranscriptInlineButton: {
     id: 'emailTranscriptInlineButton',
-    description:
-      'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    description: 'Text to display on the Email Transcript button that shows inline when agent ends convo',
     defaultMessage: 'Email Transcript',
+  },
+  attachmentBtnTooltip: {
+    id: 'attachmentBtnTooltip',
+    description: 'Tooltip for attachment button',
+    defaultMessage: 'Send file',
   },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
@@ -264,5 +268,10 @@ export default defineMessages({
     id: 'cannotFindHostingWindow',
     description: "Error for when webchat can't find the host window (where SDK is running)",
     defaultMessage: 'Unable to find host window',
+  },
+  invalidAttachmentMessage: {
+    id: 'invalidAttachmentMessage',
+    description: 'Alert message for invalid attachment upload',
+    defaultMessage: 'We couldn\'t send your attachment. Only image files are supported, and must be smaller than 50 MB',
   },
 });

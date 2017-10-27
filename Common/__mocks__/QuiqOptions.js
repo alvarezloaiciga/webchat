@@ -22,6 +22,7 @@ const quiqOptions: QuiqObject = {
     customerMessageLinkText: '#0085f4',
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
+    attachmentMessageColor: '#9c9c9f',
   },
   styles: {
     HeaderMenu: {
@@ -167,7 +168,9 @@ const quiqOptions: QuiqObject = {
     emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
     emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
     emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
-    messageArrivedNotification: messages.messageArrivedNotification
+    messageArrivedNotification: messages.messageArrivedNotification,
+    attachmentBtnTooltip: messages.attachmentBtnTooltip,
+    invalidAttachmentMessage: messages.invalidAttachmentMessage,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

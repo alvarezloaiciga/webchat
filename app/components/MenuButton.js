@@ -78,7 +78,7 @@ export class MenuButton extends React.Component<MenuButtonProps, MenuButtonState
   };
   static defaultProps = {
     title: messages.buttonTitle,
-    menuPosition: 'top-right',
+    menuPosition: 'top-left',
     icon: 'bars',
     className: '',
     offset: {

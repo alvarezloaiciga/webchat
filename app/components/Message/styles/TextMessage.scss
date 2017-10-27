@@ -1,24 +1,12 @@
 @import '~styles/animations';
 
-.messageContainer {
-  display: flex;
-  flex: 0 0 auto;
-  align-self: stretch;
-  overflow-x: hidden;
-}
-
-.fromCustomer {
-  align-self: stretch;
-}
-
-.Message {
+.TextMessage {
   width: auto;
   word-wrap: break-word;
   display: inline-block;
   background: #fff;
   border: 1px solid #eaeaea;
   padding: 8px;
-  margin: 8px 16px;
   border-radius: 5px;
   font-size: 14px;
   text-align: left;
@@ -27,8 +15,6 @@
   overflow: hidden;
   hyphens: auto;
   box-sizing: border-box;
-
-  margin-right: 50px;
 
   a {
     color: #2199e8;
@@ -47,8 +33,6 @@
 
   &.fromCustomer {
     align-self: flex-end;
-    margin-right: 16px;
-    margin-left: 50px;
     color: #fff;
 
     a {
@@ -62,17 +46,5 @@
         color: #0c4eb2;
       }
     }
-  }
-}
-
-.noFlexbox .Message {
-  display: block;
-  width: auto;
-  min-width: 20px;
-  clear: both;
-  float: left;
-
-  &.fromCustomer {
-    float: right;
   }
 }

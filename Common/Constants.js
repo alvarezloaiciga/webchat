@@ -48,6 +48,9 @@ export const actionTypes = {
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
   getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
+  uploadProgress: 'UPLOAD_PROGRESS',
+  addPendingMessage: 'ADD_PENDING_MESSAGE',
+  updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
 };
 
 export const MessageTypes = {
@@ -103,6 +106,8 @@ export const messageTypes = {
   messageArrivedNotification: 'messageArrivedNotification',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
+  attachmentBtnTooltip: 'attachmentBtnTooltip',
+  invalidAttachmentMessage: 'invalidAttachmentMessage',
 };
 
 export const localStorageKeys = [
@@ -118,3 +123,7 @@ export const MenuItemKeys = {
 };
 
 export const UserEmailKey = 'quiq-client-data';
+
+export const acceptedAttachmentTypes = "image/*";
+
+export const maxAttachmentSize = 50 * 1000000;

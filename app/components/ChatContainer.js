@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
-import {inStandaloneMode, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
+import {inStandaloneMode, isStorageEnabled, isSupportedBrowser, uuidv4} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -11,7 +11,14 @@ import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {ChatInitializedState, messageTypes} from 'Common/Constants';
+import {
+  ChatInitializedState,
+  messageTypes,
+  acceptedAttachmentTypes,
+  maxAttachmentSize,
+} from 'Common/Constants';
+import Dropzone from 'react-dropzone';
+import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
 import type {ChatState, ChatInitializedStateType} from 'Common/types';
 
@@ -19,14 +26,59 @@ export type ChatContainerProps = {
   chatContainerHidden: boolean,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
+  setUploadProgress: (messageId: string, progress: number) => void,
+  updatePendingAttachmentId: (tempId: string, newId: string) => void,
+  addPendingAttachmentMessage: (
+    tempId: string,
+    contentType: string,
+    url: string,
+    fromCustomer: boolean,
+  ) => void,
 };
 
-export class ChatContainer extends React.Component<ChatContainerProps> {
+export type ChatContainerState = {
+  bannerMessage?: string,
+};
+
+export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
   props: ChatContainerProps;
+  state: ChatContainerState = {};
+  dropzone: ?Dropzone;
 
   componentDidMount() {
     if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
   }
+
+  handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
+    if (rejected.length > 0) {
+      this.setState({
+        bannerMessage: getMessage(messageTypes.invalidAttachmentMessage),
+      });
+      // Hide the error in 10 seconds
+      setTimeout(() => this.setState({bannerMessage: undefined}), 10 * 1000);
+      return;
+    }
+
+    // Clear any attachment error
+    this.setState({bannerMessage: undefined});
+
+    accepted.forEach(file => {
+      const tempId = `temp_${uuidv4()}`;
+      const dataUrl = window.URL.createObjectURL(file);
+      this.props.addPendingAttachmentMessage(tempId, file.type, dataUrl, true);
+      QuiqChatClient.sendAttachmentMessage(file, (progress: number) =>
+        this.props.setUploadProgress(tempId, progress),
+      ).then(id => {
+        this.props.updatePendingAttachmentId(tempId, id);
+      });
+    });
+  };
+
+  openFileBrowser = () => {
+    if (this.dropzone) {
+      this.dropzone.open();
+    }
+  };
 
   renderBanner = () => {
     const {colors, styles, fontFamily} = quiqOptions;
@@ -37,6 +89,15 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     });
 
     const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
+
+    // If state indicates a warning message, use that
+    if (this.state.bannerMessage) {
+      return (
+        <div className="errorBanner" style={errorBannerStyle}>
+          {this.state.bannerMessage}
+        </div>
+      );
+    }
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
@@ -74,10 +135,22 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className="chatContainerBody">
-            <Transcript />
-            <MessageForm />
-          </div>
+          <Dropzone
+            ref={d => {
+              this.dropzone = d;
+            }}
+            style={{flex: 1, display: 'flex'}}
+            accept={acceptedAttachmentTypes}
+            disablePreview={true}
+            disableClick={true}
+            maxSize={maxAttachmentSize}
+            onDrop={this.handleAttachments}
+          >
+            <div className="chatContainerBody">
+              <Transcript />
+              <MessageForm openFileBrowser={this.openFileBrowser} />
+            </div>
+          </Dropzone>
         );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
@@ -136,5 +209,10 @@ const mapStateToProps = (state: ChatState) => ({
   welcomeFormRegistered: state.welcomeFormRegistered,
 });
 
-// The dispatch thing is to fix a flow error
-export default connect(mapStateToProps, dispatch => ({dispatch}))(ChatContainer);
+const mapDispatchToProps = {
+  setUploadProgress: ChatActions.setUploadProgress,
+  updatePendingAttachmentId: ChatActions.updatePendingAttachmentId,
+  addPendingAttachmentMessage: ChatActions.addPendingAttachmentMessage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer);

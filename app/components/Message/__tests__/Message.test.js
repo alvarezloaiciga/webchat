@@ -17,6 +17,7 @@ describe('Message component', () => {
   beforeEach(() => {
     testProps = {
       message: getMockMessage(),
+      scrollToBottom: jest.fn(),
     };
     render = () => {
       wrapper = shallow(<Message {...testProps} />);

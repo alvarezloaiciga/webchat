@@ -1,0 +1,28 @@
+.messageContainer {
+  margin: 8px 50px 8px 16px;
+  display: flex;
+  flex: 0 0 auto;
+  align-self: stretch;
+  overflow-x: hidden;
+
+  &.fromCustomer {
+    margin-right: 16px;
+    margin-left: 50px;
+  }
+}
+
+.fromCustomer {
+  align-self: stretch;
+}
+
+.noFlexbox .messageContainer {
+  display: block;
+  width: auto;
+  min-width: 20px;
+  clear: both;
+  float: left;
+
+  &.fromCustomer {
+    float: right;
+  }
+}

@@ -31,9 +31,13 @@ type CustomStyles = {
   ToggleChatButton?: Object,
   ToggleChatButtonIcon?: Object,
   CustomerMessageBubble?: Object,
+  CustomerAttachmentBubble?: Object,
+  CustomerAttachmentText?: Object,
   CustomerMessageText?: Object,
   CustomerAvatar?: Object,
   AgentMessageBubble?: Object,
+  AgentAttachmentBubble?: Object,
+  AgentAttachmentText?: Object,
   AgentMessageText?: Object,
   AgentAvatar?: Object,
   MessageForm?: Object,
@@ -47,6 +51,7 @@ type CustomStyles = {
   WelcomeFormSubmitButton?: Object,
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,
+  contentButtons?: Object,
   EmailTranscriptMenuContainer?: Object,
   EmailTranscriptMenuLineItem?: Object,
   EmailTranscriptMenuLineItemIcon?: Object,
@@ -74,6 +79,7 @@ export type QuiqObject = {
     customerMessageText: string,
     customerMessageLinkText: string,
     customerMessageBackground: string,
+    attachmentMessageColor: string,
     transcriptBackground: string,
   },
   contactPoint: string,
@@ -88,7 +94,6 @@ export type QuiqObject = {
   messages: {
     titleText: string,
     headerText: string,
-    sendButtonLabel: string,
     messageFieldPlaceholder: string,
     welcomeFormValidationErrorMessage: string,
     welcomeFormSubmitButtonLabel: string,
@@ -108,6 +113,7 @@ export type QuiqObject = {
     storageDisabled?: string,
     emojiPickerTooltip: string,
     optionsMenuTooltip: string,
+    sendButtonLabel: string,
     emailTranscriptInlineButton: string,
     emailTranscriptMenuMessage: string,
     emailTranscriptMenuTooltip: string,
@@ -115,6 +121,7 @@ export type QuiqObject = {
     emailTranscriptInputCancelTooltip: string,
     emailTranscriptInputSubmitTooltip: string,
     messageArrivedNotification: string,
+    invalidAttachmentMessage: string,
   },
   menuOptions: {
     [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
@@ -332,7 +339,7 @@ export type ChatState = {
   chatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
-  transcript: Array<Message>,
+  transcript: {[string]: Message},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
@@ -369,13 +376,30 @@ export type CookieDef = {
 export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
+export type MessageStatusType = 'pending' | 'delivered';
 
-export type Message = {
+export type Message = TextMessage | AttachmentMessage;
+
+export type TextMessage = {
   authorType: AuthorType,
   text: string,
   id: string,
   timestamp: number,
   type: 'Text',
+  localKey?: string,
+  uploadProgress?: number,
+};
+
+export type AttachmentMessage = {
+  id: string,
+  localKey?: string,
+  timestamp: number,
+  type: 'Attachment',
+  authorType: AuthorType,
+  url: string,
+  contentType: string,
+  status?: MessageStatusType,
+  uploadProgress?: number,
 };
 
 export type Event = {
