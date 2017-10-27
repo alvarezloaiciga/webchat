@@ -32,7 +32,7 @@ export const Message = (props: MessageProps) => {
     case 'Attachment':
       if (props.message.contentType.startsWith('image/')) {
         // $FlowIssue - Flow's type refinement isn't working here
-        messageComponent = <ImageMessage {...props} />;
+        messageComponent = <ImageMessage scrollToBottom={props.scrollToBottom} {...props} />;
       } else {
         // $FlowIssue - Flow's type refinement isn't working here
         messageComponent = <FileMessage {...props} />;

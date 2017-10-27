@@ -84,7 +84,11 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
 
   renderImage = () => {
     if (this.state.imageLoaded) {
-      return <img src={this.props.message.url} />;
+      return (
+        <a href={this.props.message.url} target="_blank" rel="noopener noreferrer">
+          <img src={this.props.message.url} />
+        </a>
+      );
     }
 
     if (this.state.imageHeight && this.state.imageWidth) {

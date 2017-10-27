@@ -36,8 +36,13 @@ export type ChatContainerProps = {
   ) => void,
 };
 
-export class ChatContainer extends React.Component<ChatContainerProps> {
+export type ChatContainerState = {
+  bannerMessage?: string,
+};
+
+export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
   props: ChatContainerProps;
+  state: ChatContainerState = {};
   dropzone: ?Dropzone;
 
   componentDidMount() {
@@ -46,9 +51,17 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
     if (rejected.length > 0) {
-      console.log('Files rejected!');
+      this.setState({
+        bannerMessage: getMessage(messageTypes.invalidAttachmentMessage),
+      });
+      // Hide the error in 10 seconds
+      setTimeout(() => this.setState({bannerMessage: undefined}), 10 * 1000);
       return;
     }
+
+    // Clear any attachment error
+    this.setState({bannerMessage: undefined});
+
     accepted.forEach(file => {
       const tempId = `temp_${uuidv4()}`;
       const dataUrl = window.URL.createObjectURL(file);
@@ -76,6 +89,15 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     });
 
     const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
+
+    // If state indicates a warning message, use that
+    if (this.state.bannerMessage) {
+      return (
+        <div className="errorBanner" style={errorBannerStyle}>
+          {this.state.bannerMessage}
+        </div>
+      );
+    }
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:

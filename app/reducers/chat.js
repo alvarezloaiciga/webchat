@@ -10,7 +10,7 @@ type ChatAction = {
   chatLauncherHidden?: boolean,
   agentsAvailable?: boolean,
   initializedState?: ChatInitializedStateType,
-  transcript?: {[string]: Message},
+  transcript?: Array<Message>,
   agentTyping?: boolean,
   message?: Message,
 };
@@ -50,7 +50,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         initializedState: action.initializedState,
       });
 
-    case 'UPDATE_TRANSCRIPT':
+    case 'UPDATE_TRANSCRIPT': {
       // If we received a message that replaces a pending message, remove temporary and carry over localKey
       const newTranscript = {};
       if (!Array.isArray(action.transcript)) return state;
@@ -58,23 +58,29 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       action.transcript.forEach(message => {
         let localKey,
           uploadProgress,
-          url = message.url;
+          url = message.type === 'Attachment' ? message.url : undefined;
         const tempMessage = state.transcript[message.id];
         if (tempMessage) {
           // The local key allows us to correlate temporary messages to "real" ones coming in on the wire.
-          // This lets React "see" them as the same message.
-          localKey = tempMessage.localKey;
+          // This lets React see them as the same message.
+          ({localKey} = tempMessage);
+
           // If the temp message already has a URL, keep that one. It might be a dataURL, and we don't need to reload.
-          url = tempMessage.url;
-          uploadProgress = tempMessage.uploadProgress;
+          // Also hang on to the existing uploadProgress
+          if (tempMessage.type === 'Attachment' && message.type === 'Attachment') {
+            uploadProgress = tempMessage.uploadProgress;
+            url = tempMessage.url;
+          }
         }
+
         newTranscript[message.id] = Object.assign({}, message, {localKey, url, uploadProgress});
       });
       const mergedTranscript = Object.assign({}, state.transcript, newTranscript);
       return Object.assign({}, state, {transcript: mergedTranscript});
+    }
     case 'ADD_PENDING_MESSAGE':
       return update(state, {transcript: {[action.message.id]: {$set: action.message}}});
-    case 'UPDATE_PENDING_MESSAGE_ID':
+    case 'UPDATE_PENDING_MESSAGE_ID': {
       const existingMessage = state.transcript[action.tempId];
       if (existingMessage) {
         return update(state, {
@@ -85,6 +91,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         });
       }
       return state;
+    }
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
     case 'AGENT_ENDED_CONVERSATION':

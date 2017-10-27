@@ -105,6 +105,7 @@ export const messageTypes = {
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
+  invalidAttachmentMessage: 'invalidAttachmentMessage',
 };
 
 export const localStorageKeys = [

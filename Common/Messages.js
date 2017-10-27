@@ -264,4 +264,9 @@ export default defineMessages({
     description: "Error for when webchat can't find the host window (where SDK is running)",
     defaultMessage: 'Unable to find host window',
   },
+  invalidAttachmentMessage: {
+    id: 'invalidAttachmentMessage',
+    description: 'Alert message for invalid attachment upload',
+    defaultMessage: 'We couldn\'t send your attachment. Only image files are supported, and must be smaller than 50 MB',
+  },
 });
