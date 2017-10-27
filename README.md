@@ -1,4 +1,4 @@
-<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE 
+<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
  If you update this document, and it will affect the table of contents, be sure to generate a new table of contents at https://ecotrust-canada.github.io/markdown-toc/
      NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE -->
 
@@ -185,13 +185,13 @@ The Quiq() function contains properties describing how the instance of webchat s
       - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### menuOptions
     - type:
-      ```javascript 
+      ```javascript
       {
         emailTranscript: boolean,
       }
       ```
     - description: Object containing the menu items you want displayed to the end user.
-    - default: 
+    - default:
       ```javascript
       {
         emailTranscript: true,
@@ -228,6 +228,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputPlaceholder: string,
         emailTranscriptInputCancelTooltip: string,
         emailTranscriptInputSubmitTooltip: string,
+        messageArrivedNotification: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -261,6 +262,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputPlaceholder: 'Enter your Email...',
         emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
+        messageArrivedNotification: 'New Message from Quiq Webchat'
       }
       ```
   - #### mobileNumber
@@ -385,7 +387,7 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 
 #### Available Elements
 To use any of the following elements, specify them within the stlyes object, like so
-  
+
   ```javascript
   Quiq({
     styles: {

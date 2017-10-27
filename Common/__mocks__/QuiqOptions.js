@@ -166,6 +166,7 @@ const quiqOptions: QuiqObject = {
     emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
     emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
     emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+    messageArrivedNotification: messages.messageArrivedNotification
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

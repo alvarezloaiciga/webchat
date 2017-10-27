@@ -112,6 +112,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
         emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
         emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+        messageArrivedNotification: messages.messageArrivedNotification,
       },
       rawQuiqObject.messages,
     ),

@@ -7,6 +7,8 @@ import {setup, registerEventHandler, tellChat} from 'Postmaster';
 import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
 import './styles/SDKChatContainer.scss';
+import {flashTitle} from 'services/notificationService';
+import {getDisplayString} from 'Common/i18n';
 
 export type SDKChatContainerProps = {};
 type SDKChatContainerState = {
@@ -22,14 +24,11 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
   oldTitle: string;
   chatFrame: any;
   standaloneWindowTimer: number;
-  messageArrivedTimer: number;
-  newMessage: string = "New Message";
 
   componentWillMount() {
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
     registerEventHandler(eventTypes.agentMessageArrived, this.handleAgentMessageArrived);
-    registerEventHandler(eventTypes.agentMessageRead, this.handleAgentMessageRead);
   }
 
   componentWillUnmount() {
@@ -45,22 +44,8 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     this.setState({containerVisible: e.visible});
 
   handleAgentMessageArrived = () => {
-    if (window.document) {
-      this.oldTitle = window.document.title;
-      window.document.title = this.newMessage;
-
-      clearInterval(this.messageArrivedTimer);
-      this.messageArrivedTimer = setInterval(() => {
-        if (window.document) {
-          if (window.document.title === this.newMessage) {
-            window.document.title = this.oldTitle;
-          }
-          else {
-            window.document.title = this.newMessage;
-          }
-        }
-      }, 1000);
-    }
+    const options = getQuiqOptions();
+    flashTitle(getDisplayString(options.messages.messageArrivedNotification));
   }
 
   handleAgentMessageRead = () => {
