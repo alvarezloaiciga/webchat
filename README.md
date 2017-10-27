@@ -1,4 +1,4 @@
-<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE 
+<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
  If you update this document, and it will affect the table of contents, be sure to generate a new table of contents at https://ecotrust-canada.github.io/markdown-toc/
      NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE -->
 
@@ -163,6 +163,10 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
+  - #### flashNotificationOnNewMessage
+    - type: boolean
+    - description: If true, when the agent sends a new message and the end user's page is not visible, then the title of the browser will flash a notification, controlled by the messageArrivedNotification message.
+    - default: true
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
@@ -185,13 +189,13 @@ The Quiq() function contains properties describing how the instance of webchat s
       - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### menuOptions
     - type:
-      ```javascript 
+      ```javascript
       {
         emailTranscript: boolean,
       }
       ```
     - description: Object containing the menu items you want displayed to the end user.
-    - default: 
+    - default:
       ```javascript
       {
         emailTranscript: true,
@@ -228,6 +232,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputPlaceholder: string,
         emailTranscriptInputCancelTooltip: string,
         emailTranscriptInputSubmitTooltip: string,
+        messageArrivedNotification: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -261,6 +266,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputPlaceholder: 'Enter your Email...',
         emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
+        messageArrivedNotification: 'New Message from Quiq Webchat'
       }
       ```
   - #### mobileNumber
@@ -385,7 +391,7 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 
 #### Available Elements
 To use any of the following elements, specify them within the stlyes object, like so
-  
+
   ```javascript
   Quiq({
     styles: {

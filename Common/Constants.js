@@ -29,6 +29,7 @@ export const bridgePath = 'app/webchat/bridge.html';
 export const StandaloneWindowName = 'quiq-standalone-webchat';
 
 export const eventTypes: {[string]: string} = {
+  messageArrived: 'QUIQ_MESSAGE_ARRIVED',
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
   agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
@@ -102,6 +103,7 @@ export const messageTypes = {
   emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
   emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
   emailTranscriptInlineButton: 'emailTranscriptInlineButton',
+  messageArrivedNotification: 'messageArrivedNotification',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
