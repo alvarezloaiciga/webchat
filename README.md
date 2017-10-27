@@ -447,7 +447,7 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 #### getHandle
   - getHandle(callback)
   - Returns a Promise with a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same string value.
-
+  
 #### on
   - on(eventName: EventType, handler)
   - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
