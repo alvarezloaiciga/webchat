@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {messageTypes, MenuItemKeys} from 'Common/Constants';
+import {messageTypes, MenuItemKeys, eventTypes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -15,6 +15,7 @@ import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji, Message} from 'Common/types';
+import {tellClient} from 'services/Postmaster';
 
 const {
   colors,
@@ -117,6 +118,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   handleTextChanged = (text: string) => {
     if (text) {
+      tellClient(eventTypes.agentMessageRead, {});
       this.startTypingTimers();
     } else {
       this.resetTypingTimers();

@@ -19,13 +19,21 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     containerVisible: false,
   };
 
+  oldTitle: string;
   chatFrame: any;
   standaloneWindowTimer: number;
+  messageArrivedTimer: number;
+  newMessage: string = "New Message";
 
   componentWillMount() {
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
     registerEventHandler(eventTypes.agentMessageArrived, this.handleAgentMessageArrived);
+    registerEventHandler(eventTypes.agentMessageRead, this.handleAgentMessageRead);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.messageArrivedTimer);
   }
 
   updateChatWindow = (newWindow: Object) => {
@@ -37,7 +45,30 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     this.setState({containerVisible: e.visible});
 
   handleAgentMessageArrived = () => {
-    window.document.title = "New Message";
+    if (window.document) {
+      this.oldTitle = window.document.title;
+      window.document.title = this.newMessage;
+
+      clearInterval(this.messageArrivedTimer);
+      this.messageArrivedTimer = setInterval(() => {
+        if (window.document) {
+          if (window.document.title === this.newMessage) {
+            window.document.title = this.oldTitle;
+          }
+          else {
+            window.document.title = this.newMessage;
+          }
+        }
+      }, 1000);
+    }
+  }
+
+  handleAgentMessageRead = () => {
+    clearInterval(this.messageArrivedTimer);
+
+    if (window.document && window.document.title !== this.oldTitle) {
+      window.document.title = this.oldTitle;
+    }
   }
 
   handleLoad = () => {
