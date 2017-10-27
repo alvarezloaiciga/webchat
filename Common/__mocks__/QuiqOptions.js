@@ -9,6 +9,7 @@ const quiqOptions: QuiqObject = {
   contactPoint: 'Bob',
   localStorageKeys: {},
   enforceAgentAvailability: true,
+  flashNotificationOnNewMessage: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',

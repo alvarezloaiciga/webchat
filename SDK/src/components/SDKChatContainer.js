@@ -45,7 +45,10 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
   handleAgentMessageArrived = () => {
     const options = getQuiqOptions();
-    flashTitle(getDisplayString(options.messages.messageArrivedNotification));
+
+    if (options.flashNotificationOnNewMessage) {
+      flashTitle(getDisplayString(options.messages.messageArrivedNotification));
+    }
   }
 
   handleAgentMessageRead = () => {

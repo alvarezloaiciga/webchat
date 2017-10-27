@@ -163,6 +163,10 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
+  - #### flashNotificationOnNewMessage
+    - type: boolean
+    - description: If true, when the agent sends a new message and the end user's page is not visible, then the title of the browser will flash a notification, controlled by the messageArrivedNotification message.
+    - default: true
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values

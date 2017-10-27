@@ -71,6 +71,10 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     welcomeForm: rawQuiqObject.welcomeForm
       ? processWelcomeForm(rawQuiqObject.welcomeForm)
       : undefined,
+    flashNotificationOnNewMessage:
+      rawQuiqObject.flashNotificationOnNewMessage === undefined
+        ? true
+        : rawQuiqObject.flashNotificationOnNewMessage,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
     height: rawQuiqObject.height || 600,

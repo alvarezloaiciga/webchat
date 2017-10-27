@@ -80,6 +80,7 @@ export type QuiqObject = {
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
+  flashNotificationOnNewMessage: bool,
   fontFamily: string,
   height: number,
   host: string,
