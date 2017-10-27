@@ -421,7 +421,7 @@ The text for messages that the support agent sent
 ##### AgentAttachmentBubble
 The message bubble that file attachments are displayed in. Does not affect image attachments.
 
-#### AgentAttachmentText
+##### AgentAttachmentText
 The text and icon that is displayed inside an attachment message bubble.
 
 ##### CustomerAvatar
@@ -436,7 +436,7 @@ The text for messages that the customer sent
 ##### CustomerAttachmentBubble
 The message bubble that file attachments are displayed in. Does not affect image attachments.
 
-#### CustomerAttachmentText
+##### CustomerAttachmentText
 The text and icon that is displayed inside an attachment message bubble.
 
 ##### EmailTranscriptInput
