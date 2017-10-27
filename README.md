@@ -4,72 +4,77 @@
 
 # Quiq WebChat [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-- [Webchat Client](#webchat-client)
-  * [Enabling Webchat on your Tenant](#enabling-webchat-on-your-tenant)
-  * [Adding Webchat to your site - Quiq Start](#adding-webchat-to-your-site---quiq-start)
-  * [Customizing The Webchat Client](#customizing-the-webchat-client)
-    + [agentsAvailableTimer](#agentsavailabletimer)
-    + [autoPopTime](#autopoptime)
-    + [colors](#colors)
-    + [contactPoint](#contactpoint)
-    + [customLaunchButtons](#customlaunchbuttons)
-    + [enforceAgentAvailability](#enforceagentavailability)
-    + [excludeEmojis](#excludeemojis)
-    + [fontFamily](#fontfamily)
-    + [height](#height)
-    + [host](#host)
-    + [includeEmojis](#includeemojis)
-    + [menuOptions](#menuoptions)
-    + [messages](#messages)
-    + [mobileNumber](#mobilenumber)
-    + [position](#position)
-    + [styles](#styles)
-    + [welcomeForm](#welcomeform)
-    + [width](#width)
-  * [Setting Styles](#setting-styles)
-    + [Available Elements](#available-elements)
-      - [AgentAvatar](#agentavatar)
-      - [AgentMessageBubble](#agentmessagebubble)
-      - [AgentMessageText](#agentmessagetext)
-      - [CustomerAvatar](#customeravatar)
-      - [CustomerMessageBubble](#customermessagebubble)
-      - [CustomerMessageText](#customermessagetext)
-      - [EmailTranscriptInput](#emailtranscriptinput)
-      - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
-      - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
-      - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
-      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
-      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
-      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
-      - [ErrorBanner](#errorbanner)
-      - [HeaderBanner](#headerbanner)
-      - [HeaderMenu](#headermenu)
-      - [HeaderMenuIcons](#headermenuicons)
-      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
-      - [MessageForm](#messageform)
-      - [MessageFormInput](#messageforminput)
-      - [MessageFormSend](#messageformsend)
-      - [NonChat](#nonchat)
-      - [OptionsMenuButton](#optionsmenubutton)
-      - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
-      - [ToggleChatButton](#togglechatbutton)
-      - [TitleText](#titletext)
-      - [ToggleChatButtonIcon](#togglechatbuttonicon)
-      - [WelcomeFormBanner](#welcomeformbanner)
-      - [WelcomeFormField](#welcomeformfield)
-      - [WelcomeFormFieldInput](#welcomeformfieldinput)
-      - [WelcomeFormFieldLabel](#welcomeformfieldlabel)
-      - [WelcomeFormFieldTextarea](#welcomeformfieldtextarea)
-      - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
-- [SDK](#sdk)
-  * [The Quiq object](#the-quiq-object)
-    + [getAgentAvailability](#getagentavailability)
-    + [getChatVisibility](#getchatvisibility)
-    + [getHandle](#gethandle)
-    + [on](#on)
-    + [setChatVisibility](#setchatvisibility)
-    + [sendRegistration](#sendregistration)
-- [Supported Browsers](#supported-browsers)
+  * [Webchat Client](#webchat-client)
+    + [Enabling Webchat on your Tenant](#enabling-webchat-on-your-tenant)
+    + [Adding Webchat to your site - Quiq Start](#adding-webchat-to-your-site---quiq-start)
+    + [Customizing The Webchat Client](#customizing-the-webchat-client)
+      - [agentsAvailableTimer](#agentsavailabletimer)
+      - [autoPopTime](#autopoptime)
+      - [colors](#colors)
+      - [contactPoint](#contactpoint)
+      - [customLaunchButtons](#customlaunchbuttons)
+      - [enforceAgentAvailability](#enforceagentavailability)
+      - [excludeEmojis](#excludeemojis)
+      - [flashNotificationOnNewMessage](#flashnotificationonnewmessage)
+      - [fontFamily](#fontfamily)
+      - [height](#height)
+      - [host](#host)
+      - [includeEmojis](#includeemojis)
+      - [menuOptions](#menuoptions)
+      - [messages](#messages)
+      - [mobileNumber](#mobilenumber)
+      - [position](#position)
+      - [styles](#styles)
+      - [welcomeForm](#welcomeform)
+      - [width](#width)
+    + [Setting Styles](#setting-styles)
+      - [Available Elements](#available-elements)
+        * [AgentAvatar](#agentavatar)
+        * [AgentMessageBubble](#agentmessagebubble)
+        * [AgentMessageText](#agentmessagetext)
+        * [AgentAttachmentBubble](#agentattachmentbubble)
+      - [AgentAttachmentText](#agentattachmenttext)
+        * [CustomerAvatar](#customeravatar)
+        * [CustomerMessageBubble](#customermessagebubble)
+        * [CustomerMessageText](#customermessagetext)
+        * [CustomerAttachmentBubble](#customerattachmentbubble)
+      - [CustomerAttachmentText](#customerattachmenttext)
+        * [EmailTranscriptInput](#emailtranscriptinput)
+        * [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
+        * [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
+        * [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
+        * [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
+        * [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
+        * [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
+        * [ErrorBanner](#errorbanner)
+        * [HeaderBanner](#headerbanner)
+        * [HeaderMenu](#headermenu)
+        * [HeaderMenuIcons](#headermenuicons)
+        * [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
+        * [MessageForm](#messageform)
+        * [MessageFormInput](#messageforminput)
+        * [MessageFormSend](#messageformsend)
+        * [NonChat](#nonchat)
+        * [OptionsMenuButton](#optionsmenubutton)
+        * [OptionsMenuButtonIcon](#optionsmenubuttonicon)
+        * [ToggleChatButton](#togglechatbutton)
+        * [TitleText](#titletext)
+        * [ToggleChatButtonIcon](#togglechatbuttonicon)
+        * [WelcomeFormBanner](#welcomeformbanner)
+        * [WelcomeFormField](#welcomeformfield)
+        * [WelcomeFormFieldInput](#welcomeformfieldinput)
+        * [WelcomeFormFieldLabel](#welcomeformfieldlabel)
+        * [WelcomeFormFieldTextarea](#welcomeformfieldtextarea)
+        * [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
+  * [SDK](#sdk)
+    + [The Quiq object](#the-quiq-object)
+      - [getAgentAvailability](#getagentavailability)
+      - [getChatVisibility](#getchatvisibility)
+      - [getHandle](#gethandle)
+      - [on](#on)
+      - [setChatVisibility](#setchatvisibility)
+      - [sendRegistration](#sendregistration)
+  * [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
 
@@ -121,6 +126,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageText: string, // Text color for messages sent by the end user
         customerMessageLinkText: string, // Text color for links sent by the end user
         customerMessageBackground: string, // Message bubble color for links sent by the end user
+        attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
         transcriptBackground: string, // Background color for the chat transcript
       }
       ```
@@ -255,6 +261,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         dockWindowTooltip: 'Dock chat',
         openInNewWindowTooltip: 'Open chat in new window',
         closeWindowTooltip: 'Close window',
+        emojiPickerTooltip: 'Emoji picker',
+        attachmentBtnTooltip: 'Send file',
         unsupportedBrowser: undefined,
         storageDisabled: undefined,
         agentEndedConversationMessage: 'Agent has ended the conversation.',
@@ -410,6 +418,12 @@ The message bubble for messages that the support agent sent
 ##### AgentMessageText
 The text for messages that the support agent sent
 
+##### AgentAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+#### AgentAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
+
 ##### CustomerAvatar
 The avatar that shows up for the customer. (By default there is nothing here)
 
@@ -418,6 +432,12 @@ The message bubble for messages that the customer sent
 
 ##### CustomerMessageText
 The text for messages that the customer sent
+
+##### CustomerAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+#### CustomerAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
 
 ##### EmailTranscriptInput
 Input where user inputs an email to receive a transcript of the conversation
