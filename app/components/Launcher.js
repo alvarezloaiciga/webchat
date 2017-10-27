@@ -8,11 +8,12 @@ import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {inStandaloneMode} from 'Common/Utils';
-import {ChatInitializedState} from 'Common/Constants';
+import {ChatInitializedState, eventTypes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
+import {tellClient} from 'services/Postmaster';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -105,7 +106,13 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   registerClientCallbacks = () => {
-    QuiqChatClient.onNewMessages(this.props.updateTranscript);
+    QuiqChatClient.onNewMessages((transcript: Array<Message>) => {
+      this.props.updateTranscript(transcript);
+
+      if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
+        tellClient(eventTypes.messageArrived, {transcript});
+      }
+    });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
     QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);

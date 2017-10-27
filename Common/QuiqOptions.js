@@ -72,6 +72,10 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     welcomeForm: rawQuiqObject.welcomeForm
       ? processWelcomeForm(rawQuiqObject.welcomeForm)
       : undefined,
+    flashNotificationOnNewMessage:
+      rawQuiqObject.flashNotificationOnNewMessage === undefined
+        ? true
+        : rawQuiqObject.flashNotificationOnNewMessage,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
     height: rawQuiqObject.height || 600,
@@ -114,6 +118,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
         emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
         emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+        messageArrivedNotification: messages.messageArrivedNotification,
         invalidAttachmentMessage: messages.invalidAttachmentMessage,
       },
       rawQuiqObject.messages,

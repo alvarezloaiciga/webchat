@@ -6223,9 +6223,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.23.0:
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.23.0.tgz#1abaf7646285cfb17de6b51c8f726975717a9f17"
+quiq-chat@1.24.0:
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.24.0.tgz#595601aba962f8ce0125ba2e4c08b9b879da4062"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -6296,7 +6296,7 @@ react-base16-styling@^0.5.1:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-circular-progressbar@^0.5.0:
+react-circular-progressbar@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-0.5.0.tgz#74b67862431f3fa5e46f380874e4284f5f321b9a"
   dependencies:

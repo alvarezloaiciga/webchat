@@ -1,6 +1,11 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
+  messageArrivedNotification: {
+    id: 'messageArrivedNotification',
+    description: 'Message Arrived',
+    defaultMessage: 'New Message from Quiq Webchat',
+  },
   send: {
     id: 'send',
     description: 'Generic send message',
