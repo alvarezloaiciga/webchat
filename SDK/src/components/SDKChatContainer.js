@@ -21,7 +21,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     containerVisible: false,
   };
 
-  oldTitle: string;
   chatFrame: any;
   standaloneWindowTimer: number;
 
@@ -29,10 +28,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
     registerEventHandler(eventTypes.agentMessageArrived, this.handleAgentMessageArrived);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.messageArrivedTimer);
   }
 
   updateChatWindow = (newWindow: Object) => {
@@ -48,14 +43,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
-    }
-  }
-
-  handleAgentMessageRead = () => {
-    clearInterval(this.messageArrivedTimer);
-
-    if (window.document && window.document.title !== this.oldTitle) {
-      window.document.title = this.oldTitle;
     }
   }
 
