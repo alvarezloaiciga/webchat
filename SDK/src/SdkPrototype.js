@@ -30,6 +30,10 @@ export default {
   ): Promise<{available: boolean}> =>
     await Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback),
 
+  getHandle: async (
+    callback: (data: ?{handle: string}, error: ?Error) => void,
+  ): Promise<{handle: string}> => await Postmaster.askChat(actionTypes.getHandle, {}, callback),
+
   on: (eventName: string, handler: (data: Object) => any) => {
     if (!publicEventTypes[eventName]) {
       displayWarning('Can\'t register for an event named "{eventName}": unknown event name.', {

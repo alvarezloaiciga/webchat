@@ -34,17 +34,12 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
   <div
     className="messageArea"
   >
-    <TextareaAutosize
+    <EmojiTextArea
       disabled={false}
-      inputRef={[Function]}
       maxLength={1024}
-      maxRows={6}
-      minRows={1}
       name="message"
       onChange={[Function]}
-      onHeightChange={[Function]}
-      onInput={[Function]}
-      onKeyDown={[Function]}
+      onReturn={[Function]}
       placeholder="Send us a message..."
       style={
         Object {
@@ -52,11 +47,19 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
           "fontFamily": "Source Sans Pro",
         }
       }
-      useCacheForDOMMeasurements={false}
-      value=""
     />
     <button
-      className="sendBtn"
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-smile-o"
+        title="Emoji picker"
+      />
+    </button>
+    <button
+      className="messageFormBtn sendBtn"
       disabled={true}
       onClick={[Function]}
       style={
@@ -64,13 +67,23 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
           "color": "#68b588",
           "fontFamily": "Source Sans Pro",
           "fontSize": 16,
-          "opacity": ".5",
           "textTransform": "uppercase",
         }
       }
     >
       Send
     </button>
+    <EmojiPicker
+      addEmoji={[Function]}
+      emojiFilter={[Function]}
+      ignoreOutsideClickOnSelectors={
+        Array [
+          ".emojiBtn",
+        ]
+      }
+      onOutsideClick={[Function]}
+      visible={false}
+    />
   </div>
 </div>
 `;
@@ -88,17 +101,12 @@ exports[`MessageForm component rendering renders 1`] = `
   <div
     className="messageArea"
   >
-    <TextareaAutosize
+    <EmojiTextArea
       disabled={false}
-      inputRef={[Function]}
       maxLength={1024}
-      maxRows={6}
-      minRows={1}
       name="message"
       onChange={[Function]}
-      onHeightChange={[Function]}
-      onInput={[Function]}
-      onKeyDown={[Function]}
+      onReturn={[Function]}
       placeholder="Send us a message..."
       style={
         Object {
@@ -106,11 +114,19 @@ exports[`MessageForm component rendering renders 1`] = `
           "fontFamily": "Source Sans Pro",
         }
       }
-      useCacheForDOMMeasurements={false}
-      value=""
     />
     <button
-      className="sendBtn"
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-smile-o"
+        title="Emoji picker"
+      />
+    </button>
+    <button
+      className="messageFormBtn sendBtn"
       disabled={true}
       onClick={[Function]}
       style={
@@ -118,13 +134,23 @@ exports[`MessageForm component rendering renders 1`] = `
           "color": "#68b588",
           "fontFamily": "Source Sans Pro",
           "fontSize": 16,
-          "opacity": ".5",
           "textTransform": "uppercase",
         }
       }
     >
       Send
     </button>
+    <EmojiPicker
+      addEmoji={[Function]}
+      emojiFilter={[Function]}
+      ignoreOutsideClickOnSelectors={
+        Array [
+          ".emojiBtn",
+        ]
+      }
+      onOutsideClick={[Function]}
+      visible={false}
+    />
   </div>
 </div>
 `;

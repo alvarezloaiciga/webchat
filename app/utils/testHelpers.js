@@ -22,10 +22,10 @@ export const getMockMessage = (
  */
 const formatTestMessage = (msg: IntlMessage, values: ?{[key: string]: string}) => {
   if (!values) {
-    return msg.defaultMessage;
+    return msg.defaultMessage || '';
   }
 
-  let returnValue = msg.defaultMessage;
+  let returnValue = msg.defaultMessage || '';
   Object.keys(values).forEach(key => {
     if (values) {
       const value = values[key];

@@ -109,6 +109,7 @@ const quiqOptions: QuiqObject = {
   position: {},
   headerText: 'TOOL TIME',
   messages: {
+    titleText: 'Quiq Webchat',
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
     messageFieldPlaceholder: messages.sendUsAMessage,
@@ -127,6 +128,7 @@ const quiqOptions: QuiqObject = {
     dockWindowTooltip: messages.dockWindow,
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
+    emojiPickerTooltip: messages.emojiPickerTooltip,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
@@ -180,6 +182,7 @@ const quiqOptions: QuiqObject = {
       },
     ],
   },
+  excludeEmojis: ['hankey'],
   _internal: {},
 };
 

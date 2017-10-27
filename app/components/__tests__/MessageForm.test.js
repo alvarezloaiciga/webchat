@@ -2,9 +2,9 @@
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
+jest.mock('components/EmojiTextarea');
 
 import React from 'react';
-import keycodes from 'keycodes';
 import {MessageForm} from '../MessageForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
@@ -42,25 +42,9 @@ describe('MessageForm component', () => {
   });
 
   describe('adding text', () => {
-    it('adds text', () => {
-      wrapper.setState({text: 'Tool Time'});
-      expect(wrapper.find('TextareaAutosize').prop('value')).toBe('Tool Time');
-    });
-
-    describe('pressing enter', () => {
-      beforeEach(() => {
-        wrapper.setState({text: 'OOHOOOHOOH'});
-        instance.handleKeyDown({keyCode: keycodes.enter, preventDefault: jest.fn()});
-      });
-
-      it('adds text', () => {
-        expect(QuiqChatClient.sendMessage).toBeCalledWith('OOHOOOHOOH');
-      });
-
-      it('clears message form', () => {
-        wrapper.update();
-        expect(wrapper.find('TextareaAutosize').prop('value')).toBe('');
-      });
+    it('handling textarea onchange', () => {
+      instance.handleTextChanged('foo');
+      expect(wrapper.state('hasText')).toBe(true);
     });
   });
 

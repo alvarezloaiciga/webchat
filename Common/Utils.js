@@ -3,10 +3,11 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
-import {SupportedWebchatUrls, localStorageKeys} from './Constants';
+import {getDisplayString} from 'Common/i18n';
+import {SupportedWebchatUrls, localStorageKeys, unknownErrorMessage} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine} from './types';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage} from './types';
 
 const parser = new UAParser();
 
@@ -118,12 +119,12 @@ export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqM
 export const supportsSVG = () =>
 QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
-export const displayError = (error: string, values: { [string]: string } = {}) => {
-  throw new Error(buildTemplateString(error, values));
+export const displayError = (error: string | IntlMessage, values: { [string]: string } = {}) => {
+  throw new Error(getDisplayString(error, values));
 };
 
-export const displayWarning = (error: string, values: { [string]: string } = {}) => {
-  console.warn(buildTemplateString(error, values));
+export const displayWarning = (error: string | IntlMessage, values: { [string]: string } = {}) => {
+  console.warn(getDisplayString(error, values));
 };
 
 // If window.opener is not null, then we're in a popup.

@@ -69,9 +69,12 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
     mobileNumber: rawQuiqObject.mobileNumber,
+    includeEmojis: rawQuiqObject.includeEmojis,
+    excludeEmojis: rawQuiqObject.excludeEmojis,
     messages: Object.assign(
       {},
       {
+        titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
         sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
@@ -90,6 +93,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         dockWindowTooltip: messages.dockWindow,
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
+        emojiPickerTooltip: messages.emojiPickerTooltip,
       },
       rawQuiqObject.messages,
     ),
@@ -265,7 +269,7 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 export const getMessage = (messageName: string): string => {
   const message = quiqOptions.messages[messageName];
 
-  if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+  if (message === null || message === undefined) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };

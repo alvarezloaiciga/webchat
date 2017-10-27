@@ -46,10 +46,6 @@ function pageSetup() {
   metaHttpEquiv.content="IE-edge";
   headTag.appendChild(metaHttpEquiv);
 
-  var metaCharset = document.createElement('meta');
-  metaCharset.charset="utf-8";
-  headTag.appendChild(metaCharset);
-
   document.title = "Quiq Webchat";
 
   var metaAppName = document.createElement('meta');

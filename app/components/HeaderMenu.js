@@ -59,12 +59,16 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
   };
 
   render() {
-    const {colors, styles} = quiqOptions;
+    const {colors, styles, fontFamily} = quiqOptions;
 
     const headerStyle = getStyle(styles.HeaderMenu, {backgroundColor: colors.primary});
+    const titleTextStyle = getStyle(styles.TitleText, {fontFamily});
 
     return (
       <div className="HeaderMenu" style={headerStyle}>
+        <div className="title">
+          <span style={titleTextStyle}>{getMessage(messageTypes.titleText)}</span>
+        </div>
         <div className="buttons">
           {(this.state.openingWindowExists || !inStandaloneMode()) && (
             <i
@@ -74,7 +78,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
             />
           )}
           {this.props.initializedState !== ChatInitializedState.BURNED &&
-          (this.state.openingWindowExists || !inStandaloneMode()) && (
+          (!inStandaloneMode() || this.state.openingWindowExists) && (
             <i
               className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
               title={getMessage(

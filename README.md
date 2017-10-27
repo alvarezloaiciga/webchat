@@ -14,9 +14,11 @@
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
     + [enforceAgentAvailability](#enforceagentavailability)
+    + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
     + [height](#height)
     + [host](#host)
+    + [includeEmojis](#includeemojis)
     + [messages](#messages)
     + [mobileNumber](#mobilenumber)
     + [position](#position)
@@ -40,6 +42,7 @@
       - [MessageFormSend](#messageformsend)
       - [NonChat](#nonchat)
       - [ToggleChatButton](#togglechatbutton)
+      - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
       - [WelcomeFormBanner](#welcomeformbanner)
       - [WelcomeFormField](#welcomeformfield)
@@ -66,7 +69,7 @@ To get started with the standard Webchat setup, include `quiq.js` on your page b
 (Replace `<tenant>` with the name of your Quiq tenant.)
 
   ```javascript
-  <script src="https://<tenant>.goquiq.com/app/webchat/index.js" />
+  <script src="https://<tenant>.goquiq.com/app/webchat/index.js"></script>
   ```
 
 Next, setup Webchat by calling the `Quiq()` function in the body of your page  2:
@@ -143,6 +146,11 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
     - default: true
+  - #### excludeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
@@ -158,10 +166,16 @@ The Quiq() function contains properties describing how the instance of webchat s
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - default: `'goquiq.com'`
     - example: `'goquiq.com'`
+  - #### includeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### messages
     - type:
       ```javascript
       {
+        titleText: string,
         headerText: string,
         sendButtonLabel: string,
         messageFieldPlaceholder: string,
@@ -187,6 +201,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - default:
       ```javascript
       {
+        titleText: "",
         headerText: "We're here to help if you have any questions!",
         sendButtonLabel: 'Send',
         messageFieldPlaceholder: 'Send us a message...',
@@ -385,6 +400,9 @@ Message Area that displays in place of chat when chat is unable to display. Only
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat
 
+##### TitleText
+The text that appears in the upper left of the chat container, corresponding to the `TitleText` message
+
 ##### ToggleChatButtonIcon
 The icon in the `ToggleChatButton`
 
@@ -426,6 +444,10 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
   - getChatVisibility(callback)
   - Returns a Promise with an object containing a single boolean `visible` key. Optionally, a callback can be passed to the function which will be called with the same object.
 
+#### getHandle
+  - getHandle(callback)
+  - Returns a Promise with a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same string value.
+  
 #### on
   - on(eventName: EventType, handler)
   - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
