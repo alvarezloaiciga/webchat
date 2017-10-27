@@ -7,8 +7,6 @@ import {setup, registerEventHandler, tellChat} from 'Postmaster';
 import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
 import './styles/SDKChatContainer.scss';
-import {flashTitle} from 'services/notificationService';
-import {getDisplayString} from 'Common/i18n';
 
 export type SDKChatContainerProps = {};
 type SDKChatContainerState = {
@@ -27,7 +25,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
   componentWillMount() {
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
-    registerEventHandler(eventTypes.agentMessageArrived, this.handleAgentMessageArrived);
   }
 
   updateChatWindow = (newWindow: Object) => {
@@ -37,14 +34,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
   handleChatVisibilityChange = (e: {visible: boolean}) =>
     this.setState({containerVisible: e.visible});
-
-  handleAgentMessageArrived = () => {
-    const options = getQuiqOptions();
-
-    if (options.flashNotificationOnNewMessage) {
-      flashTitle(getDisplayString(options.messages.messageArrivedNotification));
-    }
-  }
 
   handleLoad = () => {
     const quiqOptions = getQuiqOptions();

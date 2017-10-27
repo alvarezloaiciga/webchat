@@ -1,5 +1,22 @@
 // @flow
 
+import {registerEventHandler} from 'Postmaster';
+import {eventTypes} from 'Common/Constants';
+import {getDisplayString} from 'Common/i18n';
+import {getQuiqOptions} from 'Globals';
+
+const handleAgentMessageArrived = () => {
+  const options = getQuiqOptions();
+
+  if (options.flashNotificationOnNewMessage) {
+    flashTitle(getDisplayString(options.messages.messageArrivedNotification));
+  }
+};
+
+export const init = () => {
+  registerEventHandler(eventTypes.agentMessageArrived, handleAgentMessageArrived);
+};
+
 /**
  * Gets whether or not the app is visible to the user
  */
