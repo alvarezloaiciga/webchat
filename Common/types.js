@@ -51,6 +51,7 @@ type CustomStyles = {
   WelcomeFormSubmitButton?: Object,
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,
+  contentButtons?: Object,
   EmailTranscriptMenuContainer?: Object,
   EmailTranscriptMenuLineItem?: Object,
   EmailTranscriptMenuLineItemIcon?: Object,

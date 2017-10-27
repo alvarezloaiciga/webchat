@@ -105,7 +105,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
         emojiPickerTooltip: messages.emojiPickerTooltip,
-        sendButtonTooltip: messages.sendButtonTooltip,
+        sendButtonLabel: messages.send,
         attachmentBtnTooltip: messages.attachmentBtnTooltip,
         optionsMenuTooltip: messages.optionsMenuTooltip,
         emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,

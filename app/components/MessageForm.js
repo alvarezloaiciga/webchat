@@ -206,8 +206,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           },
           styles.OptionsMenuButton,
         )}
+        icon="ellipsis-h"
         iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
-          color: colors.primary,
+          color: '#848484',
+          fontSize: '30px',
         })}
         title={getMessage(messageTypes.optionsMenuTooltip)}
         disabled={!this.state.agentsAvailable}
@@ -233,6 +235,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
       fontFamily,
+    });
+    const contentButtonStyle = getStyle(styles.contentButtons, {
+      color: '#848484',
+      fontSize: '16px',
     });
     const emailTranscriptButtonStyle = getStyle(styles.InlineEmailTranscriptButton, {
       backgroundColor: colors.primary,
@@ -276,7 +282,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
         {!this.state.inputtingEmail && (
           <div className="messageArea">
-            {this.renderMenu()}
             <EmojiTextarea
               ref={n => {
                 this.textArea = n;
@@ -291,6 +296,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             />
             <button
               className="messageFormBtn attachmentBtn"
+              style={contentButtonStyle}
               disabled={contentButtonsDisabled}
               onClick={this.props.openFileBrowser}
             >
@@ -302,20 +308,25 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             {EmojiUtils.emojisEnabledByCustomer() && (
               <button
                 className="messageFormBtn emojiBtn"
+                style={contentButtonStyle}
                 disabled={emopjiPickerDisabled}
                 onClick={this.toggleEmojiPicker}
               >
                 <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
               </button>
             )}
-            <button
-              className="messageFormBtn sendBtn"
-              onClick={this.addMessage}
-              disabled={sendDisabled}
-              style={sendButtonStyle}
-            >
-              <i className="fa fa-paper-plane" title={getMessage(messageTypes.sendButtonTooltip)} />
-            </button>
+            {sendDisabled ? (
+              this.renderMenu()
+            ) : (
+              <button
+                className="messageFormBtn sendBtn"
+                onClick={this.addMessage}
+                disabled={sendDisabled}
+                style={sendButtonStyle}
+              >
+                {getMessage(messageTypes.sendButtonLabel)}
+              </button>
+            )}
             {EmojiUtils.emojisEnabledByCustomer() && (
               <EmojiPicker
                 visible={this.state.emojiPickerVisible}
