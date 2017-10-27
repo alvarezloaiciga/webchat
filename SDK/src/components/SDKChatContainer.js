@@ -25,6 +25,7 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
   componentWillMount() {
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
+    registerEventHandler(eventTypes.agentMessageArrived, this.handleAgentMessageArrived);
   }
 
   updateChatWindow = (newWindow: Object) => {
@@ -34,6 +35,10 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
   handleChatVisibilityChange = (e: {visible: boolean}) =>
     this.setState({containerVisible: e.visible});
+
+  handleAgentMessageArrived = () => {
+    window.document.title = "New Message";
+  }
 
   handleLoad = () => {
     const quiqOptions = getQuiqOptions();
