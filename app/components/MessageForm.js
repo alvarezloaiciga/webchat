@@ -206,10 +206,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           },
           styles.OptionsMenuButton,
         )}
-        icon="ellipsis-h"
         iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
           color: '#848484',
-          fontSize: '30px',
+          fontSize: '19px',
+          marginTop: '1px',
         })}
         title={getMessage(messageTypes.optionsMenuTooltip)}
         disabled={!this.state.agentsAvailable}

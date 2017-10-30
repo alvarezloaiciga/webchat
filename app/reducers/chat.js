@@ -51,9 +51,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       });
 
     case 'UPDATE_TRANSCRIPT': {
+      if (!Array.isArray(action.transcript)) return state;
+
       // If we received a message that replaces a pending message, remove temporary and carry over localKey
       const newTranscript = {};
-      if (!Array.isArray(action.transcript)) return state;
 
       action.transcript.forEach(message => {
         let localKey,
@@ -75,6 +76,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 
         newTranscript[message.id] = Object.assign({}, message, {localKey, url, uploadProgress});
       });
+
+      // Merge old and new transcripts so that we don't lose any pending (local) messages
       const mergedTranscript = Object.assign({}, state.transcript, newTranscript);
       return Object.assign({}, state, {transcript: mergedTranscript});
     }

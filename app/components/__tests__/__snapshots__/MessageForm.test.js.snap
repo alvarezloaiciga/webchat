@@ -90,12 +90,13 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       className=""
       closeOnChildClick={true}
       disabled={false}
-      icon="ellipsis-h"
+      icon="bars"
       iconStyles={
         Object {
           "color": "#848484",
           "display": "none",
-          "fontSize": "30px",
+          "fontSize": "19px",
+          "marginTop": "1px",
         }
       }
       keepChildrenMounted={false}
@@ -223,12 +224,13 @@ exports[`MessageForm component rendering renders 1`] = `
       className=""
       closeOnChildClick={true}
       disabled={false}
-      icon="ellipsis-h"
+      icon="bars"
       iconStyles={
         Object {
           "color": "#848484",
           "display": "none",
-          "fontSize": "30px",
+          "fontSize": "19px",
+          "marginTop": "1px",
         }
       }
       keepChildrenMounted={false}

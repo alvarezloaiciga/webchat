@@ -1,4 +1,4 @@
-// flow-typed signature: ba3db3e13de26e9ad861ebcfbf219ff8
+M// flow-typed signature: ba3db3e13de26e9ad861ebcfbf219ff8
 // flow-typed version: <<STUB>>/file-loader_v0.9.0/flow_v0.54.1
 
 /**
