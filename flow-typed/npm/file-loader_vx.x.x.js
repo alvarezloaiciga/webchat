@@ -1,4 +1,4 @@
-M// flow-typed signature: ba3db3e13de26e9ad861ebcfbf219ff8
+// flow-typed signature: ba3db3e13de26e9ad861ebcfbf219ff8
 // flow-typed version: <<STUB>>/file-loader_v0.9.0/flow_v0.54.1
 
 /**
@@ -22,7 +22,6 @@ declare module 'file-loader' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-
 
 // Filename aliases
 declare module 'file-loader/index' {
