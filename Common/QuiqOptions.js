@@ -78,7 +78,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         : rawQuiqObject.flashNotificationOnNewMessage,
     playNotificationSoundOnNewMessage:
       rawQuiqObject.playNotificationSoundOnNewMessage === undefined
-        ? true
+        ? false
         : rawQuiqObject.playNotificationSoundOnNewMessage,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
