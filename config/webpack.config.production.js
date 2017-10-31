@@ -126,6 +126,13 @@ module.exports = merge(config, {
         ],
       },
       {
+        test: /\.(wav|mp3)$/,
+        loader: 'file-loader',
+        query: {
+          name: `assets/audio/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+        },
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url',
         query: {

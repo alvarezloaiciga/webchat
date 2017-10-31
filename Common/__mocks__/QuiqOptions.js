@@ -10,6 +10,7 @@ const quiqOptions: QuiqObject = {
   localStorageKeys: {},
   enforceAgentAvailability: true,
   flashNotificationOnNewMessage: true,
+  playNotificationSoundOnNewMessage: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
