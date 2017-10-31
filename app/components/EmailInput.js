@@ -7,6 +7,7 @@ import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
+import Input from 'core-ui/components/Input';
 import {UserEmailKey, messageTypes} from 'Common/Constants';
 
 const EmailInputContainer = styled.div`
@@ -20,18 +21,22 @@ const EmailInputContainer = styled.div`
 
 const ErrorStyle = css`box-shadow: inset 0px 0px 7px red;`;
 
-const Input = styled.input`
-  height: 100%;
+const InputStyle = error => css`
+  display: flex;
   flex: 1 1 auto;
-  border: 2px solid transparent;
-  padding: 10px;
-  border: none;
-  font-size: 14px;
-  line-height: 1.3em;
-  margin-right: 10px;
-  outline: none;
-  user-select: none;
-  ${props => (props.error ? ErrorStyle : '')};
+
+  & input {
+    height: 100%;
+    flex: 1 0 auto;
+    border: 2px solid transparent;
+    padding: 10px;
+    border: none;
+    font-size: 14px;
+    line-height: 1.3em;
+    margin-right: 10px;
+    outline: none;
+    ${error ? ErrorStyle : ''};
+  }
 `;
 
 const IconCSS = (color: string) => css`
@@ -59,7 +64,6 @@ export type EmailInputProps = {
 
 type EmailInputState = {
   error: boolean,
-  value: string,
 };
 
 const getInitialValue = () => {
@@ -74,28 +78,14 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
   props: EmailInputProps;
   state: EmailInputState = {
     error: false,
-    value: getInitialValue(),
   };
   input: any;
 
-  componentDidMount() {
-    // AutoFocus Input
-    setTimeout(() => {
-      if (this.input) this.input.focus();
-      // Reset Input so cursor is at end of pre-populated input
-      if (this.state.value) {
-        const value = this.state.value;
-        this.setState({value: ''}, () => {
-          this.setState({value});
-        });
-      }
-    }, 200);
-  }
-
   submit = () => {
-    if (isValidEmail(this.state.value)) {
+    const value = this.input.getValue();
+    if (isValidEmail(value)) {
       QuiqChatClient.emailTranscript({
-        email: this.state.value.trim(),
+        email: value.trim(),
         originUrl: host,
         timezone: moment.tz.guess(),
       });
@@ -105,16 +95,6 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
     }
   };
 
-  handleKeyDown = (e: SyntheticInputEvent<>) => {
-    if (e.keyCode === 13) {
-      this.submit();
-    }
-  };
-
-  handleInputChange = (e: SyntheticInputEvent<>) => {
-    this.setState({value: e.target.value});
-  };
-
   render() {
     return (
       <EmailInputContainer
@@ -122,17 +102,18 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
         className="EmailInput"
       >
         <Input
-          innerRef={r => {
+          ref={r => {
             this.input = r;
           }}
-          value={this.state.value}
-          error={this.state.error}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
+          initialValue={getInitialValue()}
+          className={InputStyle(this.state.error)}
+          onSubmit={this.submit}
           placeholder={getMessage(messageTypes.emailTranscriptInputPlaceholder)}
           style={getStyle(styles.EmailTranscriptInput, {
             fontFamily,
           })}
+          value={null}
+          autoFocus
         />
         <CancelButton
           style={getStyle(styles.EmailTranscriptInputCancelButton)}
