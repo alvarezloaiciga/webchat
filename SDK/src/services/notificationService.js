@@ -5,16 +5,33 @@ import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions} from 'Globals';
 import type {Message} from 'Common/types';
+import assets from 'assets';
+
+// Load alert sound--must be done here, not inside alert function
+// $FlowIssue
+const canPlayMp3 = ['probably', 'maybe'].includes(new Audio().canPlayType('audio/mp3'));
+const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
+
+console.log("alertFile %O" , alertFile);
+
+// $FlowIssue
+const alertSound = new Audio(alertFile);
 
 const handleMessageArrived = (e: {transcript: Array<Message>}) => {
+  if (!appIsHidden()) return;
+
   const options = getQuiqOptions();
 
   if (
-    options.flashNotificationOnNewMessage &&
     e.transcript.length > 0 &&
     e.transcript[e.transcript.length - 1].authorType === 'User'
   ) {
-    flashTitle(getDisplayString(options.messages.messageArrivedNotification));
+    if (options.flashNotificationOnNewMessage) {
+      flashTitle(getDisplayString(options.messages.messageArrivedNotification));
+    }
+    if (options.playNotificationSoundOnNewMessage) {
+      playSound();
+    }
   }
 };
 
@@ -72,8 +89,6 @@ export const resetTitle = () => {
  * @param {string}  title           - The title to flash
  */
 export const flashTitle = (title: string) => {
-  if (!appIsHidden()) return;
-
   // Clear any existing flash timers
   if (window.titleFlashTimer) {
     window.clearInterval(window.titleFlashTimer);
@@ -86,4 +101,11 @@ export const flashTitle = (title: string) => {
 
   // Supported in all browsers including IE >= 10. If we want to support Android Browser 4.4 we'll need a prefix
   document.addEventListener('visibilitychange', appDidBecomeVisible);
+};
+
+/**
+ * Plays a sound notification. Designed for demoing sound to user.
+ */
+export const playSound = () => {
+  alertSound.play();
 };

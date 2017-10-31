@@ -127,6 +127,7 @@ export type QuiqObject = {
     [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
   },
   mobileNumber?: string | number,
+  playNotificationSoundOnNewMessage: boolean,
   position: {
     top?: number | string,
     bottom?: number | string,

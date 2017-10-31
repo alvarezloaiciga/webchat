@@ -45,9 +45,18 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     }
   };
 
+  var assetsProxySettings = {
+    target: webchatHost,
+    secure: false,
+    headers: {
+      Host: webchatHost
+    }
+  };
+
   console.log('Proxying to API Gateway at ' + apiGatewayProxySettings.target);
 
   var proxy = require('http-proxy').createProxyServer(apiGatewayProxySettings);
+  var assetsProxy = require('http-proxy').createProxyServer(assetsProxySettings);
 
   var proxyToApiGateway = function (req, res) {
     if (req.url.indexOf('long-polling') !== -1) {
@@ -86,7 +95,6 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   }));
 
   webchatApp.use(webpackHotMiddleware(compiler));
-  webchatApp.use('/assets', express.static('assets'));
   webchatApp.set('view engine', 'ejs');
 
   // This allows the playground to run on same host as webchat. Useful for testing edge case of goquiq.com chat
@@ -97,6 +105,12 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   webchatApp.get('/testbed', (req, res) => {
     res.render('./testbed', {host: webchatHost});
   });
+
+  var proxyAssets = function (req, res) {
+    console.log("proxying assets: %O", req);
+
+    assetsProxy.web(req, res, assetsProxySettings);
+  };
 
   webchatApp.all('/external/*', proxyToApiGateway);
   webchatApp.all('/websocket/*', proxyToApiGateway);
@@ -130,6 +144,8 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   playgroundApp.set('view engine', 'ejs');
   playgroundApp.use(require('morgan')('dev'));
+
+  playgroundApp.all('/app/webchat/assets/*', proxyAssets);
 
   playgroundApp.get('/', (req, res) => {
     res.render('./playground', {host: webchatHost});
