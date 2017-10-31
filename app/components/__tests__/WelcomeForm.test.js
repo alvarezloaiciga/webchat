@@ -14,7 +14,7 @@ describe('WelcomeForm component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    QuiqChatClient.sendMessage = jest.fn(() => {});
+    QuiqChatClient.sendTextMessage = jest.fn(() => {});
     QuiqChatClient.sendRegistration = jest.fn(async () => await {});
 
     testProps = {};
@@ -113,7 +113,7 @@ describe('WelcomeForm component', () => {
       });
 
       it('does not send message if initial field was not provided', () => {
-        expect(QuiqChatClient.sendMessage).not.toHaveBeenCalled();
+        expect(QuiqChatClient.sendTextMessage).not.toHaveBeenCalled();
       });
 
       it('disables send button and sets text', () => {
@@ -158,7 +158,7 @@ describe('WelcomeForm component', () => {
 
       // Not sure why this is failing, but it is definitely being called...
       // it('does send message if initial field was provided', () => {
-      //   expect(QuiqChatClient.sendMessage).toHaveBeenCalled();
+      //   expect(QuiqChatClient.sendTextMessage).toHaveBeenCalled();
       // });
 
       it('disables send button and sets text', () => {

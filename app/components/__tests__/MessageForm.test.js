@@ -20,7 +20,7 @@ describe('MessageForm component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    QuiqChatClient.sendMessage = jest.fn();
+    QuiqChatClient.sendTextMessage = jest.fn();
     QuiqChatClient.updateMessagePreview = jest.fn();
 
     render = () => {

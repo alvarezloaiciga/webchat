@@ -102,7 +102,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     await map(this.state.inputFields, async field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        await QuiqChatClient.sendMessage(field.value);
+        await QuiqChatClient.sendTextMessage(field.value);
       }
     });
   };
