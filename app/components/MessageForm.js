@@ -9,9 +9,9 @@ import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
-import MenuButton from 'MenuButton';
+import MenuButton from 'core-ui/components/MenuButton';
 import {getTranscript} from 'reducers/chat';
-import Menu from 'Menu';
+import Menu from 'core-ui/components/Menu';
 import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
@@ -213,6 +213,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         })}
         title={getMessage(messageTypes.optionsMenuTooltip)}
         disabled={!this.state.agentsAvailable}
+        menuPosition="top-right"
+        offset={{
+          horizontal: '-115px',
+          vertical: '40px',
+        }}
       >
         <Menu
           items={options.filter(o => keys.includes(o.id))}

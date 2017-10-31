@@ -86,7 +86,7 @@ export type QuiqObject = {
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
-  flashNotificationOnNewMessage: bool,
+  flashNotificationOnNewMessage: boolean,
   fontFamily: string,
   height: number,
   host: string,
@@ -165,8 +165,8 @@ export type EmailTranscriptPayload = {
 
 export type IntlMessage = {
   id: string,
-  description?: string,
-  defaultMessage?: string,
+  description: string,
+  defaultMessage: string,
 };
 
 export type IntlObject = {
