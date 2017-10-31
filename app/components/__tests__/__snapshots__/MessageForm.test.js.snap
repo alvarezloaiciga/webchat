@@ -100,10 +100,10 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
         }
       }
       keepChildrenMounted={false}
-      menuPosition="top-left"
+      menuPosition="top-right"
       offset={
         Object {
-          "horizontal": "15px",
+          "horizontal": "-115px",
           "vertical": "40px",
         }
       }
@@ -234,10 +234,10 @@ exports[`MessageForm component rendering renders 1`] = `
         }
       }
       keepChildrenMounted={false}
-      menuPosition="top-left"
+      menuPosition="top-right"
       offset={
         Object {
-          "horizontal": "15px",
+          "horizontal": "-115px",
           "vertical": "40px",
         }
       }

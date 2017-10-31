@@ -6,10 +6,10 @@ import React from 'react';
 import {Picker} from 'emoji-mart';
 import ClickOutside from 'react-click-outside-component';
 import {defineMessages} from 'react-intl';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import quiqOptions from 'Common/QuiqOptions';
 import './styles/EmojiMart.scss';
-import type {Emoji, IntlMessage} from 'Common/types';
+import type {Emoji} from 'Common/types';
 
 export type EmojiPickerProps = {
   addEmoji: (emoji: Emoji) => void,
@@ -19,7 +19,7 @@ export type EmojiPickerProps = {
   emojiFilter?: (e: Emoji) => boolean,
 };
 
-const messages: {[string]: IntlMessage} = defineMessages({
+const messages = defineMessages({
   search: {
     id: 'search',
     description: 'Emoji picker search',
@@ -32,7 +32,7 @@ const messages: {[string]: IntlMessage} = defineMessages({
   },
   searchResults: {
     id: 'searchResults',
-    descriptions: 'Emoji picker search results label',
+    description: 'Emoji picker search results label',
     defaultMessage: 'Search Results',
   },
   recent: {
