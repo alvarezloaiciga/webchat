@@ -12,8 +12,6 @@ import assets from 'assets';
 const canPlayMp3 = ['probably', 'maybe'].includes(new Audio().canPlayType('audio/mp3'));
 const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
 
-console.log("alertFile %O" , alertFile);
-
 // $FlowIssue
 const alertSound = new Audio(alertFile);
 
