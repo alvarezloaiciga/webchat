@@ -121,6 +121,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: string,
+        menuText: string, //  Text color for primary menu
         agentMessageText: string, // Text color for messages sent by the support agent
         agentMessageLinkText: string, // Text color for links sent by the support agent
         agentMessageBackground: string, // Message bubble color for links sent by the support agent
@@ -136,6 +137,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: '#59ad5d',
+        menuText: '#2199e8',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',

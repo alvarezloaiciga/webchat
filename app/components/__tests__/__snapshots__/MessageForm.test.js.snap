@@ -123,7 +123,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
               "icon": Object {
                 "name": "envelope-o",
                 "style": Object {
-                  "color": "#fff",
+                  "color": "#2199e8",
                   "fontSize": 20,
                 },
               },
@@ -131,7 +131,7 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
               "label": "Email Transcript",
               "onClick": [Function],
               "style": Object {
-                "color": "#fff",
+                "color": "#2199e8",
                 "fontFamily": "Comic Sans",
               },
               "title": "Email a full transcript of the current chat",
@@ -257,7 +257,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "icon": Object {
                 "name": "envelope-o",
                 "style": Object {
-                  "color": "#fff",
+                  "color": "#2199e8",
                   "fontSize": 20,
                 },
               },
@@ -265,7 +265,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "label": "Email Transcript",
               "onClick": [Function],
               "style": Object {
-                "color": "#fff",
+                "color": "#2199e8",
                 "fontFamily": "Comic Sans",
               },
               "title": "Email a full transcript of the current chat",

@@ -187,11 +187,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         icon: {
           name: 'envelope-o',
           style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
-            color: colors.agentMessageLinkText,
+            color: colors.menuText,
           }),
         },
         style: getStyle(styles.EmailTranscriptMenuLineItem, {
-          color: colors.agentMessageLinkText,
+          color: colors.menuText,
           fontFamily,
         }),
         disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,

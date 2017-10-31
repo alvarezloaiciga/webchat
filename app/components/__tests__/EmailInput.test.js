@@ -13,6 +13,7 @@ import QuiqChatClient from 'quiq-chat';
 
 describe('EmailInput component', () => {
   let wrapper: ShallowWrapper;
+  let instance: any;
   let testProps: EmailInputProps;
   let render: () => void;
   QuiqChatClient.emailTranscript = jest.fn();
@@ -24,6 +25,7 @@ describe('EmailInput component', () => {
     };
     render = () => {
       wrapper = shallow(<EmailInput {...testProps} />);
+      instance = wrapper.instance();
     };
   });
 
@@ -42,23 +44,26 @@ describe('EmailInput component', () => {
       const email = 'andrew.jenkins@goquiq.com';
       localStorage.setItem(`${UserEmailKey}_Bob`, btoa(email));
       render();
-      expect(wrapper.state('value')).toBe(email);
+      expect(wrapper.find('Input').prop('initialValue')).toBe(email);
       localStorage.clear();
-    });
-
-    it('validates value submitted', () => {
-      render();
-      wrapper.setState({value: 'andrew.jenkins@goquiq.com'});
-      wrapper.find('[data-test="submitButton"]').simulate('click');
-      expect(testProps.onSubmit).toBeCalled();
     });
 
     it("doesn't call onsubmit with invalid emails", () => {
       render();
-      wrapper.setState({value: 'invalidEmail'});
+      instance.input = {
+        getValue: () => 'invalidEmail',
+      };
       wrapper.find('[data-test="submitButton"]').simulate('click');
       expect(testProps.onSubmit).not.toBeCalled();
-      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('calls onsubmit with valid emails', () => {
+      render();
+      instance.input = {
+        getValue: () => 'andrew.jenkins@goquiq.com',
+      };
+      wrapper.find('[data-test="submitButton"]').simulate('click');
+      expect(testProps.onSubmit).toBeCalled();
     });
   });
 });

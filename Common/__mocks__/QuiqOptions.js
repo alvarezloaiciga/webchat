@@ -16,6 +16,7 @@ const quiqOptions: QuiqObject = {
   color: '#333',
   colors: {
     primary: '#333',
+    menuText: '#2199e8',
     agentMessageText: '#fff',
     agentMessageLinkText: '#fff',
     agentMessageBackground: '#0085f4',

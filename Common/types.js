@@ -73,6 +73,7 @@ export type QuiqObject = {
   colors: {
     // Deprecated in favor styles object
     primary: string,
+    menuText: string,
     agentMessageText: string,
     agentMessageLinkText: string,
     agentMessageBackground: string,

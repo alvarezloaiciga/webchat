@@ -51,6 +51,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {},
       {
         primary: primaryColor,
+        menuText: '#2199e8',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
