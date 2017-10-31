@@ -39,6 +39,14 @@ module.exports = {
         exclude: /node_modules\/(?!(core-ui)\/).*/,
       },
       {
+        test: /\.jsx?$/,
+        loader: 'babel',
+        include: [
+          path.resolve(__dirname, '../node_modules/hodash.get'), // Needed since hodash does not transpile itself
+          path.resolve(__dirname, '../node_modules/redux-store-watch'), // Needed since redux-store-watch does not transpile itself
+        ],
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader',
       },
