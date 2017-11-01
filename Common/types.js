@@ -1,5 +1,4 @@
 // @flow
-import {MenuItemKeys} from 'Common/Constants';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
@@ -129,7 +128,7 @@ export type QuiqObject = {
     unmuteSoundsTooltip: string,
   },
   menuOptions: {
-    [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
+    [string]: boolean
   },
   mobileNumber?: string | number,
   playNotificationSoundOnNewMessage: boolean,

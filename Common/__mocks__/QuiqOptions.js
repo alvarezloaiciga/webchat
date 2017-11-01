@@ -186,6 +186,7 @@ const quiqOptions: QuiqObject = {
   href: window.location.href,
   menuOptions: {
     emailTranscript: true,
+    muteSounds: true
   },
   customLaunchButtons: [],
   mobileNumber: 123,
