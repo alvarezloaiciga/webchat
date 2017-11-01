@@ -144,5 +144,9 @@ export const getChatLauncherHidden = (state: ChatState): boolean => {
   return state.chatLauncherHidden;
 };
 
+export const getMuteSounds = (state: ChatState): boolean => {
+  return state.muteSounds;
+};
+
 // $FlowIssue - Flow can't deal with Object.values() very well
 export const getTranscript = (state: ChatState): Array<Message> => Object.values(state.transcript);

@@ -121,6 +121,24 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
             Object {
               "disabled": false,
               "icon": Object {
+                "name": "volume-off",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "muteSounds",
+              "label": "Mute Sounds",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Mute new message sounds",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
                 "name": "envelope-o",
                 "style": Object {
                   "color": "#2199e8",
@@ -252,6 +270,24 @@ exports[`MessageForm component rendering renders 1`] = `
         }
         items={
           Array [
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "volume-off",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "muteSounds",
+              "label": "Mute Sounds",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Mute new message sounds",
+            },
             Object {
               "disabled": false,
               "icon": Object {

@@ -1,7 +1,7 @@
 // @flow
 
-import {registerEventHandler} from 'Postmaster';
-import {eventTypes} from 'Common/Constants';
+import * as Postmaster from 'Postmaster';
+import {eventTypes, actionTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions} from 'Globals';
 import type {Message} from 'Common/types';
@@ -15,7 +15,7 @@ const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
 // $FlowIssue
 const alertSound = new Audio(alertFile);
 
-const handleMessageArrived = (e: {transcript: Array<Message>, muteSounds: boolean}) => {
+const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   if (!appIsHidden()) return;
 
   const options = getQuiqOptions();
@@ -27,14 +27,16 @@ const handleMessageArrived = (e: {transcript: Array<Message>, muteSounds: boolea
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
     }
-    if (options.playNotificationSoundOnNewMessage && !e.muteSounds) {
+
+    const {muteSounds} = await Postmaster.askChat(actionTypes.getMuteSounds);
+    if (options.playNotificationSoundOnNewMessage && !muteSounds) {
       playSound();
     }
   }
 };
 
 export const init = () => {
-  registerEventHandler(eventTypes.messageArrived, handleMessageArrived);
+  Postmaster.registerEventHandler(eventTypes.messageArrived, handleMessageArrived);
 };
 
 /**

@@ -25,7 +25,6 @@ export type LauncherProps = {
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
-  muteSounds: boolean,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
@@ -111,7 +110,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.props.updateTranscript(transcript);
 
       if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
-        tellClient(eventTypes.messageArrived, {transcript, muteSounds: this.props.muteSounds});
+        tellClient(eventTypes.messageArrived, {transcript});
       }
     });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
@@ -277,7 +276,6 @@ export default compose(
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
-      muteSounds: state.muteSounds,
     }),
     chatActions,
   ),
