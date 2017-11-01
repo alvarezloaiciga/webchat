@@ -9,7 +9,7 @@ import {
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
 } from 'Common/Utils';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import {MenuItemKeys} from 'Common/Constants';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
@@ -52,6 +52,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {
         primary: primaryColor,
         menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
@@ -124,6 +125,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
         emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
         messageArrivedNotification: messages.messageArrivedNotification,
+        transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
         invalidAttachmentMessage: messages.invalidAttachmentMessage,
       },
       rawQuiqObject.messages,

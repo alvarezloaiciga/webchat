@@ -2,7 +2,7 @@
 
 import {registerEventHandler} from 'Postmaster';
 import {eventTypes} from 'Common/Constants';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
 import assets from 'assets';

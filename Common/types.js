@@ -59,6 +59,9 @@ type CustomStyles = {
   EmailTranscriptInput?: Object,
   EmailTranscriptInputCancelButton?: Object,
   EmailTranscriptInputSubmitButton?: Object,
+  PlatformEventContainer?: Object,
+  DividerText?: Object,
+  DividerLine?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
@@ -73,6 +76,7 @@ export type QuiqObject = {
   colors: {
     // Deprecated in favor styles object
     primary: string,
+    eventText: string,
     menuText: string,
     agentMessageText: string,
     agentMessageLinkText: string,
@@ -121,6 +125,7 @@ export type QuiqObject = {
     emailTranscriptInputPlaceholder: string,
     emailTranscriptInputCancelTooltip: string,
     emailTranscriptInputSubmitTooltip: string,
+    transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
   },
@@ -358,6 +363,8 @@ export type Action = {
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
     | 'AGENTS_AVAILABLE',
+    | 'MUTE_SOUNDS',
+    | 'UPDATE_PLATFORM_EVENTS',
 };
 
 export type ChatInitializedStateType =
@@ -375,7 +382,8 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
+
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
 export type MessageStatusType = 'pending' | 'delivered';

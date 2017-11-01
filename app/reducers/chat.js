@@ -3,7 +3,7 @@ import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import quiqOptions from 'Common/QuiqOptions';
 import update from 'immutability-helper';
-import type {ChatState, Action, ChatInitializedStateType, Message} from 'Common/types';
+import type {ChatState, Action, ChatInitializedStateType, Message, Event} from 'Common/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
@@ -13,6 +13,8 @@ type ChatAction = {
   transcript?: Array<Message>,
   agentTyping?: boolean,
   message?: Message,
+  muteSounds?: boolean,
+  event?: Event,
 };
 
 export const initialState = {
@@ -24,6 +26,8 @@ export const initialState = {
   agentTyping: false,
   agentEndedConversation: false,
   welcomeFormRegistered: !quiqOptions.welcomeForm,
+  muteSounds: false,
+  platformEvents: [],
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -49,7 +53,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         initializedState: action.initializedState,
       });
-
+    case 'UPDATE_PLATFORM_EVENTS':
+      return Object.assign({}, state, {
+        platformEvents: [...state.platformEvents, action.event],
+      });
     case 'UPDATE_TRANSCRIPT': {
       if (!Array.isArray(action.transcript)) return state;
 
@@ -142,3 +149,5 @@ export const getChatLauncherHidden = (state: ChatState): boolean => {
 
 // $FlowIssue - Flow can't deal with Object.values() very well
 export const getTranscript = (state: ChatState): Array<Message> => Object.values(state.transcript);
+
+export const getPlatformEvents = (state: ChatState): Array<Event> => state.platformEvents;

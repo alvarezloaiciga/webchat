@@ -1,7 +1,7 @@
 // @flow
 
 import messages from 'Common/messages';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
@@ -17,6 +17,7 @@ const quiqOptions: QuiqObject = {
   colors: {
     primary: '#333',
     menuText: '#2199e8',
+    eventText: '#ddd',
     agentMessageText: '#fff',
     agentMessageLinkText: '#fff',
     agentMessageBackground: '#0085f4',
@@ -139,6 +140,15 @@ const quiqOptions: QuiqObject = {
     InlineEmailTranscriptButton: {
       backgroundColor: 'grey',
     },
+    PlatformEventContainer: {
+      backgroundColor: 'green',
+    },
+    DividerText: {
+      color: 'red',
+    },
+    DividerLine: {
+      stroke: 'red',
+    },
   },
   position: {},
   headerText: 'TOOL TIME',
@@ -171,6 +181,7 @@ const quiqOptions: QuiqObject = {
     emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
     emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
     messageArrivedNotification: messages.messageArrivedNotification,
+    transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
     attachmentBtnTooltip: messages.attachmentBtnTooltip,
     invalidAttachmentMessage: messages.invalidAttachmentMessage,
   },

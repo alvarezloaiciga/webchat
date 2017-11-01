@@ -51,6 +51,7 @@ export const actionTypes = {
   uploadProgress: 'UPLOAD_PROGRESS',
   addPendingMessage: 'ADD_PENDING_MESSAGE',
   updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
+  updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
 };
 
 export const MessageTypes = {
@@ -108,6 +109,11 @@ export const messageTypes = {
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
   invalidAttachmentMessage: 'invalidAttachmentMessage',
+  muteSounds: 'muteSounds',
+  unmuteSounds: 'unmuteSounds',
+  muteSoundsTooltip: 'muteSoundsTooltip',
+  unmuteSoundsTooltip: 'unmuteSoundsTooltip',
+  transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
 };
 
 export const localStorageKeys = [
@@ -124,6 +130,6 @@ export const MenuItemKeys = {
 
 export const UserEmailKey = 'quiq-client-data';
 
-export const acceptedAttachmentTypes = "image/*";
+export const acceptedAttachmentTypes = 'image/*';
 
 export const maxAttachmentSize = 50 * 1000000;
