@@ -4,7 +4,7 @@ import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
-import {setMuteSounds} from 'actions/chatActions';
+import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -35,6 +35,7 @@ export type MessageFormProps = {
   transcript: Array<Message>,
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
+  setMessageFieldFocused: (messageFieldFocused: boolean) => void,
 };
 
 type MessageFormState = {
@@ -87,6 +88,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.props.setMuteSounds(
       localStorage.getItem(`quiq_mute_sounds_${quiqOptions.contactPoint}`) === 'true',
     );
+    this.props.setMessageFieldFocused(false);
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -178,6 +180,14 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.setState((prevState: MessageFormState) => ({
       inputtingEmail: !prevState.inputtingEmail,
     }));
+  };
+
+  handleMessageFieldFocused = () => {
+    this.props.setMessageFieldFocused(true);
+  };
+
+  handleMessageFieldLostFocus = () => {
+    this.props.setMessageFieldFocused(false);
   };
 
   toggleMuteSounds = () => {
@@ -334,6 +344,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               maxLength={1024}
               onChange={this.handleTextChanged}
               onReturn={this.handleReturnKey}
+              onBlur={this.handleMessageFieldLostFocus}
+              onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
             <button
@@ -387,6 +399,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
 const mapDispatchToProps = {
   setMuteSounds,
+  setMessageFieldFocused,
 };
 
 export default connect(

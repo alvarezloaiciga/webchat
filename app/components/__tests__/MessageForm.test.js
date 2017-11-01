@@ -31,6 +31,8 @@ describe('MessageForm component', () => {
         openFileBrowser: jest.fn(),
         muteSounds: false,
         setMuteSounds: jest.fn(),
+        messageFieldFocused: false,
+        setMessageFieldFocused: jest.fn(),
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

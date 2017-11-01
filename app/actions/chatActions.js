@@ -31,6 +31,11 @@ export const setMuteSounds = (muteSounds: boolean) => ({
   muteSounds,
 });
 
+export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
+  type: 'MESSAGE_FIELD_FOCUSED',
+  messageFieldFocused,
+});
+
 export const setAgentEndedConversation = (ended: boolean) => ({
   type: 'AGENT_ENDED_CONVERSATION',
   ended,
