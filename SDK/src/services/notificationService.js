@@ -5,7 +5,7 @@ import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
-import {isIFrame} from 'Common/Utils';
+import {isIFrame, isLastMessageFromAgent} from 'Common/Utils';
 
 const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   if (!appIsHidden()) return;
@@ -14,11 +14,7 @@ const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
 
   // Only perform notifications if the chat window is docked. Otherwise, notifications
   // will be handled from within the undocked chat window.
-  if (
-    isIFrame(getChatWindow()) &&
-    e.transcript.length > 0 &&
-    e.transcript[e.transcript.length - 1].authorType === 'User'
-  ) {
+  if (isIFrame(getChatWindow()) && isLastMessageFromAgent(e.transcript)) {
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
     }
