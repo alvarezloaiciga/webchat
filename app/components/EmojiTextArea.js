@@ -143,14 +143,12 @@ export default class EmojiTextArea extends Component {
   };
 
   _handleFocus = () => {
-    console.log('onFocus');
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
   _handleBlur = () => {
-    console.log('onBlur');
     if (this.props.onBlur) {
       this.props.onBlur();
     }
