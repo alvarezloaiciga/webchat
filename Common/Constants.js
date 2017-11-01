@@ -120,6 +120,7 @@ export const localStorageKeys = [
   'quiq-tracking-id',
   'quiq-user-taken-meaningful-action',
   'quiq-user-subscribed',
+  'quiq_mute_sounds'
 ];
 
 export const MenuItemKeys = {
