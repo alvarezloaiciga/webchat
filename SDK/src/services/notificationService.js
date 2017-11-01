@@ -3,9 +3,10 @@
 import {registerEventHandler} from 'Postmaster';
 import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
-import {getQuiqOptions} from 'Globals';
+import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
 import assets from 'assets';
+import {isIFrame} from 'Common/Utils';
 
 // Load alert sound--must be done here, not inside alert function
 // $FlowIssue
@@ -20,7 +21,10 @@ const handleMessageArrived = (e: {transcript: Array<Message>}) => {
 
   const options = getQuiqOptions();
 
+  // Only perform notifications if the chat window is docked. Otherwise, notifications
+  // will be handled from within the undocked chat window.
   if (
+    isIFrame(getChatWindow()) &&
     e.transcript.length > 0 &&
     e.transcript[e.transcript.length - 1].authorType === 'User'
   ) {
