@@ -350,6 +350,7 @@ export type ChatState = {
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
+  platformEvents: Array<Event>,
 };
 
 export type Action = {
@@ -362,8 +363,8 @@ export type Action = {
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
-    | 'AGENTS_AVAILABLE',
-    | 'MUTE_SOUNDS',
+    | 'AGENTS_AVAILABLE'
+    | 'MUTE_SOUNDS'
     | 'UPDATE_PLATFORM_EVENTS',
 };
 

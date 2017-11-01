@@ -99,6 +99,7 @@ describe('chat reducers', () => {
         agentTyping: true,
         agentsAvailable: true,
         agentEndedConversation: false,
+        platformEvents: [],
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

@@ -60,6 +60,7 @@ describe('Launcher component', () => {
       newWebchatSession: jest.fn(),
       setAgentsAvailable: jest.fn(),
       setAgentEndedConversation: jest.fn(),
+      updatePlatformEvents: jest.fn(),
     };
 
     init = () => {

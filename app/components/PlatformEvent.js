@@ -30,7 +30,6 @@ const PlatformEventContainer = styled.div`
 
 const PlatformEvent = (props: PlatformEventProps) => {
   const {timestamp} = props.event;
-
   const message = `${formatTime(timestamp)} ${getMessage(
     messageTypes.transcriptEmailedEventMessage,
   )}`;
