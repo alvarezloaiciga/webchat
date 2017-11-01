@@ -55,13 +55,20 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
-        {messages.map(msg => (
+        {[
+          ...messages.map(msg => (
+            <Message
+              key={msg.localKey || msg.id}
+              message={msg}
+              scrollToBottom={this.scrollToBottom}
+            />
+          )),
           <Message
-            key={msg.localKey || msg.id}
-            message={msg}
+            key="agentTyping"
+            message={{authorType: 'Agent', type: 'AgentTyping'}}
             scrollToBottom={this.scrollToBottom}
-          />
-        ))}
+          />,
+        ]}
       </div>
     );
   }
