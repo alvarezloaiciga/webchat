@@ -68,7 +68,6 @@ const setupListeners = () => {
 
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
-  postRobotListener.on(actionTypes.getMuteSounds, getMuteSounds);
   postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
@@ -138,10 +137,6 @@ const setChatVisibility = (event: Object) => {
 
 const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
-};
-
-const getMuteSounds = () => {
-  return {muteSounds: ChatSelectors.getMuteSounds(store.getState())};
 };
 
 /**********************************************************************************

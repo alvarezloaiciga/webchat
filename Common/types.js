@@ -349,6 +349,7 @@ export type ChatState = {
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
+  messageFieldFocused: boolean,
 };
 
 export type Action = {

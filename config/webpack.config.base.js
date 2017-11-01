@@ -14,10 +14,10 @@ module.exports = {
     modules: [
       path.join(__dirname, '../config/scripts'),
       path.join(__dirname, '../app'),
+      path.join(__dirname, '../app/assets'),
       path.join(__dirname, '../app/components'),
       path.join(__dirname, '../app/styles'),
       path.join(__dirname, '../SDK/src'),
-      path.join(__dirname, '../SDK/src/assets'),
       'node_modules',
     ],
     alias: {

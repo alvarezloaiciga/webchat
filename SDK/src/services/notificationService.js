@@ -1,20 +1,11 @@
 // @flow
 
 import * as Postmaster from 'Postmaster';
-import {eventTypes, actionTypes} from 'Common/Constants';
+import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
-import assets from 'assets';
 import {isIFrame} from 'Common/Utils';
-
-// Load alert sound--must be done here, not inside alert function
-// $FlowIssue
-const canPlayMp3 = ['probably', 'maybe'].includes(new Audio().canPlayType('audio/mp3'));
-const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
-
-// $FlowIssue
-const alertSound = new Audio(alertFile);
 
 const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   if (!appIsHidden()) return;
@@ -30,11 +21,6 @@ const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   ) {
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
-    }
-
-    const {muteSounds} = await Postmaster.askChat(actionTypes.getMuteSounds);
-    if (options.playNotificationSoundOnNewMessage && !muteSounds) {
-      playSound();
     }
   }
 };
@@ -105,11 +91,4 @@ export const flashTitle = (title: string) => {
 
   // Supported in all browsers including IE >= 10. If we want to support Android Browser 4.4 we'll need a prefix
   document.addEventListener('visibilitychange', appDidBecomeVisible);
-};
-
-/**
- * Plays a sound notification. Designed for demoing sound to user.
- */
-export const playSound = () => {
-  alertSound.play();
 };

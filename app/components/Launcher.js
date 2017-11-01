@@ -7,13 +7,14 @@ import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import {inStandaloneMode, isMobile} from 'Common/Utils';
+import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
 import {ChatInitializedState, eventTypes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
 import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
 import {tellClient} from 'services/Postmaster';
+import {playSound} from 'services/alertService';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -25,6 +26,8 @@ export type LauncherProps = {
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
+  muteSounds: boolean,
+  messageFieldFocused: boolean,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
@@ -111,6 +114,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
         tellClient(eventTypes.messageArrived, {transcript});
+
+        if (
+          !this.props.muteSounds &&
+          !this.props.messageFieldFocused &&
+          isLastMessageFromAgent(transcript)
+        ) {
+          playSound();
+        }
       }
     });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
@@ -276,6 +287,8 @@ export default compose(
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
+      muteSounds: state.muteSounds,
+      messageFieldFocused: state.messageFieldFocused,
     }),
     chatActions,
   ),

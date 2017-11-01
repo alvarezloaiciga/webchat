@@ -51,7 +51,6 @@ export const actionTypes = {
   uploadProgress: 'UPLOAD_PROGRESS',
   addPendingMessage: 'ADD_PENDING_MESSAGE',
   updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
-  getMuteSounds: 'GET_MUTE_SOUNDS',
 };
 
 export const MessageTypes = {
