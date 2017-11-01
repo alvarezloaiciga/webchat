@@ -108,6 +108,10 @@ export const messageTypes = {
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
   invalidAttachmentMessage: 'invalidAttachmentMessage',
+  muteSounds: 'muteSounds',
+  unmuteSounds: 'unmuteSounds',
+  muteSoundsTooltip: 'muteSoundsTooltip',
+  unmuteSoundsTooltip: "unmuteSoundsTooltip",
 };
 
 export const localStorageKeys = [
@@ -120,6 +124,7 @@ export const localStorageKeys = [
 
 export const MenuItemKeys = {
   EMAIL_TRANSCRIPT: 'emailTranscript',
+  MUTE_SOUNDS: 'muteSounds',
 };
 
 export const UserEmailKey = 'quiq-client-data';

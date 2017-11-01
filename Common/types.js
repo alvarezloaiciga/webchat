@@ -123,6 +123,10 @@ export type QuiqObject = {
     emailTranscriptInputSubmitTooltip: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
+    muteSounds: string,
+    unmuteSounds: string,
+    muteSoundsTooltip: string,
+    unmuteSoundsTooltip: string,
   },
   menuOptions: {
     [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
@@ -345,6 +349,7 @@ export type ChatState = {
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
+  muteSounds: boolean,
 };
 
 export type Action = {
@@ -357,7 +362,8 @@ export type Action = {
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
-    | 'AGENTS_AVAILABLE',
+    | 'AGENTS_AVAILABLE'
+    | 'MUTE_SOUNDS'
 };
 
 export type ChatInitializedStateType =

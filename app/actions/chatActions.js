@@ -26,6 +26,11 @@ export const setAgentTyping = (agentTyping: boolean) => ({
   agentTyping,
 });
 
+export const setMuteSounds = (muteSounds: boolean) => ({
+  type: 'MUTE_SOUNDS',
+  muteSounds,
+});
+
 export const setAgentEndedConversation = (ended: boolean) => ({
   type: 'AGENT_ENDED_CONVERSATION',
   ended,

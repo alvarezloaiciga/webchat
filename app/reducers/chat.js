@@ -13,6 +13,7 @@ type ChatAction = {
   transcript?: Array<Message>,
   agentTyping?: boolean,
   message?: Message,
+  muteSounds?: boolean,
 };
 
 export const initialState = {
@@ -24,6 +25,7 @@ export const initialState = {
   agentTyping: false,
   agentEndedConversation: false,
   welcomeFormRegistered: !quiqOptions.welcomeForm,
+  muteSounds: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -97,6 +99,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     }
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
+    case 'MUTE_SOUNDS':
+      return Object.assign({}, state, {muteSounds: action.muteSounds});
     case 'AGENT_ENDED_CONVERSATION':
       return Object.assign({}, state, {agentEndedConversation: action.ended});
     case 'WELCOME_FORM_REGISTERED':

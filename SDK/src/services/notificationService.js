@@ -15,7 +15,7 @@ const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
 // $FlowIssue
 const alertSound = new Audio(alertFile);
 
-const handleMessageArrived = (e: {transcript: Array<Message>}) => {
+const handleMessageArrived = (e: {transcript: Array<Message>, muteSounds: boolean}) => {
   if (!appIsHidden()) return;
 
   const options = getQuiqOptions();
@@ -27,7 +27,7 @@ const handleMessageArrived = (e: {transcript: Array<Message>}) => {
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
     }
-    if (options.playNotificationSoundOnNewMessage) {
+    if (options.playNotificationSoundOnNewMessage && !e.muteSounds) {
       playSound();
     }
   }
