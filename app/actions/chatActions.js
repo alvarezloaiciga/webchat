@@ -44,9 +44,9 @@ export const setAgentEndedConversation = (ended: boolean) => ({
 export const setChatConfiguration = (metadata: ChatMetadata) => ({
   type: 'CHAT_CONFIGURATION_LOADED',
   configuration: {
-    chatEmailTranscript:
+    enableChatEmailTranscript:
       metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
-    chatFileAttachments:
+    enableChatFileAttachments:
       metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
     enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
     playSoundOnNewMessage:

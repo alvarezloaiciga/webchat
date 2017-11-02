@@ -124,8 +124,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
         tellClient(eventTypes.messageArrived, {transcript});
-
-        console.log('this.props.configuration %O', this.props.configuration);
         if (
           !this.props.muteSounds &&
           !this.props.messageFieldFocused &&
