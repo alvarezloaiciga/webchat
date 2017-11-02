@@ -368,8 +368,8 @@ export type BrowserEngine =
   | 'WebKit';
 
 export type ChatState = {
-  enableChatContainerHidden: boolean,
-  enableChatLauncherHidden: boolean,
+  chatContainerHidden: boolean,
+  chatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
   transcript: {[string]: Message},
