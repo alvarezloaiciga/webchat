@@ -219,7 +219,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       });
     }
 
-    if (this.props.configuration.chatEmailTranscript) {
+    if (this.props.configuration.enableChatEmailTranscript) {
       options.push({
         onClick: this.toggleEmailInput,
         label: getMessage(messageTypes.emailTranscriptMenuMessage),
@@ -353,9 +353,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 onClick={this.props.openFileBrowser}
                 title={getMessage(messageTypes.attachmentBtnTooltip)}
               >
-                <i
-                  className="fa fa-paperclip"
-                />
+                <i className="fa fa-paperclip" />
               </button>
             )}
             {this.props.configuration.enableEmojis &&
