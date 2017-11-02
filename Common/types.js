@@ -1,7 +1,33 @@
 // @flow
-import {MenuItemKeys} from 'Common/Constants';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
+
+export type ChatConfiguration = {
+  enableChatEmailTranscript: boolean,
+  enableChatFileAttachments: boolean,
+  enableEmojis: boolean,
+  playSoundOnNewMessage: boolean,
+  flashNotificationOnNewMessage: boolean,
+};
+
+export type ChatMetadata = {
+  configs: {
+    [string] : {
+      enabled: boolean
+    }
+  },
+  registrationForm?: {
+    headerText: string,
+    fields: Array<{
+      type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
+      label: string,
+      id: string,
+      required?: boolean,
+      rows?: number,
+      isInitialMessage?: boolean,
+    }>,
+  },
+};
 
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
@@ -59,6 +85,9 @@ type CustomStyles = {
   EmailTranscriptInput?: Object,
   EmailTranscriptInputCancelButton?: Object,
   EmailTranscriptInputSubmitButton?: Object,
+  EventContainer?: Object,
+  EventText?: Object,
+  EventLine?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
@@ -73,6 +102,7 @@ export type QuiqObject = {
   colors: {
     // Deprecated in favor styles object
     primary: string,
+    eventText: string,
     menuText: string,
     agentMessageText: string,
     agentMessageLinkText: string,
@@ -87,7 +117,6 @@ export type QuiqObject = {
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
-  flashNotificationOnNewMessage: boolean,
   fontFamily: string,
   height: number,
   host: string,
@@ -121,14 +150,16 @@ export type QuiqObject = {
     emailTranscriptInputPlaceholder: string,
     emailTranscriptInputCancelTooltip: string,
     emailTranscriptInputSubmitTooltip: string,
+    transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
-  },
-  menuOptions: {
-    [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
+    attachmentUploadError: string,
+    muteSounds: string,
+    unmuteSounds: string,
+    muteSoundsTooltip: string,
+    unmuteSoundsTooltip: string,
   },
   mobileNumber?: string | number,
-  playNotificationSoundOnNewMessage: boolean,
   position: {
     top?: number | string,
     bottom?: number | string,
@@ -174,7 +205,7 @@ export type IntlMessage = {
 export type IntlObject = {
   formatMessage: (msg: IntlMessage, values: ?{[key: string]: string}) => string,
   formatDate: (date: number | moment$Moment) => string,
-  formatTime: (timestamp: number, options: ?Object) => string,
+  formatTime: (time: number | moment$Moment, options: ?Object) => string,
   formatRelative: (date: number) => string,
 };
 
@@ -337,14 +368,18 @@ export type BrowserEngine =
   | 'WebKit';
 
 export type ChatState = {
-  chatContainerHidden: boolean,
-  chatLauncherHidden: boolean,
+  enableChatContainerHidden: boolean,
+  enableChatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
   transcript: {[string]: Message},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
+  platformEvents: Array<Event>,
+  muteSounds: boolean,
+  messageFieldFocused: boolean,
+  configuration: ChatConfiguration
 };
 
 export type Action = {
@@ -357,7 +392,9 @@ export type Action = {
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
-    | 'AGENTS_AVAILABLE',
+    | 'AGENTS_AVAILABLE'
+    | 'MUTE_SOUNDS'
+    | 'UPDATE_PLATFORM_EVENTS',
 };
 
 export type ChatInitializedStateType =
@@ -375,7 +412,8 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
+
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
 export type MessageStatusType = 'pending' | 'delivered';

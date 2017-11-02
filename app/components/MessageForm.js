@@ -1,9 +1,9 @@
 // @flow
 import React, {Component} from 'react';
-import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
+import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -12,26 +12,22 @@ import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
 import {getTranscript} from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
-import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, Message} from 'Common/types';
+import type {ChatState, Emoji, Message, ChatConfiguration} from 'Common/types';
 
-const {
-  colors,
-  fontFamily,
-  styles,
-  menuOptions,
-  enforceAgentAvailability,
-  agentsAvailableTimer,
-} = quiqOptions;
+const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
+  muteSounds: boolean,
+  configuration: ChatConfiguration,
   transcript: Array<Message>,
   openFileBrowser: () => void,
+  setMuteSounds: (muteSounds: boolean) => void,
+  setMessageFieldFocused: (messageFieldFocused: boolean) => void,
 };
 
 type MessageFormState = {
@@ -80,6 +76,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     ) {
       this.checkAvailability();
     }
+
+    this.props.setMuteSounds(
+      localStorage.getItem(`quiq_mute_sounds_${quiqOptions.contactPoint}`) === 'true',
+    );
+    this.props.setMessageFieldFocused(false);
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -173,13 +174,52 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }));
   };
 
-  renderMenu = () => {
-    const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
-      Object.values(MenuItemKeys).includes(k),
+  handleMessageFieldFocused = () => {
+    this.props.setMessageFieldFocused(true);
+  };
+
+  handleMessageFieldLostFocus = () => {
+    this.props.setMessageFieldFocused(false);
+  };
+
+  toggleMuteSounds = () => {
+    localStorage.setItem(
+      `quiq_mute_sounds_${quiqOptions.contactPoint}`,
+      !this.props.muteSounds ? 'true' : 'false',
     );
-    if (!keys.length) return null;
-    const options = [
-      {
+
+    this.props.setMuteSounds(!this.props.muteSounds);
+  };
+
+  renderMenu = () => {
+    const options = [];
+
+    if (this.props.configuration.playSoundOnNewMessage) {
+      options.push({
+        onClick: this.toggleMuteSounds,
+        label: this.props.muteSounds
+          ? getMessage(messageTypes.unmuteSounds)
+          : getMessage(messageTypes.muteSounds),
+        title: this.props.muteSounds
+          ? getMessage(messageTypes.unmuteSoundsTooltip)
+          : getMessage(messageTypes.muteSoundsTooltip),
+        id: MenuItemKeys.MUTE_SOUNDS,
+        icon: {
+          name: this.props.muteSounds ? 'volume-up' : 'volume-off',
+          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+            color: colors.menuText,
+          }),
+        },
+        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+          color: colors.menuText,
+          fontFamily,
+        }),
+        disabled: false,
+      });
+    }
+
+    if (this.props.configuration.enableChatEmailTranscript) {
+      options.push({
         onClick: this.toggleEmailInput,
         label: getMessage(messageTypes.emailTranscriptMenuMessage),
         title: getMessage(messageTypes.emailTranscriptMenuTooltip),
@@ -195,37 +235,38 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
-      },
-    ];
+      });
+    }
 
     return (
-      <MenuButton
-        buttonStyles={getStyle(
-          {
-            borderRight: '2px solid rgb(244, 244, 248)',
-          },
-          styles.OptionsMenuButton,
-        )}
-        iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
-          color: '#848484',
-          fontSize: '19px',
-          marginTop: '1px',
-        })}
-        title={getMessage(messageTypes.optionsMenuTooltip)}
-        disabled={!this.state.agentsAvailable}
-        menuPosition="top-right"
-        offset={{
-          horizontal: '-115px',
-          vertical: '40px',
-        }}
-      >
-        <Menu
-          items={options.filter(o => keys.includes(o.id))}
-          containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
-            fontFamily,
+      options.length > 0 && (
+        <MenuButton
+          buttonStyles={getStyle(
+            {
+              borderRight: '2px solid rgb(244, 244, 248)',
+            },
+            styles.OptionsMenuButton,
+          )}
+          iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
+            color: '#848484',
+            fontSize: '19px',
+            marginTop: '1px',
           })}
-        />
-      </MenuButton>
+          title={getMessage(messageTypes.optionsMenuTooltip)}
+          menuPosition="top-right"
+          offset={{
+            horizontal: '-115px',
+            vertical: '40px',
+          }}
+        >
+          <Menu
+            items={options}
+            containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
+              fontFamily,
+            })}
+          />
+        </MenuButton>
+      )
     );
   };
 
@@ -257,7 +298,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             {this.props.agentTyping && (
               <div className="pokeBody">
                 <span style={{fontFamily}}>{getMessage(messageTypes.agentTypingMessage)}</span>
-                <TypingIndicator yScale={0.5} xScale={0.75} />
               </div>
             )}
           </div>
@@ -270,9 +310,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   <span style={{fontFamily}}>
                     {getMessage(messageTypes.agentEndedConversationMessage)}
                   </span>
-                  <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
-                    {getMessage(messageTypes.emailTranscriptInlineButton)}
-                  </button>
+                  {this.props.configuration.enableChatEmailTranscript && (
+                    <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
+                      {getMessage(messageTypes.emailTranscriptInlineButton)}
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -297,27 +339,31 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               maxLength={1024}
               onChange={this.handleTextChanged}
               onReturn={this.handleReturnKey}
+              onBlur={this.handleMessageFieldLostFocus}
+              onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
-            <button
-              className="messageFormBtn attachmentBtn"
-              style={contentButtonStyle}
-              disabled={contentButtonsDisabled}
-              onClick={this.props.openFileBrowser}
-            >
-              <i
-                className="fa fa-paperclip"
+            {this.props.configuration.enableChatFileAttachments && (
+              <button
+                className="messageFormBtn attachmentBtn"
+                style={contentButtonStyle}
+                disabled={contentButtonsDisabled}
+                onClick={this.props.openFileBrowser}
                 title={getMessage(messageTypes.attachmentBtnTooltip)}
-              />
-            </button>
-            {EmojiUtils.emojisEnabledByCustomer() && (
+              >
+                <i className="fa fa-paperclip" />
+              </button>
+            )}
+            {this.props.configuration.enableEmojis &&
+            EmojiUtils.emojisEnabledByCustomer() && (
               <button
                 className="messageFormBtn emojiBtn"
                 style={contentButtonStyle}
                 disabled={emopjiPickerDisabled}
                 onClick={this.toggleEmojiPicker}
+                title={getMessage(messageTypes.emojiPickerTooltip)}
               >
-                <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
+                <i className="fa fa-smile-o" />
               </button>
             )}
             {sendDisabled ? (
@@ -332,7 +378,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 {getMessage(messageTypes.sendButtonLabel)}
               </button>
             )}
-            {EmojiUtils.emojisEnabledByCustomer() && (
+            {this.props.configuration.enableEmojis &&
+            EmojiUtils.emojisEnabledByCustomer() && (
               <EmojiPicker
                 visible={this.state.emojiPickerVisible}
                 addEmoji={this.handleEmojiSelection}
@@ -348,12 +395,19 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 }
 
+const mapDispatchToProps = {
+  setMuteSounds,
+  setMessageFieldFocused,
+};
+
 export default connect(
   (state: ChatState) => ({
     transcript: getTranscript(state),
     agentTyping: state.agentTyping,
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,
+    muteSounds: state.muteSounds,
+    configuration: state.configuration,
   }),
-  dispatch => ({dispatch}),
+  mapDispatchToProps,
 )(MessageForm);

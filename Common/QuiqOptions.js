@@ -9,8 +9,7 @@ import {
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
 } from 'Common/Utils';
-import {getDisplayString} from 'Common/i18n';
-import {MenuItemKeys} from 'Common/Constants';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -52,6 +51,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {
         primary: primaryColor,
         menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
@@ -73,14 +73,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     welcomeForm: rawQuiqObject.welcomeForm
       ? processWelcomeForm(rawQuiqObject.welcomeForm)
       : undefined,
-    flashNotificationOnNewMessage:
-      rawQuiqObject.flashNotificationOnNewMessage === undefined
-        ? true
-        : rawQuiqObject.flashNotificationOnNewMessage,
-    playNotificationSoundOnNewMessage:
-      rawQuiqObject.playNotificationSoundOnNewMessage === undefined
-        ? false
-        : rawQuiqObject.playNotificationSoundOnNewMessage,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
     height: rawQuiqObject.height || 600,
@@ -89,9 +81,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
-    menuOptions: rawQuiqObject.menuOptions || {
-      [MenuItemKeys.EMAIL_TRANSCRIPT]: true,
-    },
     messages: Object.assign(
       {},
       {
@@ -124,7 +113,13 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
         emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
         messageArrivedNotification: messages.messageArrivedNotification,
+        transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
         invalidAttachmentMessage: messages.invalidAttachmentMessage,
+        attachmentUploadError: messages.attachmentUploadError,
+        muteSounds: messages.muteSounds,
+        unmuteSounds: messages.unmuteSounds,
+        muteSoundsTooltip: messages.muteSoundsTooltip,
+        unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
       },
       rawQuiqObject.messages,
     ),

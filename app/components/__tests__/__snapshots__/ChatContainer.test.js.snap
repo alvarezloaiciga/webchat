@@ -135,6 +135,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
   <Debugger />
   <Dropzone
     accept="image/*"
+    className="chatContainerBody"
     disableClick={true}
     disablePreview={true}
     disabled={false}
@@ -143,21 +144,11 @@ exports[`ChatContainer component initializedState when initialized renders prope
     multiple={true}
     onDrop={[Function]}
     preventDropOnDocument={true}
-    style={
-      Object {
-        "display": "flex",
-        "flex": 1,
-      }
-    }
   >
-    <div
-      className="chatContainerBody"
-    >
-      <Connect(Transcript) />
-      <Connect(MessageForm)
-        openFileBrowser={[Function]}
-      />
-    </div>
+    <Connect(Transcript) />
+    <Connect(MessageForm)
+      openFileBrowser={[Function]}
+    />
   </Dropzone>
 </div>
 `;

@@ -9,6 +9,11 @@
     margin-right: 16px;
     margin-left: 50px;
   }
+
+  .customerAvatar,
+  .agentAvatar {
+    align-self: flex-start;
+  }
 }
 
 .fromCustomer {

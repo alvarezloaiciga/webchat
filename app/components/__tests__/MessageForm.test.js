@@ -29,6 +29,17 @@ describe('MessageForm component', () => {
         agentEndedConversation: false,
         transcript: [getMockMessage(), getMockMessage(1)],
         openFileBrowser: jest.fn(),
+        muteSounds: false,
+        setMuteSounds: jest.fn(),
+        messageFieldFocused: false,
+        setMessageFieldFocused: jest.fn(),
+        configuration: {
+          enableChatEmailTranscript: true,
+          enableChatFileAttachments: true,
+          enableEmojis: true,
+          playSoundOnNewMessage: true,
+          flashNotificationOnNewMessage: true,
+        },
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

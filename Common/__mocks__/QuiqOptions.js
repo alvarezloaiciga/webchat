@@ -1,7 +1,7 @@
 // @flow
 
 import messages from 'Common/messages';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
@@ -9,14 +9,13 @@ const quiqOptions: QuiqObject = {
   contactPoint: 'Bob',
   localStorageKeys: {},
   enforceAgentAvailability: true,
-  flashNotificationOnNewMessage: true,
-  playNotificationSoundOnNewMessage: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
   colors: {
     primary: '#333',
     menuText: '#2199e8',
+    eventText: '#ddd',
     agentMessageText: '#fff',
     agentMessageLinkText: '#fff',
     agentMessageBackground: '#0085f4',
@@ -139,6 +138,15 @@ const quiqOptions: QuiqObject = {
     InlineEmailTranscriptButton: {
       backgroundColor: 'grey',
     },
+    EventContainer: {
+      backgroundColor: 'green',
+    },
+    EventText: {
+      color: 'red',
+    },
+    EventLine: {
+      stroke: 'red',
+    },
   },
   position: {},
   headerText: 'TOOL TIME',
@@ -171,8 +179,14 @@ const quiqOptions: QuiqObject = {
     emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
     emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
     messageArrivedNotification: messages.messageArrivedNotification,
+    transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
     attachmentBtnTooltip: messages.attachmentBtnTooltip,
     invalidAttachmentMessage: messages.invalidAttachmentMessage,
+    attachmentUploadError: messages.attachmentUploadError,
+    muteSounds: messages.muteSounds,
+    unmuteSounds: messages.unmuteSounds,
+    muteSoundsTooltip: messages.muteSoundsTooltip,
+    unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
@@ -180,9 +194,6 @@ const quiqOptions: QuiqObject = {
   debug: false,
   autoPopTime: 2000,
   href: window.location.href,
-  menuOptions: {
-    emailTranscript: true,
-  },
   customLaunchButtons: [],
   mobileNumber: 123,
   welcomeForm: {

@@ -46,7 +46,7 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      <div style={{display: 'flex', ...margin}}>
+      <div style={{display: 'flex', alignItems: 'center', ...margin}}>
         {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
         {messageComponent}
         {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}

@@ -139,8 +139,15 @@ export default defineMessages({
   },
   emailTranscriptInlineButton: {
     id: 'emailTranscriptInlineButton',
-    description: 'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    description:
+      'Text to display on the Email Transcript button that shows inline when agent ends convo',
     defaultMessage: 'Email Transcript',
+  },
+  transcriptEmailedEventMessage: {
+    id: 'transcriptEmailedEventMessage',
+    description:
+      'Text to display on the inline Event displayed to the user when a transcript was successfully e-mailed to them',
+    defaultMessage: 'Transcript Emailed',
   },
   attachmentBtnTooltip: {
     id: 'attachmentBtnTooltip',
@@ -272,6 +279,32 @@ export default defineMessages({
   invalidAttachmentMessage: {
     id: 'invalidAttachmentMessage',
     description: 'Alert message for invalid attachment upload',
-    defaultMessage: 'We couldn\'t send your attachment. Only image files are supported, and must be smaller than 50 MB',
+    defaultMessage:
+      "We couldn't send your attachment. Only image files are supported, and must be smaller than 50 MB",
+  },
+  attachmentUploadError: {
+    id: 'attachmentUploadError',
+    description: 'Alert message for an attachment failing to upload',
+    defaultMessage: 'We had a problem uploading your file. Please try again.',
+  },
+  muteSounds: {
+    id: 'muteSounds',
+    description: 'label for muting sounds',
+    defaultMessage: 'Mute Sounds',
+  },
+  unmuteSounds: {
+    id: 'unmuteSounds',
+    description: 'label for unmuting sounds',
+    defaultMessage: 'Unmute Sounds',
+  },
+  muteSoundsTooltip: {
+    id: 'muteSoundsTooltip',
+    description: 'tooltip for muting sounds',
+    defaultMessage: 'Mute new message sounds',
+  },
+  unmuteSoundsTooltip: {
+    id: 'unmuteSoundsTooltip',
+    description: 'tooltip for unmuting sounds',
+    defaultMessage: 'Unmute new message sounds',
   },
 });

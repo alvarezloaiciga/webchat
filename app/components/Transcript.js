@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import Message from 'Message/Message';
+import PlatformEvent from './PlatformEvent';
 import quiqOptions from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
-import {getTranscript} from 'reducers/chat';
-import type {Message as MessageType, ChatState} from 'Common/types';
+import {getTranscript, getPlatformEvents} from 'reducers/chat';
+import type {Message as MessageType, ChatState, Event} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
   transcript: Array<MessageType>,
+  platformEvents: Array<Event>,
 };
 
 export class Transcript extends Component {
@@ -45,7 +47,9 @@ export class Transcript extends Component {
 
   render() {
     const {colors} = quiqOptions;
-    const messages = this.props.transcript.sort((a, b) => a.timestamp - b.timestamp);
+    const messagesAndEvents = [...this.props.transcript, ...this.props.platformEvents].sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
 
     return (
       <div
@@ -56,13 +60,19 @@ export class Transcript extends Component {
         style={{backgroundColor: colors.transcriptBackground}}
       >
         {[
-          ...messages.map(msg => (
-            <Message
-              key={msg.localKey || msg.id}
-              message={msg}
-              scrollToBottom={this.scrollToBottom}
-            />
-          )),
+          ...messagesAndEvents.map(a => {
+            if (a.type === 'Attachment' || a.type === 'Text') {
+              return (
+                <Message
+                  key={a.localKey || a.id}
+                  message={a}
+                  scrollToBottom={this.scrollToBottom}
+                />
+              );
+            }
+
+            return <PlatformEvent event={a} key={a.id} />;
+          }),
           <Message
             key="agentTyping"
             message={{authorType: 'Agent', type: 'AgentTyping'}}
@@ -76,4 +86,5 @@ export class Transcript extends Component {
 
 export default connect((state: ChatState) => ({
   transcript: getTranscript(state),
+  platformEvents: getPlatformEvents(state),
 }))(Transcript);

@@ -38,7 +38,9 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       disabled={false}
       maxLength={1024}
       name="message"
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       onReturn={[Function]}
       placeholder="Send us a message..."
       style={
@@ -58,10 +60,10 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
           "fontSize": "16px",
         }
       }
+      title="Send file"
     >
       <i
         className="fa fa-paperclip"
-        title="Send file"
       />
     </button>
     <button
@@ -74,10 +76,10 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
           "fontSize": "16px",
         }
       }
+      title="Emoji picker"
     >
       <i
         className="fa fa-smile-o"
-        title="Emoji picker"
       />
     </button>
     <MenuButton
@@ -89,7 +91,6 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       }
       className=""
       closeOnChildClick={true}
-      disabled={false}
       icon="bars"
       iconStyles={
         Object {
@@ -121,20 +122,20 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
             Object {
               "disabled": false,
               "icon": Object {
-                "name": "envelope-o",
+                "name": "volume-off",
                 "style": Object {
                   "color": "#2199e8",
                   "fontSize": 20,
                 },
               },
-              "id": "emailTranscript",
-              "label": "Email Transcript",
+              "id": "muteSounds",
+              "label": "Mute Sounds",
               "onClick": [Function],
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Comic Sans",
               },
-              "title": "Email a full transcript of the current chat",
+              "title": "Mute new message sounds",
             },
           ]
         }
@@ -172,7 +173,9 @@ exports[`MessageForm component rendering renders 1`] = `
       disabled={false}
       maxLength={1024}
       name="message"
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       onReturn={[Function]}
       placeholder="Send us a message..."
       style={
@@ -192,10 +195,10 @@ exports[`MessageForm component rendering renders 1`] = `
           "fontSize": "16px",
         }
       }
+      title="Send file"
     >
       <i
         className="fa fa-paperclip"
-        title="Send file"
       />
     </button>
     <button
@@ -208,10 +211,10 @@ exports[`MessageForm component rendering renders 1`] = `
           "fontSize": "16px",
         }
       }
+      title="Emoji picker"
     >
       <i
         className="fa fa-smile-o"
-        title="Emoji picker"
       />
     </button>
     <MenuButton
@@ -223,7 +226,6 @@ exports[`MessageForm component rendering renders 1`] = `
       }
       className=""
       closeOnChildClick={true}
-      disabled={false}
       icon="bars"
       iconStyles={
         Object {
@@ -255,20 +257,20 @@ exports[`MessageForm component rendering renders 1`] = `
             Object {
               "disabled": false,
               "icon": Object {
-                "name": "envelope-o",
+                "name": "volume-off",
                 "style": Object {
                   "color": "#2199e8",
                   "fontSize": 20,
                 },
               },
-              "id": "emailTranscript",
-              "label": "Email Transcript",
+              "id": "muteSounds",
+              "label": "Mute Sounds",
               "onClick": [Function],
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Comic Sans",
               },
-              "title": "Email a full transcript of the current chat",
+              "title": "Mute new message sounds",
             },
           ]
         }
