@@ -40,8 +40,6 @@
       - [CustomerMessageText](#customermessagetext)
       - [CustomerAttachmentBubble](#customerattachmentbubble)
       - [CustomerAttachmentText](#customerattachmenttext)
-      - [DividerLine](#dividerline)
-      - [DividerText](#dividertext)
       - [EmailTranscriptInput](#emailtranscriptinput)
       - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
       - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
@@ -50,6 +48,9 @@
       - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
       - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
       - [ErrorBanner](#errorbanner)
+      - [EventContainer](#eventcontainer)
+      - [EventLine](#eventline)
+      - [EventText](#eventtext)
       - [HeaderBanner](#headerbanner)
       - [HeaderMenu](#headermenu)
       - [HeaderMenuIcons](#headermenuicons)
@@ -60,7 +61,6 @@
       - [NonChat](#nonchat)
       - [OptionsMenuButton](#optionsmenubutton)
       - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
-      - [PlatformEventContainer](#platformeventcontainer)
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
@@ -453,12 +453,6 @@ The message bubble that file attachments are displayed in. Does not affect image
 ##### CustomerAttachmentText
 The text and icon that is displayed inside an attachment message bubble.
 
-##### DividerLine
-SVG portion of Divider elements. Used by Event messages
-
-##### DividerText
-Text portion of Divider elements. Used by Event messages
-
 ##### EmailTranscriptInput
 Input where user inputs an email to receive a transcript of the conversation
 
@@ -482,6 +476,15 @@ Icon for individual `EmailTranscriptMenuLineItems`
 
 ##### ErrorBanner
 The banner that is shown when there is a connection error
+
+##### EventContainer
+Container for Event messages
+
+##### EventLine
+SVG portion of Event elements
+
+##### EventText
+Text portion of Event elements
 
 ##### HeaderBanner
 The banner that is shown above the chat transcript
@@ -512,9 +515,6 @@ Button container for the Options menu at the bottom left of the web chat
 
 ##### OptionsMenuButtonIcon
 Icon for the `OptionsMenuButton`
-
-##### PlatformEventContainer
-Container for Event messages
 
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat

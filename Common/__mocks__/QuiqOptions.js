@@ -140,13 +140,13 @@ const quiqOptions: QuiqObject = {
     InlineEmailTranscriptButton: {
       backgroundColor: 'grey',
     },
-    PlatformEventContainer: {
+    EventContainer: {
       backgroundColor: 'green',
     },
-    DividerText: {
+    EventText: {
       color: 'red',
     },
-    DividerLine: {
+    EventLine: {
       stroke: 'red',
     },
   },
@@ -197,7 +197,7 @@ const quiqOptions: QuiqObject = {
   href: window.location.href,
   menuOptions: {
     emailTranscript: true,
-    muteSounds: true
+    muteSounds: true,
   },
   customLaunchButtons: [],
   mobileNumber: 123,

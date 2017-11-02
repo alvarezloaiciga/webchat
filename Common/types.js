@@ -58,9 +58,9 @@ type CustomStyles = {
   EmailTranscriptInput?: Object,
   EmailTranscriptInputCancelButton?: Object,
   EmailTranscriptInputSubmitButton?: Object,
-  PlatformEventContainer?: Object,
-  DividerText?: Object,
-  DividerLine?: Object,
+  EventContainer?: Object,
+  EventText?: Object,
+  EventLine?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };

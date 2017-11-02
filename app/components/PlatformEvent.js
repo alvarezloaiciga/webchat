@@ -35,17 +35,14 @@ const PlatformEvent = (props: PlatformEventProps) => {
   )}`;
 
   return (
-    <PlatformEventContainer
-      className="PlatformEvent"
-      style={getStyle(styles.PlatformEventContainer)}
-    >
+    <PlatformEventContainer className="PlatformEvent" style={getStyle(styles.EventContainer)}>
       <Divider
-        textStyle={getStyle(styles.DividerText, {
+        textStyle={getStyle(styles.EventText, {
           fontFamily,
           background: colors.transcriptBackground,
           color: colors.eventText,
         })}
-        lineStyle={getStyle(styles.DividerLine, {
+        lineStyle={getStyle(styles.EventLine, {
           stroke: colors.eventText,
         })}
         text={message}
