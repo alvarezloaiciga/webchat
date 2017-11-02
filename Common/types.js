@@ -153,6 +153,7 @@ export type QuiqObject = {
     transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
+    attachmentUploadError: string,
     muteSounds: string,
     unmuteSounds: string,
     muteSoundsTooltip: string,

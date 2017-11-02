@@ -68,6 +68,11 @@ export const updateTranscript = (transcript: Array<Message>) => ({
   transcript,
 });
 
+export const removeMessage = (id: string) => ({
+  type: actionTypes.removeMessage,
+  id,
+});
+
 export const setWelcomeFormRegistered = () => ({
   type: 'WELCOME_FORM_REGISTERED',
 });

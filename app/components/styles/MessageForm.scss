@@ -25,6 +25,10 @@
       cursor: pointer;
       color: #59ad5d;
 
+      &:focus {
+        outline: 0;
+      }
+
       &:disabled {
         opacity: 0.5;
         cursor: default;

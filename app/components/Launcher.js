@@ -134,6 +134,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
         }
       }
     });
+    QuiqChatClient.onMessageSendFailure(() => {
+      const messages = QuiqChatClient.getMessages();
+      this.props.updateTranscript(messages);
+    });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
     QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);

@@ -351,10 +351,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 style={contentButtonStyle}
                 disabled={contentButtonsDisabled}
                 onClick={this.props.openFileBrowser}
+                title={getMessage(messageTypes.attachmentBtnTooltip)}
               >
                 <i
                   className="fa fa-paperclip"
-                  title={getMessage(messageTypes.attachmentBtnTooltip)}
                 />
               </button>
             )}
@@ -365,8 +365,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 style={contentButtonStyle}
                 disabled={emopjiPickerDisabled}
                 onClick={this.toggleEmojiPicker}
+                title={getMessage(messageTypes.emojiPickerTooltip)}
               >
-                <i className="fa fa-smile-o" title={getMessage(messageTypes.emojiPickerTooltip)} />
+                <i className="fa fa-smile-o" />
               </button>
             )}
             {sendDisabled ? (

@@ -182,6 +182,7 @@ const quiqOptions: QuiqObject = {
     transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
     attachmentBtnTooltip: messages.attachmentBtnTooltip,
     invalidAttachmentMessage: messages.invalidAttachmentMessage,
+    attachmentUploadError: messages.attachmentUploadError,
     muteSounds: messages.muteSounds,
     unmuteSounds: messages.unmuteSounds,
     muteSoundsTooltip: messages.muteSoundsTooltip,

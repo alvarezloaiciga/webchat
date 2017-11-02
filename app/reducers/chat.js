@@ -24,6 +24,7 @@ type ChatAction = {
   event?: Event,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
+  id?: string,
 };
 
 export const initialState = {
@@ -109,6 +110,12 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       const mergedTranscript = Object.assign({}, state.transcript, newTranscript);
       return Object.assign({}, state, {transcript: mergedTranscript});
     }
+    case 'REMOVE_MESSAGE':
+      return update(state, {
+        transcript: {
+          $unset: [action.id],
+        },
+      });
     case 'ADD_PENDING_MESSAGE':
       return update(state, {transcript: {[action.message.id]: {$set: action.message}}});
     case 'UPDATE_PENDING_MESSAGE_ID': {

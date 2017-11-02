@@ -54,6 +54,7 @@ export const actionTypes = {
   updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
   configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
   getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
+  removeMessage: 'REMOVE_MESSAGE',
 };
 
 export const MessageTypes = {
@@ -111,6 +112,7 @@ export const messageTypes = {
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
   invalidAttachmentMessage: 'invalidAttachmentMessage',
+  attachmentUploadError: 'attachmentUploadError',
   muteSounds: 'muteSounds',
   unmuteSounds: 'unmuteSounds',
   muteSoundsTooltip: 'muteSoundsTooltip',

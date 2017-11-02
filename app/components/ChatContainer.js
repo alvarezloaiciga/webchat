@@ -34,6 +34,7 @@ export type ChatContainerProps = {
     url: string,
     fromCustomer: boolean,
   ) => void,
+  removeMessage: (id: string) => void,
 };
 
 export type ChatContainerState = {
@@ -44,18 +45,32 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   props: ChatContainerProps;
   state: ChatContainerState = {};
   dropzone: ?Dropzone;
+  bannerMessageTimeout: ?number;
 
   componentDidMount() {
     if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
   }
 
+  displayTemporaryError = (text: string, duration: number) => {
+    // Clear any pending timeout
+    if (this.bannerMessageTimeout) {
+      clearTimeout(this.bannerMessageTimeout);
+    }
+
+    this.setState({
+      bannerMessage: text,
+    });
+
+    // Hide the error in <duration> milliseconds
+    this.bannerMessageTimeout = setTimeout(
+      () => this.setState({bannerMessage: undefined}),
+      duration,
+    );
+  };
+
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
     if (rejected.length > 0) {
-      this.setState({
-        bannerMessage: getMessage(messageTypes.invalidAttachmentMessage),
-      });
-      // Hide the error in 10 seconds
-      setTimeout(() => this.setState({bannerMessage: undefined}), 10 * 1000);
+      this.displayTemporaryError(getMessage(messageTypes.invalidAttachmentMessage), 10 * 1000);
       return;
     }
 
@@ -68,9 +83,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       this.props.addPendingAttachmentMessage(tempId, file.type, dataUrl, true);
       QuiqChatClient.sendAttachmentMessage(file, (progress: number) =>
         this.props.setUploadProgress(tempId, progress),
-      ).then(id => {
-        this.props.updatePendingAttachmentId(tempId, id);
-      });
+      )
+        .then(id => {
+          this.props.updatePendingAttachmentId(tempId, id);
+        })
+        .catch(() => {
+          this.displayTemporaryError(getMessage(messageTypes.attachmentUploadError), 10 * 1000);
+          this.props.removeMessage(tempId);
+        });
     });
   };
 
@@ -211,6 +231,7 @@ const mapDispatchToProps = {
   setUploadProgress: ChatActions.setUploadProgress,
   updatePendingAttachmentId: ChatActions.updatePendingAttachmentId,
   addPendingAttachmentMessage: ChatActions.addPendingAttachmentMessage,
+  removeMessage: ChatActions.removeMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer);

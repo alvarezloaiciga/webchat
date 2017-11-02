@@ -115,6 +115,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         messageArrivedNotification: messages.messageArrivedNotification,
         transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
         invalidAttachmentMessage: messages.invalidAttachmentMessage,
+        attachmentUploadError: messages.attachmentUploadError,
         muteSounds: messages.muteSounds,
         unmuteSounds: messages.unmuteSounds,
         muteSoundsTooltip: messages.muteSoundsTooltip,

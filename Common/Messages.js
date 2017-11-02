@@ -282,6 +282,11 @@ export default defineMessages({
     defaultMessage:
       "We couldn't send your attachment. Only image files are supported, and must be smaller than 50 MB",
   },
+  attachmentUploadError: {
+    id: 'attachmentUploadError',
+    description: 'Alert message for an attachment failing to upload',
+    defaultMessage: 'We had a problem uploading your file. Please try again.',
+  },
   muteSounds: {
     id: 'muteSounds',
     description: 'label for muting sounds',
