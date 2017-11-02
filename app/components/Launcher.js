@@ -12,7 +12,14 @@ import {ChatInitializedState, eventTypes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
-import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
+import type {
+  IntlObject,
+  ChatState,
+  Message,
+  ChatInitializedStateType,
+  ChatMetadata,
+  ChatConfiguration,
+} from 'types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 
@@ -28,6 +35,7 @@ export type LauncherProps = {
   transcript: Array<Message>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
+  configuration: ChatConfiguration,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
@@ -39,6 +47,7 @@ export type LauncherProps = {
   updateTranscript: (transcript: Array<Message>) => void,
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
+  setChatConfiguration: (configuration: ChatMetadata) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -115,10 +124,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
         tellClient(eventTypes.messageArrived, {transcript});
-
         if (
           !this.props.muteSounds &&
           !this.props.messageFieldFocused &&
+          this.props.configuration.playSoundOnNewMessage &&
           isLastMessageFromAgent(transcript)
         ) {
           playSound();
@@ -145,6 +154,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   init = async () => {
+    const configuration = await QuiqChatClient.getChatConfiguration();
+    this.props.setChatConfiguration(configuration);
+
     if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);
     }
@@ -291,6 +303,7 @@ export default compose(
       welcomeFormRegistered: state.welcomeFormRegistered,
       muteSounds: state.muteSounds,
       messageFieldFocused: state.messageFieldFocused,
+      configuration: state.configuration,
     }),
     chatActions,
   ),

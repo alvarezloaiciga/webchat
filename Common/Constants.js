@@ -52,6 +52,8 @@ export const actionTypes = {
   addPendingMessage: 'ADD_PENDING_MESSAGE',
   updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
   updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
+  configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
+  getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
 };
 
 export const MessageTypes = {

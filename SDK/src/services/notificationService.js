@@ -1,7 +1,7 @@
 // @flow
 
 import * as Postmaster from 'Postmaster';
-import {eventTypes} from 'Common/Constants';
+import {eventTypes, actionTypes} from 'Common/Constants';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
@@ -15,7 +15,8 @@ const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   // Only perform notifications if the chat window is docked. Otherwise, notifications
   // will be handled from within the undocked chat window.
   if (isIFrame(getChatWindow()) && isLastMessageFromAgent(e.transcript)) {
-    if (options.flashNotificationOnNewMessage) {
+    const {canFlash} = await Postmaster.askChat(actionTypes.getCanFlashNotifications);
+    if (canFlash) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
     }
   }

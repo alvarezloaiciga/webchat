@@ -71,6 +71,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
+  postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
@@ -137,6 +138,10 @@ const setChatVisibility = (event: Object) => {
 
 const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
+};
+
+const getCanFlashNotifications = () => {
+  return {canFlash: ChatSelectors.getConfiguration(store.getState()).flashNotificationOnNewMessage};
 };
 
 /**********************************************************************************

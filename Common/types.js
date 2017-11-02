@@ -2,6 +2,33 @@
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
+export type ChatConfiguration = {
+  enableChatEmailTranscript: boolean,
+  enableChatFileAttachments: boolean,
+  enableEmojis: boolean,
+  playSoundOnNewMessage: boolean,
+  flashNotificationOnNewMessage: boolean,
+};
+
+export type ChatMetadata = {
+  configs: {
+    [string] : {
+      enabled: boolean
+    }
+  },
+  registrationForm?: {
+    headerText: string,
+    fields: Array<{
+      type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
+      label: string,
+      id: string,
+      required?: boolean,
+      rows?: number,
+      isInitialMessage?: boolean,
+    }>,
+  },
+};
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
@@ -90,7 +117,6 @@ export type QuiqObject = {
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
-  flashNotificationOnNewMessage: boolean,
   fontFamily: string,
   height: number,
   host: string,
@@ -132,11 +158,7 @@ export type QuiqObject = {
     muteSoundsTooltip: string,
     unmuteSoundsTooltip: string,
   },
-  menuOptions: {
-    [string]: boolean,
-  },
   mobileNumber?: string | number,
-  playNotificationSoundOnNewMessage: boolean,
   position: {
     top?: number | string,
     bottom?: number | string,
@@ -345,8 +367,8 @@ export type BrowserEngine =
   | 'WebKit';
 
 export type ChatState = {
-  chatContainerHidden: boolean,
-  chatLauncherHidden: boolean,
+  enableChatContainerHidden: boolean,
+  enableChatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
   transcript: {[string]: Message},
@@ -356,6 +378,7 @@ export type ChatState = {
   platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
+  configuration: ChatConfiguration
 };
 
 export type Action = {

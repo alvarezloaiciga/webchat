@@ -62,6 +62,14 @@ describe('Launcher component', () => {
       setAgentEndedConversation: jest.fn(),
       updatePlatformEvents: jest.fn(),
       messageFieldFocused: false,
+      setChatConfiguration: jest.fn(),
+      configuration: {
+        enableChatEmailTranscript: false,
+        enableChatFileAttachments: false,
+        enableEmojis: false,
+        playSoundOnNewMessage: false,
+        flashNotificationOnNewMessage: false,
+      },
     };
 
     init = () => {
