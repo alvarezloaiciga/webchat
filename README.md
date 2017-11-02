@@ -294,7 +294,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - examples: `1234567891`, `"+15556667777"`
   - #### playNotificationSoundOnNewMessage
     - type: boolean
-    - description: If true, when the agent sends a new message and the end user's page is not visible, then a notification sound will be played. This sounds can be customized by the notificationSoundUrl option.
+    - description: If true, when the agent sends a new message and the end user's page is not visible, then a notification sound will be played.
     - default: true
   - #### position
     - type:

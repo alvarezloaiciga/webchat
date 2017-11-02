@@ -15,6 +15,7 @@ type ChatAction = {
   message?: Message,
   muteSounds?: boolean,
   event?: Event,
+  messageFieldFocused?: boolean,
 };
 
 export const initialState = {
@@ -28,6 +29,7 @@ export const initialState = {
   welcomeFormRegistered: !quiqOptions.welcomeForm,
   muteSounds: false,
   platformEvents: [],
+  messageFieldFocused: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -104,6 +106,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     }
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
+    case 'MUTE_SOUNDS':
+      return Object.assign({}, state, {muteSounds: action.muteSounds});
+    case 'MESSAGE_FIELD_FOCUSED':
+      return Object.assign({}, state, {messageFieldFocused: action.messageFieldFocused});
     case 'AGENT_ENDED_CONVERSATION':
       return Object.assign({}, state, {agentEndedConversation: action.ended});
     case 'WELCOME_FORM_REGISTERED':
@@ -145,6 +151,10 @@ export const getAgentsAvailable = (state: ChatState): ?boolean => {
 
 export const getChatLauncherHidden = (state: ChatState): boolean => {
   return state.chatLauncherHidden;
+};
+
+export const getMuteSounds = (state: ChatState): boolean => {
+  return state.muteSounds;
 };
 
 // $FlowIssue - Flow can't deal with Object.values() very well

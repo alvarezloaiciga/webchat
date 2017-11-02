@@ -1,5 +1,4 @@
 // @flow
-import {MenuItemKeys} from 'Common/Constants';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
@@ -128,9 +127,13 @@ export type QuiqObject = {
     transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
+    muteSounds: string,
+    unmuteSounds: string,
+    muteSoundsTooltip: string,
+    unmuteSoundsTooltip: string,
   },
   menuOptions: {
-    [MenuItemKeys.EMAIL_TRANSCRIPT]: boolean,
+    [string]: boolean,
   },
   mobileNumber?: string | number,
   playNotificationSoundOnNewMessage: boolean,
@@ -351,6 +354,8 @@ export type ChatState = {
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
   platformEvents: Array<Event>,
+  muteSounds: boolean,
+  messageFieldFocused: boolean,
 };
 
 export type Action = {
