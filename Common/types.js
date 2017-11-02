@@ -2,6 +2,33 @@
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
+export type ChatConfiguration = {
+  chatEmailTranscript: boolean,
+  chatFileAttachments: boolean,
+  enableEmojis: boolean,
+  playSoundOnNewMessage: boolean,
+  flashNotificationOnNewMessage: boolean,
+};
+
+export type ChatMetadata = {
+  configs: {
+    [string] : {
+      enabled: boolean
+    }
+  },
+  registrationForm?: {
+    headerText: string,
+    fields: Array<{
+      type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
+      label: string,
+      id: string,
+      required?: boolean,
+      rows?: number,
+      isInitialMessage?: boolean,
+    }>,
+  },
+};
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
@@ -356,6 +383,7 @@ export type ChatState = {
   platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
+  configuration: ChatConfiguration
 };
 
 export type Action = {

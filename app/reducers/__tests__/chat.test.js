@@ -102,6 +102,13 @@ describe('chat reducers', () => {
         platformEvents: [],
         muteSounds: false,
         messageFieldFocused: false,
+        configuration: {
+          chatEmailTranscript: false,
+          chatFileAttachments: false,
+          enableEmojis: false,
+          playSoundOnNewMessage: false,
+          flashNotificationOnNewMessage: false,
+        },
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

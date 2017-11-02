@@ -3,7 +3,14 @@ import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import quiqOptions from 'Common/QuiqOptions';
 import update from 'immutability-helper';
-import type {ChatState, Action, ChatInitializedStateType, Message, Event} from 'Common/types';
+import type {
+  ChatState,
+  Action,
+  ChatInitializedStateType,
+  Message,
+  Event,
+  ChatConfiguration,
+} from 'Common/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
@@ -16,6 +23,7 @@ type ChatAction = {
   muteSounds?: boolean,
   event?: Event,
   messageFieldFocused?: boolean,
+  configuration?: ChatConfiguration,
 };
 
 export const initialState = {
@@ -30,6 +38,13 @@ export const initialState = {
   muteSounds: false,
   platformEvents: [],
   messageFieldFocused: false,
+  configuration: {
+    chatEmailTranscript: false,
+    chatFileAttachments: false,
+    enableEmojis: false,
+    playSoundOnNewMessage: false,
+    flashNotificationOnNewMessage: false,
+  },
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -41,6 +56,11 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     case 'CHAT_LAUNCHER_HIDDEN':
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
+      });
+    case 'CHAT_CONFIGURATION_LOADED':
+      console.log('configuration: %O', action.configuration);
+      return Object.assign({}, state, {
+        configuration: action.configuration,
       });
     case 'AGENTS_AVAILABLE':
       return Object.assign({}, state, {

@@ -1,5 +1,5 @@
 import {actionTypes} from 'Common/Constants';
-import type {ChatInitializedStateType, Message} from 'types';
+import type {ChatInitializedStateType, Message, ChatMetadata} from 'types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   type: 'CHAT_CONTAINER_HIDDEN',
@@ -39,6 +39,30 @@ export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
 export const setAgentEndedConversation = (ended: boolean) => ({
   type: 'AGENT_ENDED_CONVERSATION',
   ended,
+});
+
+export type ConfigType =
+  | 'CHAT_EMAIL_TRANSCRIPT'
+  | 'CHAT_FILE_ATTACHMENTS'
+  | 'ENABLE_EMOJIS'
+  | 'PLAY_SOUND_ON_NEW_MESSAGE'
+  | 'FLASH_NOTIFICATION_ON_NEW_MESSAGE';
+
+export const setChatConfiguration = (metadata: ChatMetadata) => ({
+  type: 'CHAT_CONFIGURATION_LOADED',
+  configuration: {
+    chatEmailTranscript:
+      metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
+    chatFileAttachments:
+      metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
+    enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
+    playSoundOnNewMessage:
+      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&
+      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE.enabled,
+    flashNotificationOnNewMessage:
+      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
+      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
+  },
 });
 
 export const updatePlatformEvents = (event: Event) => ({
