@@ -49,8 +49,8 @@ describe('Launcher component', () => {
       chatLauncherHidden: false,
       initializedState: 'initialized',
       welcomeFormRegistered: true,
+      muteSounds: false,
       transcript: [],
-
       setChatContainerHidden: jest.fn(),
       setChatLauncherHidden: jest.fn(),
       setChatInitialized: jest.fn(),
@@ -60,6 +60,7 @@ describe('Launcher component', () => {
       newWebchatSession: jest.fn(),
       setAgentsAvailable: jest.fn(),
       setAgentEndedConversation: jest.fn(),
+      messageFieldFocused: false,
     };
 
     init = () => {

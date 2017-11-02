@@ -8,6 +8,8 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "initializedState": "uninitialized",
+  "messageFieldFocused": false,
+  "muteSounds": false,
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }
@@ -21,6 +23,8 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "initializedState": "uninitialized",
+  "messageFieldFocused": false,
+  "muteSounds": false,
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }
@@ -34,6 +38,8 @@ Object {
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
   "initializedState": "loading",
+  "messageFieldFocused": false,
+  "muteSounds": false,
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }

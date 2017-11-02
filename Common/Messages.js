@@ -274,4 +274,24 @@ export default defineMessages({
     description: 'Alert message for invalid attachment upload',
     defaultMessage: 'We couldn\'t send your attachment. Only image files are supported, and must be smaller than 50 MB',
   },
+  muteSounds: {
+    id: 'muteSounds',
+    description: 'label for muting sounds',
+    defaultMessage: 'Mute Sounds',
+  },
+  unmuteSounds: {
+    id: 'unmuteSounds',
+    description: 'label for unmuting sounds',
+    defaultMessage: 'Unmute Sounds',
+  },
+  muteSoundsTooltip: {
+    id: 'muteSoundsTooltip',
+    description: 'tooltip for muting sounds',
+    defaultMessage: 'Mute new message sounds',
+  },
+  unmuteSoundsTooltip: {
+    id: 'unmuteSoundsTooltip',
+    description: 'tooltip for unmuting sounds',
+    defaultMessage: 'Unmute new message sounds',
+  },
 });

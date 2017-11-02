@@ -4,6 +4,7 @@ import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
+import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -30,8 +31,11 @@ export type MessageFormProps = {
   agentTyping: boolean,
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
+  muteSounds: boolean,
   transcript: Array<Message>,
   openFileBrowser: () => void,
+  setMuteSounds: (muteSounds: boolean) => void,
+  setMessageFieldFocused: (messageFieldFocused: boolean) => void,
 };
 
 type MessageFormState = {
@@ -80,6 +84,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     ) {
       this.checkAvailability();
     }
+
+    this.props.setMuteSounds(
+      localStorage.getItem(`quiq_mute_sounds_${quiqOptions.contactPoint}`) === 'true',
+    );
+    this.props.setMessageFieldFocused(false);
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -173,12 +182,50 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }));
   };
 
+  handleMessageFieldFocused = () => {
+    this.props.setMessageFieldFocused(true);
+  };
+
+  handleMessageFieldLostFocus = () => {
+    this.props.setMessageFieldFocused(false);
+  };
+
+  toggleMuteSounds = () => {
+    localStorage.setItem(
+      `quiq_mute_sounds_${quiqOptions.contactPoint}`,
+      !this.props.muteSounds ? 'true' : 'false',
+    );
+
+    this.props.setMuteSounds(!this.props.muteSounds);
+  };
+
   renderMenu = () => {
     const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
       Object.values(MenuItemKeys).includes(k),
     );
     if (!keys.length) return null;
     const options = [
+      {
+        onClick: this.toggleMuteSounds,
+        label: this.props.muteSounds
+          ? getMessage(messageTypes.unmuteSounds)
+          : getMessage(messageTypes.muteSounds),
+        title: this.props.muteSounds
+          ? getMessage(messageTypes.unmuteSoundsTooltip)
+          : getMessage(messageTypes.muteSoundsTooltip),
+        id: MenuItemKeys.MUTE_SOUNDS,
+        icon: {
+          name: this.props.muteSounds ? 'volume-up' : 'volume-off',
+          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+            color: colors.menuText,
+          }),
+        },
+        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+          color: colors.menuText,
+          fontFamily,
+        }),
+        disabled: false,
+      },
       {
         onClick: this.toggleEmailInput,
         label: getMessage(messageTypes.emailTranscriptMenuMessage),
@@ -297,6 +344,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               maxLength={1024}
               onChange={this.handleTextChanged}
               onReturn={this.handleReturnKey}
+              onBlur={this.handleMessageFieldLostFocus}
+              onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
             {false && (
@@ -350,12 +399,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 }
 
+const mapDispatchToProps = {
+  setMuteSounds,
+  setMessageFieldFocused,
+};
+
 export default connect(
   (state: ChatState) => ({
     transcript: getTranscript(state),
     agentTyping: state.agentTyping,
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,
+    muteSounds: state.muteSounds,
   }),
-  dispatch => ({dispatch}),
+  mapDispatchToProps,
 )(MessageForm);

@@ -79,7 +79,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         : rawQuiqObject.flashNotificationOnNewMessage,
     playNotificationSoundOnNewMessage:
       rawQuiqObject.playNotificationSoundOnNewMessage === undefined
-        ? false
+        ? true
         : rawQuiqObject.playNotificationSoundOnNewMessage,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
@@ -91,6 +91,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     excludeEmojis: rawQuiqObject.excludeEmojis,
     menuOptions: rawQuiqObject.menuOptions || {
       [MenuItemKeys.EMAIL_TRANSCRIPT]: true,
+      [MenuItemKeys.MUTE_SOUNDS]: true,
     },
     messages: Object.assign(
       {},
@@ -125,6 +126,10 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
         messageArrivedNotification: messages.messageArrivedNotification,
         invalidAttachmentMessage: messages.invalidAttachmentMessage,
+        muteSounds: messages.muteSounds,
+        unmuteSounds: messages.unmuteSounds,
+        muteSoundsTooltip: messages.muteSoundsTooltip,
+        unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
       },
       rawQuiqObject.messages,
     ),

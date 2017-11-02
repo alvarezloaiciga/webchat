@@ -1,44 +1,28 @@
 // @flow
 
-import {registerEventHandler} from 'Postmaster';
+import * as Postmaster from 'Postmaster';
 import {eventTypes} from 'Common/Constants';
 import {getDisplayString} from 'Common/i18n';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';
-import assets from 'assets';
-import {isIFrame} from 'Common/Utils';
+import {isIFrame, isLastMessageFromAgent} from 'Common/Utils';
 
-// Load alert sound--must be done here, not inside alert function
-// $FlowIssue
-const canPlayMp3 = ['probably', 'maybe'].includes(new Audio().canPlayType('audio/mp3'));
-const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
-
-// $FlowIssue
-const alertSound = new Audio(alertFile);
-
-const handleMessageArrived = (e: {transcript: Array<Message>}) => {
+const handleMessageArrived = async (e: {transcript: Array<Message>}) => {
   if (!appIsHidden()) return;
 
   const options = getQuiqOptions();
 
   // Only perform notifications if the chat window is docked. Otherwise, notifications
   // will be handled from within the undocked chat window.
-  if (
-    isIFrame(getChatWindow()) &&
-    e.transcript.length > 0 &&
-    e.transcript[e.transcript.length - 1].authorType === 'User'
-  ) {
+  if (isIFrame(getChatWindow()) && isLastMessageFromAgent(e.transcript)) {
     if (options.flashNotificationOnNewMessage) {
       flashTitle(getDisplayString(options.messages.messageArrivedNotification));
-    }
-    if (options.playNotificationSoundOnNewMessage) {
-      playSound();
     }
   }
 };
 
 export const init = () => {
-  registerEventHandler(eventTypes.messageArrived, handleMessageArrived);
+  Postmaster.registerEventHandler(eventTypes.messageArrived, handleMessageArrived);
 };
 
 /**
@@ -103,11 +87,4 @@ export const flashTitle = (title: string) => {
 
   // Supported in all browsers including IE >= 10. If we want to support Android Browser 4.4 we'll need a prefix
   document.addEventListener('visibilitychange', appDidBecomeVisible);
-};
-
-/**
- * Plays a sound notification. Designed for demoing sound to user.
- */
-export const playSound = () => {
-  alertSound.play();
 };

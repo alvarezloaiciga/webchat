@@ -3,7 +3,7 @@ import alertSoundWav from 'assets/audio/notificationAlert.wav';
 
 const assets = {
   alertSound,
-  alertSoundWav
+  alertSoundWav,
 };
 
 export default assets;

@@ -173,6 +173,10 @@ const quiqOptions: QuiqObject = {
     messageArrivedNotification: messages.messageArrivedNotification,
     attachmentBtnTooltip: messages.attachmentBtnTooltip,
     invalidAttachmentMessage: messages.invalidAttachmentMessage,
+    muteSounds: messages.muteSounds,
+    unmuteSounds: messages.unmuteSounds,
+    muteSoundsTooltip: messages.muteSoundsTooltip,
+    unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
@@ -182,6 +186,7 @@ const quiqOptions: QuiqObject = {
   href: window.location.href,
   menuOptions: {
     emailTranscript: true,
+    muteSounds: true
   },
   customLaunchButtons: [],
   mobileNumber: 123,
