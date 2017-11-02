@@ -348,19 +348,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
-            {false && (
-              <button
-                className="messageFormBtn attachmentBtn"
-                style={contentButtonStyle}
-                disabled={contentButtonsDisabled}
-                onClick={this.props.openFileBrowser}
-              >
-                <i
-                  className="fa fa-paperclip"
-                  title={getMessage(messageTypes.attachmentBtnTooltip)}
-                />
-              </button>
-            )}
+            <button
+              className="messageFormBtn attachmentBtn"
+              style={contentButtonStyle}
+              disabled={contentButtonsDisabled}
+              onClick={this.props.openFileBrowser}
+            >
+              <i
+                className="fa fa-paperclip"
+                title={getMessage(messageTypes.attachmentBtnTooltip)}
+              />
+            </button>
             {EmojiUtils.emojisEnabledByCustomer() && (
               <button
                 className="messageFormBtn emojiBtn"
