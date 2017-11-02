@@ -1,5 +1,5 @@
 // @flow
-import type {IntlObject, IntlMessage, TextMessage} from 'Common/types';
+import type {IntlObject, IntlMessage, TextMessage, Event} from 'Common/types';
 
 export const getMockMessage = (
   // eslint-disable-line import/prefer-default-export
@@ -14,7 +14,17 @@ export const getMockMessage = (
     type: 'Text',
   };
 
-  return Object.assign(message, overrides);
+  return Object.assign({}, message, overrides);
+};
+
+export const getMockEvent = (id?: number = 0, overrides?: Event | {} = {}): Event => {
+  const event: Event = {
+    id: `id--${id}`,
+    timestamp: id,
+    type: 'SendTranscript',
+  };
+
+  return Object.assign({}, event, overrides);
 };
 
 /**

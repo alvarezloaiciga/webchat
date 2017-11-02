@@ -75,7 +75,6 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       }
       className=""
       closeOnChildClick={true}
-      disabled={false}
       icon="bars"
       iconStyles={
         Object {
@@ -213,7 +212,6 @@ exports[`MessageForm component rendering renders 1`] = `
       }
       className=""
       closeOnChildClick={true}
-      disabled={false}
       icon="bars"
       iconStyles={
         Object {

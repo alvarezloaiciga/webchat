@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'Common/i18n';
+import {registerIntlObject} from 'core-ui/services/i18nService';
 import quiqOptions from 'Common/QuiqOptions';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
@@ -37,6 +37,7 @@ export type LauncherProps = {
   setAgentTyping: (typing: boolean) => void,
   setAgentEndedConversation: (ended: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
+  updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
 };
 
@@ -136,6 +137,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onErrorResolved(() =>
       this.updateInitializedState(ChatInitializedState.INITIALIZED),
     );
+    QuiqChatClient.onSendTranscript(this.props.updatePlatformEvents);
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);

@@ -58,6 +58,9 @@ type CustomStyles = {
   EmailTranscriptInput?: Object,
   EmailTranscriptInputCancelButton?: Object,
   EmailTranscriptInputSubmitButton?: Object,
+  EventContainer?: Object,
+  EventText?: Object,
+  EventLine?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
@@ -72,6 +75,7 @@ export type QuiqObject = {
   colors: {
     // Deprecated in favor styles object
     primary: string,
+    eventText: string,
     menuText: string,
     agentMessageText: string,
     agentMessageLinkText: string,
@@ -120,6 +124,7 @@ export type QuiqObject = {
     emailTranscriptInputPlaceholder: string,
     emailTranscriptInputCancelTooltip: string,
     emailTranscriptInputSubmitTooltip: string,
+    transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
     invalidAttachmentMessage: string,
     muteSounds: string,
@@ -128,7 +133,7 @@ export type QuiqObject = {
     unmuteSoundsTooltip: string,
   },
   menuOptions: {
-    [string]: boolean
+    [string]: boolean,
   },
   mobileNumber?: string | number,
   playNotificationSoundOnNewMessage: boolean,
@@ -177,7 +182,7 @@ export type IntlMessage = {
 export type IntlObject = {
   formatMessage: (msg: IntlMessage, values: ?{[key: string]: string}) => string,
   formatDate: (date: number | moment$Moment) => string,
-  formatTime: (timestamp: number, options: ?Object) => string,
+  formatTime: (time: number | moment$Moment, options: ?Object) => string,
   formatRelative: (date: number) => string,
 };
 
@@ -348,6 +353,7 @@ export type ChatState = {
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
+  platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
 };
@@ -364,6 +370,7 @@ export type Action = {
     | 'NEW_WEBCHAT_SESSION'
     | 'AGENTS_AVAILABLE'
     | 'MUTE_SOUNDS'
+    | 'UPDATE_PLATFORM_EVENTS',
 };
 
 export type ChatInitializedStateType =
@@ -381,7 +388,8 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
+
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
 export type MessageStatusType = 'pending' | 'delivered';

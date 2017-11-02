@@ -99,6 +99,7 @@ describe('chat reducers', () => {
         agentTyping: true,
         agentsAvailable: true,
         agentEndedConversation: false,
+        platformEvents: [],
         muteSounds: false,
         messageFieldFocused: false,
       };

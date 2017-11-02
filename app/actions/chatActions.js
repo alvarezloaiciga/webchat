@@ -41,6 +41,11 @@ export const setAgentEndedConversation = (ended: boolean) => ({
   ended,
 });
 
+export const updatePlatformEvents = (event: Event) => ({
+  type: 'UPDATE_PLATFORM_EVENTS',
+  event,
+});
+
 export const updateTranscript = (transcript: Array<Message>) => ({
   type: 'UPDATE_TRANSCRIPT',
   transcript,

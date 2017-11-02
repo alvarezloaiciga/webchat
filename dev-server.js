@@ -107,8 +107,6 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   });
 
   var proxyAssets = function (req, res) {
-    console.log("proxying assets: %O", req);
-
     assetsProxy.web(req, res, assetsProxySettings);
   };
 

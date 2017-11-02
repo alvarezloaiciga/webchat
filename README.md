@@ -4,78 +4,81 @@
 
 # Quiq WebChat [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-  * [Webchat Client](#webchat-client)
-    + [Enabling Webchat on your Tenant](#enabling-webchat-on-your-tenant)
-    + [Adding Webchat to your site - Quiq Start](#adding-webchat-to-your-site---quiq-start)
-    + [Customizing The Webchat Client](#customizing-the-webchat-client)
-      - [agentsAvailableTimer](#agentsavailabletimer)
-      - [autoPopTime](#autopoptime)
-      - [colors](#colors)
-      - [contactPoint](#contactpoint)
-      - [customLaunchButtons](#customlaunchbuttons)
-      - [enforceAgentAvailability](#enforceagentavailability)
-      - [excludeEmojis](#excludeemojis)
-      - [flashNotificationOnNewMessage](#flashnotificationonnewmessage)
-      - [fontFamily](#fontfamily)
-      - [height](#height)
-      - [host](#host)
-      - [includeEmojis](#includeemojis)
-      - [menuOptions](#menuoptions)
-      - [messages](#messages)
-      - [mobileNumber](#mobilenumber)
-      - [playNotificationSoundOnNewMessage](#playNotificationSoundOnNewMessage)
-      - [position](#position)
-      - [styles](#styles)
-      - [welcomeForm](#welcomeform)
-      - [width](#width)
-    + [Setting Styles](#setting-styles)
-      - [Available Elements](#available-elements)
-        * [AgentAvatar](#agentavatar)
-        * [AgentMessageBubble](#agentmessagebubble)
-        * [AgentMessageText](#agentmessagetext)
-        * [AgentAttachmentBubble](#agentattachmentbubble)
+- [Webchat Client](#webchat-client)
+  * [Enabling Webchat on your Tenant](#enabling-webchat-on-your-tenant)
+  * [Adding Webchat to your site - Quiq Start](#adding-webchat-to-your-site---quiq-start)
+  * [Customizing The Webchat Client](#customizing-the-webchat-client)
+    + [agentsAvailableTimer](#agentsavailabletimer)
+    + [autoPopTime](#autopoptime)
+    + [colors](#colors)
+    + [contactPoint](#contactpoint)
+    + [customLaunchButtons](#customlaunchbuttons)
+    + [enforceAgentAvailability](#enforceagentavailability)
+    + [excludeEmojis](#excludeemojis)
+    + [flashNotificationOnNewMessage](#flashnotificationonnewmessage)
+    + [fontFamily](#fontfamily)
+    + [height](#height)
+    + [host](#host)
+    + [includeEmojis](#includeemojis)
+    + [menuOptions](#menuoptions)
+    + [messages](#messages)
+    + [mobileNumber](#mobilenumber)
+    + [playNotificationSoundOnNewMessage](#playnotificationsoundonnewmessage)
+    + [position](#position)
+    + [styles](#styles)
+    + [welcomeForm](#welcomeform)
+    + [width](#width)
+  * [Setting Styles](#setting-styles)
+    + [Available Elements](#available-elements)
+      - [AgentAvatar](#agentavatar)
+      - [AgentMessageBubble](#agentmessagebubble)
+      - [AgentMessageText](#agentmessagetext)
+      - [AgentAttachmentBubble](#agentattachmentbubble)
       - [AgentAttachmentText](#agentattachmenttext)
-        * [CustomerAvatar](#customeravatar)
-        * [CustomerMessageBubble](#customermessagebubble)
-        * [CustomerMessageText](#customermessagetext)
-        * [CustomerAttachmentBubble](#customerattachmentbubble)
+      - [CustomerAvatar](#customeravatar)
+      - [CustomerMessageBubble](#customermessagebubble)
+      - [CustomerMessageText](#customermessagetext)
+      - [CustomerAttachmentBubble](#customerattachmentbubble)
       - [CustomerAttachmentText](#customerattachmenttext)
-        * [EmailTranscriptInput](#emailtranscriptinput)
-        * [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
-        * [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
-        * [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
-        * [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
-        * [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
-        * [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
-        * [ErrorBanner](#errorbanner)
-        * [HeaderBanner](#headerbanner)
-        * [HeaderMenu](#headermenu)
-        * [HeaderMenuIcons](#headermenuicons)
-        * [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
-        * [MessageForm](#messageform)
-        * [MessageFormInput](#messageforminput)
-        * [MessageFormSend](#messageformsend)
-        * [NonChat](#nonchat)
-        * [OptionsMenuButton](#optionsmenubutton)
-        * [OptionsMenuButtonIcon](#optionsmenubuttonicon)
-        * [ToggleChatButton](#togglechatbutton)
-        * [TitleText](#titletext)
-        * [ToggleChatButtonIcon](#togglechatbuttonicon)
-        * [WelcomeFormBanner](#welcomeformbanner)
-        * [WelcomeFormField](#welcomeformfield)
-        * [WelcomeFormFieldInput](#welcomeformfieldinput)
-        * [WelcomeFormFieldLabel](#welcomeformfieldlabel)
-        * [WelcomeFormFieldTextarea](#welcomeformfieldtextarea)
-        * [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
-  * [SDK](#sdk)
-    + [The Quiq object](#the-quiq-object)
-      - [getAgentAvailability](#getagentavailability)
-      - [getChatVisibility](#getchatvisibility)
-      - [getHandle](#gethandle)
-      - [on](#on)
-      - [setChatVisibility](#setchatvisibility)
-      - [sendRegistration](#sendregistration)
-  * [Supported Browsers](#supported-browsers)
+      - [EmailTranscriptInput](#emailtranscriptinput)
+      - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
+      - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
+      - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
+      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
+      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
+      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
+      - [ErrorBanner](#errorbanner)
+      - [EventContainer](#eventcontainer)
+      - [EventLine](#eventline)
+      - [EventText](#eventtext)
+      - [HeaderBanner](#headerbanner)
+      - [HeaderMenu](#headermenu)
+      - [HeaderMenuIcons](#headermenuicons)
+      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
+      - [MessageForm](#messageform)
+      - [MessageFormInput](#messageforminput)
+      - [MessageFormSend](#messageformsend)
+      - [NonChat](#nonchat)
+      - [OptionsMenuButton](#optionsmenubutton)
+      - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
+      - [ToggleChatButton](#togglechatbutton)
+      - [TitleText](#titletext)
+      - [ToggleChatButtonIcon](#togglechatbuttonicon)
+      - [WelcomeFormBanner](#welcomeformbanner)
+      - [WelcomeFormField](#welcomeformfield)
+      - [WelcomeFormFieldInput](#welcomeformfieldinput)
+      - [WelcomeFormFieldLabel](#welcomeformfieldlabel)
+      - [WelcomeFormFieldTextarea](#welcomeformfieldtextarea)
+      - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
+- [SDK](#sdk)
+  * [The Quiq object](#the-quiq-object)
+    + [getAgentAvailability](#getagentavailability)
+    + [getChatVisibility](#getchatvisibility)
+    + [getHandle](#gethandle)
+    + [on](#on)
+    + [setChatVisibility](#setchatvisibility)
+    + [sendRegistration](#sendregistration)
+- [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
 
@@ -122,6 +125,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       {
         primary: string,
         menuText: string, //  Text color for primary menu
+        eventText: string, // Text color for Event messages
         agentMessageText: string, // Text color for messages sent by the support agent
         agentMessageLinkText: string, // Text color for links sent by the support agent
         agentMessageBackground: string, // Message bubble color for links sent by the support agent
@@ -138,6 +142,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       {
         primary: '#59ad5d',
         menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
@@ -242,6 +247,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputCancelTooltip: string,
         emailTranscriptInputSubmitTooltip: string,
         messageArrivedNotification: string,
+        transcriptEmailedEventMessage: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -278,6 +284,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
         messageArrivedNotification: 'New Message from Quiq Webchat'
+        transcriptEmailedEventMessage: 'Transcript Emailed',
       }
       ```
   - #### mobileNumber
@@ -469,6 +476,15 @@ Icon for individual `EmailTranscriptMenuLineItems`
 
 ##### ErrorBanner
 The banner that is shown when there is a connection error
+
+##### EventContainer
+Container for Event messages
+
+##### EventLine
+SVG portion of Event elements
+
+##### EventText
+Text portion of Event elements
 
 ##### HeaderBanner
 The banner that is shown above the chat transcript

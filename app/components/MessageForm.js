@@ -259,7 +259,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           marginTop: '1px',
         })}
         title={getMessage(messageTypes.optionsMenuTooltip)}
-        disabled={!this.state.agentsAvailable}
         menuPosition="top-right"
         offset={{
           horizontal: '-115px',
