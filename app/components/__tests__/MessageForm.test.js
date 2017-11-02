@@ -33,6 +33,13 @@ describe('MessageForm component', () => {
         setMuteSounds: jest.fn(),
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
+        configuration: {
+          chatEmailTranscript: true,
+          chatFileAttachments: true,
+          enableEmojis: true,
+          playSoundOnNewMessage: true,
+          flashNotificationOnNewMessage: true,
+        },
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

@@ -16,7 +16,7 @@ import Menu from 'core-ui/components/Menu';
 import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, Message} from 'Common/types';
+import type {ChatState, Emoji, Message, ChatConfiguration} from 'Common/types';
 
 const {
   colors,
@@ -32,6 +32,7 @@ export type MessageFormProps = {
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   muteSounds: boolean,
+  configuration: ChatConfiguration,
   transcript: Array<Message>,
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
@@ -204,8 +205,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       Object.values(MenuItemKeys).includes(k),
     );
     if (!keys.length) return null;
-    const options = [
-      {
+    const options = [];
+
+    if (this.props.configuration.playSoundOnNewMessage) {
+      options.push({
         onClick: this.toggleMuteSounds,
         label: this.props.muteSounds
           ? getMessage(messageTypes.unmuteSounds)
@@ -225,8 +228,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled: false,
-      },
-      {
+      });
+    }
+
+    if (this.props.configuration.chatEmailTranscript) {
+      options.push({
         onClick: this.toggleEmailInput,
         label: getMessage(messageTypes.emailTranscriptMenuMessage),
         title: getMessage(messageTypes.emailTranscriptMenuTooltip),
@@ -242,36 +248,38 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
-      },
-    ];
+      });
+    }
 
     return (
-      <MenuButton
-        buttonStyles={getStyle(
-          {
-            borderRight: '2px solid rgb(244, 244, 248)',
-          },
-          styles.OptionsMenuButton,
-        )}
-        iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
-          color: '#848484',
-          fontSize: '19px',
-          marginTop: '1px',
-        })}
-        title={getMessage(messageTypes.optionsMenuTooltip)}
-        menuPosition="top-right"
-        offset={{
-          horizontal: '-115px',
-          vertical: '40px',
-        }}
-      >
-        <Menu
-          items={options.filter(o => keys.includes(o.id))}
-          containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
-            fontFamily,
+      options.length > 0 && (
+        <MenuButton
+          buttonStyles={getStyle(
+            {
+              borderRight: '2px solid rgb(244, 244, 248)',
+            },
+            styles.OptionsMenuButton,
+          )}
+          iconStyles={getStyle(styles.OptionsMenuButtonIcon, {
+            color: '#848484',
+            fontSize: '19px',
+            marginTop: '1px',
           })}
-        />
-      </MenuButton>
+          title={getMessage(messageTypes.optionsMenuTooltip)}
+          menuPosition="top-right"
+          offset={{
+            horizontal: '-115px',
+            vertical: '40px',
+          }}
+        >
+          <Menu
+            items={options.filter(o => keys.includes(o.id))}
+            containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
+              fontFamily,
+            })}
+          />
+        </MenuButton>
+      )
     );
   };
 
@@ -316,9 +324,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   <span style={{fontFamily}}>
                     {getMessage(messageTypes.agentEndedConversationMessage)}
                   </span>
-                  <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
-                    {getMessage(messageTypes.emailTranscriptInlineButton)}
-                  </button>
+                  {this.props.configuration.chatEmailTranscript && (
+                    <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
+                      {getMessage(messageTypes.emailTranscriptInlineButton)}
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -347,18 +357,21 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
-            <button
-              className="messageFormBtn attachmentBtn"
-              style={contentButtonStyle}
-              disabled={contentButtonsDisabled}
-              onClick={this.props.openFileBrowser}
-            >
-              <i
-                className="fa fa-paperclip"
-                title={getMessage(messageTypes.attachmentBtnTooltip)}
-              />
-            </button>
-            {EmojiUtils.emojisEnabledByCustomer() && (
+            {this.props.configuration.chatFileAttachments && (
+              <button
+                className="messageFormBtn attachmentBtn"
+                style={contentButtonStyle}
+                disabled={contentButtonsDisabled}
+                onClick={this.props.openFileBrowser}
+              >
+                <i
+                  className="fa fa-paperclip"
+                  title={getMessage(messageTypes.attachmentBtnTooltip)}
+                />
+              </button>
+            )}
+            {this.props.configuration.enableEmojis &&
+            EmojiUtils.emojisEnabledByCustomer() && (
               <button
                 className="messageFormBtn emojiBtn"
                 style={contentButtonStyle}
@@ -380,7 +393,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 {getMessage(messageTypes.sendButtonLabel)}
               </button>
             )}
-            {EmojiUtils.emojisEnabledByCustomer() && (
+            {this.props.configuration.enableEmojis &&
+            EmojiUtils.emojisEnabledByCustomer() && (
               <EmojiPicker
                 visible={this.state.emojiPickerVisible}
                 addEmoji={this.handleEmojiSelection}
@@ -408,6 +422,7 @@ export default connect(
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
+    configuration: state.configuration,
   }),
   mapDispatchToProps,
 )(MessageForm);

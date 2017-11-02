@@ -41,13 +41,6 @@ export const setAgentEndedConversation = (ended: boolean) => ({
   ended,
 });
 
-export type ConfigType =
-  | 'CHAT_EMAIL_TRANSCRIPT'
-  | 'CHAT_FILE_ATTACHMENTS'
-  | 'ENABLE_EMOJIS'
-  | 'PLAY_SOUND_ON_NEW_MESSAGE'
-  | 'FLASH_NOTIFICATION_ON_NEW_MESSAGE';
-
 export const setChatConfiguration = (metadata: ChatMetadata) => ({
   type: 'CHAT_CONFIGURATION_LOADED',
   configuration: {
