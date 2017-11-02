@@ -11,12 +11,7 @@ import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {
-  ChatInitializedState,
-  messageTypes,
-  acceptedAttachmentTypes,
-  maxAttachmentSize,
-} from 'Common/Constants';
+import {ChatInitializedState, messageTypes} from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
@@ -134,23 +129,27 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   renderContent = () => {
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
-        return (
+        /*return (
           <Dropzone
             ref={d => {
               this.dropzone = d;
             }}
-            style={{flex: 1, display: 'flex'}}
+            className="chatContainerBody"
             accept={acceptedAttachmentTypes}
             disablePreview={true}
             disableClick={true}
             maxSize={maxAttachmentSize}
             onDrop={this.handleAttachments}
           >
-            <div className="chatContainerBody">
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
-            </div>
           </Dropzone>
+        );*/
+        return (
+          <div className="chatContainerBody">
+            <Transcript />
+            <MessageForm openFileBrowser={this.openFileBrowser} />
+          </div>
         );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
