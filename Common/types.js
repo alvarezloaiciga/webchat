@@ -182,7 +182,7 @@ export type IntlMessage = {
 export type IntlObject = {
   formatMessage: (msg: IntlMessage, values: ?{[key: string]: string}) => string,
   formatDate: (date: number | moment$Moment) => string,
-  formatTime: (timestamp: number, options: ?Object) => string,
+  formatTime: (time: number | moment$Moment, options: ?Object) => string,
   formatRelative: (date: number) => string,
 };
 
