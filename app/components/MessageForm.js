@@ -13,19 +13,11 @@ import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
 import {getTranscript} from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
-import {map} from 'lodash';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji, Message, ChatConfiguration} from 'Common/types';
 
-const {
-  colors,
-  fontFamily,
-  styles,
-  menuOptions,
-  enforceAgentAvailability,
-  agentsAvailableTimer,
-} = quiqOptions;
+const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   agentTyping: boolean,
@@ -201,10 +193,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   renderMenu = () => {
-    const keys = map(menuOptions, (v, k) => (v ? k : undefined)).filter(k =>
-      Object.values(MenuItemKeys).includes(k),
-    );
-    if (!keys.length) return null;
     const options = [];
 
     if (this.props.configuration.playSoundOnNewMessage) {
@@ -273,7 +261,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           }}
         >
           <Menu
-            items={options.filter(o => keys.includes(o.id))}
+            items={options}
             containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
               fontFamily,
             })}

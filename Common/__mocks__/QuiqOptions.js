@@ -9,8 +9,6 @@ const quiqOptions: QuiqObject = {
   contactPoint: 'Bob',
   localStorageKeys: {},
   enforceAgentAvailability: true,
-  flashNotificationOnNewMessage: true,
-  playNotificationSoundOnNewMessage: true,
   host: 'https://bob.dev.centricient.corp',
   clientDomain: 'https://customer.com',
   color: '#333',
@@ -195,10 +193,6 @@ const quiqOptions: QuiqObject = {
   debug: false,
   autoPopTime: 2000,
   href: window.location.href,
-  menuOptions: {
-    emailTranscript: true,
-    muteSounds: true,
-  },
   customLaunchButtons: [],
   mobileNumber: 123,
   welcomeForm: {

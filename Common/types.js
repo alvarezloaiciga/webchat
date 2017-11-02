@@ -117,7 +117,6 @@ export type QuiqObject = {
   customLaunchButtons: Array<string>,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
-  flashNotificationOnNewMessage: boolean,
   fontFamily: string,
   height: number,
   host: string,
@@ -159,11 +158,7 @@ export type QuiqObject = {
     muteSoundsTooltip: string,
     unmuteSoundsTooltip: string,
   },
-  menuOptions: {
-    [string]: boolean,
-  },
   mobileNumber?: string | number,
-  playNotificationSoundOnNewMessage: boolean,
   position: {
     top?: number | string,
     bottom?: number | string,

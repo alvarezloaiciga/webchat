@@ -58,7 +58,6 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
     case 'CHAT_CONFIGURATION_LOADED':
-      console.log('configuration: %O', action.configuration);
       return Object.assign({}, state, {
         configuration: action.configuration,
       });
@@ -181,3 +180,5 @@ export const getMuteSounds = (state: ChatState): boolean => {
 export const getTranscript = (state: ChatState): Array<Message> => Object.values(state.transcript);
 
 export const getPlatformEvents = (state: ChatState): Array<Event> => state.platformEvents;
+
+export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;

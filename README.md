@@ -15,15 +15,12 @@
     + [customLaunchButtons](#customlaunchbuttons)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
-    + [flashNotificationOnNewMessage](#flashnotificationonnewmessage)
     + [fontFamily](#fontfamily)
     + [height](#height)
     + [host](#host)
     + [includeEmojis](#includeemojis)
-    + [menuOptions](#menuoptions)
     + [messages](#messages)
     + [mobileNumber](#mobilenumber)
-    + [playNotificationSoundOnNewMessage](#playnotificationsoundonnewmessage)
     + [position](#position)
     + [styles](#styles)
     + [welcomeForm](#welcomeform)
@@ -177,10 +174,6 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
-  - #### flashNotificationOnNewMessage
-    - type: boolean
-    - description: If true, when the agent sends a new message and the end user's page is not visible, then the title of the browser will flash a notification, controlled by the messageArrivedNotification message.
-    - default: true
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
@@ -201,20 +194,6 @@ The Quiq() function contains properties describing how the instance of webchat s
       - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
       - default: `[]`
       - example: `['hatching_chick', 'stuck_out_tongue']`
-  - #### menuOptions
-    - type:
-      ```javascript
-      {
-        emailTranscript: boolean,
-      }
-      ```
-    - description: Object containing the menu items you want displayed to the end user.
-    - default:
-      ```javascript
-      {
-        emailTranscript: true,
-      }
-      ```
   - #### messages
     - type:
       ```javascript
@@ -292,10 +271,6 @@ The Quiq() function contains properties describing how the instance of webchat s
     - description: If the user is on a mobile device, chat will not show. Instead, when the user taps on the launch button their SMS app will open with the `to` field set to this value. If `mobileNumber` is not defined, that chat launcher button is not visible on mobile devices.
     - default: none
     - examples: `1234567891`, `"+15556667777"`
-  - #### playNotificationSoundOnNewMessage
-    - type: boolean
-    - description: If true, when the agent sends a new message and the end user's page is not visible, then a notification sound will be played.
-    - default: true
   - #### position
     - type:
       ```javascript
