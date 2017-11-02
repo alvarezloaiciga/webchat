@@ -34,8 +34,8 @@ describe('MessageForm component', () => {
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
         configuration: {
-          chatEmailTranscript: true,
-          chatFileAttachments: true,
+          enableChatEmailTranscript: true,
+          enableChatFileAttachments: true,
           enableEmojis: true,
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,

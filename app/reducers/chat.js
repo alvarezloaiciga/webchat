@@ -39,8 +39,8 @@ export const initialState = {
   platformEvents: [],
   messageFieldFocused: false,
   configuration: {
-    chatEmailTranscript: false,
-    chatFileAttachments: false,
+    enableChatEmailTranscript: false,
+    enableChatFileAttachments: false,
     enableEmojis: false,
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,

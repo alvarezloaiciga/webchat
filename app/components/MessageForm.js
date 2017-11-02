@@ -312,7 +312,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   <span style={{fontFamily}}>
                     {getMessage(messageTypes.agentEndedConversationMessage)}
                   </span>
-                  {this.props.configuration.chatEmailTranscript && (
+                  {this.props.configuration.enableChatEmailTranscript && (
                     <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
                       {getMessage(messageTypes.emailTranscriptInlineButton)}
                     </button>
@@ -345,7 +345,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               onFocus={this.handleMessageFieldFocused}
               placeholder={messagePlaceholder}
             />
-            {this.props.configuration.chatFileAttachments && (
+            {this.props.configuration.enableChatFileAttachments && (
               <button
                 className="messageFormBtn attachmentBtn"
                 style={contentButtonStyle}

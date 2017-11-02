@@ -8,8 +8,8 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
-    "chatEmailTranscript": false,
-    "chatFileAttachments": false,
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,
@@ -31,8 +31,8 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
-    "chatEmailTranscript": false,
-    "chatFileAttachments": false,
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,
@@ -54,8 +54,8 @@ Object {
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
   "configuration": Object {
-    "chatEmailTranscript": false,
-    "chatFileAttachments": false,
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,

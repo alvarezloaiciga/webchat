@@ -3,8 +3,8 @@
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
 export type ChatConfiguration = {
-  chatEmailTranscript: boolean,
-  chatFileAttachments: boolean,
+  enableChatEmailTranscript: boolean,
+  enableChatFileAttachments: boolean,
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,

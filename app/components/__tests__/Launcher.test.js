@@ -64,8 +64,8 @@ describe('Launcher component', () => {
       messageFieldFocused: false,
       setChatConfiguration: jest.fn(),
       configuration: {
-        chatEmailTranscript: false,
-        chatFileAttachments: false,
+        enableChatEmailTranscript: false,
+        enableChatFileAttachments: false,
         enableEmojis: false,
         playSoundOnNewMessage: false,
         flashNotificationOnNewMessage: false,
