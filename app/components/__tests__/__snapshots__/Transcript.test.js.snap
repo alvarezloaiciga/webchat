@@ -10,6 +10,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
   }
 >
   <Message
+    key="id--1"
     message={
       Object {
         "authorType": "User",
@@ -29,8 +30,10 @@ exports[`Transcript component rendering renders with default props 1`] = `
         "type": "SendTranscript",
       }
     }
+    key="id--2"
   />
   <Message
+    key="id--3"
     message={
       Object {
         "authorType": "User",
@@ -50,6 +53,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
         "type": "SendTranscript",
       }
     }
+    key="id--4"
   />
 </div>
 `;

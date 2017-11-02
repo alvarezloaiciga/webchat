@@ -1,3 +1,9 @@
+import raf from './rafJestPolyfill';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({adapter: new Adapter()});
+
 // This file is run before each test. Use it for any global configuration we want to add to Jest
 const blackListedStrings = [];
 
