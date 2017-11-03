@@ -6,6 +6,7 @@ import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
 import {connect} from 'react-redux';
+import Button from 'core-ui/components/Button';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
@@ -313,9 +314,16 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                     {getMessage(messageTypes.agentEndedConversationMessage)}
                   </span>
                   {this.props.configuration.enableChatEmailTranscript && (
-                    <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
-                      {getMessage(messageTypes.emailTranscriptInlineButton)}
-                    </button>
+                    <Button
+                      disabled={
+                        this.props.transcript.filter(m => m.authorType === 'User').length === 0
+                      }
+                      className="emailTranscriptInlineButton"
+                      title={getMessage(messageTypes.emailTranscriptInlineButton)}
+                      text={getMessage(messageTypes.emailTranscriptInlineButton)}
+                      style={emailTranscriptButtonStyle}
+                      onClick={this.toggleEmailInput}
+                    />
                   )}
                 </div>
               </div>
