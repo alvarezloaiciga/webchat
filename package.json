@@ -152,9 +152,8 @@
     "webpack-merge": "0.14.1"
   },
   "dependencies": {
-    "@babel/polyfill": "https://github.com/drewjenkins/babel-polyfill/archive/6.23.0.1.tar.gz",
     "babel-plugin-emotion": "8.0.2",
-    "babel-polyfill": "https://github.com/drewjenkins/babel-polyfill/archive/6.23.0.1.tar.gz",
+    "babel-polyfill": "https://github.com/drewjenkins/babel-polyfill/archive/7.0.0-beta.31.1.tar.gz",
     "babel-runtime": "6.11.6",
     "classnames": "2.2.5",
     "core-ui": "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.0.40",
