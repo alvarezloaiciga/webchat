@@ -1,8 +1,7 @@
 .Transcript {
   display: flex;
-  height: 200px;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   flex: 1 1 auto;
   width: 100%;
   white-space: pre-wrap;
