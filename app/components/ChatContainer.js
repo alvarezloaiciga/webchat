@@ -20,10 +20,11 @@ import {
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType} from 'Common/types';
+import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
+  configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
   setUploadProgress: (messageId: string, progress: number) => void,
@@ -159,6 +160,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             ref={d => {
               this.dropzone = d;
             }}
+            disabled={!this.props.configuration.enableChatFileAttachments}
             className="chatContainerBody"
             accept={acceptedAttachmentTypes}
             disablePreview={true}
@@ -225,6 +227,7 @@ const mapStateToProps = (state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
+  configuration: state.configuration,
 });
 
 const mapDispatchToProps = {
