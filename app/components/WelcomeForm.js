@@ -51,7 +51,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     this.processWelcomeForm();
   }
 
-  processWelcomeForm = async () => {
+  processWelcomeForm = () => {
     const processForm = (form: WelcomeFormType) => {
       const inputFields = {};
       form.fields.forEach(field => {

@@ -29,7 +29,7 @@ module.exports = merge(config, {
       'react-hot-loader/patch',
       'development',
     ],
-    sdk: ['./SDK/src/index.js'],
+    sdk: ['babel-polyfill', './SDK/src/index.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
@@ -65,7 +65,7 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../SDK/src/components'),
           path.resolve(__dirname, '../node_modules/emoji-mart'),
           path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js')
+          path.resolve(__dirname, '../node_modules/draft-js'),
         ],
         loaders: [
           {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
