@@ -68,6 +68,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
   >
     <div
       className="field"
+      key="firstName"
       style={
         Object {
           "marginTop": 16,
@@ -113,6 +114,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      key="lastName"
       style={
         Object {
           "marginTop": 16,
@@ -151,6 +153,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      key="numberField"
       style={
         Object {
           "marginTop": 16,
@@ -189,6 +192,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      key="email"
       style={
         Object {
           "marginTop": 16,
@@ -227,6 +231,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      key="phoneNumber"
       style={
         Object {
           "marginTop": 16,
@@ -265,6 +270,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     </div>
     <div
       className="field"
+      key="lifeStory"
       style={
         Object {
           "marginTop": 16,
