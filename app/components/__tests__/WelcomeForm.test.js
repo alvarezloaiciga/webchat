@@ -17,15 +17,11 @@ describe('WelcomeForm component', () => {
   beforeEach(() => {
     QuiqChatClient.sendTextMessage = jest.fn(() => {});
     QuiqChatClient.sendRegistration = jest.fn(async () => await {});
-    QuiqChatClient.getChatConfiguration = jest.fn(() =>
-      Promise.resolve(() => ({
-        form: quiqOptions.welcomeForm,
-      })),
-    );
 
     testProps = {
       setWelcomeFormRegistered: jest.fn(),
       welcomeFormRegistered: false,
+      registrationForm: quiqOptions.welcomeForm,
     };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
@@ -33,8 +29,8 @@ describe('WelcomeForm component', () => {
   });
 
   describe('rendering', () => {
-    beforeEach(async () => {
-      await render();
+    beforeEach(() => {
+      render();
       wrapper.update();
     });
 
@@ -62,8 +58,8 @@ describe('WelcomeForm component', () => {
   });
 
   describe('filling out form and submitting', () => {
-    it('does not submit if there is a required field left blank', async () => {
-      await render();
+    it('does not submit if there is a required field left blank', () => {
+      render();
       wrapper.update();
       wrapper
         .find('button')
@@ -72,7 +68,7 @@ describe('WelcomeForm component', () => {
       expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
     });
 
-    it('does not submit if there is a required field containing only whitespace', async () => {
+    it('does not submit if there is a required field containing only whitespace', () => {
       wrapper
         .find('input')
         .at(0)
@@ -92,7 +88,7 @@ describe('WelcomeForm component', () => {
             name: 'firstName',
           },
         });
-      await render();
+      render();
       wrapper.update();
       wrapper
         .find('button')
@@ -102,7 +98,7 @@ describe('WelcomeForm component', () => {
     });
 
     describe('valid submission', () => {
-      beforeEach(async () => {
+      beforeEach(() => {
         wrapper
           .find('input')
           .at(0)
@@ -117,7 +113,7 @@ describe('WelcomeForm component', () => {
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
-        await render();
+        render();
         wrapper.update();
       });
 
@@ -135,7 +131,7 @@ describe('WelcomeForm component', () => {
     });
 
     describe('valid submission with send message', () => {
-      beforeEach(async () => {
+      beforeEach(() => {
         wrapper
           .find('input')
           .at(1)
@@ -162,7 +158,7 @@ describe('WelcomeForm component', () => {
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
-        await render();
+        render();
         wrapper.update();
       });
 
@@ -182,8 +178,8 @@ describe('WelcomeForm component', () => {
   });
 
   describe('form validation', () => {
-    beforeEach(async () => {
-      await render();
+    beforeEach(() => {
+      render();
       wrapper.update();
     });
 
