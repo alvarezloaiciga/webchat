@@ -63,12 +63,11 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         };
       });
 
-      this.setState({inputFields});
+      this.setState({inputFields, form});
     };
 
     if (quiqOptions.demoMode && quiqOptions.welcomeForm) {
       processForm(quiqOptions.welcomeForm);
-      this.setState({form: quiqOptions.welcomeForm});
       return;
     }
 
@@ -79,7 +78,6 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     }
 
     processForm(form);
-    this.setState({form});
   };
 
   renderField = (field: WelcomeFormField) => {
