@@ -1,7 +1,6 @@
 // @flow
 /** @jsx h */
-require('babel-polyfill'); // eslint-disable-line global-require
-
+import 'babel-polyfill';
 import {
   camelizeToplevelScreamingSnakeCaseKeys,
   clearQuiqKeysFromLocalStorage,
