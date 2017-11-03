@@ -17,6 +17,7 @@ import Textarea from 'react-textarea-autosize';
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
   welcomeFormRegistered: boolean,
+  registrationForm?: WelcomeFormType | null,
 };
 
 export type WelcomeFormState = {
@@ -41,45 +42,43 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     submitting: false,
   };
 
-  processWelcomeForm = (form: WelcomeFormType) => {
-    const inputFields = {};
-    form.fields.forEach(field => {
-      inputFields[field.id] = {
-        value: '',
-        label: field.label,
-        required: Boolean(field.required),
-        isInitialMessage: Boolean(field.isInitialMessage),
-      };
-    });
-
-    this.setState({inputFields});
-  };
-
   componentWillMount() {
     if (QuiqChatClient.isRegistered()) {
       this.props.setWelcomeFormRegistered();
       return;
     }
 
-    this.fetchWelcomeForm();
+    this.processWelcomeForm();
   }
 
-  fetchWelcomeForm = async () => {
+  processWelcomeForm = async () => {
+    const processForm = (form: WelcomeFormType) => {
+      const inputFields = {};
+      form.fields.forEach(field => {
+        inputFields[field.id] = {
+          value: '',
+          label: field.label,
+          required: Boolean(field.required),
+          isInitialMessage: Boolean(field.isInitialMessage),
+        };
+      });
+
+      this.setState({inputFields});
+    };
+
     if (quiqOptions.demoMode && quiqOptions.welcomeForm) {
-      this.processWelcomeForm(quiqOptions.welcomeForm);
+      processForm(quiqOptions.welcomeForm);
       this.setState({form: quiqOptions.welcomeForm});
       return;
     }
 
-    const data = await QuiqChatClient.getChatConfiguration();
-    const form = data.registrationForm || quiqOptions.welcomeForm;
-
+    const form = this.props.registrationForm || quiqOptions.welcomeForm;
     if (!form) {
       this.props.setWelcomeFormRegistered();
       return;
     }
 
-    this.processWelcomeForm(form);
+    processForm(form);
     this.setState({form});
   };
 
@@ -273,6 +272,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 export default connect(
   (state: ChatState) => ({
     welcomeFormRegistered: state.welcomeFormRegistered,
+    registrationForm: state.configuration.registrationForm,
   }),
   {
     setWelcomeFormRegistered,

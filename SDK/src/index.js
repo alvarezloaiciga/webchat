@@ -1,6 +1,13 @@
 // @flow
 /** @jsx h */
-// import 'babel-polyfill'; TODO: PUT ME BACK
+/**
+ * Since we are injecting ourselves onto a parent page,
+ * we don't want to step on their babel-polyfill if they
+ * already have it loaded.
+ */
+if (!window._babelPolyfill) {
+  require('babel-polyfill'); // eslint-disable-line global-require
+}
 import {
   camelizeToplevelScreamingSnakeCaseKeys,
   clearQuiqKeysFromLocalStorage,

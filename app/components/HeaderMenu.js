@@ -73,8 +73,8 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
           <div className="buttons">
             {(this.state.openingWindowExists || !inStandaloneMode()) && (
               <i
-                className={`fa fa-times icon`}
-                title={getMessage(messageTypes.closeWindowTooltip)}
+                className={`fa fa-window-minimize icon`}
+                title={getMessage(messageTypes.minimizeWindowTooltip)}
                 onClick={inStandaloneMode() ? window.close : this.minimize}
               />
             )}

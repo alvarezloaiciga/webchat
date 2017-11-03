@@ -8,13 +8,14 @@ export type ChatConfiguration = {
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
+  registrationForm?: WelcomeForm | null,
 };
 
 export type ChatMetadata = {
   configs: {
-    [string] : {
-      enabled: boolean
-    }
+    [string]: {
+      enabled: boolean,
+    },
   },
   registrationForm?: {
     headerText: string,
@@ -98,6 +99,7 @@ export type QuiqObject = {
    * be sure to update the README
    */
   agentsAvailableTimer: number,
+  anchorElement: string,
   autoPopTime?: number,
   colors: {
     // Deprecated in favor styles object
@@ -183,17 +185,7 @@ export type QuiqObject = {
       },
   headerText: string, // Deprecated in favor of messages object
   href: string,
-<<<<<<< HEAD
-  fontFamily: string,
-  width: number,
-  height: number,
-  customLaunchButtons: Array<string>,
-  anchorElement: string,
-  mobileNumber?: string | number,
-  // The following are internal, intentionally undocumented and unsupported options used for E2E testing
-=======
   localStorageKeys: {[string]: any},
->>>>>>> f0a7d770641ea688243a8eb162fb97fd4b1309cb
   _internal: {
     captureRequests?: boolean,
     captureWebsockets?: boolean,
@@ -390,7 +382,7 @@ export type ChatState = {
   platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
-  configuration: ChatConfiguration
+  configuration: ChatConfiguration,
 };
 
 export type Action = {

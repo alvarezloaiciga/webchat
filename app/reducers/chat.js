@@ -44,6 +44,7 @@ export const initialState = {
     enableEmojis: false,
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,
+    registrationForm: undefined,
   },
 };
 

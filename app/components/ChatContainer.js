@@ -7,6 +7,7 @@ import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
+import QuiqChatClient from 'quiq-chat';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
