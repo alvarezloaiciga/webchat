@@ -1,6 +1,11 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
+  messageArrivedNotification: {
+    id: 'messageArrivedNotification',
+    description: 'Message Arrived',
+    defaultMessage: 'New Message from Quiq Webchat',
+  },
   send: {
     id: 'send',
     description: 'Generic send message',
@@ -99,6 +104,55 @@ export default defineMessages({
     id: 'emojiPickerTooltip',
     description: 'Tooltip for emoji picker toggle button',
     defaultMessage: 'Emoji picker',
+  },
+  optionsMenuTooltip: {
+    id: 'optionsMenuTooltip',
+    description: 'Tooltip for the options button to the left of the MessageForm',
+    defaultMessage: 'Options',
+  },
+  emailTranscriptMenuMessage: {
+    id: 'emailTranscriptMenuMessage',
+    description:
+      'Message to display in the options menu for the user to get an email containing the transcript of the chat',
+    defaultMessage: 'Email Transcript',
+  },
+  emailTranscriptMenuTooltip: {
+    id: 'emailTranscriptMenuTooltip',
+    description: 'Tooltip for Email transcript menu button',
+    defaultMessage: 'Email a full transcript of the current chat',
+  },
+  emailTranscriptInputPlaceholder: {
+    id: 'emailTranscriptInputPlaceholder',
+    description:
+      'Message to display to user when they need to enter an Email to receive their transcript',
+    defaultMessage: 'Enter your Email...',
+  },
+  emailTranscriptInputCancelTooltip: {
+    id: 'emailTranscriptInputCancelTooltip',
+    description: 'Tooltip to display above the Cancel button on the email transcript input',
+    defaultMessage: 'Cancel Email Transcript',
+  },
+  emailTranscriptInputSubmitTooltip: {
+    id: 'emailTranscriptInputSubmitTooltip',
+    description: 'Tooltip to display above the Submit button on the email transcript input',
+    defaultMessage: 'Email Transcript',
+  },
+  emailTranscriptInlineButton: {
+    id: 'emailTranscriptInlineButton',
+    description:
+      'Text to display on the Email Transcript button that shows inline when agent ends convo',
+    defaultMessage: 'Email Transcript',
+  },
+  transcriptEmailedEventMessage: {
+    id: 'transcriptEmailedEventMessage',
+    description:
+      'Text to display on the inline Event displayed to the user when a transcript was successfully e-mailed to them',
+    defaultMessage: 'Transcript Emailed',
+  },
+  attachmentBtnTooltip: {
+    id: 'attachmentBtnTooltip',
+    description: 'Tooltip for attachment button',
+    defaultMessage: 'Send file',
   },
   welcomeFormUniqueIdentifier: {
     id: 'wecomeFormUniqueIdentifier',
@@ -221,5 +275,36 @@ export default defineMessages({
     id: 'cannotFindHostingWindow',
     description: "Error for when webchat can't find the host window (where SDK is running)",
     defaultMessage: 'Unable to find host window',
+  },
+  invalidAttachmentMessage: {
+    id: 'invalidAttachmentMessage',
+    description: 'Alert message for invalid attachment upload',
+    defaultMessage:
+      "We couldn't send your attachment. Only image files are supported, and must be smaller than 50 MB",
+  },
+  attachmentUploadError: {
+    id: 'attachmentUploadError',
+    description: 'Alert message for an attachment failing to upload',
+    defaultMessage: 'We had a problem uploading your file. Please try again.',
+  },
+  muteSounds: {
+    id: 'muteSounds',
+    description: 'label for muting sounds',
+    defaultMessage: 'Mute Sounds',
+  },
+  unmuteSounds: {
+    id: 'unmuteSounds',
+    description: 'label for unmuting sounds',
+    defaultMessage: 'Unmute Sounds',
+  },
+  muteSoundsTooltip: {
+    id: 'muteSoundsTooltip',
+    description: 'tooltip for muting sounds',
+    defaultMessage: 'Mute new message sounds',
+  },
+  unmuteSoundsTooltip: {
+    id: 'unmuteSoundsTooltip',
+    description: 'tooltip for unmuting sounds',
+    defaultMessage: 'Unmute new message sounds',
   },
 });

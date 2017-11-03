@@ -3,11 +3,13 @@ jest.mock('quiq-chat');
 jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
 jest.mock('components/EmojiTextarea');
+jest.mock('services/Postmaster');
 
 import React from 'react';
 import {MessageForm} from '../MessageForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
+import {getMockMessage} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import QuiqChatClient from 'quiq-chat';
 
@@ -18,13 +20,26 @@ describe('MessageForm component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    QuiqChatClient.sendMessage = jest.fn();
+    QuiqChatClient.sendTextMessage = jest.fn();
     QuiqChatClient.updateMessagePreview = jest.fn();
 
     render = () => {
       testProps = {
         agentTyping: false,
         agentEndedConversation: false,
+        transcript: [getMockMessage(), getMockMessage(1)],
+        openFileBrowser: jest.fn(),
+        muteSounds: false,
+        setMuteSounds: jest.fn(),
+        messageFieldFocused: false,
+        setMessageFieldFocused: jest.fn(),
+        configuration: {
+          enableChatEmailTranscript: true,
+          enableChatFileAttachments: true,
+          enableEmojis: true,
+          playSoundOnNewMessage: true,
+          flashNotificationOnNewMessage: true,
+        },
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();

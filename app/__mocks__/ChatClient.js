@@ -11,10 +11,11 @@ export const getChatClient = jest.fn().mockReturnValue({
   onClientInactiveTimeout: jest.fn().mockReturnThis(),
   start: jest.fn(),
   stop: jest.fn(),
+  emailTranscript: jest.fn(),
   getMessages: jest.fn(),
   joinChat: jest.fn(),
   leaveChat: jest.fn(),
-  sendMessage: jest.fn(),
+  sendTextMessage: jest.fn(),
   updateMessagePreview: jest.fn(),
   sendRegistration: jest.fn(),
   checkForAgents: jest.fn(),
@@ -22,4 +23,9 @@ export const getChatClient = jest.fn().mockReturnValue({
   isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),
   getChatConfiguration: jest.fn(),
+  onSendTranscript: jest.fn().mockReturnValue({
+    id: 1,
+    type: 'SendTranscript',
+    timestamp: 123456,
+  }),
 });

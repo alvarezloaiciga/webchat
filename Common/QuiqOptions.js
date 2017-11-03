@@ -9,7 +9,7 @@ import {
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
 } from 'Common/Utils';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -32,25 +32,35 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const quiqOptions = {
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
-    agentsAvailableTimer: rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000 ? rawQuiqObject.agentsAvailableTimer : 60000,
+    agentsAvailableTimer:
+      rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
+        ? rawQuiqObject.agentsAvailableTimer
+        : 60000,
     contactPoint,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage.
     // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.enforceAgentAvailability,
+      rawQuiqObject.localStorageKeys ||
+      (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
+    enforceAgentAvailability:
+      rawQuiqObject.enforceAgentAvailability === undefined
+        ? true
+        : rawQuiqObject.enforceAgentAvailability,
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
       {
         primary: primaryColor,
+        menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
         customerMessageText: '#fff',
         customerMessageLinkText: '#fff',
         customerMessageBackground: primaryColor,
+        attachmentMessageColor: '#9c9c9f',
         transcriptBackground: '#f4f4f8',
       },
       rawQuiqObject.colors,
@@ -78,7 +88,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
-        sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
         welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
@@ -96,6 +105,23 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
         emojiPickerTooltip: messages.emojiPickerTooltip,
+        sendButtonLabel: messages.send,
+        attachmentBtnTooltip: messages.attachmentBtnTooltip,
+        optionsMenuTooltip: messages.optionsMenuTooltip,
+        emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+        emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+        emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
+        emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
+        emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+        emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+        messageArrivedNotification: messages.messageArrivedNotification,
+        transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
+        invalidAttachmentMessage: messages.invalidAttachmentMessage,
+        attachmentUploadError: messages.attachmentUploadError,
+        muteSounds: messages.muteSounds,
+        unmuteSounds: messages.unmuteSounds,
+        muteSoundsTooltip: messages.muteSoundsTooltip,
+        unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
       },
       rawQuiqObject.messages,
     ),
@@ -112,7 +138,9 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
     newFormObject.fields.forEach(field => {
       // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
       // If label is not defined this is an error, and will be caught when welcomeForm is validated.
+      /* eslint-disable no-param-reassign */
       if (!field.id && field.label) field.id = camelize(field.label);
+      /* eslint-disable no-param-reassign */
     });
   }
 
@@ -145,8 +173,8 @@ const processInternalOptions = (quiqOptions: QuiqObject) => {
       instances: [],
       // $FlowIssue - Flow doesn't know how to handle get/set
       get connectedCount() {
-        return this.instances.filter(ws => ws.readyState === 1).length
-      }
+        return this.instances.filter(ws => ws.readyState === 1).length;
+      },
     };
 
     const originalWS = window.WebSocket;
@@ -271,7 +299,8 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 export const getMessage = (messageName: string): string => {
   const message = quiqOptions.messages[messageName];
 
-  if (message === null || message === undefined) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+  if (message === null || message === undefined)
+    throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };

@@ -15,11 +15,13 @@ import {bindLaunchButtons} from 'managers/ButtonManager';
 import {setQuiqOptions, getQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
 import {quiqContainerId} from 'Common/Constants';
+import {init as notificationServiceInit} from 'services/notificationService';
 
 // Flag indicating whether or not chat has been bootstrapped
 let initialized = false;
 
 const constructLauncher = () => {
+  notificationServiceInit();
   const unsupported = !isStorageEnabled() || !isSupportedBrowser();
   const options = getQuiqOptions();
 
@@ -47,10 +49,9 @@ const bootstrap = () => {
 export const Quiq = (options: {[string]: any} = {}) => {
   // We should only initialize once. Throw error if called twice.
   if (initialized) {
-    throw new Error(`Quiq Chat has already been initialized. 
+    throw new Error(`Quiq Chat has already been initialized.
       Quiq() should only be called once.
-      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`
-    );
+      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`);
   }
 
   initialized = true;

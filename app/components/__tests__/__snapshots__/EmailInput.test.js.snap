@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailInput component rendering renders 1`] = `
+<Styled(div)
+  className="EmailInput"
+  style={
+    Object {
+      "border": "1px solid black",
+    }
+  }
+>
+  <Input
+    autoFocus={true}
+    className="css-3yh182"
+    initialValue=""
+    onSubmit={[Function]}
+    placeholder="Enter your Email..."
+    style={
+      Object {
+        "fontFamily": "Lato, sans-serif",
+        "outline": "none",
+      }
+    }
+    value={null}
+  />
+  <Styled(i)
+    className="fa fa-times"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Cancel Email Transcript"
+  />
+  <Styled(i)
+    className="fa fa-check"
+    data-test="submitButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "10px",
+      }
+    }
+    title="Email Transcript"
+  />
+</Styled(div)>
+`;

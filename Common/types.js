@@ -2,6 +2,33 @@
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
+export type ChatConfiguration = {
+  enableChatEmailTranscript: boolean,
+  enableChatFileAttachments: boolean,
+  enableEmojis: boolean,
+  playSoundOnNewMessage: boolean,
+  flashNotificationOnNewMessage: boolean,
+};
+
+export type ChatMetadata = {
+  configs: {
+    [string] : {
+      enabled: boolean
+    }
+  },
+  registrationForm?: {
+    headerText: string,
+    fields: Array<{
+      type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
+      label: string,
+      id: string,
+      required?: boolean,
+      rows?: number,
+      isInitialMessage?: boolean,
+    }>,
+  },
+};
+
 export type WelcomeFormField = {
   type: 'text' | 'number' | 'email' | 'tel' | 'textarea',
   label: string,
@@ -30,9 +57,13 @@ type CustomStyles = {
   ToggleChatButton?: Object,
   ToggleChatButtonIcon?: Object,
   CustomerMessageBubble?: Object,
+  CustomerAttachmentBubble?: Object,
+  CustomerAttachmentText?: Object,
   CustomerMessageText?: Object,
   CustomerAvatar?: Object,
   AgentMessageBubble?: Object,
+  AgentAttachmentBubble?: Object,
+  AgentAttachmentText?: Object,
   AgentMessageText?: Object,
   AgentAvatar?: Object,
   MessageForm?: Object,
@@ -44,6 +75,20 @@ type CustomStyles = {
   WelcomeFormFieldInput?: Object,
   WelcomeFormFieldTextarea?: Object,
   WelcomeFormSubmitButton?: Object,
+  OptionsMenuButton?: Object,
+  OptionsMenuButtonIcon?: Object,
+  contentButtons?: Object,
+  EmailTranscriptMenuContainer?: Object,
+  EmailTranscriptMenuLineItem?: Object,
+  EmailTranscriptMenuLineItemIcon?: Object,
+  EmailTranscriptInputContainer?: Object,
+  EmailTranscriptInput?: Object,
+  EmailTranscriptInputCancelButton?: Object,
+  EmailTranscriptInputSubmitButton?: Object,
+  EventContainer?: Object,
+  EventText?: Object,
+  EventLine?: Object,
+  InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
 };
 
@@ -57,12 +102,15 @@ export type QuiqObject = {
   colors: {
     // Deprecated in favor styles object
     primary: string,
+    eventText: string,
+    menuText: string,
     agentMessageText: string,
     agentMessageLinkText: string,
     agentMessageBackground: string,
     customerMessageText: string,
     customerMessageLinkText: string,
     customerMessageBackground: string,
+    attachmentMessageColor: string,
     transcriptBackground: string,
   },
   contactPoint: string,
@@ -77,7 +125,6 @@ export type QuiqObject = {
   messages: {
     titleText: string,
     headerText: string,
-    sendButtonLabel: string,
     messageFieldPlaceholder: string,
     welcomeFormValidationErrorMessage: string,
     welcomeFormSubmitButtonLabel: string,
@@ -96,6 +143,22 @@ export type QuiqObject = {
     unsupportedBrowser?: string,
     storageDisabled?: string,
     emojiPickerTooltip: string,
+    optionsMenuTooltip: string,
+    sendButtonLabel: string,
+    emailTranscriptInlineButton: string,
+    emailTranscriptMenuMessage: string,
+    emailTranscriptMenuTooltip: string,
+    emailTranscriptInputPlaceholder: string,
+    emailTranscriptInputCancelTooltip: string,
+    emailTranscriptInputSubmitTooltip: string,
+    transcriptEmailedEventMessage: string,
+    messageArrivedNotification: string,
+    invalidAttachmentMessage: string,
+    attachmentUploadError: string,
+    muteSounds: string,
+    unmuteSounds: string,
+    muteSoundsTooltip: string,
+    unmuteSoundsTooltip: string,
   },
   mobileNumber?: string | number,
   position: {
@@ -138,16 +201,22 @@ export type QuiqObject = {
   },
 };
 
+export type EmailTranscriptPayload = {
+  email: string,
+  originUrl: string,
+  timezone?: string,
+};
+
 export type IntlMessage = {
   id: string,
-  description?: string,
-  defaultMessage?: string,
+  description: string,
+  defaultMessage: string,
 };
 
 export type IntlObject = {
   formatMessage: (msg: IntlMessage, values: ?{[key: string]: string}) => string,
   formatDate: (date: number | moment$Moment) => string,
-  formatTime: (timestamp: number, options: ?Object) => string,
+  formatTime: (time: number | moment$Moment, options: ?Object) => string,
   formatRelative: (date: number) => string,
 };
 
@@ -314,10 +383,14 @@ export type ChatState = {
   chatLauncherHidden: boolean,
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
-  transcript: Array<Message>,
+  transcript: {[string]: Message},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
   agentEndedConversation: boolean,
+  platformEvents: Array<Event>,
+  muteSounds: boolean,
+  messageFieldFocused: boolean,
+  configuration: ChatConfiguration
 };
 
 export type Action = {
@@ -330,7 +403,9 @@ export type Action = {
     | 'AGENT_TYPING'
     | 'WELCOME_FORM_REGISTERED'
     | 'NEW_WEBCHAT_SESSION'
-    | 'AGENTS_AVAILABLE',
+    | 'AGENTS_AVAILABLE'
+    | 'MUTE_SOUNDS'
+    | 'UPDATE_PLATFORM_EVENTS',
 };
 
 export type ChatInitializedStateType =
@@ -348,16 +423,34 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping';
-export type AuthorType = 'Customer' | 'Agent';
-export type MessageType = 'Text' | 'ChatMessage';
+export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
 
-export type Message = {
+export type AuthorType = 'Customer' | 'User' | 'System';
+export type MessageType = 'Text' | 'ChatMessage';
+export type MessageStatusType = 'pending' | 'delivered';
+
+export type Message = TextMessage | AttachmentMessage;
+
+export type TextMessage = {
   authorType: AuthorType,
   text: string,
   id: string,
   timestamp: number,
   type: 'Text',
+  localKey?: string,
+  uploadProgress?: number,
+};
+
+export type AttachmentMessage = {
+  id: string,
+  localKey?: string,
+  timestamp: number,
+  type: 'Attachment',
+  authorType: AuthorType,
+  url: string,
+  contentType: string,
+  status?: MessageStatusType,
+  uploadProgress?: number,
 };
 
 export type Event = {

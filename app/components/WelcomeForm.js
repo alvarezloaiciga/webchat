@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import update from 'react-addons-update';
-import {messageTypes} from 'Common/Constants';
+import {messageTypes, UserEmailKey} from 'Common/Constants';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
@@ -133,7 +133,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     await map(this.state.inputFields, async field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        await QuiqChatClient.sendMessage(field.value);
+        await QuiqChatClient.sendTextMessage(field.value);
       }
     });
   };
@@ -157,6 +157,14 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     // Append field containing referrer (host)
     fields.Referrer = href;
+
+    // We store the e-mail in localStorage if it is there so we can
+    // prepopulate the e-mail transcript input later
+    if (fields.email) {
+      try {
+        localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(fields.email));
+      } catch (ex) {} // eslint-disable-line no-empty
+    }
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {inStandaloneMode, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
+import {inStandaloneMode, isStorageEnabled, isSupportedBrowser, uuidv4} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -10,18 +10,91 @@ import HeaderMenu from 'HeaderMenu';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {ChatInitializedState, messageTypes} from 'Common/Constants';
+import {
+  ChatInitializedState,
+  messageTypes,
+  maxAttachmentSize,
+  acceptedAttachmentTypes,
+} from 'Common/Constants';
+import Dropzone from 'react-dropzone';
+import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType} from 'Common/types';
+import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
+  configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
+  setUploadProgress: (messageId: string, progress: number) => void,
+  updatePendingAttachmentId: (tempId: string, newId: string) => void,
+  addPendingAttachmentMessage: (
+    tempId: string,
+    contentType: string,
+    url: string,
+    fromCustomer: boolean,
+  ) => void,
+  removeMessage: (id: string) => void,
 };
 
-export class ChatContainer extends React.Component<ChatContainerProps> {
+export type ChatContainerState = {
+  bannerMessage?: string,
+};
+
+export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
   props: ChatContainerProps;
+  state: ChatContainerState = {};
+  dropzone: ?Dropzone;
+  bannerMessageTimeout: ?number;
+
+  displayTemporaryError = (text: string, duration: number) => {
+    // Clear any pending timeout
+    if (this.bannerMessageTimeout) {
+      clearTimeout(this.bannerMessageTimeout);
+    }
+
+    this.setState({
+      bannerMessage: text,
+    });
+
+    // Hide the error in <duration> milliseconds
+    this.bannerMessageTimeout = setTimeout(
+      () => this.setState({bannerMessage: undefined}),
+      duration,
+    );
+  };
+
+  handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
+    if (rejected.length > 0) {
+      this.displayTemporaryError(getMessage(messageTypes.invalidAttachmentMessage), 10 * 1000);
+      return;
+    }
+
+    // Clear any attachment error
+    this.setState({bannerMessage: undefined});
+
+    accepted.forEach(file => {
+      const tempId = `temp_${uuidv4()}`;
+      const dataUrl = window.URL.createObjectURL(file);
+      this.props.addPendingAttachmentMessage(tempId, file.type, dataUrl, true);
+      QuiqChatClient.sendAttachmentMessage(file, (progress: number) =>
+        this.props.setUploadProgress(tempId, progress),
+      )
+        .then(id => {
+          this.props.updatePendingAttachmentId(tempId, id);
+        })
+        .catch(() => {
+          this.displayTemporaryError(getMessage(messageTypes.attachmentUploadError), 10 * 1000);
+          this.props.removeMessage(tempId);
+        });
+    });
+  };
+
+  openFileBrowser = () => {
+    if (this.dropzone) {
+      this.dropzone.open();
+    }
+  };
 
   renderBanner = () => {
     const {colors, styles, fontFamily} = quiqOptions;
@@ -32,6 +105,15 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     });
 
     const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
+
+    // If state indicates a warning message, use that
+    if (this.state.bannerMessage) {
+      return (
+        <div className="errorBanner" style={errorBannerStyle}>
+          {this.state.bannerMessage}
+        </div>
+      );
+    }
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
@@ -69,10 +151,21 @@ export class ChatContainer extends React.Component<ChatContainerProps> {
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className="chatContainerBody">
+          <Dropzone
+            ref={d => {
+              this.dropzone = d;
+            }}
+            disabled={!this.props.configuration.enableChatFileAttachments}
+            className="chatContainerBody"
+            accept={acceptedAttachmentTypes}
+            disablePreview={true}
+            disableClick={true}
+            maxSize={maxAttachmentSize}
+            onDrop={this.handleAttachments}
+          >
             <Transcript />
-            <MessageForm />
-          </div>
+            <MessageForm openFileBrowser={this.openFileBrowser} />
+          </Dropzone>
         );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
@@ -128,7 +221,14 @@ const mapStateToProps = (state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
+  configuration: state.configuration,
 });
 
-// The dispatch thing is to fix a flow error
-export default connect(mapStateToProps, dispatch => ({dispatch}))(ChatContainer);
+const mapDispatchToProps = {
+  setUploadProgress: ChatActions.setUploadProgress,
+  updatePendingAttachmentId: ChatActions.updatePendingAttachmentId,
+  addPendingAttachmentMessage: ChatActions.addPendingAttachmentMessage,
+  removeMessage: ChatActions.removeMessage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer);

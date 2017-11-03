@@ -1,4 +1,4 @@
-<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE 
+<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
  If you update this document, and it will affect the table of contents, be sure to generate a new table of contents at https://ecotrust-canada.github.io/markdown-toc/
      NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE -->
 
@@ -30,17 +30,34 @@
       - [AgentAvatar](#agentavatar)
       - [AgentMessageBubble](#agentmessagebubble)
       - [AgentMessageText](#agentmessagetext)
+      - [AgentAttachmentBubble](#agentattachmentbubble)
+      - [AgentAttachmentText](#agentattachmenttext)
       - [CustomerAvatar](#customeravatar)
       - [CustomerMessageBubble](#customermessagebubble)
       - [CustomerMessageText](#customermessagetext)
+      - [CustomerAttachmentBubble](#customerattachmentbubble)
+      - [CustomerAttachmentText](#customerattachmenttext)
+      - [EmailTranscriptInput](#emailtranscriptinput)
+      - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
+      - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
+      - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
+      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
+      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
+      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
       - [ErrorBanner](#errorbanner)
+      - [EventContainer](#eventcontainer)
+      - [EventLine](#eventline)
+      - [EventText](#eventtext)
       - [HeaderBanner](#headerbanner)
       - [HeaderMenu](#headermenu)
       - [HeaderMenuIcons](#headermenuicons)
+      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
       - [MessageForm](#messageform)
       - [MessageFormInput](#messageforminput)
       - [MessageFormSend](#messageformsend)
       - [NonChat](#nonchat)
+      - [OptionsMenuButton](#optionsmenubutton)
+      - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
@@ -54,6 +71,7 @@
   * [The Quiq object](#the-quiq-object)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
+    + [getHandle](#gethandle)
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
@@ -103,12 +121,15 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: string,
+        menuText: string, //  Text color for primary menu
+        eventText: string, // Text color for Event messages
         agentMessageText: string, // Text color for messages sent by the support agent
         agentMessageLinkText: string, // Text color for links sent by the support agent
         agentMessageBackground: string, // Message bubble color for links sent by the support agent
         customerMessageText: string, // Text color for messages sent by the end user
         customerMessageLinkText: string, // Text color for links sent by the end user
         customerMessageBackground: string, // Message bubble color for links sent by the end user
+        attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
         transcriptBackground: string, // Background color for the chat transcript
       }
       ```
@@ -117,6 +138,8 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: '#59ad5d',
+        menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
@@ -195,6 +218,15 @@ The Quiq() function contains properties describing how the instance of webchat s
         storageDisabled?: string,
         agentEndedConversationMessage: string,
         agentsNotAvailableMessage: string,
+        optionsMenuTooltip: string,
+        emailTranscriptInlineButton: string,
+        emailTranscriptMenuMessage: string,
+        emailTranscriptMenuTooltip: string,
+        emailTranscriptInputPlaceholder: string,
+        emailTranscriptInputCancelTooltip: string,
+        emailTranscriptInputSubmitTooltip: string,
+        messageArrivedNotification: string,
+        transcriptEmailedEventMessage: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -217,10 +249,21 @@ The Quiq() function contains properties describing how the instance of webchat s
         dockWindowTooltip: 'Dock chat',
         openInNewWindowTooltip: 'Open chat in new window',
         closeWindowTooltip: 'Close window',
+        emojiPickerTooltip: 'Emoji picker',
+        attachmentBtnTooltip: 'Send file',
         unsupportedBrowser: undefined,
         storageDisabled: undefined,
         agentEndedConversationMessage: 'Agent has ended the conversation.',
         agentsNotAvailableMessage: 'No agents are currently available.',
+        optionsMenuTooltip: 'Options',
+        emailTranscriptInlineButton: 'Email Transcript',
+        emailTranscriptMenuMessage: 'Email Transcript',
+        emailTranscriptMenuTooltip: 'Email a full transcript of the current chat',
+        emailTranscriptInputPlaceholder: 'Enter your Email...',
+        emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
+        emailTranscriptInputSubmitTooltip: 'Email Transcript',
+        messageArrivedNotification: 'New Message from Quiq Webchat'
+        transcriptEmailedEventMessage: 'Transcript Emailed',
       }
       ```
   - #### mobileNumber
@@ -345,7 +388,7 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 
 #### Available Elements
 To use any of the following elements, specify them within the stlyes object, like so
-  
+
   ```javascript
   Quiq({
     styles: {
@@ -364,6 +407,12 @@ The message bubble for messages that the support agent sent
 ##### AgentMessageText
 The text for messages that the support agent sent
 
+##### AgentAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+##### AgentAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
+
 ##### CustomerAvatar
 The avatar that shows up for the customer. (By default there is nothing here)
 
@@ -373,8 +422,44 @@ The message bubble for messages that the customer sent
 ##### CustomerMessageText
 The text for messages that the customer sent
 
+##### CustomerAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+##### CustomerAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
+
+##### EmailTranscriptInput
+Input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputCancelButton
+Cancel button for the `EmailTranscriptInput`
+
+##### EmailTranscriptInputContainer
+Container for the input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputSubmitButton
+Submit button for the `EmailTranscriptInput`
+
+##### EmailTranscriptMenuContainer
+Container for the Menu that pops when clicking the `OptionsMenuButton`
+
+##### EmailTranscriptMenuLineItem
+Individual line items within the `EmailTranscriptMenuContainer`
+
+##### EmailTranscriptMenuLineItemIcon
+Icon for individual `EmailTranscriptMenuLineItems`
+
 ##### ErrorBanner
 The banner that is shown when there is a connection error
+
+##### EventContainer
+Container for Event messages
+
+##### EventLine
+SVG portion of Event elements
+
+##### EventText
+Text portion of Event elements
 
 ##### HeaderBanner
 The banner that is shown above the chat transcript
@@ -384,6 +469,9 @@ The top section of the chat container that contains the minimize, maximize, and 
 
 ##### HeaderMenuIcons
 The icons inside `HeaderMenu`
+
+##### InlineEmailTranscriptButton
+Button that displays inline when the agent ends a conversation allowing user to request an email transcript of the conversation
 
 ##### MessageForm
 The form at the bottom of the chat that holds the text box and send button
@@ -396,6 +484,12 @@ The send button for the chat
 
 ##### NonChat
 Message Area that displays in place of chat when chat is unable to display. Only Displays if the `unsupportedBrowser` or `storageDisabled` message is set, and the client's browser fails one of these checks.
+
+##### OptionsMenuButton
+Button container for the Options menu at the bottom left of the web chat
+
+##### OptionsMenuButtonIcon
+Icon for the `OptionsMenuButton`
 
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat

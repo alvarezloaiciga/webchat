@@ -133,12 +133,23 @@ exports[`ChatContainer component initializedState when initialized renders prope
     We're here to help if you have any questions!
   </div>
   <Debugger />
-  <div
+  <Dropzone
+    accept="image/*"
     className="chatContainerBody"
+    disableClick={true}
+    disablePreview={true}
+    disabled={true}
+    maxSize={50000000}
+    minSize={0}
+    multiple={true}
+    onDrop={[Function]}
+    preventDropOnDocument={true}
   >
     <Connect(Transcript) />
-    <Connect(MessageForm) />
-  </div>
+    <Connect(MessageForm)
+      openFileBrowser={[Function]}
+    />
+  </Dropzone>
 </div>
 `;
 

@@ -72,15 +72,6 @@ describe('chat reducers', () => {
     });
   });
 
-  describe('UPDATE_TRANSCRIPT', () => {
-    it('updates state with the new value', () => {
-      const transcript = [getMockMessage()];
-      expect(chat(initialState, {type: 'UPDATE_TRANSCRIPT', transcript}).transcript).toEqual(
-        transcript,
-      );
-    });
-  });
-
   describe('AGENT_TYPING', () => {
     it('updates state with the new value', () => {
       expect(chat(initialState, {type: 'AGENT_TYPING', agentTyping: true}).agentTyping).toBe(true);
@@ -96,6 +87,7 @@ describe('chat reducers', () => {
   });
 
   describe('NEW_WEBCHAT_SESSION', () => {
+    const mock = getMockMessage();
     it('updates state with initial state merged with current visibility state and "initialized" set to "LOADING"', () => {
       const mutatedState = {
         welcomeFormRegistered: true,
@@ -103,10 +95,20 @@ describe('chat reducers', () => {
         chatContainerHidden: false,
         popped: false,
         chatLauncherHidden: false,
-        transcript: [getMockMessage()],
+        transcript: {[mock.id]: mock},
         agentTyping: true,
         agentsAvailable: true,
         agentEndedConversation: false,
+        platformEvents: [],
+        muteSounds: false,
+        messageFieldFocused: false,
+        configuration: {
+          enableChatEmailTranscript: false,
+          enableChatFileAttachments: false,
+          enableEmojis: false,
+          playSoundOnNewMessage: false,
+          flashNotificationOnNewMessage: false,
+        },
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

@@ -23,6 +23,17 @@ describe('ChatContainer component', () => {
       chatContainerHidden: false,
       welcomeFormRegistered: true,
       initializedState: 'initialized',
+      addPendingAttachmentMessage: jest.fn(),
+      setUploadProgress: jest.fn(),
+      updatePendingAttachmentId: jest.fn(),
+      removeMessage: jest.fn(),
+      configuration: {
+        enableChatEmailTranscript: false,
+        enableChatFileAttachments: false,
+        enableEmojis: false,
+        playSoundOnNewMessage: false,
+        flashNotificationOnNewMessage: false,
+      },
     };
 
     render = () => {

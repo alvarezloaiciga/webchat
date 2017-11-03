@@ -29,6 +29,7 @@ export const bridgePath = 'app/webchat/bridge.html';
 export const StandaloneWindowName = 'quiq-standalone-webchat';
 
 export const eventTypes: {[string]: string} = {
+  messageArrived: 'QUIQ_MESSAGE_ARRIVED',
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
   agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
@@ -47,6 +48,13 @@ export const actionTypes = {
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
   getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
+  uploadProgress: 'UPLOAD_PROGRESS',
+  addPendingMessage: 'ADD_PENDING_MESSAGE',
+  updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
+  updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
+  configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
+  getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
+  removeMessage: 'REMOVE_MESSAGE',
 };
 
 export const MessageTypes = {
@@ -92,8 +100,24 @@ export const messageTypes = {
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
+  optionsMenuTooltip: 'optionsMenuTooltip',
+  emailTranscriptMenuMessage: 'emailTranscriptMenuMessage',
+  emailTranscriptMenuTooltip: 'emailTranscriptMenuTooltip',
+  emailTranscriptInputPlaceholder: 'emailTranscriptInputPlaceholder',
+  emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
+  emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
+  emailTranscriptInlineButton: 'emailTranscriptInlineButton',
+  messageArrivedNotification: 'messageArrivedNotification',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
+  attachmentBtnTooltip: 'attachmentBtnTooltip',
+  invalidAttachmentMessage: 'invalidAttachmentMessage',
+  attachmentUploadError: 'attachmentUploadError',
+  muteSounds: 'muteSounds',
+  unmuteSounds: 'unmuteSounds',
+  muteSoundsTooltip: 'muteSoundsTooltip',
+  unmuteSoundsTooltip: 'unmuteSoundsTooltip',
+  transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
 };
 
 export const localStorageKeys = [
@@ -102,4 +126,16 @@ export const localStorageKeys = [
   'quiq-tracking-id',
   'quiq-user-taken-meaningful-action',
   'quiq-user-subscribed',
+  'quiq_mute_sounds',
 ];
+
+export const MenuItemKeys = {
+  EMAIL_TRANSCRIPT: 'emailTranscript',
+  MUTE_SOUNDS: 'muteSounds',
+};
+
+export const UserEmailKey = 'quiq-client-data';
+
+export const acceptedAttachmentTypes = 'image/*';
+
+export const maxAttachmentSize = 50 * 1000000;

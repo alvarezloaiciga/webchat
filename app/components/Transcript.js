@@ -1,24 +1,38 @@
 import React, {Component} from 'react';
-import Message from 'Message';
+import Message from 'Message/Message';
+import PlatformEvent from './PlatformEvent';
 import quiqOptions from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
-import type {Message as MessageType, ChatState} from 'Common/types';
+import {getTranscript, getPlatformEvents} from 'reducers/chat';
+import type {Message as MessageType, ChatState, Event} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
   transcript: Array<MessageType>,
+  platformEvents: Array<Event>,
 };
 
 export class Transcript extends Component {
   props: TranscriptProps;
-  transcript: any;
+  scrollLock: boolean = false;
+  transcript: HTMLElement;
 
   componentDidMount() {
-    this.transcript.scrollTop = this.transcript.scrollHeight;
+    this.scrollToBottom();
+    // Listen for scroll, set scrollLock flag
+    if (this.transcript) {
+      this.transcript.addEventListener(
+        'wheel',
+        () => {
+          this.scrollLock = true;
+        },
+        {passive: true},
+      );
+    }
   }
 
   scrollToBottom = () => {
-    if (!this.transcript) return;
+    if (!this.transcript || this.scrollLock) return;
 
     this.transcript.scrollTop = this.transcript.scrollHeight;
   };
@@ -26,12 +40,16 @@ export class Transcript extends Component {
   componentDidUpdate(prevProps) {
     // Scroll to the bottom if you get a new message
     if (this.props.transcript.length > prevProps.transcript.length) {
+      this.scrollLock = false;
       this.scrollToBottom();
     }
   }
 
   render() {
     const {colors} = quiqOptions;
+    const messagesAndEvents = [...this.props.transcript, ...this.props.platformEvents].sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
 
     return (
       <div
@@ -41,12 +59,21 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
-        {this.props.transcript.map(msg => <Message key={msg.id} message={msg} />)}
+        {messagesAndEvents.map(a => {
+          if (a.type === 'Attachment' || a.type === 'Text') {
+            return (
+              <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
+            );
+          }
+
+          return <PlatformEvent event={a} key={a.id} />;
+        })}
       </div>
     );
   }
 }
 
 export default connect((state: ChatState) => ({
-  transcript: state.transcript,
+  transcript: getTranscript(state),
+  platformEvents: getPlatformEvents(state),
 }))(Transcript);

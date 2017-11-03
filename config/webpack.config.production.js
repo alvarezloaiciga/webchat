@@ -115,7 +115,7 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../SDK/src/components'),
           path.resolve(__dirname, '../node_modules/emoji-mart'),
           path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js')
+          path.resolve(__dirname, '../node_modules/draft-js'),
         ],
         loader: [
           'style',
@@ -126,11 +126,18 @@ module.exports = merge(config, {
         ],
       },
       {
+        test: /\.(wav|mp3)$/,
+        loader: 'file-loader',
+        query: {
+          name: `assets/audio/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
+        },
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url',
         query: {
           limit: 8192,
-          name: `images/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+          name: `images/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
         },
       },
       {
@@ -138,7 +145,7 @@ module.exports = merge(config, {
         loader: 'url',
         query: {
           limit: 8192,
-          name: `fonts/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+          name: `fonts/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
         },
       },
     ],

@@ -3,11 +3,11 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
-import {getDisplayString} from 'Common/i18n';
-import {SupportedWebchatUrls, localStorageKeys, unknownErrorMessage} from './Constants';
+import {getDisplayString} from 'core-ui/services/i18nService';
+import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage} from './types';
+import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage, Message} from './types';
 
 const parser = new UAParser();
 
@@ -117,14 +117,14 @@ export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor(
 // It kind of does, at least for what we need it for... so go ahead and ignore QuiqModernizr in that case
 export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqModernizr.flexwrap);
 export const supportsSVG = () =>
-QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
+  QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
-export const displayError = (error: string | IntlMessage, values: { [string]: string } = {}) => {
+export const displayError = (error: string | IntlMessage, values: {[string]: string} = {}) => {
   throw new Error(getDisplayString(error, values));
 };
 
-export const displayWarning = (error: string | IntlMessage, values: { [string]: string } = {}) => {
-  console.warn(getDisplayString(error, values));
+export const displayWarning = (error: string | IntlMessage, values: {[string]: string} = {}) => {
+  console.warn(getDisplayString(error, values)); // eslint-disable-line no-console
 };
 
 // If window.opener is not null, then we're in a popup.
@@ -138,6 +138,17 @@ export const inStandaloneMode = () => {
     return false;
   }
 };
+
+export const isLastMessageFromAgent = (transcript: Array<Message>): boolean => {
+  return transcript.length > 0 &&
+         transcript[transcript.length - 1].authorType === 'User';
+}
+
+// Taken from http://emailregex.com/ - RFC-5322 compliant. 99.99% accurate
+export const isValidEmail = (email: string) =>
+  /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+    email,
+  );
 
 export const getWebchatUrlFromScriptTag = () => {
   // Determine host from the script tag that loaded webchat
@@ -165,7 +176,7 @@ export const inNonProductionCluster = () =>
   );
 
 export const inLocalDevelopment = () =>
-__DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
+  __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
 
 /**
  * Retrieves all Quiq-related keys, including store.js metadata keys, from local storage.
@@ -176,7 +187,10 @@ __DEV__ || !!window.location.hostname.match(/.*\.(centricient|quiq)\.dev/g);
  * Useful if we need to lookup non-namespaced keys, but want the returned object to be namespaced by contact point.
  * @returns {{}} - A map of local storage keys onto values.
  */
-export const getQuiqKeysFromLocalStorage = (contactPoint: ?string, postfix: ?string): { [string]: any } => {
+export const getQuiqKeysFromLocalStorage = (
+  contactPoint: ?string,
+  postfix: ?string,
+): {[string]: any} => {
   try {
     if (!localStorage) return {};
     const ls = {};
@@ -184,7 +198,7 @@ export const getQuiqKeysFromLocalStorage = (contactPoint: ?string, postfix: ?str
     const allKeys = localStorageKeys.flatMap(k => [
       `${k}${cpPostfix}`,
       `__storejs_expire_mixin_${k}${cpPostfix}`,
-      `__storejs_modified_timestamp_mixin_${k}${cpPostfix}`
+      `__storejs_modified_timestamp_mixin_${k}${cpPostfix}`,
     ]);
 
     allKeys.forEach(k => {
@@ -202,7 +216,7 @@ export const getQuiqKeysFromLocalStorage = (contactPoint: ?string, postfix: ?str
   }
 };
 
-export const setLocalStorageItemsIfNewer = (data: { [string]: any }) => {
+export const setLocalStorageItemsIfNewer = (data: {[string]: any}) => {
   if (!localStorage) return;
 
   Object.keys(data).forEach(k => {
@@ -242,8 +256,17 @@ export const clearQuiqKeysFromLocalStorage = () => {
 };
 
 // From https://stackoverflow.com/questions/377961/efficient-javascript-string-replacement
-export const buildTemplateString = (s: string, values: { [string]: any }): string => {
+export const buildTemplateString = (s: string, values: {[string]: any}): string => {
   return s.replace(/{(\w*)}/g, (m: string, key: string) => {
     return values.hasOwnProperty(key) ? values[key].toString() : '';
   });
 };
+
+// From https://stackoverflow.com/a/2117523/3961837
+// Note that this is not cryptographically random--only use for creating temporary IDs
+export const uuidv4 = () =>
+  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });

@@ -7,8 +7,18 @@ Object {
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
+  "configuration": Object {
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
+    "enableEmojis": false,
+    "flashNotificationOnNewMessage": false,
+    "playSoundOnNewMessage": false,
+  },
   "initializedState": "uninitialized",
-  "transcript": Array [],
+  "messageFieldFocused": false,
+  "muteSounds": false,
+  "platformEvents": Array [],
+  "transcript": Object {},
   "welcomeFormRegistered": false,
 }
 `;
@@ -20,8 +30,18 @@ Object {
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
+  "configuration": Object {
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
+    "enableEmojis": false,
+    "flashNotificationOnNewMessage": false,
+    "playSoundOnNewMessage": false,
+  },
   "initializedState": "uninitialized",
-  "transcript": Array [],
+  "messageFieldFocused": false,
+  "muteSounds": false,
+  "platformEvents": Array [],
+  "transcript": Object {},
   "welcomeFormRegistered": false,
 }
 `;
@@ -33,8 +53,18 @@ Object {
   "agentsAvailable": true,
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
+  "configuration": Object {
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
+    "enableEmojis": false,
+    "flashNotificationOnNewMessage": false,
+    "playSoundOnNewMessage": false,
+  },
   "initializedState": "loading",
-  "transcript": Array [],
+  "messageFieldFocused": false,
+  "muteSounds": false,
+  "platformEvents": Array [],
+  "transcript": Object {},
   "welcomeFormRegistered": false,
 }
 `;

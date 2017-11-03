@@ -1,7 +1,7 @@
 // @flow
 
 import messages from 'Common/messages';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
@@ -16,6 +16,8 @@ const quiqOptions: QuiqObject = {
   color: '#333',
   colors: {
     primary: '#333',
+    menuText: '#2199e8',
+    eventText: '#ddd',
     agentMessageText: '#fff',
     agentMessageLinkText: '#fff',
     agentMessageBackground: '#0085f4',
@@ -23,6 +25,7 @@ const quiqOptions: QuiqObject = {
     customerMessageLinkText: '#0085f4',
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
+    attachmentMessageColor: '#9c9c9f',
   },
   styles: {
     HeaderMenu: {
@@ -107,6 +110,45 @@ const quiqOptions: QuiqObject = {
       fontFamily: 'Source Sans Pro',
       fontSize: 16,
     },
+    OptionsMenuButton: {
+      background: 'red',
+    },
+    OptionsMenuButtonIcon: {
+      display: 'none',
+    },
+    EmailTranscriptMenuContainer: {
+      backround: 'green',
+    },
+    EmailTranscriptMenuLineItem: {
+      fontFamily: 'Comic Sans',
+    },
+    EmailTranscriptMenuLineItemIcon: {
+      fontSize: 20,
+    },
+    EmailTranscriptInputContainer: {
+      border: '1px solid black',
+    },
+    EmailTranscriptInput: {
+      outline: 'none',
+    },
+    EmailTranscriptInputCancelButton: {
+      borderRadius: '10px',
+    },
+    EmailTranscriptInputSubmitButton: {
+      borderRadius: '10px',
+    },
+    InlineEmailTranscriptButton: {
+      backgroundColor: 'grey',
+    },
+    EventContainer: {
+      backgroundColor: 'green',
+    },
+    EventText: {
+      color: 'red',
+    },
+    EventLine: {
+      stroke: 'red',
+    },
   },
   position: {},
   headerText: 'TOOL TIME',
@@ -131,6 +173,22 @@ const quiqOptions: QuiqObject = {
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,
     emojiPickerTooltip: messages.emojiPickerTooltip,
+    optionsMenuTooltip: messages.optionsMenuTooltip,
+    emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+    emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+    emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
+    emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
+    emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+    emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+    messageArrivedNotification: messages.messageArrivedNotification,
+    transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
+    attachmentBtnTooltip: messages.attachmentBtnTooltip,
+    invalidAttachmentMessage: messages.invalidAttachmentMessage,
+    attachmentUploadError: messages.attachmentUploadError,
+    muteSounds: messages.muteSounds,
+    unmuteSounds: messages.unmuteSounds,
+    muteSoundsTooltip: messages.muteSoundsTooltip,
+    unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

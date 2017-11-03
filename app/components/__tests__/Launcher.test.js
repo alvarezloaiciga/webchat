@@ -49,8 +49,8 @@ describe('Launcher component', () => {
       chatLauncherHidden: false,
       initializedState: 'initialized',
       welcomeFormRegistered: true,
+      muteSounds: false,
       transcript: [],
-
       setChatContainerHidden: jest.fn(),
       setChatLauncherHidden: jest.fn(),
       setChatInitialized: jest.fn(),
@@ -60,6 +60,16 @@ describe('Launcher component', () => {
       newWebchatSession: jest.fn(),
       setAgentsAvailable: jest.fn(),
       setAgentEndedConversation: jest.fn(),
+      updatePlatformEvents: jest.fn(),
+      messageFieldFocused: false,
+      setChatConfiguration: jest.fn(),
+      configuration: {
+        enableChatEmailTranscript: false,
+        enableChatFileAttachments: false,
+        enableEmojis: false,
+        playSoundOnNewMessage: false,
+        flashNotificationOnNewMessage: false,
+      },
     };
 
     init = () => {
@@ -72,7 +82,11 @@ describe('Launcher component', () => {
       QuiqChatClient.checkForAgents.mockReturnValue(checkForAgentsResponse);
       QuiqChatClient.isChatVisible.mockReturnValue(isChatVisibleResponse);
       QuiqChatClient.hasTakenMeaningfulAction.mockReturnValue(hasTakenMeaningfulActionResponse);
-
+      QuiqChatClient.onSendTranscript.mockReturnValue({
+        id: 1,
+        type: 'SendTranscript',
+        timestamp: 123456,
+      });
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
       (instance: any).componentDidMount();

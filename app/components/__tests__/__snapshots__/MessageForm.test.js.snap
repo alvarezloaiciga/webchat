@@ -38,7 +38,9 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       disabled={false}
       maxLength={1024}
       name="message"
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       onReturn={[Function]}
       placeholder="Send us a message..."
       style={
@@ -49,30 +51,114 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
       }
     />
     <button
-      className="messageFormBtn emojiBtn"
+      className="messageFormBtn attachmentBtn"
       disabled={false}
-      onClick={[Function]}
-    >
-      <i
-        className="fa fa-smile-o"
-        title="Emoji picker"
-      />
-    </button>
-    <button
-      className="messageFormBtn sendBtn"
-      disabled={true}
       onClick={[Function]}
       style={
         Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-          "fontSize": 16,
-          "textTransform": "uppercase",
+          "color": "#848484",
+          "fontSize": "16px",
         }
       }
+      title="Send file"
     >
-      Send
+      <i
+        className="fa fa-paperclip"
+      />
     </button>
+    <button
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+      title="Emoji picker"
+    >
+      <i
+        className="fa fa-smile-o"
+      />
+    </button>
+    <MenuButton
+      buttonStyles={
+        Object {
+          "background": "red",
+          "borderRight": "2px solid rgb(244, 244, 248)",
+        }
+      }
+      className=""
+      closeOnChildClick={true}
+      icon="bars"
+      iconStyles={
+        Object {
+          "color": "#848484",
+          "display": "none",
+          "fontSize": "19px",
+          "marginTop": "1px",
+        }
+      }
+      keepChildrenMounted={false}
+      menuPosition="top-right"
+      offset={
+        Object {
+          "horizontal": "-115px",
+          "vertical": "40px",
+        }
+      }
+      title="Options"
+    >
+      <Menu
+        containerStyle={
+          Object {
+            "backround": "green",
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
+        items={
+          Array [
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "volume-off",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "muteSounds",
+              "label": "Mute Sounds",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Mute new message sounds",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "envelope-o",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "emailTranscript",
+              "label": "Email Transcript",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Email a full transcript of the current chat",
+            },
+          ]
+        }
+      />
+    </MenuButton>
     <EmojiPicker
       addEmoji={[Function]}
       emojiFilter={[Function]}
@@ -105,7 +191,9 @@ exports[`MessageForm component rendering renders 1`] = `
       disabled={false}
       maxLength={1024}
       name="message"
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       onReturn={[Function]}
       placeholder="Send us a message..."
       style={
@@ -116,30 +204,114 @@ exports[`MessageForm component rendering renders 1`] = `
       }
     />
     <button
-      className="messageFormBtn emojiBtn"
+      className="messageFormBtn attachmentBtn"
       disabled={false}
-      onClick={[Function]}
-    >
-      <i
-        className="fa fa-smile-o"
-        title="Emoji picker"
-      />
-    </button>
-    <button
-      className="messageFormBtn sendBtn"
-      disabled={true}
       onClick={[Function]}
       style={
         Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-          "fontSize": 16,
-          "textTransform": "uppercase",
+          "color": "#848484",
+          "fontSize": "16px",
         }
       }
+      title="Send file"
     >
-      Send
+      <i
+        className="fa fa-paperclip"
+      />
     </button>
+    <button
+      className="messageFormBtn emojiBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+      title="Emoji picker"
+    >
+      <i
+        className="fa fa-smile-o"
+      />
+    </button>
+    <MenuButton
+      buttonStyles={
+        Object {
+          "background": "red",
+          "borderRight": "2px solid rgb(244, 244, 248)",
+        }
+      }
+      className=""
+      closeOnChildClick={true}
+      icon="bars"
+      iconStyles={
+        Object {
+          "color": "#848484",
+          "display": "none",
+          "fontSize": "19px",
+          "marginTop": "1px",
+        }
+      }
+      keepChildrenMounted={false}
+      menuPosition="top-right"
+      offset={
+        Object {
+          "horizontal": "-115px",
+          "vertical": "40px",
+        }
+      }
+      title="Options"
+    >
+      <Menu
+        containerStyle={
+          Object {
+            "backround": "green",
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
+        items={
+          Array [
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "volume-off",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "muteSounds",
+              "label": "Mute Sounds",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Mute new message sounds",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "envelope-o",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "emailTranscript",
+              "label": "Email Transcript",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Email a full transcript of the current chat",
+            },
+          ]
+        }
+      />
+    </MenuButton>
     <EmojiPicker
       addEmoji={[Function]}
       emojiFilter={[Function]}

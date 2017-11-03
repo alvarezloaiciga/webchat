@@ -1,4 +1,5 @@
-import type {ChatInitializedStateType, Message} from 'types';
+import {actionTypes} from 'Common/Constants';
+import type {ChatInitializedStateType, Message, ChatMetadata} from 'types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   type: 'CHAT_CONTAINER_HIDDEN',
@@ -25,14 +26,51 @@ export const setAgentTyping = (agentTyping: boolean) => ({
   agentTyping,
 });
 
+export const setMuteSounds = (muteSounds: boolean) => ({
+  type: 'MUTE_SOUNDS',
+  muteSounds,
+});
+
+export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
+  type: 'MESSAGE_FIELD_FOCUSED',
+  messageFieldFocused,
+});
+
 export const setAgentEndedConversation = (ended: boolean) => ({
   type: 'AGENT_ENDED_CONVERSATION',
   ended,
 });
 
+export const setChatConfiguration = (metadata: ChatMetadata) => ({
+  type: 'CHAT_CONFIGURATION_LOADED',
+  configuration: {
+    enableChatEmailTranscript:
+      metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
+    enableChatFileAttachments:
+      metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
+    enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
+    playSoundOnNewMessage:
+      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&
+      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE.enabled,
+    flashNotificationOnNewMessage:
+      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
+      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
+  },
+});
+
+export const updatePlatformEvents = (event: Event) => ({
+  type: 'UPDATE_PLATFORM_EVENTS',
+  event,
+});
+
 export const updateTranscript = (transcript: Array<Message>) => ({
   type: 'UPDATE_TRANSCRIPT',
   transcript,
+});
+
+export const removeMessage = (id: string) => ({
+  type: actionTypes.removeMessage,
+  id,
 });
 
 export const setWelcomeFormRegistered = () => ({
@@ -41,4 +79,37 @@ export const setWelcomeFormRegistered = () => ({
 
 export const newWebchatSession = () => ({
   type: 'NEW_WEBCHAT_SESSION',
+});
+
+export const setUploadProgress = (messageId: string, progress: number) => ({
+  type: actionTypes.uploadProgress,
+  messageId,
+  progress,
+});
+
+export const addPendingAttachmentMessage = (
+  tempId: string,
+  contentType: string,
+  url: string,
+  fromCustomer: boolean,
+) => {
+  return {
+    type: actionTypes.addPendingMessage,
+    message: {
+      id: tempId,
+      localKey: tempId,
+      type: 'Attachment',
+      timestamp: Date.now(),
+      authorType: fromCustomer ? 'Customer' : 'User',
+      status: 'pending',
+      contentType,
+      url,
+    },
+  };
+};
+
+export const updatePendingAttachmentId = (tempId: string, newId: string) => ({
+  type: actionTypes.updatePendingMessageId,
+  tempId,
+  newId,
 });
