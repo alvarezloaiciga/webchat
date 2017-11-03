@@ -137,6 +137,24 @@ exports[`MessageForm component agentTyping shows typing indicator 1`] = `
               },
               "title": "Mute new message sounds",
             },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "envelope-o",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "emailTranscript",
+              "label": "Email Transcript",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Email a full transcript of the current chat",
+            },
           ]
         }
       />
@@ -271,6 +289,24 @@ exports[`MessageForm component rendering renders 1`] = `
                 "fontFamily": "Comic Sans",
               },
               "title": "Mute new message sounds",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "envelope-o",
+                "style": Object {
+                  "color": "#2199e8",
+                  "fontSize": 20,
+                },
+              },
+              "id": "emailTranscript",
+              "label": "Email Transcript",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Comic Sans",
+              },
+              "title": "Email a full transcript of the current chat",
             },
           ]
         }

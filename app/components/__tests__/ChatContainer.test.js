@@ -26,6 +26,7 @@ describe('ChatContainer component', () => {
       addPendingAttachmentMessage: jest.fn(),
       setUploadProgress: jest.fn(),
       updatePendingAttachmentId: jest.fn(),
+      removeMessage: jest.fn(),
     };
 
     render = () => {
