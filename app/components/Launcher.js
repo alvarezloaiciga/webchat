@@ -229,11 +229,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.updateInitializedState(ChatInitializedState.LOADING);
       await QuiqChatClient.start();
       this.updateInitializedState(ChatInitializedState.INITIALIZED);
-
-      // User has session in progress. Send them right to it.
-      if (this.props.transcript.length > 0) {
-        this.props.setWelcomeFormRegistered();
-      }
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }

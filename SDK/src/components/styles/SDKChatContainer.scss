@@ -7,6 +7,9 @@
   top: inherit;
   left: inherit;
 
+  // Leave this in. Some customers have default stylings for iFrames that try to override this
+  display: block;
+
   &.hasCustomLauncher {
     bottom: 24px;
   }

@@ -43,11 +43,6 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   componentWillMount() {
-    if (QuiqChatClient.isRegistered()) {
-      this.props.setWelcomeFormRegistered();
-      return;
-    }
-
     this.processWelcomeForm();
   }
 

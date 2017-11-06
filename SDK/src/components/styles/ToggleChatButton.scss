@@ -17,6 +17,10 @@
   transition: 0.15s ease-in-out all;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
 
+  // Leave these in, some customer sites have default stylings for buttons that try to override these
+  margin: 0; 
+  padding: 0;
+
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
   }
