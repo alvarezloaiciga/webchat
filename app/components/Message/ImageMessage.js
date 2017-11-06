@@ -36,14 +36,24 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
     }
   }
 
+  componentDidUpdate(prevProps: ImageMessageProps, prevState: ImageMessageState) {
+    if (this.state.imageHeight && !prevState.imageHeight) {
+      this.props.scrollToBottom();
+    }
+  }
+
   loadImage = (url: string) => {
+    this.setState({imageWidth: undefined, imageHeight: undefined});
     this.image = new Image();
     this.image.src = url;
-    this.setState({imageWidth: undefined, imageHeight: undefined});
-    if (this.image && this.image.complete) {
-      this.setState({imageLoaded: true}, this.props.scrollToBottom);
+    if (this.image.complete) {
+      this.handleImageLoad();
     } else {
-      this.trackImageLoading();
+      // Listen for image load
+      this.image.addEventListener('load', this.handleImageLoad);
+
+      // Poll for dimensions
+      this.pollingInterval = setInterval(this.loadImageDimensions, 20);
     }
   };
 
@@ -51,6 +61,12 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
     // Clear dimension polling interval, if for some reason we're still trying to find those
     if (this.pollingInterval) {
       clearInterval(this.pollingInterval);
+    }
+
+    // Ensure image dimensions have been loaded
+    // Catches case where image is immediately complete, and loadImageDimensions() is not called before this function
+    if (!this.state.imageHeight || !this.state.imageWidth) {
+      this.loadImageDimensions();
     }
 
     this.setState({imageLoaded: true});
@@ -62,24 +78,11 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
       if (this.pollingInterval) {
         clearInterval(this.pollingInterval);
       }
-      this.setState(
-        {
-          imageWidth: this.image.naturalWidth,
-          imageHeight: this.image.naturalHeight,
-        },
-        this.props.scrollToBottom,
-      );
+      this.setState({
+        imageWidth: this.image.naturalWidth,
+        imageHeight: this.image.naturalHeight,
+      });
     }
-  };
-
-  trackImageLoading = () => {
-    if (!this.image) return;
-
-    // Listen for image load
-    this.image.addEventListener('load', this.handleImageLoad);
-
-    // Poll for dimensions
-    this.pollingInterval = setInterval(this.loadImageDimensions, 20);
   };
 
   renderImage = () => {
