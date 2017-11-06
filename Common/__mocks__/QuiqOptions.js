@@ -5,6 +5,8 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
+  anchorElement: '',
+  demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
   localStorageKeys: {},

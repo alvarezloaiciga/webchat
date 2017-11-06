@@ -22,6 +22,7 @@ export const getChatClient = jest.fn().mockReturnValue({
   hasTakenMeaningfulAction: jest.fn(),
   isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),
+  getChatConfiguration: jest.fn(),
   onSendTranscript: jest.fn().mockReturnValue({
     id: 1,
     type: 'SendTranscript',

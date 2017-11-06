@@ -1,7 +1,6 @@
 // @flow
 import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
-import quiqOptions from 'Common/QuiqOptions';
 import update from 'immutability-helper';
 import type {
   ChatState,
@@ -35,7 +34,7 @@ export const initialState = {
   transcript: {},
   agentTyping: false,
   agentEndedConversation: false,
-  welcomeFormRegistered: !quiqOptions.welcomeForm,
+  welcomeFormRegistered: false,
   muteSounds: false,
   platformEvents: [],
   messageFieldFocused: false,
@@ -45,6 +44,7 @@ export const initialState = {
     enableEmojis: false,
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,
+    registrationForm: undefined,
   },
 };
 

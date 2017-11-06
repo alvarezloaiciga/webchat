@@ -112,7 +112,8 @@ describe('ChatContainer component', () => {
       it('renders welcome form', () => {
         testProps.welcomeFormRegistered = false;
         render();
-        expect(wrapper.find('WelcomeForm').length).toBe(1);
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('Connect(WelcomeForm)').length).toBe(1);
       });
     });
   });

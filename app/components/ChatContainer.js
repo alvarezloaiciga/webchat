@@ -1,14 +1,14 @@
 // @flow
 import React from 'react';
-import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {inStandaloneMode, isStorageEnabled, isSupportedBrowser, uuidv4} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
-import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
+import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
 import {
@@ -47,10 +47,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   state: ChatContainerState = {};
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
-
-  componentDidMount() {
-    if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
-  }
 
   displayTemporaryError = (text: string, duration: number) => {
     // Clear any pending timeout
@@ -202,8 +198,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormRegistered &&
-      !QuiqChatClient.isRegistered()
+      !this.props.welcomeFormRegistered
     ) {
       return (
         <div className={classNames}>

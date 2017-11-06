@@ -71,8 +71,23 @@
         HeaderMenu: {
           background: '#31bf8b',
         },
-        TitleText: {
-          //fontSize: '20px',
+        anchorElement: '',
+        demoMode: true,
+        agentsAvailableTimer: 60000,
+        enforceAgentAvailability: false,
+        host: '<%- host %>',
+        contactPoint: 'default',
+        autoPopTime: 120000,
+        mobileNumber: 33,
+        colors: {
+          primary: 'red', // (Falls back to `QUIQ.COLOR`)
+          agentMessageText: '#555',
+          agentMessageLinkText: '#2199e8',
+          agentMessageBackground: '#e0e0e0',
+          customerMessageText: 'yellow',
+          customerMessageLinkText: 'yellow',
+          customerMessageBackground: '#2199e8',
+          transcriptBackground: '#f4f4f8',
         },
         HeaderBanner: {
           background: '#31bf8b',
@@ -81,12 +96,49 @@
           fontWeight: 500,
           textTransform: 'uppercase',
         },
-        ErrorBanner: {
-          background: '#fff',
-          color: 'red',
-          fontFamily: 'Source Sans Pro',
-          textTransform: 'uppercase',
-          fontWeight: 700,
+        //customLaunchButtons: ['#customLaunchBtn1', '#customLaunchBtn2'],
+        welcomeForm: {
+          headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+          fields: [
+            {
+              type: 'text',
+              label: 'First Name',
+              id: 'firstName',
+              required: true,
+            },
+            {
+              type: 'text',
+              label: 'Last Name',
+              id: 'lastName',
+              required: false,
+            },
+            {
+              type: 'textarea',
+              label: 'Initial Question',
+              id: 'initialQuestion',
+              required: false,
+              rows: 2,
+              isInitialMessage: true,
+            },
+            {
+              type: 'number',
+              label: 'Number Field',
+              id: 'numberField',
+              required: false,
+            },
+            {
+              type: 'email',
+              label: 'E-Mail',
+              id: 'email',
+              required: false,
+            },
+            {
+              type: 'tel',
+              label: 'Phone Number',
+              id: 'phoneNumber',
+              required: false,
+            },
+          ],
         },
         ToggleChatButton: {
           background: 'teal',

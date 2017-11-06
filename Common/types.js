@@ -8,13 +8,14 @@ export type ChatConfiguration = {
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
+  registrationForm?: WelcomeForm | null,
 };
 
 export type ChatMetadata = {
   configs: {
-    [string] : {
-      enabled: boolean
-    }
+    [string]: {
+      enabled: boolean,
+    },
   },
   registrationForm?: {
     headerText: string,
@@ -98,6 +99,7 @@ export type QuiqObject = {
    * be sure to update the README
    */
   agentsAvailableTimer: number,
+  anchorElement: string,
   autoPopTime?: number,
   colors: {
     // Deprecated in favor styles object
@@ -115,6 +117,7 @@ export type QuiqObject = {
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,
+  demoMode: boolean,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
   fontFamily: string,
@@ -379,7 +382,7 @@ export type ChatState = {
   platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
-  configuration: ChatConfiguration
+  configuration: ChatConfiguration,
 };
 
 export type Action = {

@@ -9,12 +9,12 @@ import {
 } from 'Common/Utils';
 import {render, h} from 'preact';
 import {buildQuiqObject} from 'Common/QuiqOptions';
-import {quiqContainerId} from 'Common/Constants';
 import NonChat from './components/NonChat';
 import SDKLauncher from './components/SDKLauncher';
 import {bindLaunchButtons} from 'managers/ButtonManager';
 import {setQuiqOptions, getQuiqOptions} from './Globals';
 import SDKPrototype from './SdkPrototype';
+import {quiqContainerId} from 'Common/Constants';
 import {init as notificationServiceInit} from 'services/notificationService';
 
 // Flag indicating whether or not chat has been bootstrapped
@@ -23,16 +23,22 @@ let initialized = false;
 const constructLauncher = () => {
   notificationServiceInit();
   const unsupported = !isStorageEnabled() || !isSupportedBrowser();
+  const options = getQuiqOptions();
 
   // We will add the unsupported classes to their custom launchers.
   // There's nothing for us to render.
-  if (unsupported && getQuiqOptions().customLaunchButtons.length > 0) return;
+  if (unsupported && options.customLaunchButtons.length > 0) return;
 
-  const root = document.createElement('div');
-  root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
-  document.getElementsByTagName('body')[0].appendChild(root);
-
-  render(unsupported ? <NonChat /> : <SDKLauncher />, document.getElementById(quiqContainerId));
+  let anchorElement = null;
+  if (options.anchorElement && options.anchorElement !== '') {
+    anchorElement = document.querySelector(options.anchorElement);
+  } else {
+    const root = document.createElement('div');
+    root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
+    document.getElementsByTagName('body')[0].appendChild(root);
+    anchorElement = document.getElementById(quiqContainerId);
+  }
+  render(unsupported ? <NonChat /> : <SDKLauncher />, anchorElement);
 };
 
 const bootstrap = () => {
@@ -45,8 +51,7 @@ export const Quiq = (options: {[string]: any} = {}) => {
   if (initialized) {
     throw new Error(`Quiq Chat has already been initialized.
       Quiq() should only be called once.
-      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`
-    );
+      Note that if you have a legacy window.QUIQ object defined, we automatically call Quiq() on your behalf.`);
   }
 
   initialized = true;
