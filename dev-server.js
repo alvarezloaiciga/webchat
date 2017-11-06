@@ -135,7 +135,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   });
 
   // Playground server
-  // The sole purpose here is to serve the 'local.html' page on a different port than the webchat app
+  // The sole purpose here is to serve the 'customer' page on a different port than the webchat app
   // This gives us a realistic cross-domain dev environment
   var playgroundApp = require('express')();
   var playgroundServer = require('https').createServer(require('./devssl'), playgroundApp);
@@ -145,6 +145,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   playgroundApp.all('/app/webchat/assets/*', proxyAssets);
 
+  // Playground
   playgroundApp.get('/', (req, res) => {
     res.render('./playground', {host: webchatHost, tenant});
   });
@@ -154,7 +155,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     res.render('./testbed', {host: webchatHost});
   });
 
-  // Rockstar
+  // R*
   playgroundApp.get('/rockstar', (req, res) => {
     res.render('./rockstar', {host: webchatHost});
   });

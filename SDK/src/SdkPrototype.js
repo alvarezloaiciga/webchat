@@ -7,6 +7,12 @@ import type {RegistrationField} from 'Common/types';
 import {getChatWindow} from './Globals';
 
 export default {
+  getChatVisibility: async (
+    callback: (data: ?{visibility: boolean}, error: ?Error) => void,
+  ): Promise<{visible: boolean}> => {
+    return await Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
+  },
+
   setChatVisibility: (visible: boolean) => {
     // NOTE: Focus must be done from the SDK, not webchat, as call to focus() must originate from user interaction
     if (!isIFrame(getChatWindow())) {
@@ -17,12 +23,6 @@ export default {
 
   sendRegistration: (registrationData: Array<RegistrationField>) => {
     Postmaster.tellChat(actionTypes.sendRegistration, {registrationData});
-  },
-
-  getChatVisibility: async (
-    callback: (data: ?{visibility: boolean}, error: ?Error) => void,
-  ): Promise<{visible: boolean}> => {
-    return await Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
   },
 
   getAgentAvailability: async (
