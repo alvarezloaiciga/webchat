@@ -40,7 +40,7 @@
       "git add"
     ],
     "app/**/*.scss": [
-      "prettier --write --parser css",
+      "prettier --write",
       "git add"
     ]
   },
