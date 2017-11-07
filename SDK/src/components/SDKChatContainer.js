@@ -27,11 +27,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
   }
 
-  updateChatWindow = (newWindow: Object) => {
-    setChatWindow(newWindow);
-    setup();
-  };
-
   handleChatVisibilityChange = (e: {visible: boolean}) =>
     this.setState({containerVisible: e.visible});
 

@@ -30,6 +30,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
+    contactPoint,
+    mode: rawQuiqObject.mode || 'either',
     customScreens: rawQuiqObject.customScreens,
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
@@ -37,8 +39,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
         ? rawQuiqObject.agentsAvailableTimer
         : 60000,
-    contactPoint,
-    // Transfer Quiq keys from this site's localStorage to iframe's local storage.
+     // Transfer Quiq keys from this site's localStorage to iframe's local storage.
     // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:

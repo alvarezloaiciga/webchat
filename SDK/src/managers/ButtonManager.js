@@ -59,7 +59,7 @@ export const handleLaunchButtonClick = async () => {
     return;
   }
 
-  // If chat is in it's own window, focus that window
+  // If chat is in its own window, focus that window
   if (!isIFrame(getChatWindow())) {
     return getChatWindow().focus();
   }

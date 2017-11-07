@@ -103,6 +103,7 @@ export type QuiqObject = {
    * Documented Properties. If you modify this,
    * be sure to update the README
    */
+  mode: 'docked' | 'undocked' | 'either',
   agentsAvailableTimer: number,
   anchorElement: string,
   autoPopTime?: number,
