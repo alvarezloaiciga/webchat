@@ -52,8 +52,11 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
         {!(isMobile() && typeof quiqOptions.mobileNumber !== 'number') &&
           quiqOptions.customLaunchButtons.length === 0 &&
           this.state.launcherVisible && (
-            <ToggleChatButton open={this.state.containerVisible} onClick={handleLaunchButtonClick} />
-        )}
+            <ToggleChatButton
+              open={this.state.containerVisible}
+              onClick={handleLaunchButtonClick}
+            />
+          )}
         <SDKChatContainer />
       </div>
     );

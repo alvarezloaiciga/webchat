@@ -31,8 +31,16 @@
       "prettier --write",
       "git add"
     ],
-    "app/**/*.scss": [
+    "Common/**/*.js": [
       "prettier --write",
+      "git add"
+    ],
+    "SDK/**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "app/**/*.scss": [
+      "prettier --write --parser css",
       "git add"
     ]
   },
@@ -137,7 +145,7 @@
     "ngrok": "2.2.9",
     "node-sass": "4.5.2",
     "postcss-loader": "0.11.1",
-    "prettier": "1.6.1",
+    "prettier": "1.8.1",
     "react-addons-test-utils": "15.6.2",
     "react-hot-loader": "3.1.1",
     "react-test-renderer": "16.0.0",

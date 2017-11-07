@@ -19,7 +19,9 @@ const EmailInputContainer = styled.div`
   background: #fff;
 `;
 
-const ErrorStyle = css`box-shadow: inset 0px 0px 7px red;`;
+const ErrorStyle = css`
+  box-shadow: inset 0px 0px 7px red;
+`;
 
 const InputStyle = error => css`
   display: flex;
@@ -51,9 +53,13 @@ const IconCSS = (color: string) => css`
   }
 `;
 
-const CancelButton = styled.i`${IconCSS('red')};`;
+const CancelButton = styled.i`
+  ${IconCSS('red')};
+`;
 
-const SubmitButton = styled.i`${IconCSS('green')};`;
+const SubmitButton = styled.i`
+  ${IconCSS('green')};
+`;
 
 const {fontFamily, styles, host, contactPoint} = quiqOptions;
 

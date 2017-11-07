@@ -251,11 +251,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           style={submitButtonStyle}
           onClick={this.submitForm}
         >
-          {this.state.submitting ? (
-            getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
-          ) : (
-            getMessage(messageTypes.welcomeFormSubmitButtonLabel)
-          )}
+          {this.state.submitting
+            ? getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
+            : getMessage(messageTypes.welcomeFormSubmitButtonLabel)}
         </button>
       </form>
     );

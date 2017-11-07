@@ -7,7 +7,14 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage, Message} from './types';
+import type {
+  BrowserNames,
+  DeviceTypes,
+  OSNames,
+  BrowserEngine,
+  IntlMessage,
+  Message,
+} from './types';
 
 const parser = new UAParser();
 
@@ -140,9 +147,8 @@ export const inStandaloneMode = () => {
 };
 
 export const isLastMessageFromAgent = (transcript: Array<Message>): boolean => {
-  return transcript.length > 0 &&
-         transcript[transcript.length - 1].authorType === 'User';
-}
+  return transcript.length > 0 && transcript[transcript.length - 1].authorType === 'User';
+};
 
 // Taken from http://emailregex.com/ - RFC-5322 compliant. 99.99% accurate
 export const isValidEmail = (email: string) =>

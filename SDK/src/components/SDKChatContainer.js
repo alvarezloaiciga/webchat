@@ -53,9 +53,10 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     const popup = window.open(
       `${host}/${webchatPath}`,
       JSON.stringify(quiqOptions),
-      `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${screen.height /
-        2 -
-        height / 2}, left=${screen.width / 2 - width / 2}`,
+      `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${
+        width
+      }, height=${height}, top=${screen.height / 2 - height / 2}, left=${screen.width / 2 -
+        width / 2}`,
     );
 
     if (isIFrame(getChatWindow())) {
