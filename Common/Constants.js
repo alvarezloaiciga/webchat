@@ -136,6 +136,4 @@ export const MenuItemKeys = {
 
 export const UserEmailKey = 'quiq-client-data';
 
-export const acceptedAttachmentTypes = 'image/*';
-
 export const maxAttachmentSize = 50 * 1000000;

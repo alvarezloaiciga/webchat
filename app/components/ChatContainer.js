@@ -11,12 +11,7 @@ import QuiqChatClient from 'quiq-chat';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {
-  ChatInitializedState,
-  messageTypes,
-  maxAttachmentSize,
-  acceptedAttachmentTypes,
-} from 'Common/Constants';
+import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
@@ -158,7 +153,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             }}
             disabled={!this.props.configuration.enableChatFileAttachments}
             className="chatContainerBody"
-            accept={acceptedAttachmentTypes}
+            accept={this.props.configuration.supportedAttachmentTypes.join(',')}
             disablePreview={true}
             disableClick={true}
             maxSize={maxAttachmentSize}
