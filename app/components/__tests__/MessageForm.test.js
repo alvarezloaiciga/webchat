@@ -36,6 +36,7 @@ describe('MessageForm component', () => {
         configuration: {
           enableChatEmailTranscript: true,
           enableChatFileAttachments: true,
+          supportedAttachmentTypes: ['image/png,image/jpeg'],
           enableEmojis: true,
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,

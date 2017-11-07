@@ -48,6 +48,8 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
       metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
     enableChatFileAttachments:
       metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
+    supportedAttachmentTypes:
+      metadata.configs.ALLOWED_CONTENT_TYPES && metadata.configs.ALLOWED_CONTENT_TYPES.contentTypes,
     enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
     playSoundOnNewMessage:
       metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&

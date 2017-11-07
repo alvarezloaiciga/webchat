@@ -5,17 +5,22 @@ export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 export type ChatConfiguration = {
   enableChatEmailTranscript: boolean,
   enableChatFileAttachments: boolean,
+  supportedAttachmentTypes: Array<string>,
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
   registrationForm?: WelcomeForm | null,
 };
 
+export type BooleanConfig = {
+  enabled: boolean,
+};
+
+export type ArrayConfig = Array<string>;
+
 export type ChatMetadata = {
   configs: {
-    [string]: {
-      enabled: boolean,
-    },
+    [string]: BooleanConfig | ArrayConfig,
   },
   registrationForm?: {
     headerText: string,

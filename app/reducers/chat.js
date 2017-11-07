@@ -41,6 +41,7 @@ export const initialState = {
   configuration: {
     enableChatEmailTranscript: false,
     enableChatFileAttachments: false,
+    supportedAttachmentTypes: ['image/png,image/jpeg'],
     enableEmojis: false,
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,

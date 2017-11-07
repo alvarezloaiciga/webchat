@@ -134,7 +134,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
   </div>
   <Debugger />
   <Dropzone
-    accept="image/*"
+    accept="image/png,image/jpeg"
     className="chatContainerBody"
     disableClick={true}
     disablePreview={true}
