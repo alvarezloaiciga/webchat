@@ -79,19 +79,19 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
               />
             )}
             {this.props.initializedState !== ChatInitializedState.BURNED &&
-            (!inStandaloneMode() || this.state.openingWindowExists) && (
-              <i
-                className={`fa fa-${inStandaloneMode()
-                  ? 'window-restore'
-                  : 'window-maximize'} icon`}
-                title={getMessage(
-                  inStandaloneMode()
-                    ? messageTypes.dockWindowTooltip
-                    : messageTypes.openInNewWindowTooltip,
-                )}
-                onClick={inStandaloneMode() ? window.close : this.popChat}
-              />
-            )}
+              (!inStandaloneMode() || this.state.openingWindowExists) && (
+                <i
+                  className={`fa fa-${
+                    inStandaloneMode() ? 'window-restore' : 'window-maximize'
+                  } icon`}
+                  title={getMessage(
+                    inStandaloneMode()
+                      ? messageTypes.dockWindowTooltip
+                      : messageTypes.openInNewWindowTooltip,
+                  )}
+                  onClick={inStandaloneMode() ? window.close : this.popChat}
+                />
+              )}
             <i
               className={`fa fa-times icon`}
               title={getMessage(messageTypes.closeWindowTooltip)}

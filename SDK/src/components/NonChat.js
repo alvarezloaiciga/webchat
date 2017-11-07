@@ -88,7 +88,8 @@ export class NonChat extends Component<NonChatProps, NonChatState> {
           onClick={() =>
             this.setState((prevState: NonChatState) => ({
               containerVisible: !prevState.containerVisible,
-            }))}
+            }))
+          }
         />
       </div>
     );

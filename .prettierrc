@@ -4,5 +4,13 @@
   "singleQuote": true,
   "trailingComma": "all",
   "bracketSpacing": false,
-  "parser": "flow"
+  "parser": "flow",
+  "overrides": [
+    {
+      "files": "*.scss",
+      "options": {
+        "parser": "scss"
+      }
+    }
+  ]
 }

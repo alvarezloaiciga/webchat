@@ -95,7 +95,9 @@ Postmaster.registerEventHandler(
  */
 export const oldSchoolGetAgentsAvailable = (callback: (available: boolean) => void) => {
   const {contactPoint, host} = getQuiqOptions();
-  let agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${contactPoint}&platform=Chat`;
+  let agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${
+    contactPoint
+  }&platform=Chat`;
   const browserDetails = `${getBrowserName()}_${getMajor()}`;
   if (!isSupportedBrowser()) agentsAvailableEndpoint += `&unsupportedBrowser=${browserDetails}`;
   if (!isStorageEnabled()) agentsAvailableEndpoint += `&storageDisabled=${browserDetails}`;

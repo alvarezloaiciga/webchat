@@ -27,12 +27,16 @@ describe('Utils', () => {
 describe('Utils', () => {
   describe('buildTemplateString', () => {
     it('renders a normal string as-is', () => {
-      expect(Utils.buildTemplateString("hello there, Homer")).toBe("hello there, Homer");
+      expect(Utils.buildTemplateString('hello there, Homer')).toBe('hello there, Homer');
     });
 
     it('renders a template string with replacement', () => {
-      expect(Utils.buildTemplateString("Hi {name1}, my name is {name2}", {name1: 'scary', name2: 'posh'}))
-        .toBe("Hi scary, my name is posh");
+      expect(
+        Utils.buildTemplateString('Hi {name1}, my name is {name2}', {
+          name1: 'scary',
+          name2: 'posh',
+        }),
+      ).toBe('Hi scary, my name is posh');
     });
   });
 });
