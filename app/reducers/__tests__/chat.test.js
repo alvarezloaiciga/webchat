@@ -110,6 +110,7 @@ describe('chat reducers', () => {
           playSoundOnNewMessage: false,
           flashNotificationOnNewMessage: false,
         },
+        chatIsSpam: true,
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

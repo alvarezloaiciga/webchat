@@ -12,7 +12,7 @@ import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
-import {getTranscript} from 'reducers/chat';
+import {getTranscript, getChatIsSpam} from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
@@ -30,6 +30,7 @@ export type MessageFormProps = {
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
+  chatIsSpam: boolean,
 };
 
 type MessageFormState = {
@@ -236,7 +237,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
+        disabled:
+          this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
+          this.props.chatIsSpam,
       });
     }
 
@@ -316,7 +319,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   {this.props.configuration.enableChatEmailTranscript && (
                     <Button
                       disabled={
-                        this.props.transcript.filter(m => m.authorType === 'User').length === 0
+                        this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
+                        this.props.chatIsSpam
                       }
                       className="emailTranscriptInlineButton"
                       title={getMessage(messageTypes.emailTranscriptInlineButton)}
@@ -418,6 +422,7 @@ export default connect(
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
     configuration: state.configuration,
+    chatIsSpam: getChatIsSpam(state),
   }),
   mapDispatchToProps,
 )(MessageForm);

@@ -48,6 +48,7 @@ export type LauncherProps = {
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
   setChatConfiguration: (configuration: ChatMetadata) => void,
+  markChatAsSpam: () => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -154,6 +155,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient.onChatMarkedAsSpam(this.props.markChatAsSpam);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 

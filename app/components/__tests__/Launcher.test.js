@@ -63,6 +63,7 @@ describe('Launcher component', () => {
       updatePlatformEvents: jest.fn(),
       messageFieldFocused: false,
       setChatConfiguration: jest.fn(),
+      markChatAsSpam: jest.fn(),
       configuration: {
         enableChatEmailTranscript: false,
         enableChatFileAttachments: false,
