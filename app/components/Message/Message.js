@@ -19,10 +19,6 @@ export const Message = (props: MessageProps) => {
 
   const fromCustomer = props.message.authorType === 'Customer';
 
-  const margin = fromCustomer
-    ? {marginLeft: 'auto', justifyContent: 'flex-end'}
-    : {marginRight: 'auto', justifyContent: 'flex-start'};
-
   let messageComponent;
   switch (props.message.type) {
     case 'Text':
@@ -42,11 +38,9 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      <div style={{display: 'flex', ...margin}}>
-        {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
-        {messageComponent}
-        {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}
-      </div>
+      {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
+      {messageComponent}
+      {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}
     </div>
   );
 };

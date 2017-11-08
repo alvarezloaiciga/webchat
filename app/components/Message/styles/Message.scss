@@ -2,6 +2,7 @@
   margin: 8px 50px 8px 16px;
   display: flex;
   flex: 0 0 auto;
+  justify-content: flex-start;
   align-self: stretch;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -9,6 +10,12 @@
   &.fromCustomer {
     margin-right: 16px;
     margin-left: 50px;
+    justify-content: flex-end;
+  }
+
+  .agentAvatar,
+  .customerAvatar {
+    flex: 0 0 auto;
   }
 }
 
