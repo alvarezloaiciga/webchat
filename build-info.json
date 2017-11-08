@@ -12,5 +12,6 @@
     "buildCommand" : "yarn && yarn build",
     "unitTestCommand" : "echo 'passed'",
     "dockerFileDir" : "."
-  }
+  },
+  "tags": ["nginx"]
 }
