@@ -6,6 +6,7 @@ import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
+import flatMap from 'lodash/flatMap';
 import './modernizr';
 import type {
   BrowserNames,
@@ -201,7 +202,7 @@ export const getQuiqKeysFromLocalStorage = (
     if (!localStorage) return {};
     const ls = {};
     const cpPostfix = contactPoint ? `_${contactPoint}` : '';
-    const allKeys = localStorageKeys.flatMap(k => [
+    const allKeys = flatMap(localStorageKeys, k => [
       `${k}${cpPostfix}`,
       `__storejs_expire_mixin_${k}${cpPostfix}`,
       `__storejs_modified_timestamp_mixin_${k}${cpPostfix}`,
