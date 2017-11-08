@@ -47,6 +47,7 @@ export const initialState = {
     flashNotificationOnNewMessage: false,
     registrationForm: undefined,
   },
+  chatIsSpam: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -80,6 +81,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         platformEvents: [...state.platformEvents, action.event],
       });
+    case 'MARK_CHAT_AS_SPAM':
+      return Object.assign({}, state, {chatIsSpam: true});
     case 'UPDATE_TRANSCRIPT': {
       if (!Array.isArray(action.transcript)) return state;
 
@@ -190,3 +193,5 @@ export const getTranscript = (state: ChatState): Array<Message> => Object.values
 export const getPlatformEvents = (state: ChatState): Array<Event> => state.platformEvents;
 
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
+
+export const getChatIsSpam = (state: ChatState): boolean => state.chatIsSpam;

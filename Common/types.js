@@ -388,6 +388,7 @@ export type ChatState = {
   muteSounds: boolean,
   messageFieldFocused: boolean,
   configuration: ChatConfiguration,
+  chatIsSpam: boolean,
 };
 
 export type Action = {
@@ -402,7 +403,8 @@ export type Action = {
     | 'NEW_WEBCHAT_SESSION'
     | 'AGENTS_AVAILABLE'
     | 'MUTE_SOUNDS'
-    | 'UPDATE_PLATFORM_EVENTS',
+    | 'UPDATE_PLATFORM_EVENTS'
+    | 'MARK_CHAT_AS_SPAM',
 };
 
 export type ChatInitializedStateType =
@@ -420,7 +422,14 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
+export type EventType =
+  | 'Join'
+  | 'Leave'
+  | 'Register'
+  | 'AgentTyping'
+  | 'SendTranscript'
+  | 'End'
+  | 'Spam';
 
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';

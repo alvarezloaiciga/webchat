@@ -41,6 +41,10 @@ export const setAgentEndedConversation = (ended: boolean) => ({
   ended,
 });
 
+export const markChatAsSpam = () => ({
+  type: 'MARK_CHAT_AS_SPAM',
+});
+
 export const setChatConfiguration = (metadata: ChatMetadata) => ({
   type: 'CHAT_CONFIGURATION_LOADED',
   configuration: {

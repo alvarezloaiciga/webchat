@@ -68,6 +68,8 @@ export const EventTypes = {
   REGISTER: 'Register',
   AGENT_TYPING: 'AgentTyping',
   AGENT_ENDED_CONVERSATION: 'AgentEndedConversation',
+  END: 'End',
+  SPAM: 'Spam',
 };
 
 export const ChatInitializedState = {
