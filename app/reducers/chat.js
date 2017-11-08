@@ -194,7 +194,4 @@ export const getPlatformEvents = (state: ChatState): Array<Event> => state.platf
 
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
 
-export const getChatIsSpam = (state: ChatState): boolean => {
-  console.log(state.chatIsSpam);
-  return state.chatIsSpam;
-};
+export const getChatIsSpam = (state: ChatState): boolean => state.chatIsSpam;
