@@ -49,6 +49,7 @@ export type LauncherProps = {
   newWebchatSession: () => void,
   setChatConfiguration: (configuration: ChatMetadata) => void,
   markChatAsSpam: () => void,
+  removeMessage: (messageId: string) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -135,9 +136,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
         }
       }
     });
-    QuiqChatClient.onMessageSendFailure(() => {
-      const messages = QuiqChatClient.getMessages();
-      this.props.updateTranscript(messages);
+    QuiqChatClient.onMessageSendFailure((messageId: string) => {
+      this.props.removeMessage(messageId);
     });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
