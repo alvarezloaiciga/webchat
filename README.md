@@ -69,6 +69,7 @@
       - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
 - [SDK](#sdk)
   * [The Quiq object](#the-quiq-object)
+    + [getChatStatus](#getChatStatus)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
     + [getHandle](#gethandle)
@@ -530,6 +531,10 @@ The submit button for the welcome form
 
 The Quiq object, returned by a call to the `Quiq()` function, exposes methods you can use to interact with the webchat UI and the Quiq webchat service.
 
+#### getChatStatus
+  - getChatStatus(callback)
+  - Returns a Promise with an object containing a single boolean `active` key. Optionally, a callback can be passed to the function which will be called with the same object.
+
 #### getAgentAvailability
   - getAgentAvailability(callback)
   - Returns a Promise with an object containing a single boolean `available` key. Optionally, a callback can be passed to the function which will be called with the same object.
@@ -540,7 +545,7 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
 #### getHandle
   - getHandle(callback)
-  - Returns a Promise with a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same string value.
+  - Returns a Promise with an object containing a single key, `handle`, corresponding to a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same object.
 
 #### on
   - on(eventName: EventType, handler)
