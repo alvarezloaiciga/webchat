@@ -5,31 +5,21 @@ exports[`Message component fromAgent colors the message according to quiqOptions
   className="messageContainer"
 >
   <div
-    style={
+    className="agentAvatar"
+    style={Object {}}
+  />
+  <TextMessage
+    message={
       Object {
-        "display": "flex",
-        "justifyContent": "flex-start",
-        "marginRight": "auto",
+        "authorType": "User",
+        "id": "id--0",
+        "text": "text--0",
+        "timestamp": 0,
+        "type": "Text",
       }
     }
-  >
-    <div
-      className="agentAvatar"
-      style={Object {}}
-    />
-    <TextMessage
-      message={
-        Object {
-          "authorType": "User",
-          "id": "id--0",
-          "text": "text--0",
-          "timestamp": 0,
-          "type": "Text",
-        }
-      }
-      scrollToBottom={[Function]}
-    />
-  </div>
+    scrollToBottom={[Function]}
+  />
 </div>
 `;
 
@@ -37,31 +27,21 @@ exports[`Message component rendering renders with default props 1`] = `
 <div
   className="messageContainer fromCustomer"
 >
-  <div
-    style={
+  <TextMessage
+    message={
       Object {
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginLeft": "auto",
+        "authorType": "Customer",
+        "id": "id--0",
+        "text": "text--0",
+        "timestamp": 0,
+        "type": "Text",
       }
     }
-  >
-    <TextMessage
-      message={
-        Object {
-          "authorType": "Customer",
-          "id": "id--0",
-          "text": "text--0",
-          "timestamp": 0,
-          "type": "Text",
-        }
-      }
-      scrollToBottom={[Function]}
-    />
-    <div
-      className="customerAvatar"
-      style={Object {}}
-    />
-  </div>
+    scrollToBottom={[Function]}
+  />
+  <div
+    className="customerAvatar"
+    style={Object {}}
+  />
 </div>
 `;
