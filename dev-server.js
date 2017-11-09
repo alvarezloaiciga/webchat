@@ -154,6 +154,11 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     res.render('./testbed', {host: webchatHost});
   });
 
+  // Rockstar
+  playgroundApp.get('/rockstar', (req, res) => {
+    res.render('./rockstar', {host: webchatHost});
+  });
+
   playgroundServer.listen(sdkPort, function () {
     console.log('Playground server running on: https://%s.quiq.dev:%s', tenant, sdkPort);
   });
