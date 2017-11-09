@@ -18,7 +18,10 @@ export class Transcript extends Component {
   transcript: HTMLElement;
 
   componentDidMount() {
-    this.scrollToBottom();
+    if (!this.isUsingCustomWaitScreen()) {
+      this.scrollToBottom();
+    }
+
     // Listen for scroll, set scrollLock flag
     if (this.transcript) {
       this.transcript.addEventListener(
@@ -45,6 +48,20 @@ export class Transcript extends Component {
     }
   }
 
+  handleIFrameLoad = () => {
+    this.scrollToBottom();
+  };
+
+  isUsingCustomWaitScreen = () => {
+    return quiqOptions.customHeaderScreenUrl && quiqOptions.customHeaderScreenUrl.length > 0;
+  };
+
+  handleScrollToBottom = () => {
+    if (!this.isUsingCustomWaitScreen()) {
+      this.scrollToBottom();
+    }
+  };
+
   render() {
     const {colors} = quiqOptions;
     const messagesAndEvents = [...this.props.transcript, ...this.props.platformEvents].sort(
@@ -59,10 +76,26 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
+        {this.isUsingCustomWaitScreen() && (
+          <iframe
+            onLoad={this.handleIFrameLoad}
+            style={{
+              minHeight: quiqOptions.customHeaderScreenHeight,
+              borderWidth: 0,
+            }}
+            height={quiqOptions.customHeaderScreenHeight}
+            src={quiqOptions.customHeaderScreenUrl}
+          />
+        )}
+
         {messagesAndEvents.map(a => {
           if (a.type === 'Attachment' || a.type === 'Text') {
             return (
-              <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
+              <Message
+                key={a.localKey || a.id}
+                message={a}
+                scrollToBottom={this.handleScrollToBottom}
+              />
             );
           }
 

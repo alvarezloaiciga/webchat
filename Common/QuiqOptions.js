@@ -30,6 +30,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
+    customHeaderScreenUrl: rawQuiqObject.customHeaderScreenUrl,
+    customHeaderScreenHeight: rawQuiqObject.customHeaderScreenHeight,
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
     agentsAvailableTimer:
