@@ -69,6 +69,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
+  postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
@@ -99,11 +100,6 @@ const setupReduxHooks = () => {
     tellClient(eventTypes._launchButtonVisibilityShouldChange, {
       visible: !hidden,
     }),
-  );
-
-  // Agent availability
-  reduxWatch.watch(ChatSelectors.getAgentsAvailable, available =>
-    tellClient(eventTypes.agentAvailabilityDidChange, {available}),
   );
 };
 
@@ -160,5 +156,14 @@ const sendRegistration = (event: Object) => {
   QuiqChatClient.sendRegistration(registrationDictionary);
 };
 
+// NOTE: Returns {available: boolean}
+// We don't need to wrap the result into an object here since it comes prepackaged that way from the API
 const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
-const getHandle = async () => await QuiqChatClient.getHandle(quiqOptions.host);
+
+const getHandle = async () => ({
+  handle: await QuiqChatClient.getHandle(quiqOptions.host),
+});
+
+const getChatStatus = async () => ({
+  active: await QuiqChatClient.isUserSubscribed(),
+});

@@ -232,9 +232,6 @@
       chat.on('chatVisibilityDidChange', function (data) {
         updateState({'Chat is visible': data.visible});
       });
-      chat.on('agentAvailabilityDidChange', function (data) {
-        updateState({'Agents available': data.available});
-      });
 
       // State table methods
       function updateState(data) {
@@ -298,7 +295,14 @@
       function getHandle() {
         chat.getHandle(function (handle) {
           console.log(handle);
-          document.getElementById('handleDiv').innerText = handle;
+          document.getElementById('handleDiv').innerText = handle.handle;
+        })
+      }
+
+      function getChatStatus() {
+        chat.getChatStatus(function (status) {
+          console.log(status);
+          document.getElementById('activeDiv').innerText = status.active;
         })
       }
 
@@ -375,6 +379,12 @@
                         Get Handle
                     </button>
                 <div id="handleDiv"></div>
+                </p>
+                <p>
+                    <button type="button" id="action_getChatStatus" class="btn btn-lg btn-success" onclick="getChatStatus()">
+                        Get Chat Status (Active)
+                    </button>
+                <div id="activeDiv"></div>
                 </p>
             </div>
 

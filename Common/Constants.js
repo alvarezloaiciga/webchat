@@ -31,7 +31,6 @@ export const StandaloneWindowName = 'quiq-standalone-webchat';
 export const eventTypes: {[string]: string} = {
   messageArrived: 'QUIQ_MESSAGE_ARRIVED',
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
-  agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
   _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE',
 };
@@ -43,6 +42,7 @@ export const publicEventTypes = Object.keys(eventTypes).reduce(
 );
 
 export const actionTypes = {
+  getChatStatus: 'QUIQ_GET_CHAT_STATUS',
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
