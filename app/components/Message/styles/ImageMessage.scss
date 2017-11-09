@@ -29,6 +29,11 @@
     animation: 0.2s 1 fadeIn;
   }
 
+  /* Disable image border in IE10 */
+  a img {
+    border: 0;
+  }
+
   &.fromCustomer {
     align-self: flex-end;
   }
