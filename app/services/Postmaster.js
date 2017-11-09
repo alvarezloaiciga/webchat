@@ -12,7 +12,7 @@ import postRobot from 'post-robot/dist/post-robot.ie';
 import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
-import {eventTypes, actionTypes} from 'Common/Constants';
+import {eventTypes, actionTypes, modes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
@@ -66,6 +66,7 @@ const setupListeners = () => {
     return displayError('Postmaster.init() must be called prior to setting up listeners.');
   }
 
+  postRobotListener.on(actionTypes.loadChat, loadChat);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
@@ -122,14 +123,21 @@ export const standaloneOpen = () => {
  * View facade handlers (client -> webchat)
  **********************************************************************************/
 
+const loadChat = () => {
+  if (!appIsMounted()) {
+    constructApp(store);
+  }
+};
+
 const setChatVisibility = (event: Object) => {
   const {visible} = event.data;
 
-  if (visible && !appIsMounted()) {
-    constructApp(store);
+  // If we are in 'UNDOCKED' mode, turn around and fire an open standalone event
+  if (visible && quiqOptions.mode === modes.UNDOCKED) {
+    standaloneOpen();
+  } else {
+    store.dispatch(ChatActions.setChatContainerHidden(!visible));
   }
-
-  store.dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
 const getChatVisibility = () => {

@@ -42,6 +42,7 @@ export const publicEventTypes = Object.keys(eventTypes).reduce(
 );
 
 export const actionTypes = {
+  loadChat: 'QUIQ_LOAD_CHAT',
   getChatStatus: 'QUIQ_GET_CHAT_STATUS',
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
@@ -140,3 +141,9 @@ export const MenuItemKeys = {
 export const UserEmailKey = 'quiq-client-data';
 
 export const maxAttachmentSize = 50 * 1000000;
+
+export const modes = {
+  DOCKED: 'docked',
+  UNDOCKED: 'undocked',
+  EITHER: 'either',
+};

@@ -2,7 +2,7 @@
 /** @jsx h */
 import {Component, h} from 'preact';
 import {getQuiqOptions, setChatWindow, getChatWindow} from 'Globals';
-import {webchatPath, eventTypes, actionTypes} from 'Common/Constants';
+import {webchatPath, eventTypes, actionTypes, modes} from 'Common/Constants';
 import {setup, registerEventHandler, tellChat} from 'Postmaster';
 import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
@@ -26,6 +26,11 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     registerEventHandler(eventTypes.chatVisibilityDidChange, this.handleChatVisibilityChange);
     registerEventHandler(eventTypes._standaloneOpen, this.handleStandaloneOpen);
   }
+
+  updateChatWindow = (newWindow: Object) => {
+    setChatWindow(newWindow);
+    setup();
+  };
 
   handleChatVisibilityChange = (e: {visible: boolean}) =>
     this.setState({containerVisible: e.visible});
@@ -66,7 +71,12 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
       if (popup.closed) {
         clearInterval(this.standaloneWindowTimer);
         this.updateChatWindow(this.chatFrame);
-        tellChat(actionTypes.setChatVisibility, {visible: true});
+
+        // Load chat back up in the Iframe
+        tellChat(actionTypes.loadChat);
+
+        // If we are NOT in undocked-only mode, set chat iframe visible. Otherwise, set chat visibility to hidden.
+        tellChat(actionTypes.setChatVisibility, {visible: quiqOptions.mode !== modes.UNDOCKED});
       }
     }, 20);
   };

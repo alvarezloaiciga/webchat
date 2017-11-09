@@ -8,7 +8,7 @@ import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
-import {ChatInitializedState, eventTypes} from 'Common/Constants';
+import {ChatInitializedState, eventTypes, modes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
@@ -180,10 +180,15 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
 
     // ChatContainer Visible from cookie
-    // Always start session, always show launcher
+    // Always start session
+    // Pop chat open unless we're in undocked-only mode
     if (QuiqChatClient.isChatVisible()) {
-      this.updateContainerHidden(false);
       await this.startSession();
+
+      if (quiqOptions.mode !== modes.UNDOCKED) {
+        this.updateContainerHidden(false);
+      }
+
       return;
     }
 
@@ -254,7 +259,11 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   handleAutoPop = () => {
-    if (!isMobile() && typeof quiqOptions.autoPopTime === 'number') {
+    if (
+      !isMobile() &&
+      quiqOptions.mode !== modes.UNDOCKED &&
+      typeof quiqOptions.autoPopTime === 'number'
+    ) {
       this.autoPopTimeout = setTimeout(async () => {
         if (!await this.updateLauncherState()) return;
         await this.startSession();

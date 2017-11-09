@@ -25,7 +25,7 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
   componentWillMount() {
     // When standalone is opened, we want to set buttons to have non-visible state.
     Postmaster.registerEventHandler(eventTypes._standaloneOpen, () =>
-      this.handleChatVisibilityChange({visible: true}),
+      this.handleChatVisibilityChange({visible: false}),
     );
 
     Postmaster.registerEventHandler(
