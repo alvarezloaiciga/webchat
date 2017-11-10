@@ -162,6 +162,7 @@ export default class EmojiTextArea extends Component {
           onChange={this._handleChange}
           handleBeforeInput={this._handleBeforeInput}
           handlePastedText={this._handlePastedText}
+          handleDroppedFiles={() => 'handled'}
           handleReturn={this._handleReturn}
           onBlur={this._handleBlur}
           onFocus={this._handleFocus}
