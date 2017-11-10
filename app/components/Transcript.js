@@ -67,9 +67,9 @@ export class Transcript extends Component {
   };
 
   getCustomTranscriptScreenMinHeight = () => {
-    return quiqOptions.customScreens.transcriptHeaderScreen.height
-      ? quiqOptions.customScreens.transcriptHeaderScreen.height
-      : 150;
+    return quiqOptions.customScreens.transcriptHeaderScreen.minHeight
+      ? quiqOptions.customScreens.transcriptHeaderScreen.minHeight
+      : 100;
   };
 
   render() {

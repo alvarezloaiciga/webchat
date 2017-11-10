@@ -126,6 +126,7 @@ export type QuiqObject = {
     transcriptHeaderScreen?: {
       url: string,
       height?: number,
+      minHeight?: number,
     },
   },
   demoMode: boolean,
