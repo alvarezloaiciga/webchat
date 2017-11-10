@@ -122,6 +122,13 @@ export type QuiqObject = {
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,
+  customScreens?: {
+    waitScreen?: {
+      url: string,
+      height?: number,
+      minHeight?: number,
+    },
+  },
   demoMode: boolean,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,

@@ -27,6 +27,7 @@ const quiqOptions: QuiqObject = {
     transcriptBackground: '#f4f4f8',
     attachmentMessageColor: '#9c9c9f',
   },
+  customScreens: {},
   styles: {
     HeaderMenu: {
       background: '#31bf8b',

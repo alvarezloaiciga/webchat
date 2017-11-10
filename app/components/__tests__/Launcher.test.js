@@ -64,6 +64,7 @@ describe('Launcher component', () => {
       messageFieldFocused: false,
       setChatConfiguration: jest.fn(),
       markChatAsSpam: jest.fn(),
+      removeMessage: jest.fn(),
       configuration: {
         enableChatEmailTranscript: false,
         enableChatFileAttachments: false,
