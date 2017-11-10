@@ -11,6 +11,7 @@ import {
 } from 'Common/Utils';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
+import cloneDeep from 'lodash/cloneDeep';
 
 const reservedKeyNames = ['Referrer'];
 
@@ -30,8 +31,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
-    customHeaderScreenUrl: rawQuiqObject.customHeaderScreenUrl,
-    customHeaderScreenHeight: rawQuiqObject.customHeaderScreenHeight,
+    customScreens: cloneDeep(rawQuiqObject.customScreens),
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
     agentsAvailableTimer:

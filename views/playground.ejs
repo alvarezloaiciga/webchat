@@ -49,8 +49,12 @@
         //includeEmojis: [],            // Set to `[]` to disable emojis
         agentsAvailableTimer: 60000,
         enforceAgentAvailability: true,
-        customHeaderScreenUrl: 'https://www.wikipedia.org/',
-        customHeaderScreenHeight: 300,
+        customScreens: {
+          transcriptHeaderScreen: {
+            url: 'https://www.wikipedia.org/',
+            height: 300,
+          }
+        },
         host: '<%- host %>',
         contactPoint: 'default',
         autoPopTime: 120000,

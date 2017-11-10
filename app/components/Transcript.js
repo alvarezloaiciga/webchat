@@ -18,9 +18,7 @@ export class Transcript extends Component {
   transcript: HTMLElement;
 
   componentDidMount() {
-    if (!this.isUsingCustomWaitScreen()) {
-      this.scrollToBottom();
-    }
+    this.handleScrollToBottom();
 
     // Listen for scroll, set scrollLock flag
     if (this.transcript) {
@@ -52,14 +50,26 @@ export class Transcript extends Component {
     this.scrollToBottom();
   };
 
-  isUsingCustomWaitScreen = () => {
-    return quiqOptions.customHeaderScreenUrl && quiqOptions.customHeaderScreenUrl.length > 0;
+  isUsingCustomTrascriptScreen = () => {
+    return quiqOptions.customScreens && quiqOptions.customScreens.transcriptHeaderScreen;
   };
 
   handleScrollToBottom = () => {
-    if (!this.isUsingCustomWaitScreen()) {
+    if (!this.isUsingCustomTrascriptScreen()) {
       this.scrollToBottom();
     }
+  };
+
+  getCustomTranscriptScreenHeight = () => {
+    return quiqOptions.customScreens.transcriptHeaderScreen.height
+      ? quiqOptions.customScreens.transcriptHeaderScreen.height
+      : '100%';
+  };
+
+  getCustomTranscriptScreenMinHeight = () => {
+    return quiqOptions.customScreens.transcriptHeaderScreen.height
+      ? quiqOptions.customScreens.transcriptHeaderScreen.height
+      : 150;
   };
 
   render() {
@@ -76,26 +86,23 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
-        {this.isUsingCustomWaitScreen() && (
+        {this.isUsingCustomTrascriptScreen() && (
           <iframe
             onLoad={this.handleIFrameLoad}
             style={{
-              minHeight: quiqOptions.customHeaderScreenHeight,
+              minHeight: this.getCustomTranscriptScreenMinHeight(),
+              height: this.getCustomTranscriptScreenHeight(),
               borderWidth: 0,
+              flexGrow: 1,
             }}
-            height={quiqOptions.customHeaderScreenHeight}
-            src={quiqOptions.customHeaderScreenUrl}
+            src={quiqOptions.customScreens.transcriptHeaderScreen.url}
           />
         )}
 
         {messagesAndEvents.map(a => {
           if (a.type === 'Attachment' || a.type === 'Text') {
             return (
-              <Message
-                key={a.localKey || a.id}
-                message={a}
-                scrollToBottom={this.handleScrollToBottom}
-              />
+              <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
             );
           }
 
