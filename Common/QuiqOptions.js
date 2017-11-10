@@ -88,6 +88,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     messages: Object.assign(
       {},
       {
+        pageTitle: messages.pageTitle,
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
         messageFieldPlaceholder: messages.sendUsAMessage,

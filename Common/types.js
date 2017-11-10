@@ -137,6 +137,7 @@ export type QuiqObject = {
   host: string,
   includeEmojis?: Array<string>,
   messages: {
+    pageTitle: string,
     titleText: string,
     headerText: string,
     messageFieldPlaceholder: string,

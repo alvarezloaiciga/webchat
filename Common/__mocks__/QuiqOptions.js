@@ -154,6 +154,7 @@ const quiqOptions: QuiqObject = {
   position: {},
   headerText: 'TOOL TIME',
   messages: {
+    pageTitle: messages.pageTitle,
     titleText: 'Quiq Webchat',
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,

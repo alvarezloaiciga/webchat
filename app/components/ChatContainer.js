@@ -43,6 +43,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
 
+  componentWillMount() {
+    // Set custom window title
+    document.title = getMessage(messageTypes.pageTitle);
+  }
+
   displayTemporaryError = (text: string, duration: number) => {
     // Clear any pending timeout
     if (this.bannerMessageTimeout) {
