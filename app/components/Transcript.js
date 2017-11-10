@@ -95,6 +95,7 @@ export class Transcript extends Component {
               borderWidth: 0,
               flexGrow: 1,
             }}
+            sandbox="allow-scripts allow-popups allow-forms"
             src={quiqOptions.customScreens.transcriptHeaderScreen.url}
           />
         )}
