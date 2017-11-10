@@ -103,6 +103,7 @@ export class Transcript extends Component {
               height: this.getWaitScreenHeight(),
               borderWidth: 0,
               flexGrow: this.getWaitScreenFlexGrow(),
+              width: '100%',
             }}
             sandbox="allow-scripts allow-popups allow-forms"
             src={quiqOptions.customScreens.waitScreen.url}
