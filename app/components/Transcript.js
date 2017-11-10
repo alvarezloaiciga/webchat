@@ -50,25 +50,34 @@ export class Transcript extends Component {
     this.scrollToBottom();
   };
 
-  isUsingCustomTrascriptScreen = () => {
-    return quiqOptions.customScreens && quiqOptions.customScreens.transcriptHeaderScreen;
+  isUsingWaitScreen = () => {
+    return (
+      quiqOptions.customScreens &&
+      quiqOptions.customScreens.waitScreen &&
+      this.props.transcript &&
+      this.props.transcript.every(message => message.authorType !== 'User')
+    );
   };
 
   handleScrollToBottom = () => {
-    if (!this.isUsingCustomTrascriptScreen()) {
+    if (!this.isUsingWaitScreen()) {
       this.scrollToBottom();
     }
   };
 
-  getCustomTranscriptScreenHeight = () => {
-    return quiqOptions.customScreens.transcriptHeaderScreen.height
-      ? quiqOptions.customScreens.transcriptHeaderScreen.height
+  getWaitScreenHeight = () => {
+    return quiqOptions.customScreens.waitScreen.height
+      ? quiqOptions.customScreens.waitScreen.height
       : '100%';
   };
 
-  getCustomTranscriptScreenMinHeight = () => {
-    return quiqOptions.customScreens.transcriptHeaderScreen.minHeight
-      ? quiqOptions.customScreens.transcriptHeaderScreen.minHeight
+  getWaitScreenFlexGrow = () => {
+    return quiqOptions.customScreens.waitScreen.height ? 0 : 1;
+  };
+
+  getWaitScreenMinHeight = () => {
+    return quiqOptions.customScreens.waitScreen.minHeight
+      ? quiqOptions.customScreens.waitScreen.minHeight
       : 100;
   };
 
@@ -86,17 +95,17 @@ export class Transcript extends Component {
         }}
         style={{backgroundColor: colors.transcriptBackground}}
       >
-        {this.isUsingCustomTrascriptScreen() && (
+        {this.isUsingWaitScreen() && (
           <iframe
             onLoad={this.handleIFrameLoad}
             style={{
-              minHeight: this.getCustomTranscriptScreenMinHeight(),
-              height: this.getCustomTranscriptScreenHeight(),
+              minHeight: this.getWaitScreenMinHeight(),
+              height: this.getWaitScreenHeight(),
               borderWidth: 0,
-              flexGrow: 1,
+              flexGrow: this.getWaitScreenFlexGrow(),
             }}
             sandbox="allow-scripts allow-popups allow-forms"
-            src={quiqOptions.customScreens.transcriptHeaderScreen.url}
+            src={quiqOptions.customScreens.waitScreen.url}
           />
         )}
 

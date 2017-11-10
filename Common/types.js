@@ -123,7 +123,7 @@ export type QuiqObject = {
   contactPoint: string,
   customLaunchButtons: Array<string>,
   customScreens?: {
-    transcriptHeaderScreen?: {
+    waitScreen?: {
       url: string,
       height?: number,
       minHeight?: number,
