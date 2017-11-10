@@ -18,6 +18,7 @@ module.exports = {
       path.join(__dirname, '../app/components'),
       path.join(__dirname, '../app/styles'),
       path.join(__dirname, '../SDK/src'),
+      path.join(__dirname, '../Extensions/src'),
       'node_modules',
     ],
     alias: {

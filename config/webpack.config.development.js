@@ -30,6 +30,7 @@ module.exports = merge(config, {
       'development',
     ],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
+    extensionSdk: ['babel-polyfill', './Extensions/src/ExtensionSdk.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
