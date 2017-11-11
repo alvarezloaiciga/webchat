@@ -285,7 +285,7 @@ export default defineMessages({
     id: 'invalidAttachmentMessage',
     description: 'Alert message for invalid attachment upload',
     defaultMessage:
-      "We couldn't send your attachment, either because it was larger than 50 MB or was of an unsupported type.",
+      "We couldn't send your attachment, either because it was larger than 25 MB or was of an unsupported type.",
   },
   attachmentUploadError: {
     id: 'attachmentUploadError',
