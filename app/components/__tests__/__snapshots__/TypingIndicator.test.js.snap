@@ -1,231 +1,184 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TypingIndicator component rendering renders with default props 1`] = `
+exports[`TypingIndicator component rendering renders 1`] = `
 <svg
   className="TypingIndicator"
-  height="60px"
+  height="20px"
+  style={Object {}}
   version="1.1"
-  viewBox="0 0 48 60"
-  width="48px"
+  viewBox="0 0 50 20"
+  width="50px"
   x="0"
   xmlSpace="preserve"
   xmlns="http://www.w3.org/2000/svg"
   y="0"
 >
-  ...
-  <rect
-    fill="#a6daec"
-    height={20}
-    opacity="0.2"
-    width={8}
-    x={0}
-    y={20}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="0s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="0s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 40; 20"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="0s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 10; 20"
-    />
-  </rect>
-  <rect
-    fill="#a6daec"
-    height={20}
-    opacity="0.2"
-    width={8}
-    x={16}
-    y={20}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="0.6s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="0.6s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 40; 20"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="0.6s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 10; 20"
-    />
-  </rect>
-  <rect
-    fill="#a6daec"
-    height={20}
-    opacity="0.2"
-    width={8}
-    x={32}
-    y={20}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="1.2s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="1.2s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 40; 20"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="1.2s"
-      dur="2s"
-      repeatCount="indefinite"
-      values="20; 10; 20"
-    />
-  </rect>
-</svg>
-`;
-
-exports[`TypingIndicator component rendering renders with minimal props 1`] = `
-<svg
-  className="TypingIndicator"
-  height="30px"
-  version="1.1"
-  viewBox="0 0 24 30"
-  width="24px"
-  x="0"
-  xmlSpace="preserve"
-  xmlns="http://www.w3.org/2000/svg"
-  y="0"
->
-  ...
-  <rect
-    fill="#59ad5d"
-    height={10}
-    opacity="0.2"
-    width={4}
-    x={0}
-    y={10}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="0s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="0s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 20; 10"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="0s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 5; 10"
-    />
-  </rect>
-  <rect
-    fill="#59ad5d"
-    height={10}
-    opacity="0.2"
-    width={4}
-    x={8}
-    y={10}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="0.3s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="0.3s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 20; 10"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="0.3s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 5; 10"
-    />
-  </rect>
-  <rect
-    fill="#59ad5d"
-    height={10}
-    opacity="0.2"
-    width={4}
-    x={16}
-    y={10}
-  >
-    <animate
-      attributeName="opacity"
-      attributeType="XML"
-      begin="0.6s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="0.2; 1; .2"
-    />
-    <animate
-      attributeName="height"
-      attributeType="XML"
-      begin="0.6s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 20; 10"
-    />
-    <animate
-      attributeName="y"
-      attributeType="XML"
-      begin="0.6s"
-      dur="1s"
-      repeatCount="indefinite"
-      values="10; 5; 10"
-    />
-  </rect>
+  <defs>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="flash"
+      x1="-300%"
+      x2="-100%"
+      y2="0%"
+    >
+      <stop
+        offset="0%"
+        stopColor="#333"
+      />
+      <stop
+        offset="25%"
+        stopColor="#ddd"
+      />
+      <stop
+        offset="100%"
+        stopColor="#333"
+      />
+      <animate
+        attributeName="x1"
+        dur="1.5s"
+        from="-300%"
+        repeatCount="indefinite"
+        to="100%"
+      />
+      <animate
+        attributeName="x2"
+        dur="1.5s"
+        from="-100%"
+        repeatCount="indefinite"
+        to="300%"
+      />
+    </linearGradient>
+  </defs>
+  <g>
+    <title>
+      Title!
+    </title>
+    <g
+      fill="url(#flash)"
+      id="background"
+    >
+      <rect
+        height={20}
+        width={25}
+        x={12.5}
+      />
+      <circle
+        cx={12.5}
+        cy={10}
+        r={10}
+      />
+      <circle
+        cx={37.5}
+        cy={10}
+        r={10}
+      />
+    </g>
+    <g
+      id="foreground"
+    >
+      <g>
+        <circle
+          cx={50}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="0;o1.end"
+            dur=".6"
+            from={2}
+            id="o0"
+            to={4.666666666666667}
+          />
+        </circle>
+        <circle
+          cx={50}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="o0.end"
+            dur=".6"
+            from={4.666666666666667}
+            id="o1"
+            to={2}
+          />
+        </circle>
+      </g>
+      <g>
+        <circle
+          cx={100}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="1;o6.end"
+            dur=".6"
+            from={2}
+            id="o5"
+            to={4.666666666666667}
+          />
+        </circle>
+        <circle
+          cx={100}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="o5.end"
+            dur=".6"
+            from={4.666666666666667}
+            id="o6"
+            to={2}
+          />
+        </circle>
+      </g>
+      <g>
+        <circle
+          cx={150}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="2;o11.end"
+            dur=".6"
+            from={2}
+            id="o10"
+            to={4.666666666666667}
+          />
+        </circle>
+        <circle
+          cx={150}
+          cy={10}
+          fill="white"
+          r={3.3333333333333335}
+          style={Object {}}
+        >
+          <animate
+            attributeName="r"
+            begin="o10.end"
+            dur=".6"
+            from={4.666666666666667}
+            id="o11"
+            to={2}
+          />
+        </circle>
+      </g>
+    </g>
+  </g>
 </svg>
 `;

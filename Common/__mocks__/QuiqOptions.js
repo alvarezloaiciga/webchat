@@ -7,7 +7,7 @@ import type {QuiqObject} from 'Common/types';
 const quiqOptions: QuiqObject = {
   displayMode: 'either',
   anchorElement: '',
-  showDefaultLaunchButton: undefined,
+  showDefaultLaunchButton: false,
   demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
@@ -28,6 +28,8 @@ const quiqOptions: QuiqObject = {
     customerMessageBackground: '#f5f5f5',
     transcriptBackground: '#f4f4f8',
     attachmentMessageColor: '#9c9c9f',
+    typingIndicatorForeground: '#2199e8',
+    typingIndicatorBackground: '#66b9ef',
   },
   customScreens: {},
   styles: {
@@ -151,6 +153,12 @@ const quiqOptions: QuiqObject = {
     },
     EventLine: {
       stroke: 'red',
+    },
+    TypingIndicatorSvgStyle: {
+      fill: 'red',
+    },
+    TypingIndicatorCircleStyle: {
+      fill: 'green',
     },
   },
   position: {},

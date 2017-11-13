@@ -1,16 +1,34 @@
 // @flow
 import React from 'react';
-import quiqOptions, {getStyle} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {messageTypes} from 'Common/Constants';
 import TypingIndicator from 'TypingIndicator';
 
-export type AgentTypingProps = {
-  title?: string | IntlMessage,
+export type AgentTypingMessageProps = {
+  scrollToBottom: () => void,
 };
 
-const {colors} = quiqOptions;
+export class AgentTypingMessage extends React.Component<AgentTypingMessageProps> {
+  props: AgentTypingMessageProps;
 
-const AgentTypingMessage = (props: AgentTypingProps) => {
-  return <TypingIndicator />;
-};
+  componentDidMount() {
+    setTimeout(this.props.scrollToBottom, 200);
+  }
+
+  render() {
+    const {colors, styles} = quiqOptions;
+    return (
+      <TypingIndicator
+        title={getMessage(messageTypes.agentTypingMessage)}
+        gradientColor={{
+          foreground: colors.typingIndicatorForeground,
+          background: colors.typingIndicatorBackground,
+        }}
+        svgStyle={getStyle(styles.TypingIndicatorSvgStyle)}
+        circleStyle={getStyle(styles.TypingIndicatorCircleStyle)}
+      />
+    );
+  }
+}
 
 export default AgentTypingMessage;

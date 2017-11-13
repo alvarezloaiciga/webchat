@@ -96,6 +96,8 @@ type CustomStyles = {
   EventLine?: Object,
   InlineEmailTranscriptButton?: Object,
   NonChat?: Object,
+  TypingIndicatorSvgStyle?: Object,
+  TypingIndicatorCircleStyle?: Object,
 };
 
 export type QuiqObject = {
@@ -120,6 +122,8 @@ export type QuiqObject = {
     customerMessageBackground: string,
     attachmentMessageColor: string,
     transcriptBackground: string,
+    typingIndicatorForeground: string,
+    typingIndicatorBackground: string,
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,

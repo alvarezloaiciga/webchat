@@ -106,7 +106,6 @@ export class Transcript extends Component {
         return <PlatformEvent event={a} key={a.id} />;
       });
 
-    console.log(this.props.agentTyping);
     if (this.props.agentTyping) {
       messagesAndEvents = [
         ...messagesAndEvents,
