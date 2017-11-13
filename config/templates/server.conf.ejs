@@ -17,6 +17,14 @@ server {
         return 307 <%= htmlWebpackPlugin.files.chunks.sdk.entry %>;
     }
 
+    location = /app/webchat/extensionSdk.js {
+        return 307 <%= htmlWebpackPlugin.files.chunks.extensionSdk.entry %>;
+    }
+
+    location = /app/webchat/testWaitScreen.html {
+        return 307 <%= htmlWebpackPlugin.files.chunks.testWaitScreen.entry %>;
+    }
+
     location /app/webchat/ {
         root /var/www;
         try_files $uri =404;

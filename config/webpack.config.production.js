@@ -34,6 +34,7 @@ module.exports = merge(config, {
   entry: {
     webchat: ['babel-polyfill', 'production'],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
+    extensionSdk: ['babel-polyfill', './Extensions/src/ExtensionSdk.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
@@ -51,10 +52,16 @@ module.exports = merge(config, {
       chunks: ['postRobotBridge'],
     }),
     new HtmlWebpackPlugin({
+      template: 'config/templates/testWaitScreen.ejs',
+      filename: `testWaitScreen.html`,
+      inject: false,
+      chunks: [],
+    }),
+    new HtmlWebpackPlugin({
       template: 'config/templates/server.conf.ejs',
       filename: 'server.conf',
       inject: false,
-      chunks: ['sdk'],
+      chunks: ['sdk', 'extensionSdk', 'testWaitScreen'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
