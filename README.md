@@ -13,6 +13,7 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
+    + [showDefaultLaunchButton](#showDefaultLaunchButton)
     + [customScreens](#customScreens)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
@@ -161,7 +162,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - example: `'default'`
   - #### customLaunchButtons
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncBbutton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
     - The following css classes will be appending to the custom launch buttons in the following cases.
@@ -170,6 +171,11 @@ The Quiq() function contains properties describing how the instance of webchat s
       - `.unsupportedBrowser` - The user is using a browser unsupported by Quiq
       - `.storageDisabled` - Quiq is unable to access window.localStorage, which is required for chat to function.
       - `.hasMobileNumber` - The MOBILE_NUMBER Quiq property is defined.
+  - #### showDefaultLaunchButton
+      - type: boolean
+      - description: Normally, if `customLaunchButtons` are defined, the default launch button is not shown. This property allows for overriding this behavior to either show the default launch button (`true`) or hide the default launch button (`false`) regardless of whether any `customLaunchButtons` are defined.
+      - default: `undefined`
+      - example: `true`
   - #### customScreens
     - type:
     ```javascript

@@ -8,6 +8,7 @@ import {
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
+  getOrElse,
 } from 'Common/Utils';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
@@ -45,10 +46,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     localStorageKeys:
       rawQuiqObject.localStorageKeys ||
       (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability:
-      rawQuiqObject.enforceAgentAvailability === undefined
-        ? true
-        : rawQuiqObject.enforceAgentAvailability,
+    enforceAgentAvailability: getOrElse(rawQuiqObject.enforceAgentAvailability, true),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -82,6 +80,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     height: rawQuiqObject.height || 600,
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
+    showDefaultLaunchButton: rawQuiqObject.showDefaultLaunchButton,
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,

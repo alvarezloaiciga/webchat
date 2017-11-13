@@ -277,3 +277,9 @@ export const uuidv4 = () =>
       v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+
+/**
+ * A mimic of Scala's Option[T].getOrElse function. If the left side is defined, even if it's falsy,
+ * it returns that value. Otherwise, the right side is returned.
+ */
+export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);
