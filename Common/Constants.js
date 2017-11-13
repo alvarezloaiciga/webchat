@@ -142,7 +142,7 @@ export const UserEmailKey = 'quiq-client-data';
 
 export const maxAttachmentSize = 50 * 1000000;
 
-export const modes = {
+export const displayModes = {
   DOCKED: 'docked',
   UNDOCKED: 'undocked',
   EITHER: 'either',

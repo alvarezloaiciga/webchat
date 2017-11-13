@@ -8,7 +8,7 @@ import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
-import {ChatInitializedState, eventTypes, modes} from 'Common/Constants';
+import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
@@ -185,7 +185,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (QuiqChatClient.isChatVisible()) {
       await this.startSession();
 
-      if (quiqOptions.mode !== modes.UNDOCKED) {
+      if (quiqOptions.displayMode !== displayModes.UNDOCKED) {
         this.updateContainerHidden(false);
       }
 
@@ -261,7 +261,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   handleAutoPop = () => {
     if (
       !isMobile() &&
-      quiqOptions.mode !== modes.UNDOCKED &&
+      quiqOptions.displayMode !== displayModes.UNDOCKED &&
       typeof quiqOptions.autoPopTime === 'number'
     ) {
       this.autoPopTimeout = setTimeout(async () => {

@@ -32,7 +32,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
     contactPoint,
-    mode: rawQuiqObject.mode || 'either',
+    displayMode: rawQuiqObject.displayMode || 'either',
     customScreens: rawQuiqObject.customScreens,
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
@@ -80,7 +80,11 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     height: rawQuiqObject.height || 600,
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
-    showDefaultLaunchButton: rawQuiqObject.showDefaultLaunchButton,
+    showDefaultLaunchButton: getOrElse(
+      rawQuiqObject.showDefaultLaunchButton,
+      !Array.isArray(rawQuiqObject.customLaunchButtons) ||
+        rawQuiqObject.customLaunchButtons.length === 0,
+    ),
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,

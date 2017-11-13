@@ -2,7 +2,7 @@
   z-index: 99999;
   position: fixed;
   border: none;
-  bottom: 90px;
+  bottom: 24px;
   right: 24px;
   top: inherit;
   left: inherit;
@@ -11,6 +11,6 @@
   display: block;
 
   &.hasCustomLauncher {
-    bottom: 24px;
+    bottom: 90px;
   }
 }

@@ -103,7 +103,7 @@ export type QuiqObject = {
    * Documented Properties. If you modify this,
    * be sure to update the README
    */
-  mode: 'docked' | 'undocked' | 'either',
+  displayMode: 'docked' | 'undocked' | 'either',
   agentsAvailableTimer: number,
   anchorElement: string,
   autoPopTime?: number,
@@ -123,7 +123,7 @@ export type QuiqObject = {
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,
-  showDefaultLaunchButton?: boolean,
+  showDefaultLaunchButton: boolean,
   customScreens?: {
     waitScreen?: {
       url: string,

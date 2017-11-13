@@ -2,7 +2,7 @@
 /** @jsx h */
 import {Component, h} from 'preact';
 import {getQuiqOptions, setChatWindow, getChatWindow} from 'Globals';
-import {webchatPath, eventTypes, actionTypes, modes} from 'Common/Constants';
+import {webchatPath, eventTypes, actionTypes, displayModes} from 'Common/Constants';
 import {setup, registerEventHandler, tellChat} from 'Postmaster';
 import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';
@@ -76,17 +76,19 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
         tellChat(actionTypes.loadChat);
 
         // If we are NOT in undocked-only mode, set chat iframe visible. Otherwise, set chat visibility to hidden.
-        tellChat(actionTypes.setChatVisibility, {visible: quiqOptions.mode !== modes.UNDOCKED});
+        tellChat(actionTypes.setChatVisibility, {
+          visible: quiqOptions.displayMode !== displayModes.UNDOCKED,
+        });
       }
     }, 20);
   };
 
   render() {
-    const {width, host, height, position, customLaunchButtons} = getQuiqOptions();
+    const {width, host, height, position, showDefaultLaunchButton} = getQuiqOptions();
 
     if (!isStorageEnabled() || !isSupportedBrowser()) return null;
     const classNames = classnames('SDKChatContainer', {
-      hasCustomLauncher: customLaunchButtons.length > 0,
+      hasCustomLauncher: showDefaultLaunchButton,
     });
 
     return (

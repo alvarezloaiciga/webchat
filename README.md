@@ -162,7 +162,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - example: `'default'`
   - #### customLaunchButtons
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncBbutton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncButton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
     - The following css classes will be appending to the custom launch buttons in the following cases.
@@ -197,6 +197,17 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
     - default: true
+    - #### includeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
+      - example: `'goquiq.com'`
+  - #### includeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### excludeEmojis
       - type: Array<string>
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
@@ -216,12 +227,6 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - default: `'goquiq.com'`
-    - example: `'goquiq.com'`
-  - #### includeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### messages
     - type:
       ```javascript

@@ -5,7 +5,7 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
-  mode: 'either',
+  displayMode: 'either',
   anchorElement: '',
   showDefaultLaunchButton: undefined,
   demoMode: false,

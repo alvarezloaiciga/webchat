@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {inStandaloneMode} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {destructApp} from 'utils/domUtils';
-import {messageTypes, ChatInitializedState, modes} from 'Common/Constants';
+import {messageTypes, ChatInitializedState, displayModes} from 'Common/Constants';
 import {setChatContainerHidden} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {standaloneOpen} from 'services/Postmaster';
@@ -61,7 +61,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
   renderButtons = () => (
     <div className="buttons">
       {(!inStandaloneMode() || this.state.openingWindowExists) &&
-        quiqOptions.mode !== modes.UNDOCKED && (
+        quiqOptions.displayMode !== displayModes.UNDOCKED && (
           <i
             className={`fa fa-window-minimize icon`}
             title={getMessage(messageTypes.minimizeWindowTooltip)}
@@ -71,7 +71,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
 
       {this.props.initializedState !== ChatInitializedState.BURNED &&
         (!inStandaloneMode() || this.state.openingWindowExists) &&
-        quiqOptions.mode === modes.EITHER && (
+        quiqOptions.displayMode === displayModes.EITHER && (
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(
