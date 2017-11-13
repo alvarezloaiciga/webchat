@@ -7,7 +7,7 @@ import type {QuiqObject} from 'Common/types';
 const quiqOptions: QuiqObject = {
   displayMode: 'either',
   anchorElement: '',
-  showDefaultLaunchButton: undefined,
+  showDefaultLaunchButton: false,
   demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',

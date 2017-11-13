@@ -9,51 +9,55 @@ exports[`Transcript component rendering renders with default props 1`] = `
     }
   }
 >
-  <Message
-    key="id--1"
-    message={
-      Object {
-        "authorType": "User",
-        "id": "id--1",
-        "text": "text--1",
-        "timestamp": 1,
-        "type": "Text",
+  <div
+    className="MessageArea"
+  >
+    <Message
+      key="id--1"
+      message={
+        Object {
+          "authorType": "User",
+          "id": "id--1",
+          "text": "text--1",
+          "timestamp": 1,
+          "type": "Text",
+        }
       }
-    }
-    scrollToBottom={[Function]}
-  />
-  <PlatformEvent
-    event={
-      Object {
-        "id": "id--2",
-        "timestamp": 2,
-        "type": "SendTranscript",
+      scrollToBottom={[Function]}
+    />
+    <PlatformEvent
+      event={
+        Object {
+          "id": "id--2",
+          "timestamp": 2,
+          "type": "SendTranscript",
+        }
       }
-    }
-    key="id--2"
-  />
-  <Message
-    key="id--3"
-    message={
-      Object {
-        "authorType": "User",
-        "id": "id--3",
-        "text": "text--3",
-        "timestamp": 3,
-        "type": "Text",
+      key="id--2"
+    />
+    <Message
+      key="id--3"
+      message={
+        Object {
+          "authorType": "User",
+          "id": "id--3",
+          "text": "text--3",
+          "timestamp": 3,
+          "type": "Text",
+        }
       }
-    }
-    scrollToBottom={[Function]}
-  />
-  <PlatformEvent
-    event={
-      Object {
-        "id": "id--4",
-        "timestamp": 4,
-        "type": "SendTranscript",
+      scrollToBottom={[Function]}
+    />
+    <PlatformEvent
+      event={
+        Object {
+          "id": "id--4",
+          "timestamp": 4,
+          "type": "SendTranscript",
+        }
       }
-    }
-    key="id--4"
-  />
+      key="id--4"
+    />
+  </div>
 </div>
 `;
