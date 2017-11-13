@@ -118,13 +118,7 @@ export class Transcript extends Component {
     }
 
     return (
-      <div
-        className="Transcript"
-        ref={n => {
-          this.transcript = n;
-        }}
-        style={{backgroundColor: colors.transcriptBackground}}
-      >
+      <div className="Transcript" style={{backgroundColor: colors.transcriptBackground}}>
         {this.isUsingWaitScreen() && (
           <iframe
             ref={r => {
@@ -142,7 +136,15 @@ export class Transcript extends Component {
             src={quiqOptions.customScreens.waitScreen.url}
           />
         )}
-        {messagesAndEvents}
+
+        <div
+          className="MessageArea"
+          ref={n => {
+            this.transcript = n;
+          }}
+        >
+          {messagesAndEvents}
+        </div>
       </div>
     );
   }
