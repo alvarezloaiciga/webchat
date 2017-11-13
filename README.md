@@ -13,6 +13,7 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
+    + [customScreens] (#customScreens)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
@@ -166,6 +167,23 @@ The Quiq() function contains properties describing how the instance of webchat s
       - `.unsupportedBrowser` - The user is using a browser unsupported by Quiq
       - `.storageDisabled` - Quiq is unable to access window.localStorage, which is required for chat to function.
       - `.hasMobileNumber` - The MOBILE_NUMBER Quiq property is defined.
+  - #### customScreens
+    - type:
+    ```javascript
+    {
+      waitScreen?: {        // Wait Screen that is displayed when the user is waiting for an agent.
+        url: string,        // URL to point the wait screen to
+        height?: number,    // Height of the screen, if undefined, the wait screen take up the entire transcript
+        minHeight?: number, // The minimum of the screen that it can shrink to before the transcript starts to scroll.
+      }
+    }
+    ```
+  - description: Definition of the custom screens that can be displayed in web chat.
+  - defaults:
+    ```javascript
+    {
+    }
+    ```
   - #### enforceAgentAvailability
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
