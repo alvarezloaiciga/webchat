@@ -54,8 +54,8 @@ export class Transcript extends Component {
 
     setInterval(() => {
       postExtensionEvent({
-        eventType: 'etaChanged',
-        data: new Date().getTime(),
+        eventType: 'estimatedWaitTimeChanged',
+        data: {estimatedWaitTime: new Date().getTime()},
       });
     }, 1000);
   };
