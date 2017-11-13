@@ -4,6 +4,7 @@ import React from 'react';
 import TextMessage from './TextMessage';
 import ImageMessage from './ImageMessage';
 import FileMessage from './FileMessage';
+import AgentTypingMessage from './AgentTypingMessage';
 import classnames from 'classnames';
 import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import type {Message as MessageType} from 'Common/types';
@@ -33,6 +34,9 @@ export const Message = (props: MessageProps) => {
         // $FlowIssue - Flow's type refinement isn't working here
         messageComponent = <FileMessage {...props} />;
       }
+      break;
+    case 'AgentTyping':
+      messageComponent = <AgentTypingMessage {...props} />;
       break;
   }
 

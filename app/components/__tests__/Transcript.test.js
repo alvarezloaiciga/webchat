@@ -18,6 +18,7 @@ describe('Transcript component', () => {
     testProps = {
       transcript: [getMockMessage(1), getMockMessage(3)],
       platformEvents: [getMockEvent(2), getMockEvent(4)],
+      agentTyping: false,
     };
     render = () => {
       wrapper = shallow(<Transcript {...testProps} />);
@@ -31,6 +32,21 @@ describe('Transcript component', () => {
 
     it('renders with default props', () => {
       expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('Agent Typing Message', () => {
+    describe('when agent is typing', () => {
+      it('shows agent typing indicator', () => {
+        testProps.agentTyping = true;
+        render();
+        expect(
+          wrapper
+            .find('Message')
+            .last()
+            .prop('message').type,
+        ).toBe('AgentTyping');
+      });
     });
   });
 });

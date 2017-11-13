@@ -13,10 +13,20 @@ describe('TypingIndicator component', () => {
 
   beforeEach(() => {
     testProps = {
-      color: 'blue',
-      duration: 2,
-      yScale: 2,
-      xScale: 2,
+      title: 'Title!',
+      xScale: 1,
+      yScale: 1,
+      radius: {
+        offset: 1,
+        scale: 1,
+        spacing: 1,
+      },
+      svgStyle: {},
+      circleStyle: {},
+      gradientColor: {
+        foreground: '#ddd',
+        background: '#333',
+      },
     };
     render = () => {
       wrapper = shallow(<TypingIndicator {...testProps} />);
@@ -28,13 +38,7 @@ describe('TypingIndicator component', () => {
       render();
     });
 
-    it('renders with default props', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('renders with minimal props', () => {
-      testProps = {};
-      render();
+    it('renders', () => {
       expect(wrapper).toMatchSnapshot();
     });
   });

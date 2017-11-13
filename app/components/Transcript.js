@@ -11,6 +11,7 @@ import {registerExtension, postExtensionEvent} from 'services/Extensions';
 export type TranscriptProps = {
   transcript: Array<MessageType>,
   platformEvents: Array<Event>,
+  agentTyping: boolean,
 };
 
 export class Transcript extends Component {
@@ -93,9 +94,28 @@ export class Transcript extends Component {
 
   render() {
     const {colors} = quiqOptions;
-    const messagesAndEvents = [...this.props.transcript, ...this.props.platformEvents].sort(
-      (a, b) => a.timestamp - b.timestamp,
-    );
+
+    let messagesAndEvents = [...this.props.transcript, ...this.props.platformEvents]
+      .sort((a, b) => a.timestamp - b.timestamp)
+      .map(a => {
+        if (a.type === 'Attachment' || a.type === 'Text') {
+          return (
+            <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
+          );
+        }
+        return <PlatformEvent event={a} key={a.id} />;
+      });
+
+    if (this.props.agentTyping) {
+      messagesAndEvents = [
+        ...messagesAndEvents,
+        <Message
+          key="agentTyping"
+          message={{authorType: 'Agent', type: 'AgentTyping'}}
+          scrollToBottom={this.scrollToBottom}
+        />,
+      ];
+    }
 
     return (
       <div className="Transcript" style={{backgroundColor: colors.transcriptBackground}}>
@@ -123,19 +143,7 @@ export class Transcript extends Component {
             this.transcript = n;
           }}
         >
-          {messagesAndEvents.map(a => {
-            if (a.type === 'Attachment' || a.type === 'Text') {
-              return (
-                <Message
-                  key={a.localKey || a.id}
-                  message={a}
-                  scrollToBottom={this.scrollToBottom}
-                />
-              );
-            }
-
-            return <PlatformEvent event={a} key={a.id} />;
-          })}
+          {messagesAndEvents}
         </div>
       </div>
     );
@@ -144,5 +152,6 @@ export class Transcript extends Component {
 
 export default connect((state: ChatState) => ({
   transcript: getTranscript(state),
+  agentTyping: state.agentTyping,
   platformEvents: getPlatformEvents(state),
 }))(Transcript);

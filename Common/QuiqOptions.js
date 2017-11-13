@@ -62,6 +62,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         customerMessageBackground: primaryColor,
         attachmentMessageColor: '#9c9c9f',
         transcriptBackground: '#f4f4f8',
+        typingIndicatorForeground: '#2199e8',
+        typingIndicatorBackground: '#66b9ef',
       },
       rawQuiqObject.colors,
     ),

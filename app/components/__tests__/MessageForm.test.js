@@ -26,7 +26,6 @@ describe('MessageForm component', () => {
 
     render = () => {
       testProps = {
-        agentTyping: false,
         agentEndedConversation: false,
         transcript: [getMockMessage(), getMockMessage(1)],
         openFileBrowser: jest.fn(),
@@ -63,14 +62,6 @@ describe('MessageForm component', () => {
     it('handling textarea onchange', () => {
       instance.handleTextChanged('foo');
       expect(wrapper.state('hasText')).toBe(true);
-    });
-  });
-
-  describe('agentTyping', () => {
-    it('shows typing indicator', () => {
-      render();
-      wrapper.setProps({agentTyping: true});
-      expect(wrapper).toMatchSnapshot();
     });
   });
 

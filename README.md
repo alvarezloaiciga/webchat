@@ -13,14 +13,15 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
-    + [showDefaultLaunchButton](#showDefaultLaunchButton)
-    + [customScreens](#customScreens)
+    + [showDefaultLaunchButton](#showdefaultlaunchbutton)
+    + [customScreens](#customscreens)
     + [enforceAgentAvailability](#enforceagentavailability)
+    + [includeEmojis](#includeemojis)
+    + [includeEmojis](#includeemojis-1)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
     + [height](#height)
     + [host](#host)
-    + [includeEmojis](#includeemojis)
     + [messages](#messages)
     + [mobileNumber](#mobilenumber)
     + [position](#position)
@@ -63,6 +64,8 @@
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
+      - [TypingIndicatorSvgStyle](#typingindicatorsvgstyle)
+      - [TypingIndicatorCircleStyle](#typingindicatorcirclestyle)
       - [WelcomeFormBanner](#welcomeformbanner)
       - [WelcomeFormField](#welcomeformfield)
       - [WelcomeFormFieldInput](#welcomeformfieldinput)
@@ -71,7 +74,7 @@
       - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
 - [SDK](#sdk)
   * [The Quiq object](#the-quiq-object)
-    + [getChatStatus](#getChatStatus)
+    + [getChatStatus](#getchatstatus)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
     + [getHandle](#gethandle)
@@ -79,8 +82,7 @@
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
 - [Extension SDK](#extension-sdk)
-  * [loading](#loading)
-  * [on](#on)
+  * [on](#on-1)
 - [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
@@ -137,6 +139,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageBackground: string, // Message bubble color for links sent by the end user
         attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
         transcriptBackground: string, // Background color for the chat transcript
+        typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
+        typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       }
       ```
     - description: Color values for the webchat
@@ -153,6 +157,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageLinkText: '#fff',
         customerMessageBackground: COLORS.primary,
         transcriptBackground: '#f4f4f8',
+        typingIndicatorForeground: '#2199e8',
+        typingIndicatorBackground: '#66b9ef',
       }
       ```
   - #### contactPoint
@@ -534,6 +540,12 @@ The text that appears in the upper left of the chat container, corresponding to 
 
 ##### ToggleChatButtonIcon
 The icon in the `ToggleChatButton`
+
+##### TypingIndicatorSvgStyle
+SVG Container of the agent typing indicator
+
+##### TypingIndicatorCircleStyle
+Styling for the three SVG circles that appear within the SVG Container of the agent typing indicator
 
 ##### WelcomeFormBanner
 The banner that is shown above the welcome form

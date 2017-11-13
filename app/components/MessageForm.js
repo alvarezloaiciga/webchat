@@ -1,6 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import TypingIndicator from 'TypingIndicator';
 import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
@@ -21,7 +20,6 @@ import type {ChatState, Emoji, Message, ChatConfiguration} from 'Common/types';
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
-  agentTyping: boolean,
   agentEndedConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   muteSounds: boolean,
@@ -298,16 +296,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {(!supportsFlexbox() || this.props.agentTyping) && (
-          <div className="poke">
-            {this.props.agentTyping && (
-              <div className="pokeBody">
-                <span style={{fontFamily}}>{getMessage(messageTypes.agentTypingMessage)}</span>
-                <TypingIndicator yScale={0.5} xScale={0.75} />
-              </div>
-            )}
-          </div>
-        )}
         {(!supportsFlexbox() || this.props.agentEndedConversation) && (
           <div className="poke">
             {this.props.agentEndedConversation && (
@@ -417,7 +405,6 @@ const mapDispatchToProps = {
 export default connect(
   (state: ChatState) => ({
     transcript: getTranscript(state),
-    agentTyping: state.agentTyping,
     agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
