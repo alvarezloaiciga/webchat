@@ -98,13 +98,7 @@ export class Transcript extends Component {
     );
 
     return (
-      <div
-        className="Transcript"
-        ref={n => {
-          this.transcript = n;
-        }}
-        style={{backgroundColor: colors.transcriptBackground}}
-      >
+      <div className="Transcript" style={{backgroundColor: colors.transcriptBackground}}>
         {this.isUsingWaitScreen() && (
           <iframe
             ref={r => {
@@ -123,15 +117,26 @@ export class Transcript extends Component {
           />
         )}
 
-        {messagesAndEvents.map(a => {
-          if (a.type === 'Attachment' || a.type === 'Text') {
-            return (
-              <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
-            );
-          }
+        <div
+          className="MessageArea"
+          ref={n => {
+            this.transcript = n;
+          }}
+        >
+          {messagesAndEvents.map(a => {
+            if (a.type === 'Attachment' || a.type === 'Text') {
+              return (
+                <Message
+                  key={a.localKey || a.id}
+                  message={a}
+                  scrollToBottom={this.scrollToBottom}
+                />
+              );
+            }
 
-          return <PlatformEvent event={a} key={a.id} />;
-        })}
+            return <PlatformEvent event={a} key={a.id} />;
+          })}
+        </div>
       </div>
     );
   }
