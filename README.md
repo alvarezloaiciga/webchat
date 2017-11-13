@@ -199,6 +199,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type:
       ```javascript
       {
+        pageTitle: string,
         titleText: string,
         headerText: string,
         sendButtonLabel: string,
@@ -234,6 +235,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - default:
       ```javascript
       {
+        pageTitle: "Quiq Webchat",
         titleText: "",
         headerText: "We're here to help if you have any questions!",
         sendButtonLabel: 'Send',
