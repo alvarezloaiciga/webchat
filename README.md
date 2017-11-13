@@ -13,7 +13,7 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
-    + [customScreens] (#customScreens)
+    + [customScreens](#customScreens)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
@@ -77,6 +77,9 @@
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
+- [Extension SDK](#extension-sdk)
+  * [loading](#loading)
+  * [on](#on)
 - [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
@@ -583,6 +586,22 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 #### sendRegistration
   - sendRegistration([{id: string, value: string}])
   - Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
+
+## Extension SDK
+
+  Custom screens can be defined in the customScreens property on the QuiqObject [customScreens](#customScreens). From within a custom screen, you can interact with the chat application using the Extension SDK. To load the SDK, reference it in a script tag:
+
+  ```
+  <script type="text/javascript" src="https://<%hostName%>/app/webchat/extensionSdk.js"></script>
+  ```
+
+### on
+  - on(eventName: EventType, handler)
+  - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
+
+    Event | `event` object fields
+    --- | ---
+    `estimatedWaitTimeChanged` | `estimatedWaitTime: boolean`
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.
