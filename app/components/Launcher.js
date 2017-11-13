@@ -8,7 +8,7 @@ import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
-import {ChatInitializedState, eventTypes} from 'Common/Constants';
+import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
@@ -48,6 +48,8 @@ export type LauncherProps = {
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
   setChatConfiguration: (configuration: ChatMetadata) => void,
+  markChatAsSpam: () => void,
+  removeMessage: (messageId: string) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -89,7 +91,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    if (quiqOptions.enforceAgentAvailability) {
+    if (quiqOptions.enforceAgentAvailability && !quiqOptions.demoMode) {
       const {available} = await QuiqChatClient.checkForAgents();
       this.props.setAgentsAvailable(available);
 
@@ -134,9 +136,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
         }
       }
     });
-    QuiqChatClient.onMessageSendFailure(() => {
-      const messages = QuiqChatClient.getMessages();
-      this.props.updateTranscript(messages);
+    QuiqChatClient.onMessageSendFailure((messageId: string) => {
+      this.props.removeMessage(messageId);
     });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
@@ -154,6 +155,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient.onChatMarkedAsSpam(this.props.markChatAsSpam);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
@@ -178,10 +180,15 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
 
     // ChatContainer Visible from cookie
-    // Always start session, always show launcher
+    // Always start session
+    // Pop chat open unless we're in undocked-only mode
     if (QuiqChatClient.isChatVisible()) {
-      this.updateContainerHidden(false);
       await this.startSession();
+
+      if (quiqOptions.displayMode !== displayModes.UNDOCKED) {
+        this.updateContainerHidden(false);
+      }
+
       return;
     }
 
@@ -229,11 +236,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.updateInitializedState(ChatInitializedState.LOADING);
       await QuiqChatClient.start();
       this.updateInitializedState(ChatInitializedState.INITIALIZED);
-
-      // User has session in progress. Send them right to it.
-      if (this.props.transcript.length > 0) {
-        this.props.setWelcomeFormRegistered();
-      }
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }
@@ -257,7 +259,11 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   handleAutoPop = () => {
-    if (!isMobile() && typeof quiqOptions.autoPopTime === 'number') {
+    if (
+      !isMobile() &&
+      quiqOptions.displayMode !== displayModes.UNDOCKED &&
+      typeof quiqOptions.autoPopTime === 'number'
+    ) {
       this.autoPopTimeout = setTimeout(async () => {
         if (!await this.updateLauncherState()) return;
         await this.startSession();

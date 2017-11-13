@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {inStandaloneMode} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {destructApp} from 'utils/domUtils';
-import {messageTypes, ChatInitializedState} from 'Common/Constants';
+import {messageTypes, ChatInitializedState, displayModes} from 'Common/Constants';
 import {setChatContainerHidden} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {standaloneOpen} from 'services/Postmaster';
@@ -58,6 +58,38 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
     }
   };
 
+  renderButtons = () => (
+    <div className="buttons">
+      {(!inStandaloneMode() || this.state.openingWindowExists) &&
+        quiqOptions.displayMode !== displayModes.UNDOCKED && (
+          <i
+            className={`fa fa-window-minimize icon`}
+            title={getMessage(messageTypes.minimizeWindowTooltip)}
+            onClick={inStandaloneMode() ? window.close : this.minimize}
+          />
+        )}
+
+      {this.props.initializedState !== ChatInitializedState.BURNED &&
+        (!inStandaloneMode() || this.state.openingWindowExists) &&
+        quiqOptions.displayMode === displayModes.EITHER && (
+          <i
+            className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
+            title={getMessage(
+              inStandaloneMode()
+                ? messageTypes.dockWindowTooltip
+                : messageTypes.openInNewWindowTooltip,
+            )}
+            onClick={inStandaloneMode() ? window.close : this.popChat}
+          />
+        )}
+      <i
+        className={`fa fa-times icon`}
+        title={getMessage(messageTypes.closeWindowTooltip)}
+        onClick={inStandaloneMode() ? window.close : this.minimize}
+      />
+    </div>
+  );
+
   render() {
     const {colors, styles, fontFamily} = quiqOptions;
 
@@ -69,32 +101,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
         <div className="title">
           <span style={titleTextStyle}>{getMessage(messageTypes.titleText)}</span>
         </div>
-        <div className="buttons">
-          {(this.state.openingWindowExists || !inStandaloneMode()) && (
-            <i
-              className={`fa fa-window-minimize icon`}
-              title={getMessage(messageTypes.minimizeWindowTooltip)}
-              onClick={inStandaloneMode() ? window.close : this.minimize}
-            />
-          )}
-          {this.props.initializedState !== ChatInitializedState.BURNED &&
-          (!inStandaloneMode() || this.state.openingWindowExists) && (
-            <i
-              className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
-              title={getMessage(
-                inStandaloneMode()
-                  ? messageTypes.dockWindowTooltip
-                  : messageTypes.openInNewWindowTooltip,
-              )}
-              onClick={inStandaloneMode() ? window.close : this.popChat}
-            />
-          )}
-          <i
-            className={`fa fa-times icon`}
-            title={getMessage(messageTypes.closeWindowTooltip)}
-            onClick={inStandaloneMode() ? window.close : this.minimize}
-          />
-        </div>
+        {!quiqOptions.demoMode && this.renderButtons()}
       </div>
     );
   }

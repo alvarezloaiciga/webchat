@@ -6,8 +6,16 @@ import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
+import flatMap from 'lodash/flatMap';
 import './modernizr';
-import type {BrowserNames, DeviceTypes, OSNames, BrowserEngine, IntlMessage, Message} from './types';
+import type {
+  BrowserNames,
+  DeviceTypes,
+  OSNames,
+  BrowserEngine,
+  IntlMessage,
+  Message,
+} from './types';
 
 const parser = new UAParser();
 
@@ -140,9 +148,8 @@ export const inStandaloneMode = () => {
 };
 
 export const isLastMessageFromAgent = (transcript: Array<Message>): boolean => {
-  return transcript.length > 0 &&
-         transcript[transcript.length - 1].authorType === 'User';
-}
+  return transcript.length > 0 && transcript[transcript.length - 1].authorType === 'User';
+};
 
 // Taken from http://emailregex.com/ - RFC-5322 compliant. 99.99% accurate
 export const isValidEmail = (email: string) =>
@@ -195,7 +202,7 @@ export const getQuiqKeysFromLocalStorage = (
     if (!localStorage) return {};
     const ls = {};
     const cpPostfix = contactPoint ? `_${contactPoint}` : '';
-    const allKeys = localStorageKeys.flatMap(k => [
+    const allKeys = flatMap(localStorageKeys, k => [
       `${k}${cpPostfix}`,
       `__storejs_expire_mixin_${k}${cpPostfix}`,
       `__storejs_modified_timestamp_mixin_${k}${cpPostfix}`,
@@ -270,3 +277,9 @@ export const uuidv4 = () =>
       v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+
+/**
+ * A mimic of Scala's Option[T].getOrElse function. If the left side is defined, even if it's falsy,
+ * it returns that value. Otherwise, the right side is returned.
+ */
+export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);

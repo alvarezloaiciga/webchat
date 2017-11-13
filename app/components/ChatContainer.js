@@ -1,29 +1,25 @@
 // @flow
 import React from 'react';
-import quiqOptions, {validateWelcomeFormDefinition, getStyle, getMessage} from 'Common/QuiqOptions';
+import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {inStandaloneMode, isStorageEnabled, isSupportedBrowser, uuidv4} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
-import Transcript from 'Transcript';
 import QuiqChatClient from 'quiq-chat';
+import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {
-  ChatInitializedState,
-  messageTypes,
-  maxAttachmentSize,
-  acceptedAttachmentTypes,
-} from 'Common/Constants';
+import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType} from 'Common/types';
+import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
+  configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
   setUploadProgress: (messageId: string, progress: number) => void,
@@ -47,8 +43,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
 
-  componentDidMount() {
-    if (!this.props.welcomeFormRegistered) validateWelcomeFormDefinition();
+  componentWillMount() {
+    // Set custom window title
+    document.title = getMessage(messageTypes.pageTitle);
   }
 
   displayTemporaryError = (text: string, duration: number) => {
@@ -159,8 +156,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             ref={d => {
               this.dropzone = d;
             }}
+            disabled={!this.props.configuration.enableChatFileAttachments}
             className="chatContainerBody"
-            accept={acceptedAttachmentTypes}
+            accept={this.props.configuration.supportedAttachmentTypes.join(',')}
             disablePreview={true}
             disableClick={true}
             maxSize={maxAttachmentSize}
@@ -200,8 +198,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormRegistered &&
-      !QuiqChatClient.isRegistered()
+      !this.props.welcomeFormRegistered
     ) {
       return (
         <div className={classNames}>
@@ -225,6 +222,7 @@ const mapStateToProps = (state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
+  configuration: state.configuration,
 });
 
 const mapDispatchToProps = {

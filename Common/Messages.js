@@ -1,6 +1,11 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
+  pageTitle: {
+    id: 'pageTitle',
+    description: 'Title for standalone window',
+    defaultMessage: 'Quiq Webchat',
+  },
   messageArrivedNotification: {
     id: 'messageArrivedNotification',
     description: 'Message Arrived',
@@ -280,7 +285,7 @@ export default defineMessages({
     id: 'invalidAttachmentMessage',
     description: 'Alert message for invalid attachment upload',
     defaultMessage:
-      "We couldn't send your attachment. Only image files are supported, and must be smaller than 50 MB",
+      "We couldn't send your attachment, either because it was larger than 25 MB or was of an unsupported type.",
   },
   attachmentUploadError: {
     id: 'attachmentUploadError',

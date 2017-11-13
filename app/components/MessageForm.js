@@ -5,12 +5,13 @@ import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
 import {connect} from 'react-redux';
+import Button from 'core-ui/components/Button';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
-import {getTranscript} from 'reducers/chat';
+import {getTranscript, getChatIsSpam} from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
@@ -28,6 +29,7 @@ export type MessageFormProps = {
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
+  chatIsSpam: boolean,
 };
 
 type MessageFormState = {
@@ -234,7 +236,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled: this.props.transcript.filter(m => m.authorType === 'User').length === 0,
+        disabled:
+          this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
+          this.props.chatIsSpam,
       });
     }
 
@@ -311,9 +315,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                     {getMessage(messageTypes.agentEndedConversationMessage)}
                   </span>
                   {this.props.configuration.enableChatEmailTranscript && (
-                    <button style={emailTranscriptButtonStyle} onClick={this.toggleEmailInput}>
-                      {getMessage(messageTypes.emailTranscriptInlineButton)}
-                    </button>
+                    <Button
+                      disabled={
+                        this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
+                        this.props.chatIsSpam
+                      }
+                      className="emailTranscriptInlineButton"
+                      title={getMessage(messageTypes.emailTranscriptInlineButton)}
+                      text={getMessage(messageTypes.emailTranscriptInlineButton)}
+                      style={emailTranscriptButtonStyle}
+                      onClick={this.toggleEmailInput}
+                    />
                   )}
                 </div>
               </div>
@@ -355,17 +367,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-            EmojiUtils.emojisEnabledByCustomer() && (
-              <button
-                className="messageFormBtn emojiBtn"
-                style={contentButtonStyle}
-                disabled={emopjiPickerDisabled}
-                onClick={this.toggleEmojiPicker}
-                title={getMessage(messageTypes.emojiPickerTooltip)}
-              >
-                <i className="fa fa-smile-o" />
-              </button>
-            )}
+              EmojiUtils.emojisEnabledByCustomer() && (
+                <button
+                  className="messageFormBtn emojiBtn"
+                  style={contentButtonStyle}
+                  disabled={emopjiPickerDisabled}
+                  onClick={this.toggleEmojiPicker}
+                  title={getMessage(messageTypes.emojiPickerTooltip)}
+                >
+                  <i className="fa fa-smile-o" />
+                </button>
+              )}
             {sendDisabled ? (
               this.renderMenu()
             ) : (
@@ -379,15 +391,15 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-            EmojiUtils.emojisEnabledByCustomer() && (
-              <EmojiPicker
-                visible={this.state.emojiPickerVisible}
-                addEmoji={this.handleEmojiSelection}
-                emojiFilter={EmojiUtils.emojiFilter}
-                onOutsideClick={this.toggleEmojiPicker}
-                ignoreOutsideClickOnSelectors={['.emojiBtn']}
-              />
-            )}
+              EmojiUtils.emojisEnabledByCustomer() && (
+                <EmojiPicker
+                  visible={this.state.emojiPickerVisible}
+                  addEmoji={this.handleEmojiSelection}
+                  emojiFilter={EmojiUtils.emojiFilter}
+                  onOutsideClick={this.toggleEmojiPicker}
+                  ignoreOutsideClickOnSelectors={['.emojiBtn']}
+                />
+              )}
           </div>
         )}
       </div>
@@ -408,6 +420,7 @@ export default connect(
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
     configuration: state.configuration,
+    chatIsSpam: getChatIsSpam(state),
   }),
   mapDispatchToProps,
 )(MessageForm);

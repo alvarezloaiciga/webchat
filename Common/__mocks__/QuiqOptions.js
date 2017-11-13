@@ -5,6 +5,10 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
+  displayMode: 'either',
+  anchorElement: '',
+  showDefaultLaunchButton: undefined,
+  demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
   localStorageKeys: {},
@@ -25,6 +29,7 @@ const quiqOptions: QuiqObject = {
     transcriptBackground: '#f4f4f8',
     attachmentMessageColor: '#9c9c9f',
   },
+  customScreens: {},
   styles: {
     HeaderMenu: {
       background: '#31bf8b',
@@ -151,6 +156,7 @@ const quiqOptions: QuiqObject = {
   position: {},
   headerText: 'TOOL TIME',
   messages: {
+    pageTitle: messages.pageTitle,
     titleText: 'Quiq Webchat',
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,

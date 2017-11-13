@@ -67,7 +67,7 @@ export const removeEventHandler = (event: string, handler: (data: Object) => any
   }
 };
 
-export const tellChat = (messageName: string, data: Object) => {
+export const tellChat = (messageName: string, data: Object = {}) => {
   if (!isStorageEnabled() || !isSupportedBrowser()) {
     displayError('Client browser did not meet all requirements for SDK communication. Aborting');
   }

@@ -68,13 +68,9 @@
       display: flex;
       justify-content: space-between;
 
-      button {
-        outline: none;
-        user-select: none;
-        cursor: pointer;
-        border: none;
+      .emailTranscriptInlineButton {
         color: white;
-        border-radius: 4px;
+        padding: 0 8px;
       }
     }
   }

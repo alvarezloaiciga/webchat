@@ -5,16 +5,22 @@ export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 export type ChatConfiguration = {
   enableChatEmailTranscript: boolean,
   enableChatFileAttachments: boolean,
+  supportedAttachmentTypes: Array<string>,
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
+  registrationForm?: WelcomeForm | null,
 };
+
+export type BooleanConfig = {
+  enabled: boolean,
+};
+
+export type ArrayConfig = Array<string>;
 
 export type ChatMetadata = {
   configs: {
-    [string] : {
-      enabled: boolean
-    }
+    [string]: BooleanConfig | ArrayConfig,
   },
   registrationForm?: {
     headerText: string,
@@ -97,7 +103,9 @@ export type QuiqObject = {
    * Documented Properties. If you modify this,
    * be sure to update the README
    */
+  displayMode: 'docked' | 'undocked' | 'either',
   agentsAvailableTimer: number,
+  anchorElement: string,
   autoPopTime?: number,
   colors: {
     // Deprecated in favor styles object
@@ -115,6 +123,15 @@ export type QuiqObject = {
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,
+  showDefaultLaunchButton: boolean,
+  customScreens?: {
+    waitScreen?: {
+      url: string,
+      height?: number,
+      minHeight?: number,
+    },
+  },
+  demoMode: boolean,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
   fontFamily: string,
@@ -122,6 +139,7 @@ export type QuiqObject = {
   host: string,
   includeEmojis?: Array<string>,
   messages: {
+    pageTitle: string,
     titleText: string,
     headerText: string,
     messageFieldPlaceholder: string,
@@ -379,7 +397,8 @@ export type ChatState = {
   platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
-  configuration: ChatConfiguration
+  configuration: ChatConfiguration,
+  chatIsSpam: boolean,
 };
 
 export type Action = {
@@ -394,7 +413,8 @@ export type Action = {
     | 'NEW_WEBCHAT_SESSION'
     | 'AGENTS_AVAILABLE'
     | 'MUTE_SOUNDS'
-    | 'UPDATE_PLATFORM_EVENTS',
+    | 'UPDATE_PLATFORM_EVENTS'
+    | 'MARK_CHAT_AS_SPAM',
 };
 
 export type ChatInitializedStateType =
@@ -412,7 +432,14 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType = 'Join' | 'Leave' | 'Register' | 'AgentTyping' | 'SendTranscript';
+export type EventType =
+  | 'Join'
+  | 'Leave'
+  | 'Register'
+  | 'AgentTyping'
+  | 'SendTranscript'
+  | 'End'
+  | 'Spam';
 
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';

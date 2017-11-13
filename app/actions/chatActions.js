@@ -41,6 +41,10 @@ export const setAgentEndedConversation = (ended: boolean) => ({
   ended,
 });
 
+export const markChatAsSpam = () => ({
+  type: 'MARK_CHAT_AS_SPAM',
+});
+
 export const setChatConfiguration = (metadata: ChatMetadata) => ({
   type: 'CHAT_CONFIGURATION_LOADED',
   configuration: {
@@ -48,6 +52,8 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
       metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
     enableChatFileAttachments:
       metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
+    supportedAttachmentTypes:
+      metadata.configs.ALLOWED_CONTENT_TYPES && metadata.configs.ALLOWED_CONTENT_TYPES.contentTypes,
     enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
     playSoundOnNewMessage:
       metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&
@@ -55,6 +61,7 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
     flashNotificationOnNewMessage:
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
+    registrationForm: metadata.registrationForm,
   },
 });
 

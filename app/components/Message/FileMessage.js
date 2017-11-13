@@ -56,14 +56,16 @@ export const FileMessage = (props: FileMessageProps) => {
           className={classnames('FileMessage', {fromCustomer})}
         >
           <span style={textStyle}>
-            {isUploading ? (
-              <CircularProgressbar
-                percentage={props.message.uploadProgress || 0}
-                textForPercentage={() => ''}
-              />
-            ) : (
-              <i className={`fa fa-${icon}`} title={name} />
-            )}
+            <div className="IconContainer">
+              {isUploading ? (
+                <CircularProgressbar
+                  percentage={props.message.uploadProgress || 0}
+                  textForPercentage={() => ''}
+                />
+              ) : (
+                <i className={`fa fa-${icon}`} title={name} />
+              )}
+            </div>
             {name}
           </span>
         </div>

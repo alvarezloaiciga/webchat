@@ -6,6 +6,7 @@ Object {
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
+  "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -13,6 +14,10 @@ Object {
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,
+    "registrationForm": undefined,
+    "supportedAttachmentTypes": Array [
+      "image/png,image/jpeg",
+    ],
   },
   "initializedState": "uninitialized",
   "messageFieldFocused": false,
@@ -29,6 +34,7 @@ Object {
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
+  "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -36,6 +42,10 @@ Object {
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,
+    "registrationForm": undefined,
+    "supportedAttachmentTypes": Array [
+      "image/png,image/jpeg",
+    ],
   },
   "initializedState": "uninitialized",
   "messageFieldFocused": false,
@@ -52,6 +62,7 @@ Object {
   "agentTyping": false,
   "agentsAvailable": true,
   "chatContainerHidden": false,
+  "chatIsSpam": false,
   "chatLauncherHidden": false,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -59,6 +70,10 @@ Object {
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
     "playSoundOnNewMessage": false,
+    "registrationForm": undefined,
+    "supportedAttachmentTypes": Array [
+      "image/png,image/jpeg",
+    ],
   },
   "initializedState": "loading",
   "messageFieldFocused": false,

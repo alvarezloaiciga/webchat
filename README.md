@@ -13,6 +13,8 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
+    + [showDefaultLaunchButton](#showDefaultLaunchButton)
+    + [customScreens](#customScreens)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
@@ -69,12 +71,16 @@
       - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
 - [SDK](#sdk)
   * [The Quiq object](#the-quiq-object)
+    + [getChatStatus](#getChatStatus)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
     + [getHandle](#gethandle)
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
+- [Extension SDK](#extension-sdk)
+  * [loading](#loading)
+  * [on](#on)
 - [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
@@ -156,7 +162,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - example: `'default'`
   - #### customLaunchButtons
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncButton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
     - The following css classes will be appending to the custom launch buttons in the following cases.
@@ -165,10 +171,43 @@ The Quiq() function contains properties describing how the instance of webchat s
       - `.unsupportedBrowser` - The user is using a browser unsupported by Quiq
       - `.storageDisabled` - Quiq is unable to access window.localStorage, which is required for chat to function.
       - `.hasMobileNumber` - The MOBILE_NUMBER Quiq property is defined.
+  - #### showDefaultLaunchButton
+      - type: boolean
+      - description: Normally, if `customLaunchButtons` are defined, the default launch button is not shown. This property allows for overriding this behavior to either show the default launch button (`true`) or hide the default launch button (`false`) regardless of whether any `customLaunchButtons` are defined.
+      - default: `undefined`
+      - example: `true`
+  - #### customScreens
+    - type:
+    ```javascript
+    {
+      waitScreen?: {        // Wait Screen that is displayed when the user is waiting for an agent.
+        url: string,        // URL to point the wait screen to
+        height?: number,    // Height of the screen, if undefined, the wait screen take up the entire transcript
+        minHeight?: number, // The minimum of the screen that it can shrink to before the transcript starts to scroll.
+      }
+    }
+    ```
+  - description: Definition of the custom screens that can be displayed in web chat.
+  - defaults:
+    ```javascript
+    {
+    }
+    ```
   - #### enforceAgentAvailability
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
     - default: true
+    - #### includeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
+      - example: `'goquiq.com'`
+  - #### includeEmojis
+      - type: Array<string>
+      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+      - default: `[]`
+      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### excludeEmojis
       - type: Array<string>
       - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
@@ -188,16 +227,11 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - default: `'goquiq.com'`
-    - example: `'goquiq.com'`
-  - #### includeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### messages
     - type:
       ```javascript
       {
+        pageTitle: string,
         titleText: string,
         headerText: string,
         sendButtonLabel: string,
@@ -233,6 +267,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - default:
       ```javascript
       {
+        pageTitle: "Quiq Webchat",
         titleText: "",
         headerText: "We're here to help if you have any questions!",
         sendButtonLabel: 'Send',
@@ -530,6 +565,10 @@ The submit button for the welcome form
 
 The Quiq object, returned by a call to the `Quiq()` function, exposes methods you can use to interact with the webchat UI and the Quiq webchat service.
 
+#### getChatStatus
+  - getChatStatus(callback)
+  - Returns a Promise with an object containing a single boolean `active` key. Optionally, a callback can be passed to the function which will be called with the same object.
+
 #### getAgentAvailability
   - getAgentAvailability(callback)
   - Returns a Promise with an object containing a single boolean `available` key. Optionally, a callback can be passed to the function which will be called with the same object.
@@ -540,7 +579,7 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
 #### getHandle
   - getHandle(callback)
-  - Returns a Promise with a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same string value.
+  - Returns a Promise with an object containing a single key, `handle`, corresponding to a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same object.
 
 #### on
   - on(eventName: EventType, handler)
@@ -558,6 +597,22 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 #### sendRegistration
   - sendRegistration([{id: string, value: string}])
   - Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
+
+## Extension SDK
+
+  Custom screens can be defined in the customScreens property on the QuiqObject [customScreens](#customScreens). From within a custom screen, you can interact with the chat application using the Extension SDK. To load the SDK, reference it in a script tag:
+
+  ```
+  <script type="text/javascript" src="https://<%hostName%>/app/webchat/extensionSdk.js"></script>
+  ```
+
+### on
+  - on(eventName: EventType, handler)
+  - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
+
+    Event | `event` object fields
+    --- | ---
+    `estimatedWaitTimeChanged` | `estimatedWaitTime: boolean`
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.

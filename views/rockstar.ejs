@@ -1,0 +1,51 @@
+<!-- This file is purely for local development and shouldn't be used in production!! -->
+<!-- Note: Don't auto-prettify this file.  It messed up old versions of IE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rockstar</title>
+
+    <!-- Include webchat SDK -->
+    <script src="<%= host %>/app/webchat/sdk.js"></script>
+
+    <!-- Define some functions--these would go on Rockstar's page -->
+    <script type="text/javascript">
+      function getTrackingId() {
+        chat.getHandle().then(function(tid) {
+          document.getElementById('trackingId').textContent = "Handle: " + tid;
+        });
+      }
+
+      function showChat() {
+        chat.setChatVisibility(true);
+      }
+
+      // Define some options
+      var quiqOptions = {
+        host: '<%- host %>',
+        contactPoint: 'default',
+        displayMode: 'standalone',
+        showDefaultLaunchButton: false,
+      };
+
+      // Initialize chat
+      var chat = Quiq(quiqOptions);
+    </script>
+</head>
+
+<!-- Testbed -->
+<body>
+<h1><img src="https://www.rockstargames.com/img/global/rockstar.svg" height="30"/>&nbsp;Testbed</h1>
+<button onclick="getTrackingId()">
+    Get Tracking Id
+</button>
+<p id="trackingId">no tracking id</p>
+<br />
+<button onclick="showChat()">
+    Show chat
+</button>
+</body>
+</html>

@@ -134,11 +134,11 @@ exports[`ChatContainer component initializedState when initialized renders prope
   </div>
   <Debugger />
   <Dropzone
-    accept="image/*"
+    accept="image/png,image/jpeg"
     className="chatContainerBody"
     disableClick={true}
     disablePreview={true}
-    disabled={false}
+    disabled={true}
     maxSize={50000000}
     minSize={0}
     multiple={true}
@@ -211,4 +211,12 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
 </div>
 `;
 
-exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `null`;
+exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
+<div
+  className="ChatContainer initialized"
+>
+  <Connect(WelcomeForm) />
+</div>
+`;
+
+exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `""`;

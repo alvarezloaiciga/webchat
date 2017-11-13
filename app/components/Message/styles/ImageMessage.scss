@@ -1,7 +1,8 @@
 @import '~styles/animations';
 
 .ImageMessage {
-  width: auto;
+  max-width: 100%;
+  flex: 0 1 auto;
   display: inline-block;
   text-align: left;
   animation: 0.2s 1 messageEnter;
@@ -13,14 +14,24 @@
   .placeholder {
     display: block;
     max-width: 100%;
+    max-height: 300px;
   }
 
-  img {
+  img,
+  .placeholder {
     display: block;
     border-radius: 5px;
     max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 300px;
     transition: filter 0.5s, transform 0.5s;
     animation: 0.2s 1 fadeIn;
+  }
+
+  /* Disable image border in IE10 */
+  a img {
+    border: 0;
   }
 
   &.fromCustomer {

@@ -2,12 +2,15 @@
   z-index: 99999;
   position: fixed;
   border: none;
-  bottom: 90px;
+  bottom: 24px;
   right: 24px;
   top: inherit;
   left: inherit;
 
+  // Leave this in. Some customers have default stylings for iFrames that try to override this
+  display: block;
+
   &.hasCustomLauncher {
-    bottom: 24px;
+    bottom: 90px;
   }
 }

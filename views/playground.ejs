@@ -37,20 +37,30 @@
   <!-- Playground -->
   <script type="text/javascript" charset="utf-8">
     var quiqOptions = {
+      displayMode: 'either',
       _internal: {
         captureRequests: false,
         captureWebsockets: false,
         exposeDraftJsFunctions: false,
       },
+      customLaunchButtons: ['#customLaunchBtn1'],
+      //showDefaultLaunchButton: true,
       excludeEmojis: [],
       //includeEmojis: [],            // Set to `[]` to disable emojis
       agentsAvailableTimer: 60000,
       enforceAgentAvailability: true,
+      customScreens: {
+        waitScreen: {
+          url: 'https://<%- tenant %>.quiq.dev:3001/testExtension',
+          minHeight: 200
+        }
+      },
       host: '<%- host %>',
       contactPoint: 'default',
       autoPopTime: 120000,
       mobileNumber: 33,
       messages: {
+        pageTitle: 'Super Duper Quiq Chat',
         titleText: 'Quiq Webchat',
       },
       colors: {
@@ -59,7 +69,7 @@
         eventText: '#888',
         agentMessageText: '#555',
         agentMessageLinkText: '#2199e8',
-        agentMessageBackground: '#2199e8',
+        agentMessageBackground: '#e0e0e0',
         customerMessageText: 'yellow',
         customerMessageLinkText: 'yellow',
         customerMessageBackground: '#2199e8',
@@ -71,8 +81,39 @@
         HeaderMenu: {
           background: '#31bf8b',
         },
-        TitleText: {
-          //fontSize: '20px',
+        anchorElement: '',
+        demoMode: true,
+        agentsAvailableTimer: 60000,
+        enforceAgentAvailability: false,
+        host: '<%- host %>',
+        contactPoint: 'default',
+        autoPopTime: 120000,
+        mobileNumber: 33,
+        colors: {
+          primary: 'red', // (Falls back to `QUIQ.COLOR`)
+          agentMessageText: '#555',
+          agentMessageLinkText: '#2199e8',
+          agentMessageBackground: '#e0e0e0',
+          customerMessageText: 'yellow',
+          customerMessageLinkText: 'yellow',
+          customerMessageBackground: '#2199e8',
+          transcriptBackground: '#f4f4f8',
+        },
+        AgentAvatar: {
+          backgroundImage: "url(https://www.tyr.com/shop/skin/frontend/base/default/images/quiq/tyr-bubble.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          display: "block",
+          height: "30px",
+          width: 40,
+        },
+        CustomerAvatar: {
+          backgroundImage: "url(https://www.tyr.com/shop/skin/frontend/base/default/images/quiq/tyr-bubble.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          display: "block",
+          height: "30px",
+          width: 40,
         },
         HeaderBanner: {
           background: '#31bf8b',
@@ -80,13 +121,6 @@
           fontSize: 16,
           fontWeight: 500,
           textTransform: 'uppercase',
-        },
-        ErrorBanner: {
-          background: '#fff',
-          color: 'red',
-          fontFamily: 'Source Sans Pro',
-          textTransform: 'uppercase',
-          fontWeight: 700,
         },
         ToggleChatButton: {
           background: 'teal',
@@ -104,15 +138,6 @@
         AgentMessageBubble: {
           background: '#fff',
           border: '1px solid #e0e0e0',
-        },
-        AgentAvatar: {
-          backgroundImage: "url('https://static.quiq-cdn.com/quiq/favicon/apple-touch-icon-152x152.png')",
-          minWidth: '32px',
-          maxWidth: '32px',
-          minHeight: '32px',
-          maxHeight: '32px',
-          marginRight: '5px',
-          backgroundSize: 'contain',
         },
         AgentMessageText: {
           color: '#555',
@@ -214,9 +239,6 @@
     chat.on('chatVisibilityDidChange', function (data) {
       updateState({ 'Chat is visible': data.visible });
     });
-    chat.on('agentAvailabilityDidChange', function (data) {
-      updateState({ 'Agents available': data.available });
-    });
 
     // State table methods
     function updateState(data) {
@@ -280,7 +302,14 @@
     function getHandle() {
       chat.getHandle(function (handle) {
         console.log(handle);
-        document.getElementById('handleDiv').innerText = handle;
+        document.getElementById('handleDiv').innerText = handle.handle;
+      })
+    }
+
+    function getChatStatus() {
+      chat.getChatStatus(function (status) {
+        console.log(status);
+        document.getElementById('activeDiv').innerText = status.active;
       })
     }
 
@@ -354,6 +383,12 @@
               Get Handle
             </button>
             <div id="handleDiv"></div>
+          </p>
+          <p>
+            <button type="button" id="action_getChatStatus" class="btn btn-lg btn-success" onclick="getChatStatus()">
+              Get Chat Status (Active)
+            </button>
+            <div id="activeDiv"></div>
           </p>
         </div>
 

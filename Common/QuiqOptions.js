@@ -8,6 +8,7 @@ import {
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
+  getOrElse,
 } from 'Common/Utils';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
@@ -30,21 +31,22 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
+    contactPoint,
+    displayMode: rawQuiqObject.displayMode || 'either',
+    customScreens: rawQuiqObject.customScreens,
+    anchorElement: rawQuiqObject.anchorElement,
+    demoMode: rawQuiqObject.demoMode,
     agentsAvailableTimer:
       rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
         ? rawQuiqObject.agentsAvailableTimer
         : 60000,
-    contactPoint,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage.
     // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
       rawQuiqObject.localStorageKeys ||
       (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability:
-      rawQuiqObject.enforceAgentAvailability === undefined
-        ? true
-        : rawQuiqObject.enforceAgentAvailability,
+    enforceAgentAvailability: getOrElse(rawQuiqObject.enforceAgentAvailability, true),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
@@ -78,12 +80,18 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     height: rawQuiqObject.height || 600,
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
+    showDefaultLaunchButton: getOrElse(
+      rawQuiqObject.showDefaultLaunchButton,
+      !Array.isArray(rawQuiqObject.customLaunchButtons) ||
+        rawQuiqObject.customLaunchButtons.length === 0,
+    ),
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
     messages: Object.assign(
       {},
       {
+        pageTitle: messages.pageTitle,
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
         messageFieldPlaceholder: messages.sendUsAMessage,

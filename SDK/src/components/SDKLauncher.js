@@ -25,7 +25,7 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
   componentWillMount() {
     // When standalone is opened, we want to set buttons to have non-visible state.
     Postmaster.registerEventHandler(eventTypes._standaloneOpen, () =>
-      this.handleChatVisibilityChange({visible: true}),
+      this.handleChatVisibilityChange({visible: false}),
     );
 
     Postmaster.registerEventHandler(
@@ -50,10 +50,13 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
     return (
       <div className="SDKLauncher">
         {!(isMobile() && typeof quiqOptions.mobileNumber !== 'number') &&
-          quiqOptions.customLaunchButtons.length === 0 &&
+          quiqOptions.showDefaultLaunchButton &&
           this.state.launcherVisible && (
-            <ToggleChatButton open={this.state.containerVisible} onClick={handleLaunchButtonClick} />
-        )}
+            <ToggleChatButton
+              open={this.state.containerVisible}
+              onClick={handleLaunchButtonClick}
+            />
+          )}
         <SDKChatContainer />
       </div>
     );

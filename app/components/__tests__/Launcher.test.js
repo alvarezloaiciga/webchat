@@ -63,9 +63,12 @@ describe('Launcher component', () => {
       updatePlatformEvents: jest.fn(),
       messageFieldFocused: false,
       setChatConfiguration: jest.fn(),
+      markChatAsSpam: jest.fn(),
+      removeMessage: jest.fn(),
       configuration: {
         enableChatEmailTranscript: false,
         enableChatFileAttachments: false,
+        supportedAttachmentTypes: ['image/png,image/jpeg'],
         enableEmojis: false,
         playSoundOnNewMessage: false,
         flashNotificationOnNewMessage: false,
