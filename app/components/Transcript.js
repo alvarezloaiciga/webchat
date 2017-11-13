@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {getTranscript, getPlatformEvents} from 'reducers/chat';
 import type {Message as MessageType, ChatState, Event} from 'Common/types';
 import './styles/Transcript.scss';
+import {registerExtension, postExtensionEvent} from 'services/Extensions';
 
 export type TranscriptProps = {
   transcript: Array<MessageType>,
@@ -47,7 +48,16 @@ export class Transcript extends Component {
   }
 
   handleIFrameLoad = () => {
+    registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
+
     this.scrollToBottom();
+
+    setInterval(() => {
+      postExtensionEvent({
+        eventType: 'estimatedWaitTimeChanged',
+        data: {estimatedWaitTime: new Date().getTime()},
+      });
+    }, 1000);
   };
 
   isUsingWaitScreen = () => {
@@ -97,6 +107,9 @@ export class Transcript extends Component {
       >
         {this.isUsingWaitScreen() && (
           <iframe
+            ref={r => {
+              this.extensionFrame = r;
+            }}
             onLoad={this.handleIFrameLoad}
             style={{
               minHeight: this.getWaitScreenMinHeight(),
@@ -105,7 +118,7 @@ export class Transcript extends Component {
               flexGrow: this.getWaitScreenFlexGrow(),
               width: '100%',
             }}
-            sandbox="allow-scripts allow-popups allow-forms"
+            sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
             src={quiqOptions.customScreens.waitScreen.url}
           />
         )}

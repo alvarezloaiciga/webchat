@@ -146,7 +146,7 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   playgroundApp.all('/app/webchat/assets/*', proxyAssets);
 
   playgroundApp.get('/', (req, res) => {
-    res.render('./playground', {host: webchatHost});
+    res.render('./playground', {host: webchatHost, tenant});
   });
 
   // Testbed
@@ -157,6 +157,11 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
   // Rockstar
   playgroundApp.get('/rockstar', (req, res) => {
     res.render('./rockstar', {host: webchatHost});
+  });
+
+  // Test Extension
+  playgroundApp.get('/testExtension', (req, res) => {
+    res.render('./testExtension', {host: webchatHost});
   });
 
   playgroundServer.listen(sdkPort, function () {
