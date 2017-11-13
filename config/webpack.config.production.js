@@ -61,7 +61,7 @@ module.exports = merge(config, {
       template: 'config/templates/server.conf.ejs',
       filename: 'server.conf',
       inject: false,
-      chunks: ['sdk', 'extensionSdk', 'testWaitScreen'],
+      chunks: ['sdk', 'extensionSdk'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
