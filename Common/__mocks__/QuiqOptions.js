@@ -1,6 +1,6 @@
 // @flow
 
-import messages from 'Common/messages';
+import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 

@@ -2,7 +2,7 @@
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
-jest.mock('components/EmojiTextarea');
+jest.mock('components/EmojiTextArea');
 jest.mock('services/Postmaster');
 
 import React from 'react';

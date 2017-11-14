@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.154",
+  "version": "1.1.155",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -20,11 +20,11 @@
     "prebuild": "yarn run rimraf dist temp_docker",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
     "postbuild": ". config/postbuild.sh",
-    "jest": "jest --watch --env=jsdom",
-    "flow": "flow",
+    "jestSingle": "./node_modules/.bin/jest --env=jsdom",
+    "jest": "yarn jestSingle --watch",
+    "flow": "./node_modules/.bin/flow",
     "lint": "node ./node_modules/eslint/bin/eslint.js app/ SDK/ Common/",
-    "test": "echo 'passed'",
-    "TODOPUTMEBACK": "flow && jest --env=jsdom && node ./node_modules/eslint/bin/eslint.js app/ --quiet",
+    "test": "yarn flow && yarn jestSingle && yarn lint --quiet",
     "precommit": "lint-staged"
   },
   "lint-staged": {
