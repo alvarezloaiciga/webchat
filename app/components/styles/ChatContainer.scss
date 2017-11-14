@@ -36,6 +36,11 @@
     overflow: hidden;
   }
 
+  .waitScreen {
+    flex: 1 1 auto;
+    display: flex;
+  }
+
   .transcriptAreaWithWaitScreen {
     display: flex;
     flex-direction: column;

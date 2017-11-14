@@ -167,6 +167,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                 ref={r => {
                   this.extensionFrame = r;
                 }}
+                className="waitScreen"
                 onLoad={this.handleIFrameLoad}
                 style={{
                   minHeight: this.getWaitScreenMinHeight(),
