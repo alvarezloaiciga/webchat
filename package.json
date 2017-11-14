@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.154",
+  "version": "1.1.155",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -23,8 +23,7 @@
     "jest": "jest --watch --env=jsdom",
     "flow": "flow",
     "lint": "node ./node_modules/eslint/bin/eslint.js app/ SDK/ Common/",
-    "test": "echo 'passed'",
-    "TODOPUTMEBACK": "flow && jest --env=jsdom && node ./node_modules/eslint/bin/eslint.js app/ --quiet",
+    "test": "flow && jest --env=jsdom && node ./node_modules/eslint/bin/eslint.js app/ --quiet",
     "precommit": "lint-staged"
   },
   "lint-staged": {
