@@ -172,6 +172,11 @@ exports[`ChatContainer component initializedState when initialized renders prope
       multiple={true}
       onDrop={[Function]}
       preventDropOnDocument={true}
+      style={
+        Object {
+          "minHeight": "0px",
+        }
+      }
     >
       <Connect(Transcript) />
       <Connect(MessageForm)

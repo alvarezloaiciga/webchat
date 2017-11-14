@@ -15,9 +15,14 @@ import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Cons
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
+import type {
+  ChatState,
+  ChatInitializedStateType,
+  ChatConfiguration,
+  Message as MessageType,
+} from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
-import {getIsAgentAssigned} from 'reducers/chat';
+import {getTranscript, getIsAgentAssigned} from 'reducers/chat';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
@@ -25,6 +30,7 @@ export type ChatContainerProps = {
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
   isAgentAssigned: boolean,
+  transcript: Array<MessageType>,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -295,6 +301,7 @@ const mapStateToProps = (state: ChatState) => ({
   welcomeFormRegistered: state.welcomeFormRegistered,
   configuration: state.configuration,
   isAgentAssigned: getIsAgentAssigned(state),
+  transcript: getTranscript(state),
 });
 
 const mapDispatchToProps = {
