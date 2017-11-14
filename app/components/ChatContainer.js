@@ -195,11 +195,16 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               disableClick={true}
               maxSize={maxAttachmentSize}
               onDrop={this.handleAttachments}
+              style={{
+                // This is to ensure that the size of this renders in a way that allows us to at least scroll in IE 10
+                minHeight: this.props.transcript.length > 0 ? '75px' : '0px',
+              }}
             >
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
             </Dropzone>
-          </div>);
+          </div>
+        );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
         return (
