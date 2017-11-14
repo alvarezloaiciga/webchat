@@ -96,6 +96,7 @@ describe('chat reducers', () => {
         popped: false,
         chatLauncherHidden: false,
         transcript: {[mock.id]: mock},
+        isAgentAssigned: false,
         agentTyping: true,
         agentsAvailable: true,
         agentEndedConversation: false,

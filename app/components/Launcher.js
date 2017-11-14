@@ -50,6 +50,7 @@ export type LauncherProps = {
   setChatConfiguration: (configuration: ChatMetadata) => void,
   markChatAsSpam: () => void,
   removeMessage: (messageId: string) => void,
+  setIsAgentAssigned: (isAgentAssigned: boolean) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -142,6 +143,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
     QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
+    QuiqChatClient.onAgentAssigned(this.handleAgentAssigned);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
         connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
@@ -235,6 +237,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     try {
       this.updateInitializedState(ChatInitializedState.LOADING);
       await QuiqChatClient.start();
+      this.props.setIsAgentAssigned(QuiqChatClient.isAgentAssigned());
       this.updateInitializedState(ChatInitializedState.INITIALIZED);
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
@@ -256,6 +259,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.typingTimeout = setTimeout(() => {
       this.props.setAgentTyping(false);
     }, 10000);
+  };
+
+  handleAgentAssigned = (isAgentAssigned: boolean) => {
+    this.props.setIsAgentAssigned(isAgentAssigned);
   };
 
   handleAutoPop = () => {

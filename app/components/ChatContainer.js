@@ -15,21 +15,16 @@ import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Cons
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {
-  ChatState,
-  ChatInitializedStateType,
-  ChatConfiguration,
-  Message as MessageType,
-} from 'Common/types';
+import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
-import {getTranscript} from 'reducers/chat';
+import {getIsAgentAssigned} from 'reducers/chat';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
   configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
-  transcript: Array<MessageType>,
+  isAgentAssigned: boolean,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -224,8 +219,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     return (
       quiqOptions.customScreens &&
       quiqOptions.customScreens.waitScreen &&
-      this.props.transcript &&
-      this.props.transcript.every(message => message.authorType !== 'User')
+      !this.props.isAgentAssigned
     );
   };
 
@@ -295,7 +289,7 @@ const mapStateToProps = (state: ChatState) => ({
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
   configuration: state.configuration,
-  transcript: getTranscript(state),
+  isAgentAssigned: getIsAgentAssigned(state),
 });
 
 const mapDispatchToProps = {

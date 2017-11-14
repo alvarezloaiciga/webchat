@@ -56,6 +56,7 @@ export const actionTypes = {
   configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
   getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
   removeMessage: 'REMOVE_MESSAGE',
+  isAgentAssigned: 'AGENT_ASSIGNED',
 };
 
 export const MessageTypes = {

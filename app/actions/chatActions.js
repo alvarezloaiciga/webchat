@@ -16,6 +16,11 @@ export const setAgentsAvailable = (agentsAvailable: boolean) => ({
   agentsAvailable,
 });
 
+export const setIsAgentAssigned = (isAgentAssigned: boolean) => ({
+  type: 'AGENT_ASSIGNED',
+  isAgentAssigned,
+});
+
 export const setChatInitialized = (initializedState: ChatInitializedStateType) => ({
   type: 'CHAT_INITIALIZED_STATE',
   initializedState,

@@ -403,6 +403,7 @@ export type ChatState = {
   messageFieldFocused: boolean,
   configuration: ChatConfiguration,
   chatIsSpam: boolean,
+  isAgentAssigned: boolean,
 };
 
 export type Action = {
