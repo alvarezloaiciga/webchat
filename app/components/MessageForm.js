@@ -285,7 +285,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       color: colors.primary,
       fontFamily,
     });
-    const contentButtonStyle = getStyle(styles.contentButtons, {
+    const contentButtonStyle = getStyle(styles.ContentButtons, {
       color: '#848484',
       fontSize: '16px',
     });

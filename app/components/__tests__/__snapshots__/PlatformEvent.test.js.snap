@@ -10,7 +10,6 @@ exports[`PlatformEvent component rendering renders 1`] = `
   }
 >
   <Divider
-    fontSize="14px"
     lineStyle={
       Object {
         "stroke": "red",

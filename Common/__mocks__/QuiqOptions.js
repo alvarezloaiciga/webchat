@@ -31,6 +31,9 @@ const quiqOptions: QuiqObject = {
     typingIndicatorForeground: '#2199e8',
     typingIndicatorBackground: '#66b9ef',
   },
+  events: {
+    showTime: true,
+  },
   customScreens: {},
   styles: {
     HeaderMenu: {

@@ -67,6 +67,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       },
       rawQuiqObject.colors,
     ),
+    events: {showTime: true, ...rawQuiqObject.events},
     styles: rawQuiqObject.styles || {},
     position: rawQuiqObject.position || {},
     headerText: rawQuiqObject.headerText || messages.hereToHelp,

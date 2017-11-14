@@ -158,10 +158,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   renderContent = () => {
+    const chatContainerStyle = {backgroundColor: quiqOptions.colors.transcriptBackground};
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             {this.isUsingWaitScreen() && (
               <iframe
                 ref={r => {
@@ -198,12 +199,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
             </Dropzone>
-          </div>
-        );
+          </div>);
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             <Spinner />
           </div>
         );
@@ -213,7 +213,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             <Transcript />
           </div>
         );

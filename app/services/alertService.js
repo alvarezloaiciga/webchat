@@ -11,6 +11,7 @@ const alertSound = new Audio(alertFile);
 /**
  * Plays a sound notification. Designed for demoing sound to user.
  */
+// eslint-disable-next-line import/prefer-default-export
 export const playSound = () => {
   alertSound.play();
 };
