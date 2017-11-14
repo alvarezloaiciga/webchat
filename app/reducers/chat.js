@@ -20,11 +20,12 @@ type ChatAction = {
   agentTyping?: boolean,
   message?: Message,
   muteSounds?: boolean,
-  event?: Event,
+  events?: Array<Event>,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
   id?: string,
   isAgentAssigned?: boolean,
+  inputtingEmail?: boolean,
 };
 
 export const initialState = {
@@ -33,11 +34,10 @@ export const initialState = {
   agentsAvailable: undefined,
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: {},
+  platformEvents: {},
   agentTyping: false,
-  agentEndedConversation: false,
   welcomeFormRegistered: false,
   muteSounds: false,
-  platformEvents: [],
   messageFieldFocused: false,
   configuration: {
     enableChatEmailTranscript: false,
@@ -48,8 +48,8 @@ export const initialState = {
     flashNotificationOnNewMessage: false,
     registrationForm: undefined,
   },
-  chatIsSpam: false,
   isAgentAssigned: false,
+  inputtingEmail: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -83,12 +83,16 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         initializedState: action.initializedState,
       });
-    case 'UPDATE_PLATFORM_EVENTS':
-      return Object.assign({}, state, {
-        platformEvents: [...state.platformEvents, action.event],
+    case 'UPDATE_PLATFORM_EVENTS': {
+      if (!Array.isArray(action.events)) {
+        return state;
+      }
+      const newEvents = {};
+      action.events.forEach(e => {
+        newEvents[e.id] = e;
       });
-    case 'MARK_CHAT_AS_SPAM':
-      return Object.assign({}, state, {chatIsSpam: true});
+      return Object.assign({}, state, {platformEvents: {...state.platformEvents, ...newEvents}});
+    }
     case 'UPDATE_TRANSCRIPT': {
       if (!Array.isArray(action.transcript)) return state;
 
@@ -146,8 +150,6 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {muteSounds: action.muteSounds});
     case 'MESSAGE_FIELD_FOCUSED':
       return Object.assign({}, state, {messageFieldFocused: action.messageFieldFocused});
-    case 'AGENT_ENDED_CONVERSATION':
-      return Object.assign({}, state, {agentEndedConversation: action.ended});
     case 'WELCOME_FORM_REGISTERED':
       return Object.assign({}, state, {welcomeFormRegistered: true});
     case 'UPLOAD_PROGRESS':
@@ -169,6 +171,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
           initializedState: ChatInitializedState.LOADING,
         },
       );
+    case 'SET_INPUTTING_EMAIL':
+      return Object.assign({}, state, {inputtingEmail: action.inputtingEmail});
     default:
       return state;
   }
@@ -177,6 +181,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 export default chat;
 
 // Selectors
+export const getAgentEndedConversation = (state: ChatState): boolean =>
+  // $FlowIssue - Flow does not infer types when Object.values is used
+  Object.values(state.platformEvents).some(e => e.type === 'End');
+
 export const getChatContainerHidden = (state: ChatState): boolean => {
   return state.chatContainerHidden;
 };
@@ -196,10 +204,12 @@ export const getMuteSounds = (state: ChatState): boolean => {
 // $FlowIssue - Flow can't deal with Object.values() very well
 export const getTranscript = (state: ChatState): Array<Message> => Object.values(state.transcript);
 
-export const getPlatformEvents = (state: ChatState): Array<Event> => state.platformEvents;
+export const getPlatformEvents = (state: ChatState): Array<Event> =>
+  // $FlowIssue - Flow does not infer types when Object.values is used
+  Object.values(state.platformEvents);
 
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
 
-export const getChatIsSpam = (state: ChatState): boolean => state.chatIsSpam;
-
 export const getIsAgentAssigned = (state: ChatState): boolean => state.isAgentAssigned;
+
+export const getInputtingEmail = (state: ChatState): boolean => state.inputtingEmail;

@@ -7,6 +7,7 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
+import findLastIndex from 'lodash/findLastIndex';
 import './modernizr';
 import type {
   BrowserNames,
@@ -15,6 +16,7 @@ import type {
   BrowserEngine,
   IntlMessage,
   Message,
+  Event,
 } from './types';
 
 const parser = new UAParser();
@@ -250,6 +252,39 @@ export const setLocalStorageItemsIfNewer = (data: {[string]: any}) => {
       }
     }
   });
+};
+
+export const getLatestConversation = (
+  convoMessages: Array<Message>,
+  events: Array<Event>,
+): Array<Message | Event> => {
+  // The latest conversation consists of all messages from the end of the transcript until one of the following:
+  //  1) The preceding End event
+  //  2) The beginning of the transcript
+  const sortedConvoElements = convoMessages
+    .concat(events)
+    .sort((a, b) => a.timestamp - b.timestamp);
+  const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
+    ['Text', 'Attachment'].includes(e.type),
+  );
+  const latestPrecedingEndEventIdx = Math.max(
+    0,
+    findLastIndex(sortedConvoElements, e => e.type === 'End', latestMessageIdx),
+  );
+
+  return sortedConvoElements.slice(latestPrecedingEndEventIdx);
+};
+
+export const enableEmailForCurrentConversation = (
+  convoMessages: Array<Message>,
+  events: Array<Event>,
+) => {
+  const latestConvo = getLatestConversation(convoMessages, events);
+  return (
+    latestConvo.some(
+      e => ['Text', 'Attachment'].includes(e.type) && e.authorType && e.authorType === 'User',
+    ) && !latestConvo.some(e => e.type === 'Spam')
+  );
 };
 
 export const clearQuiqKeysFromLocalStorage = () => {

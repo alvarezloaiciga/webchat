@@ -86,11 +86,6 @@ describe('Launcher component', () => {
       QuiqChatClient.checkForAgents.mockReturnValue(checkForAgentsResponse);
       QuiqChatClient.isChatVisible.mockReturnValue(isChatVisibleResponse);
       QuiqChatClient.hasTakenMeaningfulAction.mockReturnValue(hasTakenMeaningfulActionResponse);
-      QuiqChatClient.onSendTranscript.mockReturnValue({
-        id: 1,
-        type: 'SendTranscript',
-        timestamp: 123456,
-      });
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
       (instance: any).componentDidMount();

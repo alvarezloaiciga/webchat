@@ -43,12 +43,10 @@ export type LauncherProps = {
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
   setWelcomeFormRegistered: () => void,
   setAgentTyping: (typing: boolean) => void,
-  setAgentEndedConversation: (ended: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
   setChatConfiguration: (configuration: ChatMetadata) => void,
-  markChatAsSpam: () => void,
   removeMessage: (messageId: string) => void,
   setIsAgentAssigned: (isAgentAssigned: boolean) => void,
 };
@@ -120,9 +118,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (newState !== this.props.initializedState) {
       this.props.setChatInitialized(newState);
     }
-    if (newState === ChatInitializedState.INITIALIZED) {
+    // TODO: Reimplement this logic somehow
+    /*if (newState === ChatInitializedState.INITIALIZED) {
       this.props.setAgentEndedConversation(false);
-    }
+    }*/
   };
 
   handleNewSession = () => {
@@ -148,9 +147,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onMessageSendFailure((messageId: string) => {
       this.props.removeMessage(messageId);
     });
+    QuiqChatClient.onNewEvents(this.props.updatePlatformEvents);
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
-    QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
     QuiqChatClient.onAgentAssigned(this.props.setIsAgentAssigned);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
@@ -161,11 +160,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onErrorResolved(() =>
       this.updateInitializedState(ChatInitializedState.INITIALIZED),
     );
-    QuiqChatClient.onSendTranscript(this.props.updatePlatformEvents);
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
-    QuiqChatClient.onChatMarkedAsSpam(this.props.markChatAsSpam);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
@@ -250,10 +247,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }
-  };
-
-  handleAgentEndedConversation = () => {
-    this.props.setAgentEndedConversation(true);
   };
 
   handleAgentTyping = (typing: boolean) => {

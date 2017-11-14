@@ -12,6 +12,7 @@ import type {ShallowWrapper} from 'enzyme';
 import {getMockMessage} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import {MenuItemKeys} from 'Common/Constants';
+import * as Utils from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 
 describe('MessageForm component', () => {
@@ -26,13 +27,16 @@ describe('MessageForm component', () => {
 
     render = () => {
       testProps = {
-        agentEndedConversation: false,
         transcript: [getMockMessage(), getMockMessage(1)],
+        agentEndedConversation: false,
+        platformEvents: [],
+        inputtingEmail: false,
         openFileBrowser: jest.fn(),
         muteSounds: false,
         setMuteSounds: jest.fn(),
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
+        setInputtingEmail: jest.fn(),
         configuration: {
           enableChatEmailTranscript: true,
           enableChatFileAttachments: true,
@@ -41,7 +45,6 @@ describe('MessageForm component', () => {
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,
         },
-        chatIsSpam: false,
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();
@@ -72,28 +75,19 @@ describe('MessageForm component', () => {
         .prop('items')
         .find(i => i.id === MenuItemKeys.EMAIL_TRANSCRIPT).disabled;
 
-    const isInlineEmailTranscriptButtonDisabled = () =>
-      wrapper.find('.emailTranscriptInlineButton').prop('disabled');
-
     beforeEach(() => {
       render();
       wrapper.setProps({agentEndedConversation: true});
-      expect(isInlineEmailTranscriptButtonDisabled()).toBe(false);
       expect(isEmailTranscriptDisabled()).toBe(false);
     });
 
-    describe('when Chat is marked as spam', () => {
+    describe('when email is disabled for current conversation', () => {
+      beforeEach(() => {
+        // $FlowIssue
+        Utils.enableEmailForCurrentConversation.mockReturnValueOnce(false);
+      });
       it('disables emailTranscript', () => {
         wrapper.setProps({chatIsSpam: true});
-        expect(isInlineEmailTranscriptButtonDisabled()).toBe(true);
-        expect(isEmailTranscriptDisabled()).toBe(true);
-      });
-    });
-
-    describe('when there is no transcript', () => {
-      it('disables emailTranscript', () => {
-        wrapper.setProps({transcript: []});
-        expect(isInlineEmailTranscriptButtonDisabled()).toBe(true);
         expect(isEmailTranscriptDisabled()).toBe(true);
       });
     });

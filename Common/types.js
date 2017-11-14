@@ -94,7 +94,7 @@ type CustomStyles = {
   EventContainer?: Object,
   EventText?: Object,
   EventLine?: Object,
-  InlineEmailTranscriptButton?: Object,
+  InlineActionButton?: Object,
   NonChat?: Object,
   TypingIndicatorSvgStyle?: Object,
   TypingIndicatorCircleStyle?: Object,
@@ -398,15 +398,14 @@ export type ChatState = {
   agentsAvailable?: boolean,
   initializedState: ChatInitializedStateType,
   transcript: {[string]: Message},
+  platformEvents: {[string]: Event},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
-  agentEndedConversation: boolean,
-  platformEvents: Array<Event>,
   muteSounds: boolean,
   messageFieldFocused: boolean,
   configuration: ChatConfiguration,
-  chatIsSpam: boolean,
   isAgentAssigned: boolean,
+  inputtingEmail: boolean,
 };
 
 export type Action = {
