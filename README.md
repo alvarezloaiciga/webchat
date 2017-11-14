@@ -16,8 +16,8 @@
     + [showDefaultLaunchButton](#showdefaultlaunchbutton)
     + [customScreens](#customscreens)
     + [enforceAgentAvailability](#enforceagentavailability)
+    + [events](#events)
     + [includeEmojis](#includeemojis)
-    + [includeEmojis](#includeemojis-1)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
     + [height](#height)
@@ -138,7 +138,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageLinkText: string, // Text color for links sent by the end user
         customerMessageBackground: string, // Message bubble color for links sent by the end user
         attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
-        transcriptBackground: string, // Background color for the chat transcript
+        transcriptBackground: string, // Background color for the chat window
         typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
         typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       }
