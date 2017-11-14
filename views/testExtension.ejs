@@ -12,8 +12,6 @@
     <script type="text/javascript" src="<%= host %>/app/webchat/extensionSdk.js"></script>
     <script type="text/javascript">
       Quiq.on('estimatedWaitTimeChanged', function(data) {
-
-        console.log("etaChanged");
         document.querySelector('.etaArea').innerText = data.estimatedWaitTime;
       });
     </script>

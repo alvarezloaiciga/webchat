@@ -7,14 +7,6 @@
   white-space: pre-wrap;
 }
 
-.MessageArea {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  width: 100%;
-  white-space: pre-wrap;
-}
-
 .noFlexbox .Transcript {
   margin-top: 80px;
   height: 430px;
