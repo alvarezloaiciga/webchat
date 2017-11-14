@@ -15,13 +15,21 @@ import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Cons
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
-import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'Common/types';
+import type {
+  ChatState,
+  ChatInitializedStateType,
+  ChatConfiguration,
+  Message as MessageType,
+} from 'Common/types';
+import {registerExtension, postExtensionEvent} from 'services/Extensions';
+import {getTranscript} from 'reducers/chat';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
   configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
+  transcript: Array<MessageType>,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -42,6 +50,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   state: ChatContainerState = {};
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
+  extensionFrame: any;
 
   componentWillMount() {
     // Set custom window title
@@ -152,21 +161,43 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <Dropzone
-            ref={d => {
-              this.dropzone = d;
-            }}
-            disabled={!this.props.configuration.enableChatFileAttachments}
-            className="chatContainerBody"
-            accept={this.props.configuration.supportedAttachmentTypes.join(',')}
-            disablePreview={true}
-            disableClick={true}
-            maxSize={maxAttachmentSize}
-            onDrop={this.handleAttachments}
-          >
-            <Transcript />
-            <MessageForm openFileBrowser={this.openFileBrowser} />
-          </Dropzone>
+          <div className="chatContainerBody">
+            {this.isUsingWaitScreen() && (
+              <iframe
+                ref={r => {
+                  this.extensionFrame = r;
+                }}
+                onLoad={this.handleIFrameLoad}
+                style={{
+                  minHeight: this.getWaitScreenMinHeight(),
+                  height: this.getWaitScreenHeight(),
+                  borderWidth: 0,
+                  flexGrow: this.getWaitScreenFlexGrow(),
+                  width: '100%',
+                }}
+                sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
+                // $FlowIssue - null check is in isUsingWaitScreen
+                src={quiqOptions.customScreens.waitScreen.url}
+              />
+            )}
+            <Dropzone
+              ref={d => {
+                this.dropzone = d;
+              }}
+              className={
+                this.isUsingWaitScreen() ? 'transcriptAreaWithWaitScreen' : 'transcriptArea'
+              }
+              disabled={!this.props.configuration.enableChatFileAttachments}
+              accept={this.props.configuration.supportedAttachmentTypes.join(',')}
+              disablePreview={true}
+              disableClick={true}
+              maxSize={maxAttachmentSize}
+              onDrop={this.handleAttachments}
+            >
+              <Transcript />
+              <MessageForm openFileBrowser={this.openFileBrowser} />
+            </Dropzone>
+          </div>
         );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
@@ -186,6 +217,46 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           </div>
         );
     }
+  };
+
+  isUsingWaitScreen = () => {
+    return (
+      quiqOptions.customScreens &&
+      quiqOptions.customScreens.waitScreen &&
+      this.props.transcript &&
+      this.props.transcript.every(message => message.authorType !== 'User')
+    );
+  };
+
+  handleIFrameLoad = () => {
+    // $FlowIssue - Null check is done upstream of this call
+    registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
+
+    setInterval(() => {
+      postExtensionEvent({
+        eventType: 'estimatedWaitTimeChanged',
+        data: {estimatedWaitTime: new Date().getTime()},
+      });
+    }, 1000);
+  };
+
+  getWaitScreenHeight = () => {
+    // $FlowIssue - Null check is done upstream of this call
+    return quiqOptions.customScreens.waitScreen.height
+      ? quiqOptions.customScreens.waitScreen.height
+      : '100%';
+  };
+
+  getWaitScreenFlexGrow = () => {
+    // $FlowIssue - Null check is done upstream of this call
+    return quiqOptions.customScreens.waitScreen.height ? 0 : 1;
+  };
+
+  getWaitScreenMinHeight = () => {
+    // $FlowIssue - Null check is done upstream of this call
+    return quiqOptions.customScreens.waitScreen.minHeight
+      ? quiqOptions.customScreens.waitScreen.minHeight
+      : 100;
   };
 
   render() {
@@ -223,6 +294,7 @@ const mapStateToProps = (state: ChatState) => ({
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
   configuration: state.configuration,
+  transcript: getTranscript(state),
 });
 
 const mapDispatchToProps = {

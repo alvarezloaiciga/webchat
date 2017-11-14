@@ -36,6 +36,27 @@
     overflow: hidden;
   }
 
+  .transcriptAreaWithWaitScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    white-space: pre-wrap;
+  }
+
+  .transcriptArea {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    white-space: pre-wrap;
+  }
+
   .banner,
   .errorBanner {
     flex: 0 0 auto;
