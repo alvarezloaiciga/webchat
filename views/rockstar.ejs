@@ -14,8 +14,8 @@
     <!-- Define some functions--these would go on Rockstar's page -->
     <script type="text/javascript">
       function getTrackingId() {
-        chat.getHandle().then(function(tid) {
-          document.getElementById('trackingId').textContent = "Handle: " + tid;
+        chat.getHandle().then(function(data) {
+          document.getElementById('trackingId').textContent = "Handle: " + data.handle;
         });
       }
 
@@ -23,12 +23,88 @@
         chat.setChatVisibility(true);
       }
 
+      function getChatStatus() {
+        chat.getChatStatus().then(function(data) {
+          document.getElementById('chatStatus').textContent = "Active: " + data.active;
+        });
+      }
+
       // Define some options
       var quiqOptions = {
         host: '<%- host %>',
         contactPoint: 'default',
-        displayMode: 'standalone',
+        displayMode: 'undocked',
         showDefaultLaunchButton: false,
+        includeEmojis: [],
+        colors: {
+          transcriptBackground: 'white',
+          primary: 'rgb(76, 178, 231)',
+        },
+        events: {
+          showTime: false,
+        },
+        messages: {
+          pageTitle: 'Rockstar Games Support Chat',
+          sendButtonLabel: '',
+          transcriptEmailedEventMessage: 'Your chat transcript has been emailed to you',
+        },
+        styles: {
+          HeaderBanner: {
+            display: 'none',
+          },
+          HeaderMenu: {
+            display: 'none',
+          },
+          ContentButtons: {
+            color: 'rgb(111, 112, 113)',
+            fontSize: '22px',
+            marginRight: '5px',
+          },
+          OptionsMenuButtonIcon: {
+            color: 'rgb(111, 112, 113)',
+            fontSize: '22px',
+          },
+          MessageFormInput: {
+            color: 'rgb(111, 112, 113)',
+          },
+          MessageForm: {
+            borderTop: '1px solid rgb(201, 202, 203)',
+            height: '50px',
+          },
+          CustomerMessageBubble: {
+            backgroundColor: 'rgb(76, 178, 231)',
+            padding: '12px',
+            border: 'none',
+          },
+          CustomerMessageText: {
+            color: 'white',
+          },
+          AgentMessageBubble: {
+            backgroundColor: 'rgb(231, 232, 236)',
+            padding: '12px',
+          },
+          AgentMessageText: {
+            color: 'black',
+          },
+          AgentAvatar: {
+            backgroundImage: 'url(https://s3.amazonaws.com/hive-nstructions/Screen+Shot+2017-11-13+at+1.31.50+PM.png)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
+            display: 'block',
+            height: '40px',
+            width: '45px',
+          },
+          EventContainer: {
+            margin: '0 20px',
+          },
+          EventText: {
+            color: 'rgb(183, 184, 185)',
+            margin: '20px 0',
+          },
+          EventLine: {
+            color: 'rgb(183, 184, 185)',
+          },
+        },
       };
 
       // Initialize chat
@@ -39,6 +115,11 @@
 <!-- Testbed -->
 <body>
 <h1><img src="https://www.rockstargames.com/img/global/rockstar.svg" height="30"/>&nbsp;Testbed</h1>
+<button onclick="getChatStatus()">
+    Get Chat Status (Active)
+</button>
+<p id="chatStatus"></p>
+<br />
 <button onclick="getTrackingId()">
     Get Tracking Id
 </button>

@@ -83,7 +83,7 @@ type CustomStyles = {
   WelcomeFormSubmitButton?: Object,
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,
-  contentButtons?: Object,
+  ContentButtons?: Object,
   EmailTranscriptMenuContainer?: Object,
   EmailTranscriptMenuLineItem?: Object,
   EmailTranscriptMenuLineItemIcon?: Object,
@@ -124,6 +124,9 @@ export type QuiqObject = {
     transcriptBackground: string,
     typingIndicatorForeground: string,
     typingIndicatorBackground: string,
+  },
+  events: {
+    showTime: boolean,
   },
   contactPoint: string,
   customLaunchButtons: Array<string>,

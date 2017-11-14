@@ -16,8 +16,8 @@
     + [showDefaultLaunchButton](#showdefaultlaunchbutton)
     + [customScreens](#customscreens)
     + [enforceAgentAvailability](#enforceagentavailability)
+    + [events](#events)
     + [includeEmojis](#includeemojis)
-    + [includeEmojis](#includeemojis-1)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
     + [height](#height)
@@ -138,7 +138,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageLinkText: string, // Text color for links sent by the end user
         customerMessageBackground: string, // Message bubble color for links sent by the end user
         attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
-        transcriptBackground: string, // Background color for the chat transcript
+        transcriptBackground: string, // Background color for the chat window
         typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
         typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       }
@@ -203,22 +203,28 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
     - default: true
-    - #### includeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
-      - example: `'goquiq.com'`
+  - #### events
+    - type: ```javascript
+      {
+        showTime: boolean   // Controls whether the time an event took place is shown along with the event description.
+      }
+      ```
+    - description: Options for customizing the display of conversation events such as conversation ended, email transcript, etc.
+    - default: ```javascript
+      {
+        showTime: true
+      }
+      ```
   - #### includeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
+    - type: Array<string>
+    - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+    - default: `[]`
+    - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### excludeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
+    - type: Array<string>
+    - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
+    - default: `[]`
+    - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values

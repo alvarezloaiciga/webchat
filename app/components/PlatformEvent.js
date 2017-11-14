@@ -30,9 +30,9 @@ const PlatformEventContainer = styled.div`
 
 const PlatformEvent = (props: PlatformEventProps) => {
   const {timestamp} = props.event;
-  const message = `${formatTime(timestamp)} ${getMessage(
-    messageTypes.transcriptEmailedEventMessage,
-  )}`;
+  const eventDescription = getMessage(messageTypes.transcriptEmailedEventMessage);
+  const showTime = quiqOptions.events.showTime;
+  const message = `${showTime ? formatTime(timestamp) : ''} ${eventDescription}`;
 
   return (
     <PlatformEventContainer className="PlatformEvent" style={getStyle(styles.EventContainer)}>

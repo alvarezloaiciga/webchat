@@ -75,7 +75,9 @@ export class Transcript extends Component {
     return (
       <div
         className="Transcript"
-        style={{backgroundColor: colors.transcriptBackground}}
+        style={{
+          backgroundColor: colors.transcriptBackground,
+        }}
         ref={n => {
           this.transcript = n;
         }}

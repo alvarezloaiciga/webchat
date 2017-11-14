@@ -22,6 +22,11 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -50,6 +55,11 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -78,6 +88,11 @@ exports[`ChatContainer component initializedState when errored renders properly 
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -106,6 +121,11 @@ exports[`ChatContainer component initializedState when inactive renders properly
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -135,6 +155,11 @@ exports[`ChatContainer component initializedState when initialized renders prope
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Dropzone
       accept="image/png,image/jpeg"
@@ -180,6 +205,11 @@ exports[`ChatContainer component initializedState when loading renders properly 
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Spinner />
   </div>
@@ -209,6 +239,11 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Spinner />
   </div>

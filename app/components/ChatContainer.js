@@ -153,10 +153,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   renderContent = () => {
+    const chatContainerStyle = {backgroundColor: quiqOptions.colors.transcriptBackground};
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             {this.isUsingWaitScreen() && (
               <iframe
                 ref={r => {
@@ -189,6 +190,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               disableClick={true}
               maxSize={maxAttachmentSize}
               onDrop={this.handleAttachments}
+              style={{
+                // This is to ensure that the size of this renders in a way that allows us to at least scroll in IE 10
+                minHeight: this.props.transcript.length > 0 ? '75px' : '0px',
+              }}
             >
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
@@ -198,7 +203,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             <Spinner />
           </div>
         );
@@ -208,7 +213,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className="chatContainerBody">
+          <div className="chatContainerBody" style={chatContainerStyle}>
             <Transcript />
           </div>
         );
