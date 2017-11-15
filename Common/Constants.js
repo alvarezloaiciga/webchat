@@ -74,6 +74,10 @@ export const EventTypes = {
   SPAM: 'Spam',
 };
 
+export const ExtensionSdkEventTypes = {
+  ESTIMATED_WAIT_TIME_CHANGED: 'estimatedWaitTimeChanged',
+};
+
 export const ChatInitializedState = {
   UNINITIALIZED: 'uninitialized',
   LOADING: 'loading',

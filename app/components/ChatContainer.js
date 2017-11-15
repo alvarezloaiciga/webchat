@@ -11,7 +11,12 @@ import QuiqChatClient from 'quiq-chat';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import {ChatInitializedState, messageTypes, maxAttachmentSize} from 'Common/Constants';
+import {
+  ChatInitializedState,
+  messageTypes,
+  maxAttachmentSize,
+  ExtensionSdkEventTypes,
+} from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
 import './styles/ChatContainer.scss';
@@ -241,14 +246,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
 
     postExtensionEvent({
-      eventType: 'estimatedWaitTimeChanged',
+      eventType: ExtensionSdkEventTypes.ESTIMATED_WAIT_TIME_CHANGED,
       data: {estimatedWaitTime: QuiqChatClient.getEstimatedWaitTime()},
     });
 
     QuiqChatClient.onEstimatedWaitTimeChanged((estimatedWaitTime?: number) => {
       if (this.extensionFrame && this.extensionFrame.contentWindow) {
         postExtensionEvent({
-          eventType: 'estimatedWaitTimeChanged',
+          eventType: ExtensionSdkEventTypes.ESTIMATED_WAIT_TIME_CHANGED,
           data: {estimatedWaitTime},
         });
       }
