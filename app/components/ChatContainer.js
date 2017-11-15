@@ -243,12 +243,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       data: {estimatedWaitTime: QuiqChatClient.getEstimatedWaitTime()},
     });
 
-    QuiqChatClient.onEstimatedWaitTimeChanged((estimatedWaitTime?: number) =>
-      postExtensionEvent({
-        eventType: 'estimatedWaitTimeChanged',
-        data: {estimatedWaitTime},
-      }),
-    );
+    QuiqChatClient.onEstimatedWaitTimeChanged((estimatedWaitTime?: number) => {
+      if (this.extensionFrame && this.extensionFrame.contentWindow) {
+        postExtensionEvent({
+          eventType: 'estimatedWaitTimeChanged',
+          data: {estimatedWaitTime},
+        });
+      }
+    });
   };
 
   getWaitScreenHeight = () => {
