@@ -23,6 +23,7 @@ describe('ChatContainer component', () => {
       chatContainerHidden: false,
       welcomeFormRegistered: true,
       initializedState: 'initialized',
+      isAgentAssigned: false,
       transcript: [],
       addPendingAttachmentMessage: jest.fn(),
       setUploadProgress: jest.fn(),

@@ -24,6 +24,7 @@ type ChatAction = {
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
   id?: string,
+  isAgentAssigned?: boolean,
 };
 
 export const initialState = {
@@ -48,6 +49,7 @@ export const initialState = {
     registrationForm: undefined,
   },
   chatIsSpam: false,
+  isAgentAssigned: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -67,6 +69,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     case 'AGENTS_AVAILABLE':
       return Object.assign({}, state, {
         agentsAvailable: action.agentsAvailable,
+      });
+    case 'AGENT_ASSIGNED':
+      return Object.assign({}, state, {
+        isAgentAssigned: action.isAgentAssigned,
       });
     case 'CHAT_INITIALIZED_STATE':
       if (state.initializedState === ChatInitializedState.BURNED) {
@@ -195,3 +201,5 @@ export const getPlatformEvents = (state: ChatState): Array<Event> => state.platf
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
 
 export const getChatIsSpam = (state: ChatState): boolean => state.chatIsSpam;
+
+export const getIsAgentAssigned = (state: ChatState): boolean => state.isAgentAssigned;

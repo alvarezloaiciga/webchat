@@ -9,6 +9,7 @@ export const getChatClient = jest.fn().mockReturnValue({
   onNewSession: jest.fn().mockReturnThis(),
   onBurn: jest.fn().mockReturnThis(),
   onClientInactiveTimeout: jest.fn().mockReturnThis(),
+  onAgentAssigned: jest.fn().mockReturnThis(),
   start: jest.fn(),
   stop: jest.fn(),
   emailTranscript: jest.fn(),

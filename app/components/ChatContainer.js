@@ -22,13 +22,14 @@ import type {
   Message as MessageType,
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
-import {getTranscript} from 'reducers/chat';
+import {getTranscript, getIsAgentAssigned} from 'reducers/chat';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
   configuration: ChatConfiguration,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
+  isAgentAssigned: boolean,
   transcript: Array<MessageType>,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
@@ -229,8 +230,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     return (
       quiqOptions.customScreens &&
       quiqOptions.customScreens.waitScreen &&
-      this.props.transcript &&
-      this.props.transcript.every(message => message.authorType !== 'User')
+      !this.props.isAgentAssigned
     );
   };
 
@@ -300,6 +300,7 @@ const mapStateToProps = (state: ChatState) => ({
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
   configuration: state.configuration,
+  isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
 });
 
