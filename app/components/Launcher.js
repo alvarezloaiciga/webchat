@@ -151,7 +151,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
     QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
-    QuiqChatClient.onAgentAssigned(this.handleAgentAssigned);
+    QuiqChatClient.onAgentAssigned(this.props.setIsAgentAssigned);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
         connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
@@ -267,10 +267,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.typingTimeout = setTimeout(() => {
       this.props.setAgentTyping(false);
     }, 10000);
-  };
-
-  handleAgentAssigned = (isAgentAssigned: boolean) => {
-    this.props.setIsAgentAssigned(isAgentAssigned);
   };
 
   handleAutoPop = () => {
