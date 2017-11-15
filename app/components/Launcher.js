@@ -75,8 +75,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.init();
 
     // TODO: Remove this when WS are used for join/leave
-    // If we're in undocked-only mode, we need to fire a leave event whenever window is closed
-    if (quiqOptions.displayMode === displayModes.UNDOCKED) {
+    // If we're in undocked-only mode, and this is a standalone window, we need to fire a leave event whenever window is closed
+    if (inStandaloneMode() && quiqOptions.displayMode === displayModes.UNDOCKED) {
       window.addEventListener('unload', () => {
         QuiqChatClient.leaveChat(true);
       });
