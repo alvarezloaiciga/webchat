@@ -12,7 +12,13 @@
     <script type="text/javascript" src="<%= host %>/app/webchat/extensionSdk.js"></script>
     <script type="text/javascript">
       Quiq.on('estimatedWaitTimeChanged', function(data) {
-        document.querySelector('.etaArea').innerText = data.estimatedWaitTime;
+        console.log("updating estimated wait time: %0", data);
+        if (data.estimatedWaitTime) {
+          document.querySelector('.etaArea').innerText = (data.estimatedWaitTime / 1000) + ' seconds';
+        }
+        else {
+          document.querySelector('.etaArea').innerText = 'Unknown';
+        }
       });
     </script>
 </head>

@@ -31,6 +31,7 @@ export type ChatContainerProps = {
   initializedState: ChatInitializedStateType,
   isAgentAssigned: boolean,
   transcript: Array<MessageType>,
+  agentEndedConversation: boolean,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -230,7 +231,8 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     return (
       quiqOptions.customScreens &&
       quiqOptions.customScreens.waitScreen &&
-      !this.props.isAgentAssigned
+      !this.props.isAgentAssigned &&
+      !this.props.agentEndedConversation
     );
   };
 
@@ -238,12 +240,19 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     // $FlowIssue - Null check is done upstream of this call
     registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
 
-    setInterval(() => {
-      postExtensionEvent({
-        eventType: 'estimatedWaitTimeChanged',
-        data: {estimatedWaitTime: new Date().getTime()},
-      });
-    }, 60000);
+    postExtensionEvent({
+      eventType: 'estimatedWaitTimeChanged',
+      data: {estimatedWaitTime: QuiqChatClient.getEstimatedWaitTime()},
+    });
+
+    QuiqChatClient.onEstimatedWaitTimeChanged((estimatedWaitTime?: number) => {
+      if (this.extensionFrame && this.extensionFrame.contentWindow) {
+        postExtensionEvent({
+          eventType: 'estimatedWaitTimeChanged',
+          data: {estimatedWaitTime},
+        });
+      }
+    });
   };
 
   getWaitScreenHeight = () => {
@@ -302,6 +311,7 @@ const mapStateToProps = (state: ChatState) => ({
   configuration: state.configuration,
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
+  agentEndedConversation: state.agentEndedConversation,
 });
 
 const mapDispatchToProps = {
