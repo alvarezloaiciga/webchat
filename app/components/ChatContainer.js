@@ -238,12 +238,17 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     // $FlowIssue - Null check is done upstream of this call
     registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
 
-    setInterval(() => {
+    postExtensionEvent({
+      eventType: 'estimatedWaitTimeChanged',
+      data: {estimatedWaitTime: QuiqChatClient.getEstimatedWaitTime()},
+    });
+
+    QuiqChatClient.onEstimatedWaitTimeChanged((estimatedWaitTime?: number) =>
       postExtensionEvent({
         eventType: 'estimatedWaitTimeChanged',
-        data: {estimatedWaitTime: new Date().getTime()},
-      });
-    }, 60000);
+        data: {estimatedWaitTime},
+      }),
+    );
   };
 
   getWaitScreenHeight = () => {
