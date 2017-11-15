@@ -243,7 +243,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
         eventType: 'estimatedWaitTimeChanged',
         data: {estimatedWaitTime: new Date().getTime()},
       });
-    }, 1000);
+    }, 60000);
   };
 
   getWaitScreenHeight = () => {
