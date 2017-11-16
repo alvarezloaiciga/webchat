@@ -297,7 +297,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         onChange={[Function]}
         required={false}
         resize="vertical"
-        rows={5}
+        rows={3}
         style={
           Object {
             "color": "#888",
