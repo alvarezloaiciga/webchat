@@ -1,4 +1,4 @@
-<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE 
+<!-- NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
  If you update this document, and it will affect the table of contents, be sure to generate a new table of contents at https://ecotrust-canada.github.io/markdown-toc/
      NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE -->
 
@@ -13,12 +13,16 @@
     + [colors](#colors)
     + [contactPoint](#contactpoint)
     + [customLaunchButtons](#customlaunchbuttons)
+    + [showDefaultLaunchButton](#showdefaultlaunchbutton)
+    + [customScreens](#customscreens)
+    + [displayMode](#displaymode)
     + [enforceAgentAvailability](#enforceagentavailability)
+    + [events](#events)
+    + [includeEmojis](#includeemojis)
     + [excludeEmojis](#excludeemojis)
     + [fontFamily](#fontfamily)
     + [height](#height)
     + [host](#host)
-    + [includeEmojis](#includeemojis)
     + [messages](#messages)
     + [mobileNumber](#mobilenumber)
     + [position](#position)
@@ -30,20 +34,39 @@
       - [AgentAvatar](#agentavatar)
       - [AgentMessageBubble](#agentmessagebubble)
       - [AgentMessageText](#agentmessagetext)
+      - [AgentAttachmentBubble](#agentattachmentbubble)
+      - [AgentAttachmentText](#agentattachmenttext)
       - [CustomerAvatar](#customeravatar)
       - [CustomerMessageBubble](#customermessagebubble)
       - [CustomerMessageText](#customermessagetext)
+      - [CustomerAttachmentBubble](#customerattachmentbubble)
+      - [CustomerAttachmentText](#customerattachmenttext)
+      - [EmailTranscriptInput](#emailtranscriptinput)
+      - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
+      - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
+      - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
+      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
+      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
+      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
       - [ErrorBanner](#errorbanner)
+      - [EventContainer](#eventcontainer)
+      - [EventLine](#eventline)
+      - [EventText](#eventtext)
       - [HeaderBanner](#headerbanner)
       - [HeaderMenu](#headermenu)
       - [HeaderMenuIcons](#headermenuicons)
+      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
       - [MessageForm](#messageform)
       - [MessageFormInput](#messageforminput)
       - [MessageFormSend](#messageformsend)
       - [NonChat](#nonchat)
+      - [OptionsMenuButton](#optionsmenubutton)
+      - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
+      - [TypingIndicatorSvgStyle](#typingindicatorsvgstyle)
+      - [TypingIndicatorCircleStyle](#typingindicatorcirclestyle)
       - [WelcomeFormBanner](#welcomeformbanner)
       - [WelcomeFormField](#welcomeformfield)
       - [WelcomeFormFieldInput](#welcomeformfieldinput)
@@ -52,11 +75,15 @@
       - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
 - [SDK](#sdk)
   * [The Quiq object](#the-quiq-object)
+    + [getChatStatus](#getchatstatus)
     + [getAgentAvailability](#getagentavailability)
     + [getChatVisibility](#getchatvisibility)
+    + [getHandle](#gethandle)
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
+- [Extension SDK](#extension-sdk)
+  * [on](#on-1)
 - [Supported Browsers](#supported-browsers)
 
 ## Webchat Client
@@ -103,13 +130,18 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: string,
+        menuText: string, //  Text color for primary menu
+        eventText: string, // Text color for Event messages
         agentMessageText: string, // Text color for messages sent by the support agent
         agentMessageLinkText: string, // Text color for links sent by the support agent
         agentMessageBackground: string, // Message bubble color for links sent by the support agent
         customerMessageText: string, // Text color for messages sent by the end user
         customerMessageLinkText: string, // Text color for links sent by the end user
         customerMessageBackground: string, // Message bubble color for links sent by the end user
-        transcriptBackground: string, // Background color for the chat transcript
+        attachmentMessageColor: string, // Color used for icon, text and border of a file attachment message.
+        transcriptBackground: string, // Background color for the chat window
+        typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
+        typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       }
       ```
     - description: Color values for the webchat
@@ -117,6 +149,8 @@ The Quiq() function contains properties describing how the instance of webchat s
       ```javascript
       {
         primary: '#59ad5d',
+        menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
@@ -124,6 +158,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         customerMessageLinkText: '#fff',
         customerMessageBackground: COLORS.primary,
         transcriptBackground: '#f4f4f8',
+        typingIndicatorForeground: '#2199e8',
+        typingIndicatorBackground: '#66b9ef',
       }
       ```
   - #### contactPoint
@@ -133,7 +169,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     - example: `'default'`
   - #### customLaunchButtons
     - type: Array<string>
-    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed.  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
+    - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncButton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.
     - default: `[]`
     - example: `['.customButtonClass1', '#customButtonId2']`
     - The following css classes will be appending to the custom launch buttons in the following cases.
@@ -142,15 +178,59 @@ The Quiq() function contains properties describing how the instance of webchat s
       - `.unsupportedBrowser` - The user is using a browser unsupported by Quiq
       - `.storageDisabled` - Quiq is unable to access window.localStorage, which is required for chat to function.
       - `.hasMobileNumber` - The MOBILE_NUMBER Quiq property is defined.
+  - #### showDefaultLaunchButton
+      - type: boolean
+      - description: Normally, if `customLaunchButtons` are defined, the default launch button is not shown. This property allows for overriding this behavior to either show the default launch button (`true`) or hide the default launch button (`false`) regardless of whether any `customLaunchButtons` are defined.
+      - default: `undefined`
+      - example: `true`
+  - #### customScreens
+    - type:
+    ```javascript
+    {
+      waitScreen?: {        // Wait Screen that is displayed when the user is waiting for an agent.
+        url: string,        // URL to point the wait screen to
+        height?: number,    // Height of the screen, if undefined, the wait screen take up the entire transcript
+        minHeight?: number, // The minimum of the screen that it can shrink to before the transcript starts to scroll.
+      }
+    }
+    ```
+  - description: Definition of the custom screens that can be displayed in web chat.
+  - defaults:
+    ```javascript
+    {
+    }
+    ```
+  - #### displayMode
+    - type: 'either' | 'docked' | 'undocked'
+    - description: Controls how webchat is presented to the user: `either` indicates that webchat is launched as a "docked" frame on your page, but can be switched to a standalone window (and back) by the user. `undocked` indicates that webchat is launched directly into a standalone window and cannot be switched to a docked frame. `docked` indicates that webchat is launched into a frame on your page and cannot be switched to a standalone window by the user. We recommend `either` mode for most use cases. 
+    - default: `either`
+    - example: `undocked`
   - #### enforceAgentAvailability
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
     - default: true
+  - #### events
+    - type: ```javascript
+      {
+        showTime: boolean   // Controls whether the time an event took place is shown along with the event description.
+      }
+      ```
+    - description: Options for customizing the display of conversation events such as conversation ended, email transcript, etc.
+    - default: ```javascript
+      {
+        showTime: true
+      }
+      ```
+  - #### includeEmojis
+    - type: Array<string>
+    - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
+    - default: `[]`
+    - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### excludeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
+    - type: Array<string>
+    - description: An array of emoji names to not allow. Emojis with names in this array will *not* be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
+    - default: `[]`
+    - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### fontFamily
     - type: string
     - description: Font Family of all text within the webchat.  Can be multiple values, as long as they are valid css values
@@ -165,16 +245,11 @@ The Quiq() function contains properties describing how the instance of webchat s
     - type: string
     - description: The hostname to operate against. In production, this should always be goquiq.com, and shouldn't need to be manually set
     - default: `'goquiq.com'`
-    - example: `'goquiq.com'`
-  - #### includeEmojis
-      - type: Array<string>
-      - description: An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
-      - default: `[]`
-      - example: `['hatching_chick', 'stuck_out_tongue']`
   - #### messages
     - type:
       ```javascript
       {
+        pageTitle: string,
         titleText: string,
         headerText: string,
         sendButtonLabel: string,
@@ -195,12 +270,22 @@ The Quiq() function contains properties describing how the instance of webchat s
         storageDisabled?: string,
         agentEndedConversationMessage: string,
         agentsNotAvailableMessage: string,
+        optionsMenuTooltip: string,
+        emailTranscriptInlineButton: string,
+        emailTranscriptMenuMessage: string,
+        emailTranscriptMenuTooltip: string,
+        emailTranscriptInputPlaceholder: string,
+        emailTranscriptInputCancelTooltip: string,
+        emailTranscriptInputSubmitTooltip: string,
+        messageArrivedNotification: string,
+        transcriptEmailedEventMessage: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
     - default:
       ```javascript
       {
+        pageTitle: "Quiq Webchat",
         titleText: "",
         headerText: "We're here to help if you have any questions!",
         sendButtonLabel: 'Send',
@@ -217,10 +302,21 @@ The Quiq() function contains properties describing how the instance of webchat s
         dockWindowTooltip: 'Dock chat',
         openInNewWindowTooltip: 'Open chat in new window',
         closeWindowTooltip: 'Close window',
+        emojiPickerTooltip: 'Emoji picker',
+        attachmentBtnTooltip: 'Send file',
         unsupportedBrowser: undefined,
         storageDisabled: undefined,
         agentEndedConversationMessage: 'Agent has ended the conversation.',
         agentsNotAvailableMessage: 'No agents are currently available.',
+        optionsMenuTooltip: 'Options',
+        emailTranscriptInlineButton: 'Email Transcript',
+        emailTranscriptMenuMessage: 'Email Transcript',
+        emailTranscriptMenuTooltip: 'Email a full transcript of the current chat',
+        emailTranscriptInputPlaceholder: 'Enter your Email...',
+        emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
+        emailTranscriptInputSubmitTooltip: 'Email Transcript',
+        messageArrivedNotification: 'New Message from Quiq Webchat'
+        transcriptEmailedEventMessage: 'Transcript Emailed',
       }
       ```
   - #### mobileNumber
@@ -345,7 +441,7 @@ Styles are not auto-prefixed. Vendor prefixes other than `ms` should be capitali
 
 #### Available Elements
 To use any of the following elements, specify them within the stlyes object, like so
-  
+
   ```javascript
   Quiq({
     styles: {
@@ -364,6 +460,12 @@ The message bubble for messages that the support agent sent
 ##### AgentMessageText
 The text for messages that the support agent sent
 
+##### AgentAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+##### AgentAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
+
 ##### CustomerAvatar
 The avatar that shows up for the customer. (By default there is nothing here)
 
@@ -373,8 +475,44 @@ The message bubble for messages that the customer sent
 ##### CustomerMessageText
 The text for messages that the customer sent
 
+##### CustomerAttachmentBubble
+The message bubble that file attachments are displayed in. Does not affect image attachments.
+
+##### CustomerAttachmentText
+The text and icon that is displayed inside an attachment message bubble.
+
+##### EmailTranscriptInput
+Input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputCancelButton
+Cancel button for the `EmailTranscriptInput`
+
+##### EmailTranscriptInputContainer
+Container for the input where user inputs an email to receive a transcript of the conversation
+
+##### EmailTranscriptInputSubmitButton
+Submit button for the `EmailTranscriptInput`
+
+##### EmailTranscriptMenuContainer
+Container for the Menu that pops when clicking the `OptionsMenuButton`
+
+##### EmailTranscriptMenuLineItem
+Individual line items within the `EmailTranscriptMenuContainer`
+
+##### EmailTranscriptMenuLineItemIcon
+Icon for individual `EmailTranscriptMenuLineItems`
+
 ##### ErrorBanner
 The banner that is shown when there is a connection error
+
+##### EventContainer
+Container for Event messages
+
+##### EventLine
+SVG portion of Event elements
+
+##### EventText
+Text portion of Event elements
 
 ##### HeaderBanner
 The banner that is shown above the chat transcript
@@ -384,6 +522,9 @@ The top section of the chat container that contains the minimize, maximize, and 
 
 ##### HeaderMenuIcons
 The icons inside `HeaderMenu`
+
+##### InlineEmailTranscriptButton
+Button that displays inline when the agent ends a conversation allowing user to request an email transcript of the conversation
 
 ##### MessageForm
 The form at the bottom of the chat that holds the text box and send button
@@ -397,6 +538,12 @@ The send button for the chat
 ##### NonChat
 Message Area that displays in place of chat when chat is unable to display. Only Displays if the `unsupportedBrowser` or `storageDisabled` message is set, and the client's browser fails one of these checks.
 
+##### OptionsMenuButton
+Button container for the Options menu at the bottom left of the web chat
+
+##### OptionsMenuButtonIcon
+Icon for the `OptionsMenuButton`
+
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat
 
@@ -405,6 +552,12 @@ The text that appears in the upper left of the chat container, corresponding to 
 
 ##### ToggleChatButtonIcon
 The icon in the `ToggleChatButton`
+
+##### TypingIndicatorSvgStyle
+SVG Container of the agent typing indicator
+
+##### TypingIndicatorCircleStyle
+Styling for the three SVG circles that appear within the SVG Container of the agent typing indicator
 
 ##### WelcomeFormBanner
 The banner that is shown above the welcome form
@@ -436,6 +589,10 @@ The submit button for the welcome form
 
 The Quiq object, returned by a call to the `Quiq()` function, exposes methods you can use to interact with the webchat UI and the Quiq webchat service.
 
+#### getChatStatus
+  - getChatStatus(callback)
+  - Returns a Promise with an object containing a single boolean `active` key. Optionally, a callback can be passed to the function which will be called with the same object.
+
 #### getAgentAvailability
   - getAgentAvailability(callback)
   - Returns a Promise with an object containing a single boolean `available` key. Optionally, a callback can be passed to the function which will be called with the same object.
@@ -446,8 +603,8 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
 #### getHandle
   - getHandle(callback)
-  - Returns a Promise with a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same string value.
-  
+  - Returns a Promise with an object containing a single key, `handle`, corresponding to a unique string id to be used for tracking the session of the current user. Optionally, a callback can be passed to the function which will be called with the same object.
+
 #### on
   - on(eventName: EventType, handler)
   - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
@@ -464,6 +621,22 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 #### sendRegistration
   - sendRegistration([{id: string, value: string}])
   - Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
+
+## Extension SDK
+
+  Custom screens can be defined in the customScreens property on the QuiqObject [customScreens](#customScreens). From within a custom screen, you can interact with the chat application using the Extension SDK. To load the SDK, reference it in a script tag:
+
+  ```
+  <script type="text/javascript" src="https://<%hostName%>/app/webchat/extensionSdk.js"></script>
+  ```
+
+### on
+  - on(eventName: EventType, handler)
+  - Using the `on()` function, you can have the SDK call your `handler` function when a given event occurs. `handler` will be called with a single `event` argument. See the table below for supported events and the corresponding fields in the `event` object.
+
+    Event | `event` object fields
+    --- | ---
+    `estimatedWaitTimeChanged` | `estimatedWaitTime: ?number` (milliseconds - if undefined then no wait time is available)
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.

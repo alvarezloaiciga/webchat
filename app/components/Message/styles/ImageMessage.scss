@@ -1,0 +1,67 @@
+@import '~styles/animations';
+
+.ImageMessage {
+  max-width: 100%;
+  flex: 0 1 auto;
+  display: inline-block;
+  text-align: left;
+  animation: 0.2s 1 messageEnter;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgb(223, 223, 227);
+
+  .placeholder {
+    display: block;
+    max-width: 100%;
+    max-height: 300px;
+  }
+
+  img,
+  .placeholder {
+    display: block;
+    border-radius: 5px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 300px;
+    transition: filter 0.5s, transform 0.5s;
+    animation: 0.2s 1 fadeIn;
+  }
+
+  /* Disable image border in IE10 */
+  a img {
+    border: 0;
+  }
+
+  &.fromCustomer {
+    align-self: flex-end;
+  }
+
+  &.uploading {
+    img {
+      transform: scale(1.1);
+      filter: blur(10px);
+    }
+  }
+
+  .CircularProgressbar {
+    width: 45px;
+    max-width: 80%;
+    padding: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .CircularProgressbar .CircularProgressbar-path {
+    stroke: #ffffff;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease 0s;
+  }
+
+  .CircularProgressbar .CircularProgressbar-trail {
+    stroke: rgba(214, 214, 214, 0.58);
+  }
+}

@@ -30,6 +30,7 @@ module.exports = merge(config, {
       'development',
     ],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
+    extensionSdk: ['babel-polyfill', './Extensions/src/ExtensionSdk.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
@@ -65,7 +66,7 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../SDK/src/components'),
           path.resolve(__dirname, '../node_modules/emoji-mart'),
           path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js')
+          path.resolve(__dirname, '../node_modules/draft-js'),
         ],
         loaders: [
           {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
@@ -77,6 +78,13 @@ module.exports = merge(config, {
             query: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
           },
         ],
+      },
+      {
+        test: /\.(wav|mp3)$/,
+        loader: 'file-loader',
+        query: {
+          name: 'assets/audio/[name].[ext]',
+        },
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,

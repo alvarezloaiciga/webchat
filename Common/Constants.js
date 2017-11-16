@@ -29,8 +29,8 @@ export const bridgePath = 'app/webchat/bridge.html';
 export const StandaloneWindowName = 'quiq-standalone-webchat';
 
 export const eventTypes: {[string]: string} = {
+  messageArrived: 'QUIQ_MESSAGE_ARRIVED',
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
-  agentAvailabilityDidChange: 'QUIQ_AGENT_AVAILABILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
   _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE',
 };
@@ -42,11 +42,21 @@ export const publicEventTypes = Object.keys(eventTypes).reduce(
 );
 
 export const actionTypes = {
+  loadChat: 'QUIQ_LOAD_CHAT',
+  getChatStatus: 'QUIQ_GET_CHAT_STATUS',
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
   getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
+  uploadProgress: 'UPLOAD_PROGRESS',
+  addPendingMessage: 'ADD_PENDING_MESSAGE',
+  updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
+  updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
+  configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
+  getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
+  removeMessage: 'REMOVE_MESSAGE',
+  isAgentAssigned: 'AGENT_ASSIGNED',
 };
 
 export const MessageTypes = {
@@ -60,6 +70,12 @@ export const EventTypes = {
   REGISTER: 'Register',
   AGENT_TYPING: 'AgentTyping',
   AGENT_ENDED_CONVERSATION: 'AgentEndedConversation',
+  END: 'End',
+  SPAM: 'Spam',
+};
+
+export const ExtensionSdkEventTypes = {
+  ESTIMATED_WAIT_TIME_CHANGED: 'estimatedWaitTimeChanged',
 };
 
 export const ChatInitializedState = {
@@ -74,6 +90,7 @@ export const ChatInitializedState = {
 };
 
 export const messageTypes = {
+  pageTitle: 'pageTitle',
   titleText: 'titleText',
   headerText: 'headerText',
   sendButtonLabel: 'sendButtonLabel',
@@ -92,8 +109,24 @@ export const messageTypes = {
   minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
+  optionsMenuTooltip: 'optionsMenuTooltip',
+  emailTranscriptMenuMessage: 'emailTranscriptMenuMessage',
+  emailTranscriptMenuTooltip: 'emailTranscriptMenuTooltip',
+  emailTranscriptInputPlaceholder: 'emailTranscriptInputPlaceholder',
+  emailTranscriptInputCancelTooltip: 'emailTranscriptInputCancelTooltip',
+  emailTranscriptInputSubmitTooltip: 'emailTranscriptInputSubmitTooltip',
+  emailTranscriptInlineButton: 'emailTranscriptInlineButton',
+  messageArrivedNotification: 'messageArrivedNotification',
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
+  attachmentBtnTooltip: 'attachmentBtnTooltip',
+  invalidAttachmentMessage: 'invalidAttachmentMessage',
+  attachmentUploadError: 'attachmentUploadError',
+  muteSounds: 'muteSounds',
+  unmuteSounds: 'unmuteSounds',
+  muteSoundsTooltip: 'muteSoundsTooltip',
+  unmuteSoundsTooltip: 'unmuteSoundsTooltip',
+  transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
 };
 
 export const localStorageKeys = [
@@ -102,4 +135,20 @@ export const localStorageKeys = [
   'quiq-tracking-id',
   'quiq-user-taken-meaningful-action',
   'quiq-user-subscribed',
+  'quiq_mute_sounds',
 ];
+
+export const MenuItemKeys = {
+  EMAIL_TRANSCRIPT: 'emailTranscript',
+  MUTE_SOUNDS: 'muteSounds',
+};
+
+export const UserEmailKey = 'quiq-client-data';
+
+export const maxAttachmentSize = 50 * 1000000;
+
+export const displayModes = {
+  DOCKED: 'docked',
+  UNDOCKED: 'undocked',
+  EITHER: 'either',
+};

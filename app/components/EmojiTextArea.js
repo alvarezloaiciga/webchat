@@ -9,6 +9,8 @@ import './styles/EmojiTextArea.scss';
 export type EmojiTextareaProps = {
   onReturn?: () => void,
   onChange?: (text: string) => void,
+  onFocus?: () => void,
+  onBlur?: () => void,
   style?: Object,
   maxLength?: number,
   disabled?: boolean,
@@ -140,6 +142,18 @@ export default class EmojiTextArea extends Component {
     return 'handled';
   };
 
+  _handleFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
+
+  _handleBlur = () => {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  };
+
   render() {
     return (
       <div className="EmojiTextArea" onClick={this.focus} style={this.props.style}>
@@ -148,7 +162,10 @@ export default class EmojiTextArea extends Component {
           onChange={this._handleChange}
           handleBeforeInput={this._handleBeforeInput}
           handlePastedText={this._handlePastedText}
+          handleDroppedFiles={() => 'handled'}
           handleReturn={this._handleReturn}
+          onBlur={this._handleBlur}
+          onFocus={this._handleFocus}
           plugins={plugins}
           ref={element => {
             this.editor = element;

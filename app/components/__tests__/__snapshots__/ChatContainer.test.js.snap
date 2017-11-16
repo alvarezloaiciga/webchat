@@ -22,6 +22,11 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -50,6 +55,11 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -78,6 +88,11 @@ exports[`ChatContainer component initializedState when errored renders properly 
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -106,6 +121,11 @@ exports[`ChatContainer component initializedState when inactive renders properly
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Connect(Transcript) />
   </div>
@@ -135,9 +155,34 @@ exports[`ChatContainer component initializedState when initialized renders prope
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
-    <Connect(Transcript) />
-    <Connect(MessageForm) />
+    <Dropzone
+      accept="image/png,image/jpeg"
+      className="transcriptArea"
+      disableClick={true}
+      disablePreview={true}
+      disabled={true}
+      maxSize={50000000}
+      minSize={0}
+      multiple={true}
+      onDrop={[Function]}
+      preventDropOnDocument={true}
+      style={
+        Object {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <Connect(Transcript) />
+      <Connect(MessageForm)
+        openFileBrowser={[Function]}
+      />
+    </Dropzone>
   </div>
 </div>
 `;
@@ -165,6 +210,11 @@ exports[`ChatContainer component initializedState when loading renders properly 
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Spinner />
   </div>
@@ -194,10 +244,23 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   <Debugger />
   <div
     className="chatContainerBody"
+    style={
+      Object {
+        "backgroundColor": "#f4f4f8",
+      }
+    }
   >
     <Spinner />
   </div>
 </div>
 `;
 
-exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `null`;
+exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
+<div
+  className="ChatContainer initialized"
+>
+  <Connect(WelcomeForm) />
+</div>
+`;
+
+exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `""`;

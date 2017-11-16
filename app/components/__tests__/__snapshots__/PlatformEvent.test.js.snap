@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlatformEvent component rendering renders 1`] = `
+<Styled(div)
+  className="PlatformEvent"
+  style={
+    Object {
+      "backgroundColor": "green",
+    }
+  }
+>
+  <Divider
+    fontSize="14px"
+    lineStyle={
+      Object {
+        "stroke": "red",
+      }
+    }
+    text="undefined undefined"
+    textStyle={
+      Object {
+        "background": "#f4f4f8",
+        "color": "red",
+        "fontFamily": "Lato, sans-serif",
+      }
+    }
+  />
+</Styled(div)>
+`;

@@ -8,8 +8,9 @@ import {
   getWindowDomain,
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
+  getOrElse,
 } from 'Common/Utils';
-import {getDisplayString} from 'Common/i18n';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -30,29 +31,43 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     (rawQuiqObject.colors && rawQuiqObject.colors.primary) || rawQuiqObject.color || '#59ad5d';
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
-    agentsAvailableTimer: rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000 ? rawQuiqObject.agentsAvailableTimer : 60000,
     contactPoint,
+    displayMode: rawQuiqObject.displayMode || 'either',
+    customScreens: rawQuiqObject.customScreens,
+    anchorElement: rawQuiqObject.anchorElement,
+    demoMode: rawQuiqObject.demoMode,
+    agentsAvailableTimer:
+      rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
+        ? rawQuiqObject.agentsAvailableTimer
+        : 60000,
     // Transfer Quiq keys from this site's localStorage to iframe's local storage.
     // We search for non-contact point namespaced keys, since namespaced keys were never used in legacy webchat.
     // TODO: This logic can be removed in October 2018, when all sessions from before September 2017 have expired
     localStorageKeys:
-      rawQuiqObject.localStorageKeys || (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
-    enforceAgentAvailability: rawQuiqObject.enforceAgentAvailability === undefined ? true : rawQuiqObject.enforceAgentAvailability,
+      rawQuiqObject.localStorageKeys ||
+      (isStorageEnabled() ? getQuiqKeysFromLocalStorage(null, contactPoint) : {}),
+    enforceAgentAvailability: getOrElse(rawQuiqObject.enforceAgentAvailability, true),
     color: rawQuiqObject.color || primaryColor,
     colors: Object.assign(
       {},
       {
         primary: primaryColor,
+        menuText: '#2199e8',
+        eventText: '#888',
         agentMessageText: '#000',
         agentMessageLinkText: '#2199e8',
         agentMessageBackground: '#fff',
         customerMessageText: '#fff',
         customerMessageLinkText: '#fff',
         customerMessageBackground: primaryColor,
+        attachmentMessageColor: '#9c9c9f',
         transcriptBackground: '#f4f4f8',
+        typingIndicatorForeground: '#2199e8',
+        typingIndicatorBackground: '#66b9ef',
       },
       rawQuiqObject.colors,
     ),
+    events: {showTime: true, ...rawQuiqObject.events},
     styles: rawQuiqObject.styles || {},
     position: rawQuiqObject.position || {},
     headerText: rawQuiqObject.headerText || messages.hereToHelp,
@@ -68,15 +83,20 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     height: rawQuiqObject.height || 600,
     autoPopTime: rawQuiqObject.autoPopTime,
     customLaunchButtons: rawQuiqObject.customLaunchButtons || [],
+    showDefaultLaunchButton: getOrElse(
+      rawQuiqObject.showDefaultLaunchButton,
+      !Array.isArray(rawQuiqObject.customLaunchButtons) ||
+        rawQuiqObject.customLaunchButtons.length === 0,
+    ),
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
     messages: Object.assign(
       {},
       {
+        pageTitle: messages.pageTitle,
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
-        sendButtonLabel: messages.send,
         messageFieldPlaceholder: messages.sendUsAMessage,
         welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
@@ -94,6 +114,23 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         openInNewWindowTooltip: messages.openInNewWindow,
         closeWindowTooltip: messages.closeWindow,
         emojiPickerTooltip: messages.emojiPickerTooltip,
+        sendButtonLabel: messages.send,
+        attachmentBtnTooltip: messages.attachmentBtnTooltip,
+        optionsMenuTooltip: messages.optionsMenuTooltip,
+        emailTranscriptMenuMessage: messages.emailTranscriptMenuMessage,
+        emailTranscriptMenuTooltip: messages.emailTranscriptMenuTooltip,
+        emailTranscriptInputPlaceholder: messages.emailTranscriptInputPlaceholder,
+        emailTranscriptInputCancelTooltip: messages.emailTranscriptInputCancelTooltip,
+        emailTranscriptInputSubmitTooltip: messages.emailTranscriptInputSubmitTooltip,
+        emailTranscriptInlineButton: messages.emailTranscriptInlineButton,
+        messageArrivedNotification: messages.messageArrivedNotification,
+        transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
+        invalidAttachmentMessage: messages.invalidAttachmentMessage,
+        attachmentUploadError: messages.attachmentUploadError,
+        muteSounds: messages.muteSounds,
+        unmuteSounds: messages.unmuteSounds,
+        muteSoundsTooltip: messages.muteSoundsTooltip,
+        unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
       },
       rawQuiqObject.messages,
     ),
@@ -110,7 +147,9 @@ const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
     newFormObject.fields.forEach(field => {
       // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
       // If label is not defined this is an error, and will be caught when welcomeForm is validated.
+      /* eslint-disable no-param-reassign */
       if (!field.id && field.label) field.id = camelize(field.label);
+      /* eslint-disable no-param-reassign */
     });
   }
 
@@ -143,8 +182,8 @@ const processInternalOptions = (quiqOptions: QuiqObject) => {
       instances: [],
       // $FlowIssue - Flow doesn't know how to handle get/set
       get connectedCount() {
-        return this.instances.filter(ws => ws.readyState === 1).length
-      }
+        return this.instances.filter(ws => ws.readyState === 1).length;
+      },
     };
 
     const originalWS = window.WebSocket;
@@ -269,7 +308,8 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
 export const getMessage = (messageName: string): string => {
   const message = quiqOptions.messages[messageName];
 
-  if (message === null || message === undefined) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+  if (message === null || message === undefined)
+    throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
   return getDisplayString(message);
 };

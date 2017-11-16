@@ -34,6 +34,7 @@ module.exports = merge(config, {
   entry: {
     webchat: ['babel-polyfill', 'production'],
     sdk: ['babel-polyfill', './SDK/src/index.js'],
+    extensionSdk: ['babel-polyfill', './Extensions/src/ExtensionSdk.js'],
     webchatMain: './config/templates/webchatMain.js',
     postRobotBridge: './node_modules/post-robot/dist/post-robot.ie.js',
   },
@@ -51,10 +52,16 @@ module.exports = merge(config, {
       chunks: ['postRobotBridge'],
     }),
     new HtmlWebpackPlugin({
+      template: 'config/templates/testWaitScreen.ejs',
+      filename: `testWaitScreen.html`,
+      inject: false,
+      chunks: [],
+    }),
+    new HtmlWebpackPlugin({
       template: 'config/templates/server.conf.ejs',
       filename: 'server.conf',
       inject: false,
-      chunks: ['sdk'],
+      chunks: ['sdk', 'extensionSdk'],
     }),
     // Uncomment this if we ever use assets
     // new CopyWebpackPlugin([
@@ -94,7 +101,6 @@ module.exports = merge(config, {
     }),
   ],
   module: {
-    noParse: /\.min\.js$/,
     loaders: [
       {
         test: /\.scss$/,
@@ -115,7 +121,7 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../SDK/src/components'),
           path.resolve(__dirname, '../node_modules/emoji-mart'),
           path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js')
+          path.resolve(__dirname, '../node_modules/draft-js'),
         ],
         loader: [
           'style',
@@ -126,11 +132,18 @@ module.exports = merge(config, {
         ],
       },
       {
+        test: /\.(wav|mp3)$/,
+        loader: 'file-loader',
+        query: {
+          name: `assets/audio/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
+        },
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url',
         query: {
           limit: 8192,
-          name: `images/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+          name: `images/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
         },
       },
       {
@@ -138,7 +151,7 @@ module.exports = merge(config, {
         loader: 'url',
         query: {
           limit: 8192,
-          name: `fonts/[name]-[chunkhash]-${uniqueUrlPiece}.[ext]`,
+          name: `fonts/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
         },
       },
     ],

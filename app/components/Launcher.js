@@ -1,18 +1,27 @@
 // @flow
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
-import {registerIntlObject} from 'Common/i18n';
+import {registerIntlObject} from 'core-ui/services/i18nService';
 import quiqOptions from 'Common/QuiqOptions';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import {inStandaloneMode} from 'Common/Utils';
-import {ChatInitializedState} from 'Common/Constants';
+import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
+import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
-import type {IntlObject, ChatState, Message, ChatInitializedStateType} from 'types';
+import type {
+  IntlObject,
+  ChatState,
+  Message,
+  ChatInitializedStateType,
+  ChatMetadata,
+  ChatConfiguration,
+} from 'types';
+import {tellClient} from 'services/Postmaster';
+import {playSound} from 'services/alertService';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -24,6 +33,9 @@ export type LauncherProps = {
   chatLauncherHidden: boolean,
   initializedState: ChatInitializedStateType,
   transcript: Array<Message>,
+  muteSounds: boolean,
+  messageFieldFocused: boolean,
+  configuration: ChatConfiguration,
 
   setChatContainerHidden: (chatContainerHidden: boolean) => void,
   setChatLauncherHidden: (chatLauncherHidden: boolean) => void,
@@ -33,7 +45,12 @@ export type LauncherProps = {
   setAgentTyping: (typing: boolean) => void,
   setAgentEndedConversation: (ended: boolean) => void,
   updateTranscript: (transcript: Array<Message>) => void,
+  updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
+  setChatConfiguration: (configuration: ChatMetadata) => void,
+  markChatAsSpam: () => void,
+  removeMessage: (messageId: string) => void,
+  setIsAgentAssigned: (isAgentAssigned: boolean) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -56,6 +73,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
 
     this.init();
+
+    // TODO: Remove this when WS are used for join/leave
+    // If we're in undocked-only mode, and this is a standalone window, we need to fire a leave event whenever window is closed
+    if (inStandaloneMode() && quiqOptions.displayMode === displayModes.UNDOCKED) {
+      window.addEventListener('unload', () => {
+        QuiqChatClient.leaveChat(true);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps: LauncherProps) {
@@ -75,7 +100,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    if (quiqOptions.enforceAgentAvailability) {
+    if (quiqOptions.enforceAgentAvailability && !quiqOptions.demoMode) {
       const {available} = await QuiqChatClient.checkForAgents();
       this.props.setAgentsAvailable(available);
 
@@ -105,10 +130,28 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   registerClientCallbacks = () => {
-    QuiqChatClient.onNewMessages(this.props.updateTranscript);
+    QuiqChatClient.onNewMessages((transcript: Array<Message>) => {
+      this.props.updateTranscript(transcript);
+
+      if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
+        tellClient(eventTypes.messageArrived, {transcript});
+        if (
+          !this.props.muteSounds &&
+          !this.props.messageFieldFocused &&
+          this.props.configuration.playSoundOnNewMessage &&
+          isLastMessageFromAgent(transcript)
+        ) {
+          playSound();
+        }
+      }
+    });
+    QuiqChatClient.onMessageSendFailure((messageId: string) => {
+      this.props.removeMessage(messageId);
+    });
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);
     QuiqChatClient.onAgentTyping(this.handleAgentTyping);
     QuiqChatClient.onAgentEndedConversation(this.handleAgentEndedConversation);
+    QuiqChatClient.onAgentAssigned(this.props.setIsAgentAssigned);
     QuiqChatClient.onConnectionStatusChange((connected: boolean) =>
       this.updateInitializedState(
         connected ? ChatInitializedState.INITIALIZED : ChatInitializedState.DISCONNECTED,
@@ -118,13 +161,18 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onErrorResolved(() =>
       this.updateInitializedState(ChatInitializedState.INITIALIZED),
     );
+    QuiqChatClient.onSendTranscript(this.props.updatePlatformEvents);
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient.onChatMarkedAsSpam(this.props.markChatAsSpam);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
   init = async () => {
+    const configuration = await QuiqChatClient.getChatConfiguration();
+    this.props.setChatConfiguration(configuration);
+
     if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);
     }
@@ -142,10 +190,15 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
 
     // ChatContainer Visible from cookie
-    // Always start session, always show launcher
+    // Always start session
+    // Pop chat open unless we're in undocked-only mode
     if (QuiqChatClient.isChatVisible()) {
-      this.updateContainerHidden(false);
       await this.startSession();
+
+      if (quiqOptions.displayMode !== displayModes.UNDOCKED) {
+        this.updateContainerHidden(false);
+      }
+
       return;
     }
 
@@ -192,12 +245,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     try {
       this.updateInitializedState(ChatInitializedState.LOADING);
       await QuiqChatClient.start();
+      this.props.setIsAgentAssigned(QuiqChatClient.isAgentAssigned());
       this.updateInitializedState(ChatInitializedState.INITIALIZED);
-
-      // User has session in progress. Send them right to it.
-      if (this.props.transcript.length > 0) {
-        this.props.setWelcomeFormRegistered();
-      }
     } catch (e) {
       this.updateInitializedState(ChatInitializedState.ERROR);
     }
@@ -221,7 +270,11 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   handleAutoPop = () => {
-    if (!quiqOptions.isMobile && typeof quiqOptions.autoPopTime === 'number') {
+    if (
+      !isMobile() &&
+      quiqOptions.displayMode !== displayModes.UNDOCKED &&
+      typeof quiqOptions.autoPopTime === 'number'
+    ) {
       this.autoPopTimeout = setTimeout(async () => {
         if (!await this.updateLauncherState()) return;
         await this.startSession();
@@ -269,6 +322,9 @@ export default compose(
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
+      muteSounds: state.muteSounds,
+      messageFieldFocused: state.messageFieldFocused,
+      configuration: state.configuration,
     }),
     chatActions,
   ),

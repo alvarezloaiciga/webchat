@@ -23,6 +23,21 @@ describe('ChatContainer component', () => {
       chatContainerHidden: false,
       welcomeFormRegistered: true,
       initializedState: 'initialized',
+      isAgentAssigned: false,
+      agentEndedConversation: false,
+      transcript: [],
+      addPendingAttachmentMessage: jest.fn(),
+      setUploadProgress: jest.fn(),
+      updatePendingAttachmentId: jest.fn(),
+      removeMessage: jest.fn(),
+      configuration: {
+        enableChatEmailTranscript: false,
+        enableChatFileAttachments: false,
+        supportedAttachmentTypes: ['image/png,image/jpeg'],
+        enableEmojis: false,
+        playSoundOnNewMessage: false,
+        flashNotificationOnNewMessage: false,
+      },
     };
 
     render = () => {
@@ -101,7 +116,8 @@ describe('ChatContainer component', () => {
       it('renders welcome form', () => {
         testProps.welcomeFormRegistered = false;
         render();
-        expect(wrapper.find('WelcomeForm').length).toBe(1);
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('Connect(WelcomeForm)').length).toBe(1);
       });
     });
   });

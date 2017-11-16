@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message component fromAgent colors the message according to quiqOptions 1`] = `
+<div
+  className="messageContainer"
+>
+  <div
+    className="agentAvatar"
+    style={Object {}}
+  />
+  <TextMessage
+    message={
+      Object {
+        "authorType": "User",
+        "id": "id--0",
+        "text": "text--0",
+        "timestamp": 0,
+        "type": "Text",
+      }
+    }
+    scrollToBottom={[Function]}
+  />
+</div>
+`;
+
+exports[`Message component rendering renders with default props 1`] = `
+<div
+  className="messageContainer fromCustomer"
+>
+  <TextMessage
+    message={
+      Object {
+        "authorType": "Customer",
+        "id": "id--0",
+        "text": "text--0",
+        "timestamp": 0,
+        "type": "Text",
+      }
+    }
+    scrollToBottom={[Function]}
+  />
+  <div
+    className="customerAvatar"
+    style={Object {}}
+  />
+</div>
+`;

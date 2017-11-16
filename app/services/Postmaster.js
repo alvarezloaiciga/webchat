@@ -12,7 +12,7 @@ import postRobot from 'post-robot/dist/post-robot.ie';
 import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
-import {eventTypes, actionTypes} from 'Common/Constants';
+import {eventTypes, actionTypes, displayModes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';
@@ -66,11 +66,14 @@ const setupListeners = () => {
     return displayError('Postmaster.init() must be called prior to setting up listeners.');
   }
 
+  postRobotListener.on(actionTypes.loadChat, loadChat);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
+  postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
+  postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
@@ -99,11 +102,6 @@ const setupReduxHooks = () => {
       visible: !hidden,
     }),
   );
-
-  // Agent availability
-  reduxWatch.watch(ChatSelectors.getAgentsAvailable, available =>
-    tellClient(eventTypes.agentAvailabilityDidChange, {available}),
-  );
 };
 
 /**********************************************************************************
@@ -125,18 +123,29 @@ export const standaloneOpen = () => {
  * View facade handlers (client -> webchat)
  **********************************************************************************/
 
+const loadChat = () => {
+  if (!appIsMounted()) {
+    constructApp(store);
+  }
+};
+
 const setChatVisibility = (event: Object) => {
   const {visible} = event.data;
 
-  if (visible && !appIsMounted()) {
-    constructApp(store);
+  // If we are in 'UNDOCKED' mode, turn around and fire an open standalone event
+  if (visible && quiqOptions.displayMode === displayModes.UNDOCKED) {
+    standaloneOpen();
+  } else {
+    store.dispatch(ChatActions.setChatContainerHidden(!visible));
   }
-
-  store.dispatch(ChatActions.setChatContainerHidden(!visible));
 };
 
 const getChatVisibility = () => {
   return {visible: !ChatSelectors.getChatContainerHidden(store.getState())};
+};
+
+const getCanFlashNotifications = () => {
+  return {canFlash: ChatSelectors.getConfiguration(store.getState()).flashNotificationOnNewMessage};
 };
 
 /**********************************************************************************
@@ -155,5 +164,14 @@ const sendRegistration = (event: Object) => {
   QuiqChatClient.sendRegistration(registrationDictionary);
 };
 
+// NOTE: Returns {available: boolean}
+// We don't need to wrap the result into an object here since it comes prepackaged that way from the API
 const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
-const getHandle = async () => await QuiqChatClient.getHandle(quiqOptions.host);
+
+const getHandle = async () => ({
+  handle: await QuiqChatClient.getHandle(quiqOptions.host),
+});
+
+const getChatStatus = async () => ({
+  active: await QuiqChatClient.isUserSubscribed(),
+});

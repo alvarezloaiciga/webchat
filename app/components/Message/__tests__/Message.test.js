@@ -17,6 +17,7 @@ describe('Message component', () => {
   beforeEach(() => {
     testProps = {
       message: getMockMessage(),
+      scrollToBottom: jest.fn(),
     };
     render = () => {
       wrapper = shallow(<Message {...testProps} />);
@@ -35,7 +36,7 @@ describe('Message component', () => {
 
   describe('fromAgent', () => {
     it('colors the message according to quiqOptions', () => {
-      testProps.message = getMockMessage(0, {authorType: 'Agent'});
+      testProps.message = getMockMessage(0, {authorType: 'User'});
       render();
       expect(wrapper).toMatchSnapshot();
     });

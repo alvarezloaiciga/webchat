@@ -1,18 +1,24 @@
 // @flow
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import update from 'react-addons-update';
-import {messageTypes} from 'Common/Constants';
+import {messageTypes, UserEmailKey} from 'Common/Constants';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
 import {supportsFlexbox} from 'Common/Utils';
-import type {WelcomeFormField} from 'Common/types';
+import type {WelcomeFormField, WelcomeForm as WelcomeFormType, ChatState} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import Textarea from 'react-textarea-autosize';
 
-export type WelcomeFormProps = {};
+export type WelcomeFormProps = {
+  setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
+  welcomeFormRegistered: boolean,
+  registrationForm?: WelcomeFormType | null,
+};
 
 export type WelcomeFormState = {
   formValidationError: boolean,
@@ -25,6 +31,7 @@ export type WelcomeFormState = {
     },
   },
   submitting: boolean,
+  form?: WelcomeFormType,
 };
 
 export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
@@ -35,29 +42,45 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     submitting: false,
   };
 
-  constructor(props: WelcomeFormProps) {
-    super(props);
+  componentWillMount() {
+    this.processWelcomeForm();
+  }
 
-    const {welcomeForm} = quiqOptions;
-
-    if (welcomeForm) {
-      welcomeForm.fields.forEach(field => {
-        this.state.inputFields[field.id] = {
+  processWelcomeForm = () => {
+    const processForm = (form: WelcomeFormType) => {
+      const inputFields = {};
+      form.fields.forEach(field => {
+        inputFields[field.id] = {
           value: '',
           label: field.label,
           required: Boolean(field.required),
           isInitialMessage: Boolean(field.isInitialMessage),
         };
       });
+
+      this.setState({inputFields, form});
+    };
+
+    if (quiqOptions.demoMode && quiqOptions.welcomeForm) {
+      processForm(quiqOptions.welcomeForm);
+      return;
     }
-  }
+
+    const form = this.props.registrationForm || quiqOptions.welcomeForm;
+    if (!form) {
+      this.props.setWelcomeFormRegistered();
+      return;
+    }
+
+    processForm(form);
+  };
 
   renderField = (field: WelcomeFormField) => {
     const {fontFamily, styles} = quiqOptions;
 
-    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily: fontFamily});
-    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily: fontFamily});
-    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily: fontFamily});
+    const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily});
+    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
+    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
 
     return (
       <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
@@ -102,7 +125,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     await map(this.state.inputFields, async field => {
       // Only include field if it was filled out and marked as an initial field
       if (field.value.length && field.isInitialMessage) {
-        await QuiqChatClient.sendMessage(field.value);
+        await QuiqChatClient.sendTextMessage(field.value);
       }
     });
   };
@@ -116,6 +139,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     if (!this.validateFormInput()) return;
 
+    if (quiqOptions.demoMode) return;
+
     map(this.state.inputFields, (field, key) => {
       // Only include field if it was filled out
       // TODO: API should allow empty strings. Send all fields when this is fixed.
@@ -124,6 +149,14 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     // Append field containing referrer (host)
     fields.Referrer = href;
+
+    // We store the e-mail in localStorage if it is there so we can
+    // prepopulate the e-mail transcript input later
+    if (fields.email) {
+      try {
+        localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(fields.email));
+      } catch (ex) {} // eslint-disable-line no-empty
+    }
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);
@@ -185,25 +218,25 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {welcomeForm, fontFamily, colors, styles} = quiqOptions;
-
-    if (!welcomeForm) return null;
+    const {fontFamily, colors, styles} = quiqOptions;
+    const welcomeForm = this.state.form;
+    if (this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
       backgroundColor: colors.primary,
-      fontFamily: fontFamily,
+      fontFamily,
     });
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
         <HeaderMenu />
         <div className="welcomeFormBanner" style={bannerStyle}>
-          {welcomeForm.headerText}
+          {welcomeForm && welcomeForm.headerText}
         </div>
         <Debugger />
         {this.state.formValidationError && (
@@ -211,22 +244,28 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
           </span>
         )}
-        <div className="fields">{welcomeForm.fields.map(this.renderField)}</div>
+        <div className="fields">{welcomeForm && welcomeForm.fields.map(this.renderField)}</div>
         <button
           className="submit"
           disabled={this.state.submitting}
           style={submitButtonStyle}
           onClick={this.submitForm}
         >
-          {this.state.submitting ? (
-            getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
-          ) : (
-            getMessage(messageTypes.welcomeFormSubmitButtonLabel)
-          )}
+          {this.state.submitting
+            ? getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
+            : getMessage(messageTypes.welcomeFormSubmitButtonLabel)}
         </button>
       </form>
     );
   };
 }
 
-export default WelcomeForm;
+export default connect(
+  (state: ChatState) => ({
+    welcomeFormRegistered: state.welcomeFormRegistered,
+    registrationForm: state.configuration.registrationForm,
+  }),
+  {
+    setWelcomeFormRegistered,
+  },
+)(WelcomeForm);

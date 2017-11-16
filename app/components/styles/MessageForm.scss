@@ -7,11 +7,15 @@
 
   .messageArea {
     display: flex;
-    flex: 0 0 auto;
-    padding: 5px;
+    flex: 1 1 auto;
+    min-height: 40px;
+
+    .EmojiTextArea {
+      padding: 5px 0;
+    }
 
     .messageFormBtn {
-      padding: 10px;
+      padding: 10px 7px;
       flex: 0 0 auto;
       border: none;
       font-size: 14px;
@@ -20,6 +24,10 @@
       transition: 0.15s ease-in-out color;
       cursor: pointer;
       color: #59ad5d;
+
+      &:focus {
+        outline: 0;
+      }
 
       &:disabled {
         opacity: 0.5;
@@ -37,11 +45,6 @@
           filter: brightness(85%);
         }
       }
-
-      &.emojiBtn {
-        color: #848484;
-        font-size: 16px;
-      }
     }
   }
 
@@ -58,6 +61,16 @@
       .TypingIndicator {
         margin-left: 5px;
         vertical-align: text-bottom;
+      }
+    }
+
+    .agentEndedConvo {
+      display: flex;
+      justify-content: space-between;
+
+      .emailTranscriptInlineButton {
+        color: white;
+        padding: 0 8px;
       }
     }
   }
@@ -80,6 +93,7 @@
     width: 100%;
 
     .sendBtn {
+      padding: 5px 5px 5px;
       display: table-cell;
       vertical-align: middle;
       width: 50px; // 50 + 20padding = 70

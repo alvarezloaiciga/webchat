@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QuiqChatClient from 'quiq-chat';
 import Textarea from 'react-textarea-autosize';
+import quiqOptions from 'Common/QuiqOptions';
 
 describe('WelcomeForm component', () => {
   let wrapper: ShallowWrapper;
@@ -14,10 +15,14 @@ describe('WelcomeForm component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    QuiqChatClient.sendMessage = jest.fn(() => {});
+    QuiqChatClient.sendTextMessage = jest.fn(() => {});
     QuiqChatClient.sendRegistration = jest.fn(async () => await {});
 
-    testProps = {};
+    testProps = {
+      setWelcomeFormRegistered: jest.fn(),
+      welcomeFormRegistered: false,
+      registrationForm: quiqOptions.welcomeForm,
+    };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
     };
@@ -26,6 +31,7 @@ describe('WelcomeForm component', () => {
   describe('rendering', () => {
     beforeEach(() => {
       render();
+      wrapper.update();
     });
 
     it('renders correctly', () => {
@@ -54,6 +60,7 @@ describe('WelcomeForm component', () => {
   describe('filling out form and submitting', () => {
     it('does not submit if there is a required field left blank', () => {
       render();
+      wrapper.update();
       wrapper
         .find('button')
         .first()
@@ -82,6 +89,7 @@ describe('WelcomeForm component', () => {
           },
         });
       render();
+      wrapper.update();
       wrapper
         .find('button')
         .first()
@@ -106,6 +114,7 @@ describe('WelcomeForm component', () => {
           .first()
           .simulate('click', {preventDefault: jest.fn()});
         render();
+        wrapper.update();
       });
 
       it('does submit if all required fields are filled in', () => {
@@ -113,7 +122,7 @@ describe('WelcomeForm component', () => {
       });
 
       it('does not send message if initial field was not provided', () => {
-        expect(QuiqChatClient.sendMessage).not.toHaveBeenCalled();
+        expect(QuiqChatClient.sendTextMessage).not.toHaveBeenCalled();
       });
 
       it('disables send button and sets text', () => {
@@ -150,6 +159,7 @@ describe('WelcomeForm component', () => {
           .first()
           .simulate('click', {preventDefault: jest.fn()});
         render();
+        wrapper.update();
       });
 
       it('does submit if all required fields are filled in', () => {
@@ -158,7 +168,7 @@ describe('WelcomeForm component', () => {
 
       // Not sure why this is failing, but it is definitely being called...
       // it('does send message if initial field was provided', () => {
-      //   expect(QuiqChatClient.sendMessage).toHaveBeenCalled();
+      //   expect(QuiqChatClient.sendTextMessage).toHaveBeenCalled();
       // });
 
       it('disables send button and sets text', () => {
@@ -170,6 +180,7 @@ describe('WelcomeForm component', () => {
   describe('form validation', () => {
     beforeEach(() => {
       render();
+      wrapper.update();
     });
 
     it('sets validationError state to true if a required field is left blank', () => {

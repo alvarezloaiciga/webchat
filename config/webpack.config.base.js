@@ -18,12 +18,12 @@ module.exports = {
       path.join(__dirname, '../app/components'),
       path.join(__dirname, '../app/styles'),
       path.join(__dirname, '../SDK/src'),
+      path.join(__dirname, '../Extensions/src'),
       'node_modules',
     ],
     alias: {
       Common: path.join(__dirname, '../Common'),
     },
-    extensions: ['.js', '.scss', '.css'],
   },
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
@@ -35,14 +35,16 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
+        loader: 'babel',
+        exclude: /node_modules\/(?!(core-ui)\/).*/,
+      },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel',
         include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../SDK'),
-          path.resolve(__dirname, '../Common'),
           path.resolve(__dirname, '../node_modules/hodash.get'), // Needed since hodash does not transpile itself
           path.resolve(__dirname, '../node_modules/redux-store-watch'), // Needed since redux-store-watch does not transpile itself
         ],
-        loader: 'babel',
       },
       {
         test: /\.json$/,

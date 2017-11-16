@@ -13,6 +13,7 @@
 .*/node_modules/post-robot/src.*
 .*/node_modules/zalgo-promise/src.*
 .*/node_modules/cross-domain-utils/dist.*
+.*/node_modules/cross-domain-safe-weakmap/.*
 .*/node_modules/preact/dist.*
 .*/node_modules/preact/src.*
 .*/node_modules/draft-js/*
