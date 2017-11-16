@@ -290,15 +290,14 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       >
         My life story
       </label>
-      <TextareaAutosize
+      <textarea
         maxLength={1000}
-        maxRows={5}
-        minRows={5}
         name="lifeStory"
         onBlur={[Function]}
         onChange={[Function]}
-        onHeightChange={[Function]}
         required={false}
+        resize="vertical"
+        rows={5}
         style={
           Object {
             "color": "#888",
@@ -306,7 +305,6 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
             "outline": "none",
           }
         }
-        useCacheForDOMMeasurements={false}
         value=""
       />
     </div>

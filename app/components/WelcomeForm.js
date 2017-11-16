@@ -8,11 +8,9 @@ import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
-import {supportsFlexbox} from 'Common/Utils';
 import type {WelcomeFormField, WelcomeForm as WelcomeFormType, ChatState} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
-import Textarea from 'react-textarea-autosize';
 
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
@@ -94,7 +92,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           )}
         </label>
         {field.type === 'textarea' ? (
-          <Textarea
+          <textarea
             value={this.state.inputFields[field.id].value}
             onChange={this.handleFieldInput}
             onBlur={this.handleTrimFieldInput}
@@ -102,8 +100,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             required={field.required}
             style={textareaStyle}
             maxLength={1000}
-            maxRows={field.rows || 5}
-            minRows={supportsFlexbox() ? 1 : field.rows || 5}
+            rows={field.rows || 5}
+            resize="vertical"
           />
         ) : (
           <input

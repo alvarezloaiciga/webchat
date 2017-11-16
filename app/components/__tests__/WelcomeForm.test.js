@@ -6,7 +6,6 @@ import {WelcomeForm} from '../WelcomeForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QuiqChatClient from 'quiq-chat';
-import Textarea from 'react-textarea-autosize';
 import quiqOptions from 'Common/QuiqOptions';
 
 describe('WelcomeForm component', () => {
@@ -40,7 +39,7 @@ describe('WelcomeForm component', () => {
 
     describe('rendering textareas', () => {
       it('renders textares correctly', () => {
-        expect(wrapper.find(Textarea).length).toBe(1);
+        expect(wrapper.find('textarea').length).toBe(1);
       });
     });
 
