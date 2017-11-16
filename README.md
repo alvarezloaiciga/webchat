@@ -630,7 +630,7 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
     Event | `event` object fields
     --- | ---
-    `estimatedWaitTimeChanged` | `estimatedWaitTime: boolean`
+    `estimatedWaitTimeChanged` | `estimatedWaitTime: ?number` (milliseconds - if undefined then no wait time is available)
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.
