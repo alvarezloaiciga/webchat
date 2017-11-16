@@ -15,6 +15,7 @@
     + [customLaunchButtons](#customlaunchbuttons)
     + [showDefaultLaunchButton](#showdefaultlaunchbutton)
     + [customScreens](#customscreens)
+    + [displayMode](#displaymode)
     + [enforceAgentAvailability](#enforceagentavailability)
     + [events](#events)
     + [includeEmojis](#includeemojis)
@@ -199,6 +200,11 @@ The Quiq() function contains properties describing how the instance of webchat s
     {
     }
     ```
+  - #### displayMode
+    - type: 'either' | 'docked' | 'undocked'
+    - description: Controls how webchat is presented to the user: `either` indicates that webchat is launched as a "docked" frame on your page, but can be switched to a standalone window (and back) by the user. `undocked` indicates that webchat is launched directly into a standalone window and cannot be switched to a docked frame. `docked` indicates that webchat is launched into a frame on your page and cannot be switched to a standalone window by the user. We recommend `either` mode for most use cases. 
+    - default: `either`
+    - example: `undocked`
   - #### enforceAgentAvailability
     - type: boolean
     - description: Determines if the webchat application respects if there are agents available or not.
@@ -630,7 +636,7 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
     Event | `event` object fields
     --- | ---
-    `estimatedWaitTimeChanged` | `estimatedWaitTime: boolean`
+    `estimatedWaitTimeChanged` | `estimatedWaitTime: ?number` (milliseconds - if undefined then no wait time is available)
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.
