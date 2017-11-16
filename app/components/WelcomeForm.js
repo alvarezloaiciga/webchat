@@ -100,7 +100,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             required={field.required}
             style={textareaStyle}
             maxLength={1000}
-            rows={field.rows || 5}
+            rows={field.rows || 3}
             resize="vertical"
           />
         ) : (
