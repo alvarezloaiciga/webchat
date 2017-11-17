@@ -109,6 +109,16 @@ describe('WelcomeForm component', () => {
             },
           });
         wrapper
+          .find('select')
+          .at(0)
+          .simulate('change', {
+            which: 'USA',
+            target: {
+              name: 'country',
+              value: 'USA',
+            },
+          });
+        wrapper
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
@@ -150,6 +160,17 @@ describe('WelcomeForm component', () => {
             target: {
               name: 'firstName',
               value: 'a',
+            },
+          });
+
+        wrapper
+          .find('select')
+          .at(0)
+          .simulate('change', {
+            which: 'USA',
+            target: {
+              name: 'country',
+              value: 'USA',
             },
           });
 

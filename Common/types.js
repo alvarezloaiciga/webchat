@@ -42,7 +42,7 @@ export type WelcomeFormField = {
   required?: boolean,
   rows?: number,
   isInitialMessage?: boolean,
-  selectionFieldValues?: Array<string>,
+  selectionFieldValues?: Array<{value: string, label: string}>,
 };
 
 export type RegistrationField = {
