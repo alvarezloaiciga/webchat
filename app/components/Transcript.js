@@ -74,7 +74,7 @@ export class Transcript extends Component {
     props: TranscriptProps = this.props,
   ): Array<Message | Event> =>
     [...props.transcript, ...props.platformEvents].filter(e =>
-      ['Attachment', 'Text', 'SendTranscript', 'End'].includes(e.type),
+      ['Attachment', 'Text', 'SendTranscript', 'End', 'Spam'].includes(e.type),
     );
 
   render() {
@@ -128,6 +128,7 @@ export class Transcript extends Component {
         className="Transcript"
         style={{
           backgroundColor: colors.transcriptBackground,
+          paddingBottom: messagesAndEvents.length > 0 ? '10px' : '0px',
         }}
         ref={n => {
           this.transcript = n;
