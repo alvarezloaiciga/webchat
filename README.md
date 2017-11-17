@@ -364,12 +364,12 @@ The Quiq() function contains properties describing how the instance of webchat s
         fields: [
           {
             id: string,
-            type: 'text' | 'textarea' | 'number' | 'email' | 'tel', | 'selection'
+            type: 'text' | 'textarea' | 'number' | 'email' | 'tel', | 'select'
             label: string,
             required: boolean,
             rows: number, // Only applicable if type is textarea
             isInitialMessage: boolean,
-            selectionFieldValues: Array<{value: string, label: string}> // Only applicable if type is selection
+            options: Array<{value: string, label: string}> // Only applicable if type is select
           },
         ]
       }
@@ -413,11 +413,11 @@ The Quiq() function contains properties describing how the instance of webchat s
               isInitialMessage: true,
             },
             {
-              type: 'selection',
+              type: 'select',
               label: 'Selection Field',
               id: 'selectionField',
               required: true,
-              selectionFieldValues: [{value: '', label: '---'}, {value: 'USA', label: 'United States'}, {value: 'Canada', label: 'Canada'}, {value: 'Mexico', label: 'Mexico'}]
+              options: [{value: '', label: '---'}, {value: 'USA', label: 'United States'}, {value: 'Canada', label: 'Canada'}, {value: 'Mexico', label: 'Mexico'}]
             },
           ]
         }

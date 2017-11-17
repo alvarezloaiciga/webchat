@@ -36,13 +36,13 @@ export type ChatMetadata = {
 };
 
 export type WelcomeFormField = {
-  type: 'text' | 'number' | 'email' | 'tel' | 'textarea' | 'selection',
+  type: 'text' | 'number' | 'email' | 'tel' | 'textarea' | 'select',
   label: string,
   id: string,
   required?: boolean,
   rows?: number,
   isInitialMessage?: boolean,
-  selectionFieldValues?: Array<{value: string, label: string}>,
+  options?: Array<{value: string, label: string}>,
 };
 
 export type RegistrationField = {

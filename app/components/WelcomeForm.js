@@ -93,7 +93,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             resize="vertical"
           />
         );
-      case 'selection':
+      case 'select':
         return (
           <select
             value={this.state.inputFields[field.id].value}
@@ -103,8 +103,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             required={field.required}
             style={textareaStyle}
           >
-            {field.selectionFieldValues &&
-              field.selectionFieldValues.map(value => (
+            {field.options &&
+              field.options.map(value => (
                 <option key={value.value} value={value.value}>
                   {value.label}
                 </option>

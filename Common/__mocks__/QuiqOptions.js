@@ -255,11 +255,11 @@ const quiqOptions: QuiqObject = {
         required: false,
       },
       {
-        type: 'selection',
+        type: 'select',
         label: 'Country',
         id: 'country',
         required: true,
-        selectionFieldValues: [
+        options: [
           {value: '', label: '---'},
           {value: 'USA', label: 'United States'},
           {value: 'Canada', label: 'Canada'},
