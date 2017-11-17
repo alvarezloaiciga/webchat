@@ -41,15 +41,6 @@ export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
   messageFieldFocused,
 });
 
-export const setAgentEndedConversation = (ended: boolean) => ({
-  type: 'AGENT_ENDED_CONVERSATION',
-  ended,
-});
-
-export const markChatAsSpam = () => ({
-  type: 'MARK_CHAT_AS_SPAM',
-});
-
 export const setChatConfiguration = (metadata: ChatMetadata) => ({
   type: 'CHAT_CONFIGURATION_LOADED',
   configuration: {
@@ -72,9 +63,9 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
   },
 });
 
-export const updatePlatformEvents = (event: Event) => ({
+export const updatePlatformEvents = (platformEvents: Array<Event>) => ({
   type: 'UPDATE_PLATFORM_EVENTS',
-  event,
+  platformEvents,
 });
 
 export const updateTranscript = (transcript: Array<Message>) => ({
@@ -126,4 +117,9 @@ export const updatePendingAttachmentId = (tempId: string, newId: string) => ({
   type: actionTypes.updatePendingMessageId,
   tempId,
   newId,
+});
+
+export const setInputtingEmail = (inputtingEmail: boolean) => ({
+  type: 'SET_INPUTTING_EMAIL',
+  inputtingEmail,
 });

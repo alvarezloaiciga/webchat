@@ -26,13 +26,18 @@ describe('MessageForm component', () => {
 
     render = () => {
       testProps = {
-        agentEndedConversation: false,
         transcript: [getMockMessage(), getMockMessage(1)],
+        agentEndedConversation: false,
+        agentHasRespondedToLatestConversation: true,
+        latestConversationIsSpam: false,
+        platformEvents: [],
+        inputtingEmail: false,
         openFileBrowser: jest.fn(),
         muteSounds: false,
         setMuteSounds: jest.fn(),
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
+        setInputtingEmail: jest.fn(),
         configuration: getMockConfiguration({
           enableChatEmailTranscript: true,
           enableChatFileAttachments: true,
@@ -83,28 +88,28 @@ describe('MessageForm component', () => {
         .prop('items')
         .find(i => i.id === MenuItemKeys.EMAIL_TRANSCRIPT).disabled;
 
-    const isInlineEmailTranscriptButtonDisabled = () =>
-      wrapper.find('.emailTranscriptInlineButton').prop('disabled');
-
     beforeEach(() => {
       render();
       wrapper.setProps({agentEndedConversation: true});
-      expect(isInlineEmailTranscriptButtonDisabled()).toBe(false);
       expect(isEmailTranscriptDisabled()).toBe(false);
     });
 
-    describe('when Chat is marked as spam', () => {
+    describe('current convo is spam', () => {
+      beforeEach(() => {
+        wrapper.setProps({latestConversationIsSpam: true});
+      });
       it('disables emailTranscript', () => {
         wrapper.setProps({chatIsSpam: true});
-        expect(isInlineEmailTranscriptButtonDisabled()).toBe(true);
         expect(isEmailTranscriptDisabled()).toBe(true);
       });
     });
 
-    describe('when there is no transcript', () => {
+    describe('current has no agent message', () => {
+      beforeEach(() => {
+        wrapper.setProps({agentHasRespondedToLatestConversation: false});
+      });
       it('disables emailTranscript', () => {
-        wrapper.setProps({transcript: []});
-        expect(isInlineEmailTranscriptButtonDisabled()).toBe(true);
+        wrapper.setProps({chatIsSpam: true});
         expect(isEmailTranscriptDisabled()).toBe(true);
       });
     });

@@ -1,41 +1,45 @@
 // @flow
 import React, {Component} from 'react';
-import {supportsFlexbox} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
-import {setMuteSounds, setMessageFieldFocused} from 'actions/chatActions';
+import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
 import {connect} from 'react-redux';
-import Button from 'core-ui/components/Button';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
-import {getTranscript, getChatIsSpam} from 'reducers/chat';
+import {
+  getAgentEndedLatestConversation,
+  getLatestConversationIsSpam,
+  getInputtingEmail,
+  getAgentHasRespondedToLatestConversation,
+} from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, Message, ChatConfiguration} from 'Common/types';
+import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
 
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
-  agentEndedConversation: boolean,
+  latestConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
+  agentEndedConversation: boolean,
   muteSounds: boolean,
   configuration: ChatConfiguration,
-  transcript: Array<Message>,
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
-  chatIsSpam: boolean,
+  inputtingEmail: boolean,
+  setInputtingEmail: (inputtingEmail: boolean) => void,
 };
 
 type MessageFormState = {
   hasText: boolean,
   agentsAvailable: boolean,
   emojiPickerVisible: boolean,
-  inputtingEmail: boolean,
 };
 
 let updateTimer;
@@ -170,9 +174,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   toggleEmailInput = () => {
-    this.setState((prevState: MessageFormState) => ({
-      inputtingEmail: !prevState.inputtingEmail,
-    }));
+    this.props.setInputtingEmail(!this.props.inputtingEmail);
   };
 
   handleMessageFieldFocused = () => {
@@ -258,8 +260,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled:
-          this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
-          this.props.chatIsSpam,
+          this.props.latestConversationIsSpam || !this.props.agentHasRespondedToLatestConversation,
       });
     }
 
@@ -314,45 +315,16 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       color: '#848484',
       fontSize: '16px',
     });
-    const emailTranscriptButtonStyle = getStyle(styles.InlineEmailTranscriptButton, {
-      backgroundColor: colors.primary,
-      fontFamily,
-    });
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {(!supportsFlexbox() || this.props.agentEndedConversation) && (
-          <div className="poke">
-            {this.props.agentEndedConversation && (
-              <div className="pokeBody">
-                <div className="agentEndedConvo">
-                  <span style={{fontFamily}}>
-                    {getMessage(messageTypes.agentEndedConversationMessage)}
-                  </span>
-                  {this.props.configuration.enableChatEmailTranscript && (
-                    <Button
-                      disabled={
-                        this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
-                        this.props.chatIsSpam
-                      }
-                      className="emailTranscriptInlineButton"
-                      title={getMessage(messageTypes.emailTranscriptInlineButton)}
-                      text={getMessage(messageTypes.emailTranscriptInlineButton)}
-                      style={emailTranscriptButtonStyle}
-                      onClick={this.toggleEmailInput}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {this.state.inputtingEmail && (
-          <div className="messageArea">
-            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
-          </div>
-        )}
+        {this.props.inputtingEmail &&
+          !this.props.latestConversationIsSpam &&
+          this.props.agentHasRespondedToLatestConversation && (
+            <div className="messageArea">
+              <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+            </div>
+          )}
 
         {!this.state.inputtingEmail && (
           <div className="messageArea">
@@ -425,16 +397,18 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 const mapDispatchToProps = {
   setMuteSounds,
   setMessageFieldFocused,
+  setInputtingEmail,
 };
 
 export default connect(
   (state: ChatState) => ({
-    transcript: getTranscript(state),
-    agentEndedConversation: state.agentEndedConversation,
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
     configuration: state.configuration,
-    chatIsSpam: getChatIsSpam(state),
+    agentEndedConversation: getAgentEndedLatestConversation(state),
+    latestConversationIsSpam: getLatestConversationIsSpam(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
+    inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,
 )(MessageForm);

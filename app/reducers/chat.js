@@ -2,6 +2,7 @@
 import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import update from 'immutability-helper';
+import findLastIndex from 'lodash/findLastIndex';
 import type {
   ChatState,
   Action,
@@ -20,11 +21,12 @@ type ChatAction = {
   agentTyping?: boolean,
   message?: Message,
   muteSounds?: boolean,
-  event?: Event,
+  platformEvents?: Array<Event>,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
   id?: string,
   isAgentAssigned?: boolean,
+  inputtingEmail?: boolean,
 };
 
 export const initialState = {
@@ -33,11 +35,10 @@ export const initialState = {
   agentsAvailable: undefined,
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: {},
+  platformEvents: {},
   agentTyping: false,
-  agentEndedConversation: false,
   welcomeFormRegistered: false,
   muteSounds: false,
-  platformEvents: [],
   messageFieldFocused: false,
   configuration: {
     enableChatEmailTranscript: false,
@@ -50,8 +51,8 @@ export const initialState = {
     customMenuItems: [],
     menuOffset: undefined,
   },
-  chatIsSpam: false,
   isAgentAssigned: false,
+  inputtingEmail: false,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -85,12 +86,16 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         initializedState: action.initializedState,
       });
-    case 'UPDATE_PLATFORM_EVENTS':
-      return Object.assign({}, state, {
-        platformEvents: [...state.platformEvents, action.event],
+    case 'UPDATE_PLATFORM_EVENTS': {
+      if (!Array.isArray(action.platformEvents)) {
+        return state;
+      }
+      const newEvents = {};
+      action.platformEvents.forEach(e => {
+        newEvents[e.id] = e;
       });
-    case 'MARK_CHAT_AS_SPAM':
-      return Object.assign({}, state, {chatIsSpam: true});
+      return Object.assign({}, state, {platformEvents: {...state.platformEvents, ...newEvents}});
+    }
     case 'UPDATE_TRANSCRIPT': {
       if (!Array.isArray(action.transcript)) return state;
 
@@ -148,8 +153,6 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {muteSounds: action.muteSounds});
     case 'MESSAGE_FIELD_FOCUSED':
       return Object.assign({}, state, {messageFieldFocused: action.messageFieldFocused});
-    case 'AGENT_ENDED_CONVERSATION':
-      return Object.assign({}, state, {agentEndedConversation: action.ended});
     case 'WELCOME_FORM_REGISTERED':
       return Object.assign({}, state, {welcomeFormRegistered: true});
     case 'UPLOAD_PROGRESS':
@@ -171,6 +174,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
           initializedState: ChatInitializedState.LOADING,
         },
       );
+    case 'SET_INPUTTING_EMAIL':
+      return Object.assign({}, state, {inputtingEmail: action.inputtingEmail});
     default:
       return state;
   }
@@ -182,6 +187,41 @@ export default chat;
 export const getChatContainerHidden = (state: ChatState): boolean => {
   return state.chatContainerHidden;
 };
+
+export const getLatestConversationElements = (state: ChatState): Array<Message | Event> => {
+  // The latest conversation consists of all messages and platform events from the end of the transcript until one of the following:
+  //  1) The preceding End event
+  //  2) The beginning of the transcript
+  // $FlowIssue - Flow does not infer types when Object.values is used
+  const sortedConvoElements: Array<Message | Event> = Object.values(state.transcript)
+    .concat(Object.values(state.platformEvents))
+    // $FlowIssue - Flow does not infer types when Object.values is used
+    .sort((a, b) => a.timestamp - b.timestamp);
+
+  const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
+    ['Text', 'Attachment'].includes(e.type),
+  );
+
+  const latestPrecedingEndEventIdx = findLastIndex(
+    sortedConvoElements,
+    e => e.type === 'End',
+    latestMessageIdx,
+  );
+
+  // Don't return the End event itself, as this belongs to the second-to-last conversation
+  return sortedConvoElements.slice(latestPrecedingEndEventIdx + 1);
+};
+
+export const getAgentEndedLatestConversation = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(e => e.type === 'End');
+
+export const getLatestConversationIsSpam = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(e => e.type === 'Spam');
+
+export const getAgentHasRespondedToLatestConversation = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(
+    e => ['Text', 'Attachment'].includes(e.type) && e.authorType && e.authorType === 'User',
+  );
 
 export const getAgentsAvailable = (state: ChatState): ?boolean => {
   return state.agentsAvailable;
@@ -198,10 +238,12 @@ export const getMuteSounds = (state: ChatState): boolean => {
 // $FlowIssue - Flow can't deal with Object.values() very well
 export const getTranscript = (state: ChatState): Array<Message> => Object.values(state.transcript);
 
-export const getPlatformEvents = (state: ChatState): Array<Event> => state.platformEvents;
+export const getPlatformEvents = (state: ChatState): Array<Event> =>
+  // $FlowIssue - Flow does not infer types when Object.values is used
+  Object.values(state.platformEvents);
 
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
 
-export const getChatIsSpam = (state: ChatState): boolean => state.chatIsSpam;
-
 export const getIsAgentAssigned = (state: ChatState): boolean => state.isAgentAssigned;
+
+export const getInputtingEmail = (state: ChatState): boolean => state.inputtingEmail;

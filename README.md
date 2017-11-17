@@ -52,7 +52,7 @@
       - [HeaderBanner](#headerbanner)
       - [HeaderMenu](#headermenu)
       - [HeaderMenuIcons](#headermenuicons)
-      - [InlineEmailTranscriptButton](#inlineemailtranscriptbutton)
+      - [InlineActionButton](#inlineactionbutton)
       - [MessageForm](#messageform)
       - [MessageFormInput](#messageforminput)
       - [MessageFormSend](#messageformsend)
@@ -306,7 +306,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         attachmentBtnTooltip: 'Send file',
         unsupportedBrowser: undefined,
         storageDisabled: undefined,
-        agentEndedConversationMessage: 'Agent has ended the conversation.',
+        agentEndedConversationMessage: 'Agent ended the conversation.',
         agentsNotAvailableMessage: 'No agents are currently available.',
         optionsMenuTooltip: 'Options',
         emailTranscriptInlineButton: 'Email Transcript',
@@ -514,8 +514,8 @@ The top section of the chat container that contains the minimize, maximize, and 
 ##### HeaderMenuIcons
 The icons inside `HeaderMenu`
 
-##### InlineEmailTranscriptButton
-Button that displays inline when the agent ends a conversation allowing user to request an email transcript of the conversation
+##### InlineActionButton
+Button that displays below an event in the transcript
 
 ##### MessageForm
 The form at the bottom of the chat that holds the text box and send button
