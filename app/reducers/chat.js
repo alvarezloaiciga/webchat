@@ -2,6 +2,7 @@
 import {inStandaloneMode} from 'Common/Utils';
 import {ChatInitializedState} from 'Common/Constants';
 import update from 'immutability-helper';
+import findLastIndex from 'lodash/findLastIndex';
 import type {
   ChatState,
   Action,
@@ -20,7 +21,7 @@ type ChatAction = {
   agentTyping?: boolean,
   message?: Message,
   muteSounds?: boolean,
-  events?: Array<Event>,
+  platformEvents?: Array<Event>,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
   id?: string,
@@ -84,11 +85,11 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         initializedState: action.initializedState,
       });
     case 'UPDATE_PLATFORM_EVENTS': {
-      if (!Array.isArray(action.events)) {
+      if (!Array.isArray(action.platformEvents)) {
         return state;
       }
       const newEvents = {};
-      action.events.forEach(e => {
+      action.platformEvents.forEach(e => {
         newEvents[e.id] = e;
       });
       return Object.assign({}, state, {platformEvents: {...state.platformEvents, ...newEvents}});
@@ -181,13 +182,44 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 export default chat;
 
 // Selectors
-export const getAgentEndedConversation = (state: ChatState): boolean =>
-  // $FlowIssue - Flow does not infer types when Object.values is used
-  Object.values(state.platformEvents).some(e => e.type === 'End');
-
 export const getChatContainerHidden = (state: ChatState): boolean => {
   return state.chatContainerHidden;
 };
+
+export const getLatestConversationElements = (state: ChatState): Array<Message | Event> => {
+  // The latest conversation consists of all messages and platform events from the end of the transcript until one of the following:
+  //  1) The preceding End event
+  //  2) The beginning of the transcript
+  // $FlowIssue - Flow does not infer types when Object.values is used
+  const sortedConvoElements: Array<Message | Event> = Object.values(state.transcript)
+    .concat(Object.values(state.platformEvents))
+    // $FlowIssue - Flow does not infer types when Object.values is used
+    .sort((a, b) => a.timestamp - b.timestamp);
+
+  const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
+    ['Text', 'Attachment'].includes(e.type),
+  );
+
+  const latestPrecedingEndEventIdx = findLastIndex(
+    sortedConvoElements,
+    e => e.type === 'End',
+    latestMessageIdx,
+  );
+
+  // Don't return the End event itself, as this belongs to the second-to-last conversation
+  return sortedConvoElements.slice(latestPrecedingEndEventIdx + 1);
+};
+
+export const getAgentEndedLatestConversation = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(e => e.type === 'End');
+
+export const getLatestConversationIsSpam = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(e => e.type === 'Spam');
+
+export const getAgentHasRespondedToLatestConversation = (state: ChatState): boolean =>
+  getLatestConversationElements(state).some(
+    e => ['Text', 'Attachment'].includes(e.type) && e.authorType && e.authorType === 'User',
+  );
 
 export const getAgentsAvailable = (state: ChatState): ?boolean => {
   return state.agentsAvailable;

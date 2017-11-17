@@ -61,9 +61,9 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
   },
 });
 
-export const updatePlatformEvents = (events: Array<Event>) => ({
+export const updatePlatformEvents = (platformEvents: Array<Event>) => ({
   type: 'UPDATE_PLATFORM_EVENTS',
-  events,
+  platformEvents,
 });
 
 export const updateTranscript = (transcript: Array<Message>) => ({

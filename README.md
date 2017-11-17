@@ -306,7 +306,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         attachmentBtnTooltip: 'Send file',
         unsupportedBrowser: undefined,
         storageDisabled: undefined,
-        agentEndedConversationMessage: 'Agent has ended the conversation.',
+        agentEndedConversationMessage: 'Agent ended the conversation.',
         agentsNotAvailableMessage: 'No agents are currently available.',
         optionsMenuTooltip: 'Options',
         emailTranscriptInlineButton: 'Email Transcript',

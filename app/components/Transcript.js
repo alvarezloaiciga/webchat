@@ -4,19 +4,27 @@ import PlatformEvent from './PlatformEvent';
 import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
-import {getTranscript, getPlatformEvents} from 'reducers/chat';
+import {
+  getTranscript,
+  getPlatformEvents,
+  getAgentHasRespondedToLatestConversation,
+  getLatestConversationIsSpam,
+} from 'reducers/chat';
 import {messageTypes} from 'Common/Constants';
-import {enableEmailForCurrentConversation} from 'Common/Utils';
 import {setInputtingEmail} from 'actions/chatActions';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
+  /*eslint-disable react/no-unused-prop-types*/
   transcript: Array<MessageType>,
   platformEvents: Array<Event>,
+  latestConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
   agentTyping: boolean,
   configuration: ChatConfiguration,
   setInputtingEmail: (inputtingEmail: boolean) => void,
+  /*eslint-enable react/no-unused-prop-types*/
 };
 
 export type TranscriptState = {
@@ -53,7 +61,7 @@ export class Transcript extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    // Scroll to the bottom if you get a new message
+    // Scroll to the bottom if you get a new message or new visible platform event
     const oldCount = this.getConversationElementsForDisplay(prevProps).length;
     const newCount = this.getConversationElementsForDisplay().length;
     if (newCount > oldCount) {
@@ -72,46 +80,41 @@ export class Transcript extends Component {
   render() {
     const {colors} = quiqOptions;
 
-    const messagesAndEvents = this.getConversationElementsForDisplay()
-      .sort((a, b) => a.timestamp - b.timestamp)
-      .map(a => {
-        if (a.type === 'Attachment' || a.type === 'Text') {
-          return (
-            <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
-          );
-        }
-        return <PlatformEvent event={a} key={a.id} />;
-      });
+    const messagesAndEvents = this.getConversationElementsForDisplay().sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
 
-    // The last Ended event needs to have an "email transcript" action button
-    if (
-      this.props.configuration.enableChatEmailTranscript &&
-      enableEmailForCurrentConversation(this.props.transcript, this.props.platformEvents)
-    ) {
-      const lastEndEventIdx = findLastIndex(
-        messagesAndEvents,
-        e => e.props.event && e.props.event.type === 'End',
-      );
-      const lastMessageIndex = findLastIndex(
-        messagesAndEvents,
-        e => e.props.message && ['Attachment', 'Text'].includes(e.props.message.type),
-      );
+    const lastEndEventIdx = findLastIndex(messagesAndEvents, e => e.type === 'End');
 
-      // There must be no messages after the last End event to show the inline button
-      if (lastEndEventIdx > -1 && lastMessageIndex < lastEndEventIdx) {
-        messagesAndEvents[lastEndEventIdx] = React.cloneElement(
-          messagesAndEvents[lastEndEventIdx],
-          {
-            actionLabel: getMessage(messageTypes.emailTranscriptInlineButton),
-            action: () => this.props.setInputtingEmail(true),
-          },
+    const lastMessageIndex = findLastIndex(messagesAndEvents, e =>
+      ['Attachment', 'Text'].includes(e.type),
+    );
+
+    const displayElements = messagesAndEvents.map((a, idx) => {
+      if (a.type === 'Attachment' || a.type === 'Text') {
+        return (
+          <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
         );
       }
-    }
+
+      // If this is last End event and there are no messages after the last End event to show the inline button
+      if (idx === lastEndEventIdx && lastMessageIndex < lastEndEventIdx) {
+        return (
+          <PlatformEvent
+            event={a}
+            action={() => this.props.setInputtingEmail(true)}
+            actionLabel={getMessage(messageTypes.emailTranscriptInlineButton)}
+            key={a.id}
+          />
+        );
+      }
+
+      return <PlatformEvent event={a} key={a.id} />;
+    });
 
     // Append an AgentTyping message if needed
     if (this.props.agentTyping) {
-      messagesAndEvents.push(
+      displayElements.push(
         <Message
           key="agentTyping"
           message={{authorType: 'Agent', type: 'AgentTyping'}}
@@ -130,7 +133,7 @@ export class Transcript extends Component {
           this.transcript = n;
         }}
       >
-        {messagesAndEvents}
+        {displayElements}
       </div>
     );
   }
@@ -142,6 +145,8 @@ const mapDispatchToProps = {
 
 export default connect(
   (state: ChatState) => ({
+    latestConversationIsSpam: getLatestConversationIsSpam(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     transcript: getTranscript(state),
     agentTyping: state.agentTyping,
     platformEvents: getPlatformEvents(state),

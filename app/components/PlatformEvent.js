@@ -31,19 +31,15 @@ const PlatformEventContainer = styled.div`
     }
   }
 
-  display: flex;
-  flex-direction: column;
-  margin: 20px 0;
-  justify-content: center;
-  align-items: center;
+  display: box;
   animation: 0.2s 1 enter;
 
   .actionButton {
     display: block;
-    flex: 0 0 auto;
     color: white;
     padding: 0 8px;
-    margin-bottom: 15px;
+    margin: 0px auto;
+    margin-bottom: 10px;
 
     &:hover {
       color: white;

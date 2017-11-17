@@ -27,7 +27,7 @@ import type {
   Message as MessageType,
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
-import {getTranscript, getIsAgentAssigned, getAgentEndedConversation} from 'reducers/chat';
+import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
@@ -316,7 +316,7 @@ const mapStateToProps = (state: ChatState) => ({
   configuration: state.configuration,
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
-  agentEndedConversation: getAgentEndedConversation(state),
+  agentEndedConversation: getAgentEndedLatestConversation(state),
 });
 
 const mapDispatchToProps = {

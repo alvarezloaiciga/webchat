@@ -12,7 +12,6 @@ import type {ShallowWrapper} from 'enzyme';
 import {getMockMessage} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import {MenuItemKeys} from 'Common/Constants';
-import * as Utils from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 
 describe('MessageForm component', () => {
@@ -29,6 +28,8 @@ describe('MessageForm component', () => {
       testProps = {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
+        agentHasRespondedToLatestConversation: true,
+        latestConversationIsSpam: false,
         platformEvents: [],
         inputtingEmail: false,
         openFileBrowser: jest.fn(),
@@ -81,10 +82,19 @@ describe('MessageForm component', () => {
       expect(isEmailTranscriptDisabled()).toBe(false);
     });
 
-    describe('when email is disabled for current conversation', () => {
+    describe('current convo is spam', () => {
       beforeEach(() => {
-        // $FlowIssue
-        Utils.enableEmailForCurrentConversation.mockReturnValueOnce(false);
+        wrapper.setProps({latestConversationIsSpam: true});
+      });
+      it('disables emailTranscript', () => {
+        wrapper.setProps({chatIsSpam: true});
+        expect(isEmailTranscriptDisabled()).toBe(true);
+      });
+    });
+
+    describe('current has no agent message', () => {
+      beforeEach(() => {
+        wrapper.setProps({agentHasRespondedToLatestConversation: false});
       });
       it('disables emailTranscript', () => {
         wrapper.setProps({chatIsSpam: true});

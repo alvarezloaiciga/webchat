@@ -1,6 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import {enableEmailForCurrentConversation} from 'Common/Utils';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {messageTypes, MenuItemKeys} from 'Common/Constants';
 import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
@@ -11,25 +10,25 @@ import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
 import {
-  getTranscript,
-  getAgentEndedConversation,
+  getAgentEndedLatestConversation,
+  getLatestConversationIsSpam,
   getInputtingEmail,
-  getPlatformEvents,
+  getAgentHasRespondedToLatestConversation,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, Message, ChatConfiguration, Event} from 'Common/types';
+import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
 
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
+  latestConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
   configuration: ChatConfiguration,
-  transcript: Array<Message>,
-  platformEvents: Array<Event>,
   openFileBrowser: () => void,
   setMuteSounds: (muteSounds: boolean) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
@@ -238,10 +237,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled: !enableEmailForCurrentConversation(
-          this.props.transcript,
-          this.props.platformEvents,
-        ),
+        disabled:
+          this.props.latestConversationIsSpam || !this.props.agentHasRespondedToLatestConversation,
       });
     }
 
@@ -296,11 +293,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {this.props.inputtingEmail && (
-          <div className="messageArea">
-            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
-          </div>
-        )}
+        {this.props.inputtingEmail &&
+          !this.props.latestConversationIsSpam &&
+          this.props.agentHasRespondedToLatestConversation && (
+            <div className="messageArea">
+              <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+            </div>
+          )}
 
         {!this.state.inputtingEmail && (
           <div className="messageArea">
@@ -378,42 +377,13 @@ const mapDispatchToProps = {
 
 export default connect(
   (state: ChatState) => ({
-    transcript: getTranscript(state),
-    platformEvents: getPlatformEvents(state),
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: state.muteSounds,
     configuration: state.configuration,
-    agentEndedConversation: getAgentEndedConversation(state),
+    agentEndedConversation: getAgentEndedLatestConversation(state),
+    latestConversationIsSpam: getLatestConversationIsSpam(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,
 )(MessageForm);
-
-/*
-   {(!supportsFlexbox() || this.props.agentEndedConversation) && (
-   <div className="poke">
-   {this.props.agentEndedConversation && (
-   <div className="pokeBody">
-   <div className="agentEndedConvo">
-   <span style={{fontFamily}}>
-   {getMessage(messageTypes.agentEndedConversationMessage)}
-   </span>
-   {this.props.configuration.enableChatEmailTranscript && (
-   <Button
-   disabled={
-   this.props.transcript.filter(m => m.authorType === 'User').length === 0 ||
-   this.props.chatIsSpam
-   }
-   className="emailTranscriptInlineButton"
-   title={getMessage(messageTypes.emailTranscriptInlineButton)}
-   text={getMessage(messageTypes.emailTranscriptInlineButton)}
-   style={emailTranscriptButtonStyle}
-   onClick={this.toggleEmailInput}
-   />
-   )}
-   </div>
-   </div>
-   )}
-   </div>
-   )}
-   */

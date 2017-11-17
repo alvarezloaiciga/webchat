@@ -118,10 +118,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (newState !== this.props.initializedState) {
       this.props.setChatInitialized(newState);
     }
-    // TODO: Reimplement this logic somehow
-    /*if (newState === ChatInitializedState.INITIALIZED) {
-      this.props.setAgentEndedConversation(false);
-    }*/
   };
 
   handleNewSession = () => {
