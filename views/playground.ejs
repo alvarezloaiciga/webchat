@@ -43,7 +43,7 @@
         captureWebsockets: false,
         exposeDraftJsFunctions: false,
       },
-      customLaunchButtons: ['#customLaunchBtn1'],
+      //customLaunchButtons: ['#customLaunchBtn1'],
       //showDefaultLaunchButton: true,
       excludeEmojis: [],
       //includeEmojis: [],            // Set to `[]` to disable emojis
@@ -76,34 +76,12 @@
         transcriptBackground: '#f4f4f8',
         attachmentMessageColor: '#9c9c9f',
       },
+      anchorElement: '',
+      demoMode: false,
       fontFamily: 'Raleway',
       styles: {
         HeaderMenu: {
           background: '#31bf8b',
-        },
-        anchorElement: '',
-        demoMode: true,
-        agentsAvailableTimer: 60000,
-        enforceAgentAvailability: true,
-        customScreens: {
-          waitScreen: {
-            url: 'https://<%- tenant %>.quiq.dev:3001/testExtension',
-            minHeight: 350
-          }
-        },
-        host: '<%- host %>',
-        contactPoint: 'default',
-        autoPopTime: 120000,
-        mobileNumber: 33,
-        colors: {
-          primary: 'red', // (Falls back to `QUIQ.COLOR`)
-          agentMessageText: '#555',
-          agentMessageLinkText: '#2199e8',
-          agentMessageBackground: '#e0e0e0',
-          customerMessageText: 'yellow',
-          customerMessageLinkText: 'yellow',
-          customerMessageBackground: '#2199e8',
-          transcriptBackground: '#f4f4f8',
         },
         AgentAvatar: {
           backgroundImage: "url('https://static.quiq-cdn.com/quiq/favicon/apple-touch-icon-152x152.png')",

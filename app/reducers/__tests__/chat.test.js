@@ -99,8 +99,7 @@ describe('chat reducers', () => {
         isAgentAssigned: false,
         agentTyping: true,
         agentsAvailable: true,
-        agentEndedConversation: false,
-        platformEvents: [],
+        platformEvents: {},
         muteSounds: false,
         messageFieldFocused: false,
         configuration: {
@@ -111,7 +110,7 @@ describe('chat reducers', () => {
           playSoundOnNewMessage: false,
           flashNotificationOnNewMessage: false,
         },
-        chatIsSpam: true,
+        inputtingEmail: false,
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

@@ -50,7 +50,7 @@ export default defineMessages({
   agentEndedConversation: {
     id: 'agentEndedConversation',
     description: 'Message to display when the agent ends conversation',
-    defaultMessage: 'Agent has ended the conversation.',
+    defaultMessage: 'Agent ended the conversation.',
   },
   agentsNotAvailable: {
     id: 'agentsNotAvailable',

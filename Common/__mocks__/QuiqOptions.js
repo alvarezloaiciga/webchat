@@ -1,7 +1,6 @@
 // @flow
 
 import messages from 'Common/Messages';
-import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject} from 'Common/types';
 
 const quiqOptions: QuiqObject = {
@@ -145,7 +144,7 @@ const quiqOptions: QuiqObject = {
     EmailTranscriptInputSubmitButton: {
       borderRadius: '10px',
     },
-    InlineEmailTranscriptButton: {
+    InlineActionButton: {
       backgroundColor: 'grey',
     },
     EventContainer: {
@@ -283,7 +282,7 @@ export const getMessage = (messageName: string): string => {
 
   if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
-  return getDisplayString(message);
+  return message.defaultMessage || message;
 };
 
 export default quiqOptions;

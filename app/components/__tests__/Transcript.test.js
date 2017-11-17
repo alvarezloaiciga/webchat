@@ -18,6 +18,9 @@ describe('Transcript component', () => {
     testProps = {
       transcript: [getMockMessage(1), getMockMessage(3)],
       platformEvents: [getMockEvent(2), getMockEvent(4)],
+      configuration: {
+        enableChatEmailTranscript: true,
+      },
       agentTyping: false,
     };
     render = () => {

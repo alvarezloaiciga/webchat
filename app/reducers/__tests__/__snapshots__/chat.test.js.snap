@@ -2,11 +2,9 @@
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 1`] = `
 Object {
-  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
-  "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -20,10 +18,11 @@ Object {
     ],
   },
   "initializedState": "uninitialized",
+  "inputtingEmail": false,
   "isAgentAssigned": false,
   "messageFieldFocused": false,
   "muteSounds": false,
-  "platformEvents": Array [],
+  "platformEvents": Object {},
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }
@@ -31,11 +30,9 @@ Object {
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 2`] = `
 Object {
-  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": undefined,
   "chatContainerHidden": true,
-  "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -49,10 +46,11 @@ Object {
     ],
   },
   "initializedState": "uninitialized",
+  "inputtingEmail": false,
   "isAgentAssigned": false,
   "messageFieldFocused": false,
   "muteSounds": false,
-  "platformEvents": Array [],
+  "platformEvents": Object {},
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }
@@ -60,11 +58,9 @@ Object {
 
 exports[`chat reducers NEW_WEBCHAT_SESSION updates state with initial state merged with current visibility state and "initialized" set to "LOADING" 1`] = `
 Object {
-  "agentEndedConversation": false,
   "agentTyping": false,
   "agentsAvailable": true,
   "chatContainerHidden": false,
-  "chatIsSpam": false,
   "chatLauncherHidden": false,
   "configuration": Object {
     "enableChatEmailTranscript": false,
@@ -78,10 +74,11 @@ Object {
     ],
   },
   "initializedState": "loading",
+  "inputtingEmail": false,
   "isAgentAssigned": false,
   "messageFieldFocused": false,
   "muteSounds": false,
-  "platformEvents": Array [],
+  "platformEvents": Object {},
   "transcript": Object {},
   "welcomeFormRegistered": false,
 }
