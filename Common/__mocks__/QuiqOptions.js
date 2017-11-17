@@ -106,6 +106,16 @@ const quiqOptions: QuiqObject = {
       color: '#555',
       fontFamily: 'Source Sans Pro',
     },
+    WelcomeFormFieldSelect: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldOption: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
     WelcomeFormFieldTextarea: {
       outline: 'none',
       color: '#888',

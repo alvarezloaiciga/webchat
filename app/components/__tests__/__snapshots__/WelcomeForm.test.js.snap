@@ -344,7 +344,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         required={true}
         style={
           Object {
-            "color": "#888",
+            "color": "#555",
             "fontFamily": "Source Sans Pro",
             "outline": "none",
           }
@@ -353,18 +353,39 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
       >
         <option
           key="---"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
           value=""
         >
           ---
         </option>
         <option
           key="United StatesUSA"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
           value="USA"
         >
           United States
         </option>
         <option
           key="CanadaCanada"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
           value="Canada"
         >
           Canada

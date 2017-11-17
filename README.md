@@ -72,6 +72,8 @@
       - [WelcomeFormFieldInput](#welcomeformfieldinput)
       - [WelcomeFormFieldLabel](#welcomeformfieldlabel)
       - [WelcomeFormFieldTextarea](#welcomeformfieldtextarea)
+      - [WelcomeFormFieldSelect](#welcomeformfieldselect)
+      - [WelcomeFormFieldOption](#welcomeformfieldoption)
       - [WelcomeFormSubmitButton](#welcomeformsubmitbutton)
 - [SDK](#sdk)
   * [The Quiq object](#the-quiq-object)
@@ -581,6 +583,12 @@ The label for fields in the welcome form
 
 ##### WelcomeFormFieldTextarea
 The textarea for multi-line fields in the welcome form
+
+##### WelcomeFormFieldSelect
+The input for select fields in the welcome form
+
+##### WelcomeFormFieldOptions
+The input for select field options in the welcome form
 
 ##### WelcomeFormSubmitButton
 The submit button for the welcome form

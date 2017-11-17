@@ -81,6 +81,8 @@ type CustomStyles = {
   WelcomeFormFieldLabel?: Object,
   WelcomeFormFieldInput?: Object,
   WelcomeFormFieldTextarea?: Object,
+  WelcomeFormFieldSelect?: Object,
+  WelcomeFormFieldOption?: Object,
   WelcomeFormSubmitButton?: Object,
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,

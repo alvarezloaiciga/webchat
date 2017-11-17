@@ -76,6 +76,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   renderInputField = (field: WelcomeFormField) => {
     const {fontFamily, styles} = quiqOptions;
     const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
+    const selectStyle = getStyle(styles.WelcomeFormFieldSelect, {fontFamily});
+    const optionStyle = getStyle(styles.WelcomeFormFieldOption, {fontFamily});
     const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
 
     switch (field.type) {
@@ -101,11 +103,15 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             onBlur={this.handleTrimFieldInput}
             name={field.id}
             required={field.required}
-            style={textareaStyle}
+            style={selectStyle}
           >
             {field.options &&
               field.options.map(value => (
-                <option key={`${value.label}${value.value}`} value={value.value}>
+                <option
+                  style={optionStyle}
+                  key={`${value.label}${value.value}`}
+                  value={value.value}
+                >
                   {value.label}
                 </option>
               ))}
