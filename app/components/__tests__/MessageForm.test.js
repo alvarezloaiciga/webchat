@@ -9,7 +9,7 @@ import React from 'react';
 import {MessageForm} from '../MessageForm';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import {getMockMessage} from 'utils/testHelpers';
+import {getMockMessage, getMockConfiguration} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import {MenuItemKeys} from 'Common/Constants';
 import QuiqChatClient from 'quiq-chat';
@@ -33,14 +33,25 @@ describe('MessageForm component', () => {
         setMuteSounds: jest.fn(),
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
-        configuration: {
+        configuration: getMockConfiguration({
           enableChatEmailTranscript: true,
           enableChatFileAttachments: true,
-          supportedAttachmentTypes: ['image/png,image/jpeg'],
           enableEmojis: true,
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,
-        },
+          supportedAttachmentTypes: ['image/png,image/jpeg'],
+          customMenuItems: [
+            {
+              id: 'Spidey',
+              url: 'Earl',
+              label: 'Babel',
+              title: 'Danny McBridal',
+              icon: 'Python',
+              itemStyle: {},
+              iconStyle: {},
+            },
+          ],
+        }),
         chatIsSpam: false,
       };
       wrapper = shallow(<MessageForm {...testProps} />);

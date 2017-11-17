@@ -8,6 +8,7 @@ import {ChatContainer} from '../ChatContainer';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import quiqOptions from 'Common/QuiqOptions';
+import {getMockConfiguration} from 'utils/testHelpers';
 import type {ChatContainerProps} from '../ChatContainer';
 
 jest.useFakeTimers();
@@ -30,14 +31,7 @@ describe('ChatContainer component', () => {
       setUploadProgress: jest.fn(),
       updatePendingAttachmentId: jest.fn(),
       removeMessage: jest.fn(),
-      configuration: {
-        enableChatEmailTranscript: false,
-        enableChatFileAttachments: false,
-        supportedAttachmentTypes: ['image/png,image/jpeg'],
-        enableEmojis: false,
-        playSoundOnNewMessage: false,
-        flashNotificationOnNewMessage: false,
-      },
+      configuration: getMockConfiguration(),
     };
 
     render = () => {

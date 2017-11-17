@@ -7,7 +7,7 @@ import quiqOptions from 'Common/QuiqOptions';
 import React from 'react';
 import {Launcher} from '../Launcher';
 import {shallow} from 'enzyme';
-import {TestIntlObject, getMockMessage} from 'utils/testHelpers';
+import {TestIntlObject, getMockMessage, getMockConfiguration} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
 import QuiqChatClient from 'quiq-chat';
@@ -66,14 +66,7 @@ describe('Launcher component', () => {
       markChatAsSpam: jest.fn(),
       removeMessage: jest.fn(),
       setIsAgentAssigned: jest.fn(),
-      configuration: {
-        enableChatEmailTranscript: false,
-        enableChatFileAttachments: false,
-        supportedAttachmentTypes: ['image/png,image/jpeg'],
-        enableEmojis: false,
-        playSoundOnNewMessage: false,
-        flashNotificationOnNewMessage: false,
-      },
+      configuration: getMockConfiguration(),
     };
 
     init = () => {

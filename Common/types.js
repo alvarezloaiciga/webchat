@@ -10,6 +10,11 @@ export type ChatConfiguration = {
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
   registrationForm?: WelcomeForm | null,
+  customMenuItems: Array<CustomMenuItem>,
+  menuOffset?: {
+    horizontal?: string,
+    vertical?: string,
+  },
 };
 
 export type BooleanConfig = {
@@ -83,10 +88,10 @@ type CustomStyles = {
   WelcomeFormSubmitButton?: Object,
   OptionsMenuButton?: Object,
   OptionsMenuButtonIcon?: Object,
+  OptionsMenuContainer?: Object,
+  OptionsMenuLineItem?: Object,
+  OptionsMenuLineItemIcon?: Object,
   ContentButtons?: Object,
-  EmailTranscriptMenuContainer?: Object,
-  EmailTranscriptMenuLineItem?: Object,
-  EmailTranscriptMenuLineItemIcon?: Object,
   EmailTranscriptInputContainer?: Object,
   EmailTranscriptInput?: Object,
   EmailTranscriptInputCancelButton?: Object,
@@ -463,6 +468,16 @@ export type TextMessage = {
   type: 'Text',
   localKey?: string,
   uploadProgress?: number,
+};
+
+export type CustomMenuItem = {
+  id: string, // Unique Id,
+  url: string,
+  label?: string,
+  title?: string,
+  icon?: string,
+  itemStyle?: Object,
+  iconStyle?: Object,
 };
 
 export type AttachmentMessage = {

@@ -9,10 +9,12 @@ Object {
   "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
+    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
+    "menuOffset": undefined,
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [
@@ -38,10 +40,12 @@ Object {
   "chatIsSpam": false,
   "chatLauncherHidden": true,
   "configuration": Object {
+    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
+    "menuOffset": undefined,
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [
@@ -67,10 +71,12 @@ Object {
   "chatIsSpam": false,
   "chatLauncherHidden": false,
   "configuration": Object {
+    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
+    "menuOffset": undefined,
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [

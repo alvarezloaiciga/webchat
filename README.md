@@ -45,9 +45,6 @@
       - [EmailTranscriptInputCancelButton](#emailtranscriptinputcancelbutton)
       - [EmailTranscriptInputContainer](#emailtranscriptinputcontainer)
       - [EmailTranscriptInputSubmitButton](#emailtranscriptinputsubmitbutton)
-      - [EmailTranscriptMenuContainer](#emailtranscriptmenucontainer)
-      - [EmailTranscriptMenuLineItem](#emailtranscriptmenulineitem)
-      - [EmailTranscriptMenuLineItemIcon](#emailtranscriptmenulineitemicon)
       - [ErrorBanner](#errorbanner)
       - [EventContainer](#eventcontainer)
       - [EventLine](#eventline)
@@ -62,6 +59,9 @@
       - [NonChat](#nonchat)
       - [OptionsMenuButton](#optionsmenubutton)
       - [OptionsMenuButtonIcon](#optionsmenubuttonicon)
+      - [OptionsMenuContainer](#optionsmenucontainer)
+      - [OptionsMenuLineItem](#optionsmenulineitem)
+      - [OptionsMenuLineItemIcon](#optionsmenulineitemicon)
       - [ToggleChatButton](#togglechatbutton)
       - [TitleText](#titletext)
       - [ToggleChatButtonIcon](#togglechatbuttonicon)
@@ -493,15 +493,6 @@ Container for the input where user inputs an email to receive a transcript of th
 ##### EmailTranscriptInputSubmitButton
 Submit button for the `EmailTranscriptInput`
 
-##### EmailTranscriptMenuContainer
-Container for the Menu that pops when clicking the `OptionsMenuButton`
-
-##### EmailTranscriptMenuLineItem
-Individual line items within the `EmailTranscriptMenuContainer`
-
-##### EmailTranscriptMenuLineItemIcon
-Icon for individual `EmailTranscriptMenuLineItems`
-
 ##### ErrorBanner
 The banner that is shown when there is a connection error
 
@@ -543,6 +534,15 @@ Button container for the Options menu at the bottom left of the web chat
 
 ##### OptionsMenuButtonIcon
 Icon for the `OptionsMenuButton`
+
+##### OptionsMenuContainer
+Container for the Menu that pops when clicking the `OptionsMenuButton`
+
+##### OptionsMenuLineItem
+Individual line items within the `OptionsMenuContainer`
+
+##### OptionsMenuLineItemIcon
+Icon for individual `OptionsMenuLineItem`
 
 ##### ToggleChatButton
 The button in the bottom corner that opens the chat

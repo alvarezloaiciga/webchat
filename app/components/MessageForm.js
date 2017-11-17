@@ -195,6 +195,28 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   renderMenu = () => {
     const options = [];
 
+    // Ensure customMenuItems always comes first
+    this.props.configuration.customMenuItems.forEach(o => {
+      options.push({
+        onClick: () => window.open(o.url, '_blank'),
+        label: o.label,
+        title: o.title,
+        id: o.id,
+        icon: o.icon
+          ? {
+              name: o.icon,
+              style: getStyle(Object.assign({}, styles.OptionsMenuLineItemIcon, o.iconStyle), {
+                color: colors.menuText,
+              }),
+            }
+          : undefined,
+        style: getStyle(Object.assign({}, styles.OptionsMenuLineItem, o.itemStyle), {
+          color: colors.menuText,
+          fontFamily,
+        }),
+      });
+    });
+
     if (this.props.configuration.playSoundOnNewMessage) {
       options.push({
         onClick: this.toggleMuteSounds,
@@ -207,11 +229,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         id: MenuItemKeys.MUTE_SOUNDS,
         icon: {
           name: this.props.muteSounds ? 'volume-up' : 'volume-off',
-          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+          style: getStyle(styles.OptionsMenuLineItemIcon, {
             color: colors.menuText,
           }),
         },
-        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+        style: getStyle(styles.OptionsMenuLineItem, {
           color: colors.menuText,
           fontFamily,
         }),
@@ -226,12 +248,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         title: getMessage(messageTypes.emailTranscriptMenuTooltip),
         id: MenuItemKeys.EMAIL_TRANSCRIPT,
         icon: {
-          name: 'envelope-o',
-          style: getStyle(styles.EmailTranscriptMenuLineItemIcon, {
+          name: 'envelope',
+          style: getStyle(styles.OptionsMenuLineItemIcon, {
             color: colors.menuText,
           }),
         },
-        style: getStyle(styles.EmailTranscriptMenuLineItem, {
+        style: getStyle(styles.OptionsMenuLineItem, {
           color: colors.menuText,
           fontFamily,
         }),
@@ -257,14 +279,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           })}
           title={getMessage(messageTypes.optionsMenuTooltip)}
           menuPosition="top-right"
-          offset={{
-            horizontal: '-115px',
-            vertical: '40px',
-          }}
+          offset={Object.assign(
+            {
+              horizontal: '-115px',
+              vertical: '40px',
+            },
+            this.props.configuration.menuOffset,
+          )}
         >
           <Menu
             items={options}
-            containerStyle={getStyle(styles.EmailTranscriptMenuContainer, {
+            containerStyle={getStyle(styles.OptionsMenuContainer, {
               fontFamily,
             })}
           />

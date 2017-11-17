@@ -47,6 +47,8 @@ export const initialState = {
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,
     registrationForm: undefined,
+    customMenuItems: [],
+    menuOffset: undefined,
   },
   chatIsSpam: false,
   isAgentAssigned: false,

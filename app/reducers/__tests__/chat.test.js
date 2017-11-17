@@ -3,7 +3,7 @@ jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
 
 import chat, {initialState} from '../chat';
-import {getMockMessage} from 'utils/testHelpers';
+import {getMockMessage, getMockConfiguration} from 'utils/testHelpers';
 import {inStandaloneMode} from 'Common/Utils';
 
 describe('chat reducers', () => {
@@ -103,14 +103,7 @@ describe('chat reducers', () => {
         platformEvents: [],
         muteSounds: false,
         messageFieldFocused: false,
-        configuration: {
-          enableChatEmailTranscript: false,
-          enableChatFileAttachments: false,
-          supportedAttachmentTypes: ['image/png,image/jpeg'],
-          enableEmojis: false,
-          playSoundOnNewMessage: false,
-          flashNotificationOnNewMessage: false,
-        },
+        configuration: getMockConfiguration(),
         chatIsSpam: true,
       };
 
