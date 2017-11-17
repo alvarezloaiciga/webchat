@@ -86,11 +86,13 @@
       flex: 0 0 auto;
     }
 
-    input {
+    input,
+    select {
       height: 40px;
     }
 
     input,
+    select,
     textarea {
       width: 100%;
       padding: 8px;
