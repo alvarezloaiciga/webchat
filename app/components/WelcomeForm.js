@@ -105,7 +105,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           >
             {field.options &&
               field.options.map(value => (
-                <option key={value.value} value={value.value}>
+                <option key={`${value.label}${value.value}`} value={value.value}>
                   {value.label}
                 </option>
               ))}

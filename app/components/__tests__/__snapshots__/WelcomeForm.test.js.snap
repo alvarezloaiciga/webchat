@@ -352,18 +352,19 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         value=""
       >
         <option
+          key="---"
           value=""
         >
           ---
         </option>
         <option
-          key="USA"
+          key="United StatesUSA"
           value="USA"
         >
           United States
         </option>
         <option
-          key="Canada"
+          key="CanadaCanada"
           value="Canada"
         >
           Canada
