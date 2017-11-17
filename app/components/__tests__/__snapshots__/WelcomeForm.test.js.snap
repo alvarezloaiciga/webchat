@@ -308,6 +308,69 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
         value=""
       />
     </div>
+    <div
+      className="field"
+      key="country"
+      style={
+        Object {
+          "marginTop": 16,
+        }
+      }
+    >
+      <label
+        htmlFor="Country"
+        style={
+          Object {
+            "color": "#555",
+            "fontFamily": "Source Sans Pro",
+            "fontWeight": 700,
+            "textTransform": "uppercase",
+          }
+        }
+      >
+        Country
+        <span
+          className="required"
+          title="Required"
+        >
+           
+          *
+        </span>
+      </label>
+      <select
+        name="country"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        style={
+          Object {
+            "color": "#888",
+            "fontFamily": "Source Sans Pro",
+            "outline": "none",
+          }
+        }
+        value=""
+      >
+        <option
+          key="---"
+          value=""
+        >
+          ---
+        </option>
+        <option
+          key="United StatesUSA"
+          value="USA"
+        >
+          United States
+        </option>
+        <option
+          key="CanadaCanada"
+          value="Canada"
+        >
+          Canada
+        </option>
+      </select>
+    </div>
   </div>
   <button
     className="submit"

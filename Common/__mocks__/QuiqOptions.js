@@ -254,6 +254,17 @@ const quiqOptions: QuiqObject = {
         id: 'lifeStory',
         required: false,
       },
+      {
+        type: 'select',
+        label: 'Country',
+        id: 'country',
+        required: true,
+        options: [
+          {value: '', label: '---'},
+          {value: 'USA', label: 'United States'},
+          {value: 'Canada', label: 'Canada'},
+        ],
+      },
     ],
   },
   excludeEmojis: ['hankey'],
