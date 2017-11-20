@@ -350,47 +350,7 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
           }
         }
         value=""
-      >
-        <option
-          key="---"
-          style={
-            Object {
-              "color": "#555",
-              "fontFamily": "Source Sans Pro",
-              "outline": "none",
-            }
-          }
-          value=""
-        >
-          ---
-        </option>
-        <option
-          key="United StatesUSA"
-          style={
-            Object {
-              "color": "#555",
-              "fontFamily": "Source Sans Pro",
-              "outline": "none",
-            }
-          }
-          value="USA"
-        >
-          United States
-        </option>
-        <option
-          key="CanadaCanada"
-          style={
-            Object {
-              "color": "#555",
-              "fontFamily": "Source Sans Pro",
-              "outline": "none",
-            }
-          }
-          value="Canada"
-        >
-          Canada
-        </option>
-      </select>
+      />
     </div>
   </div>
   <button

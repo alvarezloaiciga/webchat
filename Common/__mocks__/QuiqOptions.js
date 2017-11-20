@@ -231,6 +231,7 @@ const quiqOptions: QuiqObject = {
         label: 'First Name',
         id: 'firstName',
         required: true,
+        additionalProperties: {},
       },
       {
         type: 'text',
@@ -238,12 +239,14 @@ const quiqOptions: QuiqObject = {
         id: 'lastName',
         required: false,
         isInitialMessage: true,
+        additionalProperties: {},
       },
       {
         type: 'number',
         label: 'Number Field',
         id: 'numberField',
         required: false,
+        additionalProperties: {},
       },
 
       {
@@ -251,29 +254,28 @@ const quiqOptions: QuiqObject = {
         label: 'E-Mail',
         id: 'email',
         required: false,
+        additionalProperties: {},
       },
       {
         type: 'tel',
         label: 'Phone Number',
         id: 'phoneNumber',
         required: false,
+        additionalProperties: {},
       },
       {
         type: 'textarea',
         label: 'My life story',
         id: 'lifeStory',
         required: false,
+        additionalProperties: {},
       },
       {
         type: 'select',
         label: 'Country',
         id: 'country',
         required: true,
-        options: [
-          {value: '', label: '---'},
-          {value: 'USA', label: 'United States'},
-          {value: 'Canada', label: 'Canada'},
-        ],
+        additionalProperties: {},
       },
     ],
   },
