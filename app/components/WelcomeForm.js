@@ -73,12 +73,70 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     processForm(form);
   };
 
+  renderInputField = (field: WelcomeFormField) => {
+    const {fontFamily, styles} = quiqOptions;
+    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
+    const selectStyle = getStyle(styles.WelcomeFormFieldSelect, {fontFamily});
+    const optionStyle = getStyle(styles.WelcomeFormFieldOption, {fontFamily});
+    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
+
+    switch (field.type) {
+      case 'textarea':
+        return (
+          <textarea
+            value={this.state.inputFields[field.id].value}
+            onChange={this.handleFieldInput}
+            onBlur={this.handleTrimFieldInput}
+            name={field.id}
+            required={field.required}
+            style={textareaStyle}
+            maxLength={1000}
+            rows={field.rows || 3}
+            resize="vertical"
+          />
+        );
+      case 'select':
+        return (
+          <select
+            value={this.state.inputFields[field.id].value}
+            onChange={this.handleFieldInput}
+            onBlur={this.handleTrimFieldInput}
+            name={field.id}
+            required={field.required}
+            style={selectStyle}
+          >
+            {field.options &&
+              field.options.map(value => (
+                <option
+                  style={optionStyle}
+                  key={`${value.label}${value.value}`}
+                  value={value.value}
+                >
+                  {value.label}
+                </option>
+              ))}
+          </select>
+        );
+      default:
+        return (
+          <input
+            value={this.state.inputFields[field.id].value}
+            onChange={this.handleFieldInput}
+            onBlur={this.handleTrimFieldInput}
+            type={field.type}
+            name={field.id}
+            required={field.required}
+            style={inputStyle}
+            maxLength={1000}
+          />
+        );
+    }
+  };
+
   renderField = (field: WelcomeFormField) => {
     const {fontFamily, styles} = quiqOptions;
 
     const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily});
-    const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
-    const textareaStyle = getStyle(styles.WelcomeFormFieldTextarea, {fontFamily});
 
     return (
       <div className="field" key={field.id} style={getStyle(styles.WelcomeFormField)}>
@@ -91,30 +149,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             </span>
           )}
         </label>
-        {field.type === 'textarea' ? (
-          <textarea
-            value={this.state.inputFields[field.id].value}
-            onChange={this.handleFieldInput}
-            onBlur={this.handleTrimFieldInput}
-            name={field.id}
-            required={field.required}
-            style={textareaStyle}
-            maxLength={1000}
-            rows={field.rows || 3}
-            resize="vertical"
-          />
-        ) : (
-          <input
-            value={this.state.inputFields[field.id].value}
-            onChange={this.handleFieldInput}
-            onBlur={this.handleTrimFieldInput}
-            type={field.type}
-            name={field.id}
-            required={field.required}
-            style={inputStyle}
-            maxLength={1000}
-          />
-        )}
+        {this.renderInputField(field)}
       </div>
     );
   };

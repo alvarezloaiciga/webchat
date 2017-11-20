@@ -62,7 +62,9 @@ const PlatformEventContainer = styled.div`
 
 const getEventDescription = (event: Event): ?string => {
   switch (event.type) {
+    // We want to show an "End" event when convo is marked as Spam
     case 'End':
+    case 'Spam':
       return getMessage(messageTypes.agentEndedConversationMessage);
     case 'SendTranscript':
       return getMessage(messageTypes.transcriptEmailedEventMessage);

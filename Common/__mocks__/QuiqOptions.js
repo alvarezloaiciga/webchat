@@ -106,6 +106,16 @@ const quiqOptions: QuiqObject = {
       color: '#555',
       fontFamily: 'Source Sans Pro',
     },
+    WelcomeFormFieldSelect: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
+    WelcomeFormFieldOption: {
+      outline: 'none',
+      color: '#555',
+      fontFamily: 'Source Sans Pro',
+    },
     WelcomeFormFieldTextarea: {
       outline: 'none',
       color: '#888',
@@ -253,6 +263,17 @@ const quiqOptions: QuiqObject = {
         label: 'My life story',
         id: 'lifeStory',
         required: false,
+      },
+      {
+        type: 'select',
+        label: 'Country',
+        id: 'country',
+        required: true,
+        options: [
+          {value: '', label: '---'},
+          {value: 'USA', label: 'United States'},
+          {value: 'Canada', label: 'Canada'},
+        ],
       },
     ],
   },

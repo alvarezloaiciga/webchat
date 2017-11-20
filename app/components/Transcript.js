@@ -4,12 +4,7 @@ import PlatformEvent from './PlatformEvent';
 import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
-import {
-  getTranscript,
-  getPlatformEvents,
-  getAgentHasRespondedToLatestConversation,
-  getLatestConversationIsSpam,
-} from 'reducers/chat';
+import {getTranscript, getPlatformEvents, getLatestConversationIsSpam} from 'reducers/chat';
 import {messageTypes} from 'Common/Constants';
 import {setInputtingEmail} from 'actions/chatActions';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
@@ -20,7 +15,6 @@ export type TranscriptProps = {
   transcript: Array<MessageType>,
   platformEvents: Array<Event>,
   latestConversationIsSpam: boolean,
-  agentHasRespondedToLatestConversation: boolean,
   agentTyping: boolean,
   configuration: ChatConfiguration,
   setInputtingEmail: (inputtingEmail: boolean) => void,
@@ -74,7 +68,7 @@ export class Transcript extends Component {
     props: TranscriptProps = this.props,
   ): Array<Message | Event> =>
     [...props.transcript, ...props.platformEvents].filter(e =>
-      ['Attachment', 'Text', 'SendTranscript', 'End'].includes(e.type),
+      ['Attachment', 'Text', 'SendTranscript', 'End', 'Spam'].includes(e.type),
     );
 
   render() {
@@ -83,6 +77,8 @@ export class Transcript extends Component {
     const messagesAndEvents = this.getConversationElementsForDisplay().sort(
       (a, b) => a.timestamp - b.timestamp,
     );
+
+    const agentHasResponded = this.props.transcript.some(m => m.authorType === 'User');
 
     const lastEndEventIdx = findLastIndex(messagesAndEvents, e => e.type === 'End');
 
@@ -97,14 +93,20 @@ export class Transcript extends Component {
         );
       }
 
-      // If this is last End event and there are no messages after the last End event to show the inline button
-      if (idx === lastEndEventIdx && lastMessageIndex < lastEndEventIdx) {
+      // If this is last End event and there are no messages afterwards, show the inline email button
+      if (
+        idx === lastEndEventIdx && // Is this event the last end event?
+        lastMessageIndex < lastEndEventIdx && // Must not be any messages after end event
+        agentHasResponded && // Agent must have responded at some point ion the entire transcript
+        !this.props.latestConversationIsSpam
+      ) {
+        // Current conversation must not be spam
         return (
           <PlatformEvent
             event={a}
+            key={a.id}
             action={() => this.props.setInputtingEmail(true)}
             actionLabel={getMessage(messageTypes.emailTranscriptInlineButton)}
-            key={a.id}
           />
         );
       }
@@ -128,6 +130,7 @@ export class Transcript extends Component {
         className="Transcript"
         style={{
           backgroundColor: colors.transcriptBackground,
+          paddingBottom: messagesAndEvents.length > 0 ? '10px' : '0px',
         }}
         ref={n => {
           this.transcript = n;
@@ -146,7 +149,6 @@ const mapDispatchToProps = {
 export default connect(
   (state: ChatState) => ({
     latestConversationIsSpam: getLatestConversationIsSpam(state),
-    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     transcript: getTranscript(state),
     agentTyping: state.agentTyping,
     platformEvents: getPlatformEvents(state),
