@@ -1,5 +1,5 @@
 // @flow
-import type {IntlObject, IntlMessage, TextMessage, Event} from 'Common/types';
+import type {IntlObject, IntlMessage, TextMessage, Event, ChatConfiguration} from 'Common/types';
 
 export const getMockMessage = (
   // eslint-disable-line import/prefer-default-export
@@ -67,3 +67,20 @@ export const mockLocation = () => {
     value: '',
   });
 };
+
+export const getMockConfiguration = (overrides?: *): ChatConfiguration =>
+  Object.assign(
+    {},
+    {
+      enableChatEmailTranscript: false,
+      enableChatFileAttachments: false,
+      supportedAttachmentTypes: ['image/png,image/jpeg'],
+      enableEmojis: false,
+      playSoundOnNewMessage: false,
+      flashNotificationOnNewMessage: false,
+      registrationForm: null,
+      customMenuItems: [],
+      menuOffset: undefined,
+    },
+    overrides,
+  );

@@ -92,19 +92,33 @@ exports[`MessageForm component rendering renders 1`] = `
       <Menu
         containerStyle={
           Object {
-            "backround": "green",
             "fontFamily": "Lato, sans-serif",
           }
         }
         items={
           Array [
             Object {
+              "icon": Object {
+                "name": "Python",
+                "style": Object {
+                  "color": "#2199e8",
+                },
+              },
+              "id": "Spidey",
+              "label": "Babel",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Lato, sans-serif",
+              },
+              "title": "Danny McBridal",
+            },
+            Object {
               "disabled": false,
               "icon": Object {
                 "name": "volume-off",
                 "style": Object {
                   "color": "#2199e8",
-                  "fontSize": 20,
                 },
               },
               "id": "muteSounds",
@@ -112,17 +126,16 @@ exports[`MessageForm component rendering renders 1`] = `
               "onClick": [Function],
               "style": Object {
                 "color": "#2199e8",
-                "fontFamily": "Comic Sans",
+                "fontFamily": "Lato, sans-serif",
               },
               "title": "Mute new message sounds",
             },
             Object {
               "disabled": false,
               "icon": Object {
-                "name": "envelope-o",
+                "name": "envelope",
                 "style": Object {
                   "color": "#2199e8",
-                  "fontSize": 20,
                 },
               },
               "id": "emailTranscript",
@@ -130,7 +143,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "onClick": [Function],
               "style": Object {
                 "color": "#2199e8",
-                "fontFamily": "Comic Sans",
+                "fontFamily": "Lato, sans-serif",
               },
               "title": "Email a full transcript of the current chat",
             },

@@ -1932,9 +1932,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.1.7":
-  version "0.1.7"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#7fdf98e95464087649e847cb8791d737edf9f533"
+"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.1.13":
+  version "0.1.13"
+  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#8acfbcaaef7ef0c47ebb700b6030792f6a8b7cb7"
   dependencies:
     babel-plugin-emotion "8.0.2"
     classnames "2.2.5"

@@ -58,6 +58,7 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
     registrationForm: metadata.registrationForm,
+    menuOptions: metadata.configs.CHAT_MENU_OPTIONS,
   },
 });
 

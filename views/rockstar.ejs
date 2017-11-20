@@ -2,131 +2,170 @@
 <!-- Note: Don't auto-prettify this file.  It messed up old versions of IE -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rockstar Games Test Page</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rockstar Games Test Page</title>
 
-    <!-- Include webchat SDK -->
-    <script src="<%= host %>/app/webchat/sdk.js"></script>
+  <!-- Include webchat SDK -->
+  <script src="<%= host %>/app/webchat/sdk.js"></script>
 
-    <!-- Define some functions--these would go on Rockstar's page -->
-    <script type="text/javascript">
-      function getTrackingId() {
-        chat.getHandle().then(function(data) {
-          document.getElementById('trackingId').textContent = "Handle: " + data.handle;
-        });
-      }
+  <!-- Define some functions--these would go on Rockstar's page -->
+  <script type="text/javascript">
+    function getTrackingId() {
+      chat.getHandle().then(function (data) {
+        document.getElementById('trackingId').textContent = "Handle: " + data.handle;
+      });
+    }
 
-      function showChat() {
-        chat.setChatVisibility(true);
-      }
+    function showChat() {
+      chat.setChatVisibility(true);
+    }
 
-      function getChatStatus() {
-        chat.getChatStatus().then(function(data) {
-          document.getElementById('chatStatus').textContent = "Active: " + data.active;
-        });
-      }
+    function getChatStatus() {
+      chat.getChatStatus().then(function (data) {
+        document.getElementById('chatStatus').textContent = "Active: " + data.active;
+      });
+    }
 
-      // Define some options
-      var quiqOptions = {
-        host: '<%- host %>',
-        contactPoint: 'default',
-        displayMode: 'undocked',
-        showDefaultLaunchButton: false,
-        includeEmojis: [],
-        colors: {
-          transcriptBackground: 'white',
-          primary: 'rgb(76, 178, 231)',
+    // Define some options
+    var quiqOptions = {
+      host: '<%- host %>',
+      contactPoint: 'rockstar',
+      displayMode: 'undocked',
+      showDefaultLaunchButton: false,
+      includeEmojis: [],
+      colors: {
+        transcriptBackground: 'white',
+        primary: 'rgb(76, 178, 231)',
+      },
+      events: {
+        showTime: false,
+      },
+      messages: {
+        pageTitle: 'Rockstar Games Support Chat',
+        sendButtonLabel: '',
+        transcriptEmailedEventMessage: 'Your chat transcript has been emailed to you',
+        emailTranscriptInputPlaceholder: 'Enter your email address',
+      },
+      styles: {
+        HeaderBanner: {
+          display: 'none',
         },
-        events: {
-          showTime: false,
+        HeaderMenu: {
+          display: 'none',
         },
-        messages: {
-          pageTitle: 'Rockstar Games Support Chat',
-          sendButtonLabel: '',
-          transcriptEmailedEventMessage: 'Your chat transcript has been emailed to you',
+        ContentButtons: {
+          color: 'rgb(111, 112, 113)',
+          fontSize: '22px',
+          marginRight: '5px',
         },
-        styles: {
-          HeaderBanner: {
-            display: 'none',
-          },
-          HeaderMenu: {
-            display: 'none',
-          },
-          ContentButtons: {
-            color: 'rgb(111, 112, 113)',
-            fontSize: '22px',
-            marginRight: '5px',
-          },
-          OptionsMenuButtonIcon: {
-            color: 'rgb(111, 112, 113)',
-            fontSize: '22px',
-          },
-          MessageFormInput: {
-            color: 'rgb(111, 112, 113)',
-          },
-          MessageForm: {
-            borderTop: '1px solid rgb(201, 202, 203)',
-            height: '50px',
-          },
-          CustomerMessageBubble: {
-            backgroundColor: 'rgb(76, 178, 231)',
-            padding: '12px',
-            border: 'none',
-          },
-          CustomerMessageText: {
-            color: 'white',
-          },
-          AgentMessageBubble: {
-            backgroundColor: 'rgb(231, 232, 236)',
-            padding: '12px',
-          },
-          AgentMessageText: {
-            color: 'black',
-          },
-          AgentAvatar: {
-            backgroundImage: 'url(https://s3.amazonaws.com/hive-nstructions/Screen+Shot+2017-11-13+at+1.31.50+PM.png)',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'contain',
-            display: 'block',
-            height: '40px',
-            width: '45px',
-          },
-          EventContainer: {
-            margin: '0 20px',
-          },
-          EventText: {
-            color: 'rgb(183, 184, 185)',
-            margin: '20px 0',
-          },
-          EventLine: {
-            color: 'rgb(183, 184, 185)',
-          },
+        MessageFormInput: {
+          color: 'rgb(111, 112, 113)',
         },
-      };
+        MessageForm: {
+          borderTop: '1px solid rgb(201, 202, 203)',
+          height: '50px',
+        },
+        CustomerMessageBubble: {
+          backgroundColor: 'rgb(76, 178, 231)',
+          padding: '10px 12px',
+          border: 'none',
+          borderRadius: '10px',
+          fontWeight: 300,
+        },
+        CustomerMessageText: {
+          color: 'white',
+        },
+        AgentMessageBubble: {
+          backgroundColor: 'rgb(231, 232, 236)',
+          padding: '12px',
+        },
+        AgentMessageText: {
+          color: 'black',
+        },
+        AgentAvatar: {
+          backgroundImage: 'url(https://s3.amazonaws.com/hive-nstructions/Screen+Shot+2017-11-13+at+1.31.50+PM.png)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+          display: 'block',
+          height: '40px',
+          width: '45px',
+        },
+        EventContainer: {
+          margin: '0 20px',
+        },
+        EventText: {
+          color: 'rgb(183, 184, 185)',
+          margin: '20px 0',
+        },
+        EventLine: {
+          color: 'rgb(183, 184, 185)',
+        },
+        OptionsMenuButtonIcon: {
+          color: 'rgb(111, 112, 113)',
+          fontSize: '22px',
+        },
+        OptionsMenuContainer: {
+          padding: '7px 10px 13px 12px',
+          borderBottom: 0,
+          backgorund: 'white',
+          boxShadow: 'none',
+          animation: 'none',
+        },
+        OptionsMenuLineItem: {
+          background: 'rgb(0, 160, 228)',
+          color: 'white',
+          padding: '12px 50px',
+          textAlign: 'center',
+          minWidth: '265px',
+          maxWidth: '265px',
+          width: '265px',
+          minHeight: '32px',
+          maxHeight: '32px',
+          height: '32px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textTransform: 'uppercase',
+          fontWeight: 300,
+          fontSize: '14px',
+        },
+        OptionsMenuLineItemIcon: {
+          fontSize: '12px',
+          color: 'white',
+        },
+        EmailTranscriptInputCancelButton: {
+          color: 'rgb(110, 110, 110)',
+        },
+      },
+    };
 
-      // Initialize chat
-      var chat = Quiq(quiqOptions);
-    </script>
+    // Initialize chat
+    var chat = Quiq(quiqOptions);
+  </script>
 </head>
 
 <!-- Testbed -->
+
 <body>
-<h1><img src="https://www.rockstargames.com/img/global/rockstar.svg" height="30"/>&nbsp;Support Chat</h1>
-<button onclick="getChatStatus()">
+  <h1>
+    <img src="https://www.rockstargames.com/img/global/rockstar.svg" height="30" />&nbsp;Support Chat</h1>
+  <button onclick="getChatStatus()">
     Get Chat Status (Active)
-</button>
-<p id="chatStatus"></p>
-<br />
-<button onclick="getTrackingId()">
+  </button>
+  <p id="chatStatus"></p>
+  <br />
+  <button onclick="getTrackingId()">
     Get Tracking Id
-</button>
-<p id="trackingId">no tracking id</p>
-<br />
-<button onclick="showChat()">
+  </button>
+  <p id="trackingId">no tracking id</p>
+  <br />
+  <button onclick="showChat()">
     Show chat
-</button>
+  </button>
 </body>
+
 </html>

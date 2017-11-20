@@ -48,6 +48,10 @@ export const initialState = {
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,
     registrationForm: undefined,
+    menuOptions: {
+      customItems: [],
+      offset: undefined,
+    },
   },
   isAgentAssigned: false,
   inputtingEmail: false,
