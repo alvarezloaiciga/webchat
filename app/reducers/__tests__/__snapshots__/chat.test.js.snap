@@ -7,12 +7,14 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
-    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
-    "menuOffset": undefined,
+    "menuOptions": Object {
+      "customItems": Array [],
+      "offset": undefined,
+    },
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [
@@ -37,12 +39,14 @@ Object {
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
-    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
-    "menuOffset": undefined,
+    "menuOptions": Object {
+      "customItems": Array [],
+      "offset": undefined,
+    },
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [
@@ -67,12 +71,14 @@ Object {
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
   "configuration": Object {
-    "customMenuItems": Array [],
     "enableChatEmailTranscript": false,
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "flashNotificationOnNewMessage": false,
-    "menuOffset": undefined,
+    "menuOptions": Object {
+      "customItems": Array [],
+      "offset": undefined,
+    },
     "playSoundOnNewMessage": false,
     "registrationForm": undefined,
     "supportedAttachmentTypes": Array [

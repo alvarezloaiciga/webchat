@@ -195,29 +195,25 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   renderMenu = () => {
-    const options = [];
-
-    // Ensure customMenuItems always comes first
-    this.props.configuration.customMenuItems.forEach(o => {
-      options.push({
-        onClick: () => window.open(o.url, '_blank'),
-        label: o.label,
-        title: o.title,
-        id: o.id,
-        icon: o.icon
-          ? {
-              name: o.icon,
-              style: getStyle(Object.assign({}, styles.OptionsMenuLineItemIcon, o.iconStyle), {
-                color: colors.menuText,
-              }),
-            }
-          : undefined,
-        style: getStyle(Object.assign({}, styles.OptionsMenuLineItem, o.itemStyle), {
-          color: colors.menuText,
-          fontFamily,
-        }),
-      });
-    });
+    // Ensure custom options come first.
+    const options = this.props.configuration.menuOptions.customItems.map(o => ({
+      onClick: () => window.open(o.url, '_blank'),
+      label: o.label,
+      title: o.title,
+      id: o.id,
+      icon: o.icon
+        ? {
+            name: o.icon,
+            style: getStyle(Object.assign({}, styles.OptionsMenuLineItemIcon, o.iconStyle), {
+              color: colors.menuText,
+            }),
+          }
+        : undefined,
+      style: getStyle(Object.assign({}, styles.OptionsMenuLineItem, o.itemStyle), {
+        color: colors.menuText,
+        fontFamily,
+      }),
+    }));
 
     if (this.props.configuration.playSoundOnNewMessage) {
       options.push({
@@ -286,7 +282,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               horizontal: '-115px',
               vertical: '40px',
             },
-            this.props.configuration.menuOffset,
+            this.props.configuration.menuOptions.offset,
           )}
         >
           <Menu

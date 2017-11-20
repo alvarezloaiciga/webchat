@@ -44,17 +44,20 @@ describe('MessageForm component', () => {
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,
           supportedAttachmentTypes: ['image/png,image/jpeg'],
-          customMenuItems: [
-            {
-              id: 'Spidey',
-              url: 'Earl',
-              label: 'Babel',
-              title: 'Danny McBridal',
-              icon: 'Python',
-              itemStyle: {},
-              iconStyle: {},
-            },
-          ],
+          menuOptions: {
+            customItems: [
+              {
+                id: 'Spidey',
+                url: 'Earl',
+                label: 'Babel',
+                title: 'Danny McBridal',
+                icon: 'Python',
+                itemStyle: {},
+                iconStyle: {},
+              },
+            ],
+            offest: null,
+          },
         }),
         chatIsSpam: false,
       };

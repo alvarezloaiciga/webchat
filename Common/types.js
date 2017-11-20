@@ -10,10 +10,12 @@ export type ChatConfiguration = {
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
   registrationForm?: WelcomeForm | null,
-  customMenuItems: Array<CustomMenuItem>,
-  menuOffset?: {
-    horizontal?: string,
-    vertical?: string,
+  menuOptions: {
+    customItems: Array<CustomMenuItem>,
+    offset?: {
+      horizontal?: string,
+      vertical?: string,
+    } | null,
   },
 };
 
