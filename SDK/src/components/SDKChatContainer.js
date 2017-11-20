@@ -2,7 +2,12 @@
 /** @jsx h */
 import {Component, h} from 'preact';
 import {getQuiqOptions, setChatWindow, getChatWindow} from 'Globals';
-import {webchatPath, eventTypes, actionTypes, displayModes} from 'Common/Constants';
+import {
+  webchatPath,
+  eventTypes,
+  postmasterActionTypes as actionTypes,
+  displayModes,
+} from 'Common/Constants';
 import {setup, registerEventHandler, tellChat} from 'Postmaster';
 import {isIFrame, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import classnames from 'classnames';

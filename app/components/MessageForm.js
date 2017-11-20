@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {messageTypes, MenuItemKeys} from 'Common/Constants';
+import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
@@ -10,21 +10,21 @@ import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
 import {
+  getAgentHasResponded,
   getAgentEndedLatestConversation,
   getLatestConversationIsSpam,
   getInputtingEmail,
-  getTranscript,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, ChatConfiguration, Message} from 'Common/types';
+import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
 
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   latestConversationIsSpam: boolean,
-  transcript: Array<Message>,
+  agentHasResponded: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
@@ -219,11 +219,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       options.push({
         onClick: this.toggleMuteSounds,
         label: this.props.muteSounds
-          ? getMessage(messageTypes.unmuteSounds)
-          : getMessage(messageTypes.muteSounds),
+          ? getMessage(intlMessageTypes.unmuteSounds)
+          : getMessage(intlMessageTypes.muteSounds),
         title: this.props.muteSounds
-          ? getMessage(messageTypes.unmuteSoundsTooltip)
-          : getMessage(messageTypes.muteSoundsTooltip),
+          ? getMessage(intlMessageTypes.unmuteSoundsTooltip)
+          : getMessage(intlMessageTypes.muteSoundsTooltip),
         id: MenuItemKeys.MUTE_SOUNDS,
         icon: {
           name: this.props.muteSounds ? 'volume-up' : 'volume-off',
@@ -242,8 +242,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     if (this.props.configuration.enableChatEmailTranscript) {
       options.push({
         onClick: this.toggleEmailInput,
-        label: getMessage(messageTypes.emailTranscriptMenuMessage),
-        title: getMessage(messageTypes.emailTranscriptMenuTooltip),
+        label: getMessage(intlMessageTypes.emailTranscriptMenuMessage),
+        title: getMessage(intlMessageTypes.emailTranscriptMenuTooltip),
         id: MenuItemKeys.EMAIL_TRANSCRIPT,
         icon: {
           name: 'envelope',
@@ -255,9 +255,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled:
-          this.props.latestConversationIsSpam ||
-          !this.props.transcript.some(m => m.authorType === 'User'),
+        disabled: this.props.latestConversationIsSpam || !this.props.agentHasResponded,
       });
     }
 
@@ -275,7 +273,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             fontSize: '19px',
             marginTop: '1px',
           })}
-          title={getMessage(messageTypes.optionsMenuTooltip)}
+          title={getMessage(intlMessageTypes.optionsMenuTooltip)}
           menuPosition="top-right"
           offset={Object.assign(
             {
@@ -301,8 +299,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const emopjiPickerDisabled = !this.state.agentsAvailable;
     const contentButtonsDisabled = !this.state.agentsAvailable;
     const messagePlaceholder = this.state.agentsAvailable
-      ? getMessage(messageTypes.messageFieldPlaceholder)
-      : getMessage(messageTypes.agentsNotAvailableMessage);
+      ? getMessage(intlMessageTypes.messageFieldPlaceholder)
+      : getMessage(intlMessageTypes.agentsNotAvailableMessage);
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -322,7 +320,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             </div>
           )}
 
-        {!this.state.inputtingEmail && (
+        {!this.props.inputtingEmail && (
           <div className="messageArea">
             <EmojiTextarea
               ref={n => {
@@ -344,7 +342,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 style={contentButtonStyle}
                 disabled={contentButtonsDisabled}
                 onClick={this.props.openFileBrowser}
-                title={getMessage(messageTypes.attachmentBtnTooltip)}
+                title={getMessage(intlMessageTypes.attachmentBtnTooltip)}
               >
                 <i className="fa fa-paperclip" />
               </button>
@@ -356,7 +354,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   style={contentButtonStyle}
                   disabled={emopjiPickerDisabled}
                   onClick={this.toggleEmojiPicker}
-                  title={getMessage(messageTypes.emojiPickerTooltip)}
+                  title={getMessage(intlMessageTypes.emojiPickerTooltip)}
                 >
                   <i className="fa fa-smile-o" />
                 </button>
@@ -370,7 +368,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 disabled={sendDisabled}
                 style={sendButtonStyle}
               >
-                {getMessage(messageTypes.sendButtonLabel)}
+                {getMessage(intlMessageTypes.sendButtonLabel)}
               </button>
             )}
             {this.props.configuration.enableEmojis &&
@@ -403,7 +401,7 @@ export default connect(
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
     latestConversationIsSpam: getLatestConversationIsSpam(state),
-    transcript: getTranscript(state),
+    agentHasResponded: getAgentHasResponded(state),
     inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,

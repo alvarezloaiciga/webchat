@@ -28,6 +28,7 @@ describe('MessageForm component', () => {
       testProps = {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
+        agentHasResponded: true,
         latestConversationIsSpam: false,
         platformEvents: [],
         inputtingEmail: false,
@@ -108,7 +109,7 @@ describe('MessageForm component', () => {
 
     describe('entire transcript has no agent message', () => {
       beforeEach(() => {
-        wrapper.setProps({transcript: [], chatIsSpam: false});
+        wrapper.setProps({agentHasResponded: false});
       });
       it('disables emailTranscript', () => {
         expect(isEmailTranscriptDisabled()).toBe(true);

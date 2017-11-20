@@ -12,7 +12,7 @@ import {
 } from 'Common/Utils';
 import * as Postmaster from '../Postmaster';
 import {
-  actionTypes,
+  postmasterActionTypes as actionTypes,
   eventTypes,
   noAgentsAvailableClass,
   mobileClass,

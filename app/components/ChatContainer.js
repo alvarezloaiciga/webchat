@@ -19,7 +19,7 @@ import Spinner from 'Spinner';
 import {connect} from 'react-redux';
 import {
   ChatInitializedState,
-  messageTypes,
+  intlMessageTypes,
   maxAttachmentSize,
   ExtensionSdkEventTypes,
 } from 'Common/Constants';
@@ -67,7 +67,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   componentWillMount() {
     // Set custom window title
-    document.title = getMessage(messageTypes.pageTitle);
+    document.title = getMessage(intlMessageTypes.pageTitle);
   }
 
   displayTemporaryError = (text: string, duration: number) => {
@@ -89,7 +89,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
     if (rejected.length > 0) {
-      this.displayTemporaryError(getMessage(messageTypes.invalidAttachmentMessage), 10 * 1000);
+      this.displayTemporaryError(getMessage(intlMessageTypes.invalidAttachmentMessage), 10 * 1000);
       return;
     }
 
@@ -107,7 +107,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           this.props.updatePendingAttachmentId(tempId, id);
         })
         .catch(() => {
-          this.displayTemporaryError(getMessage(messageTypes.attachmentUploadError), 10 * 1000);
+          this.displayTemporaryError(getMessage(intlMessageTypes.attachmentUploadError), 10 * 1000);
           this.props.removeMessage(tempId);
         });
     });
@@ -144,19 +144,19 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.UNINITIALIZED:
         return (
           <div className="banner" style={bannerStyle}>
-            {getMessage(messageTypes.headerText)}
+            {getMessage(intlMessageTypes.headerText)}
           </div>
         );
       case ChatInitializedState.INACTIVE:
         return (
           <div className="errorBanner" style={errorBannerStyle}>
-            {getMessage(messageTypes.inactiveMessage)}
+            {getMessage(intlMessageTypes.inactiveMessage)}
           </div>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
           <div className="errorBanner" style={errorBannerStyle}>
-            {getMessage(messageTypes.reconnectingMessage)}
+            {getMessage(intlMessageTypes.reconnectingMessage)}
           </div>
         );
       case ChatInitializedState.ERROR:
@@ -164,7 +164,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       default:
         return (
           <div className="errorBanner" style={errorBannerStyle}>
-            {getMessage(messageTypes.errorMessage)}
+            {getMessage(intlMessageTypes.errorMessage)}
           </div>
         );
     }

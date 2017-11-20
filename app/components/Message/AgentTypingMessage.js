@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {messageTypes} from 'Common/Constants';
+import {intlMessageTypes} from 'Common/Constants';
 import TypingIndicator from 'TypingIndicator';
 
 export type AgentTypingMessageProps = {
@@ -19,7 +19,7 @@ export class AgentTypingMessage extends React.Component<AgentTypingMessageProps>
     const {colors, styles} = quiqOptions;
     return (
       <TypingIndicator
-        title={getMessage(messageTypes.agentTypingMessage)}
+        title={getMessage(intlMessageTypes.agentTypingMessage)}
         gradientColor={{
           foreground: colors.typingIndicatorForeground,
           background: colors.typingIndicatorBackground,

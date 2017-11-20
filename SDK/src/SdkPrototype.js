@@ -1,7 +1,7 @@
 // @flow
 
 import * as Postmaster from './Postmaster';
-import {actionTypes, publicEventTypes} from 'Common/Constants';
+import {postmasterActionTypes as actionTypes, publicEventTypes} from 'Common/Constants';
 import {isIFrame, displayWarning} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {getChatWindow} from './Globals';

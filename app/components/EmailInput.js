@@ -8,7 +8,7 @@ import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
 import Input from 'core-ui/components/Input';
-import {UserEmailKey, messageTypes} from 'Common/Constants';
+import {UserEmailKey, intlMessageTypes} from 'Common/Constants';
 
 const EmailInputContainer = styled.div`
   display: flex;
@@ -114,7 +114,7 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
           initialValue={getInitialValue()}
           className={InputStyle(this.state.error)}
           onSubmit={this.submit}
-          placeholder={getMessage(messageTypes.emailTranscriptInputPlaceholder)}
+          placeholder={getMessage(intlMessageTypes.emailTranscriptInputPlaceholder)}
           style={getStyle(styles.EmailTranscriptInput, {
             fontFamily,
           })}
@@ -123,13 +123,13 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
         />
         <CancelButton
           style={getStyle(styles.EmailTranscriptInputCancelButton)}
-          title={getMessage(messageTypes.emailTranscriptInputCancelTooltip)}
+          title={getMessage(intlMessageTypes.emailTranscriptInputCancelTooltip)}
           onClick={this.props.onCancel}
           className={`fa fa-times`}
         />
         <SubmitButton
           style={getStyle(styles.EmailTranscriptInputSubmitButton)}
-          title={getMessage(messageTypes.emailTranscriptInputSubmitTooltip)}
+          title={getMessage(intlMessageTypes.emailTranscriptInputSubmitTooltip)}
           onClick={this.submit}
           data-test="submitButton"
           className={`fa fa-check`}

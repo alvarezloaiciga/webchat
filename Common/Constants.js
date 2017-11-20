@@ -41,24 +41,6 @@ export const publicEventTypes = Object.keys(eventTypes).reduce(
   {},
 );
 
-export const actionTypes = {
-  loadChat: 'QUIQ_LOAD_CHAT',
-  getChatStatus: 'QUIQ_GET_CHAT_STATUS',
-  setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
-  getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
-  getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
-  getHandle: 'QUIQ_GET_HANDLE',
-  sendRegistration: 'QUIQ_SEND_REGISTRATION',
-  uploadProgress: 'UPLOAD_PROGRESS',
-  addPendingMessage: 'ADD_PENDING_MESSAGE',
-  updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
-  updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
-  configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
-  getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
-  removeMessage: 'REMOVE_MESSAGE',
-  isAgentAssigned: 'AGENT_ASSIGNED',
-};
-
 export const MessageTypes = {
   TEXT: 'Text',
   ATTACHMENT: 'Attachment',
@@ -72,10 +54,46 @@ export const EventTypes = {
   AGENT_ENDED_CONVERSATION: 'AgentEndedConversation',
   END: 'End',
   SPAM: 'Spam',
+  SEND_TRANSCRIPT: 'SendTranscript',
+};
+
+export const AuthorTypes = {
+  CUSTOMER: 'Customer',
+  USER: 'User',
+  SYSTEM: 'System',
 };
 
 // Define subsets of events
 export const EndEventTypes = [EventTypes.END, EventTypes.SPAM];
+
+export const DisplayElementTypes = [
+  MessageTypes.TEXT,
+  MessageTypes.ATTACHMENT,
+  EventTypes.SEND_TRANSCRIPT,
+  EventTypes.END,
+  EventTypes.SPAM,
+];
+
+export const reduxActionTypes = {
+  uploadProgress: 'UPLOAD_PROGRESS',
+  addPendingMessage: 'ADD_PENDING_MESSAGE',
+  updatePendingMessageId: 'UPDATE_PENDING_MESSAGE_ID',
+  updatePlatformEvents: 'UPDATE_PLATFORM_EVENTS',
+  configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
+  removeMessage: 'REMOVE_MESSAGE',
+  isAgentAssigned: 'AGENT_ASSIGNED',
+};
+
+export const postmasterActionTypes = {
+  loadChat: 'QUIQ_LOAD_CHAT',
+  getChatStatus: 'QUIQ_GET_CHAT_STATUS',
+  setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
+  getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
+  getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
+  getHandle: 'QUIQ_GET_HANDLE',
+  sendRegistration: 'QUIQ_SEND_REGISTRATION',
+  getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
+};
 
 export const ExtensionSdkEventTypes = {
   ESTIMATED_WAIT_TIME_CHANGED: 'estimatedWaitTimeChanged',
@@ -92,7 +110,7 @@ export const ChatInitializedState = {
   SLEEPING: 'sleeping',
 };
 
-export const messageTypes = {
+export const intlMessageTypes = {
   pageTitle: 'pageTitle',
   titleText: 'titleText',
   headerText: 'headerText',

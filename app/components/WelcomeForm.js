@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import update from 'react-addons-update';
-import {messageTypes, UserEmailKey} from 'Common/Constants';
+import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
@@ -150,7 +150,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         <label htmlFor={field.label} style={labelStyle}>
           {field.label}
           {field.required && (
-            <span className="required" title={getMessage(messageTypes.requiredFieldAriaLabel)}>
+            <span className="required" title={getMessage(intlMessageTypes.requiredFieldAriaLabel)}>
               {' '}
               *
             </span>
@@ -281,7 +281,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         <Debugger />
         {this.state.formValidationError && (
           <span className="formValidationError">
-            {getMessage(messageTypes.welcomeFormValidationErrorMessage)}
+            {getMessage(intlMessageTypes.welcomeFormValidationErrorMessage)}
           </span>
         )}
         <div className="fields">{welcomeForm && welcomeForm.fields.map(this.renderField)}</div>
@@ -292,8 +292,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           onClick={this.submitForm}
         >
           {this.state.submitting
-            ? getMessage(messageTypes.welcomeFormSubmittingButtonLabel)
-            : getMessage(messageTypes.welcomeFormSubmitButtonLabel)}
+            ? getMessage(intlMessageTypes.welcomeFormSubmittingButtonLabel)
+            : getMessage(intlMessageTypes.welcomeFormSubmitButtonLabel)}
         </button>
       </form>
     );

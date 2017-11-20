@@ -1,7 +1,7 @@
 // @flow
 
 import * as Postmaster from 'Postmaster';
-import {eventTypes, actionTypes} from 'Common/Constants';
+import {eventTypes, postmasterActionTypes as actionTypes} from 'Common/Constants';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import {getQuiqOptions, getChatWindow} from 'Globals';
 import type {Message} from 'Common/types';

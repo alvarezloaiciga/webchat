@@ -5,7 +5,7 @@ import Divider from 'core-ui/components/Divider';
 import Button from 'core-ui/components/Button';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import styled from 'react-emotion';
-import {messageTypes} from 'Common/Constants';
+import {intlMessageTypes} from 'Common/Constants';
 import {formatTime} from 'core-ui/services/i18nService';
 import type {Event} from 'Common/types';
 
@@ -65,9 +65,9 @@ const getEventDescription = (event: Event): ?string => {
     // We want to show an "End" event when convo is marked as Spam
     case 'End':
     case 'Spam':
-      return getMessage(messageTypes.agentEndedConversationMessage);
+      return getMessage(intlMessageTypes.agentEndedConversationMessage);
     case 'SendTranscript':
-      return getMessage(messageTypes.transcriptEmailedEventMessage);
+      return getMessage(intlMessageTypes.transcriptEmailedEventMessage);
   }
 };
 

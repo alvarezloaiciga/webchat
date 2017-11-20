@@ -16,8 +16,12 @@ describe('Transcript component', () => {
 
   beforeEach(() => {
     testProps = {
-      transcript: [getMockMessage(1), getMockMessage(3)],
-      platformEvents: [getMockEvent(2), getMockEvent(4)],
+      allSortedConversationElements: [
+        getMockMessage(1),
+        getMockEvent(2),
+        getMockMessage(3),
+        getMockEvent(4),
+      ],
       configuration: {
         enableChatEmailTranscript: true,
       },

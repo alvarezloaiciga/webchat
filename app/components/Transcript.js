@@ -4,16 +4,26 @@ import PlatformEvent from './PlatformEvent';
 import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
-import {getTranscript, getPlatformEvents, getLatestConversationIsSpam} from 'reducers/chat';
-import {messageTypes} from 'Common/Constants';
+import {
+  getLatestConversationIsSpam,
+  getAllConversationElements,
+  getAgentHasResponded,
+} from 'reducers/chat';
+import {
+  intlMessageTypes,
+  EndEventTypes,
+  MessageTypes,
+  AuthorTypes,
+  DisplayElementTypes,
+} from 'Common/Constants';
 import {setInputtingEmail} from 'actions/chatActions';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
   /*eslint-disable react/no-unused-prop-types*/
-  transcript: Array<MessageType>,
-  platformEvents: Array<Event>,
+  allSortedConversationElements: Array<MessageType | Event>,
+  agentHasResponded: boolean,
   latestConversationIsSpam: boolean,
   agentTyping: boolean,
   configuration: ChatConfiguration,
@@ -67,27 +77,22 @@ export class Transcript extends Component {
   getConversationElementsForDisplay = (
     props: TranscriptProps = this.props,
   ): Array<Message | Event> =>
-    [...props.transcript, ...props.platformEvents].filter(e =>
-      ['Attachment', 'Text', 'SendTranscript', 'End', 'Spam'].includes(e.type),
-    );
+    props.allSortedConversationElements.filter(e => DisplayElementTypes.includes(e.type));
 
   render() {
     const {colors} = quiqOptions;
 
-    const messagesAndEvents = this.getConversationElementsForDisplay().sort(
-      (a, b) => a.timestamp - b.timestamp,
-    );
+    const messagesAndEvents = this.getConversationElementsForDisplay();
 
-    const agentHasResponded = this.props.transcript.some(m => m.authorType === 'User');
+    const lastEndEventIdx = findLastIndex(messagesAndEvents, e => EndEventTypes.includes(e.type));
 
-    const lastEndEventIdx = findLastIndex(messagesAndEvents, e => e.type === 'End');
-
-    const lastMessageIndex = findLastIndex(messagesAndEvents, e =>
-      ['Attachment', 'Text'].includes(e.type),
+    const lastNonSystemMessageIndex = findLastIndex(
+      messagesAndEvents,
+      e => Object.values(MessageTypes).includes(e.type) && e.authorType !== AuthorTypes.SYSTEM,
     );
 
     const displayElements = messagesAndEvents.map((a, idx) => {
-      if (a.type === 'Attachment' || a.type === 'Text') {
+      if (a.type === MessageTypes.ATTACHMENT || a.type === MessageTypes.TEXT) {
         return (
           <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
         );
@@ -96,8 +101,8 @@ export class Transcript extends Component {
       // If this is last End event and there are no messages afterwards, show the inline email button
       if (
         idx === lastEndEventIdx && // Is this event the last end event?
-        lastMessageIndex < lastEndEventIdx && // Must not be any messages after end event
-        agentHasResponded && // Agent must have responded at some point ion the entire transcript
+        lastNonSystemMessageIndex < lastEndEventIdx && // Must not be any messages after end event
+        this.props.agentHasResponded && // Agent must have responded at some point ion the entire transcript
         !this.props.latestConversationIsSpam
       ) {
         // Current conversation must not be spam
@@ -106,7 +111,7 @@ export class Transcript extends Component {
             event={a}
             key={a.id}
             action={() => this.props.setInputtingEmail(true)}
-            actionLabel={getMessage(messageTypes.emailTranscriptInlineButton)}
+            actionLabel={getMessage(intlMessageTypes.emailTranscriptInlineButton)}
           />
         );
       }
@@ -149,9 +154,9 @@ const mapDispatchToProps = {
 export default connect(
   (state: ChatState) => ({
     latestConversationIsSpam: getLatestConversationIsSpam(state),
-    transcript: getTranscript(state),
     agentTyping: state.agentTyping,
-    platformEvents: getPlatformEvents(state),
+    allSortedConversationElements: getAllConversationElements(state),
+    agentHasResponded: getAgentHasResponded(state),
     configuration: state.configuration,
   }),
   mapDispatchToProps,

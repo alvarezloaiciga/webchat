@@ -12,7 +12,7 @@ import postRobot from 'post-robot/dist/post-robot.ie';
 import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
-import {eventTypes, actionTypes, displayModes} from 'Common/Constants';
+import {eventTypes, postmasterActionTypes as actionTypes, displayModes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {constructApp, appIsMounted} from 'utils/domUtils';

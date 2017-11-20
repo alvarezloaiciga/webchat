@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {messageTypes} from 'Common/Constants';
+import {intlMessageTypes} from 'Common/Constants';
 import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {isIE9} from 'Common/Utils';
 import './styles/Spinner.scss';
@@ -12,7 +12,7 @@ const Spinner = () => (
     {!isIE9() ? (
       <div className="loading" style={{borderColor: color}} />
     ) : (
-      <span className="plainText">{getMessage(messageTypes.connectingMessage)}</span>
+      <span className="plainText">{getMessage(intlMessageTypes.connectingMessage)}</span>
     )}
   </div>
 );

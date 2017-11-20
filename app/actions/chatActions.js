@@ -1,4 +1,4 @@
-import {actionTypes} from 'Common/Constants';
+import {reduxActionTypes as actionTypes} from 'Common/Constants';
 import type {ChatInitializedStateType, Message, ChatMetadata} from 'types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
