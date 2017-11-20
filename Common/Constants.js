@@ -61,7 +61,7 @@ export const actionTypes = {
 
 export const MessageTypes = {
   TEXT: 'Text',
-  CHAT_MESSAGE: 'ChatMessage',
+  ATTACHMENT: 'Attachment',
 };
 
 export const EventTypes = {
@@ -73,6 +73,9 @@ export const EventTypes = {
   END: 'End',
   SPAM: 'Spam',
 };
+
+// Define subsets of events
+export const EndEventTypes = [EventTypes.END, EventTypes.SPAM];
 
 export const ExtensionSdkEventTypes = {
   ESTIMATED_WAIT_TIME_CHANGED: 'estimatedWaitTimeChanged',

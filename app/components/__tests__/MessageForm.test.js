@@ -28,7 +28,6 @@ describe('MessageForm component', () => {
       testProps = {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
-        agentHasRespondedToLatestConversation: true,
         latestConversationIsSpam: false,
         platformEvents: [],
         inputtingEmail: false,
@@ -92,12 +91,11 @@ describe('MessageForm component', () => {
       });
     });
 
-    describe('current has no agent message', () => {
+    describe('entire transcript has no agent message', () => {
       beforeEach(() => {
-        wrapper.setProps({agentHasRespondedToLatestConversation: false});
+        wrapper.setProps({transcript: [], chatIsSpam: false});
       });
       it('disables emailTranscript', () => {
-        wrapper.setProps({chatIsSpam: true});
         expect(isEmailTranscriptDisabled()).toBe(true);
       });
     });

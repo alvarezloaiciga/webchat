@@ -13,18 +13,18 @@ import {
   getAgentEndedLatestConversation,
   getLatestConversationIsSpam,
   getInputtingEmail,
-  getAgentHasRespondedToLatestConversation,
+  getTranscript,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
-import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
+import type {ChatState, Emoji, ChatConfiguration, Message} from 'Common/types';
 
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   latestConversationIsSpam: boolean,
-  agentHasRespondedToLatestConversation: boolean,
+  transcript: Array<Message>,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
@@ -238,7 +238,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled:
-          this.props.latestConversationIsSpam || !this.props.agentHasRespondedToLatestConversation,
+          this.props.latestConversationIsSpam ||
+          !this.props.transcript.some(m => m.authorType === 'User'),
       });
     }
 
@@ -294,8 +295,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
         {this.props.inputtingEmail &&
-          !this.props.latestConversationIsSpam &&
-          this.props.agentHasRespondedToLatestConversation && (
+          !this.props.latestConversationIsSpam && (
             <div className="messageArea">
               <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
             </div>
@@ -382,7 +382,7 @@ export default connect(
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
     latestConversationIsSpam: getLatestConversationIsSpam(state),
-    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
+    transcript: getTranscript(state),
     inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,

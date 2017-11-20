@@ -1,6 +1,6 @@
 // @flow
 import {inStandaloneMode} from 'Common/Utils';
-import {ChatInitializedState} from 'Common/Constants';
+import {ChatInitializedState, MessageTypes, EndEventTypes, EventTypes} from 'Common/Constants';
 import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
 import type {
@@ -197,29 +197,25 @@ export const getLatestConversationElements = (state: ChatState): Array<Message |
     .sort((a, b) => a.timestamp - b.timestamp);
 
   const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
-    ['Text', 'Attachment'].includes(e.type),
+    Object.values(MessageTypes).includes(e.type),
   );
 
+  // NOTE: We consider a Spam event to mark the end of a conversation the same as an End event
   const latestPrecedingEndEventIdx = findLastIndex(
     sortedConvoElements,
-    e => e.type === 'End',
+    e => EndEventTypes.includes(e.type),
     latestMessageIdx,
   );
 
-  // Don't return the End event itself, as this belongs to the second-to-last conversation
+  // Don't return the preceding End event itself, as this belongs to the second-to-last conversation
   return sortedConvoElements.slice(latestPrecedingEndEventIdx + 1);
 };
 
 export const getAgentEndedLatestConversation = (state: ChatState): boolean =>
-  getLatestConversationElements(state).some(e => e.type === 'End');
+  getLatestConversationElements(state).some(e => EndEventTypes.includes(e.type));
 
 export const getLatestConversationIsSpam = (state: ChatState): boolean =>
-  getLatestConversationElements(state).some(e => e.type === 'Spam');
-
-export const getAgentHasRespondedToLatestConversation = (state: ChatState): boolean =>
-  getLatestConversationElements(state).some(
-    e => ['Text', 'Attachment'].includes(e.type) && e.authorType && e.authorType === 'User',
-  );
+  getLatestConversationElements(state).some(e => e.type === EventTypes.SPAM);
 
 export const getAgentsAvailable = (state: ChatState): ?boolean => {
   return state.agentsAvailable;
