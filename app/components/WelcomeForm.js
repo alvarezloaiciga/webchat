@@ -26,6 +26,7 @@ export type WelcomeFormState = {
       label: string,
       required: boolean,
       isInitialMessage: boolean,
+      options: [{value: string, label: string}],
     },
   },
   submitting: boolean,
@@ -52,7 +53,13 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           value: '',
           label: field.label,
           required: Boolean(field.required),
-          isInitialMessage: Boolean(field.isInitialMessage),
+          isInitialMessage: field.additionalProperties
+            ? Boolean(field.additionalProperties.isInitialMessage)
+            : Boolean(field.isInitialMessage),
+          options:
+            field.additionalProperties && field.additionalProperties.options
+              ? JSON.parse(field.additionalProperties.options)
+              : field.options,
         };
       });
 
@@ -105,8 +112,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             required={field.required}
             style={selectStyle}
           >
-            {field.options &&
-              field.options.map(value => (
+            {this.state.inputFields[field.id].options &&
+              this.state.inputFields[field.id].options.map(value => (
                 <option
                   style={optionStyle}
                   key={`${value.label}${value.value}`}
