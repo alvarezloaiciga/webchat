@@ -39,3 +39,4 @@ export const isStorageEnabled = jest.fn(() => true);
 export const isSupportedBrowser = jest.fn(() => true);
 export const buildTemplateString = (s: string) => s;
 export const enableEmailForCurrentConversation = jest.fn(() => true);
+export const convertToExtensionMessages = jest.fn(() => []);

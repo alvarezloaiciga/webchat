@@ -2,6 +2,7 @@
 jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
 jest.mock('quiq-chat');
+jest.mock('services/Extensions');
 
 import quiqOptions from 'Common/QuiqOptions';
 import React from 'react';
@@ -13,6 +14,7 @@ import type {LauncherProps} from '../Launcher';
 import QuiqChatClient from 'quiq-chat';
 import {ChatInitializedState} from 'Common/Constants';
 import {inStandaloneMode} from 'Common/Utils';
+import {postExtensionEvent} from 'services/Extensions';
 
 jest.useFakeTimers();
 
@@ -89,6 +91,19 @@ describe('Launcher component', () => {
     };
 
     init();
+  });
+
+  describe('onNewMessages', () => {
+    it('forwards on new messages to the extensionSdk', async () => {
+      testProps.initializedState = 'loading';
+      await render();
+      instance.handleNewMessages([]);
+      jest.runTimersToTime(11000);
+      expect(postExtensionEvent).toBeCalledWith({
+        eventType: 'transcriptChanged',
+        data: {messages: []},
+      });
+    });
   });
 
   describe('agentTyping', () => {
