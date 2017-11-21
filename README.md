@@ -653,6 +653,21 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
     Event | `event` object fields
     --- | ---
     `estimatedWaitTimeChanged` | `estimatedWaitTime: ?number` (milliseconds - if undefined then no wait time is available)
+    `transcriptChanged` | `messages: [{
+        authorType: AuthorType,
+        text: string,
+        id: string,
+        timestamp: number,
+        type: 'Text'
+      } |
+      {
+        id: string,
+        timestamp: number,
+        type: 'Attachment',
+        authorType: AuthorType,
+        url: string,
+        contentType: string
+      }]`
 
 ## Supported Browsers
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.

@@ -7,7 +7,12 @@ import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
-import {inStandaloneMode, isMobile, isLastMessageFromAgent} from 'Common/Utils';
+import {
+  inStandaloneMode,
+  isMobile,
+  isLastMessageFromAgent,
+  convertToExtensionMessages,
+} from 'Common/Utils';
 import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -22,6 +27,7 @@ import type {
 } from 'types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
+import {postExtensionEvent} from 'services/Extensions';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -139,6 +145,11 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
           playSound();
         }
       }
+
+      postExtensionEvent({
+        eventType: 'transcriptChanged',
+        data: {messages: convertToExtensionMessages(transcript)},
+      });
     });
     QuiqChatClient.onMessageSendFailure((messageId: string) => {
       this.props.removeMessage(messageId);

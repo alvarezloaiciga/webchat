@@ -1,7 +1,13 @@
 // @flow
 import React from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
-import {inStandaloneMode, isStorageEnabled, isSupportedBrowser, uuidv4} from 'Common/Utils';
+import {
+  inStandaloneMode,
+  isStorageEnabled,
+  isSupportedBrowser,
+  uuidv4,
+  convertToExtensionMessages,
+} from 'Common/Utils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -244,6 +250,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   handleIFrameLoad = () => {
     // $FlowIssue - Null check is done upstream of this call
     registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
+
+    postExtensionEvent({
+      eventType: 'transcriptChanged',
+      data: {messages: convertToExtensionMessages(this.props.transcript)},
+    });
 
     postExtensionEvent({
       eventType: ExtensionSdkEventTypes.ESTIMATED_WAIT_TIME_CHANGED,
