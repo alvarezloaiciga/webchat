@@ -12,13 +12,18 @@
     <script type="text/javascript" src="<%= host %>/app/webchat/extensionSdk.js"></script>
     <script type="text/javascript">
       Quiq.on('estimatedWaitTimeChanged', function(data) {
-        console.log("updating estimated wait time: %0", data);
         if (data.estimatedWaitTime) {
           document.querySelector('.etaArea').innerText = (data.estimatedWaitTime / 1000) + ' seconds';
         }
         else {
           document.querySelector('.etaArea').innerText = 'Unknown';
         }
+      });
+
+      Quiq.on('transcriptChanged', function(data) {
+        console.log("transcript changed: %0", data);
+
+        document.querySelector('.messageArea').innerText = JSON.stringify(data);
       });
     </script>
 </head>
@@ -29,6 +34,10 @@
     <div class="etaContainer">
       <h3>Agent ETA</h3>
       <span class="etaArea"></span>
+    </div>
+    <div class="messageContainer">
+      <h3>Extension Messages</h3>
+      <span class="messageArea"></span>
     </div>
   </div>
 </body>

@@ -82,6 +82,35 @@ export const compatibilityMode = () => {
   return !!compatList.find(i => i.name === name && parseInt(major, 10) <= i.major);
 };
 
+export const convertToExtensionMessages = (transcript: Array<Message>): Array<any> => {
+  const extensionMessages = [];
+
+  if (transcript && transcript.length) {
+    transcript.forEach(message => {
+      if (message.type === 'Text') {
+        extensionMessages.push({
+          authorType: message.authorType,
+          text: message.text,
+          id: message.id,
+          timestamp: message.timestamp,
+          type: 'Text',
+        });
+      } else if (message.type === 'Attachment') {
+        extensionMessages.push({
+          authorType: message.authorType,
+          type: 'Attachment',
+          url: message.url,
+          contentType: message.contentType,
+          id: message.id,
+          timestamp: message.timestamp,
+        });
+      }
+    });
+  }
+
+  return extensionMessages;
+};
+
 export const getWebchatHostFromScriptTag = () => {
   // Determine host from the script tag that loaded webchat
   const scriptTags = Array.from(document.getElementsByTagName('script'));

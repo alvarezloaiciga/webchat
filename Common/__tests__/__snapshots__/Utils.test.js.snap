@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Utils convertToExtensionMessages converts messages and attachments 1`] = `
+Array [
+  Object {
+    "authorType": "User",
+    "id": "1",
+    "text": "message",
+    "timestamp": 11,
+    "type": "Text",
+  },
+  Object {
+    "authorType": "Customer",
+    "contentType": "Image",
+    "id": "2",
+    "timestamp": 12,
+    "type": "Attachment",
+    "url": "https://test.jpg",
+  },
+]
+`;
