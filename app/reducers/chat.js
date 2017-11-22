@@ -112,9 +112,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       const newTranscript = {};
 
       action.transcript.forEach(message => {
-        let localKey,
-          uploadProgress,
-          url = message.type === 'Attachment' ? message.url : undefined;
+        let localKey, uploadProgress, localBlobUrl;
         const tempMessage = state.transcript[message.id];
         if (tempMessage) {
           // The local key allows us to correlate temporary messages to "real" ones coming in on the wire.
@@ -125,11 +123,15 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
           // Also hang on to the existing uploadProgress
           if (tempMessage.type === 'Attachment' && message.type === 'Attachment') {
             uploadProgress = tempMessage.uploadProgress;
-            url = tempMessage.url;
+            localBlobUrl = tempMessage.localBlobUrl;
           }
         }
 
-        newTranscript[message.id] = Object.assign({}, message, {localKey, url, uploadProgress});
+        newTranscript[message.id] = Object.assign({}, message, {
+          localKey,
+          localBlobUrl,
+          uploadProgress,
+        });
       });
 
       // Merge old and new transcripts so that we don't lose any pending (local) messages

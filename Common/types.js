@@ -489,6 +489,7 @@ export type AttachmentMessage = {
   type: 'Attachment',
   authorType: AuthorType,
   url: string,
+  localBlobUrl: string,
   contentType: string,
   status?: MessageStatusType,
   uploadProgress?: number,

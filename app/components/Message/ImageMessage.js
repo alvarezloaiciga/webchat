@@ -26,12 +26,17 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
   pollingInterval: number;
 
   componentWillMount() {
-    this.loadImage(this.props.message.url);
+    this.loadImage(this.props.message.localBlobUrl || this.props.message.url);
   }
 
   componentWillReceiveProps(nextProps: ImageMessageProps) {
-    if (nextProps.message.url !== this.props.message.url) {
-      // Start loading new image
+    // Start loading new image if one of the sources changed
+    if (
+      nextProps.message.localBlobUrl &&
+      nextProps.message.localBlobUrl !== this.props.message.localBlobUrl
+    ) {
+      this.loadImage(nextProps.message.localBlobUrl);
+    } else if (nextProps.message.url && nextProps.message.url !== this.props.message.url) {
       this.loadImage(nextProps.message.url);
     }
   }
@@ -88,8 +93,12 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
   renderImage = () => {
     if (this.state.imageLoaded) {
       return (
-        <a href={this.props.message.url} target="_blank" rel="noopener noreferrer">
-          <img src={this.props.message.url} />
+        <a
+          href={this.props.message.url || this.props.message.localBlobUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={this.props.message.localBlobUrl || this.props.message.url} />
         </a>
       );
     }
