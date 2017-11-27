@@ -48,7 +48,7 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
   }
 
   loadImage = (url: string) => {
-    this.setState({imageWidth: undefined, imageHeight: undefined});
+    this.setState({imageLoaded: false});
     this.image = new Image();
     this.image.src = url;
     if (this.image.complete) {
@@ -92,6 +92,8 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
 
   renderImage = () => {
     if (this.state.imageLoaded) {
+      // NOTE: For the link href, we prioritize the remote url over the local url as Edge will not load local blob URLs.
+      // For the image src, we prioritize the local blob URL over the remote URL to avoid unnecessary hits to S3
       return (
         <a
           href={this.props.message.url || this.props.message.localBlobUrl}
