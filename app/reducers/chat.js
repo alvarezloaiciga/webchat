@@ -230,7 +230,9 @@ export const getLatestConversationElements = createSelector(
 
     const latestMessageIdx = findLastIndex(sortedConvoElements, e => {
       return (
-        Object.values(MessageTypes).includes(e.type) && e.authorType && e.authorType !== 'System'
+        Object.values(MessageTypes).includes(e.type) &&
+        e.authorType &&
+        e.authorType !== AuthorTypes.SYSTEM
       );
     });
 
