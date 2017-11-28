@@ -228,9 +228,13 @@ export const getLatestConversationElements = createSelector(
       // $FlowIssue - Flow does not infer types when Object.values is used
       .sort((a, b) => a.timestamp - b.timestamp);
 
-    const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
-      Object.values(MessageTypes).includes(e.type),
-    );
+    const latestMessageIdx = findLastIndex(sortedConvoElements, e => {
+      return (
+        Object.values(MessageTypes).includes(e.type) &&
+        e.authorType &&
+        e.authorType !== AuthorTypes.SYSTEM
+      );
+    });
 
     // NOTE: We consider a Spam event to mark the end of a conversation the same as an End event
     const latestPrecedingEndEventIdx = findLastIndex(
