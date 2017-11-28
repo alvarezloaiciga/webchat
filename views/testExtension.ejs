@@ -23,7 +23,20 @@
       Quiq.on('transcriptChanged', function(data) {
         console.log("transcript changed: %0", data);
 
-        document.querySelector('.messageArea').innerText = JSON.stringify(data);
+        var messageArea = document.querySelector('.messageArea');
+        var fc = messageArea.firstChild;
+
+        while( fc ) {
+            messageArea.removeChild( fc );
+            fc = messageArea.firstChild;
+        }
+
+        for (var index = 0; index < data.messages.length; index++)
+        {
+          var newSpan = document.createElement('span');
+          messageArea.appendChild(newSpan);
+          newSpan.innerText = data.messages[index].authorType + ' - ' + data.messages[index].text + '\r\n';
+        }
       });
     </script>
 </head>
@@ -37,7 +50,7 @@
     </div>
     <div class="messageContainer">
       <h3>Extension Messages</h3>
-      <span class="messageArea"></span>
+      <div class="messageArea"></div>
     </div>
   </div>
 </body>
