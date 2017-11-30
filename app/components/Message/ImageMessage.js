@@ -26,17 +26,12 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
   pollingInterval: number;
 
   componentWillMount() {
-    this.loadImage(this.props.message.localBlobUrl || this.props.message.url);
+    this.loadImage(this.props.message.url);
   }
 
   componentWillReceiveProps(nextProps: ImageMessageProps) {
-    // Start loading new image if one of the sources changed
-    if (
-      nextProps.message.localBlobUrl &&
-      nextProps.message.localBlobUrl !== this.props.message.localBlobUrl
-    ) {
-      this.loadImage(nextProps.message.localBlobUrl);
-    } else if (nextProps.message.url && nextProps.message.url !== this.props.message.url) {
+    if (nextProps.message.url !== this.props.message.url) {
+      // Start loading new image
       this.loadImage(nextProps.message.url);
     }
   }
@@ -48,7 +43,7 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
   }
 
   loadImage = (url: string) => {
-    this.setState({imageLoaded: false});
+    this.setState({imageWidth: undefined, imageHeight: undefined});
     this.image = new Image();
     this.image.src = url;
     if (this.image.complete) {
@@ -92,15 +87,9 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
 
   renderImage = () => {
     if (this.state.imageLoaded) {
-      // NOTE: For the link href, we prioritize the remote url over the local url as Edge will not load local blob URLs.
-      // For the image src, we prioritize the local blob URL over the remote URL to avoid unnecessary hits to S3
       return (
-        <a
-          href={this.props.message.url || this.props.message.localBlobUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={this.props.message.localBlobUrl || this.props.message.url} />
+        <a href={this.props.message.url} target="_blank" rel="noopener noreferrer">
+          <img src={this.props.message.url} />
         </a>
       );
     }

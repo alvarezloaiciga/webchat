@@ -112,7 +112,9 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       const newTranscript = {};
 
       action.transcript.forEach(message => {
-        let localKey, uploadProgress, localBlobUrl;
+        let localKey,
+          uploadProgress,
+          url = message.type === 'Attachment' ? message.url : undefined;
         const tempMessage = state.transcript[message.id];
         if (tempMessage) {
           // The local key allows us to correlate temporary messages to "real" ones coming in on the wire.
@@ -123,15 +125,11 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
           // Also hang on to the existing uploadProgress
           if (tempMessage.type === 'Attachment' && message.type === 'Attachment') {
             uploadProgress = tempMessage.uploadProgress;
-            localBlobUrl = tempMessage.localBlobUrl;
+            url = tempMessage.url;
           }
         }
 
-        newTranscript[message.id] = Object.assign({}, message, {
-          localKey,
-          localBlobUrl,
-          uploadProgress,
-        });
+        newTranscript[message.id] = Object.assign({}, message, {localKey, url, uploadProgress});
       });
 
       // Merge old and new transcripts so that we don't lose any pending (local) messages
@@ -228,13 +226,9 @@ export const getLatestConversationElements = createSelector(
       // $FlowIssue - Flow does not infer types when Object.values is used
       .sort((a, b) => a.timestamp - b.timestamp);
 
-    const latestMessageIdx = findLastIndex(sortedConvoElements, e => {
-      return (
-        Object.values(MessageTypes).includes(e.type) &&
-        e.authorType &&
-        e.authorType !== AuthorTypes.SYSTEM
-      );
-    });
+    const latestMessageIdx = findLastIndex(sortedConvoElements, e =>
+      Object.values(MessageTypes).includes(e.type),
+    );
 
     // NOTE: We consider a Spam event to mark the end of a conversation the same as an End event
     const latestPrecedingEndEventIdx = findLastIndex(

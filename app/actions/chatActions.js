@@ -94,20 +94,20 @@ export const setUploadProgress = (messageId: string, progress: number) => ({
 export const addPendingAttachmentMessage = (
   tempId: string,
   contentType: string,
-  blobUrl: string,
+  url: string,
   fromCustomer: boolean,
 ) => {
   return {
     type: actionTypes.addPendingMessage,
     message: {
       id: tempId,
-      localBlobUrl: blobUrl,
       localKey: tempId,
       type: 'Attachment',
       timestamp: Date.now(),
       authorType: fromCustomer ? 'Customer' : 'User',
       status: 'pending',
       contentType,
+      url,
     },
   };
 };

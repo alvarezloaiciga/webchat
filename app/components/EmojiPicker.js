@@ -145,7 +145,6 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
           position: 'absolute',
           bottom: '70px',
           right: '20px',
-          zIndex: 1000,
         }}
       />
     </ClickOutside>

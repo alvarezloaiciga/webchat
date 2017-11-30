@@ -14,7 +14,7 @@ export const registerExtension = (extensionUrl: string, extensionWindow: Object)
 };
 
 export const postExtensionEvent = (event: ExtensionEvent) => {
-  if (_extensionWindow && _extensionWindow.postMessage) {
+  if (_extensionWindow) {
     _extensionWindow.postMessage(event, _extensionUrl);
   }
 };
