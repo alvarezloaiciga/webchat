@@ -604,3 +604,5 @@ export type Emoji = {
 export type EmojiMetadata = {
   short_names: Array<string>,
 };
+
+export type ButtonColor = 'green' | 'grey' | 'gray' | 'red' | 'none';

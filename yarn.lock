@@ -1932,20 +1932,20 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#0.1.16":
-  version "0.1.16"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#4cb3a65c6ae604335830b3a54f06f55bed07ce5a"
+"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.5":
+  version "1.0.5"
+  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#395f2ee9323b82b425e7bd4cce4e3e03d31f7dd1"
   dependencies:
     babel-plugin-emotion "8.0.2"
     classnames "2.2.5"
     emotion "8.0.2"
     lodash "4.17.4"
-    react "16.1.0"
+    react "16.2.0"
     react-addons-shallow-compare "15.6.0"
     react-addons-update "15.6.0"
     react-click-outside-component "1.1.1"
     react-css-stagger "0.0.5"
-    react-dom "16.1.0"
+    react-dom "16.2.0"
     react-dom-factories "1.0.1"
     react-emotion "8.0.2"
     react-intl "2.3.0"
@@ -6530,9 +6530,9 @@ react-dom-factories@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.1.tgz#c50692ac5ff1adb39d86dfe6dbe3485dacf58455"
 
-react-dom@16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.1.0.tgz#ab6fd2a285096f388aeba51919a573d06c9bdde4"
+react-dom@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -6655,9 +6655,9 @@ react-selectize@3.0.1:
     prelude-ls "^1.1.1"
     tether "^1.1.1"
 
-react-test-renderer@16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.1.0.tgz#33a1d3ce896311e0dd1547649b1456ffa7fda415"
+react-test-renderer@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.2.0.tgz#bddf259a6b8fcd8555f012afc8eacc238872a211"
   dependencies:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
@@ -6679,9 +6679,9 @@ react-transition-group@1.1.3:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react@16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.1.0.tgz#1c2bdac3c17fe7ee9282fa35aca6cc36387903e1"
+react@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
