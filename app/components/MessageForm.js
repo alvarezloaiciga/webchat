@@ -295,12 +295,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
-    const doNotAllowNewConversationToStart =
-      this.props.configuration.enableManualConvoStart && this.props.agentEndedConversation;
+    const allowConversationToStart =
+      !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
-      !this.state.hasText || !this.state.agentsAvailable || doNotAllowNewConversationToStart;
-    const emopjiPickerDisabled = !this.state.agentsAvailable || doNotAllowNewConversationToStart;
-    const contentButtonsDisabled = !this.state.agentsAvailable || doNotAllowNewConversationToStart;
+      !this.state.hasText || !this.state.agentsAvailable || !allowConversationToStart;
+    const emopjiPickerDisabled = !this.state.agentsAvailable || !allowConversationToStart;
+    const contentButtonsDisabled = !this.state.agentsAvailable || !allowConversationToStart;
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -315,7 +315,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       ? getMessage(intlMessageTypes.messageFieldPlaceholder)
       : getMessage(intlMessageTypes.agentsNotAvailableMessage);
 
-    if (doNotAllowNewConversationToStart) {
+    if (!allowConversationToStart) {
       messagePlaceholder = getMessage(intlMessageTypes.cannotStartNewConversationMessage);
     }
 
@@ -335,7 +335,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 this.textArea = n;
               }}
               style={inputStyle}
-              disabled={!this.state.agentsAvailable || doNotAllowNewConversationToStart}
+              disabled={!this.state.agentsAvailable || !allowConversationToStart}
               name="message"
               maxLength={1024}
               onChange={this.handleTextChanged}
