@@ -148,6 +148,7 @@ export const intlMessageTypes = {
   muteSoundsTooltip: 'muteSoundsTooltip',
   unmuteSoundsTooltip: 'unmuteSoundsTooltip',
   transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
+  cannotStartNewConversationMessage: 'cannotStartNewConversationMessage',
 };
 
 export const localStorageKeys = [
