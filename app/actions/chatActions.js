@@ -41,26 +41,30 @@ export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
   messageFieldFocused,
 });
 
-export const setChatConfiguration = (metadata: ChatMetadata) => ({
-  type: 'CHAT_CONFIGURATION_LOADED',
-  configuration: {
-    enableChatEmailTranscript:
-      metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
-    enableChatFileAttachments:
-      metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
-    supportedAttachmentTypes:
-      metadata.configs.ALLOWED_CONTENT_TYPES && metadata.configs.ALLOWED_CONTENT_TYPES.contentTypes,
-    enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
-    playSoundOnNewMessage:
-      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&
-      metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE.enabled,
-    flashNotificationOnNewMessage:
-      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
-      metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
-    registrationForm: metadata.registrationForm,
-    menuOptions: metadata.configs.CHAT_MENU_OPTIONS,
-  },
-});
+export const setChatConfiguration = (metadata: ChatMetadata) => {
+  return {
+    type: 'CHAT_CONFIGURATION_LOADED',
+    configuration: {
+      enableChatEmailTranscript:
+        metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
+      enableChatFileAttachments:
+        metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
+      enableManualConvoStart: metadata.configs.CHAT_MANUAL_START_CONVO_MODE,
+      supportedAttachmentTypes:
+        metadata.configs.ALLOWED_CONTENT_TYPES &&
+        metadata.configs.ALLOWED_CONTENT_TYPES.contentTypes,
+      enableEmojis: metadata.configs.ENABLE_EMOJIS && metadata.configs.ENABLE_EMOJIS.enabled,
+      playSoundOnNewMessage:
+        metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE &&
+        metadata.configs.PLAY_SOUND_ON_NEW_MESSAGE.enabled,
+      flashNotificationOnNewMessage:
+        metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
+        metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
+      registrationForm: metadata.registrationForm,
+      menuOptions: metadata.configs.CHAT_MENU_OPTIONS,
+    },
+  };
+};
 
 export const updatePlatformEvents = (platformEvents: Array<Event>) => ({
   type: 'UPDATE_PLATFORM_EVENTS',

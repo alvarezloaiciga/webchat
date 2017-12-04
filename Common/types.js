@@ -5,6 +5,7 @@ export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 export type ChatConfiguration = {
   enableChatEmailTranscript: boolean,
   enableChatFileAttachments: boolean,
+  enableManualConvoStart: boolean,
   supportedAttachmentTypes: Array<string>,
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
@@ -191,6 +192,7 @@ export type QuiqObject = {
     unmuteSounds: string,
     muteSoundsTooltip: string,
     unmuteSoundsTooltip: string,
+    cannotStartNewConversationMessage: string,
   },
   mobileNumber?: string | number,
   position: {

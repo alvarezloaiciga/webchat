@@ -202,7 +202,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               className={
                 this.isUsingWaitScreen() ? 'transcriptAreaWithWaitScreen' : 'transcriptArea'
               }
-              disabled={!this.props.configuration.enableChatFileAttachments}
+              disabled={
+                !this.props.configuration.enableChatFileAttachments ||
+                (this.props.configuration.enableManualConvoStart &&
+                  this.props.agentEndedConversation)
+              }
               accept={this.props.configuration.supportedAttachmentTypes.join(',')}
               disablePreview={true}
               disableClick={true}

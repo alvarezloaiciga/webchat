@@ -293,12 +293,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
-    const sendDisabled = !this.state.hasText || !this.state.agentsAvailable;
-    const emopjiPickerDisabled = !this.state.agentsAvailable;
-    const contentButtonsDisabled = !this.state.agentsAvailable;
-    const messagePlaceholder = this.state.agentsAvailable
-      ? getMessage(intlMessageTypes.messageFieldPlaceholder)
-      : getMessage(intlMessageTypes.agentsNotAvailableMessage);
+    const allowConversationToStart =
+      !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
+    const sendDisabled =
+      !this.state.hasText || !this.state.agentsAvailable || !allowConversationToStart;
+    const emopjiPickerDisabled = !this.state.agentsAvailable || !allowConversationToStart;
+    const contentButtonsDisabled = !this.state.agentsAvailable || !allowConversationToStart;
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -308,6 +308,14 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       color: '#848484',
       fontSize: '16px',
     });
+
+    let messagePlaceholder = this.state.agentsAvailable
+      ? getMessage(intlMessageTypes.messageFieldPlaceholder)
+      : getMessage(intlMessageTypes.agentsNotAvailableMessage);
+
+    if (!allowConversationToStart) {
+      messagePlaceholder = getMessage(intlMessageTypes.cannotStartNewConversationMessage);
+    }
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
@@ -329,7 +337,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 value={this.state.inputText}
                 maxLength={1024}
                 autoFocus
-                disabled={!this.state.agentsAvailable}
+                disabled={!this.state.agentsAvailable || !allowConversationToStart}
                 onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                 onSubmit={this.addMessage}
                 placeholder={messagePlaceholder}
@@ -340,7 +348,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   this.textArea = n;
                 }}
                 style={inputStyle}
-                disabled={!this.state.agentsAvailable}
+                disabled={!this.state.agentsAvailable || !allowConversationToStart}
                 name="message"
                 maxLength={1024}
                 onChange={this.handleTextChanged}
