@@ -1,5 +1,143 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MessageForm component IE10 uses an Input 1`] = `
+<div
+  className="MessageForm"
+  style={
+    Object {
+      "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
+      "zIndex": 1,
+    }
+  }
+>
+  <div
+    className="messageArea"
+  >
+    <Input
+      autoFocus={true}
+      disabled={false}
+      inputStyle={
+        Object {
+          "color": "#68b588",
+          "fontFamily": "Source Sans Pro",
+        }
+      }
+      maxLength={1024}
+      onChange={[Function]}
+      onSubmit={[Function]}
+      placeholder="Send us a message..."
+      value=""
+    />
+    <button
+      className="messageFormBtn attachmentBtn"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+      title="Send file"
+    >
+      <i
+        className="fa fa-paperclip"
+      />
+    </button>
+    <MenuButton
+      buttonStyles={
+        Object {
+          "background": "red",
+          "borderRight": "2px solid rgb(244, 244, 248)",
+        }
+      }
+      className=""
+      closeOnChildClick={true}
+      icon="bars"
+      iconStyles={
+        Object {
+          "color": "#848484",
+          "display": "none",
+          "fontSize": "19px",
+          "marginTop": "1px",
+        }
+      }
+      keepChildrenMounted={false}
+      menuPosition="top-right"
+      offset={
+        Object {
+          "horizontal": "-115px",
+          "vertical": "40px",
+        }
+      }
+      title="Options"
+    >
+      <Menu
+        containerStyle={
+          Object {
+            "fontFamily": "Lato, sans-serif",
+          }
+        }
+        items={
+          Array [
+            Object {
+              "icon": Object {
+                "name": "Python",
+                "style": Object {
+                  "color": "#2199e8",
+                },
+              },
+              "id": "Spidey",
+              "label": "Babel",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Lato, sans-serif",
+              },
+              "title": "Danny McBridal",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "volume-off",
+                "style": Object {
+                  "color": "#2199e8",
+                },
+              },
+              "id": "muteSounds",
+              "label": "Mute Sounds",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Lato, sans-serif",
+              },
+              "title": "Mute new message sounds",
+            },
+            Object {
+              "disabled": false,
+              "icon": Object {
+                "name": "envelope",
+                "style": Object {
+                  "color": "#2199e8",
+                },
+              },
+              "id": "emailTranscript",
+              "label": "Email Transcript",
+              "onClick": [Function],
+              "style": Object {
+                "color": "#2199e8",
+                "fontFamily": "Lato, sans-serif",
+              },
+              "title": "Email a full transcript of the current chat",
+            },
+          ]
+        }
+      />
+    </MenuButton>
+  </div>
+</div>
+`;
+
 exports[`MessageForm component rendering renders 1`] = `
 <div
   className="MessageForm"
