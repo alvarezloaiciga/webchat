@@ -13,6 +13,7 @@ import {getMockMessage, getMockConfiguration} from 'utils/testHelpers';
 import type {MessageFormProps} from '../MessageForm';
 import {MenuItemKeys} from 'Common/Constants';
 import QuiqChatClient from 'quiq-chat';
+import * as Utils from 'Common/Utils';
 
 describe('MessageForm component', () => {
   let wrapper: ShallowWrapper;
@@ -114,6 +115,16 @@ describe('MessageForm component', () => {
       it('disables emailTranscript', () => {
         expect(isEmailTranscriptDisabled()).toBe(true);
       });
+    });
+  });
+
+  describe('IE10', () => {
+    it('uses an Input', () => {
+      // $FlowIssue I'ma mutate if I wanna mutate!
+      Utils.isIE10 = jest.fn(() => true);
+      render();
+
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });
