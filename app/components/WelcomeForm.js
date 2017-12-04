@@ -11,6 +11,7 @@ import QuiqChatClient from 'quiq-chat';
 import type {WelcomeFormField, WelcomeForm as WelcomeFormType, ChatState} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
+import find from 'lodash/find';
 
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
@@ -27,6 +28,8 @@ export type WelcomeFormState = {
       required: boolean,
       isInitialMessage: boolean,
       options: [{value: string, label: string}],
+      id: string,
+      type?: string,
     },
   },
   submitting: boolean,
@@ -52,6 +55,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         inputFields[field.id] = {
           value: '',
           label: field.label,
+          id: field.id,
           required: Boolean(field.required),
           isInitialMessage: field.additionalProperties
             ? Boolean(field.additionalProperties.isInitialMessage)
@@ -60,6 +64,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             field.additionalProperties && field.additionalProperties.options
               ? JSON.parse(field.additionalProperties.options)
               : field.options,
+          type: field.type,
         };
       });
 
@@ -170,6 +175,15 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     });
   };
 
+  storeEmail = () => {
+    const emailField = find(this.state.inputFields, f => f.type === 'email' || f.id === 'email');
+    if (!emailField) return;
+
+    try {
+      localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(emailField.value));
+    } catch (ex) {} // eslint-disable-line no-empty
+  };
+
   submitForm = async (e: SyntheticEvent<*>) => {
     e.preventDefault();
     if (this.state.submitting) return;
@@ -187,16 +201,11 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       if (field.value.length) fields[key] = field.value;
     });
 
+    // Save e-mail to prepopulate email transcript input
+    this.storeEmail();
+
     // Append field containing referrer (host)
     fields.Referrer = href;
-
-    // We store the e-mail in localStorage if it is there so we can
-    // prepopulate the e-mail transcript input later
-    if (fields.email) {
-      try {
-        localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(fields.email));
-      } catch (ex) {} // eslint-disable-line no-empty
-    }
 
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields);
