@@ -312,4 +312,9 @@ export default defineMessages({
     description: 'tooltip for unmuting sounds',
     defaultMessage: 'Unmute new message sounds',
   },
+  cannotStartNewConversationMessage: {
+    id: 'cannotStartNewConversationMessage',
+    description: 'tooltip for not being able to start a conversation',
+    defaultMessage: 'Conversation Has Ended',
+  },
 });

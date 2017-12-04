@@ -281,6 +281,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputSubmitTooltip: string,
         messageArrivedNotification: string,
         transcriptEmailedEventMessage: string,
+        cannotStartNewConversationMessage: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -319,6 +320,7 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
         messageArrivedNotification: 'New Message from Quiq Webchat'
         transcriptEmailedEventMessage: 'Transcript Emailed',
+        cannotStartNewConversationMessage: 'The Conversation Has Ended'
       }
       ```
   - #### mobileNumber
