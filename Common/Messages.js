@@ -152,7 +152,7 @@ export default defineMessages({
     id: 'transcriptEmailedEventMessage',
     description:
       'Text to display on the inline Event displayed to the user when a transcript was successfully e-mailed to them',
-    defaultMessage: 'Transcript Emailed',
+    defaultMessage: 'Transcript emailed',
   },
   attachmentBtnTooltip: {
     id: 'attachmentBtnTooltip',

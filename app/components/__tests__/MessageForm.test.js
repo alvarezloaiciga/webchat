@@ -29,8 +29,8 @@ describe('MessageForm component', () => {
       testProps = {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
-        agentHasResponded: true,
-        latestConversationIsSpam: false,
+        agentHasRespondedToLatestConversation: true,
+        lastClosedConversationIsSpam: false,
         platformEvents: [],
         inputtingEmail: false,
         openFileBrowser: jest.fn(),
@@ -98,9 +98,25 @@ describe('MessageForm component', () => {
       expect(isEmailTranscriptDisabled()).toBe(false);
     });
 
-    describe('current convo is spam', () => {
+    describe('current convo is spam but agent has responded to latest convo', () => {
       beforeEach(() => {
-        wrapper.setProps({latestConversationIsSpam: true});
+        wrapper.setProps({
+          lastClosedConversationIsSpam: true,
+          agentHasRespondedToLatestConversation: true,
+        });
+      });
+      it('enables emailTranscript', () => {
+        wrapper.setProps({chatIsSpam: true});
+        expect(isEmailTranscriptDisabled()).toBe(false);
+      });
+    });
+
+    describe('current convo is spam and agent has not responded to latest convo', () => {
+      beforeEach(() => {
+        wrapper.setProps({
+          lastClosedConversationIsSpam: true,
+          agentHasRespondedToLatestConversation: false,
+        });
       });
       it('disables emailTranscript', () => {
         wrapper.setProps({chatIsSpam: true});
@@ -108,12 +124,29 @@ describe('MessageForm component', () => {
       });
     });
 
-    describe('entire transcript has no agent message', () => {
+    describe('current convo is not spam and agent has not responded to latest convo', () => {
       beforeEach(() => {
-        wrapper.setProps({agentHasResponded: false});
+        wrapper.setProps({
+          lastClosedConversationIsSpam: false,
+          agentHasRespondedToLatestConversation: false,
+        });
       });
-      it('disables emailTranscript', () => {
-        expect(isEmailTranscriptDisabled()).toBe(true);
+      it('enables emailTranscript', () => {
+        wrapper.setProps({chatIsSpam: true});
+        expect(isEmailTranscriptDisabled()).toBe(false);
+      });
+    });
+
+    describe('current convo is not spam and agent has responded to latest convo', () => {
+      beforeEach(() => {
+        wrapper.setProps({
+          lastClosedConversationIsSpam: false,
+          agentHasRespondedToLatestConversation: true,
+        });
+      });
+      it('enables emailTranscript', () => {
+        wrapper.setProps({chatIsSpam: true});
+        expect(isEmailTranscriptDisabled()).toBe(false);
       });
     });
   });

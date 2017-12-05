@@ -16,7 +16,7 @@ exports[`PlatformEvent component rendering renders 1`] = `
         "stroke": "red",
       }
     }
-    text="undefined Transcript Emailed"
+    text="undefined Transcript emailed"
     textStyle={
       Object {
         "background": "#f4f4f8",

@@ -12,9 +12,9 @@ import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
 import Input from 'core-ui/components/Input';
 import {
-  getAgentHasResponded,
+  getAgentHasRespondedToLatestConversation,
   getAgentEndedLatestConversation,
-  getLatestConversationIsSpam,
+  getLastClosedConversationIsSpam,
   getInputtingEmail,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
@@ -25,8 +25,8 @@ import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
-  latestConversationIsSpam: boolean,
-  agentHasResponded: boolean,
+  lastClosedConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
@@ -253,7 +253,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled: this.props.latestConversationIsSpam || !this.props.agentHasResponded,
+        disabled:
+          this.props.lastClosedConversationIsSpam &&
+          !this.props.agentHasRespondedToLatestConversation,
       });
     }
 
@@ -320,7 +322,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
         {this.props.inputtingEmail &&
-          !this.props.latestConversationIsSpam && (
+          !this.props.lastClosedConversationIsSpam && (
             <div className="messageArea">
               <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
             </div>
@@ -425,8 +427,8 @@ export default connect(
     muteSounds: state.muteSounds,
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
-    latestConversationIsSpam: getLatestConversationIsSpam(state),
-    agentHasResponded: getAgentHasResponded(state),
+    lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,
