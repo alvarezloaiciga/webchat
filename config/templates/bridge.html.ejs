@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <% console.log("files %O", htmlWebpackPlugin.files); %>
-    <script src="<%= htmlWebpackPlugin.files.chunks.postRobotBridge.entry %>"></script>
+    <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
+      <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.postRobotBridge.entry %>"
+        integrity="<%= htmlWebpackPlugin.files.jsIntegrity[0] %>"
+        crossorigin="<%= webpackConfig.output.crossOriginLoading %>"></script>
+    <% } else { %>
+      <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.postRobotBridge.entry %>"></script>
+    <% } %>
 </head>
 </html>
