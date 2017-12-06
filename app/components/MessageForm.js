@@ -324,12 +324,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {this.props.inputtingEmail &&
-          !this.props.lastClosedConversationIsSpam && (
-            <div className="messageArea">
-              <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
-            </div>
-          )}
+        {this.props.inputtingEmail && (
+          <div className="messageArea">
+            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+          </div>
+        )}
 
         {!this.props.inputtingEmail && (
           <div className="messageArea">
