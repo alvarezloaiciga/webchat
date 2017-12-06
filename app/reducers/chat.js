@@ -9,6 +9,7 @@ import {
 } from 'Common/Constants';
 import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
+import findLast from 'lodash/findLast';
 import type {
   ChatState,
   Action,
@@ -272,12 +273,18 @@ export const getAgentEndedLatestConversation = createSelector(
   elements => elements.some(e => EndEventTypes.includes(e.type)),
 );
 
-export const getLatestConversationIsSpam = createSelector(getLatestConversationElements, elements =>
-  elements.some(e => e.type === EventTypes.SPAM),
-);
+export const getLastClosedConversationIsSpam = createSelector(getPlatformEvents, events => {
+  const sortedEvents = events.sort((a, b) => a.timestamp - b.timestamp);
+  const lastEndEvent = findLast(sortedEvents, e => EndEventTypes.includes(e.type));
+  return lastEndEvent && lastEndEvent.type === EventTypes.SPAM;
+});
 
-export const getAgentHasResponded = createSelector(getTranscript, transcript =>
-  transcript.some(m => m.authorType === AuthorTypes.USER),
+export const getAgentHasRespondedToLatestConversation = createSelector(
+  getLatestConversationElements,
+  elements =>
+    elements.some(
+      e => Object.values(MessageTypes).includes(e.type) && e.authorType === AuthorTypes.USER,
+    ),
 );
 
 export const getAgentsAvailable = (state: ChatState): ?boolean => {

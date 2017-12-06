@@ -5,9 +5,9 @@ import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
 import {
-  getLatestConversationIsSpam,
+  getLastClosedConversationIsSpam,
   getAllConversationElements,
-  getAgentHasResponded,
+  getAgentHasRespondedToLatestConversation,
 } from 'reducers/chat';
 import {
   intlMessageTypes,
@@ -23,8 +23,8 @@ import './styles/Transcript.scss';
 export type TranscriptProps = {
   /*eslint-disable react/no-unused-prop-types*/
   allSortedConversationElements: Array<MessageType | Event>,
-  agentHasResponded: boolean,
-  latestConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
+  lastClosedConversationIsSpam: boolean,
   agentTyping: boolean,
   configuration: ChatConfiguration,
   setInputtingEmail: (inputtingEmail: boolean) => void,
@@ -102,10 +102,9 @@ export class Transcript extends Component {
       if (
         idx === lastEndEventIdx && // Is this event the last end event?
         lastNonSystemMessageIndex < lastEndEventIdx && // Must not be any messages after end event
-        this.props.agentHasResponded && // Agent must have responded at some point ion the entire transcript
-        !this.props.latestConversationIsSpam
+        (!this.props.lastClosedConversationIsSpam || // EITHER last closed conversation was not spam
+          this.props.agentHasRespondedToLatestConversation) // OR agent has responded to the most recent conversation
       ) {
-        // Current conversation must not be spam
         return (
           <PlatformEvent
             event={a}
@@ -153,10 +152,10 @@ const mapDispatchToProps = {
 
 export default connect(
   (state: ChatState) => ({
-    latestConversationIsSpam: getLatestConversationIsSpam(state),
+    lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
     agentTyping: state.agentTyping,
     allSortedConversationElements: getAllConversationElements(state),
-    agentHasResponded: getAgentHasResponded(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     configuration: state.configuration,
   }),
   mapDispatchToProps,

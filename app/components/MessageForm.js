@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
+import {isIE10, isMobile} from 'Common/Utils';
 import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
@@ -9,10 +10,11 @@ import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
 import MenuButton from 'core-ui/components/MenuButton';
+import Input from 'core-ui/components/Input';
 import {
-  getAgentHasResponded,
+  getAgentHasRespondedToLatestConversation,
   getAgentEndedLatestConversation,
-  getLatestConversationIsSpam,
+  getLastClosedConversationIsSpam,
   getInputtingEmail,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
@@ -23,8 +25,8 @@ import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
 const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
-  latestConversationIsSpam: boolean,
-  agentHasResponded: boolean,
+  lastClosedConversationIsSpam: boolean,
+  agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
@@ -38,6 +40,7 @@ export type MessageFormProps = {
 
 type MessageFormState = {
   hasText: boolean,
+  inputText: string, // Only used for IE10
   agentsAvailable: boolean,
   emojiPickerVisible: boolean,
 };
@@ -51,6 +54,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     agentsAvailable: true,
     emojiPickerVisible: false,
     inputtingEmail: false,
+    inputText: '',
   };
   checkAvailabilityTimer: number;
 
@@ -69,11 +73,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (this.textArea) {
-        this.textArea.focus();
-      }
-    }, 200);
+    if (!(isIE10() || isMobile())) {
+      setTimeout(() => {
+        if (this.textArea) {
+          this.textArea.focus();
+        }
+      }, 200);
+    }
 
     if (
       (!this.props.agentsInitiallyAvailable && !QuiqChatClient.isUserSubscribed()) ||
@@ -94,21 +100,24 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }
   }
 
-  startTyping = () => {
-    const text = this.textArea.getPlaintext().trim();
+  getFilteredText = () => {
+    const text =
+      isIE10() || isMobile() ? this.state.inputText : this.textArea.getPlaintext().trim();
+
     // Filter emojis based on includeEmojis/excludeEmojis
-    const filteredText = EmojiUtils.filterEmojisFromText(text);
-    if (filteredText) {
-      QuiqChatClient.updateTypingIndicator(filteredText, true);
+    return EmojiUtils.filterEmojisFromText(text);
+  };
+
+  startTyping = () => {
+    const text = this.getFilteredText();
+    if (text) {
+      QuiqChatClient.updateTypingIndicator(text, true);
     }
     updateTimer = undefined;
   };
 
   stopTyping = () => {
-    const text = this.textArea.getPlaintext().trim();
-    // Filter emojis based on includeEmojis/excludeEmojis
-    const filteredText = EmojiUtils.filterEmojisFromText(text);
-    QuiqChatClient.updateTypingIndicator(filteredText, false);
+    QuiqChatClient.updateTypingIndicator(this.getFilteredText(), false);
   };
 
   startTypingTimers = () => {
@@ -124,33 +133,23 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   handleTextChanged = (text: string) => {
-    if (text) {
-      this.startTypingTimers();
-    } else {
-      this.resetTypingTimers();
-    }
-
-    this.setState({hasText: !!text});
+    const typingTimers = text ? this.startTypingTimers : this.resetTypingTimers;
+    this.setState({hasText: !!text, inputText: text}, typingTimers);
   };
 
   addMessage = () => {
-    const text = this.textArea.getPlaintext().trim();
-
-    // Filter emojis based on includeEmojis/excludeEmojis
-    const filteredText = EmojiUtils.filterEmojisFromText(text);
-
-    // Don't send message if there's only an empty string left after filtering
-    if (filteredText) {
-      QuiqChatClient.sendTextMessage(filteredText);
+    const text = this.getFilteredText();
+    if (text) {
+      QuiqChatClient.sendTextMessage(text);
     }
 
-    // Even if there was no text to send after filtering, we still clear the form and reset timers.
-    // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
-    this.textArea.setText('');
-  };
-
-  handleReturnKey = () => {
-    this.addMessage();
+    if (isIE10() || isMobile()) {
+      this.setState({inputText: ''}, this.resetTypingTimers);
+    } else {
+      // Even if there was no text to send after filtering, we still clear the form and reset timers.
+      // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
+      this.textArea.setText('');
+    }
   };
 
   toggleEmojiPicker = () => {
@@ -255,7 +254,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           color: colors.menuText,
           fontFamily,
         }),
-        disabled: this.props.latestConversationIsSpam || !this.props.agentHasResponded,
+        disabled:
+          this.props.lastClosedConversationIsSpam &&
+          !this.props.agentHasRespondedToLatestConversation,
       });
     }
 
@@ -322,7 +323,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
         {this.props.inputtingEmail &&
-          !this.props.latestConversationIsSpam && (
+          !this.props.lastClosedConversationIsSpam && (
             <div className="messageArea">
               <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
             </div>
@@ -330,20 +331,37 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
         {!this.props.inputtingEmail && (
           <div className="messageArea">
-            <EmojiTextarea
-              ref={n => {
-                this.textArea = n;
-              }}
-              style={inputStyle}
-              disabled={!this.state.agentsAvailable || !allowConversationToStart}
-              name="message"
-              maxLength={1024}
-              onChange={this.handleTextChanged}
-              onReturn={this.handleReturnKey}
-              onBlur={this.handleMessageFieldLostFocus}
-              onFocus={this.handleMessageFieldFocused}
-              placeholder={messagePlaceholder}
-            />
+            {isIE10() || isMobile() ? (
+              <Input
+                ref={element => {
+                  this.textArea = element;
+                }}
+                inputStyle={inputStyle}
+                value={this.state.inputText}
+                maxLength={1024}
+                autoFocus
+                disabled={!this.state.agentsAvailable || !allowConversationToStart}
+                onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
+                onSubmit={this.addMessage}
+                placeholder={messagePlaceholder}
+              />
+            ) : (
+              <EmojiTextarea
+                ref={n => {
+                  this.textArea = n;
+                }}
+                style={inputStyle}
+                disabled={!this.state.agentsAvailable || !allowConversationToStart}
+                name="message"
+                maxLength={1024}
+                onChange={this.handleTextChanged}
+                onReturn={this.addMessage}
+                onBlur={this.handleMessageFieldLostFocus}
+                onFocus={this.handleMessageFieldFocused}
+                placeholder={messagePlaceholder}
+              />
+            )}
+
             {this.props.configuration.enableChatFileAttachments && (
               <button
                 className="messageFormBtn attachmentBtn"
@@ -356,6 +374,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
+              !(isIE10() || isMobile()) &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <button
                   className="messageFormBtn emojiBtn"
@@ -380,6 +399,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
+              !(isIE10() || isMobile()) &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <EmojiPicker
                   visible={this.state.emojiPickerVisible}
@@ -408,8 +428,8 @@ export default connect(
     muteSounds: state.muteSounds,
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
-    latestConversationIsSpam: getLatestConversationIsSpam(state),
-    agentHasResponded: getAgentHasResponded(state),
+    lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
+    agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     inputtingEmail: getInputtingEmail(state),
   }),
   mapDispatchToProps,
