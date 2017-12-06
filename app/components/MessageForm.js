@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
-import {isIE10} from 'Common/Utils';
+import {isIE10, isMobile} from 'Common/Utils';
 import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
@@ -73,7 +73,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   componentDidMount() {
-    if (!isIE10()) {
+    if (!(isIE10() || isMobile())) {
       setTimeout(() => {
         if (this.textArea) {
           this.textArea.focus();
@@ -101,7 +101,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   getFilteredText = () => {
-    const text = isIE10() ? this.state.inputText : this.textArea.getPlaintext().trim();
+    const text =
+      isIE10() || isMobile() ? this.state.inputText : this.textArea.getPlaintext().trim();
 
     // Filter emojis based on includeEmojis/excludeEmojis
     return EmojiUtils.filterEmojisFromText(text);
@@ -142,7 +143,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       QuiqChatClient.sendTextMessage(text);
     }
 
-    if (isIE10()) {
+    if (isIE10() || isMobile()) {
       this.setState({inputText: ''}, this.resetTypingTimers);
     } else {
       // Even if there was no text to send after filtering, we still clear the form and reset timers.
@@ -330,7 +331,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
         {!this.props.inputtingEmail && (
           <div className="messageArea">
-            {isIE10() ? (
+            {isIE10() || isMobile() ? (
               <Input
                 ref={element => {
                   this.textArea = element;
@@ -373,7 +374,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-              !isIE10() &&
+              !(isIE10() || isMobile()) &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <button
                   className="messageFormBtn emojiBtn"
@@ -398,7 +399,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-              !isIE10() &&
+              !(isIE10() || isMobile()) &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <EmojiPicker
                   visible={this.state.emojiPickerVisible}

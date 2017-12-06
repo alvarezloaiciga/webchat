@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>" />
-    <script>
-      var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
-    </script>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
-  </head>
-  <body></body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>" />
+  <script>
+    var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
+  </script>
+  <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
+</head>
+
+<body></body>
+
 </html>
