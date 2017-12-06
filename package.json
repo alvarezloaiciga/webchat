@@ -159,7 +159,8 @@
     "webpack-dashboard": "0.3.0",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2",
-    "webpack-merge": "0.14.1"
+    "webpack-merge": "0.14.1",
+    "webpack-subresource-integrity": "1.0.3"
   },
   "dependencies": {
     "babel-plugin-emotion": "8.0.2",

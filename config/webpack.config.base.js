@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const version = require('../package.json').version;
+const SriPlugin = require('webpack-subresource-integrity');
 
 const GLOBALS = {
   __VERSION__: `'${version}'`,
@@ -30,6 +31,11 @@ module.exports = {
     new webpack.ProvidePlugin({
       fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
     }),
+    new SriPlugin({
+      hashFuncNames: ['sha256'],
+      enabled: true
+      //enabled: process.env.NODE_ENV === 'production',
+    })
   ],
   module: {
     loaders: [
