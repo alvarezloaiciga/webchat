@@ -16,6 +16,7 @@ import {
   getAgentEndedLatestConversation,
   getLastClosedConversationIsSpam,
   getInputtingEmail,
+  getClosedConversationCount,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
@@ -26,6 +27,7 @@ const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTime
 
 export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
+  closedConversationCount: number,
   agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
@@ -255,7 +257,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled:
-          this.props.lastClosedConversationIsSpam &&
+          (this.props.closedConversationCount === 0 || this.props.lastClosedConversationIsSpam) &&
           !this.props.agentHasRespondedToLatestConversation,
       });
     }
@@ -429,6 +431,7 @@ export default connect(
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
+    closedConversationCount: getClosedConversationCount(state),
     agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     inputtingEmail: getInputtingEmail(state),
   }),

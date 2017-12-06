@@ -30,6 +30,7 @@ describe('MessageForm component', () => {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
         agentHasRespondedToLatestConversation: true,
+        closedConversationCount: 1,
         lastClosedConversationIsSpam: false,
         platformEvents: [],
         inputtingEmail: false,
@@ -124,23 +125,25 @@ describe('MessageForm component', () => {
       });
     });
 
-    describe('current convo is not spam and agent has not responded to latest convo', () => {
+    describe('current convo is not spam but customer has no history and agent has not responded', () => {
       beforeEach(() => {
         wrapper.setProps({
           lastClosedConversationIsSpam: false,
+          closedConversationCount: 0,
           agentHasRespondedToLatestConversation: false,
         });
       });
-      it('enables emailTranscript', () => {
+      it('disables emailTranscript', () => {
         wrapper.setProps({chatIsSpam: true});
-        expect(isEmailTranscriptDisabled()).toBe(false);
+        expect(isEmailTranscriptDisabled()).toBe(true);
       });
     });
 
-    describe('current convo is not spam and agent has responded to latest convo', () => {
+    describe('current convo is not spam, customer has no history and agent has responded to latest convo', () => {
       beforeEach(() => {
         wrapper.setProps({
           lastClosedConversationIsSpam: false,
+          closedConversationCount: 0,
           agentHasRespondedToLatestConversation: true,
         });
       });
