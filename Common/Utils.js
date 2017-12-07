@@ -320,12 +320,12 @@ export const uuidv4 = () =>
 export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);
 
 export const domainIsAllowed = (domain: string, whitelistString: string): boolean => {
-  const whitelist = whitelistString.split(',');
-
   // If whitelist is empty, all domains are allowed
-  if (whitelist.length === 0) {
+  if (whitelistString.length === 0) {
     return true;
   }
+
+  const whitelist = whitelistString.split(',');
 
   // Otherwise, try and find a match
   return whitelist.some(d => domain === d);
