@@ -279,6 +279,10 @@ export const getLastClosedConversationIsSpam = createSelector(getPlatformEvents,
   return lastEndEvent && lastEndEvent.type === EventTypes.SPAM;
 });
 
+export const getClosedConversationCount = createSelector(getPlatformEvents, events =>
+  events.reduce((count, e) => (EndEventTypes.includes(e.type) ? count + 1 : count), 0),
+);
+
 export const getAgentHasRespondedToLatestConversation = createSelector(
   getLatestConversationElements,
   elements =>

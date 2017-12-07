@@ -16,6 +16,7 @@ import {
   getAgentEndedLatestConversation,
   getLastClosedConversationIsSpam,
   getInputtingEmail,
+  getClosedConversationCount,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
@@ -26,6 +27,7 @@ const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTime
 
 export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
+  closedConversationCount: number,
   agentHasRespondedToLatestConversation: boolean,
   agentsInitiallyAvailable?: boolean,
   agentEndedConversation: boolean,
@@ -57,6 +59,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     inputText: '',
   };
   checkAvailabilityTimer: number;
+  simpleMode: boolean = isIE10() || isMobile();
 
   checkAvailability = async () => {
     if (enforceAgentAvailability) {
@@ -73,7 +76,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   componentDidMount() {
-    if (!(isIE10() || isMobile())) {
+    if (!this.simpleMode) {
       setTimeout(() => {
         if (this.textArea) {
           this.textArea.focus();
@@ -101,8 +104,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   getFilteredText = () => {
-    const text =
-      isIE10() || isMobile() ? this.state.inputText : this.textArea.getPlaintext().trim();
+    const text = this.simpleMode ? this.state.inputText : this.textArea.getPlaintext().trim();
 
     // Filter emojis based on includeEmojis/excludeEmojis
     return EmojiUtils.filterEmojisFromText(text);
@@ -143,8 +145,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       QuiqChatClient.sendTextMessage(text);
     }
 
-    if (isIE10() || isMobile()) {
-      this.setState({inputText: ''}, this.resetTypingTimers);
+    if (this.simpleMode) {
+      this.setState({inputText: '', hasText: false}, this.resetTypingTimers);
     } else {
       // Even if there was no text to send after filtering, we still clear the form and reset timers.
       // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
@@ -255,7 +257,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           fontFamily,
         }),
         disabled:
-          this.props.lastClosedConversationIsSpam &&
+          (this.props.closedConversationCount === 0 || this.props.lastClosedConversationIsSpam) &&
           !this.props.agentHasRespondedToLatestConversation,
       });
     }
@@ -322,16 +324,15 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     return (
       <div className="MessageForm" style={getStyle(styles.MessageForm)}>
-        {this.props.inputtingEmail &&
-          !this.props.lastClosedConversationIsSpam && (
-            <div className="messageArea">
-              <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
-            </div>
-          )}
+        {this.props.inputtingEmail && (
+          <div className="messageArea">
+            <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />
+          </div>
+        )}
 
         {!this.props.inputtingEmail && (
           <div className="messageArea">
-            {isIE10() || isMobile() ? (
+            {this.simpleMode ? (
               <Input
                 ref={element => {
                   this.textArea = element;
@@ -373,8 +374,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 <i className="fa fa-paperclip" />
               </button>
             )}
-            {this.props.configuration.enableEmojis &&
-              !(isIE10() || isMobile()) &&
+            {!this.simpleMode &&
+              this.props.configuration.enableEmojis &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <button
                   className="messageFormBtn emojiBtn"
@@ -399,7 +400,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-              !(isIE10() || isMobile()) &&
+              !this.simpleMode &&
               EmojiUtils.emojisEnabledByCustomer() && (
                 <EmojiPicker
                   visible={this.state.emojiPickerVisible}
@@ -429,6 +430,7 @@ export default connect(
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
+    closedConversationCount: getClosedConversationCount(state),
     agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     inputtingEmail: getInputtingEmail(state),
   }),
