@@ -146,6 +146,12 @@ export const getHostingWindow = (): ?Object => {
   return window.opener || parent;
 };
 
+export const getHostingDomain = (): string => {
+  const a = document.createElement('a');
+  a.href = document.referrer;
+  return a.hostname;
+};
+
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
 export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
 
@@ -312,3 +318,15 @@ export const uuidv4 = () =>
  * it returns that value. Otherwise, the right side is returned.
  */
 export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);
+
+export const domainIsAllowed = (domain: string, whitelistString: string): boolean => {
+  const whitelist = whitelistString.split(',');
+
+  // If whitelist is empty, all domains are allowed
+  if (whitelist.length === 0) {
+    return true;
+  }
+
+  // Otherwise, try and find a match
+  return whitelist.some(d => domain === d);
+};

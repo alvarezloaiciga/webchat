@@ -76,6 +76,7 @@ export const getMockConfiguration = (overrides?: *): ChatConfiguration =>
       enableChatFileAttachments: false,
       enableManualConvoStart: false,
       supportedAttachmentTypes: ['image/png,image/jpeg'],
+      whitelistedDomains: '',
       enableEmojis: false,
       playSoundOnNewMessage: false,
       flashNotificationOnNewMessage: false,

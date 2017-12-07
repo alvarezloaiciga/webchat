@@ -21,6 +21,7 @@ Object {
     "supportedAttachmentTypes": Array [
       "image/png,image/jpeg",
     ],
+    "whitelistedDomains": "",
   },
   "initializedState": "uninitialized",
   "inputtingEmail": false,
@@ -54,6 +55,7 @@ Object {
     "supportedAttachmentTypes": Array [
       "image/png,image/jpeg",
     ],
+    "whitelistedDomains": "",
   },
   "initializedState": "uninitialized",
   "inputtingEmail": false,
@@ -87,6 +89,7 @@ Object {
     "supportedAttachmentTypes": Array [
       "image/png,image/jpeg",
     ],
+    "whitelistedDomains": "",
   },
   "initializedState": "loading",
   "inputtingEmail": false,

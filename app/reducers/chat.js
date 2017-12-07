@@ -61,6 +61,7 @@ export const initialState = {
       customItems: [],
       offset: undefined,
     },
+    whitelistedDomains: '',
   },
   isAgentAssigned: false,
   inputtingEmail: false,
