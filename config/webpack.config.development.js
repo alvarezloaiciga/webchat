@@ -18,6 +18,7 @@ module.exports = merge(config, {
     filename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath,
+    crossOriginLoading: 'use-credentials'
   },
   debug: true,
   cache: true,

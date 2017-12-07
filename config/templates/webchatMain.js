@@ -10,6 +10,12 @@ function bootstrap(quiqOptions) {
     quiqWebchatScript = document.createElement('script');
     quiqWebchatScript.src = window.webChatSrc;
     quiqWebchatScript.async = false;
+
+    if (window.webChatHash) {
+      quiqWebchatScript.integrity = window.webChatHash;
+      quiqWebchatScript.crossorigin = 'use-credentials';
+    }
+
     document.getElementsByTagName('body')[0].appendChild(quiqWebchatScript);
   }
 }
@@ -59,7 +65,7 @@ function pageSetup() {
   var fontawesomeScript = document.createElement('script');
   fontawesomeScript.src="https://use.fontawesome.com/89da14f4b6.js";
   headTag.appendChild(fontawesomeScript);
-  
+
   // Listen for handshake form SDK
   window.addEventListener('message', handleMessage);
 

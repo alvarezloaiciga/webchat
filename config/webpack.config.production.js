@@ -28,6 +28,7 @@ module.exports = merge(config, {
     filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
     path: path.resolve(__dirname, '../dist'),
     publicPath,
+    crossOriginLoading: 'use-credentials'
   },
   debug: false,
   devtool: 'source-map',
