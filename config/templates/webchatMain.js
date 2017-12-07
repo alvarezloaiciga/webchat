@@ -13,7 +13,7 @@ function bootstrap(quiqOptions) {
 
     if (window.webChatHash) {
       quiqWebchatScript.integrity = window.webChatHash;
-      quiqWebchatScript.crossorigin = 'anonymous';
+      quiqWebchatScript.crossOrigin = 'anonymous';
     }
 
     document.getElementsByTagName('body')[0].appendChild(quiqWebchatScript);
