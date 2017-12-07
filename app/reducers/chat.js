@@ -52,6 +52,7 @@ export const initialState = {
     enableChatEmailTranscript: false,
     enableChatFileAttachments: false,
     enableManualConvoStart: false,
+    enableMobileChat: false,
     supportedAttachmentTypes: ['image/png,image/jpeg'],
     enableEmojis: false,
     playSoundOnNewMessage: false,

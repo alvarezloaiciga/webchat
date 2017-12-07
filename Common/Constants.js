@@ -93,6 +93,7 @@ export const postmasterActionTypes = {
   getHandle: 'QUIQ_GET_HANDLE',
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
   getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
+  getMobileChat: 'QUIQ_GET_MOBILE_CHAT',
 };
 
 export const ExtensionSdkEventTypes = {

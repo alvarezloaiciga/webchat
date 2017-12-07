@@ -11,6 +11,7 @@ Object {
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "enableManualConvoStart": false,
+    "enableMobileChat": false,
     "flashNotificationOnNewMessage": false,
     "menuOptions": Object {
       "customItems": Array [],
@@ -44,6 +45,7 @@ Object {
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "enableManualConvoStart": false,
+    "enableMobileChat": false,
     "flashNotificationOnNewMessage": false,
     "menuOptions": Object {
       "customItems": Array [],
@@ -77,6 +79,7 @@ Object {
     "enableChatFileAttachments": false,
     "enableEmojis": false,
     "enableManualConvoStart": false,
+    "enableMobileChat": false,
     "flashNotificationOnNewMessage": false,
     "menuOptions": Object {
       "customItems": Array [],
