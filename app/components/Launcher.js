@@ -188,9 +188,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
       destructApp();
       displayError(
-        `The domain "${
-          hostingDomain
-        }" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
+        `The domain "${hostingDomain}" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
       );
     }
 
