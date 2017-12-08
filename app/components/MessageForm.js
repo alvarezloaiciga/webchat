@@ -341,6 +341,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 value={this.state.inputText}
                 maxLength={1024}
                 autoFocus
+                onBlur={this.handleMessageFieldLostFocus}
+                onFocus={this.handleMessageFieldFocused}
                 disabled={!this.state.agentsAvailable || !allowConversationToStart}
                 onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                 onSubmit={this.addMessage}
