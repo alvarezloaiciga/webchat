@@ -84,6 +84,7 @@
     + [on](#on)
     + [setChatVisibility](#setchatvisibility)
     + [sendRegistration](#sendregistration)
+    + [getIsSupportedBrowser](#getissupportedbrowser)
 - [Extension SDK](#extension-sdk)
   * [on](#on-1)
 - [Supported Browsers](#supported-browsers)
@@ -639,6 +640,10 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 #### sendRegistration
   - sendRegistration([{id: string, value: string}])
   - Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
+
+#### getIsSupportedBrowser
+  - getIsSupportedBrowser(callback)
+  - Returns a Promise with an object containing a single boolean key, `supported`, which will be `true` if the user's browser is supported and `false` if not. Optionally, a callback can be passed to the function which will be called with the same object.
 
 ## Extension SDK
 
