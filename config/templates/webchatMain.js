@@ -40,6 +40,16 @@ if (document.readyState === 'complete') {
   window.addEventListener('load', pageSetup);
 }
 
+function inStandaloneMode() {
+  // If this fails, it's because of a cross origin exception.
+  // This means we  must be in an iFrame, since window and window.top are on different domains.
+  // Thus, return false in the catch block.
+  try {
+    return window.self === window.top;
+  } catch (e) {
+    return false;
+  }
+}
 
 function pageSetup() {
   var headTag = document.getElementsByTagName('head')[0];
@@ -66,17 +76,21 @@ function pageSetup() {
   fontawesomeScript.src="https://use.fontawesome.com/89da14f4b6.js";
   headTag.appendChild(fontawesomeScript);
 
-  // Listen for handshake form SDK
-  window.addEventListener('message', handleMessage);
-
-  // If quiqOptions was given to us in window.name, use that for bootstrapping:
-  if (window.name && window.name !== 'quiqChatFrame') {
-    try {
-      var quiqOptions = JSON.parse(window.name);
-      bootstrap(quiqOptions);
-    }
-    catch (e) {
-      console.warn("Quiq Webchat could not parse the options provided in window.name");
+  // If we're in a popup, use window.name or localStorage for quiqOptions
+  if (inStandaloneMode()) {
+    var quiqOptionsString = window.name || (localStorage && localStorage.getItem('quiqOptions'));
+    if (quiqOptionsString) {
+      try {
+        var quiqOptions = JSON.parse(quiqOptionsString);
+        bootstrap(quiqOptions);
+      }
+      catch (e) {
+        console.warn("Quiq Webchat could not parse the options provided in window.name");
+      }
     }
   }
-};
+  else {
+    // Otherwise, we're in an iFrame, so listen for handshake form SDK
+    window.addEventListener('message', handleMessage);
+  }
+}
