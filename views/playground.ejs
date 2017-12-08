@@ -266,11 +266,8 @@
     }
 
     // SDK method wrappers
-    function toggleChatVisibility() {
-      chat.getChatVisibility().then(function (data) {
-        var visible = data.visible;
-        chat.setChatVisibility(!visible);
-      });
+    function toggleChatVisibility(visible) {
+      chat.setChatVisibility(visible);
     }
 
     function sendRegistration() {
@@ -374,8 +371,13 @@
         </p>
         <div class="row">
           <p>
-            <button type="button" id="action_toggleChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility()">
-              Toggle chat visibility
+            <button type="button" id="action_showChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility(true)">
+              Show chat
+            </button>
+          </p>
+          <p>
+            <button type="button" id="action_hideChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility(false)">
+              Hide chat
             </button>
           </p>
           <p>

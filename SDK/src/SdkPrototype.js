@@ -2,9 +2,9 @@
 
 import * as Postmaster from './Postmaster';
 import {postmasterActionTypes as actionTypes, publicEventTypes} from 'Common/Constants';
-import {isIFrame, displayWarning, isSupportedBrowser} from 'Common/Utils';
+import {displayWarning, isSupportedBrowser} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
-import {getChatWindow} from './Globals';
+import SDKChatContainer from './components/SDKChatContainer';
 
 export default {
   getChatVisibility: async (
@@ -14,11 +14,7 @@ export default {
   },
 
   setChatVisibility: (visible: boolean) => {
-    // NOTE: Focus must be done from the SDK, not webchat, as call to focus() must originate from user interaction
-    if (!isIFrame(getChatWindow())) {
-      return getChatWindow().focus();
-    }
-    Postmaster.tellChat(actionTypes.setChatVisibility, {visible});
+    SDKChatContainer.setChatVisibility(visible, true);
   },
 
   sendRegistration: (registrationData: Array<RegistrationField>) => {

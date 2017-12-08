@@ -1,9 +1,8 @@
 // @flow
 
-import {getQuiqOptions, getChatWindow} from '../Globals';
+import {getQuiqOptions} from '../Globals';
 import {
   displayWarning,
-  isIFrame,
   isMobile,
   isStorageEnabled,
   isSupportedBrowser,
@@ -12,7 +11,6 @@ import {
 } from 'Common/Utils';
 import * as Postmaster from '../Postmaster';
 import {
-  postmasterActionTypes as actionTypes,
   eventTypes,
   noAgentsAvailableClass,
   mobileClass,
@@ -20,6 +18,7 @@ import {
   storageDisabledClass,
   hasMobileNumberClass,
 } from 'Common/Constants';
+import SDKChatContainer from '../components/SDKChatContainer';
 
 let unsupportedGetAgentsInterval: number;
 export const bindLaunchButtons = () => {
@@ -29,7 +28,7 @@ export const bindLaunchButtons = () => {
   customLaunchButtons.forEach((selector: string) => {
     const ele = document.querySelector(selector);
     if (!ele) return displayWarning('Unable to bind launch button');
-    ele.addEventListener('click', handleLaunchButtonClick);
+    ele.addEventListener('click', () => SDKChatContainer.setChatVisibility());
   });
 
   const unsupportedBrowser = !isSupportedBrowser();
@@ -49,26 +48,6 @@ export const bindLaunchButtons = () => {
   toggleClassOnCustomLaunchers(unsupportedBrowserClass, unsupportedBrowser);
   toggleClassOnCustomLaunchers(storageDisabledClass, storageDisabled);
   toggleClassOnCustomLaunchers(hasMobileNumberClass, !!mobileNumber);
-};
-
-export const handleLaunchButtonClick = async () => {
-  const {enableMobileChat} = await Postmaster.askChat(actionTypes.getMobileChatEnabled);
-  const quiqOptions = getQuiqOptions();
-  // If we're on mobile and mobile chat is not enabled, don't show chat.
-  // Open SMS app if mobileNumber is defined.
-  if (isMobile() && !enableMobileChat) {
-    if (quiqOptions.mobileNumber) window.location = `sms:${quiqOptions.mobileNumber}`;
-    return;
-  }
-
-  // If chat is in its own window, focus that window
-  if (!isIFrame(getChatWindow())) {
-    return getChatWindow().focus();
-  }
-
-  // Set visibility of container if chat is docked
-  const {visible} = await Postmaster.askChat(actionTypes.getChatVisibility);
-  Postmaster.tellChat(actionTypes.setChatVisibility, {visible: !visible});
 };
 
 export const toggleClassOnCustomLaunchers = (className: string, addOrRemove: boolean) => {
@@ -97,7 +76,9 @@ Postmaster.registerEventHandler(
  */
 export const oldSchoolGetAgentsAvailable = (callback: (available: boolean) => void) => {
   const {contactPoint, host} = getQuiqOptions();
-  let agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${contactPoint}&platform=Chat`;
+  let agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${
+    contactPoint
+  }&platform=Chat`;
   const browserDetails = `${getBrowserName()}_${getMajor()}`;
   if (!isSupportedBrowser()) agentsAvailableEndpoint += `&unsupportedBrowser=${browserDetails}`;
   if (!isStorageEnabled()) agentsAvailableEndpoint += `&storageDisabled=${browserDetails}`;
