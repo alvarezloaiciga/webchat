@@ -12,7 +12,11 @@ import {
   isMobile,
   isLastMessageFromAgent,
   convertToExtensionMessages,
+  domainIsAllowed,
+  getHostingDomain,
+  displayError,
 } from 'Common/Utils';
+import {destructApp} from 'utils/domUtils';
 import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -178,6 +182,17 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   init = async () => {
     const configuration = await QuiqChatClient.getChatConfiguration();
     this.props.setChatConfiguration(configuration);
+
+    // Domain whitelist enforcement: destroy webchat client if parent window's domain is not whitelisted
+    const hostingDomain = getHostingDomain();
+    if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
+      destructApp();
+      displayError(
+        `The domain "${
+          hostingDomain
+        }" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
+      );
+    }
 
     if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);

@@ -40,3 +40,5 @@ export const isSupportedBrowser = jest.fn(() => true);
 export const buildTemplateString = (s: string) => s;
 export const enableEmailForCurrentConversation = jest.fn(() => true);
 export const convertToExtensionMessages = jest.fn(() => []);
+export const getHostingDomain = jest.fn(() => 'test.com');
+export const domainIsAllowed = jest.fn(() => true);

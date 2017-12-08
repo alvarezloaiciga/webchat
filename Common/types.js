@@ -19,6 +19,7 @@ export type ChatConfiguration = {
       vertical?: string,
     } | null,
   },
+  whitelistedDomains: string,
 };
 
 export type BooleanConfig = {

@@ -47,6 +47,7 @@ describe('MessageForm component', () => {
           playSoundOnNewMessage: true,
           flashNotificationOnNewMessage: true,
           supportedAttachmentTypes: ['image/png,image/jpeg'],
+          whitelistedDomains: '',
           menuOptions: {
             customItems: [
               {
