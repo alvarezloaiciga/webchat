@@ -74,6 +74,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
+  postRobotListener.on(actionTypes.getMobileChatEnabled, getMobileChat);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
@@ -146,6 +147,10 @@ const getChatVisibility = () => {
 
 const getCanFlashNotifications = () => {
   return {canFlash: ChatSelectors.getConfiguration(store.getState()).flashNotificationOnNewMessage};
+};
+
+const getMobileChat = () => {
+  return {enableMobileChat: ChatSelectors.getConfiguration(store.getState()).enableMobileChat};
 };
 
 /**********************************************************************************

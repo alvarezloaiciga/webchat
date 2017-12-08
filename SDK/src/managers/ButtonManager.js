@@ -52,9 +52,11 @@ export const bindLaunchButtons = () => {
 };
 
 export const handleLaunchButtonClick = async () => {
+  const {enableMobileChat} = await Postmaster.askChat(actionTypes.getMobileChatEnabled);
   const quiqOptions = getQuiqOptions();
-  // If we're on mobile, don't show chat. Open SMS app if mobileNumber is defined.
-  if (isMobile()) {
+  // If we're on mobile and mobile chat is not enabled, don't show chat.
+  // Open SMS app if mobileNumber is defined.
+  if (isMobile() && !enableMobileChat) {
     if (quiqOptions.mobileNumber) window.location = `sms:${quiqOptions.mobileNumber}`;
     return;
   }

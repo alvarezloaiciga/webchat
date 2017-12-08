@@ -6,6 +6,7 @@ export type ChatConfiguration = {
   enableChatEmailTranscript: boolean,
   enableChatFileAttachments: boolean,
   enableManualConvoStart: boolean,
+  enableMobileChat: boolean,
   supportedAttachmentTypes: Array<string>,
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,

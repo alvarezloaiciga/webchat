@@ -50,6 +50,7 @@ export const setChatConfiguration = (metadata: ChatMetadata) => {
       enableChatFileAttachments:
         metadata.configs.CHAT_FILE_ATTACHMENTS && metadata.configs.CHAT_FILE_ATTACHMENTS.enabled,
       enableManualConvoStart: metadata.configs.CHAT_MANUAL_START_CONVO_MODE,
+      enableMobileChat: metadata.configs.CHAT_ALLOW_MOBILE,
       supportedAttachmentTypes:
         metadata.configs.ALLOWED_CONTENT_TYPES &&
         metadata.configs.ALLOWED_CONTENT_TYPES.contentTypes,
