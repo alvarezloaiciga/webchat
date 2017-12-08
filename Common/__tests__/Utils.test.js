@@ -64,6 +64,28 @@ describe('Utils', () => {
       expect(Utils.camelize('crazy-case word')).toBe('crazyCaseWord');
     });
   });
+
+  describe('domainIsAllowed', () => {
+    it('returns true if whitelist has one entry matching domain', () => {
+      expect(Utils.domainIsAllowed('foo.com', 'foo.com')).toBe(true);
+    });
+
+    it("doesn't mind having a trailing comma in whitelist string", () => {
+      expect(Utils.domainIsAllowed('foo.com', 'foo.com,')).toBe(true);
+    });
+
+    it('returns true if whitelist is empty string', () => {
+      expect(Utils.domainIsAllowed('foo.com', '')).toBe(true);
+    });
+
+    it('works with comma-separated whitelist', () => {
+      expect(Utils.domainIsAllowed('foo.com', 'bar.com,foo.com')).toBe(true);
+    });
+
+    it('returns false if domain is not in whitelist', () => {
+      expect(Utils.domainIsAllowed('foobar.com', 'foo.com,bar.com')).toBe(false);
+    });
+  });
 });
 
 describe('Utils', () => {
