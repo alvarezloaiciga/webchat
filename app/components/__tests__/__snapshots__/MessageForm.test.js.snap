@@ -23,7 +23,9 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
         }
       }
       maxLength={1024}
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       onSubmit={[Function]}
       placeholder="Send us a message..."
       value=""
