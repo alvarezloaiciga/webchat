@@ -2,7 +2,7 @@
 
 import * as Postmaster from './Postmaster';
 import {postmasterActionTypes as actionTypes, publicEventTypes} from 'Common/Constants';
-import {isIFrame, displayWarning} from 'Common/Utils';
+import {isIFrame, displayWarning, isSupportedBrowser} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
 import {getChatWindow} from './Globals';
 
@@ -38,6 +38,16 @@ export default {
     callback: (data: ?{active: boolean}, error: ?Error) => void,
   ): Promise<{active: boolean}> =>
     await Postmaster.askChat(actionTypes.getChatStatus, {}, callback),
+
+  getIsSupportedBrowser: async (
+    callback: (data: ?{supported: boolean}, error: ?Error) => void,
+  ): Promise<{supported: boolean}> => {
+    const supported = isSupportedBrowser();
+    if (callback) {
+      callback({supported});
+    }
+    return {supported};
+  },
 
   on: (eventName: string, handler: (data: Object) => any) => {
     if (!publicEventTypes[eventName]) {

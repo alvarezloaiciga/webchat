@@ -36,8 +36,6 @@ export const getUAInfo = () => parser.getResult();
 export const isMobile = () => !!getDeviceType();
 
 export const isSupportedBrowser = () => {
-  if (isMobile()) return true;
-
   const name = getBrowserName();
   const major = getMajor();
 

@@ -317,6 +317,13 @@
       })
     }
 
+    function getIsSupportedBrowser() {
+      chat.getIsSupportedBrowser(function (result) {
+        console.log(result);
+        document.getElementById('browserSupportDiv').innerText = result.supported;
+      })
+    }
+
     $(document).ready(function () {
       if (quiqOptions.autoPopTime) {
         var time = quiqOptions.autoPopTime;
@@ -393,6 +400,12 @@
               Get Chat Status (Active)
             </button>
             <div id="activeDiv"></div>
+          </p>
+          <p>
+            <button type="button" id="action_getIsSupportedBrowser" class="btn btn-lg btn-success" onclick="getIsSupportedBrowser()">
+              Is Browser Supported?
+            </button>
+          <div id="browserSupportDiv"></div>
           </p>
         </div>
 
