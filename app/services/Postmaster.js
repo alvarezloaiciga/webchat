@@ -74,7 +74,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
-  postRobotListener.on(actionTypes.getMobileChat, getMobileChat);
+  postRobotListener.on(actionTypes.getMobileChatEnabled, getMobileChat);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
