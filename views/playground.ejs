@@ -37,7 +37,7 @@
   <!-- Playground -->
   <script type="text/javascript" charset="utf-8">
     var quiqOptions = {
-      displayMode: 'either',  // either | undocked | docked
+      displayMode: 'undocked',  // either | undocked | docked
       _internal: {
         captureRequests: false,
         captureWebsockets: false,
@@ -52,7 +52,7 @@
       customScreens: {
         waitScreen: {
           url: 'https://<%- tenant %>.quiq.dev:3001/testExtension',
-          minHeight: 200
+          minHeight: 300
         }
       },
       host: '<%- host %>',
