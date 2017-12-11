@@ -214,17 +214,12 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   }}
                   className="waitScreen"
                   onLoad={this.handleIFrameLoad}
-                  style={{
-                    display: 'flex',
-                    height: '100%',
-                    minHeight: '0px',
-                    flex: '1 1 auto',
-                    borderWidth: 0,
-                    width: '100%',
-                  }}
                   sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
-                  // $FlowIssue - null check is in isUsingWaitScreen
-                  src={quiqOptions.customScreens.waitScreen.url}
+                  src={
+                    quiqOptions.customScreens && quiqOptions.customScreens.waitScreen
+                      ? quiqOptions.customScreens.waitScreen.url
+                      : ''
+                  }
                 />
               </div>
             )}
