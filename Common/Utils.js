@@ -318,6 +318,11 @@ export const uuidv4 = () =>
 export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);
 
 export const domainIsAllowed = (domain: string, whitelistString: string): boolean => {
+  // Domains which include goquiq.com are always allowed (so that chat editor works in admin UI)
+  if (domain.includes('goquiq.com')) {
+    return true;
+  }
+
   // If whitelist is empty, all domains are allowed
   if (whitelistString.length === 0) {
     return true;

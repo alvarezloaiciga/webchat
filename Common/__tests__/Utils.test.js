@@ -85,6 +85,10 @@ describe('Utils', () => {
     it('returns false if domain is not in whitelist', () => {
       expect(Utils.domainIsAllowed('foobar.com', 'foo.com,bar.com')).toBe(false);
     });
+
+    it('returns true for *.goquiq.com regardless of whitelist', () => {
+      expect(Utils.domainIsAllowed('fred.goquiq.com', 'foo.com,bar.com')).toBe(true);
+    });
   });
 });
 
