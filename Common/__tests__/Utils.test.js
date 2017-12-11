@@ -82,6 +82,10 @@ describe('Utils', () => {
       expect(Utils.domainIsAllowed('foo.com', 'bar.com,foo.com')).toBe(true);
     });
 
+    it('works with comma space-separated whitelist', () => {
+      expect(Utils.domainIsAllowed('foo.com', 'bar.com, foo.com')).toBe(true);
+    });
+
     it('returns false if domain is not in whitelist', () => {
       expect(Utils.domainIsAllowed('foobar.com', 'foo.com,bar.com')).toBe(false);
     });

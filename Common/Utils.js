@@ -331,5 +331,5 @@ export const domainIsAllowed = (domain: string, whitelistString: string): boolea
   const whitelist = whitelistString.split(',');
 
   // Otherwise, try and find a match
-  return whitelist.some(d => domain === d);
+  return whitelist.some(d => domain === d.trim());
 };
