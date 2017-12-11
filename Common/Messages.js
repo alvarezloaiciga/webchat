@@ -281,16 +281,10 @@ export default defineMessages({
     description: "Error for when webchat can't find the host window (where SDK is running)",
     defaultMessage: 'Unable to find host window',
   },
-  invalidAttachmentMessage: {
-    id: 'invalidAttachmentMessage',
-    description: 'Alert message for invalid attachment upload',
-    defaultMessage:
-      "We couldn't send your attachment, either because it was larger than 25 MB or was of an unsupported type.",
-  },
   attachmentUploadError: {
     id: 'attachmentUploadError',
     description: 'Alert message for an attachment failing to upload',
-    defaultMessage: 'We had a problem uploading your file. Please try again.',
+    defaultMessage: 'Error uploading file',
   },
   muteSounds: {
     id: 'muteSounds',
@@ -316,5 +310,15 @@ export default defineMessages({
     id: 'cannotStartNewConversationMessage',
     description: 'tooltip for not being able to start a conversation',
     defaultMessage: 'Conversation Has Ended',
+  },
+  unsupportedFileType: {
+    id: 'unsupportedFileType',
+    description: 'Message to display when a file type is unsupported',
+    defaultMessage: 'Unsupported File Type',
+  },
+  attachmentTooLarge: {
+    id: 'attachmentTooLarge',
+    description: 'Message to display when an attachment is too large',
+    defaultMessage: 'Attachment Too Large',
   },
 });

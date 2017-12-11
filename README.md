@@ -283,6 +283,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         messageArrivedNotification: string,
         transcriptEmailedEventMessage: string,
         cannotStartNewConversationMessage: string,
+        unsupportedFileType: string,
+        attachmentTooLarge: string,
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -321,7 +323,9 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
         messageArrivedNotification: 'New Message from Quiq Webchat'
         transcriptEmailedEventMessage: 'Transcript Emailed',
-        cannotStartNewConversationMessage: 'The Conversation Has Ended'
+        cannotStartNewConversationMessage: 'The Conversation Has Ended',
+        attachmentTooLarge: 'Attachment Too Large',
+        unsupportedFileType: 'Unsupported File Type',
       }
       ```
   - #### mobileNumber

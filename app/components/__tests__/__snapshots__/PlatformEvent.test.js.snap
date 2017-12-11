@@ -1,5 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PlatformEvent component attachmentErrors displays them 1`] = `
+<Styled(div)
+  className="PlatformEvent"
+  style={
+    Object {
+      "backgroundColor": "green",
+    }
+  }
+>
+  <Divider
+    fontSize="14px"
+    lineStyle={
+      Object {
+        "stroke": "red",
+      }
+    }
+    text="undefined Attachment Too Large - Xmas"
+    textStyle={
+      Object {
+        "background": "#f4f4f8",
+        "color": "red",
+        "fontFamily": "Lato, sans-serif",
+      }
+    }
+  />
+</Styled(div)>
+`;
+
+exports[`PlatformEvent component attachmentErrors displays them 2`] = `
+<Styled(div)
+  className="PlatformEvent"
+  style={
+    Object {
+      "backgroundColor": "green",
+    }
+  }
+>
+  <Divider
+    fontSize="14px"
+    lineStyle={
+      Object {
+        "stroke": "red",
+      }
+    }
+    text="undefined Unsupported File Type - Xmas"
+    textStyle={
+      Object {
+        "background": "#f4f4f8",
+        "color": "red",
+        "fontFamily": "Lato, sans-serif",
+      }
+    }
+  />
+</Styled(div)>
+`;
+
+exports[`PlatformEvent component attachmentErrors displays them 3`] = `
+<Styled(div)
+  className="PlatformEvent"
+  style={
+    Object {
+      "backgroundColor": "green",
+    }
+  }
+>
+  <Divider
+    fontSize="14px"
+    lineStyle={
+      Object {
+        "stroke": "red",
+      }
+    }
+    text="undefined Error uploading file - Xmas"
+    textStyle={
+      Object {
+        "background": "#f4f4f8",
+        "color": "red",
+        "fontFamily": "Lato, sans-serif",
+      }
+    }
+  />
+</Styled(div)>
+`;
+
 exports[`PlatformEvent component rendering renders 1`] = `
 <Styled(div)
   className="PlatformEvent"

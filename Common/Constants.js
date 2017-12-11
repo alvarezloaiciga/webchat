@@ -63,6 +63,12 @@ export const AuthorTypes = {
   SYSTEM: 'System',
 };
 
+export const AttachmentErrorTypes = {
+  TOO_LARGE: 'attachmentTooLarge',
+  UNSUPPORTED_TYPE: 'attachmentUnsupportedType',
+  UPLOAD_ERROR: 'attachmentUploadError',
+};
+
 // Define subsets of events
 export const EndEventTypes = [EventTypes.END, EventTypes.SPAM];
 
@@ -72,6 +78,9 @@ export const DisplayElementTypes = [
   EventTypes.SEND_TRANSCRIPT,
   EventTypes.END,
   EventTypes.SPAM,
+  AttachmentErrorTypes.TOO_LARGE,
+  AttachmentErrorTypes.UNSUPPORTED_TYPE,
+  AttachmentErrorTypes.UPLOAD_ERROR,
 ];
 
 export const reduxActionTypes = {
@@ -82,6 +91,7 @@ export const reduxActionTypes = {
   configurationLoaded: 'CHAT_CONFIGURATION_LOADED',
   removeMessage: 'REMOVE_MESSAGE',
   isAgentAssigned: 'AGENT_ASSIGNED',
+  addAttachmentError: 'ADD_ATTACHMENT_ERROR',
 };
 
 export const postmasterActionTypes = {
@@ -142,7 +152,8 @@ export const intlMessageTypes = {
   closeWindowTooltip: 'closeWindowTooltip',
   emojiPickerTooltip: 'emojiPickerTooltip',
   attachmentBtnTooltip: 'attachmentBtnTooltip',
-  invalidAttachmentMessage: 'invalidAttachmentMessage',
+  unsupportedFileType: 'unsupportedFileType',
+  attachmentTooLarge: 'attachmentTooLarge',
   attachmentUploadError: 'attachmentUploadError',
   muteSounds: 'muteSounds',
   unmuteSounds: 'unmuteSounds',

@@ -8,6 +8,7 @@ import {
   uuidv4,
   convertToExtensionMessages,
 } from 'Common/Utils';
+import {createGuid} from 'core-ui/utils/stringUtils';
 import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -22,6 +23,7 @@ import {
   intlMessageTypes,
   maxAttachmentSize,
   ExtensionSdkEventTypes,
+  AttachmentErrorTypes,
 } from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
@@ -31,6 +33,7 @@ import type {
   ChatInitializedStateType,
   ChatConfiguration,
   Message as MessageType,
+  AttachmentError,
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
@@ -51,6 +54,7 @@ export type ChatContainerProps = {
     url: string,
     fromCustomer: boolean,
   ) => void,
+  addAttachmentError: (attachmentError: AttachmentError) => void,
   removeMessage: (id: string) => void,
 };
 
@@ -88,10 +92,19 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
-    if (rejected.length > 0) {
-      this.displayTemporaryError(getMessage(intlMessageTypes.invalidAttachmentMessage), 10 * 1000);
-      return;
-    }
+    rejected.forEach(f => {
+      this.props.addAttachmentError({
+        timestamp: Date.now(),
+        id: createGuid(),
+        type:
+          f.size > maxAttachmentSize
+            ? AttachmentErrorTypes.TOO_LARGE
+            : AttachmentErrorTypes.UNSUPPORTED_TYPE,
+        payload: f.name,
+      });
+    });
+
+    if (rejected.length > 0) return;
 
     // Clear any attachment error
     this.setState({bannerMessage: undefined});
@@ -107,7 +120,12 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           this.props.updatePendingAttachmentId(tempId, id);
         })
         .catch(() => {
-          this.displayTemporaryError(getMessage(intlMessageTypes.attachmentUploadError), 10 * 1000);
+          this.props.addAttachmentError({
+            timestamp: Date.now(),
+            id: createGuid(),
+            type: AttachmentErrorTypes.UPLOAD_ERROR,
+            payload: file.name,
+          });
           this.props.removeMessage(tempId);
         });
     });
@@ -338,6 +356,7 @@ const mapDispatchToProps = {
   setUploadProgress: ChatActions.setUploadProgress,
   updatePendingAttachmentId: ChatActions.updatePendingAttachmentId,
   addPendingAttachmentMessage: ChatActions.addPendingAttachmentMessage,
+  addAttachmentError: ChatActions.addAttachmentError,
   removeMessage: ChatActions.removeMessage,
 };
 

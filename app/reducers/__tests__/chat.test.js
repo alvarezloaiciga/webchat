@@ -105,6 +105,7 @@ describe('chat reducers', () => {
         configuration: getMockConfiguration(),
         chatIsSpam: true,
         inputtingEmail: false,
+        attachmentErrors: [],
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

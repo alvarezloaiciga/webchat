@@ -32,6 +32,7 @@ describe('ChatContainer component', () => {
       updatePendingAttachmentId: jest.fn(),
       removeMessage: jest.fn(),
       configuration: getMockConfiguration(),
+      addAttachmentError: jest.fn(),
     };
 
     render = () => {
