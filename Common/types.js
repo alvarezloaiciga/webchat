@@ -188,7 +188,8 @@ export type QuiqObject = {
     emailTranscriptInputSubmitTooltip: string,
     transcriptEmailedEventMessage: string,
     messageArrivedNotification: string,
-    invalidAttachmentMessage: string,
+    unsupportedFileType: string,
+    attachmentTooLarge: string,
     attachmentUploadError: string,
     muteSounds: string,
     unmuteSounds: string,
@@ -418,6 +419,7 @@ export type ChatState = {
   configuration: ChatConfiguration,
   isAgentAssigned: boolean,
   inputtingEmail: boolean,
+  attachmentErrors: Array<AttachmentError>,
 };
 
 export type Action = {
@@ -504,6 +506,7 @@ export type Event = {
   timestamp: number,
   type: EventType,
   typing?: boolean,
+  payload?: any,
 };
 
 export type Conversation = {
@@ -610,3 +613,9 @@ export type EmojiMetadata = {
 };
 
 export type ButtonColor = 'green' | 'grey' | 'gray' | 'red' | 'none';
+
+export type AttachmentError = {
+  id: string,
+  type: 'attachmentTooLarge' | 'attachmentUnsupportedType' | 'attachmentUploadError',
+  timestamp: number,
+};

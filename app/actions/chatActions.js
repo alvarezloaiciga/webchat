@@ -1,5 +1,5 @@
 import {reduxActionTypes as actionTypes} from 'Common/Constants';
-import type {ChatInitializedStateType, Message, ChatMetadata} from 'types';
+import type {ChatInitializedStateType, Message, ChatMetadata, AttachmentError} from 'types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   type: 'CHAT_CONTAINER_HIDDEN',
@@ -97,6 +97,11 @@ export const setUploadProgress = (messageId: string, progress: number) => ({
   type: actionTypes.uploadProgress,
   messageId,
   progress,
+});
+
+export const addAttachmentError = (attachmentError: AttachmentError) => ({
+  type: actionTypes.addAttachmentError,
+  attachmentError,
 });
 
 export const addPendingAttachmentMessage = (

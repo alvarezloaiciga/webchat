@@ -17,6 +17,7 @@ import type {
   Message,
   Event,
   ChatConfiguration,
+  AttachmentError,
 } from 'Common/types';
 import {createSelector} from 'reselect';
 
@@ -35,6 +36,7 @@ type ChatAction = {
   id?: string,
   isAgentAssigned?: boolean,
   inputtingEmail?: boolean,
+  attachmentErrors?: Array<AttachmentError>,
 };
 
 export const initialState = {
@@ -44,6 +46,7 @@ export const initialState = {
   initializedState: ChatInitializedState.UNINITIALIZED,
   transcript: {},
   platformEvents: {},
+  attachmentErrors: [],
   agentTyping: false,
   welcomeFormRegistered: false,
   muteSounds: false,
@@ -162,6 +165,11 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       }
       return state;
     }
+    case 'ADD_ATTACHMENT_ERROR':
+      return {
+        ...state,
+        attachmentErrors: [...state.attachmentErrors, action.attachmentError],
+      };
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
     case 'MUTE_SOUNDS':
@@ -215,6 +223,9 @@ export const getPlatformEvents = createSelector(
   platformEvents => Object.values(platformEvents),
 );
 
+export const getAttachmentErrors = (state: ChatState): Array<AttachmentError> =>
+  state.attachmentErrors;
+
 /**
  * Returns all Messages and Events belonging to the latest conversation, sorted by timestamp
  *  The latest conversation consists of all messages and platform events from the end of the transcript until one of the following:
@@ -258,12 +269,13 @@ export const getLatestConversationElements = createSelector(
  * @return {Array.<*>}
  */
 export const getAllConversationElements = createSelector(
-  [getTranscript, getPlatformEvents],
-  (transcript, platformEvents) => {
+  [getTranscript, getPlatformEvents, getAttachmentErrors],
+  (transcript, platformEvents, attachmentErrors) => {
     // $FlowIssue - Flow does not infer types when Object.values is used
     return (
       Object.values(transcript)
         .concat(Object.values(platformEvents))
+        .concat(attachmentErrors)
         // $FlowIssue - Flow does not infer types when Object.values is used
         .sort((a, b) => a.timestamp - b.timestamp)
     );

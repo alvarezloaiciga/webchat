@@ -4,6 +4,7 @@ exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 1`] = `
 Object {
   "agentTyping": false,
   "agentsAvailable": undefined,
+  "attachmentErrors": Array [],
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
@@ -39,6 +40,7 @@ exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 2`] = `
 Object {
   "agentTyping": false,
   "agentsAvailable": undefined,
+  "attachmentErrors": Array [],
   "chatContainerHidden": true,
   "chatLauncherHidden": true,
   "configuration": Object {
@@ -74,6 +76,7 @@ exports[`chat reducers NEW_WEBCHAT_SESSION updates state with initial state merg
 Object {
   "agentTyping": false,
   "agentsAvailable": true,
+  "attachmentErrors": Array [],
   "chatContainerHidden": false,
   "chatLauncherHidden": false,
   "configuration": Object {

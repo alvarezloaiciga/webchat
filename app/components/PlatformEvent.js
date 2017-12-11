@@ -5,7 +5,7 @@ import Divider from 'core-ui/components/Divider';
 import Button from 'core-ui/components/Button';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import styled from 'react-emotion';
-import {intlMessageTypes} from 'Common/Constants';
+import {intlMessageTypes, AttachmentErrorTypes} from 'Common/Constants';
 import {formatTime} from 'core-ui/services/i18nService';
 import type {Event} from 'Common/types';
 
@@ -61,6 +61,8 @@ const PlatformEventContainer = styled.div`
 `;
 
 const getEventDescription = (event: Event): ?string => {
+  const payload = event.payload || '';
+
   switch (event.type) {
     // We want to show an "End" event when convo is marked as Spam
     case 'End':
@@ -68,6 +70,12 @@ const getEventDescription = (event: Event): ?string => {
       return getMessage(intlMessageTypes.agentEndedConversationMessage);
     case 'SendTranscript':
       return getMessage(intlMessageTypes.transcriptEmailedEventMessage);
+    case AttachmentErrorTypes.TOO_LARGE:
+      return `${getMessage(intlMessageTypes.attachmentTooLarge)} - ${payload}`;
+    case AttachmentErrorTypes.UNSUPPORTED_TYPE:
+      return `${getMessage(intlMessageTypes.unsupportedFileType)} - ${payload}`;
+    case AttachmentErrorTypes.UPLOAD_ERROR:
+      return `${getMessage(intlMessageTypes.attachmentUploadError)} - ${payload}`;
   }
 };
 
