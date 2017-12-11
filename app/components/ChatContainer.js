@@ -195,12 +195,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
         return (
           <div className="chatContainerBody" style={chatContainerStyle}>
             {this.isUsingWaitScreen() && (
-              <iframe
-                ref={r => {
-                  this.extensionFrame = r;
-                }}
-                className="waitScreen"
-                onLoad={this.handleIFrameLoad}
+              // IMPORTANT: This wrapper is needed to get scrolling and the flex resizing to
+              // working correctly on mobile devices. If you remove, be sure to test those
+              // scenarios.
+              <div
+                className="waitScreenScrollWrapper"
                 style={{
                   minHeight: this.getWaitScreenMinHeight(),
                   height: this.getWaitScreenHeight(),
@@ -208,10 +207,24 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   flexGrow: this.getWaitScreenFlexGrow(),
                   width: '100%',
                 }}
-                sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
-                // $FlowIssue - null check is in isUsingWaitScreen
-                src={quiqOptions.customScreens.waitScreen.url}
-              />
+              >
+                <iframe
+                  ref={r => {
+                    this.extensionFrame = r;
+                  }}
+                  style={{
+                    minHeight: this.getWaitScreenMinHeight(),
+                  }}
+                  className="waitScreen"
+                  onLoad={this.handleIFrameLoad}
+                  sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
+                  src={
+                    quiqOptions.customScreens && quiqOptions.customScreens.waitScreen
+                      ? quiqOptions.customScreens.waitScreen.url
+                      : ''
+                  }
+                />
+              </div>
             )}
             <Dropzone
               ref={d => {

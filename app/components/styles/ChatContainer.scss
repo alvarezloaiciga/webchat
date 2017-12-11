@@ -36,9 +36,21 @@
     overflow: hidden;
   }
 
-  .waitScreen {
+  .waitScreenScrollWrapper {
     flex: 1 1 auto;
     display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    // IMPORTANT: This property is needed to allow for scrolling within the iFrame
+    // on mobile devices. If you remove, be sure to test those scenarios.
+    -webkit-overflow-scrolling: touch;
+
+    .waitScreen {
+      flex: 1 1 auto;
+      height: 100%;
+      border-width: 0;
+      width: 100%;
+    }
   }
 
   .transcriptAreaWithWaitScreen {
