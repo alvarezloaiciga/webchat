@@ -100,6 +100,13 @@
   }
 }
 
+// iPhone X hack
+@media screen and (device-width: 375px) and (device-height: 812px) and (orientation: portrait) {
+  .ChatContainer.standaloneMode {
+    height: 635px !important;
+  }
+}
+
 .noFlexbox .ChatContainer {
   // Default demensions
   width: 400px;
