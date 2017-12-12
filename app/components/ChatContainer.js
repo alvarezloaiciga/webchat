@@ -7,6 +7,7 @@ import {
   isSupportedBrowser,
   uuidv4,
   convertToExtensionMessages,
+  isIPhone,
 } from 'Common/Utils';
 import {createGuid} from 'core-ui/utils/stringUtils';
 import classnames from 'classnames';
@@ -37,6 +38,136 @@ import type {
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
+import {css} from 'emotion';
+
+export const banner = css`
+  flex: 0 0 auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 14px;
+  padding: 0 30px;
+  align-items: stretch;
+  text-align: center;
+
+  background: #59ad5d;
+  height: 60px;
+`;
+
+export const getHeight = (originalHeight: string): string => {
+  let height = originalHeight;
+
+  if (isIPhone()) {
+    height = `${window.innerHeight}px`;
+  }
+
+  return height;
+};
+
+export const standaloneMode = css`
+  && {
+    width: 100vw !important;
+    height: ${getHeight('100vh')} !important;
+    position: initial;
+    right: 0;
+    bottom: 0;
+    border: none;
+    border-radius: 0;
+    animation: none;
+  }
+`;
+
+export const chatContainer = css`
+  width: 99vw$ !important};
+  height: ${getHeight('98vh')} !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: auto !important;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.117647);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f8;
+
+  &.${standaloneMode} {
+    height: 635px !important;
+  }
+`;
+
+export const chatContainerBody = css`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+export const errorBanner = css`
+  flex: 0 0 auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 14px;
+  padding: 0 30px;
+  align-items: stretch;
+  text-align: center;
+
+  background: #ad2215;
+  height: 50px;
+`;
+
+export const hidden = css`
+  && {
+    display: none;
+  }
+`;
+
+export const transcriptArea = css`
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  white-space: pre-wrap;
+`;
+
+export const transcriptAreaWithWaitScreen = css`
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  white-space: pre-wrap;
+`;
+
+export const waitScreenScrollWrapper = css`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
+export const waitScreen = css`
+  flex: 1 1 auto;
+
+  height: 100%;
+
+  border-width: 0;
+
+  width: 100%;
+`;
 
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
@@ -150,7 +281,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     // If state indicates a warning message, use that
     if (this.state.bannerMessage) {
       return (
-        <div className="errorBanner" style={errorBannerStyle}>
+        <div className={errorBanner} style={errorBannerStyle}>
           {this.state.bannerMessage}
         </div>
       );
@@ -161,19 +292,19 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.LOADING:
       case ChatInitializedState.UNINITIALIZED:
         return (
-          <div className="banner" style={bannerStyle}>
+          <div className={banner} style={bannerStyle}>
             {getMessage(intlMessageTypes.headerText)}
           </div>
         );
       case ChatInitializedState.INACTIVE:
         return (
-          <div className="errorBanner" style={errorBannerStyle}>
+          <div className={errorBanner} style={errorBannerStyle}>
             {getMessage(intlMessageTypes.inactiveMessage)}
           </div>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
-          <div className="errorBanner" style={errorBannerStyle}>
+          <div className={errorBanner} style={errorBannerStyle}>
             {getMessage(intlMessageTypes.reconnectingMessage)}
           </div>
         );
@@ -181,7 +312,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className="errorBanner" style={errorBannerStyle}>
+          <div className={errorBanner} style={errorBannerStyle}>
             {getMessage(intlMessageTypes.errorMessage)}
           </div>
         );
@@ -193,13 +324,13 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className="chatContainerBody" style={chatContainerStyle}>
+          <div className={chatContainerBody} style={chatContainerStyle}>
             {this.isUsingWaitScreen() && (
               // IMPORTANT: This wrapper is needed to get scrolling and the flex resizing to
               // working correctly on mobile devices. If you remove, be sure to test those
               // scenarios.
               <div
-                className="waitScreenScrollWrapper"
+                className={waitScreenScrollWrapper}
                 style={{
                   minHeight: this.getWaitScreenMinHeight(),
                   height: this.getWaitScreenHeight(),
@@ -215,7 +346,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   style={{
                     minHeight: this.getWaitScreenMinHeight(),
                   }}
-                  className="waitScreen"
+                  className={waitScreen}
                   onLoad={this.handleIFrameLoad}
                   sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
                   src={
@@ -230,9 +361,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               ref={d => {
                 this.dropzone = d;
               }}
-              className={
-                this.isUsingWaitScreen() ? 'transcriptAreaWithWaitScreen' : 'transcriptArea'
-              }
+              className={this.isUsingWaitScreen() ? transcriptAreaWithWaitScreen : transcriptArea}
               disabled={
                 !this.props.configuration.enableChatFileAttachments ||
                 (this.props.configuration.enableManualConvoStart &&
@@ -256,7 +385,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
         return (
-          <div className="chatContainerBody" style={chatContainerStyle}>
+          <div className={chatContainerBody} style={chatContainerStyle}>
             <Spinner />
           </div>
         );
@@ -266,7 +395,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className="chatContainerBody" style={chatContainerStyle}>
+          <div className={chatContainerBody} style={chatContainerStyle}>
             <Transcript />
           </div>
         );
@@ -328,10 +457,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
-    const classNames = classnames(`ChatContainer ${this.props.initializedState}`, {
-      standaloneMode: inStandaloneMode(),
-      hasCustomLauncher: !inStandaloneMode() && quiqOptions.customLaunchButtons.length > 0,
-    });
+    const classNames = classnames(`${chatContainer} ${inStandaloneMode() ? standaloneMode : ''}`);
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&

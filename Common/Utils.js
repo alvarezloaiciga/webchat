@@ -21,6 +21,8 @@ const parser = new UAParser();
 
 export const getBrowserName = (): BrowserNames => parser.getResult().browser.name;
 
+export const isIPhone = (): boolean => parser.getResult().device.model === 'iPhone';
+
 export const getEngineName = (): BrowserEngine => parser.getResult().engine.name;
 
 export const getEngineVersion = (): number => parseInt(parser.getResult().engine.version, 10);
