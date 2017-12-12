@@ -1,12 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChatContainer component initializedState when burned renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-tvbb1z"
+  <Styled(div)
     style={
       Object {
         "background": "#fff",
@@ -18,10 +17,9 @@ exports[`ChatContainer component initializedState when burned renders properly 1
     }
   >
     We're having trouble connecting. Try refreshing the page.
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -29,17 +27,16 @@ exports[`ChatContainer component initializedState when burned renders properly 1
     }
   >
     <Connect(Transcript) />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when disconnected renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-tvbb1z"
+  <Styled(div)
     style={
       Object {
         "background": "#fff",
@@ -51,10 +48,9 @@ exports[`ChatContainer component initializedState when disconnected renders prop
     }
   >
     Reconnecting...
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -62,17 +58,16 @@ exports[`ChatContainer component initializedState when disconnected renders prop
     }
   >
     <Connect(Transcript) />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when errored renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-tvbb1z"
+  <Styled(div)
     style={
       Object {
         "background": "#fff",
@@ -84,10 +79,9 @@ exports[`ChatContainer component initializedState when errored renders properly 
     }
   >
     We're having trouble connecting. Try refreshing the page.
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -95,17 +89,16 @@ exports[`ChatContainer component initializedState when errored renders properly 
     }
   >
     <Connect(Transcript) />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when inactive renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-tvbb1z"
+  <Styled(div)
     style={
       Object {
         "background": "#fff",
@@ -117,10 +110,9 @@ exports[`ChatContainer component initializedState when inactive renders properly
     }
   >
     You have been disconnected due to inactivity. Please refresh the page to reconnect.
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -128,17 +120,16 @@ exports[`ChatContainer component initializedState when inactive renders properly
     }
   >
     <Connect(Transcript) />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when initialized renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-16h2yiv"
+  <Styled(div)
     style={
       Object {
         "background": "#31bf8b",
@@ -151,27 +142,24 @@ exports[`ChatContainer component initializedState when initialized renders prope
     }
   >
     We're here to help if you have any questions!
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
       }
     }
   >
-    <Dropzone
+    <Styled(Dropzone)
       accept="image/png,image/jpeg"
-      className="css-7hus7w"
       disableClick={true}
       disablePreview={true}
       disabled={true}
+      id="TranscriptArea"
+      innerRef={[Function]}
       maxSize={50000000}
-      minSize={0}
-      multiple={true}
       onDrop={[Function]}
-      preventDropOnDocument={true}
       style={
         Object {
           "minHeight": "0px",
@@ -182,18 +170,17 @@ exports[`ChatContainer component initializedState when initialized renders prope
       <Connect(MessageForm)
         openFileBrowser={[Function]}
       />
-    </Dropzone>
-  </div>
-</div>
+    </Styled(Dropzone)>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when loading renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-16h2yiv"
+  <Styled(div)
     style={
       Object {
         "background": "#31bf8b",
@@ -206,10 +193,9 @@ exports[`ChatContainer component initializedState when loading renders properly 
     }
   >
     We're here to help if you have any questions!
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -217,17 +203,16 @@ exports[`ChatContainer component initializedState when loading renders properly 
     }
   >
     <Spinner />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component initializedState when uninitialized renders properly 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(HeaderMenu) />
-  <div
-    className="css-16h2yiv"
+  <Styled(div)
     style={
       Object {
         "background": "#31bf8b",
@@ -240,10 +225,9 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
     }
   >
     We're here to help if you have any questions!
-  </div>
+  </Styled(div)>
   <Debugger />
-  <div
-    className="css-1lhgrxf"
+  <Styled(div)
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -251,16 +235,16 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
     }
   >
     <Spinner />
-  </div>
-</div>
+  </Styled(div)>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
-<div
-  className="css-encnrh "
+<Styled(div)
+  standaloneMode={false}
 >
   <Connect(WelcomeForm) />
-</div>
+</Styled(div)>
 `;
 
 exports[`ChatContainer component when chatContainerHidden is true returns null 1`] = `""`;

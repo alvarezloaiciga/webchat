@@ -10,7 +10,6 @@ import {
   isIPhone,
 } from 'Common/Utils';
 import {createGuid} from 'core-ui/utils/stringUtils';
-import classnames from 'classnames';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
@@ -38,6 +37,7 @@ import type {
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
 import {css} from 'emotion';
+import styled from 'react-emotion';
 
 export const getHeight = (originalHeight: string): string => {
   let height = originalHeight;
@@ -49,7 +49,44 @@ export const getHeight = (originalHeight: string): string => {
   return height;
 };
 
-export const banner = css`
+export const ChatContainerStyle = styled.div`
+  width: 99vw !important;
+  height: ${getHeight('98vh')} !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: auto !important;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.117647);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f8;
+
+  ${props =>
+    props.standaloneMode &&
+    css`
+      width: 100vw !important;
+      height: ${getHeight('100vh')} !important;
+      position: initial;
+      right: 0;
+      bottom: 0;
+      border: none;
+      border-radius: 0;
+      animation: none;
+    `};
+`;
+
+export const ChatContainerBody = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+export const Banner = styled.div`
   flex: 0 0 auto;
   color: #fff;
   display: flex;
@@ -64,42 +101,7 @@ export const banner = css`
   height: 60px;
 `;
 
-export const chatContainer = css`
-  width: 99vw !important;
-  height: ${getHeight('98vh')} !important;
-  max-width: none !important;
-  max-height: none !important;
-  margin: auto !important;
-  padding: 0;
-  border: 1px solid rgba(0, 0, 0, 0.117647);
-  border-radius: 5px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background: #f4f4f8;
-
-  &.standaloneMode {
-    width: 100vw !important;
-    height: ${getHeight('100vh')} !important;
-    position: initial;
-    right: 0;
-    bottom: 0;
-    border: none;
-    border-radius: 0;
-    animation: none;
-  }
-`;
-
-export const chatContainerBody = css`
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
-export const errorBanner = css`
+export const ErrorBanner = styled.div`
   flex: 0 0 auto;
   color: #fff;
   display: flex;
@@ -114,9 +116,9 @@ export const errorBanner = css`
   height: 50px;
 `;
 
-export const transcriptArea = css`
+export const TranscriptArea = styled(Dropzone)`
   display: flex;
-  flex: 1 1 auto;
+  flex: ${props => !props.hasWaitScreen} 1 auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -125,18 +127,7 @@ export const transcriptArea = css`
   white-space: pre-wrap;
 `;
 
-export const transcriptAreaWithWaitScreen = css`
-  display: flex;
-  flex: 0 1 auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  width: 100%;
-  white-space: pre-wrap;
-`;
-
-export const waitScreenScrollWrapper = css`
+export const WaitScreenScrollWrapper = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -146,7 +137,7 @@ export const waitScreenScrollWrapper = css`
   -webkit-overflow-scrolling: touch;
 `;
 
-export const waitScreen = css`
+export const WaitScreen = styled.iframe`
   flex: 1 1 auto;
   height: 100%;
   border-width: 0;
@@ -264,41 +255,33 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     // If state indicates a warning message, use that
     if (this.state.bannerMessage) {
-      return (
-        <div className={errorBanner} style={errorBannerStyle}>
-          {this.state.bannerMessage}
-        </div>
-      );
+      return <ErrorBanner style={errorBannerStyle}>{this.state.bannerMessage}</ErrorBanner>;
     }
 
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
       case ChatInitializedState.LOADING:
       case ChatInitializedState.UNINITIALIZED:
-        return (
-          <div className={banner} style={bannerStyle}>
-            {getMessage(intlMessageTypes.headerText)}
-          </div>
-        );
+        return <Banner style={bannerStyle}>{getMessage(intlMessageTypes.headerText)}</Banner>;
       case ChatInitializedState.INACTIVE:
         return (
-          <div className={errorBanner} style={errorBannerStyle}>
+          <ErrorBanner style={errorBannerStyle}>
             {getMessage(intlMessageTypes.inactiveMessage)}
-          </div>
+          </ErrorBanner>
         );
       case ChatInitializedState.DISCONNECTED:
         return (
-          <div className={errorBanner} style={errorBannerStyle}>
+          <ErrorBanner style={errorBannerStyle}>
             {getMessage(intlMessageTypes.reconnectingMessage)}
-          </div>
+          </ErrorBanner>
         );
       case ChatInitializedState.ERROR:
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className={errorBanner} style={errorBannerStyle}>
+          <ErrorBanner style={errorBannerStyle}>
             {getMessage(intlMessageTypes.errorMessage)}
-          </div>
+          </ErrorBanner>
         );
     }
   };
@@ -308,13 +291,12 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
-          <div className={chatContainerBody} style={chatContainerStyle}>
+          <ChatContainerBody style={chatContainerStyle}>
             {this.isUsingWaitScreen() && (
               // IMPORTANT: This wrapper is needed to get scrolling and the flex resizing to
               // working correctly on mobile devices. If you remove, be sure to test those
               // scenarios.
-              <div
-                className={waitScreenScrollWrapper}
+              <WaitScreenScrollWrapper
                 style={{
                   minHeight: this.getWaitScreenMinHeight(),
                   height: this.getWaitScreenHeight(),
@@ -322,16 +304,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   flexGrow: this.getWaitScreenFlexGrow(),
                   width: '100%',
                 }}
-                id="waitScreen"
               >
-                <iframe
-                  ref={r => {
+                <WaitScreen
+                  innerRef={r => {
                     this.extensionFrame = r;
                   }}
                   style={{
                     minHeight: this.getWaitScreenMinHeight(),
                   }}
-                  className={waitScreen}
                   onLoad={this.handleIFrameLoad}
                   sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
                   src={
@@ -340,13 +320,13 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                       : ''
                   }
                 />
-              </div>
+              </WaitScreenScrollWrapper>
             )}
-            <Dropzone
-              ref={d => {
+            <TranscriptArea
+              innerRef={d => {
                 this.dropzone = d;
               }}
-              className={this.isUsingWaitScreen() ? transcriptAreaWithWaitScreen : transcriptArea}
+              hasWaitScreen={this.isUsingWaitScreen()}
               disabled={
                 !this.props.configuration.enableChatFileAttachments ||
                 (this.props.configuration.enableManualConvoStart &&
@@ -365,15 +345,15 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             >
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
-            </Dropzone>
-          </div>
+            </TranscriptArea>
+          </ChatContainerBody>
         );
       case ChatInitializedState.UNINITIALIZED:
       case ChatInitializedState.LOADING:
         return (
-          <div className={chatContainerBody} style={chatContainerStyle}>
+          <ChatContainerBody style={chatContainerStyle}>
             <Spinner />
-          </div>
+          </ChatContainerBody>
         );
       case ChatInitializedState.DISCONNECTED:
       case ChatInitializedState.ERROR:
@@ -381,9 +361,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.BURNED:
       default:
         return (
-          <div className={chatContainerBody} style={chatContainerStyle}>
+          <ChatContainerBody style={chatContainerStyle}>
             <Transcript />
-          </div>
+          </ChatContainerBody>
         );
     }
   };
@@ -443,28 +423,24 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
-    const classNames = classnames(chatContainer, {
-      standaloneMode: inStandaloneMode(),
-    });
-
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
       !this.props.welcomeFormRegistered
     ) {
       return (
-        <div id="ChatContainer" className={classNames}>
+        <ChatContainerStyle standaloneMode={inStandaloneMode()}>
           <WelcomeForm />
-        </div>
+        </ChatContainerStyle>
       );
     }
 
     return (
-      <div id="ChatContainer" className={classNames}>
+      <ChatContainerStyle standaloneMode={inStandaloneMode()}>
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />
         {this.renderContent()}
-      </div>
+      </ChatContainerStyle>
     );
   }
 }
