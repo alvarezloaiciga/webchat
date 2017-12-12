@@ -36,8 +36,7 @@ import type {
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
-import {css} from 'emotion';
-import styled from 'react-emotion';
+import styled, {css} from 'react-emotion';
 
 export const getHeight = (originalHeight: string): string => {
   let height = originalHeight;
@@ -116,9 +115,10 @@ export const ErrorBanner = styled.div`
   height: 50px;
 `;
 
+/* eslint-disable no-confusing-arrow */
 export const TranscriptArea = styled(Dropzone)`
   display: flex;
-  flex: ${props => !props.hasWaitScreen} 1 auto;
+  flex: ${props => (!props.hasWaitScreen ? 1 : 0)} 1 auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -126,6 +126,7 @@ export const TranscriptArea = styled(Dropzone)`
   width: 100%;
   white-space: pre-wrap;
 `;
+/* eslint-disable no-confusing-arrow */
 
 export const WaitScreenScrollWrapper = styled.div`
   flex: 1 1 auto;
