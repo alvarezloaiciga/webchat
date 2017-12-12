@@ -2,11 +2,11 @@
 
 exports[`ChatContainer component initializedState when burned renders properly 1`] = `
 <div
-  className="ChatContainer burned"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="errorBanner"
+    className="css-tvbb1z"
     style={
       Object {
         "background": "#fff",
@@ -21,7 +21,7 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -35,11 +35,11 @@ exports[`ChatContainer component initializedState when burned renders properly 1
 
 exports[`ChatContainer component initializedState when disconnected renders properly 1`] = `
 <div
-  className="ChatContainer disconnected"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="errorBanner"
+    className="css-tvbb1z"
     style={
       Object {
         "background": "#fff",
@@ -54,7 +54,7 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -68,11 +68,11 @@ exports[`ChatContainer component initializedState when disconnected renders prop
 
 exports[`ChatContainer component initializedState when errored renders properly 1`] = `
 <div
-  className="ChatContainer error"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="errorBanner"
+    className="css-tvbb1z"
     style={
       Object {
         "background": "#fff",
@@ -87,7 +87,7 @@ exports[`ChatContainer component initializedState when errored renders properly 
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -101,11 +101,11 @@ exports[`ChatContainer component initializedState when errored renders properly 
 
 exports[`ChatContainer component initializedState when inactive renders properly 1`] = `
 <div
-  className="ChatContainer inactive"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="errorBanner"
+    className="css-tvbb1z"
     style={
       Object {
         "background": "#fff",
@@ -120,7 +120,7 @@ exports[`ChatContainer component initializedState when inactive renders properly
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -134,11 +134,11 @@ exports[`ChatContainer component initializedState when inactive renders properly
 
 exports[`ChatContainer component initializedState when initialized renders properly 1`] = `
 <div
-  className="ChatContainer initialized"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="banner"
+    className="css-16h2yiv"
     style={
       Object {
         "background": "#31bf8b",
@@ -154,7 +154,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -163,7 +163,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
   >
     <Dropzone
       accept="image/png,image/jpeg"
-      className="transcriptArea"
+      className="css-7hus7w"
       disableClick={true}
       disablePreview={true}
       disabled={true}
@@ -189,11 +189,11 @@ exports[`ChatContainer component initializedState when initialized renders prope
 
 exports[`ChatContainer component initializedState when loading renders properly 1`] = `
 <div
-  className="ChatContainer loading"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="banner"
+    className="css-16h2yiv"
     style={
       Object {
         "background": "#31bf8b",
@@ -209,7 +209,7 @@ exports[`ChatContainer component initializedState when loading renders properly 
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -223,11 +223,11 @@ exports[`ChatContainer component initializedState when loading renders properly 
 
 exports[`ChatContainer component initializedState when uninitialized renders properly 1`] = `
 <div
-  className="ChatContainer uninitialized"
+  className="css-encnrh "
 >
   <Connect(HeaderMenu) />
   <div
-    className="banner"
+    className="css-16h2yiv"
     style={
       Object {
         "background": "#31bf8b",
@@ -243,7 +243,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   </div>
   <Debugger />
   <div
-    className="chatContainerBody"
+    className="css-1lhgrxf"
     style={
       Object {
         "backgroundColor": "#f4f4f8",
@@ -257,7 +257,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
 
 exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
 <div
-  className="ChatContainer initialized"
+  className="css-encnrh "
 >
   <Connect(WelcomeForm) />
 </div>

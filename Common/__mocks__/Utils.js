@@ -2,6 +2,7 @@ export const getBrowserName = () => 'Chrome';
 export const getMajor = () => 60;
 export const getDeviceType = () => 'PC';
 export const getOSName = () => 'Windows';
+export const isIPhone = () => false;
 export const getUAInfo = () => ({
   browser: {
     name: 'Chrome',
