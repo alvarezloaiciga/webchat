@@ -184,11 +184,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.props.setChatConfiguration(configuration);
 
     // Domain whitelist enforcement: destroy webchat client if parent window's domain is not whitelisted
-    const hostingDomain = getHostingDomain();
+    // We use the clientDomain passed in via quiqOptions as a fallback in case we cannot determine the parent domain.
+    const hostingDomain = getHostingDomain() || quiqOptions.clientDomain.replace(/https?:\/\//, '');
     if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
       destructApp();
       displayError(
-        `The domain "${hostingDomain}" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
+        `The domain "${
+          hostingDomain
+        }" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
       );
     }
 
