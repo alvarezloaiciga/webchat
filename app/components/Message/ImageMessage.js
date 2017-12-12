@@ -36,7 +36,11 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
       nextProps.message.localBlobUrl !== this.props.message.localBlobUrl
     ) {
       this.loadImage(nextProps.message.localBlobUrl);
-    } else if (nextProps.message.url && nextProps.message.url !== this.props.message.url) {
+    } else if (
+      !nextProps.message.localBlobUrl &&
+      nextProps.message.url &&
+      nextProps.message.url !== this.props.message.url
+    ) {
       this.loadImage(nextProps.message.url);
     }
   }
