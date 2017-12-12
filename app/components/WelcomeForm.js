@@ -267,9 +267,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {fontFamily, colors, styles} = quiqOptions;
+    const {fontFamily, colors, styles, demoMode} = quiqOptions;
     const welcomeForm = this.state.form;
-    if (this.props.welcomeFormRegistered) return null;
+    if (!demoMode && this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,

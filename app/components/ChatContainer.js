@@ -334,8 +334,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     });
 
     if (
-      this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormRegistered
+      quiqOptions.demoMode ||
+      (this.props.initializedState === ChatInitializedState.INITIALIZED &&
+        !this.props.welcomeFormRegistered)
     ) {
       return (
         <div className={classNames}>
