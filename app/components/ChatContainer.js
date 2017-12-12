@@ -425,8 +425,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
     if (
-      this.props.initializedState === ChatInitializedState.INITIALIZED &&
-      !this.props.welcomeFormRegistered
+      quiqOptions.demoMode ||
+      (this.props.initializedState === ChatInitializedState.INITIALIZED &&
+        !this.props.welcomeFormRegistered)
     ) {
       return (
         <ChatContainerStyle standaloneMode={inStandaloneMode()}>
