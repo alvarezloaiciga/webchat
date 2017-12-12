@@ -28,7 +28,6 @@ import {
 } from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
-import './styles/ChatContainer.scss';
 import type {
   ChatState,
   ChatInitializedStateType,
@@ -51,7 +50,6 @@ export const banner = css`
   padding: 0 30px;
   align-items: stretch;
   text-align: center;
-
   background: #59ad5d;
   height: 60px;
 `;
@@ -92,7 +90,6 @@ export const chatContainer = css`
   display: flex;
   flex-direction: column;
   background: #f4f4f8;
-
   &.${standaloneMode} {
     height: 635px !important;
   }
@@ -118,7 +115,6 @@ export const errorBanner = css`
   padding: 0 30px;
   align-items: stretch;
   text-align: center;
-
   background: #ad2215;
   height: 50px;
 `;
@@ -156,16 +152,15 @@ export const waitScreenScrollWrapper = css`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  // IMPORTANT: This property is needed to allow for scrolling within the iFrame
+  // on mobile devices. If you remove, be sure to test those scenarios.
   -webkit-overflow-scrolling: touch;
 `;
 
 export const waitScreen = css`
   flex: 1 1 auto;
-
   height: 100%;
-
   border-width: 0;
-
   width: 100%;
 `;
 
