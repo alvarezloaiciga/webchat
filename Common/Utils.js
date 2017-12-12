@@ -355,7 +355,7 @@ export const openStandaloneWindow = (
   );
 
   const standaloneWindowTimer = setInterval(() => {
-    if (popup.closed) {
+    if (popup && popup.closed) {
       clearInterval(standaloneWindowTimer);
       if (onClose) {
         onClose();
