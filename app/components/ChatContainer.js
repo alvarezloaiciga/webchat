@@ -39,6 +39,16 @@ import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
 import {css} from 'emotion';
 
+export const getHeight = (originalHeight: string): string => {
+  let height = originalHeight;
+
+  if (isIPhone()) {
+    height = `${window.innerHeight}px`;
+  }
+
+  return height;
+};
+
 export const banner = css`
   flex: 0 0 auto;
   color: #fff;
@@ -54,31 +64,8 @@ export const banner = css`
   height: 60px;
 `;
 
-export const getHeight = (originalHeight: string): string => {
-  let height = originalHeight;
-
-  if (isIPhone()) {
-    height = `${window.innerHeight}px`;
-  }
-
-  return height;
-};
-
-export const standaloneMode = css`
-  && {
-    width: 100vw !important;
-    height: ${getHeight('100vh')} !important;
-    position: initial;
-    right: 0;
-    bottom: 0;
-    border: none;
-    border-radius: 0;
-    animation: none;
-  }
-`;
-
 export const chatContainer = css`
-  width: 99vw$ !important};
+  width: 99vw !important;
   height: ${getHeight('98vh')} !important;
   max-width: none !important;
   max-height: none !important;
@@ -90,8 +77,16 @@ export const chatContainer = css`
   display: flex;
   flex-direction: column;
   background: #f4f4f8;
-  &.${standaloneMode} {
-    height: 635px !important;
+
+  &.standaloneMode {
+    width: 100vw !important;
+    height: ${getHeight('100vh')} !important;
+    position: initial;
+    right: 0;
+    bottom: 0;
+    border: none;
+    border-radius: 0;
+    animation: none;
   }
 `;
 
@@ -117,12 +112,6 @@ export const errorBanner = css`
   text-align: center;
   background: #ad2215;
   height: 50px;
-`;
-
-export const hidden = css`
-  && {
-    display: none;
-  }
 `;
 
 export const transcriptArea = css`
@@ -333,6 +322,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   flexGrow: this.getWaitScreenFlexGrow(),
                   width: '100%',
                 }}
+                id="waitScreen"
               >
                 <iframe
                   ref={r => {
@@ -371,6 +361,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                 // This is to ensure that the size of this renders in a way that allows us to at least scroll in IE 10
                 minHeight: this.props.transcript.length > 0 ? '75px' : '0px',
               }}
+              id="TranscriptArea"
             >
               <Transcript />
               <MessageForm openFileBrowser={this.openFileBrowser} />
@@ -452,21 +443,23 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
-    const classNames = classnames(`${chatContainer} ${inStandaloneMode() ? standaloneMode : ''}`);
+    const classNames = classnames(chatContainer, {
+      standaloneMode: inStandaloneMode(),
+    });
 
     if (
       this.props.initializedState === ChatInitializedState.INITIALIZED &&
       !this.props.welcomeFormRegistered
     ) {
       return (
-        <div className={classNames}>
+        <div id="ChatContainer" className={classNames}>
           <WelcomeForm />
         </div>
       );
     }
 
     return (
-      <div className={classNames}>
+      <div id="ChatContainer" className={classNames}>
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />
