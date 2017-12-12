@@ -146,9 +146,23 @@ export const getHostingWindow = (): ?Object => {
 };
 
 export const getHostingDomain = (): string => {
-  const a = document.createElement('a');
-  a.href = document.referrer;
-  return a.hostname;
+  // Referrer will almost always contain the URL of the customer/parent page.
+  if (document.referrer) {
+    const a = document.createElement('a');
+    a.href = document.referrer;
+    return a.hostname;
+  }
+
+  // In IE 10/11. we seem to lose document.referrer if we programmatically set window.location.
+  // However, IE allows us cross-origin access to opener/parent window
+  const win = getHostingWindow();
+  if (win) {
+    return win.location.hostname;
+  }
+
+  displayError('Unable to determine hosting window');
+
+  return '';
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
