@@ -33,6 +33,7 @@ export const eventTypes: {[string]: string} = {
   chatVisibilityDidChange: 'QUIQ_CHAT_VISIBILITY_DID_CHANGE',
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
   _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE',
+  _configurationDidChange: 'QUIQ_CONFIGURATION_DID_CHANGE',
 };
 
 // Any eventType that does not begin with "_" is exposed on the Quiq object handed to the client.
@@ -96,6 +97,7 @@ export const reduxActionTypes = {
 
 export const postmasterActionTypes = {
   loadChat: 'QUIQ_LOAD_CHAT',
+  unloadChat: 'QUIQ_UNLOAD_CHAT',
   getChatStatus: 'QUIQ_GET_CHAT_STATUS',
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
@@ -104,6 +106,7 @@ export const postmasterActionTypes = {
   sendRegistration: 'QUIQ_SEND_REGISTRATION',
   getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
   getMobileChatEnabled: 'QUIQ_GET_MOBILE_CHAT',
+  getLocalStorage: 'QUIQ_GET_LOCAL_STORAGE',
 };
 
 export const ExtensionSdkEventTypes = {

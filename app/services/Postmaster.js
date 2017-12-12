@@ -15,7 +15,7 @@ import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, postmasterActionTypes as actionTypes, displayModes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import type {RegistrationField} from 'Common/types';
-import {constructApp, appIsMounted} from 'utils/domUtils';
+import {constructApp, destructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
 import quiqOptions from 'Common/QuiqOptions';
 import type {ReduxStore} from 'types';
@@ -67,6 +67,7 @@ const setupListeners = () => {
   }
 
   postRobotListener.on(actionTypes.loadChat, loadChat);
+  postRobotListener.on(actionTypes.unloadChat, destructApp);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
@@ -75,6 +76,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
   postRobotListener.on(actionTypes.getMobileChatEnabled, getMobileChat);
+  postRobotListener.on(actionTypes.getLocalStorage, getLocalStorage);
 };
 
 export const tellClient = (messageName: string, data: Object = {}) => {
@@ -101,6 +103,13 @@ const setupReduxHooks = () => {
   reduxWatch.watch(ChatSelectors.getChatLauncherHidden, hidden =>
     tellClient(eventTypes._launchButtonVisibilityShouldChange, {
       visible: !hidden,
+    }),
+  );
+
+  // Configs
+  reduxWatch.watch(ChatSelectors.getConfiguration, configuration =>
+    tellClient(eventTypes._configurationDidChange, {
+      configuration,
     }),
   );
 };
@@ -151,6 +160,10 @@ const getCanFlashNotifications = () => {
 
 const getMobileChat = () => {
   return {enableMobileChat: ChatSelectors.getConfiguration(store.getState()).enableMobileChat};
+};
+
+const getLocalStorage = () => {
+  return {localStorageKeys: getQuiqKeysFromLocalStorage()};
 };
 
 /**********************************************************************************

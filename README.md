@@ -639,7 +639,11 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
 
 #### setChatVisibility
   - setChatVisibility(visible: boolean)
-  - Shows or hides the Chat UI. If `visible` is `true`, the Chat UI will be made visible to the user if it is not already. If `false`, the Chat UI will be hidden.
+  - Shows or hides the Chat UI. If `visible` is `true`, the Chat UI will be made visible to the user if it is not already. If `false`, the Chat UI will be hidden. 
+    **Note concerning popup blockers:** When the `displayMode` is set to "undocked", it is essential that there be a direct chain of calls between a user interaction (such as clicking a button) and the `setChatVisibility` method being called.
+    If `setChatVisibility` is not called as a direct result of user interaction, most browsers will block the chat popup.
+    For example, having `setChatVisibility` as the `onclick` handler for a button works fine. However, wrapping `setChatVisibility` in a `setTimeout` call will result in the chat popup being blocked.
+    In some browsers, including Firefox and Edge, there must not be any asynchronous code (such as AJAX requests or promises) between the user interaction and the `setChatVisibilityCall`.
 
 #### sendRegistration
   - sendRegistration([{id: string, value: string}])

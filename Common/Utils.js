@@ -4,7 +4,7 @@ declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
-import {SupportedWebchatUrls, localStorageKeys} from './Constants';
+import {SupportedWebchatUrls, localStorageKeys, webchatPath} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
 import './modernizr';
@@ -15,6 +15,7 @@ import type {
   BrowserEngine,
   IntlMessage,
   Message,
+  QuiqObject,
 } from './types';
 
 const parser = new UAParser();
@@ -147,9 +148,23 @@ export const getHostingWindow = (): ?Object => {
 };
 
 export const getHostingDomain = (): string => {
-  const a = document.createElement('a');
-  a.href = document.referrer;
-  return a.hostname;
+  // Referrer will almost always contain the URL of the customer/parent page.
+  if (document.referrer) {
+    const a = document.createElement('a');
+    a.href = document.referrer;
+    return a.hostname;
+  }
+
+  // In IE 10/11. we seem to lose document.referrer if we programmatically set window.location.
+  // However, IE allows us cross-origin access to opener/parent window
+  const win = getHostingWindow();
+  if (win) {
+    return win.location.hostname;
+  }
+
+  displayError('Unable to determine hosting window');
+
+  return '';
 };
 
 export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
@@ -334,4 +349,38 @@ export const domainIsAllowed = (domain: string, whitelistString: string): boolea
 
   // Otherwise, try and find a match
   return whitelist.some(d => domain === d.trim());
+};
+
+export const openStandaloneWindow = (
+  width: number,
+  height: number,
+  onClose: ?() => void,
+  quiqOptions: ?QuiqObject,
+): Object => {
+  const popup = window.open(
+    quiqOptions ? `${quiqOptions.host}/${webchatPath}` : 'about:blank',
+    quiqOptions ? JSON.stringify(quiqOptions) : '',
+    `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${
+      width
+    }, height=${height}, top=${screen.height / 2 - height / 2}, left=${screen.width / 2 -
+      width / 2}`,
+  );
+
+  const standaloneWindowTimer = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(standaloneWindowTimer);
+      if (onClose) {
+        onClose();
+      }
+    }
+  }, 20);
+
+  return popup;
+};
+
+export const loadStandaloneWindow = (popupWindow: Object, quiqOptions: QuiqObject) => {
+  /* eslint-disable no-param-reassign */
+  popupWindow.name = JSON.stringify(quiqOptions);
+  popupWindow.location = `${quiqOptions.host}/${webchatPath}`;
+  /* eslint-enable no-param-reassign */
 };

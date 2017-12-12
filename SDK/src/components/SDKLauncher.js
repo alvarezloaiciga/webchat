@@ -6,7 +6,6 @@ import SDKChatContainer from './SDKChatContainer';
 import {getQuiqOptions} from 'Globals';
 import * as Postmaster from 'Postmaster';
 import {isMobile} from 'Common/Utils';
-import {handleLaunchButtonClick} from 'managers/ButtonManager';
 import {eventTypes} from 'Common/Constants';
 
 export type SDKLauncherProps = {};
@@ -54,7 +53,7 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
           this.state.launcherVisible && (
             <ToggleChatButton
               open={this.state.containerVisible}
-              onClick={handleLaunchButtonClick}
+              onClick={() => SDKChatContainer.setChatVisibility()}
             />
           )}
         <SDKChatContainer />
