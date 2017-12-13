@@ -167,7 +167,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
       disableClick={true}
       disablePreview={true}
       disabled={true}
-      maxSize={50000000}
+      maxSize={25000000}
       minSize={0}
       multiple={true}
       onDrop={[Function]}
