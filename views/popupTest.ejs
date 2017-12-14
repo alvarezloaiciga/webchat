@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        var popup;
+        function openPopup(name) {
+          name = name || '';
+          popup = window.open('about:blank', name, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=400, height=600');
+        }
+
+        function setName() {
+          popup.name = "Test name";
+        }
+
+        function showName() {
+          alert(popup.name);
+        }
+
+        function closePopup() {
+          popup.close();
+        }
+    </script>
+</head>
+    <body>
+        <button onclick="openPopup()">
+            1. Open popup without name
+        </button>
+
+        <button onclick="setName()">
+            2. Set popup name
+        </button>
+
+        <button onclick="showName()">
+            3. Show popup name
+        </button>
+
+        <button onclick="closePopup()">
+            4. Close popup
+        </button>
+
+        <button onclick="openPopup('Test name')">
+            5. Open popup with name
+        </button>
+
+        <button onclick="showName()">
+            6. Show popup name
+        </button>
+    </body>
+</html>

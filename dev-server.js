@@ -155,6 +155,10 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
     res.render('./testbed', {host: webchatHost});
   });
 
+  playgroundApp.get('/popup-test', (req, res) => {
+    res.render('./popupTest', {});
+  });
+
   // R*
   playgroundApp.get('/rockstar', (req, res) => {
     res.render('./rockstar', {host: webchatHost});
