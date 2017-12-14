@@ -1,4 +1,5 @@
 import assets from 'assets';
+import QuiqChatClient from 'quiq-chat';
 
 // Load alert sound--must be done here, not inside alert function
 // $FlowIssue
@@ -14,6 +15,7 @@ try {
   audioElement.src = alertFile;
 } catch (e) {
   audioElement = undefined;
+  QuiqChatClient._logToSentry('error', e.message, e);
 }
 
 /**
