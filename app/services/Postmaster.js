@@ -163,7 +163,7 @@ const getMobileChat = () => {
 };
 
 const getLocalStorage = () => {
-  return {localStorageKeys: getQuiqKeysFromLocalStorage()};
+  return {localStorageKeys: getQuiqKeysFromLocalStorage(quiqOptions.contactPoint)};
 };
 
 /**********************************************************************************

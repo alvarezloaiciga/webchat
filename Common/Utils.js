@@ -350,14 +350,13 @@ export const openStandaloneWindow = (
   const popup = window.open(
     quiqOptions ? `${quiqOptions.host}/${webchatPath}` : 'about:blank',
     quiqOptions ? JSON.stringify(quiqOptions) : '',
-    `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${
-      width
-    }, height=${height}, top=${screen.height / 2 - height / 2}, left=${screen.width / 2 -
-      width / 2}`,
+    `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, resizable=no, width=${width}, height=${height}, top=${screen.height /
+      2 -
+      height / 2}, left=${screen.width / 2 - width / 2}`,
   );
 
   const standaloneWindowTimer = setInterval(() => {
-    if (popup.closed) {
+    if (popup && popup.closed) {
       clearInterval(standaloneWindowTimer);
       if (onClose) {
         onClose();

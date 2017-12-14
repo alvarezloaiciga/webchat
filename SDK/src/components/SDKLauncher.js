@@ -3,7 +3,7 @@
 import {h, Component} from 'preact';
 import ToggleChatButton from './ToggleChatButton';
 import SDKChatContainer from './SDKChatContainer';
-import {getQuiqOptions} from 'Globals';
+import {getQuiqOptions, getConfiguration} from 'Globals';
 import * as Postmaster from 'Postmaster';
 import {isMobile} from 'Common/Utils';
 import {eventTypes} from 'Common/Constants';
@@ -46,9 +46,11 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
 
   render() {
     const quiqOptions = getQuiqOptions();
+    const configuration = getConfiguration();
+    const enableMobileChat = configuration && configuration.enableMobileChat;
     return (
       <div className="SDKLauncher">
-        {!(isMobile() && typeof quiqOptions.mobileNumber !== 'number') &&
+        {(enableMobileChat || !(isMobile() && typeof quiqOptions.mobileNumber !== 'number')) &&
           quiqOptions.showDefaultLaunchButton &&
           this.state.launcherVisible && (
             <ToggleChatButton

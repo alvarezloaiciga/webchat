@@ -182,7 +182,7 @@ export const MenuItemKeys = {
 
 export const UserEmailKey = 'quiq-client-data';
 
-export const maxAttachmentSize = 50 * 1000000;
+export const maxAttachmentSize = 25 * 1000000;
 
 export const displayModes = {
   DOCKED: 'docked',
