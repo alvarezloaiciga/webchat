@@ -4,28 +4,24 @@ import assets from 'assets';
 // $FlowIssue
 let audioElement;
 
-export const init = () => {
-  try {
-    audioElement = document.createElement('audio');
+try {
+  audioElement = document.createElement('audio');
 
-    const canPlayMp3 = ['probably', 'maybe'].includes(audioElement.canPlayType('audio/mp3'));
-    const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
+  const canPlayMp3 = ['probably', 'maybe'].includes(audioElement.canPlayType('audio/mp3'));
+  const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
 
-    // $FlowIssue
-    audioElement.src = alertFile;
-  } catch (e) {
-    audioElement = undefined;
-  }
-};
+  // $FlowIssue
+  audioElement.src = alertFile;
+} catch (e) {
+  audioElement = undefined;
+}
 
 /**
  * Plays a sound notification. Designed for demoing sound to user.
  */
 // eslint-disable-next-line import/prefer-default-export
 export const playSound = () => {
-  if (!audioElement) {
-    init();
+  if (audioElement) {
+    audioElement.play();
   }
-
-  audioElement.play();
 };
