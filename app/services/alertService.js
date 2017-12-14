@@ -15,7 +15,7 @@ try {
   audioElement.src = alertFile;
 } catch (e) {
   audioElement = undefined;
-  QuiqChatClient._logToSentry('error', e.message, e);
+  QuiqChatClient._logToSentry('error', e.message, {exception: e});
 }
 
 /**
