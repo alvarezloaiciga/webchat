@@ -10,6 +10,7 @@ import {
 import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
 import findLast from 'lodash/findLast';
+import {createSelector} from 'reselect';
 import type {
   ChatState,
   Action,
@@ -19,7 +20,7 @@ import type {
   ChatConfiguration,
   AttachmentError,
 } from 'Common/types';
-import {createSelector} from 'reselect';
+import type {PersistentData} from 'quiq-chat/src/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
@@ -29,7 +30,6 @@ type ChatAction = {
   transcript?: Array<Message>,
   agentTyping?: boolean,
   message?: Message,
-  muteSounds?: boolean,
   platformEvents?: Array<Event>,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
@@ -37,6 +37,7 @@ type ChatAction = {
   isAgentAssigned?: boolean,
   inputtingEmail?: boolean,
   attachmentErrors?: Array<AttachmentError>,
+  persistentData?: PersistentData,
 };
 
 export const initialState = {
@@ -56,7 +57,7 @@ export const initialState = {
     enableChatFileAttachments: false,
     enableManualConvoStart: false,
     enableMobileChat: false,
-    supportedAttachmentTypes: ['image/png,image/jpeg'],
+    supportedAttachmentTypes: [],
     enableEmojis: false,
     playSoundOnNewMessage: false,
     flashNotificationOnNewMessage: false,
@@ -69,6 +70,7 @@ export const initialState = {
   },
   isAgentAssigned: false,
   inputtingEmail: false,
+  persistentData: {},
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -172,8 +174,6 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       };
     case 'AGENT_TYPING':
       return Object.assign({}, state, {agentTyping: action.agentTyping});
-    case 'MUTE_SOUNDS':
-      return Object.assign({}, state, {muteSounds: action.muteSounds});
     case 'MESSAGE_FIELD_FOCUSED':
       return Object.assign({}, state, {messageFieldFocused: action.messageFieldFocused});
     case 'WELCOME_FORM_REGISTERED':
@@ -199,6 +199,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       );
     case 'SET_INPUTTING_EMAIL':
       return Object.assign({}, state, {inputtingEmail: action.inputtingEmail});
+    case 'CHAT_UPDATE_PERSISTENT_DATA':
+      return Object.assign({}, state, {persistentData: action.persistentData});
     default:
       return state;
   }
@@ -313,12 +315,11 @@ export const getChatLauncherHidden = (state: ChatState): boolean => {
   return state.chatLauncherHidden;
 };
 
-export const getMuteSounds = (state: ChatState): boolean => {
-  return state.muteSounds;
-};
-
 export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
 
 export const getIsAgentAssigned = (state: ChatState): boolean => state.isAgentAssigned;
 
 export const getInputtingEmail = (state: ChatState): boolean => state.inputtingEmail;
+
+// $FlowIssue
+export const getMuteSounds = (state: ChatState): boolean => state.persistentData.muteSounds;

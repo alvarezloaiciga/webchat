@@ -21,6 +21,7 @@ import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
+import {getMuteSounds} from 'reducers/chat';
 import type {
   IntlObject,
   ChatState,
@@ -29,6 +30,7 @@ import type {
   ChatMetadata,
   ChatConfiguration,
 } from 'types';
+import type {PersistentData} from 'quiq-chat/src/types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 import {postExtensionEvent} from 'services/Extensions';
@@ -59,6 +61,7 @@ export type LauncherProps = {
   setChatConfiguration: (configuration: ChatMetadata) => void,
   removeMessage: (messageId: string) => void,
   setIsAgentAssigned: (isAgentAssigned: boolean) => void,
+  updatePersistentData: (data: PersistentData) => void,
 };
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
@@ -176,6 +179,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
     QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
+    QuiqChatClient.onPersistentDataChange(this.props.updatePersistentData);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
@@ -189,15 +193,16 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
       destructApp();
       displayError(
-        `The domain "${
-          hostingDomain
-        }" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
+        `The domain "${hostingDomain}" is not allowed to load webchat for this contact point. Make sure to add this domain to your 'Whitelisted Domains' in the admin app.`,
       );
     }
 
     if (!QuiqChatClient.isUserSubscribed() && !QuiqChatClient.hasTakenMeaningfulAction()) {
       QuiqChatClient.setChatVisible(false);
     }
+
+    // Initial grab of persistent data from QuiqChat
+    this.props.updatePersistentData(QuiqChatClient.getPersistentData());
 
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
@@ -340,7 +345,7 @@ export default compose(
       initializedState: state.initializedState,
       transcript: state.transcript,
       welcomeFormRegistered: state.welcomeFormRegistered,
-      muteSounds: state.muteSounds,
+      muteSounds: getMuteSounds(state),
       messageFieldFocused: state.messageFieldFocused,
       configuration: state.configuration,
     }),

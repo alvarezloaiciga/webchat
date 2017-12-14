@@ -69,6 +69,7 @@ describe('Launcher component', () => {
       removeMessage: jest.fn(),
       setIsAgentAssigned: jest.fn(),
       configuration: getMockConfiguration(),
+      updatePersistentData: jest.fn(),
     };
 
     init = () => {

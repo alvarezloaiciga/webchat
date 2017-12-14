@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {isIE10, isMobile} from 'Common/Utils';
-import {setMuteSounds, setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
+import {setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -17,6 +17,7 @@ import {
   getLastClosedConversationIsSpam,
   getInputtingEmail,
   getClosedConversationCount,
+  getMuteSounds,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
@@ -34,7 +35,6 @@ export type MessageFormProps = {
   muteSounds: boolean,
   configuration: ChatConfiguration,
   openFileBrowser: () => void,
-  setMuteSounds: (muteSounds: boolean) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
   inputtingEmail: boolean,
   setInputtingEmail: (inputtingEmail: boolean) => void,
@@ -91,9 +91,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       this.checkAvailability();
     }
 
-    this.props.setMuteSounds(
-      localStorage.getItem(`quiq_mute_sounds_${quiqOptions.contactPoint}`) === 'true',
-    );
     this.props.setMessageFieldFocused(false);
   }
 
@@ -187,12 +184,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   toggleMuteSounds = () => {
-    localStorage.setItem(
-      `quiq_mute_sounds_${quiqOptions.contactPoint}`,
-      !this.props.muteSounds ? 'true' : 'false',
-    );
-
-    this.props.setMuteSounds(!this.props.muteSounds);
+    QuiqChatClient.setCustomPersistentData('muteSounds', !this.props.muteSounds);
   };
 
   renderMenu = () => {
@@ -420,7 +412,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 }
 
 const mapDispatchToProps = {
-  setMuteSounds,
   setMessageFieldFocused,
   setInputtingEmail,
 };
@@ -428,7 +419,7 @@ const mapDispatchToProps = {
 export default connect(
   (state: ChatState) => ({
     agentsInitiallyAvailable: state.agentsAvailable,
-    muteSounds: state.muteSounds,
+    muteSounds: getMuteSounds(state),
     configuration: state.configuration,
     agentEndedConversation: getAgentEndedLatestConversation(state),
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),

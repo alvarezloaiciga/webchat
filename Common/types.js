@@ -1,5 +1,7 @@
 // @flow
 
+import type {PersistentData} from 'quiq-chat/src/types';
+
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
 export type ChatConfiguration = {
@@ -414,12 +416,12 @@ export type ChatState = {
   platformEvents: {[string]: Event},
   agentTyping: boolean,
   welcomeFormRegistered: boolean,
-  muteSounds: boolean,
   messageFieldFocused: boolean,
   configuration: ChatConfiguration,
   isAgentAssigned: boolean,
   inputtingEmail: boolean,
   attachmentErrors: Array<AttachmentError>,
+  persistentData: PersistentData,
 };
 
 export type Action = {

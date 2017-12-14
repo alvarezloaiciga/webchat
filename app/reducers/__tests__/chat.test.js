@@ -100,12 +100,12 @@ describe('chat reducers', () => {
         agentTyping: true,
         agentsAvailable: true,
         platformEvents: {},
-        muteSounds: false,
         messageFieldFocused: false,
         configuration: getMockConfiguration(),
         chatIsSpam: true,
         inputtingEmail: false,
         attachmentErrors: [],
+        persistentData: {},
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();
