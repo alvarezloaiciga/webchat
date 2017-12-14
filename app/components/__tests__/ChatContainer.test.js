@@ -116,12 +116,4 @@ describe('ChatContainer component', () => {
       });
     });
   });
-
-  describe('custom launcher', () => {
-    it('appends the hasCustomLauncher class', () => {
-      quiqOptions.customLaunchButtons = ['.customButton'];
-      render();
-      expect(wrapper.hasClass('hasCustomLauncher')).toBe(true);
-    });
-  });
 });
