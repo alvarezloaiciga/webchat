@@ -1,27 +1,24 @@
 {
-  "presets": [["es2015", {"loose": true, "modules": false}], "react", "stage-1"],
+  "presets": [["env", {"loose": true, "modules": false}], "react", "stage-0"],
   "plugins": [
-    "transform-runtime",
     "transform-decorators-legacy",
-    "transform-flow-strip-types",
     "react-hot-loader/babel",
-    "transform-object-rest-spread",
     "emotion"
   ],
   "env": {
     "production": {
-      "plugins": ["transform-react-remove-prop-types", "transform-react-constant-elements"]
+      "plugins": ["transform-react-constant-elements"]
     },
     "development": {
       "plugins": [
         ["emotion", {"sourceMap": true}],
         "react-hot-loader/babel",
-        "transform-object-rest-spread",
         "transform-decorators-legacy"
       ]
     },
     "test": {
-      "plugins": ["emotion", "transform-es2015-modules-commonjs"]
+      "presets": ["env", "react", "stage-0"],
+      "plugins": ["emotion"]
     }
   }
 }
