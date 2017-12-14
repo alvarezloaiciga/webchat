@@ -158,7 +158,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
       disabled={true}
       id="TranscriptArea"
       innerRef={[Function]}
-      maxSize={50000000}
+      maxSize={25000000}
       onDrop={[Function]}
       style={
         Object {
