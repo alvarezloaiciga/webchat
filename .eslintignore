@@ -5,3 +5,10 @@ dev-server.js
 dist
 templates
 SDK/docs
+config
+devssl
+messages
+node_modules
+temp_docker
+views
+discovery.js

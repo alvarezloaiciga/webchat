@@ -184,7 +184,7 @@ const sendRegistration = (event: Object) => {
 
 // NOTE: Returns {available: boolean}
 // We don't need to wrap the result into an object here since it comes prepackaged that way from the API
-const getAgentAvailability = async () => await QuiqChatClient.checkForAgents();
+const getAgentAvailability = async () => QuiqChatClient.checkForAgents();
 
 const getHandle = async () => ({
   handle: await QuiqChatClient.getHandle(quiqOptions.host),
