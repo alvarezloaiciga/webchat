@@ -10,7 +10,7 @@ export default {
   getChatVisibility: async (
     callback: (data: ?{visibility: boolean}, error: ?Error) => void,
   ): Promise<{visible: boolean}> => {
-    return await Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
+    return Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
   },
 
   setChatVisibility: (visible: boolean) => {
@@ -24,16 +24,15 @@ export default {
   getAgentAvailability: async (
     callback: (data: ?{available: boolean}, error: ?Error) => void,
   ): Promise<{available: boolean}> =>
-    await Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback),
+    Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback),
 
   getHandle: async (
     callback: (data: ?{handle: string}, error: ?Error) => void,
-  ): Promise<{handle: string}> => await Postmaster.askChat(actionTypes.getHandle, {}, callback),
+  ): Promise<{handle: string}> => Postmaster.askChat(actionTypes.getHandle, {}, callback),
 
   getChatStatus: async (
     callback: (data: ?{active: boolean}, error: ?Error) => void,
-  ): Promise<{active: boolean}> =>
-    await Postmaster.askChat(actionTypes.getChatStatus, {}, callback),
+  ): Promise<{active: boolean}> => Postmaster.askChat(actionTypes.getChatStatus, {}, callback),
 
   getIsSupportedBrowser: async (
     callback: (data: ?{supported: boolean}, error: ?Error) => void,

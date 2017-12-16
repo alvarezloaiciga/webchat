@@ -31,15 +31,8 @@ export type TranscriptProps = {
   /*eslint-enable react/no-unused-prop-types*/
 };
 
-export type TranscriptState = {
-  inputtingEmail: boolean,
-};
-
 export class Transcript extends Component {
   props: TranscriptProps;
-  state: TranscriptState = {
-    inputtingEmail: false,
-  };
   scrollLock: boolean = false;
   transcript: HTMLElement;
 

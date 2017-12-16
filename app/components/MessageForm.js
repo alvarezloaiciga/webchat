@@ -55,7 +55,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     hasText: false,
     agentsAvailable: true,
     emojiPickerVisible: false,
-    inputtingEmail: false,
     inputText: '',
   };
   checkAvailabilityTimer: number;

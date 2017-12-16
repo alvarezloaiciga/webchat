@@ -15,7 +15,7 @@ describe('WelcomeForm component', () => {
 
   beforeEach(() => {
     QuiqChatClient.sendTextMessage = jest.fn(() => {});
-    QuiqChatClient.sendRegistration = jest.fn(async () => await {});
+    QuiqChatClient.sendRegistration = jest.fn(async () => ({}));
 
     testProps = {
       setWelcomeFormRegistered: jest.fn(),
