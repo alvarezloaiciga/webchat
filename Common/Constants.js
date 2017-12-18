@@ -166,14 +166,7 @@ export const intlMessageTypes = {
   cannotStartNewConversationMessage: 'cannotStartNewConversationMessage',
 };
 
-export const localStorageKeys = [
-  'X-Quiq-Access-Token',
-  'quiq-chat-container-visible',
-  'quiq-tracking-id',
-  'quiq-user-taken-meaningful-action',
-  'quiq-user-subscribed',
-  'quiq_mute_sounds',
-];
+export const localStorageKeys = ['quiq-data'];
 
 export const MenuItemKeys = {
   EMAIL_TRANSCRIPT: 'emailTranscript',
