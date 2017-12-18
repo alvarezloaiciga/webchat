@@ -19,9 +19,7 @@ exports[`HeaderMenu component rendering renders 1`] = `
           "fontFamily": "Lato, sans-serif",
         }
       }
-    >
-      Quiq Webchat
-    </span>
+    />
   </div>
   <div
     className="buttons"
@@ -64,9 +62,7 @@ exports[`HeaderMenu component rendering when not in standalone mode renders 1`] 
           "fontFamily": "Lato, sans-serif",
         }
       }
-    >
-      Quiq Webchat
-    </span>
+    />
   </div>
   <div
     className="buttons"

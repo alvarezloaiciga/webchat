@@ -1,20 +1,27 @@
 // @flow
 declare var __VERSION__: string;
 import React from 'react';
-import quiqOptions from 'Common/QuiqOptions';
+import {connect} from 'react-redux';
+import {getConfiguration} from 'reducers/chat';
 import {inNonProductionCluster, inLocalDevelopment, inStandaloneMode} from 'Common/Utils';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
+import type {ChatState, ChatConfiguration} from 'Common/types';
+
+type DebuggerProps = {
+  configuration: ChatConfiguration,
+};
 
 type DebuggerState = {
   hidden: boolean,
 };
 
-export class Debugger extends React.Component<{}, DebuggerState> {
+export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
+  props: DebuggerProps;
   state: DebuggerState = {
-    hidden: !quiqOptions.debug,
+    hidden: !this.props.configuration.debug,
   };
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
@@ -58,4 +65,9 @@ export class Debugger extends React.Component<{}, DebuggerState> {
   }
 }
 
-export default Debugger;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(Debugger);

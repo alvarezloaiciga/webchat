@@ -1,18 +1,20 @@
 // @flow
 import React, {Component} from 'react';
 import {inStandaloneMode} from 'Common/Utils';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
 import {destructApp} from 'utils/domUtils';
 import {intlMessageTypes, ChatInitializedState, displayModes} from 'Common/Constants';
 import {setChatContainerHidden} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {standaloneOpen} from 'services/Postmaster';
-import type {ChatState, ChatInitializedStateType} from 'types';
+import {getMessage, getConfiguration} from 'reducers/chat';
+import type {ChatState, ChatInitializedStateType, ChatConfiguration} from 'types';
 import './styles/HeaderMenu.scss';
 
 export type HeaderMenuProps = {
   initializedState: ChatInitializedStateType,
   setChatContainerHidden: (chatContainerHidden: boolean) => void, // eslint-disable-line react/no-unused-prop-types
+  configuration: ChatConfiguration,
 };
 
 export type HeaderMenuState = {
@@ -61,7 +63,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
   renderButtons = () => (
     <div className="buttons">
       {(!inStandaloneMode() || this.state.openingWindowExists) &&
-        quiqOptions.displayMode !== displayModes.UNDOCKED && (
+        this.props.configuration.displayMode !== displayModes.UNDOCKED && (
           <i
             className={`fa fa-window-minimize icon`}
             title={getMessage(intlMessageTypes.minimizeWindowTooltip)}
@@ -71,7 +73,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
 
       {this.props.initializedState !== ChatInitializedState.BURNED &&
         (!inStandaloneMode() || this.state.openingWindowExists) &&
-        quiqOptions.displayMode === displayModes.EITHER && (
+        this.props.configuration.displayMode === displayModes.EITHER && (
           <i
             className={`fa fa-${inStandaloneMode() ? 'window-restore' : 'window-maximize'} icon`}
             title={getMessage(
@@ -91,7 +93,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
   );
 
   render() {
-    const {colors, styles, fontFamily} = quiqOptions;
+    const {colors, styles, fontFamily} = this.props.configuration;
 
     const headerStyle = getStyle(styles.HeaderMenu, {backgroundColor: colors.primary});
     const titleTextStyle = getStyle(styles.TitleText, {fontFamily});
@@ -101,7 +103,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
         <div className="title">
           <span style={titleTextStyle}>{getMessage(intlMessageTypes.titleText)}</span>
         </div>
-        {!quiqOptions.demoMode && this.renderButtons()}
+        {!this.props.configuration.demoMode && this.renderButtons()}
       </div>
     );
   }
@@ -110,6 +112,7 @@ export class HeaderMenu extends Component<HeaderMenuProps, HeaderMenuState> {
 export default connect(
   (state: ChatState) => ({
     initializedState: state.initializedState,
+    configuration: getConfiguration(state),
   }),
   {setChatContainerHidden},
 )(HeaderMenu);

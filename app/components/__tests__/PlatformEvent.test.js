@@ -1,12 +1,14 @@
 // @flow
 jest.mock('core-ui/services/i18nService');
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
+
 import React from 'react';
 import type {PlatformEventProps} from '../PlatformEvent';
-import PlatformEvent from '../PlatformEvent';
+import {PlatformEvent} from '../PlatformEvent';
 import {shallow} from 'enzyme';
 import {AttachmentErrorTypes} from 'Common/Constants';
-import {getMockEvent} from 'utils/testHelpers';
+import {getMockEvent, getMockConfiguration} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('PlatformEvent component', () => {
@@ -17,6 +19,7 @@ describe('PlatformEvent component', () => {
   beforeEach(() => {
     testProps = {
       event: getMockEvent(),
+      configuration: getMockConfiguration(),
     };
     render = () => {
       wrapper = shallow(<PlatformEvent {...testProps} />);

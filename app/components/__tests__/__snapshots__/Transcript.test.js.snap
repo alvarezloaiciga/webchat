@@ -10,7 +10,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
     }
   }
 >
-  <Message
+  <Connect(Message)
     key="id--1"
     message={
       Object {
@@ -23,7 +23,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
     }
     scrollToBottom={[Function]}
   />
-  <PlatformEvent
+  <Connect(PlatformEvent)
     event={
       Object {
         "id": "id--2",
@@ -33,7 +33,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
     }
     key="id--2"
   />
-  <Message
+  <Connect(Message)
     key="id--3"
     message={
       Object {
@@ -46,7 +46,7 @@ exports[`Transcript component rendering renders with default props 1`] = `
     }
     scrollToBottom={[Function]}
   />
-  <PlatformEvent
+  <Connect(PlatformEvent)
     event={
       Object {
         "id": "id--4",

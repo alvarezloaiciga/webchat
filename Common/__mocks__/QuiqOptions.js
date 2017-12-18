@@ -291,12 +291,6 @@ export const validateWelcomeFormDefinition = jest.fn();
 export const getStyle = (style?: Object = {}, defaults?: Object = {}) =>
   Object.assign({}, defaults, style);
 
-export const getMessage = (messageName: string): string => {
-  const message = quiqOptions.messages[messageName];
-
-  if (!message) throw new Error(`QUIQ: Unknown message name "${messageName}"`);
-
-  return message.defaultMessage || message;
-};
+export const buildQuiqObject = () => quiqOptions;
 
 export default quiqOptions;

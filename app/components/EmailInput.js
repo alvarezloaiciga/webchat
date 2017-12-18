@@ -1,14 +1,17 @@
 // @flow
 import React from 'react';
+import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import moment from 'moment-timezone';
 import {css} from 'emotion';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
 import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
+import {getConfiguration, getMessage} from 'reducers/chat';
 import Input from 'core-ui/components/Input';
 import {UserEmailKey, intlMessageTypes} from 'Common/Constants';
+import type {ChatConfiguration, ChatState} from 'Common/types';
 
 const EmailInputContainer = styled.div`
   display: flex;
@@ -61,23 +64,14 @@ const SubmitButton = styled.i`
   ${IconCSS('green')};
 `;
 
-const {fontFamily, styles, host, contactPoint} = quiqOptions;
-
 export type EmailInputProps = {
   onCancel: () => void,
   onSubmit: () => void, // eslint-disable-line react/no-unused-prop-types
+  configuration: ChatConfiguration,
 };
 
 type EmailInputState = {
   error: boolean,
-};
-
-const getInitialValue = () => {
-  try {
-    return atob(localStorage.getItem(`${UserEmailKey}_${contactPoint}`) || '');
-  } catch (e) {
-    return '';
-  }
 };
 
 export class EmailInput extends React.Component<EmailInputProps, EmailInputState> {
@@ -87,12 +81,22 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
   };
   input: any;
 
+  getInitialValue = () => {
+    try {
+      return atob(
+        localStorage.getItem(`${UserEmailKey}_${this.props.configuration.contactPoint}`) || '',
+      );
+    } catch (e) {
+      return '';
+    }
+  };
+
   submit = () => {
     const value = this.input.getValue();
     if (isValidEmail(value)) {
       QuiqChatClient.emailTranscript({
         email: value.trim(),
-        originUrl: host,
+        originUrl: this.props.configuration.host,
         timezone: moment.tz.guess(),
       });
       this.props.onSubmit();
@@ -104,31 +108,31 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
   render() {
     return (
       <EmailInputContainer
-        style={getStyle(styles.EmailTranscriptInputContainer)}
+        style={getStyle(this.props.configuration.styles.EmailTranscriptInputContainer)}
         className="EmailInput"
       >
         <Input
           ref={r => {
             this.input = r;
           }}
-          initialValue={getInitialValue()}
+          initialValue={this.getInitialValue()}
           className={InputStyle(this.state.error)}
           onSubmit={this.submit}
           placeholder={getMessage(intlMessageTypes.emailTranscriptInputPlaceholder)}
-          style={getStyle(styles.EmailTranscriptInput, {
-            fontFamily,
+          style={getStyle(this.props.configuration.styles.EmailTranscriptInput, {
+            fontFamily: this.props.configuration.fontFamily,
           })}
           value={null}
           autoFocus
         />
         <CancelButton
-          style={getStyle(styles.EmailTranscriptInputCancelButton)}
+          style={getStyle(this.props.configuration.styles.EmailTranscriptInputCancelButton)}
           title={getMessage(intlMessageTypes.emailTranscriptInputCancelTooltip)}
           onClick={this.props.onCancel}
           className={`fa fa-times`}
         />
         <SubmitButton
-          style={getStyle(styles.EmailTranscriptInputSubmitButton)}
+          style={getStyle(this.props.configuration.styles.EmailTranscriptInputSubmitButton)}
           title={getMessage(intlMessageTypes.emailTranscriptInputSubmitTooltip)}
           onClick={this.submit}
           data-test="submitButton"
@@ -139,4 +143,9 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
   }
 }
 
-export default EmailInput;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(EmailInput);

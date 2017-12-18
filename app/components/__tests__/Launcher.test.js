@@ -64,7 +64,7 @@ describe('Launcher component', () => {
       setAgentEndedConversation: jest.fn(),
       updatePlatformEvents: jest.fn(),
       messageFieldFocused: false,
-      setChatConfiguration: jest.fn(),
+      updateChatConfigurationFromMetadata: jest.fn(),
       markChatAsSpam: jest.fn(),
       removeMessage: jest.fn(),
       setIsAgentAssigned: jest.fn(),

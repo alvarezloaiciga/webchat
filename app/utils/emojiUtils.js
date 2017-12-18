@@ -1,7 +1,7 @@
 import {emojiIndex} from 'emoji-mart';
 import emojiRegexFactory from 'emoji-regex/text';
+import {getConfiguration} from 'reducers/chat';
 import type {EmojiMetadata, Emoji} from 'Common/Types';
-import quiqOptions from 'Common/QuiqOptions';
 
 const emojiRegex = emojiRegexFactory();
 
@@ -65,7 +65,7 @@ export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
   // Don't include any emojis that don't have id or shortcode (we don't know what they are)
   if (!emojiId) return false;
 
-  const {includeEmojis, excludeEmojis} = quiqOptions;
+  const {includeEmojis, excludeEmojis} = getConfiguration();
   // Prioritize include over exclude. Only one of the should be defined by customer, however.
   if (Array.isArray(includeEmojis)) {
     return includeEmojis.includes(emojiId);
@@ -81,6 +81,6 @@ export const emojiFilter = (e: EmojiMetadata | Emoji | string) => {
  * Emojis are entirely disabled if the customer passes an empty array for the `emojisEnabled` quiq option
  */
 export const emojisEnabledByCustomer = () => {
-  const {includeEmojis} = quiqOptions;
+  const {includeEmojis} = getConfiguration();
   return !(Array.isArray(includeEmojis) && includeEmojis.length === 0);
 };

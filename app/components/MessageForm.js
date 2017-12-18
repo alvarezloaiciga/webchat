@@ -1,6 +1,6 @@
 // @flow
 import React, {Component} from 'react';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {isIE10, isMobile} from 'Common/Utils';
 import {setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
@@ -18,13 +18,13 @@ import {
   getInputtingEmail,
   getClosedConversationCount,
   getMuteSounds,
+  getConfiguration,
+  getMessage,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
-
-const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
@@ -61,7 +61,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   simpleMode: boolean = isIE10() || isMobile();
 
   checkAvailability = async () => {
-    if (enforceAgentAvailability) {
+    if (this.props.configuration.enforceAgentAvailability) {
       const {available} = await QuiqChatClient.checkForAgents();
 
       this.setState({agentsAvailable: available});
@@ -69,7 +69,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
       // Continue checking only if the user is currently not subscribed
       if (!QuiqChatClient.isUserSubscribed()) {
-        this.checkAvailabilityTimer = setTimeout(this.checkAvailability, agentsAvailableTimer);
+        this.checkAvailabilityTimer = setTimeout(
+          this.checkAvailability,
+          this.props.configuration.agentsAvailableTimer,
+        );
       }
     }
   };
@@ -191,6 +194,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   renderMenu = () => {
+    const {colors, styles, fontFamily} = this.props.configuration;
+
     // Ensure custom options come first.
     const options = this.props.configuration.menuOptions.customItems.map(o => ({
       onClick: () => window.open(o.url, '_blank'),
@@ -293,6 +298,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
+    const {colors, styles, fontFamily} = this.props.configuration;
     const allowConversationToStart =
       !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
@@ -356,7 +362,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             ) : (
               <EmojiTextarea
                 ref={n => {
-                  this.textArea = n;
+                  this.textArea = n && n.wrappedInstance;
                 }}
                 style={inputStyle}
                 disabled={
@@ -436,7 +442,7 @@ export default connect(
   (state: ChatState) => ({
     agentsInitiallyAvailable: state.agentsAvailable,
     muteSounds: getMuteSounds(state),
-    configuration: state.configuration,
+    configuration: getConfiguration(state),
     agentEndedConversation: getAgentEndedLatestConversation(state),
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
     closedConversationCount: getClosedConversationCount(state),

@@ -3,13 +3,14 @@
 // "Twemoji" emoji artwork by Twitter is licensed under CC BY 4.0
 
 import React from 'react';
+import {connect} from 'react-redux';
 import {Picker} from 'emoji-mart';
 import ClickOutside from 'react-click-outside-component';
 import {defineMessages} from 'react-intl';
 import {getDisplayString} from 'core-ui/services/i18nService';
-import quiqOptions from 'Common/QuiqOptions';
+import {getConfiguration} from 'reducers/chat';
 import './styles/EmojiMart.scss';
-import type {Emoji} from 'Common/types';
+import type {Emoji, ChatConfiguration, ChatState} from 'Common/types';
 
 export type EmojiPickerProps = {
   addEmoji: (emoji: Emoji) => void,
@@ -17,6 +18,7 @@ export type EmojiPickerProps = {
   onOutsideClick?: () => void,
   ignoreOutsideClickOnSelectors?: Array<string>,
   emojiFilter?: (e: Emoji) => boolean,
+  configuration: ChatConfiguration,
 };
 
 const messages = defineMessages({
@@ -135,7 +137,7 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
         native={false}
         autoFocus={true}
         onClick={props.addEmoji}
-        color={quiqOptions.colors.primary}
+        color={props.configuration.colors.primary}
         i18n={formattedi18nStrings}
         emoji=""
         perLine={7}
@@ -152,4 +154,9 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
   );
 };
 
-export default EmojiPicker;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(EmojiPicker);

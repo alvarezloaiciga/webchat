@@ -4,7 +4,124 @@ import type {PersistentData} from 'quiq-chat/src/types';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
-export type ChatConfiguration = {
+export type QuiqObject = {
+  /**
+   * Documented Properties. If you modify this,
+   * be sure to update the README
+   */
+  displayMode: 'docked' | 'undocked' | 'either',
+  agentsAvailableTimer: number,
+  anchorElement: string,
+  autoPopTime?: number,
+  colors: {
+    // Deprecated in favor styles object
+    primary: string,
+    eventText: string,
+    menuText: string,
+    agentMessageText: string,
+    agentMessageLinkText: string,
+    agentMessageBackground: string,
+    customerMessageText: string,
+    customerMessageLinkText: string,
+    customerMessageBackground: string,
+    attachmentMessageColor: string,
+    transcriptBackground: string,
+    typingIndicatorForeground: string,
+    typingIndicatorBackground: string,
+  },
+  events: {
+    showTime: boolean,
+  },
+  contactPoint: string,
+  customLaunchButtons: Array<string>,
+  showDefaultLaunchButton: boolean,
+  customScreens: {
+    waitScreen?: {
+      url: string,
+      height?: number,
+      minHeight?: number,
+    },
+  },
+  demoMode: boolean,
+  enforceAgentAvailability: boolean,
+  excludeEmojis?: Array<string>,
+  fontFamily: string,
+  height: number,
+  host: string,
+  includeEmojis?: Array<string>,
+  messages: {
+    pageTitle: string,
+    titleText: string,
+    headerText: string,
+    messageFieldPlaceholder: string,
+    welcomeFormValidationErrorMessage: string,
+    welcomeFormSubmitButtonLabel: string,
+    welcomeFormSubmittingButtonLabel: string,
+    agentTypingMessage: string,
+    agentEndedConversationMessage: string,
+    agentsNotAvailableMessage: string,
+    connectingMessage: string,
+    reconnectingMessage: string,
+    errorMessage: string,
+    requiredFieldAriaLabel: string,
+    minimizeWindowTooltip: string,
+    dockWindowTooltip: string,
+    openInNewWindowTooltip: string,
+    closeWindowTooltip: string,
+    unsupportedBrowser?: string,
+    storageDisabled?: string,
+    emojiPickerTooltip: string,
+    optionsMenuTooltip: string,
+    sendButtonLabel: string,
+    emailTranscriptInlineButton: string,
+    emailTranscriptMenuMessage: string,
+    emailTranscriptMenuTooltip: string,
+    emailTranscriptInputPlaceholder: string,
+    emailTranscriptInputCancelTooltip: string,
+    emailTranscriptInputSubmitTooltip: string,
+    transcriptEmailedEventMessage: string,
+    messageArrivedNotification: string,
+    unsupportedFileType: string,
+    attachmentTooLarge: string,
+    attachmentUploadError: string,
+    muteSounds: string,
+    unmuteSounds: string,
+    muteSoundsTooltip: string,
+    unmuteSoundsTooltip: string,
+    cannotStartNewConversationMessage: string,
+  },
+  mobileNumber?: string | number,
+  position: {
+    top?: number | string,
+    bottom?: number | string,
+    left?: number | string,
+    right?: number | string,
+  },
+  styles: CustomStyles,
+  welcomeForm?: WelcomeForm,
+  width: number,
+  /**
+   * Undocument Properties
+   */
+  clientDomain: string,
+  color: string, // Deprecated in favor styles object
+  debug:
+    | false
+    | {
+        transport?: string,
+        CUSTOM_CSS_URL?: string,
+      },
+  headerText: string, // Deprecated in favor of messages object
+  href: string,
+  localStorageKeys: {[string]: any},
+  _internal: {
+    captureRequests?: boolean,
+    captureWebsockets?: boolean,
+    exposeDraftJsFunctions?: boolean,
+  },
+};
+
+export type ChatterboxConfiguration = {
   enableChatEmailTranscript: boolean,
   enableChatFileAttachments: boolean,
   enableManualConvoStart: boolean,
@@ -22,6 +139,13 @@ export type ChatConfiguration = {
     } | null,
   },
   whitelistedDomains: string,
+};
+
+export type ChatConfiguration = {
+  /* eslint-disable no-undef */
+  ...$Exact<ChatterboxConfiguration>,
+  ...$Exact<QuiqObject>,
+  /* eslint-enable no-undef */
 };
 
 export type BooleanConfig = {
@@ -111,123 +235,6 @@ type CustomStyles = {
   NonChat?: Object,
   TypingIndicatorSvgStyle?: Object,
   TypingIndicatorCircleStyle?: Object,
-};
-
-export type QuiqObject = {
-  /**
-   * Documented Properties. If you modify this,
-   * be sure to update the README
-   */
-  displayMode: 'docked' | 'undocked' | 'either',
-  agentsAvailableTimer: number,
-  anchorElement: string,
-  autoPopTime?: number,
-  colors: {
-    // Deprecated in favor styles object
-    primary: string,
-    eventText: string,
-    menuText: string,
-    agentMessageText: string,
-    agentMessageLinkText: string,
-    agentMessageBackground: string,
-    customerMessageText: string,
-    customerMessageLinkText: string,
-    customerMessageBackground: string,
-    attachmentMessageColor: string,
-    transcriptBackground: string,
-    typingIndicatorForeground: string,
-    typingIndicatorBackground: string,
-  },
-  events: {
-    showTime: boolean,
-  },
-  contactPoint: string,
-  customLaunchButtons: Array<string>,
-  showDefaultLaunchButton: boolean,
-  customScreens?: {
-    waitScreen?: {
-      url: string,
-      height?: number,
-      minHeight?: number,
-    },
-  },
-  demoMode: boolean,
-  enforceAgentAvailability: boolean,
-  excludeEmojis?: Array<string>,
-  fontFamily: string,
-  height: number,
-  host: string,
-  includeEmojis?: Array<string>,
-  messages: {
-    pageTitle: string,
-    titleText: string,
-    headerText: string,
-    messageFieldPlaceholder: string,
-    welcomeFormValidationErrorMessage: string,
-    welcomeFormSubmitButtonLabel: string,
-    welcomeFormSubmittingButtonLabel: string,
-    agentTypingMessage: string,
-    agentEndedConversationMessage: string,
-    agentsNotAvailableMessage: string,
-    connectingMessage: string,
-    reconnectingMessage: string,
-    errorMessage: string,
-    requiredFieldAriaLabel: string,
-    minimizeWindowTooltip: string,
-    dockWindowTooltip: string,
-    openInNewWindowTooltip: string,
-    closeWindowTooltip: string,
-    unsupportedBrowser?: string,
-    storageDisabled?: string,
-    emojiPickerTooltip: string,
-    optionsMenuTooltip: string,
-    sendButtonLabel: string,
-    emailTranscriptInlineButton: string,
-    emailTranscriptMenuMessage: string,
-    emailTranscriptMenuTooltip: string,
-    emailTranscriptInputPlaceholder: string,
-    emailTranscriptInputCancelTooltip: string,
-    emailTranscriptInputSubmitTooltip: string,
-    transcriptEmailedEventMessage: string,
-    messageArrivedNotification: string,
-    unsupportedFileType: string,
-    attachmentTooLarge: string,
-    attachmentUploadError: string,
-    muteSounds: string,
-    unmuteSounds: string,
-    muteSoundsTooltip: string,
-    unmuteSoundsTooltip: string,
-    cannotStartNewConversationMessage: string,
-  },
-  mobileNumber?: string | number,
-  position: {
-    top?: number | string,
-    bottom?: number | string,
-    left?: number | string,
-    right?: number | string,
-  },
-  styles: CustomStyles,
-  welcomeForm?: WelcomeForm,
-  width: number,
-  /**
-   * Undocument Properties
-   */
-  clientDomain: string,
-  color: string, // Deprecated in favor styles object
-  debug:
-    | false
-    | {
-        transport?: string,
-        CUSTOM_CSS_URL?: string,
-      },
-  headerText: string, // Deprecated in favor of messages object
-  href: string,
-  localStorageKeys: {[string]: any},
-  _internal: {
-    captureRequests?: boolean,
-    captureWebsockets?: boolean,
-    exposeDraftJsFunctions?: boolean,
-  },
 };
 
 export type EmailTranscriptPayload = {

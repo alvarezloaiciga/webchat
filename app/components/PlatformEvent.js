@@ -1,21 +1,21 @@
 // @flow
 import React from 'react';
-
+import {connect} from 'react-redux';
 import Divider from 'core-ui/components/Divider';
 import Button from 'core-ui/components/Button';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
+import {getConfiguration, getMessage} from 'reducers/chat';
 import styled from 'react-emotion';
 import {intlMessageTypes, AttachmentErrorTypes} from 'Common/Constants';
 import {formatTime} from 'core-ui/services/i18nService';
-import type {Event} from 'Common/types';
+import type {Event, ChatState, ChatConfiguration} from 'Common/types';
 
 export type PlatformEventProps = {
   event: Event,
   actionLabel?: string,
   action?: () => void,
+  configuration: ChatConfiguration,
 };
-
-const {styles, fontFamily, colors} = quiqOptions;
 
 const PlatformEventContainer = styled.div`
   @keyframes enter {
@@ -79,11 +79,11 @@ const getEventDescription = (event: Event): ?string => {
   }
 };
 
-const PlatformEvent = (props: PlatformEventProps) => {
+export const PlatformEvent = (props: PlatformEventProps) => {
+  const {styles, fontFamily, colors} = props.configuration;
   const {timestamp} = props.event;
-  const showTime = quiqOptions.events.showTime;
+  const {showTime} = props.configuration.events;
   const eventDescription = getEventDescription(props.event);
-
   if (!eventDescription) {
     return null;
   }
@@ -121,4 +121,9 @@ const PlatformEvent = (props: PlatformEventProps) => {
   );
 };
 
-export default PlatformEvent;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(PlatformEvent);

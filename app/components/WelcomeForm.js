@@ -3,12 +3,18 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import update from 'react-addons-update';
 import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
+import {getConfiguration, getMessage} from 'reducers/chat';
 import {setWelcomeFormRegistered} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
-import type {WelcomeFormField, WelcomeForm as WelcomeFormType, ChatState} from 'Common/types';
+import type {
+  WelcomeFormField,
+  WelcomeForm as WelcomeFormType,
+  ChatState,
+  ChatConfiguration,
+} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
@@ -17,6 +23,7 @@ export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
   welcomeFormRegistered: boolean,
   registrationForm?: WelcomeFormType | null,
+  configuration: ChatConfiguration,
 };
 
 export type WelcomeFormState = {
@@ -71,12 +78,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       this.setState({inputFields, form});
     };
 
-    if (quiqOptions.demoMode && quiqOptions.welcomeForm) {
-      processForm(quiqOptions.welcomeForm);
+    if (this.props.configuration.demoMode && this.props.configuration.welcomeForm) {
+      processForm(this.props.configuration.welcomeForm);
       return;
     }
 
-    const form = this.props.registrationForm || quiqOptions.welcomeForm;
+    const form = this.props.registrationForm || this.props.configuration.welcomeForm;
     if (!form) {
       this.props.setWelcomeFormRegistered();
       return;
@@ -86,7 +93,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   renderInputField = (field: WelcomeFormField) => {
-    const {fontFamily, styles} = quiqOptions;
+    const {fontFamily, styles} = this.props.configuration;
     const inputStyle = getStyle(styles.WelcomeFormFieldInput, {fontFamily});
     const selectStyle = getStyle(styles.WelcomeFormFieldSelect, {fontFamily});
     const optionStyle = getStyle(styles.WelcomeFormFieldOption, {fontFamily});
@@ -146,7 +153,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   renderField = (field: WelcomeFormField) => {
-    const {fontFamily, styles} = quiqOptions;
+    const {fontFamily, styles} = this.props.configuration;
 
     const labelStyle = getStyle(styles.WelcomeFormFieldLabel, {fontFamily});
 
@@ -180,7 +187,10 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     if (!emailField) return;
 
     try {
-      localStorage.setItem(`${UserEmailKey}_${quiqOptions.contactPoint}`, btoa(emailField.value));
+      localStorage.setItem(
+        `${UserEmailKey}_${this.props.configuration.contactPoint}`,
+        btoa(emailField.value),
+      );
     } catch (ex) {} // eslint-disable-line no-empty
   };
 
@@ -188,12 +198,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     e.preventDefault();
     if (this.state.submitting) return;
 
-    const {href} = quiqOptions;
+    const {href, demoMode} = this.props.configuration;
     const fields: {[string]: string} = {};
 
     if (!this.validateFormInput()) return;
 
-    if (quiqOptions.demoMode) return;
+    if (demoMode) return;
 
     map(this.state.inputFields, (field, key) => {
       // Only include field if it was filled out
@@ -267,7 +277,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {fontFamily, colors, styles, demoMode} = quiqOptions;
+    const {fontFamily, colors, styles, demoMode} = this.props.configuration;
     const welcomeForm = this.state.form;
     if (!demoMode && this.props.welcomeFormRegistered) return null;
 
@@ -313,6 +323,7 @@ export default connect(
   (state: ChatState) => ({
     welcomeFormRegistered: state.welcomeFormRegistered,
     registrationForm: state.configuration.registrationForm,
+    configuration: getConfiguration(state),
   }),
   {
     setWelcomeFormRegistered,

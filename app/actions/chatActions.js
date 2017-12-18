@@ -1,5 +1,11 @@
 import {reduxActionTypes as actionTypes} from 'Common/Constants';
-import type {ChatInitializedStateType, Message, ChatMetadata, AttachmentError} from 'types';
+import type {
+  ChatInitializedStateType,
+  Message,
+  ChatMetadata,
+  AttachmentError,
+  QuiqObject,
+} from 'types';
 import type {PersistentData} from 'quiq-chat/src/types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
@@ -37,8 +43,8 @@ export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({
   messageFieldFocused,
 });
 
-export const setChatConfiguration = (metadata: ChatMetadata) => ({
-  type: 'CHAT_CONFIGURATION_LOADED',
+export const updateChatConfigurationFromMetadata = (metadata: ChatMetadata) => ({
+  type: 'UPDATE_CHAT_CONFIGURATION',
   configuration: {
     enableChatEmailTranscript:
       metadata.configs.CHAT_EMAIL_TRANSCRIPT && metadata.configs.CHAT_EMAIL_TRANSCRIPT.enabled,
@@ -61,6 +67,11 @@ export const setChatConfiguration = (metadata: ChatMetadata) => ({
       metadata.configs.CHAT_WHITELISTED_DOMAINS &&
       metadata.configs.CHAT_WHITELISTED_DOMAINS.domains,
   },
+});
+
+export const updateChatConfigurationFromQuiqOptions = (quiqOptions: QuiqObject) => ({
+  type: 'UPDATE_CHAT_CONFIGURATION',
+  configuration: quiqOptions,
 });
 
 export const updatePersistentData = (persistentData: PersistentData) => ({

@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'core-ui/services/i18nService';
-import quiqOptions from 'Common/QuiqOptions';
 import ChatContainer from './ChatContainer';
 import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
@@ -21,7 +20,7 @@ import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {getMetadataForSentry} from 'utils/errorUtils';
-import {getMuteSounds} from 'reducers/chat';
+import {getMuteSounds, getConfiguration} from 'reducers/chat';
 import type {
   IntlObject,
   ChatState,
@@ -58,7 +57,7 @@ export type LauncherProps = {
   updateTranscript: (transcript: Array<Message>) => void,
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
-  setChatConfiguration: (configuration: ChatMetadata) => void,
+  updateChatConfigurationFromMetadata: (configuration: ChatMetadata) => void,
   removeMessage: (messageId: string) => void,
   setIsAgentAssigned: (isAgentAssigned: boolean) => void,
   updatePersistentData: (data: PersistentData) => void,
@@ -76,7 +75,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     this.registerClientCallbacks();
     this.updateLauncherVisibilityInterval = setInterval(
       this.updateLauncherState,
-      quiqOptions.agentsAvailableTimer,
+      this.props.configuration.agentsAvailableTimer,
     );
 
     if (!this.props.chatLauncherHidden) {
@@ -87,7 +86,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // TODO: Remove this when WS are used for join/leave
     // If we're in undocked-only mode, and this is a standalone window, we need to fire a leave event whenever window is closed
-    if (inStandaloneMode() && quiqOptions.displayMode === displayModes.UNDOCKED) {
+    if (inStandaloneMode() && this.props.configuration.displayMode === displayModes.UNDOCKED) {
       window.addEventListener('unload', () => {
         QuiqChatClient.leaveChat(true);
       });
@@ -111,7 +110,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    if (quiqOptions.enforceAgentAvailability && !quiqOptions.demoMode) {
+    if (this.props.configuration.enforceAgentAvailability && !this.props.configuration.demoMode) {
       const {available} = await QuiqChatClient.checkForAgents();
       this.props.setAgentsAvailable(available);
 
@@ -185,11 +184,12 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   init = async () => {
     const configuration = await QuiqChatClient.getChatConfiguration();
-    this.props.setChatConfiguration(configuration);
+    this.props.updateChatConfigurationFromMetadata(configuration);
 
     // Domain whitelist enforcement: destroy webchat client if parent window's domain is not whitelisted
     // We use the clientDomain passed in via quiqOptions as a fallback in case we cannot determine the parent domain.
-    const hostingDomain = getHostingDomain() || quiqOptions.clientDomain.replace(/https?:\/\//, '');
+    const hostingDomain =
+      getHostingDomain() || this.props.configuration.clientDomain.replace(/https?:\/\//, '');
     if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
       destructApp();
       displayError(
@@ -222,7 +222,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (QuiqChatClient.isChatVisible()) {
       await this.startSession();
 
-      if (quiqOptions.displayMode !== displayModes.UNDOCKED) {
+      if (this.props.configuration.displayMode !== displayModes.UNDOCKED) {
         this.updateContainerHidden(false);
       }
 
@@ -295,14 +295,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   handleAutoPop = () => {
     if (
       !isMobile() &&
-      quiqOptions.displayMode !== displayModes.UNDOCKED &&
-      typeof quiqOptions.autoPopTime === 'number'
+      this.props.configuration.displayMode !== displayModes.UNDOCKED &&
+      typeof this.props.configuration.autoPopTime === 'number'
     ) {
       this.autoPopTimeout = setTimeout(async () => {
         if (!await this.updateLauncherState()) return;
         await this.startSession();
         this.updateContainerHidden(false);
-      }, quiqOptions.autoPopTime);
+      }, this.props.configuration.autoPopTime);
     }
   };
 
@@ -347,7 +347,7 @@ export default compose(
       welcomeFormRegistered: state.welcomeFormRegistered,
       muteSounds: getMuteSounds(state),
       messageFieldFocused: state.messageFieldFocused,
-      configuration: state.configuration,
+      configuration: getConfiguration(state),
     }),
     chatActions,
   ),

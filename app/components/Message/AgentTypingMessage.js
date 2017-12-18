@@ -1,11 +1,15 @@
 // @flow
 import React from 'react';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {connect} from 'react-redux';
+import {getStyle} from 'Common/QuiqOptions';
+import {getConfiguration, getMessage} from 'reducers/chat';
 import {intlMessageTypes} from 'Common/Constants';
 import TypingIndicator from 'TypingIndicator';
+import type {ChatState, ChatConfiguration} from 'Common/types';
 
 export type AgentTypingMessageProps = {
   scrollToBottom: () => void,
+  configuration: ChatConfiguration,
 };
 
 export class AgentTypingMessage extends React.Component<AgentTypingMessageProps> {
@@ -16,7 +20,7 @@ export class AgentTypingMessage extends React.Component<AgentTypingMessageProps>
   }
 
   render() {
-    const {colors, styles} = quiqOptions;
+    const {colors, styles} = this.props.configuration;
     return (
       <TypingIndicator
         title={getMessage(intlMessageTypes.agentTypingMessage)}
@@ -31,4 +35,9 @@ export class AgentTypingMessage extends React.Component<AgentTypingMessageProps>
   }
 }
 
-export default AgentTypingMessage;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(AgentTypingMessage);
