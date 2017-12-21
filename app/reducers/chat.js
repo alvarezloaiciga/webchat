@@ -70,7 +70,7 @@ export const initialState = {
       offset: undefined,
     },
     whitelistedDomains: '',
-    ...buildQuiqObject({}),
+    ...buildQuiqObject({host: 'about:blank'}),
   },
   isAgentAssigned: false,
   inputtingEmail: false,
