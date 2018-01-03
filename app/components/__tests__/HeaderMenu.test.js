@@ -3,6 +3,7 @@ jest.mock('quiq-chat');
 jest.mock('Common/QuiqOptions');
 jest.mock('services/Postmaster');
 jest.mock('Common/Utils');
+jest.mock('reducers/chat');
 
 import React from 'react';
 import type {HeaderMenuProps} from '../HeaderMenu';
@@ -10,6 +11,7 @@ import {HeaderMenu} from '../HeaderMenu';
 import {shallow} from 'enzyme';
 import {standaloneOpen} from 'services/Postmaster';
 import * as Utils from 'Common/Utils';
+import {getMockConfiguration} from 'utils/testHelpers';
 import type {ShallowWrapper} from 'enzyme';
 
 describe('HeaderMenu component', () => {
@@ -22,6 +24,7 @@ describe('HeaderMenu component', () => {
       setChatContainerHidden: jest.fn(),
       setChatPopped: jest.fn(),
       initializedState: 'initialized',
+      configuration: getMockConfiguration(),
     };
 
     render = () => {

@@ -1,4 +1,6 @@
 // @flow
+import quiqOptions from 'Common/__mocks__/QuiqOptions';
+
 import type {IntlObject, IntlMessage, TextMessage, Event, ChatConfiguration} from 'Common/types';
 
 export const getMockMessage = (
@@ -84,6 +86,10 @@ export const getMockConfiguration = (overrides?: *): ChatConfiguration =>
       registrationForm: null,
       customMenuItems: [],
       menuOffset: undefined,
+      menuOptions: {
+        customItems: [],
+      },
     },
+    quiqOptions,
     overrides,
   );

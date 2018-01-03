@@ -1,6 +1,6 @@
 // @flow
 import React, {Component} from 'react';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {isIE10, isMobile} from 'Common/Utils';
 import {setMessageFieldFocused, setInputtingEmail, setAgentsAvailable} from 'actions/chatActions';
@@ -18,13 +18,13 @@ import {
   getInputtingEmail,
   getClosedConversationCount,
   getMuteSounds,
+  getConfiguration,
+  getMessage,
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
 import './styles/MessageForm.scss';
 import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
-
-const {colors, fontFamily, styles, enforceAgentAvailability, agentsAvailableTimer} = quiqOptions;
 
 export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
@@ -38,7 +38,7 @@ export type MessageFormProps = {
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
   inputtingEmail: boolean,
   setInputtingEmail: (inputtingEmail: boolean) => void,
-  setAgentsAvailable: (agentsAvailable: boolean) => void,
+  setAgentsAvailable: (available: boolean) => void,
 };
 
 type MessageFormState = {
@@ -60,12 +60,19 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   simpleMode: boolean = isIE10() || isMobile();
 
   checkAvailability = async () => {
-    if (enforceAgentAvailability) {
-      const available = await QuiqChatClient.checkForAgents();
+    if (this.props.configuration.enforceAgentAvailability) {
+      const {available} = await QuiqChatClient.checkForAgents();
 
-      this.props.setAgentsAvailable(available.available);
+      this.props.setAgentsAvailable(available);
       clearTimeout(this.checkAvailabilityTimer);
-      this.checkAvailabilityTimer = setTimeout(this.checkAvailability, agentsAvailableTimer);
+
+      // Continue checking only if the user is currently not subscribed
+      if (!QuiqChatClient.isUserSubscribed()) {
+        this.checkAvailabilityTimer = setTimeout(
+          this.checkAvailability,
+          this.props.configuration.agentsAvailableTimer,
+        );
+      }
     }
   };
 
@@ -82,10 +89,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }, 200);
     }
 
-    if (
-      (!this.props.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-      this.props.agentEndedConversation
-    ) {
+    if (!this.props.agentsAvailable || this.props.agentEndedConversation) {
       this.checkAvailability();
     }
 
@@ -186,6 +190,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   renderMenu = () => {
+    const {colors, styles, fontFamily} = this.props.configuration;
+
     // Ensure custom options come first.
     const options = this.props.configuration.menuOptions.customItems.map(o => ({
       onClick: () => window.open(o.url, '_blank'),
@@ -288,6 +294,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   render() {
+    const {colors, styles, fontFamily} = this.props.configuration;
     const allowConversationToStart =
       !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
@@ -333,7 +340,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 autoFocus
                 onBlur={this.handleMessageFieldLostFocus}
                 onFocus={this.handleMessageFieldFocused}
-                disabled={!this.props.agentsAvailable || !allowConversationToStart}
+                disabled={!this.state.agentsAvailable || !allowConversationToStart}
                 onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                 onSubmit={this.addMessage}
                 placeholder={messagePlaceholder}
@@ -341,7 +348,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             ) : (
               <EmojiTextarea
                 ref={n => {
-                  this.textArea = n;
+                  this.textArea = n && n.wrappedInstance;
                 }}
                 style={inputStyle}
                 disabled={!this.props.agentsAvailable || !allowConversationToStart}
@@ -419,7 +426,7 @@ export default connect(
   (state: ChatState) => ({
     agentsAvailable: state.agentsAvailable || QuiqChatClient.isUserSubscribed(),
     muteSounds: getMuteSounds(state),
-    configuration: state.configuration,
+    configuration: getConfiguration(state),
     agentEndedConversation: getAgentEndedLatestConversation(state),
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
     closedConversationCount: getClosedConversationCount(state),

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import quiqOptions from 'Common/QuiqOptions';
+import {connect} from 'react-redux';
 import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
 import {EditorState, ContentState, Modifier} from 'draft-js';
 import createEmojiPlugin from '../emoji/draftjsTwemojiPlugin';
+import {getConfiguration} from 'reducers/chat';
 import 'draft-js/dist/Draft.css';
 import './styles/EmojiTextArea.scss';
+import type {ChatState, ChatConfiguration} from 'Common/types';
 
 export type EmojiTextareaProps = {
   onReturn?: () => void,
@@ -16,6 +18,7 @@ export type EmojiTextareaProps = {
   disabled?: boolean,
   maxLength?: number,
   placeholder?: string,
+  configuration: ChatConfiguration,
 };
 
 export type EmojiTextareaState = {
@@ -26,14 +29,14 @@ const emojiPlugin = createEmojiPlugin();
 
 const plugins = [emojiPlugin];
 
-export default class EmojiTextArea extends Component {
+export class EmojiTextArea extends Component {
   props: EmojiTextareaProps;
   state: EmojiTextareaState = {
     editorState: createEditorStateWithText(''),
   };
 
   componentDidMount() {
-    const internal = quiqOptions._internal;
+    const internal = this.props.configuration._internal;
     if (internal.exposeDraftJsFunctions) {
       window.__quiq__draftJs = {
         setText: this.setText,
@@ -177,3 +180,12 @@ export default class EmojiTextArea extends Component {
     );
   }
 }
+
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+  null,
+  {withRef: true},
+)(EmojiTextArea);

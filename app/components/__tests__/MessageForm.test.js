@@ -4,6 +4,7 @@ jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
 jest.mock('components/EmojiTextArea');
 jest.mock('services/Postmaster');
+jest.mock('reducers/chat');
 
 import React from 'react';
 import {MessageForm} from '../MessageForm';
@@ -24,6 +25,7 @@ describe('MessageForm component', () => {
   beforeEach(() => {
     QuiqChatClient.sendTextMessage = jest.fn();
     QuiqChatClient.updateMessagePreview = jest.fn();
+    QuiqChatClient.checkForAgents = jest.fn(() => ({available: true}));
 
     render = () => {
       testProps = {

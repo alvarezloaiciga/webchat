@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import Message from 'Message/Message';
 import PlatformEvent from './PlatformEvent';
-import quiqOptions, {getMessage} from 'Common/QuiqOptions';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
 import {
   getLastClosedConversationIsSpam,
   getAllConversationElements,
   getAgentHasRespondedToLatestConversation,
+  getConfiguration,
+  getMessage,
 } from 'reducers/chat';
 import {
   intlMessageTypes,
@@ -73,7 +74,7 @@ export class Transcript extends Component {
     props.allSortedConversationElements.filter(e => DisplayElementTypes.includes(e.type));
 
   render() {
-    const {colors} = quiqOptions;
+    const {colors} = this.props.configuration;
 
     const messagesAndEvents = this.getConversationElementsForDisplay();
 
@@ -149,7 +150,7 @@ export default connect(
     agentTyping: state.agentTyping,
     allSortedConversationElements: getAllConversationElements(state),
     agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
-    configuration: state.configuration,
+    configuration: getConfiguration(state),
   }),
   mapDispatchToProps,
 )(Transcript);

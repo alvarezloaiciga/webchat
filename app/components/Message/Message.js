@@ -1,22 +1,25 @@
 // @flow
 
 import React from 'react';
+import {connect} from 'react-redux';
 import TextMessage from './TextMessage';
 import ImageMessage from './ImageMessage';
 import FileMessage from './FileMessage';
 import AgentTypingMessage from './AgentTypingMessage';
 import classnames from 'classnames';
-import quiqOptions, {getStyle} from 'Common/QuiqOptions';
-import type {Message as MessageType} from 'Common/types';
+import {getStyle} from 'Common/QuiqOptions';
+import {getConfiguration} from 'reducers/chat';
+import type {Message as MessageType, ChatState, ChatConfiguration} from 'Common/types';
 import './styles/Message.scss';
 
 export type MessageProps = {
   message: MessageType,
   scrollToBottom: () => void,
+  configuration: ChatConfiguration,
 };
 
 export const Message = (props: MessageProps) => {
-  const {styles} = quiqOptions;
+  const {styles} = props.configuration;
 
   const fromCustomer = props.message.authorType === 'Customer';
 
@@ -49,4 +52,9 @@ export const Message = (props: MessageProps) => {
   );
 };
 
-export default Message;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(Message);

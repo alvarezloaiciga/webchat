@@ -20,6 +20,9 @@ import type {
   ChatConfiguration,
   AttachmentError,
 } from 'Common/types';
+import {buildQuiqObject} from 'Common/QuiqOptions';
+import {getState} from '../store';
+import {getDisplayString} from 'core-ui/services/i18nService';
 import type {PersistentData} from 'quiq-chat/src/types';
 
 type ChatAction = {
@@ -67,6 +70,7 @@ export const initialState = {
       offset: undefined,
     },
     whitelistedDomains: '',
+    ...buildQuiqObject({host: 'about:blank'}),
   },
   isAgentAssigned: false,
   inputtingEmail: false,
@@ -83,10 +87,12 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
-    case 'CHAT_CONFIGURATION_LOADED':
+    case 'UPDATE_CHAT_CONFIGURATION': {
+      const configuration = Object.assign({}, state.configuration, action.configuration);
       return Object.assign({}, state, {
-        configuration: action.configuration,
+        configuration,
       });
+    }
     case 'AGENTS_AVAILABLE':
       return Object.assign({}, state, {
         agentsAvailable: action.agentsAvailable,
@@ -209,23 +215,23 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 export default chat;
 
 // Selectors
-export const getChatContainerHidden = (state: ChatState): boolean => {
+export const getChatContainerHidden = (state: ChatState = getState()): boolean => {
   return state.chatContainerHidden;
 };
 
 // $FlowIssue - Flow can't deal with Object.values() very well
 export const getTranscript = createSelector(
-  state => state.transcript,
+  (state = getState()) => state.transcript,
   transcript => Object.values(transcript),
 );
 
 export const getPlatformEvents = createSelector(
-  state => state.platformEvents,
+  (state = getState()) => state.platformEvents,
   // $FlowIssue - Flow does not infer types when Object.values is used
   platformEvents => Object.values(platformEvents),
 );
 
-export const getAttachmentErrors = (state: ChatState): Array<AttachmentError> =>
+export const getAttachmentErrors = (state: ChatState = getState()): Array<AttachmentError> =>
   state.attachmentErrors;
 
 /**
@@ -307,19 +313,30 @@ export const getAgentHasRespondedToLatestConversation = createSelector(
     ),
 );
 
-export const getAgentsAvailable = (state: ChatState): ?boolean => {
+export const getAgentsAvailable = (state: ChatState = getState()): ?boolean => {
   return state.agentsAvailable;
 };
 
-export const getChatLauncherHidden = (state: ChatState): boolean => {
+export const getChatLauncherHidden = (state: ChatState = getState()): boolean => {
   return state.chatLauncherHidden;
 };
 
-export const getConfiguration = (state: ChatState): ChatConfiguration => state.configuration;
+export const getConfiguration = (state: ChatState = getState()): ChatConfiguration =>
+  state.configuration;
 
-export const getIsAgentAssigned = (state: ChatState): boolean => state.isAgentAssigned;
+export const getMessage = (messageName: string, state: ChatState = getState()): string => {
+  const message = getConfiguration(state).messages[messageName];
 
-export const getInputtingEmail = (state: ChatState): boolean => state.inputtingEmail;
+  if (message === null || message === undefined)
+    throw new Error(`QUIQ: Unknown message name "${messageName}"`);
+
+  return getDisplayString(message);
+};
+
+export const getIsAgentAssigned = (state: ChatState = getState()): boolean => state.isAgentAssigned;
+
+export const getInputtingEmail = (state: ChatState = getState()): boolean => state.inputtingEmail;
 
 // $FlowIssue
-export const getMuteSounds = (state: ChatState): boolean => state.persistentData.muteSounds;
+export const getMuteSounds = (state: ChatState = getState()): boolean =>
+  state.persistentData.muteSounds;

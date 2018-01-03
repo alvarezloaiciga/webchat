@@ -1,20 +1,26 @@
 // @flow
 import React from 'react';
-import {intlMessageTypes} from 'Common/Constants';
-import quiqOptions, {getMessage} from 'Common/QuiqOptions';
-import {isIE9} from 'Common/Utils';
+import {connect} from 'react-redux';
+import {getConfiguration} from 'reducers/chat';
 import './styles/Spinner.scss';
+import type {ChatState, ChatConfiguration} from 'Common/types';
 
-const {color} = quiqOptions;
+export type SpinnerProps = {
+  configuration: ChatConfiguration,
+};
 
-const Spinner = () => (
-  <div className="Spinner">
-    {!isIE9() ? (
+export const Spinner = (props: SpinnerProps) => {
+  const {color} = props.configuration;
+  return (
+    <div className="Spinner">
       <div className="loading" style={{borderColor: color}} />
-    ) : (
-      <span className="plainText">{getMessage(intlMessageTypes.connectingMessage)}</span>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
-export default Spinner;
+export default connect(
+  (state: ChatState) => ({
+    configuration: getConfiguration(state),
+  }),
+  {},
+)(Spinner);

@@ -2,6 +2,7 @@
 jest.mock('Common/QuiqOptions');
 jest.mock('quiq-chat');
 jest.mock('Common/Utils');
+jest.mock('reducers/chat');
 
 import React from 'react';
 import {ChatContainer} from '../ChatContainer';

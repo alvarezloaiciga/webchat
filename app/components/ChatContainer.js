@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import quiqOptions, {getStyle, getMessage} from 'Common/QuiqOptions';
+import {getStyle} from 'Common/QuiqOptions';
 import {
   inStandaloneMode,
   isStorageEnabled,
@@ -35,7 +35,13 @@ import type {
   AttachmentError,
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
-import {getTranscript, getIsAgentAssigned, getAgentEndedLatestConversation} from 'reducers/chat';
+import {
+  getTranscript,
+  getIsAgentAssigned,
+  getAgentEndedLatestConversation,
+  getConfiguration,
+  getMessage,
+} from 'reducers/chat';
 import styled, {css} from 'react-emotion';
 
 export const getHeight = (originalHeight: string): string => {
@@ -118,7 +124,7 @@ export const ErrorBanner = styled.div`
 /* eslint-disable no-confusing-arrow */
 export const TranscriptArea = styled(Dropzone)`
   display: flex;
-  flex: ${props => (!props.hasWaitScreen ? 1 : 0)} 1 auto;
+  flex: ${props => (props.haswaitscreen === 'true' ? 0 : 1)} 1 auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -246,7 +252,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   renderBanner = () => {
-    const {colors, styles, fontFamily} = quiqOptions;
+    const {colors, styles, fontFamily} = this.props.configuration;
 
     const bannerStyle = getStyle(styles.HeaderBanner, {
       backgroundColor: colors.primary,
@@ -289,7 +295,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   renderContent = () => {
-    const chatContainerStyle = {backgroundColor: quiqOptions.colors.transcriptBackground};
+    const chatContainerStyle = {
+      backgroundColor: this.props.configuration.colors.transcriptBackground,
+    };
     switch (this.props.initializedState) {
       case ChatInitializedState.INITIALIZED:
         return (
@@ -317,8 +325,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                   onLoad={this.handleIFrameLoad}
                   sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-orientation-lock"
                   src={
-                    quiqOptions.customScreens && quiqOptions.customScreens.waitScreen
-                      ? quiqOptions.customScreens.waitScreen.url
+                    this.props.configuration.customScreens &&
+                    this.props.configuration.customScreens.waitScreen
+                      ? this.props.configuration.customScreens.waitScreen.url
                       : ''
                   }
                 />
@@ -328,7 +337,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               innerRef={d => {
                 this.dropzone = d;
               }}
-              hasWaitScreen={this.isUsingWaitScreen()}
+              haswaitscreen={this.isUsingWaitScreen().toString()}
               disabled={
                 !this.props.agentsAvailable ||
                 !this.props.configuration.enableChatFileAttachments ||
@@ -372,9 +381,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   isUsingWaitScreen = () => {
-    return (
-      quiqOptions.customScreens &&
-      quiqOptions.customScreens.waitScreen &&
+    return !!(
+      this.props.configuration.customScreens &&
+      this.props.configuration.customScreens.waitScreen &&
       !this.props.isAgentAssigned &&
       !this.props.agentEndedConversation
     );
@@ -382,7 +391,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   handleIFrameLoad = () => {
     // $FlowIssue - Null check is done upstream of this call
-    registerExtension(quiqOptions.customScreens.waitScreen.url, this.extensionFrame.contentWindow);
+    registerExtension(
+      // $FlowIssue - Null check is done upstream of this call
+      this.props.configuration.customScreens.waitScreen.url,
+      this.extensionFrame.contentWindow,
+    );
 
     postExtensionEvent({
       eventType: 'transcriptChanged',
@@ -406,20 +419,20 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   getWaitScreenHeight = () => {
     // $FlowIssue - Null check is done upstream of this call
-    return quiqOptions.customScreens.waitScreen.height
-      ? quiqOptions.customScreens.waitScreen.height
+    return this.props.configuration.customScreens.waitScreen.height
+      ? this.props.configuration.customScreens.waitScreen.height
       : '100%';
   };
 
   getWaitScreenFlexGrow = () => {
     // $FlowIssue - Null check is done upstream of this call
-    return quiqOptions.customScreens.waitScreen.height ? 0 : 1;
+    return this.props.configuration.customScreens.waitScreen.height ? 0 : 1;
   };
 
   getWaitScreenMinHeight = () => {
     // $FlowIssue - Null check is done upstream of this call
-    return quiqOptions.customScreens.waitScreen.minHeight
-      ? quiqOptions.customScreens.waitScreen.minHeight
+    return this.props.configuration.customScreens.waitScreen.minHeight
+      ? this.props.configuration.customScreens.waitScreen.minHeight
       : 100;
   };
 
@@ -427,7 +440,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
     if (
-      quiqOptions.demoMode ||
+      this.props.configuration.demoMode ||
       (this.props.initializedState === ChatInitializedState.INITIALIZED &&
         !this.props.welcomeFormRegistered)
     ) {
@@ -453,7 +466,7 @@ const mapStateToProps = (state: ChatState) => ({
   chatContainerHidden: state.chatContainerHidden,
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
-  configuration: state.configuration,
+  configuration: getConfiguration(state),
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
   agentEndedConversation: getAgentEndedLatestConversation(state),

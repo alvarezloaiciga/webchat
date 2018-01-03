@@ -3204,9 +3204,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@0.60.1:
-  version "0.60.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.60.1.tgz#0f4fa7b49be2a916f18cd946fc4a51e32ffe4b48"
+flow-bin@^0.61.0:
+  version "0.61.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.61.0.tgz#d0473a8c35dbbf4de573823f4932124397d32d35"
 
 for-in@^0.1.3:
   version "0.1.8"
@@ -6351,9 +6351,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.40.1:
-  version "1.40.1"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.40.1.tgz#9f726858f8401136bb30e1a3a412edd983c4300c"
+quiq-chat@1.41.1:
+  version "1.41.1"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.41.1.tgz#507d72fdc72356e3ff74e4c898d6ecc7ab2f0156"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
@@ -6366,9 +6366,9 @@ quiq-chat@1.40.1:
     store "2.0.12"
     ua-parser-js "0.7.12"
 
-quiq-scripts@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/quiq-scripts/-/quiq-scripts-0.0.1.tgz#56abf067b6738bce1f27d7c8f169d2c0013bb704"
+quiq-scripts@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/quiq-scripts/-/quiq-scripts-0.0.2.tgz#c26796d576cfc1e1a62b58252711e83447cbe5d7"
   dependencies:
     babel-core "^6.26.0"
     babel-eslint "^8.0.3"
@@ -6389,7 +6389,7 @@ quiq-scripts@0.0.1:
     eslint-plugin-import "^2.8.0"
     eslint-plugin-jsx-a11y "^6.0.3"
     eslint-plugin-react "^7.5.1"
-    flow-bin "0.60.1"
+    flow-bin "^0.61.0"
     husky "^0.14.3"
     jest "^21.2.1"
     lint-staged "^6.0.0"

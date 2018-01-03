@@ -1,15 +1,16 @@
 // @flow
 jest.mock('quiq-chat');
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
 
-// @flow
 import React from 'react';
 import {UserEmailKey} from 'Common/Constants';
 import type {EmailInputProps} from '../EmailInput';
-import EmailInput from '../EmailInput';
+import {EmailInput} from '../EmailInput';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QuiqChatClient from 'quiq-chat';
+import {getMockConfiguration} from 'utils/testHelpers';
 
 describe('EmailInput component', () => {
   let wrapper: ShallowWrapper;
@@ -22,6 +23,7 @@ describe('EmailInput component', () => {
     testProps = {
       onCancel: jest.fn(),
       onSubmit: jest.fn(),
+      configuration: getMockConfiguration(),
     };
     render = () => {
       wrapper = shallow(<EmailInput {...testProps} />);

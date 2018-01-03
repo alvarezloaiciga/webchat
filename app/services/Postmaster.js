@@ -17,7 +17,6 @@ import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Commo
 import type {RegistrationField} from 'Common/types';
 import {constructApp, destructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
-import quiqOptions from 'Common/QuiqOptions';
 import type {ReduxStore} from 'types';
 
 let reduxWatch;
@@ -123,9 +122,10 @@ export const chatVisibilityDidChange = (visible: boolean) => {
 };
 
 export const standaloneOpen = () => {
+  const configuration = ChatSelectors.getConfiguration();
   store.dispatch(ChatActions.setChatContainerHidden(true));
   tellClient(eventTypes._standaloneOpen, {
-    localStorageKeys: getQuiqKeysFromLocalStorage(quiqOptions.contactPoint),
+    localStorageKeys: getQuiqKeysFromLocalStorage(configuration.contactPoint),
   });
 };
 
@@ -140,10 +140,11 @@ const loadChat = () => {
 };
 
 const setChatVisibility = (event: Object) => {
+  const configuration = ChatSelectors.getConfiguration();
   const {visible} = event.data;
 
   // If we are in 'UNDOCKED' mode, turn around and fire an open standalone event
-  if (visible && quiqOptions.displayMode === displayModes.UNDOCKED) {
+  if (visible && configuration.displayMode === displayModes.UNDOCKED) {
     standaloneOpen();
   } else {
     store.dispatch(ChatActions.setChatContainerHidden(!visible));
@@ -163,7 +164,8 @@ const getMobileChat = () => {
 };
 
 const getLocalStorage = () => {
-  return {localStorageKeys: getQuiqKeysFromLocalStorage(quiqOptions.contactPoint)};
+  const configuration = ChatSelectors.getConfiguration();
+  return {localStorageKeys: getQuiqKeysFromLocalStorage(configuration.contactPoint)};
 };
 
 /**********************************************************************************
@@ -186,9 +188,12 @@ const sendRegistration = (event: Object) => {
 // We don't need to wrap the result into an object here since it comes prepackaged that way from the API
 const getAgentAvailability = async () => QuiqChatClient.checkForAgents();
 
-const getHandle = async () => ({
-  handle: await QuiqChatClient.getHandle(quiqOptions.host),
-});
+const getHandle = async () => {
+  const configuration = ChatSelectors.getConfiguration();
+  return {
+    handle: await QuiqChatClient.getHandle(configuration.host),
+  };
+};
 
 const getChatStatus = async () => ({
   active: await QuiqChatClient.isUserSubscribed(),

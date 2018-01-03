@@ -1,9 +1,10 @@
 // @flow
 
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
 
 import React from 'react';
-import {getMockMessage, getMockEvent} from 'utils/testHelpers';
+import {getMockMessage, getMockEvent, getMockConfiguration} from 'utils/testHelpers';
 import type {TranscriptProps} from '../Transcript';
 import {Transcript} from '../Transcript';
 import {shallow} from 'enzyme';
@@ -22,9 +23,9 @@ describe('Transcript component', () => {
         getMockMessage(3),
         getMockEvent(4),
       ],
-      configuration: {
+      configuration: getMockConfiguration({
         enableChatEmailTranscript: true,
-      },
+      }),
       agentTyping: false,
     };
     render = () => {
@@ -49,7 +50,7 @@ describe('Transcript component', () => {
         render();
         expect(
           wrapper
-            .find('Message')
+            .find('Connect(Message)')
             .last()
             .prop('message').type,
         ).toBe('AgentTyping');

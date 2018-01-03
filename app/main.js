@@ -2,10 +2,11 @@ import {nonCompatibleBrowser} from 'Common/Utils';
 import {constructApp} from 'utils/domUtils';
 import quiqOptions from '../Common/QuiqOptions';
 import QuiqChatClient from 'quiq-chat';
-import {configureStore} from 'store/configureStore';
+import {configureStore} from 'store/index';
 import {quiqContainerId} from 'Common/Constants';
 import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
+import {updateChatConfigurationFromQuiqOptions} from 'actions/chatActions';
 
 import 'main.scss';
 
@@ -15,7 +16,11 @@ const init = () => {
   QuiqChatClient.initialize(quiqOptions.host, quiqOptions.contactPoint);
   const store = configureStore(chat, initialState);
 
+  // NOTE HARD: Postmaster must be initialized before setting quiqOptions in Redux
   initMalfunctionJunction(quiqOptions.clientDomain, store);
+
+  // Update initial quiqOptions in Redux
+  store.dispatch(updateChatConfigurationFromQuiqOptions(quiqOptions));
 
   const root = document.createElement('div');
   root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!

@@ -1,5 +1,7 @@
 // @flow
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
+
 import React from 'react';
 import type {WelcomeFormProps} from '../WelcomeForm';
 import {WelcomeForm} from '../WelcomeForm';
@@ -7,6 +9,7 @@ import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 import QuiqChatClient from 'quiq-chat';
 import quiqOptions from 'Common/QuiqOptions';
+import {getMockConfiguration} from 'utils/testHelpers';
 
 describe('WelcomeForm component', () => {
   let wrapper: ShallowWrapper;
@@ -21,6 +24,7 @@ describe('WelcomeForm component', () => {
       setWelcomeFormRegistered: jest.fn(),
       welcomeFormRegistered: false,
       registrationForm: quiqOptions.welcomeForm,
+      configuration: getMockConfiguration(),
     };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);

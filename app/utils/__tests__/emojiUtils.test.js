@@ -1,4 +1,5 @@
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
 
 import * as EmojiUtils from '../emojiUtils';
 

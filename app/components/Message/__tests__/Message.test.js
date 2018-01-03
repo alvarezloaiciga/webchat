@@ -1,11 +1,12 @@
 // @flow
 
 jest.mock('Common/QuiqOptions');
+jest.mock('reducers/chat');
 
 import React from 'react';
-import {getMockMessage} from 'utils/testHelpers';
+import {getMockMessage, getMockConfiguration} from 'utils/testHelpers';
 import type {MessageProps} from '../Message';
-import Message from '../Message';
+import {Message} from '../Message';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
 
@@ -18,6 +19,7 @@ describe('Message component', () => {
     testProps = {
       message: getMockMessage(),
       scrollToBottom: jest.fn(),
+      configuration: getMockConfiguration(),
     };
     render = () => {
       wrapper = shallow(<Message {...testProps} />);

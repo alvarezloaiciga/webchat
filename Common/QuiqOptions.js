@@ -10,7 +10,6 @@ import {
   isStorageEnabled,
   getOrElse,
 } from 'Common/Utils';
-import {getDisplayString} from 'core-ui/services/i18nService';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -33,7 +32,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const quiqOptions = {
     contactPoint,
     displayMode: rawQuiqObject.displayMode || 'either',
-    customScreens: rawQuiqObject.customScreens,
+    customScreens: rawQuiqObject.customScreens || {},
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
     agentsAvailableTimer:
@@ -219,8 +218,6 @@ const getQuiqOptions = (): QuiqObject => {
   }
 };
 
-const quiqOptions: QuiqObject = getQuiqOptions();
-
 export const validateWelcomeFormDefinition = (): void => {
   const form = quiqOptions.welcomeForm;
   if (!form) return;
@@ -307,13 +304,6 @@ export const getStyle = (userStyle?: Object = {}, defaults?: Object = {}) => {
   return Object.assign({}, defaults, userStyle);
 };
 
-export const getMessage = (messageName: string): string => {
-  const message = quiqOptions.messages[messageName];
-
-  if (message === null || message === undefined)
-    throw new Error(`QUIQ: Unknown message name "${messageName}"`);
-
-  return getDisplayString(message);
-};
+const quiqOptions: QuiqObject = getQuiqOptions();
 
 export default quiqOptions;

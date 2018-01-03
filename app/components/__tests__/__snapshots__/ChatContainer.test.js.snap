@@ -18,7 +18,7 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   >
     We're having trouble connecting. Try refreshing the page.
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -49,7 +49,7 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   >
     Reconnecting...
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -80,7 +80,7 @@ exports[`ChatContainer component initializedState when errored renders properly 
   >
     We're having trouble connecting. Try refreshing the page.
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -111,7 +111,7 @@ exports[`ChatContainer component initializedState when inactive renders properly
   >
     You have been disconnected due to inactivity. Please refresh the page to reconnect.
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -143,7 +143,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -156,6 +156,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
       disableClick={true}
       disablePreview={true}
       disabled={true}
+      haswaitscreen="false"
       id="TranscriptArea"
       innerRef={[Function]}
       maxSize={25000000}
@@ -194,7 +195,7 @@ exports[`ChatContainer component initializedState when loading renders properly 
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -202,7 +203,7 @@ exports[`ChatContainer component initializedState when loading renders properly 
       }
     }
   >
-    <Spinner />
+    <Connect(Spinner) />
   </Styled(div)>
 </Styled(div)>
 `;
@@ -226,7 +227,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
+  <Connect(Debugger) />
   <Styled(div)
     style={
       Object {
@@ -234,7 +235,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
       }
     }
   >
-    <Spinner />
+    <Connect(Spinner) />
   </Styled(div)>
 </Styled(div)>
 `;
