@@ -153,6 +153,7 @@ export type ChatContainerProps = {
   isAgentAssigned: boolean,
   transcript: Array<MessageType>,
   agentEndedConversation: boolean,
+  agentsAvailable: boolean,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -329,6 +330,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               }}
               hasWaitScreen={this.isUsingWaitScreen()}
               disabled={
+                !this.props.agentsAvailable ||
                 !this.props.configuration.enableChatFileAttachments ||
                 (this.props.configuration.enableManualConvoStart &&
                   this.props.agentEndedConversation)
@@ -455,6 +457,7 @@ const mapStateToProps = (state: ChatState) => ({
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
   agentEndedConversation: getAgentEndedLatestConversation(state),
+  agentsAvailable: state.agentsAvailable || QuiqChatClient.isUserSubscribed(),
 });
 
 const mapDispatchToProps = {

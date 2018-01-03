@@ -15,7 +15,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
   >
     <Input
       autoFocus={true}
-      disabled={false}
+      disabled={true}
       inputStyle={
         Object {
           "color": "#68b588",
@@ -27,12 +27,12 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
       onChange={[Function]}
       onFocus={[Function]}
       onSubmit={[Function]}
-      placeholder="Send us a message..."
+      placeholder="No agents are currently available."
       value=""
     />
     <button
       className="messageFormBtn attachmentBtn"
-      disabled={false}
+      disabled={true}
       onClick={[Function]}
       style={
         Object {
@@ -154,14 +154,14 @@ exports[`MessageForm component rendering renders 1`] = `
     className="messageArea"
   >
     <EmojiTextArea
-      disabled={false}
+      disabled={true}
       maxLength={1024}
       name="message"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onReturn={[Function]}
-      placeholder="Send us a message..."
+      placeholder="No agents are currently available."
       style={
         Object {
           "color": "#68b588",
@@ -171,7 +171,7 @@ exports[`MessageForm component rendering renders 1`] = `
     />
     <button
       className="messageFormBtn attachmentBtn"
-      disabled={false}
+      disabled={true}
       onClick={[Function]}
       style={
         Object {
@@ -187,7 +187,7 @@ exports[`MessageForm component rendering renders 1`] = `
     </button>
     <button
       className="messageFormBtn emojiBtn"
-      disabled={false}
+      disabled={true}
       onClick={[Function]}
       style={
         Object {

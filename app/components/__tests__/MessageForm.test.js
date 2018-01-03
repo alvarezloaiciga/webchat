@@ -37,6 +37,7 @@ describe('MessageForm component', () => {
         openFileBrowser: jest.fn(),
         muteSounds: false,
         setMuteSounds: jest.fn(),
+        setAgentsAvailable: jest.fn(),
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
         setInputtingEmail: jest.fn(),
