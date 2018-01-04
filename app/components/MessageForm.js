@@ -30,7 +30,7 @@ export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
   closedConversationCount: number,
   agentHasRespondedToLatestConversation: boolean,
-  agentsAvailable?: boolean,
+  agentsAvailableOrSubscribed?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
   configuration: ChatConfiguration,
@@ -89,7 +89,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }, 200);
     }
 
-    if (!this.props.agentsAvailable || this.props.agentEndedConversation) {
+    if (!this.props.agentsAvailableOrSubscribed || this.props.agentEndedConversation) {
       this.checkAvailability();
     }
 
@@ -298,9 +298,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const allowConversationToStart =
       !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
-      !this.state.hasText || !this.props.agentsAvailable || !allowConversationToStart;
-    const emopjiPickerDisabled = !this.props.agentsAvailable || !allowConversationToStart;
-    const contentButtonsDisabled = !this.props.agentsAvailable || !allowConversationToStart;
+      !this.state.hasText || !this.props.agentsAvailableOrSubscribed || !allowConversationToStart;
+    const emopjiPickerDisabled =
+      !this.props.agentsAvailableOrSubscribed || !allowConversationToStart;
+    const contentButtonsDisabled =
+      !this.props.agentsAvailableOrSubscribed || !allowConversationToStart;
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -311,7 +313,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       fontSize: '16px',
     });
 
-    let messagePlaceholder = this.props.agentsAvailable
+    let messagePlaceholder = this.props.agentsAvailableOrSubscribed
       ? getMessage(intlMessageTypes.messageFieldPlaceholder)
       : getMessage(intlMessageTypes.agentsNotAvailableMessage);
 
@@ -340,7 +342,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 autoFocus
                 onBlur={this.handleMessageFieldLostFocus}
                 onFocus={this.handleMessageFieldFocused}
-                disabled={!this.props.agentsAvailable || !allowConversationToStart}
+                disabled={!this.props.agentsAvailableOrSubscribed || !allowConversationToStart}
                 onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                 onSubmit={this.addMessage}
                 placeholder={messagePlaceholder}
@@ -351,7 +353,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   this.textArea = n && n.wrappedInstance;
                 }}
                 style={inputStyle}
-                disabled={!this.props.agentsAvailable || !allowConversationToStart}
+                disabled={!this.props.agentsAvailableOrSubscribed || !allowConversationToStart}
                 name="message"
                 maxLength={1024}
                 onChange={this.handleTextChanged}
@@ -424,7 +426,7 @@ const mapDispatchToProps = {
 
 export default connect(
   (state: ChatState) => ({
-    agentsAvailable: state.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+    agentsAvailableOrSubscribed: state.agentsAvailable || QuiqChatClient.isUserSubscribed(),
     muteSounds: getMuteSounds(state),
     configuration: getConfiguration(state),
     agentEndedConversation: getAgentEndedLatestConversation(state),
