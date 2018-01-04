@@ -48,6 +48,8 @@ const PlatformEventContainer = styled.div`
   }
 
   & .Divider {
+    z-index: 0;
+
     span {
       padding: 0 10px;
       font-weight: 300;

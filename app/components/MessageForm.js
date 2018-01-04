@@ -223,6 +223,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       style: getStyle(Object.assign({}, styles.OptionsMenuLineItem, o.itemStyle), {
         color: colors.menuText,
         fontFamily,
+        zIndex: 1000,
       }),
     }));
 
@@ -245,6 +246,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         style: getStyle(styles.OptionsMenuLineItem, {
           color: colors.menuText,
           fontFamily,
+          zIndex: 1000,
         }),
         disabled: false,
       });
@@ -265,6 +267,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         style: getStyle(styles.OptionsMenuLineItem, {
           color: colors.menuText,
           fontFamily,
+          zIndex: 1000,
         }),
         disabled:
           (this.props.closedConversationCount === 0 || this.props.lastClosedConversationIsSpam) &&
@@ -300,6 +303,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
             items={options}
             containerStyle={getStyle(styles.OptionsMenuContainer, {
               fontFamily,
+              zIndex: 1000,
             })}
           />
         </MenuButton>
