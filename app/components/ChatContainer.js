@@ -159,7 +159,7 @@ export type ChatContainerProps = {
   isAgentAssigned: boolean,
   transcript: Array<MessageType>,
   agentEndedConversation: boolean,
-  agentsAvailableOrSubscribed: boolean,
+  agentsAvailable: boolean,
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -174,11 +174,14 @@ export type ChatContainerProps = {
 
 export type ChatContainerState = {
   bannerMessage?: string,
+  agentsAvailableOrSubscribed: boolean,
 };
 
 export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
   props: ChatContainerProps;
-  state: ChatContainerState = {};
+  state: ChatContainerState = {
+    agentsAvailableOrSubscribed: false,
+  };
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
   extensionFrame: any;
@@ -186,6 +189,16 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   componentWillMount() {
     // Set custom window title
     document.title = getMessage(intlMessageTypes.pageTitle);
+
+    this.setState({
+      agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+    });
+  }
+
+  componentWillReceiveProps(nextProps: ChatContainerProps) {
+    this.setState({
+      agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+    });
   }
 
   displayTemporaryError = (text: string, duration: number) => {
@@ -339,7 +352,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               }}
               haswaitscreen={this.isUsingWaitScreen().toString()}
               disabled={
-                !this.props.agentsAvailableOrSubscribed ||
+                !this.state.agentsAvailableOrSubscribed ||
                 !this.props.configuration.enableChatFileAttachments ||
                 (this.props.configuration.enableManualConvoStart &&
                   this.props.agentEndedConversation)
@@ -470,7 +483,7 @@ const mapStateToProps = (state: ChatState) => ({
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
   agentEndedConversation: getAgentEndedLatestConversation(state),
-  agentsAvailableOrSubscribed: state.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+  agentsAvailable: state.agentsAvailable,
 });
 
 const mapDispatchToProps = {
