@@ -44,11 +44,11 @@ import {
 } from 'reducers/chat';
 import styled, {css} from 'react-emotion';
 
-export const getHeight = (originalHeight: string): string => {
-  let height = originalHeight;
+export const getHeight = (newHeight: string, heightOverride: number): string => {
+  let height = newHeight;
 
   if (isIPhone()) {
-    height = `${window.innerHeight}px`;
+    height = `${heightOverride}px`;
   }
 
   return height;
@@ -56,7 +56,7 @@ export const getHeight = (originalHeight: string): string => {
 
 export const ChatContainerStyle = styled.div`
   width: 99vw !important;
-  height: ${getHeight('98vh')} !important;
+  height: ${props => props.height} !important;
   max-width: none !important;
   max-height: none !important;
   margin: auto !important;
@@ -72,7 +72,6 @@ export const ChatContainerStyle = styled.div`
     props.standaloneMode &&
     css`
       width: 100vw !important;
-      height: ${getHeight('100vh')} !important;
       position: initial;
       right: 0;
       bottom: 0;
@@ -175,12 +174,14 @@ export type ChatContainerProps = {
 export type ChatContainerState = {
   bannerMessage?: string,
   agentsAvailableOrSubscribed: boolean,
+  heightOverride: number,
 };
 
 export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
   props: ChatContainerProps;
   state: ChatContainerState = {
     agentsAvailableOrSubscribed: false,
+    heightOverride: 0,
   };
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
@@ -192,6 +193,13 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     this.setState({
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+      // Save off the original inner height, on IOS 10.3, this height can change
+      // when the keyboard is displayed, which puts us in a bad state. If we the width
+      // is greater than the height, then we are in landscape mode so we want the
+      // width in that case. If you remove this be sure to test using the keyboard
+      // and return key in IOS 10.3.
+      heightOverride:
+        window.innerHeight > window.innerWidth ? window.innerHeight : window.innerWidth,
     });
   }
 
@@ -452,20 +460,28 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
+    const height = '100vh';
+
     if (
       this.props.configuration.demoMode ||
       (this.props.initializedState === ChatInitializedState.INITIALIZED &&
         !this.props.welcomeFormRegistered)
     ) {
       return (
-        <ChatContainerStyle standaloneMode={inStandaloneMode()}>
+        <ChatContainerStyle
+          standaloneMode={inStandaloneMode()}
+          height={getHeight(height, this.state.heightOverride)}
+        >
           <WelcomeForm />
         </ChatContainerStyle>
       );
     }
 
     return (
-      <ChatContainerStyle standaloneMode={inStandaloneMode()}>
+      <ChatContainerStyle
+        standaloneMode={inStandaloneMode()}
+        height={getHeight(height, this.state.heightOverride)}
+      >
         <HeaderMenu />
         {this.renderBanner()}
         <Debugger />
