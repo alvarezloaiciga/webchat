@@ -33,9 +33,19 @@
 
         for (var index = 0; index < data.messages.length; index++)
         {
-          var newSpan = document.createElement('span');
-          messageArea.appendChild(newSpan);
-          newSpan.innerText = data.messages[index].authorType + ' - ' + data.messages[index].text + '\r\n';
+          if (data.messages[index].text.includes("broke")) {
+            var newSpan = document.createElement('span');
+            messageArea.appendChild(newSpan);
+            newSpan.innerText = "If you broke your rod you can order a new section here.";
+            messageArea.appendChild(document.createElement("br"));
+          }
+
+          if (data.messages[index].text.includes("reel")) {
+            var newSpan = document.createElement('span');
+            messageArea.appendChild(newSpan);
+            newSpan.innerText = "If you need a new spool for your real click here.";
+            messageArea.appendChild(document.createElement("br"));
+          }
         }
       });
     </script>

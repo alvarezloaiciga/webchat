@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {isIE10, isMobile} from 'Common/Utils';
-import {setMessageFieldFocused, setInputtingEmail} from 'actions/chatActions';
+import {setMessageFieldFocused, setInputtingEmail, setAgentsAvailable} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -30,7 +30,7 @@ export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
   closedConversationCount: number,
   agentHasRespondedToLatestConversation: boolean,
-  agentsInitiallyAvailable?: boolean,
+  agentsAvailable?: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
   configuration: ChatConfiguration,
@@ -38,13 +38,14 @@ export type MessageFormProps = {
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
   inputtingEmail: boolean,
   setInputtingEmail: (inputtingEmail: boolean) => void,
+  setAgentsAvailable: (available: boolean) => void,
 };
 
 type MessageFormState = {
   hasText: boolean,
   inputText: string, // Only used for IE10
-  agentsAvailable: boolean,
   emojiPickerVisible: boolean,
+  agentsAvailableOrSubscribed: boolean,
 };
 
 let updateTimer;
@@ -53,9 +54,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   props: MessageFormProps;
   state: MessageFormState = {
     hasText: false,
-    agentsAvailable: true,
     emojiPickerVisible: false,
     inputText: '',
+    agentsAvailableOrSubscribed: false,
   };
   checkAvailabilityTimer: number;
   simpleMode: boolean = isIE10() || isMobile();
@@ -64,7 +65,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     if (this.props.configuration.enforceAgentAvailability) {
       const {available} = await QuiqChatClient.checkForAgents();
 
-      this.setState({agentsAvailable: available});
+      this.props.setAgentsAvailable(available);
       clearTimeout(this.checkAvailabilityTimer);
 
       // Continue checking only if the user is currently not subscribed
@@ -76,6 +77,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }
     }
   };
+
+  componentWillReceiveProps(nextProps: MessageFormProps) {
+    this.setState({
+      agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+    });
+  }
 
   componentWillUnmount() {
     clearTimeout(this.checkAvailabilityTimer);
@@ -90,14 +97,17 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }, 200);
     }
 
-    if (
-      (!this.props.agentsInitiallyAvailable && !QuiqChatClient.isUserSubscribed()) ||
-      this.props.agentEndedConversation
-    ) {
+    if (!this.state.agentsAvailableOrSubscribed || this.props.agentEndedConversation) {
       this.checkAvailability();
     }
 
     this.props.setMessageFieldFocused(false);
+  }
+
+  componentWillMount() {
+    this.setState({
+      agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
+    });
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -302,15 +312,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const allowConversationToStart =
       !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
-      !this.state.hasText ||
-      (!this.state.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-      !allowConversationToStart;
+      !this.state.hasText || !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
     const emopjiPickerDisabled =
-      (!this.state.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-      !allowConversationToStart;
+      !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
     const contentButtonsDisabled =
-      (!this.state.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-      !allowConversationToStart;
+      !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -321,10 +327,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       fontSize: '16px',
     });
 
-    let messagePlaceholder =
-      this.state.agentsAvailable || QuiqChatClient.isUserSubscribed()
-        ? getMessage(intlMessageTypes.messageFieldPlaceholder)
-        : getMessage(intlMessageTypes.agentsNotAvailableMessage);
+    let messagePlaceholder = this.state.agentsAvailableOrSubscribed
+      ? getMessage(intlMessageTypes.messageFieldPlaceholder)
+      : getMessage(intlMessageTypes.agentsNotAvailableMessage);
 
     if (!allowConversationToStart) {
       messagePlaceholder = getMessage(intlMessageTypes.cannotStartNewConversationMessage);
@@ -351,10 +356,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 autoFocus
                 onBlur={this.handleMessageFieldLostFocus}
                 onFocus={this.handleMessageFieldFocused}
-                disabled={
-                  (!this.state.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-                  !allowConversationToStart
-                }
+                disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
                 onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                 onSubmit={this.addMessage}
                 placeholder={messagePlaceholder}
@@ -365,10 +367,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   this.textArea = n && n.wrappedInstance;
                 }}
                 style={inputStyle}
-                disabled={
-                  (!this.state.agentsAvailable && !QuiqChatClient.isUserSubscribed()) ||
-                  !allowConversationToStart
-                }
+                disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
                 name="message"
                 maxLength={1024}
                 onChange={this.handleTextChanged}
@@ -436,11 +435,12 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 const mapDispatchToProps = {
   setMessageFieldFocused,
   setInputtingEmail,
+  setAgentsAvailable,
 };
 
 export default connect(
   (state: ChatState) => ({
-    agentsInitiallyAvailable: state.agentsAvailable,
+    agentsAvailable: state.agentsAvailable,
     muteSounds: getMuteSounds(state),
     configuration: getConfiguration(state),
     agentEndedConversation: getAgentEndedLatestConversation(state),
