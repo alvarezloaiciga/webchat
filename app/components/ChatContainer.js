@@ -194,8 +194,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     this.setState({
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
       // Save off the original inner height, on IOS 10.3, this height can change
-      // when the keyboard is displayed, which puts us in a bad state. If you remove
-      // this be sure to test using the keyboard and return key in IOS 10.3.
+      // when the keyboard is displayed, which puts us in a bad state. If we the width
+      // is greater than the height, then we are in landscape mode so we want the
+      // width in that case. If you remove this be sure to test using the keyboard
+      // and return key in IOS 10.3.
       heightOverride:
         window.innerHeight > window.innerWidth ? window.innerHeight : window.innerWidth,
     });
@@ -458,7 +460,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
 
-    const height = inStandaloneMode() ? '100vh' : '98vh';
+    const height = '100vh';
 
     if (
       this.props.configuration.demoMode ||
