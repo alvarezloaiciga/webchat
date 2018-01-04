@@ -23,6 +23,7 @@ const EmailInputContainer = styled.div`
 `;
 
 const ErrorStyle = css`
+  -webkit-appearance: none;
   box-shadow: inset 0px 0px 7px red;
 `;
 
