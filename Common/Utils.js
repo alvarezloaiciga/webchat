@@ -372,3 +372,18 @@ export const loadStandaloneWindow = (popupWindow: Object, quiqOptions: QuiqObjec
   popupWindow.location = `${quiqOptions.host}/${webchatPath}`;
   /* eslint-enable no-param-reassign */
 };
+
+export const repeat = (f: () => void, n: number, delay: number = 0) => {
+  let i = 0;
+  const g = () => {
+    i++;
+    f();
+    if (i < n) {
+      setTimeout(g, delay);
+    }
+  };
+  g();
+};
+
+export const getOrientation = (): boolean =>
+  window.innerHeight / window.innerWidth > 1 ? 'portrait' : 'landscape';

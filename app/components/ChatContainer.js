@@ -8,6 +8,7 @@ import {
   uuidv4,
   convertToExtensionMessages,
   isMobile,
+  repeat,
 } from 'Common/Utils';
 import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
@@ -15,6 +16,7 @@ import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
 import HeaderMenu from 'HeaderMenu';
 import QuiqChatClient from 'quiq-chat';
+import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
@@ -41,6 +43,7 @@ import {
   getAgentEndedLatestConversation,
   getConfiguration,
   getMessage,
+  getWindowScrollLockEnabled,
 } from 'reducers/chat';
 import styled, {css} from 'react-emotion';
 
@@ -103,6 +106,10 @@ export const Banner = styled.div`
   text-align: center;
   background: #59ad5d;
   height: 60px;
+
+  @media (max-height: 200px) {
+    display: none;
+  }
 `;
 
 export const ErrorBanner = styled.div`
@@ -169,6 +176,7 @@ export type ChatContainerProps = {
   ) => void,
   addAttachmentError: (attachmentError: AttachmentError) => void,
   removeMessage: (id: string) => void,
+  windowScrollLockEnabled: boolean,
 };
 
 export type ChatContainerState = {
@@ -185,7 +193,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
-  extensionFrame: any;
+  extensionFrame: HTMLIFrameElement;
+  chatContainer: HTMLElement;
+
+  debouncedScrollToTop = debounce(() => {
+    if (this.props.windowScrollLockEnabled) {
+      window.scrollTo(0, 0);
+    }
+  }, 100);
 
   componentWillMount() {
     // Set custom window title
@@ -193,14 +208,31 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     this.setState({
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
-      // Save off the original inner height, on IOS 10.3, this height can change
-      // when the keyboard is displayed, which puts us in a bad state. If we the width
-      // is greater than the height, then we are in landscape mode so we want the
-      // width in that case. If you remove this be sure to test using the keyboard
-      // and return key in IOS 10.3.
-      heightOverride:
-        window.innerHeight > window.innerWidth ? window.innerHeight : window.innerWidth,
+      // innerHeight will work regardless of orientation
+      heightOverride: window.innerHeight,
     });
+
+    // Listen for window resize and adjust height accordingly
+    window.addEventListener('resize', () => {
+      // Do this 5 times, 100 ms apart to greedily catch the change in size
+      repeat(
+        () => {
+          this.setState({heightOverride: window.innerHeight}, () => {
+            // Requeue the scroll to the end of execution queue...that way height adjustment has caught up.
+            // This is a browser issue, not react issue, that's why it's not enough to just run in setState callback.
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+            }, 0);
+          });
+        },
+        5,
+        100,
+      );
+    });
+
+    // Listen for window scroll and reverse effect
+    // In landscape, iOS will scroll past height of document for some reason
+    window.addEventListener('scroll', this.debouncedScrollToTop);
   }
 
   componentWillReceiveProps(nextProps: ChatContainerProps) {
@@ -208,23 +240,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
     });
   }
-
-  displayTemporaryError = (text: string, duration: number) => {
-    // Clear any pending timeout
-    if (this.bannerMessageTimeout) {
-      clearTimeout(this.bannerMessageTimeout);
-    }
-
-    this.setState({
-      bannerMessage: text,
-    });
-
-    // Hide the error in <duration> milliseconds
-    this.bannerMessageTimeout = setTimeout(
-      () => this.setState({bannerMessage: undefined}),
-      duration,
-    );
-  };
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
     rejected.forEach(f => {
@@ -481,6 +496,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       <ChatContainerStyle
         standaloneMode={inStandaloneMode()}
         height={getHeight(height, this.state.heightOverride)}
+        ref={node => {
+          if (node) this.chatContainer = node;
+        }}
       >
         <HeaderMenu />
         {this.renderBanner()}
@@ -500,6 +518,7 @@ const mapStateToProps = (state: ChatState) => ({
   transcript: getTranscript(state),
   agentEndedConversation: getAgentEndedLatestConversation(state),
   agentsAvailable: state.agentsAvailable,
+  windowScrollLockEnabled: getWindowScrollLockEnabled(state),
 });
 
 const mapDispatchToProps = {

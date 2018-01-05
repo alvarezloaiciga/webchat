@@ -34,6 +34,11 @@ export const init = (_domain: string, _store: ReduxStore) => {
 
   // Listen to parent/host page
   const hostWindow = getHostingWindow();
+
+  if (!hostWindow) {
+    return;
+  }
+
   postRobotClient = postRobot.client({window: hostWindow, domain});
   postRobotListener = postRobot.listener({window: hostWindow, domain});
 
@@ -48,13 +53,13 @@ export const init = (_domain: string, _store: ReduxStore) => {
 const preflight = (): boolean => {
   const hostingWindow = getHostingWindow();
 
-  if (!postRobotClient) {
-    return displayError('Postmaster.init() must be called prior to sending message.');
-  }
-
   // Do not post message if parent window has been closed
   if (!hostingWindow || hostingWindow.closed) {
     return false;
+  }
+
+  if (!postRobotClient) {
+    return displayError('Postmaster.init() must be called prior to sending message.');
   }
 
   return true;

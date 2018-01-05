@@ -49,6 +49,14 @@ export class Transcript extends Component {
         },
         {passive: true},
       );
+
+      this.transcript.addEventListener(
+        'touchmove',
+        () => {
+          this.scrollLock = true;
+        },
+        {passive: true},
+      );
     }
   }
 

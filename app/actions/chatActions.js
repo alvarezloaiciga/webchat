@@ -144,3 +144,8 @@ export const setInputtingEmail = (inputtingEmail: boolean) => ({
   type: 'SET_INPUTTING_EMAIL',
   inputtingEmail,
 });
+
+export const setWindowScrollLockEnabled = (enabled: boolean) => ({
+  type: 'SET_WINDOW_SCROLL_LOCK_ENABLED',
+  enabled,
+});

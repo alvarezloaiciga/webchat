@@ -41,6 +41,7 @@ type ChatAction = {
   inputtingEmail?: boolean,
   attachmentErrors?: Array<AttachmentError>,
   persistentData?: PersistentData,
+  enabled?: boolean,
 };
 
 export const initialState = {
@@ -75,6 +76,7 @@ export const initialState = {
   isAgentAssigned: false,
   inputtingEmail: false,
   persistentData: {},
+  windowScrollLockEnabled: true,
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -205,6 +207,8 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       );
     case 'SET_INPUTTING_EMAIL':
       return Object.assign({}, state, {inputtingEmail: action.inputtingEmail});
+    case 'SET_WINDOW_SCROLL_LOCK_ENABLED':
+      return Object.assign({}, state, {windowScrollLockEnabled: action.enabled});
     case 'CHAT_UPDATE_PERSISTENT_DATA':
       return Object.assign({}, state, {persistentData: action.persistentData});
     default:
@@ -336,6 +340,9 @@ export const getMessage = (messageName: string, state: ChatState = getState()): 
 export const getIsAgentAssigned = (state: ChatState = getState()): boolean => state.isAgentAssigned;
 
 export const getInputtingEmail = (state: ChatState = getState()): boolean => state.inputtingEmail;
+
+export const getWindowScrollLockEnabled = (state: ChatState = getState()): boolean =>
+  state.windowScrollLockEnabled;
 
 // $FlowIssue
 export const getMuteSounds = (state: ChatState = getState()): boolean =>

@@ -429,6 +429,7 @@ export type ChatState = {
   inputtingEmail: boolean,
   attachmentErrors: Array<AttachmentError>,
   persistentData: PersistentData,
+  windowScrollLockEnabled: boolean,
 };
 
 export type Action = {

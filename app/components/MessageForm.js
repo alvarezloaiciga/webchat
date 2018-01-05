@@ -2,8 +2,13 @@
 import React, {Component} from 'react';
 import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
-import {isIE10, isMobile} from 'Common/Utils';
-import {setMessageFieldFocused, setInputtingEmail, setAgentsAvailable} from 'actions/chatActions';
+import {isIE10, isMobile, getOrientation} from 'Common/Utils';
+import {
+  setMessageFieldFocused,
+  setInputtingEmail,
+  setAgentsAvailable,
+  setWindowScrollLockEnabled,
+} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
@@ -39,6 +44,7 @@ export type MessageFormProps = {
   inputtingEmail: boolean,
   setInputtingEmail: (inputtingEmail: boolean) => void,
   setAgentsAvailable: (available: boolean) => void,
+  setWindowScrollLockEnabled: (enabled: boolean) => void,
 };
 
 type MessageFormState = {
@@ -165,6 +171,10 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       // No need to explicitly call resetTimers() as setting text field to empty string will result in the same
       this.textArea.setText('');
     }
+
+    if (isMobile() && this.simpleMode) {
+      this.textArea.input.blur();
+    }
   };
 
   toggleEmojiPicker = () => {
@@ -193,10 +203,20 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   handleMessageFieldFocused = () => {
     this.props.setMessageFieldFocused(true);
+
+    this.props.setWindowScrollLockEnabled(false);
+
+    // On mobile devices, we need to scroll text area onto top of keyboard if in landscape
+    if (this.simpleMode && this.textArea && getOrientation() === 'landscape') {
+      window.scrollTo(0, this.textArea.input.offsetTop);
+    }
   };
 
   handleMessageFieldLostFocus = () => {
     this.props.setMessageFieldFocused(false);
+
+    this.props.setWindowScrollLockEnabled(true);
+    window.scrollTo(0, 0);
   };
 
   toggleMuteSounds = () => {
@@ -357,7 +377,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 inputStyle={inputStyle}
                 value={this.state.inputText}
                 maxLength={1024}
-                autoFocus
+                autoFocus={!isMobile()}
                 onBlur={this.handleMessageFieldLostFocus}
                 onFocus={this.handleMessageFieldFocused}
                 disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
@@ -440,6 +460,7 @@ const mapDispatchToProps = {
   setMessageFieldFocused,
   setInputtingEmail,
   setAgentsAvailable,
+  setWindowScrollLockEnabled,
 };
 
 export default connect(
