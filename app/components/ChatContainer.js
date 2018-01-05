@@ -7,7 +7,7 @@ import {
   isSupportedBrowser,
   uuidv4,
   convertToExtensionMessages,
-  isIPhone,
+  isMobile,
 } from 'Common/Utils';
 import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
@@ -47,7 +47,7 @@ import styled, {css} from 'react-emotion';
 export const getHeight = (newHeight: string, heightOverride: number): string => {
   let height = newHeight;
 
-  if (isIPhone()) {
+  if (isMobile()) {
     height = `${heightOverride}px`;
   }
 
