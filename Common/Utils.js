@@ -43,6 +43,7 @@ export const isSupportedBrowser = () => {
   const major = getMajor();
 
   if (name === 'Chrome' && major >= 43) return true;
+  if (name === 'Chrome WebView' && major >= 44) return true;
   if (name === 'Firefox' && major >= 48) return true;
   if (['Safari', 'Mobile Safari'].includes(name) && major >= 6.1) return true;
   if (name === 'Edge' && major >= 12) return true;
