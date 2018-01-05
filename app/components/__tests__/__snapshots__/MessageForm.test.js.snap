@@ -78,6 +78,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
         containerStyle={
           Object {
             "fontFamily": "Lato, sans-serif",
+            "zIndex": 1000,
           }
         }
         items={
@@ -95,6 +96,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Danny McBridal",
             },
@@ -112,6 +114,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Mute new message sounds",
             },
@@ -129,6 +132,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Email a full transcript of the current chat",
             },
@@ -233,6 +237,7 @@ exports[`MessageForm component rendering renders 1`] = `
         containerStyle={
           Object {
             "fontFamily": "Lato, sans-serif",
+            "zIndex": 1000,
           }
         }
         items={
@@ -250,6 +255,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Danny McBridal",
             },
@@ -267,6 +273,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Mute new message sounds",
             },
@@ -284,6 +291,7 @@ exports[`MessageForm component rendering renders 1`] = `
               "style": Object {
                 "color": "#2199e8",
                 "fontFamily": "Lato, sans-serif",
+                "zIndex": 1000,
               },
               "title": "Email a full transcript of the current chat",
             },
