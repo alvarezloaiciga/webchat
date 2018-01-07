@@ -92,6 +92,28 @@ describe('Utils', () => {
 
     it('returns true for *.goquiq.com regardless of whitelist', () => {
       expect(Utils.domainIsAllowed('fred.goquiq.com', 'foo.com,bar.com')).toBe(true);
+      expect(Utils.domainIsAllowed('goquiq.com', 'foo.com,bar.com')).toBe(true);
+    });
+
+    it('respects ports', () => {
+      expect(Utils.domainIsAllowed('foo.com:3001', 'foo.com,bar.com')).toBe(false);
+      expect(Utils.domainIsAllowed('foo.com:3001', 'foo.com:3001,bar.com')).toBe(true);
+    });
+
+    it("isn't tricked by same-length subdomain", () => {
+      expect(Utils.domainIsAllowed('foo.com', 'oof.com')).toBe(false);
+    });
+
+    it('works with subdomains and wildcards', () => {
+      expect(Utils.domainIsAllowed('fred.foo.com', '*.foo.com')).toBe(true);
+      expect(Utils.domainIsAllowed('fred.vollmer.foo.com', '*.foo.com')).toBe(true);
+      expect(Utils.domainIsAllowed('fred.vollmer.foo.com', '*.vollmer.foo.com')).toBe(true);
+      expect(Utils.domainIsAllowed('fred.remllov.foo.com', '*.vollmer.foo.com')).toBe(false);
+      expect(Utils.domainIsAllowed('fred.foo.com', 'foo.com')).toBe(false);
+    });
+
+    it('requires differentiation between *.foo.com and foo.com', () => {
+      expect(Utils.domainIsAllowed('foo.com', '*.foo.com')).toBe(false);
     });
   });
 });

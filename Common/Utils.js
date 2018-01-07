@@ -7,6 +7,7 @@ import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys, webchatPath} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
+import wildstring from 'wildstring';
 import './modernizr';
 import type {
   BrowserNames,
@@ -327,11 +328,6 @@ export const uuidv4 = () =>
 export const getOrElse = <A, B>(a: A, b: B): A | B => (typeof a !== 'undefined' ? a : b);
 
 export const domainIsAllowed = (domain: string, whitelistString: string): boolean => {
-  // Domains which include goquiq.com are always allowed (so that chat editor works in admin UI)
-  if (domain.includes('goquiq.com')) {
-    return true;
-  }
-
   // If whitelist is empty, all domains are allowed
   if (whitelistString.length === 0) {
     return true;
@@ -339,8 +335,11 @@ export const domainIsAllowed = (domain: string, whitelistString: string): boolea
 
   const whitelist = whitelistString.split(',');
 
+  // Domains which include goquiq.com are always allowed (so that chat editor works in admin UI)
+  whitelist.push('*.goquiq.com', 'goquiq.com');
+
   // Otherwise, try and find a match
-  return whitelist.some(d => domain === d.trim());
+  return whitelist.some(d => wildstring.match(d.trim(), domain));
 };
 
 export const openStandaloneWindow = (

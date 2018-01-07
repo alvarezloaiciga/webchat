@@ -188,8 +188,10 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // Domain whitelist enforcement: destroy webchat client if parent window's domain is not whitelisted
     // We use the clientDomain passed in via quiqOptions as a fallback in case we cannot determine the parent domain.
-    const hostingDomain =
-      getHostingDomain() || this.props.configuration.clientDomain.replace(/https?:\/\//, '');
+    const hostingDomain = (getHostingDomain() || this.props.configuration.clientDomain).replace(
+      /https?:\/\//,
+      '',
+    );
     if (!domainIsAllowed(hostingDomain, this.props.configuration.whitelistedDomains)) {
       destructApp();
       displayError(
