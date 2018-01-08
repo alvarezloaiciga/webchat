@@ -90,11 +90,6 @@ describe('Utils', () => {
       expect(Utils.domainIsAllowed('foobar.com', 'foo.com,bar.com')).toBe(false);
     });
 
-    it('returns true for *.goquiq.com regardless of whitelist', () => {
-      expect(Utils.domainIsAllowed('fred.goquiq.com', 'foo.com,bar.com')).toBe(true);
-      expect(Utils.domainIsAllowed('goquiq.com', 'foo.com,bar.com')).toBe(true);
-    });
-
     it('respects ports', () => {
       expect(Utils.domainIsAllowed('foo.com:3001', 'foo.com,bar.com')).toBe(false);
       expect(Utils.domainIsAllowed('foo.com:3001', 'foo.com:3001,bar.com')).toBe(true);

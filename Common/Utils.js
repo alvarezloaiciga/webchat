@@ -335,9 +335,6 @@ export const domainIsAllowed = (domain: string, whitelistString: string): boolea
 
   const whitelist = whitelistString.split(',');
 
-  // Domains which include goquiq.com are always allowed (so that chat editor works in admin UI)
-  whitelist.push('*.goquiq.com', 'goquiq.com');
-
   // Otherwise, try and find a match
   return whitelist.some(d => wildstring.match(d.trim(), domain));
 };
