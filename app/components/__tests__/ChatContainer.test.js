@@ -35,6 +35,7 @@ describe('ChatContainer component', () => {
       configuration: getMockConfiguration(),
       addAttachmentError: jest.fn(),
       agentsAvailable: false,
+      windowScrollLockEnabled: true,
     };
 
     render = () => {

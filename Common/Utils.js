@@ -385,5 +385,5 @@ export const repeat = (f: () => void, n: number, delay: number = 0) => {
   g();
 };
 
-export const getOrientation = (): boolean =>
+export const getOrientation = (): string =>
   window.innerHeight / window.innerWidth > 1 ? 'portrait' : 'landscape';

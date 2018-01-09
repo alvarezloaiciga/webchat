@@ -67,6 +67,7 @@ describe('MessageForm component', () => {
           },
         }),
         chatIsSpam: false,
+        setWindowScrollLockEnabled: jest.fn(),
       };
       wrapper = shallow(<MessageForm {...testProps} />);
       instance = wrapper.instance();
