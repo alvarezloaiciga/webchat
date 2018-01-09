@@ -12,6 +12,7 @@
     + [autoPopTime](#autopoptime)
     + [colors](#colors)
     + [contactPoint](#contactpoint)
+    + [icons](#icons)
     + [customLaunchButtons](#customlaunchbuttons)
     + [showDefaultLaunchButton](#showdefaultlaunchbutton)
     + [customScreens](#customscreens)
@@ -145,9 +146,10 @@ The Quiq() function contains properties describing how the instance of webchat s
         transcriptBackground: string, // Background color for the chat window
         typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
         typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
+        browserTheme: string, // Theme color used by some browsers (e.g. Chrome for Android) to style the address bar and other browser components.
       }
       ```
-    - description: Color values for the webchat
+    - description: Color values for webchat
     - defaults:
       ```javascript
       {
@@ -170,6 +172,23 @@ The Quiq() function contains properties describing how the instance of webchat s
     - description: The contact point for this webchat interface
     - default: `'default'`
     - example: `'default'`
+  - #### icons
+      - type:
+        ```javascript
+        {
+            favicon: string,  // An HTTPS URL tp a 192x192 PNG image to be used as an icon for bookmarks, etc.
+            appleTouchIcon: string, // An HTTPS URL to a 192x192 PNG image to be used as an icon on iOS home screens. If not specified, `favicon` is used as a fallback. This only needs to be defined if `favicon`includes transparency--iOS will replace all transparent parts of the image with black. If this is undesirable, provide a non-transparent image here.
+        }
+        ```
+      - description: Defines favicons and other icons for use by the browser. Note that these images **must** be served over HTTPS.
+      - default: `{}`
+      - example: 
+        ```javascript
+        {
+            favicon: 'https://mydomain.com/myIcon.png',
+            appleTouchIcon: 'https://mydomain.com/myAppleIcon.png',
+        }
+        ```
   - #### customLaunchButtons
     - type: Array<string>
     - description: List of [selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors) pointing at elements that exist on page load that should act as a launcher for chat. If the `customLaunchButtons` array is populated, the default launcher button is removed, unless `showDefaultLauncButton` is explicitly set to `true`..  Note that it is important that the selectors be unique as the first occurrence of the selector will be used as the launcher.

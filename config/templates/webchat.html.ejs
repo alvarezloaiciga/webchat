@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
+    <meta name="mobile-web-app-capable" content="yes">
+      <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
       <link rel="stylesheet" type="text/css"
         href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>"
         integrity="<%= htmlWebpackPlugin.files.cssIntegrity[0] %>"

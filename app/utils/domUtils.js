@@ -46,3 +46,49 @@ export const constructApp = store => {
     });
   }
 };
+
+export const setFavicon = (iconUrl: string, appleTouchUrl: ?string) => {
+  // Remove all icons
+  const icons = [
+    ...Array.from(document.querySelectorAll("link[rel*='icon']")),
+    ...Array.from(document.querySelectorAll("link[rel*='apple-touch-icon']")),
+  ];
+  icons.forEach(icon => {
+    icon.remove();
+  });
+
+  // Add icon
+  const icon = document.createElement('link');
+  icon.rel = 'icon';
+  icon.sizes = '192x192';
+  icon.href = iconUrl;
+  document.getElementsByTagName('head')[0].appendChild(icon);
+
+  // Add apple touch icon
+  const appleTouchIcon = document.createElement('link');
+  appleTouchIcon.rel = 'apple-touch-icon';
+  appleTouchIcon.href = appleTouchUrl || iconUrl;
+  document.getElementsByTagName('head')[0].appendChild(appleTouchIcon);
+};
+
+export const setApplicationName = (name: string) => {
+  const appName = document.querySelector("meta[name*='application-name']");
+  if (appName) {
+    appName.remove();
+  }
+  const newAppName = document.createElement('meta');
+  newAppName.name = 'application-name';
+  newAppName.content = name;
+  document.getElementsByTagName('head')[0].appendChild(newAppName);
+};
+
+export const setBrowserThemeColor = (color: string) => {
+  const colorTag = document.querySelector("meta[name*='theme-color']");
+  if (colorTag) {
+    colorTag.remove();
+  }
+  const newColor = document.createElement('meta');
+  newColor.name = 'theme-color';
+  newColor.content = color;
+  document.getElementsByTagName('head')[0].appendChild(newColor);
+};

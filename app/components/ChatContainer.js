@@ -10,6 +10,7 @@ import {
   isMobile,
   repeat,
 } from 'Common/Utils';
+import {setFavicon, setApplicationName, setBrowserThemeColor} from 'utils/domUtils';
 import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
@@ -205,6 +206,20 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   componentWillMount() {
     // Set custom window title
     document.title = getMessage(intlMessageTypes.pageTitle);
+    setApplicationName(getMessage(intlMessageTypes.pageTitle));
+
+    // Set custom favicon
+    if (this.props.configuration.icons.favicon) {
+      setFavicon(
+        this.props.configuration.icons.favicon,
+        this.props.configuration.icons.appleTouchIcon,
+      );
+    }
+
+    // Set browser theme color
+    if (this.props.configuration.colors.browserTheme) {
+      setBrowserThemeColor(this.props.configuration.colors.browserTheme);
+    }
 
     this.setState({
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),

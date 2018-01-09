@@ -28,6 +28,7 @@ export type QuiqObject = {
     transcriptBackground: string,
     typingIndicatorForeground: string,
     typingIndicatorBackground: string,
+    browserTheme: string | null,
   },
   events: {
     showTime: boolean,
@@ -41,6 +42,10 @@ export type QuiqObject = {
       height?: number,
       minHeight?: number,
     },
+  },
+  icons: {
+    favicon: ?string,
+    appleTouchIcon: ?string,
   },
   demoMode: boolean,
   enforceAgentAvailability: boolean,
