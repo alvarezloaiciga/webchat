@@ -1,6 +1,11 @@
 @import '~styles/animations';
 
 .Spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+
   .loading {
     animation: spin 1250ms infinite linear;
     border: 8px solid #59ad5d;

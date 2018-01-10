@@ -10,6 +10,7 @@ import {
   isMobile,
   repeat,
 } from 'Common/Utils';
+import clamp from 'lodash/clamp';
 import {setFavicon, setApplicationName, setBrowserThemeColor} from 'utils/domUtils';
 import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
@@ -89,7 +90,7 @@ export const ChatContainerBody = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   overflow: hidden;
 `;
@@ -469,10 +470,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   getWaitScreenHeight = () => {
+    // NOTE: clamping is not needed here, since height can be massaged by flexbox to fit in available space.
     // $FlowIssue - Null check is done upstream of this call
-    return this.props.configuration.customScreens.waitScreen.height
-      ? this.props.configuration.customScreens.waitScreen.height
-      : '100%';
+    return this.props.configuration.customScreens.waitScreen.height || '100%';
   };
 
   getWaitScreenFlexGrow = () => {
@@ -481,10 +481,12 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   getWaitScreenMinHeight = () => {
-    // $FlowIssue - Null check is done upstream of this call
-    return this.props.configuration.customScreens.waitScreen.minHeight
-      ? this.props.configuration.customScreens.waitScreen.minHeight
-      : 100;
+    return clamp(
+      // $FlowIssue - Null check is done upstream of this call
+      this.props.configuration.customScreens.waitScreen.minHeight || 100,
+      0,
+      window.innerHeight - 200,
+    );
   };
 
   render() {
