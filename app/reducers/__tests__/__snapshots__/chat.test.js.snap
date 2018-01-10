@@ -19,6 +19,7 @@ Object {
       "agentMessageLinkText": "#fff",
       "agentMessageText": "#fff",
       "attachmentMessageColor": "#9c9c9f",
+      "browserTheme": "#66b9ef",
       "customerMessageBackground": "#f5f5f5",
       "customerMessageLinkText": "#0085f4",
       "customerMessageText": "#555",
@@ -53,6 +54,7 @@ Object {
     "height": 600,
     "host": "https://bob.dev.centricient.corp",
     "href": "about:blank",
+    "icons": Object {},
     "localStorageKeys": Object {},
     "menuOptions": Object {
       "customItems": Array [],
@@ -486,6 +488,7 @@ Object {
       "agentMessageLinkText": "#fff",
       "agentMessageText": "#fff",
       "attachmentMessageColor": "#9c9c9f",
+      "browserTheme": "#66b9ef",
       "customerMessageBackground": "#f5f5f5",
       "customerMessageLinkText": "#0085f4",
       "customerMessageText": "#555",
@@ -520,6 +523,7 @@ Object {
     "height": 600,
     "host": "https://bob.dev.centricient.corp",
     "href": "about:blank",
+    "icons": Object {},
     "localStorageKeys": Object {},
     "menuOptions": Object {
       "customItems": Array [],
@@ -953,6 +957,7 @@ Object {
       "agentMessageLinkText": "#fff",
       "agentMessageText": "#fff",
       "attachmentMessageColor": "#9c9c9f",
+      "browserTheme": "#66b9ef",
       "customerMessageBackground": "#f5f5f5",
       "customerMessageLinkText": "#0085f4",
       "customerMessageText": "#555",
@@ -987,6 +992,7 @@ Object {
     "height": 600,
     "host": "https://bob.dev.centricient.corp",
     "href": "about:blank",
+    "icons": Object {},
     "localStorageKeys": Object {},
     "menuOptions": Object {
       "customItems": Array [],

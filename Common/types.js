@@ -44,8 +44,8 @@ export type QuiqObject = {
     },
   },
   icons: {
-    favicon: ?string,
-    appleTouchIcon: ?string,
+    favicon?: string,
+    appleTouchIcon?: string,
   },
   demoMode: boolean,
   enforceAgentAvailability: boolean,

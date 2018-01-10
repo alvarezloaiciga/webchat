@@ -29,10 +29,12 @@ const quiqOptions: QuiqObject = {
     attachmentMessageColor: '#9c9c9f',
     typingIndicatorForeground: '#2199e8',
     typingIndicatorBackground: '#66b9ef',
+    browserTheme: '#66b9ef',
   },
   events: {
     showTime: true,
   },
+  icons: {},
   customScreens: {},
   styles: {
     HeaderMenu: {
