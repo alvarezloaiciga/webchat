@@ -54,8 +54,8 @@ export const removeElement = (e: HTMLElement) => {
 export const setFavicon = (iconUrl: string, appleTouchUrl: ?string) => {
   // Remove all icons
   const icons = [
-    ...Array.from(document.querySelectorAll("link[rel*='icon']")),
-    ...Array.from(document.querySelectorAll("link[rel*='apple-touch-icon']")),
+    ...Array.from(document.querySelectorAll("link[rel='icon']")),
+    ...Array.from(document.querySelectorAll("link[rel='apple-touch-icon']")),
   ];
   icons.forEach(icon => {
     removeElement(icon);
@@ -76,7 +76,7 @@ export const setFavicon = (iconUrl: string, appleTouchUrl: ?string) => {
 };
 
 export const setApplicationName = (name: string) => {
-  const appName = document.querySelector("meta[name*='application-name']");
+  const appName = document.querySelector("meta[name='application-name']");
   if (appName) {
     removeElement(appName);
   }
@@ -87,7 +87,7 @@ export const setApplicationName = (name: string) => {
 };
 
 export const setBrowserThemeColor = (color: string) => {
-  const colorTag = document.querySelector("meta[name*='theme-color']");
+  const colorTag = document.querySelector("meta[name='theme-color']");
   if (colorTag) {
     removeElement(colorTag);
   }
