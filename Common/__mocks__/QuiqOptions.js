@@ -217,6 +217,7 @@ const quiqOptions: QuiqObject = {
     muteSoundsTooltip: messages.muteSoundsTooltip,
     unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
     cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
+    emojiPicker: messages.emojiMessages,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,

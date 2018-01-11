@@ -94,6 +94,23 @@ export type QuiqObject = {
     muteSoundsTooltip: string,
     unmuteSoundsTooltip: string,
     cannotStartNewConversationMessage: string,
+    emojiPicker: {
+      search: string,
+      notfound: string, // Intentionally not camelCased for compatibility with emoji-mart
+      categories: {
+        search: string,
+        recent: string,
+        people: string,
+        nature: string,
+        foods: string,
+        activity: string,
+        places: string,
+        objects: string,
+        symbols: string,
+        flags: string,
+        custom: string,
+      },
+    },
   },
   mobileNumber?: string | number,
   position: {

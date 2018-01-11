@@ -145,6 +145,76 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "description": "Tooltip for Email transcript menu button",
             "id": "emailTranscriptMenuTooltip",
           },
+          "emojiPicker": Object {
+            "categories": Object {
+              "activity": Object {
+                "defaultMessage": "Activity",
+                "description": "Label for 'activity' category in emoji picker",
+                "id": "emojiCategoryActivity",
+              },
+              "custom": Object {
+                "defaultMessage": "Custom",
+                "description": "Label for 'custom' category in emoji picker",
+                "id": "emojiCategoryCustom",
+              },
+              "flags": Object {
+                "defaultMessage": "Flags",
+                "description": "Label for 'flags' category in emoji picker",
+                "id": "emojiCategoryFlags",
+              },
+              "foods": Object {
+                "defaultMessage": "Food & Drink",
+                "description": "Label for 'food/drink' category in emoji picker",
+                "id": "emojiCategoryFoods",
+              },
+              "nature": Object {
+                "defaultMessage": "Animals & Nature",
+                "description": "Label for 'animals/nature' category in emoji picker",
+                "id": "emojiCategoryNature",
+              },
+              "objects": Object {
+                "defaultMessage": "Objects",
+                "description": "Label for 'objects' category in emoji picker",
+                "id": "emojiCategoryObjects",
+              },
+              "people": Object {
+                "defaultMessage": "Smileys & People",
+                "description": "Label for 'People/Smileys' category in emoji picker",
+                "id": "emojiCategoryPeople",
+              },
+              "places": Object {
+                "defaultMessage": "Travel & Places",
+                "description": "Label for 'travel/places' category in emoji picker",
+                "id": "emojiCategoryPlaces",
+              },
+              "recent": Object {
+                "defaultMessage": "Recent",
+                "description": "Label for 'Recent' category in emoji picker",
+                "id": "emojiCategoryRecent",
+              },
+              "search": Object {
+                "defaultMessage": "Search",
+                "description": "Label for 'Search' category in emoji picker",
+                "id": "emojiCategorySearch",
+              },
+              "symbols": Object {
+                "defaultMessage": "Symbols",
+                "description": "Label for 'symbols' category in emoji picker",
+                "id": "emojiCategorySymbols",
+              },
+            },
+            "foo": 12,
+            "notfound": Object {
+              "defaultMessage": "No emoji found",
+              "description": "Label for not found in emoji picker",
+              "id": "emojiNotFound",
+            },
+            "search": Object {
+              "defaultMessage": "Search",
+              "description": "Label for search in emoji picker",
+              "id": "emojiSearch",
+            },
+          },
           "emojiPickerTooltip": Object {
             "defaultMessage": "Emoji picker",
             "description": "Tooltip for emoji picker toggle button",
@@ -617,6 +687,76 @@ exports[`Message component rendering renders with default props 1`] = `
             "defaultMessage": "Email a full transcript of the current chat",
             "description": "Tooltip for Email transcript menu button",
             "id": "emailTranscriptMenuTooltip",
+          },
+          "emojiPicker": Object {
+            "categories": Object {
+              "activity": Object {
+                "defaultMessage": "Activity",
+                "description": "Label for 'activity' category in emoji picker",
+                "id": "emojiCategoryActivity",
+              },
+              "custom": Object {
+                "defaultMessage": "Custom",
+                "description": "Label for 'custom' category in emoji picker",
+                "id": "emojiCategoryCustom",
+              },
+              "flags": Object {
+                "defaultMessage": "Flags",
+                "description": "Label for 'flags' category in emoji picker",
+                "id": "emojiCategoryFlags",
+              },
+              "foods": Object {
+                "defaultMessage": "Food & Drink",
+                "description": "Label for 'food/drink' category in emoji picker",
+                "id": "emojiCategoryFoods",
+              },
+              "nature": Object {
+                "defaultMessage": "Animals & Nature",
+                "description": "Label for 'animals/nature' category in emoji picker",
+                "id": "emojiCategoryNature",
+              },
+              "objects": Object {
+                "defaultMessage": "Objects",
+                "description": "Label for 'objects' category in emoji picker",
+                "id": "emojiCategoryObjects",
+              },
+              "people": Object {
+                "defaultMessage": "Smileys & People",
+                "description": "Label for 'People/Smileys' category in emoji picker",
+                "id": "emojiCategoryPeople",
+              },
+              "places": Object {
+                "defaultMessage": "Travel & Places",
+                "description": "Label for 'travel/places' category in emoji picker",
+                "id": "emojiCategoryPlaces",
+              },
+              "recent": Object {
+                "defaultMessage": "Recent",
+                "description": "Label for 'Recent' category in emoji picker",
+                "id": "emojiCategoryRecent",
+              },
+              "search": Object {
+                "defaultMessage": "Search",
+                "description": "Label for 'Search' category in emoji picker",
+                "id": "emojiCategorySearch",
+              },
+              "symbols": Object {
+                "defaultMessage": "Symbols",
+                "description": "Label for 'symbols' category in emoji picker",
+                "id": "emojiCategorySymbols",
+              },
+            },
+            "foo": 12,
+            "notfound": Object {
+              "defaultMessage": "No emoji found",
+              "description": "Label for not found in emoji picker",
+              "id": "emojiNotFound",
+            },
+            "search": Object {
+              "defaultMessage": "Search",
+              "description": "Label for search in emoji picker",
+              "id": "emojiSearch",
+            },
           },
           "emojiPickerTooltip": Object {
             "defaultMessage": "Emoji picker",

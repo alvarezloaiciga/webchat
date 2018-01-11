@@ -10,6 +10,7 @@ import {
   isStorageEnabled,
   getOrElse,
 } from 'Common/Utils';
+import merge from 'lodash/merge';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
 
 const reservedKeyNames = ['Referrer'];
@@ -92,7 +93,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
-    messages: Object.assign(
+    messages: merge(
+      // Deep merge so that emojis messages are also merged
       {},
       {
         pageTitle: messages.pageTitle,
@@ -134,6 +136,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         muteSoundsTooltip: messages.muteSoundsTooltip,
         unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
         cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
+        emojiPicker: messages.emojiMessages,
       },
       rawQuiqObject.messages,
     ),

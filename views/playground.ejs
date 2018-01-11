@@ -37,7 +37,7 @@
   <!-- Playground -->
   <script type="text/javascript" charset="utf-8">
     var quiqOptions = {
-      displayMode: 'undocked',  // either | undocked | docked
+      displayMode: 'either',  // either | undocked | docked
       _internal: {
         captureRequests: false,
         captureWebsockets: false,
@@ -66,6 +66,12 @@
       messages: {
         pageTitle: 'Super Duper Quiq Chat',
         titleText: 'Quiq Webchat',
+        emojiPicker: {
+          categories: {
+            people: 'La Gente',
+          },
+          notfound: 'No tenemos los emojis',
+        },
       },
       colors: {
         primary: '#31bf8b', // (Falls back to `QUIQ.COLOR`)

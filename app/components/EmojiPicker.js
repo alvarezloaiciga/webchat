@@ -6,8 +6,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Picker} from 'emoji-mart';
 import ClickOutside from 'react-click-outside-component';
-import {defineMessages} from 'react-intl';
-import {getDisplayString} from 'core-ui/services/i18nService';
+import {getDisplayStringsFromDeepIntlObject} from 'core-ui/services/i18nService';
 import {getConfiguration} from 'reducers/chat';
 import './styles/EmojiMart.scss';
 import type {Emoji, ChatConfiguration, ChatState} from 'Common/types';
@@ -19,92 +18,6 @@ export type EmojiPickerProps = {
   ignoreOutsideClickOnSelectors?: Array<string>,
   emojiFilter?: (e: Emoji) => boolean,
   configuration: ChatConfiguration,
-};
-
-const messages = defineMessages({
-  search: {
-    id: 'search',
-    description: 'Emoji picker search',
-    defaultMessage: 'Search',
-  },
-  notfound: {
-    id: 'notfound',
-    description: 'Emoji picker no results found label',
-    defaultMessage: 'No Emoji Found',
-  },
-  searchResults: {
-    id: 'searchResults',
-    description: 'Emoji picker search results label',
-    defaultMessage: 'Search Results',
-  },
-  recent: {
-    id: 'recent',
-    description: 'Emoji picker recently used emoji label',
-    defaultMessage: 'Frequently Used',
-  },
-  people: {
-    id: 'people',
-    description: 'emoji picker section label for people',
-    defaultMessage: 'Smileys & People',
-  },
-  nature: {
-    id: 'nature',
-    description: 'emoji picker section label for nature',
-    defaultMessage: 'Animals & Nature',
-  },
-  foods: {
-    id: 'foods',
-    description: 'emoji picker section label for foods',
-    defaultMessage: 'Food & Drink',
-  },
-  activity: {
-    id: 'activity',
-    description: 'emoji picker section label for activity',
-    defaultMessage: 'Activity',
-  },
-  places: {
-    id: 'places',
-    description: 'emoji picker section label for places',
-    defaultMessage: 'Travel & Places',
-  },
-  objects: {
-    id: 'objects',
-    description: 'emoji picker section label for objects',
-    defaultMessage: 'Objects',
-  },
-  symbols: {
-    id: 'symbols',
-    description: 'emoji picker section label for symbols',
-    defaultMessage: 'Symbols',
-  },
-  flags: {
-    id: 'flags',
-    description: 'emoji picker section label for flags',
-    defaultMessage: 'Flags',
-  },
-  custom: {
-    id: 'custom',
-    description: 'emoji picker section label for custom',
-    defaultMessage: 'Other',
-  },
-});
-
-const formattedi18nStrings = {
-  search: getDisplayString(messages.search),
-  notfound: getDisplayString(messages.notfound),
-  categories: {
-    search: getDisplayString(messages.searchResults),
-    recent: getDisplayString(messages.recent),
-    people: getDisplayString(messages.people),
-    nature: getDisplayString(messages.nature),
-    foods: getDisplayString(messages.foods),
-    activity: getDisplayString(messages.activity),
-    places: getDisplayString(messages.places),
-    objects: getDisplayString(messages.objects),
-    symbols: getDisplayString(messages.symbols),
-    flags: getDisplayString(messages.flags),
-    custom: getDisplayString(messages.custom),
-  },
 };
 
 export const EmojiPicker = (props: EmojiPickerProps) => {
@@ -128,6 +41,10 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
       props.onOutsideClick();
     }
   };
+
+  const formattedi18nStrings = getDisplayStringsFromDeepIntlObject(
+    props.configuration.messages.emojiPicker,
+  );
 
   return (
     <ClickOutside onClickOutside={handleClickOutside}>
