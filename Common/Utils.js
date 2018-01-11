@@ -154,7 +154,10 @@ export const getHostingDomain = (): ?string => {
   if (document.referrer) {
     const a = document.createElement('a');
     a.href = document.referrer;
-    return a.host;
+
+    // IE includes standard ports (80 and 443) in host. We don't care about these.
+    const host = a.host.replace(':443', '').replace(':80', '');
+    return `${a.protocol}//${host}`;
   }
 };
 
