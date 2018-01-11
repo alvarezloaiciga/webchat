@@ -1921,9 +1921,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.16":
-  version "1.0.16"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#33780bf43a83224817f633b3bde8f5ca099c960d"
+"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.17":
+  version "1.0.17"
+  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#3e88481a98564248f12a3a42b69e67f85b7f8b1d"
   dependencies:
     classnames "2.2.5"
     emotion "8.0.2"
@@ -6344,9 +6344,9 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-quiq-chat@1.42.0:
-  version "1.42.0"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.42.0.tgz#a4000dcf93481038b53954f8a893104f6644d7e9"
+quiq-chat@1.43.0:
+  version "1.43.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.43.0.tgz#8d807da0e4a0534ddad06d847ec1560fe31246bc"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"
