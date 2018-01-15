@@ -5,7 +5,7 @@ import update from 'react-addons-update';
 import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration, getMessage} from 'reducers/chat';
-import {setWelcomeFormRegistered} from 'actions/chatActions';
+import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
 import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
@@ -24,6 +24,7 @@ export type WelcomeFormProps = {
   welcomeFormRegistered: boolean,
   registrationForm?: WelcomeFormType | null,
   configuration: ChatConfiguration,
+  setWindowScrollLockEnabled: (enabled: boolean) => void,
 };
 
 export type WelcomeFormState = {
@@ -53,6 +54,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
   componentWillMount() {
     this.processWelcomeForm();
+    this.props.setWindowScrollLockEnabled(false);
+  }
+
+  componentWillUnmount() {
+    window.scrollTo(0, 0);
+    this.props.setWindowScrollLockEnabled(true);
   }
 
   processWelcomeForm = () => {
@@ -327,5 +334,6 @@ export default connect(
   }),
   {
     setWelcomeFormRegistered,
+    setWindowScrollLockEnabled,
   },
 )(WelcomeForm);

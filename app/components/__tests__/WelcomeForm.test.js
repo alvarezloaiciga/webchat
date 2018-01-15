@@ -25,6 +25,7 @@ describe('WelcomeForm component', () => {
       welcomeFormRegistered: false,
       registrationForm: quiqOptions.welcomeForm,
       configuration: getMockConfiguration(),
+      setWindowScrollLockEnabled: jest.fn(),
     };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
