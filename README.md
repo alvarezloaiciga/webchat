@@ -288,6 +288,8 @@ The Quiq() function contains properties describing how the instance of webchat s
         dockWindowTooltip: string,
         openInNewWindowTooltip: string,
         closeWindowTooltip: string,
+        emojiPickerTooltip: string,
+        attachmentBtnTooltip: string,
         unsupportedBrowser?: string,
         storageDisabled?: string,
         agentEndedConversationMessage: string,
@@ -302,8 +304,30 @@ The Quiq() function contains properties describing how the instance of webchat s
         messageArrivedNotification: string,
         transcriptEmailedEventMessage: string,
         cannotStartNewConversationMessage: string,
-        unsupportedFileType: string,
         attachmentTooLarge: string,
+        unsupportedFileType: string,
+        attachmentUploadError: string,
+        muteSounds: string,
+        unmuteSounds: string,
+        muteSoundsTooltip: string,
+        unmuteSoundsTooltip: string,
+        emojiPicker: {
+          search: string,
+          notfound: string,
+          categories: {
+            search: string,
+            recent: string,
+            people: string,
+            nature: string,
+            foods: string,
+            activity: string,
+            places: string,
+            objects: string,
+            symbols: string,
+            flags: string,
+            custom: string
+          }
+        }
       }
       ```
     - description: Custom static strings to use in various places throughout the chat client.
@@ -340,11 +364,33 @@ The Quiq() function contains properties describing how the instance of webchat s
         emailTranscriptInputPlaceholder: 'Enter your Email...',
         emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
         emailTranscriptInputSubmitTooltip: 'Email Transcript',
-        messageArrivedNotification: 'New Message from Quiq Webchat'
+        messageArrivedNotification: 'New Message from Quiq Webchat',
         transcriptEmailedEventMessage: 'Transcript Emailed',
         cannotStartNewConversationMessage: 'The Conversation Has Ended',
         attachmentTooLarge: 'Attachment Too Large',
         unsupportedFileType: 'Unsupported File Type',
+        attachmentUploadError: 'Error uploading file',
+        muteSounds: 'Mute Sounds',
+        unmuteSounds: 'Unmute Sounds',
+        muteSoundsTooltip: 'Mute new message sounds',
+        unmuteSoundsTooltip: 'Unmute new message sounds',
+        emojiPicker: {
+          search: 'Search',
+          notfound: 'No Emoji Found',
+          categories: {
+            search: 'Search Results',
+            recent: 'Frequently Used',
+            people: 'Smileys & People',
+            nature: 'Animals & Nature',
+            foods: 'Food & Drink',
+            activity: 'Activity',
+            places: 'Travel & Places',
+            objects: 'Objects',
+            symbols: 'Symbols',
+            flags: 'Flags',
+            custom: 'Custom',
+          }
+        }
       }
       ```
   - #### mobileNumber

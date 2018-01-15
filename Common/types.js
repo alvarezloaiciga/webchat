@@ -76,6 +76,7 @@ export type QuiqObject = {
     unsupportedBrowser?: string,
     storageDisabled?: string,
     emojiPickerTooltip: string,
+    attachmentBtnTooltip: string,
     optionsMenuTooltip: string,
     sendButtonLabel: string,
     emailTranscriptInlineButton: string,
