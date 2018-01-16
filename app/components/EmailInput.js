@@ -9,6 +9,7 @@ import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
 import {getConfiguration, getMessage} from 'reducers/chat';
+import {setWindowScrollLockEnabled} from 'actions/chatActions';
 import Input from 'core-ui/components/Input';
 import {UserEmailKey, intlMessageTypes} from 'Common/Constants';
 import type {ChatConfiguration, ChatState} from 'Common/types';
@@ -69,6 +70,7 @@ export type EmailInputProps = {
   onCancel: () => void,
   onSubmit: () => void, // eslint-disable-line react/no-unused-prop-types
   configuration: ChatConfiguration,
+  setWindowScrollLockEnabled: (enabled: boolean) => void,
 };
 
 type EmailInputState = {
@@ -119,6 +121,8 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
           initialValue={this.getInitialValue()}
           className={InputStyle(this.state.error)}
           onSubmit={this.submit}
+          onFocus={() => this.props.setWindowScrollLockEnabled(false)}
+          onBlur={() => this.props.setWindowScrollLockEnabled(true)}
           placeholder={getMessage(intlMessageTypes.emailTranscriptInputPlaceholder)}
           style={getStyle(this.props.configuration.styles.EmailTranscriptInput, {
             fontFamily: this.props.configuration.fontFamily,
@@ -148,5 +152,5 @@ export default connect(
   (state: ChatState) => ({
     configuration: getConfiguration(state),
   }),
-  {},
+  {setWindowScrollLockEnabled},
 )(EmailInput);
