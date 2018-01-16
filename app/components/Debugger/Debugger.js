@@ -1,12 +1,13 @@
 // @flow
 declare var __VERSION__: string;
-import React from 'react';
+import * as React from 'react';
 import {connect} from 'react-redux';
+import moment from 'moment';
 import {getConfiguration} from 'reducers/chat';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
+import {onHeightChange} from 'utils/mobileUtils';
 import PhraseListener from './PhraseListener';
-import innerHeight from 'ios-inner-height';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
 import type {ChatState, ChatConfiguration} from 'Common/types';
@@ -16,22 +17,54 @@ type DebuggerProps = {
 };
 
 type DebuggerState = {
+  messages: Array<{
+    message: string,
+    timestamp: number,
+  }>,
   hidden: boolean,
-  dimensions: string,
+  height: number,
+  numOfHeightChanges: number,
 };
-
-const getDimensions = () =>
-  `(i${innerHeight()}-s${window.screen.height}-w${window.innerHeight}-c${
-    document.documentElement ? document.documentElement.clientHeight : ''
-  }-a${window.screen.availHeight})`;
 
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   props: DebuggerProps;
   state: DebuggerState = {
     hidden: !this.props.configuration.debug,
-    dimensions: getDimensions(),
+    height: window.innerHeight,
+    numOfHeightChanges: 0,
+    messages: [],
   };
-  updateTimer: number;
+  updateInterval: number;
+  messagesElement: any;
+
+  componentWillMount() {
+    onHeightChange(height => {
+      this.setState({numOfHeightChanges: this.state.numOfHeightChanges + 1, height});
+    });
+
+    /* eslint-disable no-console */
+    const oldDebug = console.debug;
+    // $FlowIssue
+    console.debug = (message, ...args) => {
+      this.setState(
+        {
+          messages: [
+            ...this.state.messages,
+            {
+              message: JSON.stringify(message, null, 2),
+              timestamp: Date.now(),
+            },
+          ],
+        },
+        () => {
+          if (this.messagesElement)
+            this.messagesElement.scrollTop = this.messagesElement.scrollHeight;
+        },
+      );
+      oldDebug.apply(console, [message, ...args]);
+    };
+    /* eslint-disable no-console */
+  }
 
   shouldShowDebugger = () => inNonProductionCluster() || inLocalDevelopment();
 
@@ -48,20 +81,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   );
 
   componentWillUnmount() {
-    clearInterval(this.updateTimer);
-  }
-
-  componentWillUpdate(nextProps: DebuggerProps, nextState: DebuggerState) {
-    if (!this.state.hidden && nextState.hidden) {
-      clearInterval(this.updateTimer);
-    } else if (this.state.hidden && !nextState.hidden) {
-      clearInterval(this.updateTimer);
-      this.updateTimer = setInterval(() => {
-        this.setState({
-          dimensions: getDimensions(),
-        });
-      }, 2500);
-    }
+    clearInterval(this.updateInterval);
   }
 
   render() {
@@ -72,20 +92,34 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
     return (
       <div className="Debugger">
         {this.renderPhraseListener()}
-        <div className="lhsIcons">
-          <DevTools />
-          <div>{this.state.dimensions}</div>
-        </div>
-        <div className="rhsIcons">
-          <div className="versions">
-            <span>WC: v{__VERSION__}</span>
-            <span>QC: v{version}</span>
+        <div className="row">
+          <div className="lhsIcons">
+            <DevTools />
+            <div>{`Height(${this.state.numOfHeightChanges}): ${this.state.height}`}</div>
           </div>
-          <i
-            className={`fa fa-close icon`}
-            title="Close Debugger"
-            onClick={() => this.setState({hidden: true})}
-          />
+          <div className="rhsIcons">
+            <div className="versions">
+              <span>WC: v{__VERSION__}</span>
+              <span>QC: v{version}</span>
+            </div>
+            <i
+              className={`fa fa-close icon`}
+              title="Close Debugger"
+              onClick={() => this.setState({hidden: true})}
+            />
+          </div>
+        </div>
+        <div
+          className="row messages"
+          ref={r => {
+            this.messagesElement = r;
+          }}
+        >
+          {this.state.messages.map((m, k) => (
+            <div className="lineItem" key={k}>
+              {`${moment(m.timestamp).format('hh:mm:ss')}: ${m.message}`}
+            </div>
+          ))}
         </div>
       </div>
     );

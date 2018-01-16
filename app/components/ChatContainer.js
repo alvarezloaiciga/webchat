@@ -7,7 +7,6 @@ import {
   isSupportedBrowser,
   uuidv4,
   convertToExtensionMessages,
-  repeat,
 } from 'Common/Utils';
 import clamp from 'lodash/clamp';
 import {setFavicon, setApplicationName, setBrowserThemeColor} from 'utils/domUtils';
@@ -21,7 +20,7 @@ import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
-import innerHeight from 'ios-inner-height';
+import {onHeightChange} from 'utils/mobileUtils';
 import {
   ChatInitializedState,
   intlMessageTypes,
@@ -51,7 +50,7 @@ import styled, {css} from 'react-emotion';
 
 export const ChatContainerStyle = styled.div`
   width: 99vw !important;
-  height: ${innerHeight()}px !important;
+  height: ${props => props.height}px !important;
   max-width: none !important;
   max-height: none !important;
   margin: auto !important;
@@ -183,6 +182,7 @@ export type ChatContainerProps = {
 export type ChatContainerState = {
   bannerMessage?: string,
   agentsAvailableOrSubscribed: boolean,
+  height: number,
 };
 
 const preventAndStopEvent = (e: SyntheticMouseEvent<*>) => {
@@ -194,6 +194,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   props: ChatContainerProps;
   state: ChatContainerState = {
     agentsAvailableOrSubscribed: false,
+    height: window.innerHeight,
   };
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
@@ -228,19 +229,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
     });
 
-    window.addEventListener('resize', () => {
-      // Do this 5 times, 100 ms apart to greedily catch the change in size
-      repeat(
-        () => {
-          // Requeue the scroll to the end of execution queue...that way height adjustment has caught up.
-          // This is a browser issue, not react issue, that's why it's not enough to just run in setState callback.
-          setTimeout(() => {
-            window.scrollTo(0, 0);
-          }, 0);
-        },
-        5,
-        100,
-      );
+    onHeightChange(height => {
+      this.setState({height}, () => {
+        window.scrollTo(0, 0);
+      });
     });
 
     // Listen for window scroll and reverse effect
@@ -497,7 +489,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       // $FlowIssue - Null check is done upstream of this call
       this.props.configuration.customScreens.waitScreen.minHeight || 100,
       0,
-      innerHeight() - 200,
+      window.innerHeight - 200,
     );
   };
 
@@ -512,7 +504,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       return (
         <ChatContainerStyle
           standaloneMode={inStandaloneMode()}
-          height={getHeight(height, this.state.heightOverride)}
+          height={this.state.height}
           innerRef={node => {
             if (node) {
               this.chatContainer = node;
@@ -528,7 +520,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     return (
       <ChatContainerStyle
         standaloneMode={inStandaloneMode()}
-        height={getHeight(height, this.state.heightOverride)}
+        height={this.state.height}
         innerRef={node => {
           if (node) {
             this.chatContainer = node;
