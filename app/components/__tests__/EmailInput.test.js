@@ -24,6 +24,7 @@ describe('EmailInput component', () => {
       onCancel: jest.fn(),
       onSubmit: jest.fn(),
       configuration: getMockConfiguration(),
+      setWindowScrollLockEnabled: jest.fn(),
     };
     render = () => {
       wrapper = shallow(<EmailInput {...testProps} />);

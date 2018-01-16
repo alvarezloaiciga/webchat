@@ -38,7 +38,8 @@ export const getOSName = (): OSNames => parser.getResult().os.name;
 
 export const getUAInfo = () => parser.getResult();
 
-export const isMobile = () => !!getDeviceType();
+export const isMobile = () =>
+  !!getDeviceType() || getOSName() === 'Android' || getOSName() === 'iOS';
 
 export const isSupportedBrowser = () => {
   const name = getBrowserName();

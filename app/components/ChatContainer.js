@@ -137,6 +137,7 @@ export const WaitScreenScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  position: relative;
   // IMPORTANT: This property is needed to allow for scrolling within the iFrame
   // on mobile devices. If you remove, be sure to test those scenarios.
   -webkit-overflow-scrolling: touch;
@@ -146,6 +147,14 @@ export const WaitScreen = styled.iframe`
   flex: 1 1 auto;
   height: 100%;
   border-width: 0;
+  width: 100%;
+`;
+
+export const WaitScreenDragDropProtector = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
   width: 100%;
 `;
 
@@ -174,6 +183,11 @@ export type ChatContainerProps = {
 export type ChatContainerState = {
   bannerMessage?: string,
   agentsAvailableOrSubscribed: boolean,
+};
+
+const preventAndStopEvent = (e: SyntheticMouseEvent<*>) => {
+  e.preventDefault();
+  e.stopPropagation();
 };
 
 export class ChatContainer extends React.Component<ChatContainerProps, ChatContainerState> {
@@ -234,6 +248,20 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     window.addEventListener('scroll', this.debouncedScrollToTop);
   }
 
+  enableDragDropProtection(enabled: boolean) {
+    if (enabled) {
+      // $FlowIssue - dragover not in enum
+      this.chatContainer.addEventListener('dragover', preventAndStopEvent);
+      // $FlowIssue - drop not in enum
+      this.chatContainer.addEventListener('drop', preventAndStopEvent);
+    } else {
+      // $FlowIssue - dragover not in enum
+      this.chatContainer.removeEventListener('dragover', preventAndStopEvent);
+      // $FlowIssue - drop not in enum
+      this.chatContainer.removeEventListener('drop', preventAndStopEvent);
+    }
+  }
+
   componentWillReceiveProps(nextProps: ChatContainerProps) {
     this.setState({
       agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
@@ -285,6 +313,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       this.dropzone.open();
     }
   };
+
+  attachmentEnabled = (): boolean =>
+    this.state.agentsAvailableOrSubscribed &&
+    this.props.configuration.enableChatFileAttachments &&
+    !(this.props.configuration.enableManualConvoStart && this.props.agentEndedConversation);
 
   renderBanner = () => {
     const {colors, styles, fontFamily} = this.props.configuration;
@@ -366,6 +399,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                       : ''
                   }
                 />
+                <WaitScreenDragDropProtector />
               </WaitScreenScrollWrapper>
             )}
             <TranscriptArea
@@ -373,12 +407,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                 this.dropzone = d;
               }}
               haswaitscreen={this.isUsingWaitScreen().toString()}
-              disabled={
-                !this.state.agentsAvailableOrSubscribed ||
-                !this.props.configuration.enableChatFileAttachments ||
-                (this.props.configuration.enableManualConvoStart &&
-                  this.props.agentEndedConversation)
-              }
+              disabled={!this.attachmentEnabled()}
               accept={this.props.configuration.supportedAttachmentTypes.join(',')}
               disablePreview={true}
               disableClick={true}
@@ -481,7 +510,16 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
         !this.props.welcomeFormRegistered)
     ) {
       return (
-        <ChatContainerStyle standaloneMode={inStandaloneMode()}>
+        <ChatContainerStyle
+          standaloneMode={inStandaloneMode()}
+          height={getHeight(height, this.state.heightOverride)}
+          innerRef={node => {
+            if (node) {
+              this.chatContainer = node;
+              this.enableDragDropProtection(true);
+            }
+          }}
+        >
           <WelcomeForm />
         </ChatContainerStyle>
       );
@@ -490,8 +528,12 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     return (
       <ChatContainerStyle
         standaloneMode={inStandaloneMode()}
-        ref={node => {
-          if (node) this.chatContainer = node;
+        height={getHeight(height, this.state.heightOverride)}
+        innerRef={node => {
+          if (node) {
+            this.chatContainer = node;
+            this.enableDragDropProtection(!this.attachmentEnabled());
+          }
         }}
       >
         <HeaderMenu />
