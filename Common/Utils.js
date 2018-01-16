@@ -3,6 +3,7 @@ declare var __DEV__: string;
 declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
+import innerHeight from 'ios-inner-height';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import {SupportedWebchatUrls, localStorageKeys, webchatPath} from './Constants';
 import {UAParser} from 'ua-parser-js';
@@ -389,4 +390,4 @@ export const repeat = (f: () => void, n: number, delay: number = 0) => {
 };
 
 export const getOrientation = (): string =>
-  window.innerHeight / window.innerWidth > 1 ? 'portrait' : 'landscape';
+  innerHeight() / window.innerWidth > 1 ? 'portrait' : 'landscape';

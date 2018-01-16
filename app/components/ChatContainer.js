@@ -22,6 +22,7 @@ import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
+import innerHeight from 'ios-inner-height';
 import {
   ChatInitializedState,
   intlMessageTypes,
@@ -225,7 +226,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     this.setState({
       agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
       // innerHeight will work regardless of orientation
-      heightOverride: window.innerHeight,
+      heightOverride: innerHeight(),
     });
 
     // Listen for window resize and adjust height accordingly
@@ -233,7 +234,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       // Do this 5 times, 100 ms apart to greedily catch the change in size
       repeat(
         () => {
-          this.setState({heightOverride: window.innerHeight}, () => {
+          this.setState({heightOverride: innerHeight()}, () => {
             // Requeue the scroll to the end of execution queue...that way height adjustment has caught up.
             // This is a browser issue, not react issue, that's why it's not enough to just run in setState callback.
             setTimeout(() => {
@@ -485,7 +486,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       // $FlowIssue - Null check is done upstream of this call
       this.props.configuration.customScreens.waitScreen.minHeight || 100,
       0,
-      window.innerHeight - 200,
+      innerHeight() - 200,
     );
   };
 
