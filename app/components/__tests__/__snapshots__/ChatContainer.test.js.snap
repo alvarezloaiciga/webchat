@@ -3,6 +3,7 @@
 exports[`ChatContainer component initializedState when burned renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -35,6 +36,7 @@ exports[`ChatContainer component initializedState when burned renders properly 1
 exports[`ChatContainer component initializedState when disconnected renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -67,6 +69,7 @@ exports[`ChatContainer component initializedState when disconnected renders prop
 exports[`ChatContainer component initializedState when errored renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -99,6 +102,7 @@ exports[`ChatContainer component initializedState when errored renders properly 
 exports[`ChatContainer component initializedState when inactive renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -131,6 +135,7 @@ exports[`ChatContainer component initializedState when inactive renders properly
 exports[`ChatContainer component initializedState when initialized renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -184,6 +189,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
 exports[`ChatContainer component initializedState when loading renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -217,6 +223,7 @@ exports[`ChatContainer component initializedState when loading renders properly 
 exports[`ChatContainer component initializedState when uninitialized renders properly 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(HeaderMenu) />
@@ -250,6 +257,7 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
 exports[`ChatContainer component welcome form when welcome form has not been submitted renders welcome form 1`] = `
 <Styled(div)
   height="100vh"
+  innerRef={[Function]}
   standaloneMode={false}
 >
   <Connect(WelcomeForm) />
