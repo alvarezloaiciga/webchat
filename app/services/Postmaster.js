@@ -194,12 +194,22 @@ const sendRegistration = (event: Object) => {
 const getAgentAvailability = async () => QuiqChatClient.checkForAgents();
 
 const getHandle = async () => {
-  const configuration = ChatSelectors.getConfiguration();
   return {
-    handle: await QuiqChatClient.getHandle(configuration.host),
+    handle: QuiqChatClient.getHandle() || (await QuiqChatClient.login()),
   };
 };
 
-const getChatStatus = async () => ({
-  active: await QuiqChatClient.isUserSubscribed(),
-});
+const getChatStatus = async () => {
+  // Fetch subscribed from local storage
+  let subscribed = QuiqChatClient.isUserSubscribed();
+
+  // If locally we think we're unsubscribed, and user has a tracking ID, do deep fetch of subscribed
+  // in case user came subscribed out of band (via start conversation API)
+  if (!subscribed && QuiqChatClient.getHandle()) {
+    subscribed = await QuiqChatClient._deepGetUserSubscribed();
+  }
+
+  return {
+    active: subscribed,
+  };
+};
