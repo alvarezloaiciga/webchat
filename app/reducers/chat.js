@@ -7,6 +7,8 @@ import {
   EventTypes,
   AuthorTypes,
 } from 'Common/Constants';
+import flatMap from 'lodash/flatMap';
+import Mime from 'mime-types';
 import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
 import findLast from 'lodash/findLast';
@@ -327,6 +329,27 @@ export const getChatLauncherHidden = (state: ChatState = getState()): boolean =>
 
 export const getConfiguration = (state: ChatState = getState()): ChatConfiguration =>
   state.configuration;
+
+export const getSupportedAttachmentExtensionString = createSelector(
+  (state = getState()) => state.configuration.supportedAttachmentTypes,
+  types => {
+    if (!Array.isArray(types)) {
+      return '';
+    }
+
+    return flatMap(types, type => {
+      const extensions = Mime.extensions[type];
+
+      // If this type was found in our database of mime types, map onto extensions
+      if (Array.isArray(extensions)) {
+        return extensions.map(ext => `.${ext}`);
+      }
+
+      // Otherwise, use the raw type (could be extension, for example)
+      return type;
+    }).join(',');
+  },
+);
 
 export const getMessage = (messageName: string, state: ChatState = getState()): string => {
   const message = getConfiguration(state).messages[messageName];

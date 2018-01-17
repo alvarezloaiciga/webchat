@@ -159,7 +159,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
     }
   >
     <Styled(Dropzone)
-      accept="image/png,image/jpeg"
+      accept=".mp3"
       disableClick={true}
       disablePreview={true}
       disabled={true}

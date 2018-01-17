@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.1.274",
+  "version": "1.1.275",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -145,6 +145,7 @@
     "intl": "1.2.5",
     "lodash": "4.17.4",
     "moment": "2.20.1",
+    "mime-types": "2.1.17",
     "moment-timezone": "0.5.13",
     "polished": "1.8.1",
     "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",

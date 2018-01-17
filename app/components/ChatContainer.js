@@ -47,6 +47,7 @@ import {
   getConfiguration,
   getMessage,
   getWindowScrollLockEnabled,
+  getSupportedAttachmentExtensionString,
 } from 'reducers/chat';
 import styled, {css} from 'react-emotion';
 import PopupHeaderMenu from './PopupHeaderMenu';
@@ -180,6 +181,7 @@ export const WaitScreenDragDropProtector = styled.div`
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
   configuration: ChatConfiguration,
+  supportedAttachmentExtensionString: string,
   welcomeFormRegistered: boolean,
   initializedState: ChatInitializedStateType,
   isAgentAssigned: boolean,
@@ -433,7 +435,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               }}
               haswaitscreen={this.isUsingWaitScreen().toString()}
               disabled={!this.attachmentEnabled()}
-              accept={this.props.configuration.supportedAttachmentTypes.join(',')}
+              accept={this.props.supportedAttachmentExtensionString}
               disablePreview={true}
               disableClick={true}
               maxSize={maxAttachmentSize}
@@ -591,6 +593,7 @@ const mapStateToProps = (state: ChatState) => ({
   initializedState: state.initializedState,
   welcomeFormRegistered: state.welcomeFormRegistered,
   configuration: getConfiguration(state),
+  supportedAttachmentExtensionString: getSupportedAttachmentExtensionString(state),
   isAgentAssigned: getIsAgentAssigned(state),
   transcript: getTranscript(state),
   agentEndedConversation: getAgentEndedLatestConversation(state),

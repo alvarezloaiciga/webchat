@@ -36,6 +36,7 @@ describe('ChatContainer component', () => {
       addAttachmentError: jest.fn(),
       agentsAvailable: false,
       windowScrollLockEnabled: true,
+      supportedAttachmentExtensionString: '.mp3',
     };
 
     render = () => {
