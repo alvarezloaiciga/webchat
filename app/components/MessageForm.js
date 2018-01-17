@@ -49,6 +49,7 @@ export type MessageFormProps = {
 };
 
 type MessageFormState = {
+  simpleMode: boolean,
   hasText: boolean,
   inputText: string, // Only used for IE10
   emojiPickerVisible: boolean,
@@ -60,13 +61,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   textArea: EmojiTextarea;
   props: MessageFormProps;
   state: MessageFormState = {
+    simpleMode: isIE10() || isMobile(),
     hasText: false,
     emojiPickerVisible: false,
     inputText: '',
     agentsAvailableOrSubscribed: false,
   };
   checkAvailabilityTimer: number;
-  simpleMode: boolean = isIE10() || isMobile();
 
   checkAvailability = async () => {
     if (this.props.configuration.enforceAgentAvailability) {
@@ -124,7 +125,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   getFilteredText = () => {
-    const text = this.simpleMode ? this.state.inputText : this.textArea.getPlaintext().trim();
+    const text = this.state.simpleMode ? this.state.inputText : this.textArea.getPlaintext().trim();
 
     // Filter emojis based on includeEmojis/excludeEmojis
     return EmojiUtils.filterEmojisFromText(text);
@@ -165,7 +166,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       QuiqChatClient.sendTextMessage(text);
     }
 
-    if (this.simpleMode) {
+    if (this.state.simpleMode) {
       this.setState({inputText: '', hasText: false}, this.resetTypingTimers);
     } else {
       // Even if there was no text to send after filtering, we still clear the form and reset timers.
@@ -173,7 +174,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       this.textArea.setText('');
     }
 
-    if (isMobile() && this.simpleMode) {
+    if (isMobile() && this.state.simpleMode) {
       this.textArea.input.blur();
     }
   };
@@ -195,7 +196,14 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   };
 
   addEmoji = (emoji: Emoji) => {
-    this.textArea.insertEmoji(emoji.native);
+    if (this.state.simpleMode) {
+      this.setState(
+        state => ({inputText: `${state.inputText} ${emoji.native} `}),
+        this.textArea.focus,
+      );
+    } else {
+      this.textArea.insertEmoji(emoji.native);
+    }
   };
 
   toggleEmailInput = () => {
@@ -208,7 +216,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.props.setWindowScrollLockEnabled(false);
 
     // On mobile devices, we need to scroll text area onto top of keyboard if in landscape
-    if (this.simpleMode && this.textArea && getOrientation() === 'landscape') {
+    if (this.state.simpleMode && this.textArea && getOrientation() === 'landscape') {
       window.scrollTo(0, this.textArea.input.offsetTop);
     }
   };
@@ -218,6 +226,13 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.props.setWindowScrollLockEnabled(true);
     window.scrollTo(0, 0);
+  };
+
+  handleIMEModeEntered = (pendingText: string) => {
+    this.setState({
+      inputText: `${this.textArea.getPlaintext()}${pendingText}`,
+      simpleMode: true,
+    });
   };
 
   toggleMuteSounds = () => {
@@ -370,7 +385,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
         {!this.props.inputtingEmail && (
           <div className="messageArea">
-            {this.simpleMode ? (
+            {this.state.simpleMode ? (
               <Input
                 ref={element => {
                   this.textArea = element;
@@ -399,6 +414,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 onReturn={this.addMessage}
                 onBlur={this.handleMessageFieldLostFocus}
                 onFocus={this.handleMessageFieldFocused}
+                onIMEModeEntered={this.handleIMEModeEntered}
                 placeholder={messagePlaceholder}
               />
             )}
@@ -414,9 +430,9 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 <i className="fa fa-paperclip" />
               </button>
             )}
-            {!this.simpleMode &&
-              this.props.configuration.enableEmojis &&
-              EmojiUtils.emojisEnabledByCustomer() && (
+            {this.props.configuration.enableEmojis &&
+              EmojiUtils.emojisEnabledByCustomer() &&
+              !isMobile() && (
                 <button
                   className="messageFormBtn emojiBtn"
                   style={contentButtonStyle}
@@ -440,8 +456,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               </button>
             )}
             {this.props.configuration.enableEmojis &&
-              !this.simpleMode &&
-              EmojiUtils.emojisEnabledByCustomer() && (
+              EmojiUtils.emojisEnabledByCustomer() &&
+              !isMobile() && (
                 <EmojiPicker
                   visible={this.state.emojiPickerVisible}
                   addEmoji={this.handleEmojiSelection}

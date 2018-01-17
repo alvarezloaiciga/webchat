@@ -13,6 +13,7 @@ export type EmojiTextareaProps = {
   onChange?: (text: string) => void,
   onFocus?: () => void,
   onBlur?: () => void,
+  onIMEModeEntered?: (currentValue: string) => void,
   style?: Object,
   maxLength?: number,
   disabled?: boolean,
@@ -43,6 +44,24 @@ export class EmojiTextArea extends Component {
         getText: this.getPlaintext,
         getDisabled: () => this.props.disabled,
       };
+    }
+  }
+
+  componentWillUnmount() {
+    // Remove IME listener from content div
+    const contentDiv = document.querySelector('.DraftEditor-root');
+    if (contentDiv) {
+      contentDiv.removeEventListener('compositionupdate', this._handleCompositionUpdate);
+    }
+  }
+
+  componentDidUpdate() {
+    // Watch content div for IME.
+    // Because this div can be replaced at any time by React, we ensure a listener is attached after every render.
+    // Note that event listeners are not duplicated if they reference the same handler function
+    const contentDiv = document.querySelector('.DraftEditor-root');
+    if (contentDiv) {
+      contentDiv.addEventListener('compositionupdate', this._handleCompositionUpdate);
     }
   }
 
@@ -154,6 +173,12 @@ export class EmojiTextArea extends Component {
   _handleBlur = () => {
     if (this.props.onBlur) {
       this.props.onBlur();
+    }
+  };
+
+  _handleCompositionUpdate = e => {
+    if (this.props.onIMEModeEntered) {
+      this.props.onIMEModeEntered(e.data);
     }
   };
 
