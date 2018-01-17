@@ -3873,10 +3873,6 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
-ios-inner-height@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ios-inner-height/-/ios-inner-height-1.0.2.tgz#9eb89772011b4050b9370fee2fd487390a50f026"
-
 ipaddr.js@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.4.0.tgz#296aca878a821816e5b85d0a285a99bcff4582f0"
