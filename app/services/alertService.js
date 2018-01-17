@@ -8,7 +8,11 @@ let audioElement;
 try {
   audioElement = document.createElement('audio');
 
-  const canPlayMp3 = ['probably', 'maybe'].includes(audioElement.canPlayType('audio/mp3'));
+  // We have seen `canPlayType` be undefined in production. Unsure as to why. Fall back to wav if we can't test mp3.
+  const canPlayMp3 =
+    typeof audioElement.canPlayType === 'function'
+      ? ['probably', 'maybe'].includes(audioElement.canPlayType('audio/mp3'))
+      : false;
   const alertFile = canPlayMp3 ? assets.alertSound : assets.alertSoundWav;
 
   // $FlowIssue
