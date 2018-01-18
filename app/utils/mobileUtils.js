@@ -13,14 +13,14 @@ export const onOrientationChange = (
   orientationCallbacks.push(callback);
 };
 
-const dispatchListeners = () => {
+const dispatchListeners = debounce(() => {
   orientationCallbacks.forEach(c => {
     c({
       orientation: getOrientation(),
       height: window.innerHeight,
     });
   });
-};
+}, 1000);
 
 /**
  * We use a polyfill for orientationchange since not all mobile devices support the event.
@@ -31,10 +31,21 @@ const dispatchListeners = () => {
 if (isMobile()) {
   window.addEventListener(
     'orientationchange',
-    // Debounce since Android doesn't do the calculation until after the rotation is complete,
-    // and iOS11 outputs a new value after it calculates the height of the address and
-    // tab bars
-    debounce(dispatchListeners, 1000),
+    /*
+     * Debounce since Android doesn't do the calculation until after the rotation is complete,
+     * and iOS11 outputs a new value after it calculates the height of the address and
+     * tab bars
+     */
+    () => {
+      /* 
+       * We _need_ to blur the input here before doing the debounce
+       * since in Android, the keyboard disappears during the orientation transition.
+       * If we don't do this, we run into the issue where we get incorrect
+       * window.innerHeight due to the keyboard being open during orientation change.
+       */
+      document.activeElement.blur();
+      dispatchListeners();
+    },
     false,
   );
 }

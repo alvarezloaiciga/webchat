@@ -234,7 +234,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       // Scroll to top and dismiss keyboard to get us into
       // a pure state on orientation change.
       window.scrollTo(0, 0);
-      document.activeElement && document.activeElement.blur();
       this.setState({orientation, heightOverride: height});
     });
 
