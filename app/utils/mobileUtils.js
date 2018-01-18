@@ -31,9 +31,10 @@ const dispatchListeners = () => {
 if (isMobile()) {
   window.addEventListener(
     'orientationchange',
-    // Debounce since Android doesn't have the new inner height until a few hundred MS
-    // after the event is fired.
-    debounce(dispatchListeners, 500),
+    // Debounce since Android doesn't do the calculation until after the rotation is complete,
+    // and iOS11 outputs a new value after it calculates the height of the address and
+    // tab bars
+    debounce(dispatchListeners, 1000),
     false,
   );
 }
