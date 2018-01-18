@@ -6,7 +6,6 @@ import moment from 'moment';
 import {getConfiguration} from 'reducers/chat';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
-import {onHeightChange} from 'utils/mobileUtils';
 import PhraseListener from './PhraseListener';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
@@ -23,7 +22,7 @@ type DebuggerState = {
   }>,
   hidden: boolean,
   height: number,
-  numOfHeightChanges: number,
+  width: number,
 };
 
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
@@ -31,16 +30,18 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   state: DebuggerState = {
     hidden: !this.props.configuration.debug,
     height: window.innerHeight,
-    numOfHeightChanges: 0,
+    width: window.innerWidth,
     messages: [],
   };
   updateInterval: number;
   messagesElement: any;
 
+  updateHeight = () => {
+    this.setState({height: window.innerHeight, width: window.innerWidth});
+  };
+
   componentWillMount() {
-    onHeightChange(height => {
-      this.setState({numOfHeightChanges: this.state.numOfHeightChanges + 1, height});
-    });
+    window.addEventListener('resize', this.updateHeight);
 
     /* eslint-disable no-console */
     const oldDebug = console.debug;
@@ -95,7 +96,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
         <div className="row">
           <div className="lhsIcons">
             <DevTools />
-            <div>{`Height(${this.state.numOfHeightChanges}): ${this.state.height}`}</div>
+            <div>{`Height: ${this.state.height} Width: ${this.state.width}`}</div>
           </div>
           <div className="rhsIcons">
             <div className="versions">

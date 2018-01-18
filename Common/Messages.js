@@ -400,6 +400,11 @@ export default Object.assign(
       description: 'Message to display when an attachment is too large',
       defaultMessage: 'Attachment Too Large',
     },
+    unsupportedMode: {
+      id: 'unsupportedMode',
+      description: 'Message to display when a Chrome iOS user switches to landscape mode',
+      defaultMessage: 'Please rotate your device to portrait mode to continue',
+    },
   }),
   {emojiMessages},
 );

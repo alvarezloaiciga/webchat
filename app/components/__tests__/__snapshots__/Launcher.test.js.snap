@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Launcher component initial states standaloneMode sets state for standalone 1`] = `
-<div
+<Styled(div)
   className="Launcher"
 >
   <Connect(ChatContainer) />
-</div>
+</Styled(div)>
 `;
 
 exports[`Launcher component when agents are available renders 1`] = `
-<div
+<Styled(div)
   className="Launcher"
 >
   <Connect(ChatContainer) />
-</div>
+</Styled(div)>
 `;

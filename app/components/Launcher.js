@@ -33,6 +33,7 @@ import type {PersistentData} from 'quiq-chat/src/types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 import {postExtensionEvent} from 'services/Extensions';
+import styled from 'react-emotion';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -62,6 +63,10 @@ export type LauncherProps = {
   setIsAgentAssigned: (isAgentAssigned: boolean) => void,
   updatePersistentData: (data: PersistentData) => void,
 };
+
+const LauncherContainer = styled.div`
+  z-index: 1000000;
+`;
 
 export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
@@ -333,7 +338,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   render() {
-    return <div className="Launcher">{<ChatContainer />}</div>;
+    return <LauncherContainer className="Launcher">{<ChatContainer />}</LauncherContainer>;
   }
 }
 

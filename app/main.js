@@ -7,6 +7,7 @@ import {quiqContainerId} from 'Common/Constants';
 import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
 import {updateChatConfigurationFromQuiqOptions} from 'actions/chatActions';
+import 'services/orientationchange';
 
 import 'main.scss';
 
