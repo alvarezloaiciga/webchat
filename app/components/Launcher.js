@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {injectIntl} from 'react-intl';
 import {registerIntlObject} from 'core-ui/services/i18nService';
 import ChatContainer from './ChatContainer';
-import './styles/Launcher.scss';
 import QuiqChatClient from 'quiq-chat';
 import * as chatActions from 'actions/chatActions';
 import {
