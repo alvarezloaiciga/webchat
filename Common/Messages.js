@@ -400,9 +400,10 @@ export default Object.assign(
       description: 'Message to display when an attachment is too large',
       defaultMessage: 'Attachment Too Large',
     },
-    unsupportedMode: {
-      id: 'unsupportedMode',
-      description: 'Message to display when a Chrome iOS user switches to landscape mode',
+    unsupportedOrientation: {
+      id: 'unsupportedOrientation',
+      description:
+        'Message to display when a user switches to an orientation mode not supported on their device',
       defaultMessage: 'Please rotate your device to portrait mode to continue',
     },
   }),

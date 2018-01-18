@@ -311,10 +311,10 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "description": "Message to display when a file type is unsupported",
             "id": "unsupportedFileType",
           },
-          "unsupportedMode": Object {
+          "unsupportedOrientation": Object {
             "defaultMessage": "Please rotate your device to portrait mode to continue",
-            "description": "Message to display when a Chrome iOS user switches to landscape mode",
-            "id": "unsupportedMode",
+            "description": "Message to display when a user switches to an orientation mode not supported on their device",
+            "id": "unsupportedOrientation",
           },
           "welcomeFormSubmitButtonLabel": Object {
             "defaultMessage": "Submit",
@@ -859,10 +859,10 @@ exports[`Message component rendering renders with default props 1`] = `
             "description": "Message to display when a file type is unsupported",
             "id": "unsupportedFileType",
           },
-          "unsupportedMode": Object {
+          "unsupportedOrientation": Object {
             "defaultMessage": "Please rotate your device to portrait mode to continue",
-            "description": "Message to display when a Chrome iOS user switches to landscape mode",
-            "id": "unsupportedMode",
+            "description": "Message to display when a user switches to an orientation mode not supported on their device",
+            "id": "unsupportedOrientation",
           },
           "welcomeFormSubmitButtonLabel": Object {
             "defaultMessage": "Submit",

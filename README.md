@@ -324,7 +324,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       unmuteSounds: string,
       muteSoundsTooltip: string,
       unmuteSoundsTooltip: string,
-      unsupportedMode: string,
+      unsupportedOrientation: string,
       emojiPicker: {
         search: string,
         notfound: string,
@@ -388,7 +388,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       unmuteSounds: 'Unmute Sounds',
       muteSoundsTooltip: 'Mute new message sounds',
       unmuteSoundsTooltip: 'Unmute new message sounds',
-      unsupportedMode: 'Please rotate your device to portrait mode to continue',
+      unsupportedOrientation: 'Please rotate your device to portrait mode to continue',
       emojiPicker: {
         search: 'Search',
         notfound: 'No Emoji Found',

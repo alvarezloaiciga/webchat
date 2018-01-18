@@ -137,7 +137,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
         cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
         emojiPicker: messages.emojiMessages,
-        unsupportedMode: messages.unsupportedMode,
+        unsupportedOrientation: messages.unsupportedOrientation,
       },
       rawQuiqObject.messages,
     ),

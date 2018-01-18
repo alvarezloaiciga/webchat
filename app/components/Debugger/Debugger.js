@@ -3,6 +3,7 @@ declare var __VERSION__: string;
 import * as React from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {getOrientation, onOrientationChange} from 'utils/mobileUtils';
 import {getConfiguration} from 'reducers/chat';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
 import DevTools from './DevTools';
@@ -23,6 +24,7 @@ type DebuggerState = {
   hidden: boolean,
   height: number,
   width: number,
+  orientation: 'portrait' | 'landscape',
 };
 
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
@@ -31,17 +33,16 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
     hidden: !this.props.configuration.debug,
     height: window.innerHeight,
     width: window.innerWidth,
+    orientation: getOrientation(),
     messages: [],
   };
   updateInterval: number;
   messagesElement: any;
 
-  updateHeight = () => {
-    this.setState({height: window.innerHeight, width: window.innerWidth});
-  };
-
   componentWillMount() {
-    window.addEventListener('resize', this.updateHeight);
+    onOrientationChange(({height, orientation}) =>
+      this.setState({height, width: window.innerWidth, orientation}),
+    );
 
     /* eslint-disable no-console */
     const oldDebug = console.debug;
@@ -96,7 +97,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
         <div className="row">
           <div className="lhsIcons">
             <DevTools />
-            <div>{`Height: ${this.state.height} Width: ${this.state.width}`}</div>
+            <div>{`h${this.state.height}w${this.state.width} ${this.state.orientation}`}</div>
           </div>
           <div className="rhsIcons">
             <div className="versions">

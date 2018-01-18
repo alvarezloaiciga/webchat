@@ -14,7 +14,6 @@ export const onOrientationChange = (
 };
 
 const dispatchListeners = () => {
-  window.scrollTo(0, 0);
   orientationCallbacks.forEach(c => {
     c({
       orientation: getOrientation(),
@@ -34,10 +33,7 @@ if (isMobile()) {
     'orientationchange',
     // Debounce since Android doesn't have the new inner height until a few hundred MS
     // after the event is fired.
-    debounce(() => {
-      document.activeElement.blur();
-      dispatchListeners();
-    }, 500),
+    debounce(dispatchListeners, 500),
     false,
   );
 }

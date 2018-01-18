@@ -88,7 +88,7 @@ export const ChatContainerStyle = styled.div`
     `};
 `;
 
-export const UnsupportedMode = styled.div`
+export const UnsupportedOrientation = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
@@ -230,9 +230,13 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   }, 100);
 
   componentWillMount() {
-    onOrientationChange(({orientation, height}) =>
-      this.setState({orientation, heightOverride: height}),
-    );
+    onOrientationChange(({orientation, height}) => {
+      // Scroll to top and dismiss keyboard to get us into
+      // a pure state on orientation change.
+      window.scrollTo(0, 0);
+      document.activeElement && document.activeElement.blur();
+      this.setState({orientation, heightOverride: height});
+    });
 
     // Set custom window title
     document.title = getMessage(intlMessageTypes.pageTitle);
@@ -530,7 +534,9 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           height={getHeight(height, this.state.heightOverride)}
           standaloneMode={inStandaloneMode()}
         >
-          <UnsupportedMode>{getMessage(intlMessageTypes.unsupportedMode)}</UnsupportedMode>
+          <UnsupportedOrientation>
+            {getMessage(intlMessageTypes.unsupportedOrientation)}
+          </UnsupportedOrientation>
         </ChatContainerStyle>
       );
     }

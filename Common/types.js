@@ -94,7 +94,7 @@ export type QuiqObject = {
     unmuteSounds: string,
     muteSoundsTooltip: string,
     unmuteSoundsTooltip: string,
-    unsupportedMode: string,
+    unsupportedOrientation: string,
     cannotStartNewConversationMessage: string,
     emojiPicker: {
       search: string,
