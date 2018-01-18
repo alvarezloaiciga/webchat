@@ -164,6 +164,7 @@ export const intlMessageTypes = {
   unmuteSoundsTooltip: 'unmuteSoundsTooltip',
   transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
   cannotStartNewConversationMessage: 'cannotStartNewConversationMessage',
+  unsupportedOrientation: 'unsupportedOrientation',
 };
 
 export const localStorageKeys = ['quiq-data'];

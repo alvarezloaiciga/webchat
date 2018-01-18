@@ -8,8 +8,10 @@ import {
   uuidv4,
   convertToExtensionMessages,
   isMobile,
-  repeat,
+  isIOS,
+  getBrowserName,
 } from 'Common/Utils';
+import {getOrientation, onOrientationChange} from 'utils/mobileUtils';
 import clamp from 'lodash/clamp';
 import {setFavicon, setApplicationName, setBrowserThemeColor} from 'utils/domUtils';
 import {createGuid} from 'core-ui/utils/stringUtils';
@@ -84,6 +86,13 @@ export const ChatContainerStyle = styled.div`
       border-radius: 0;
       animation: none;
     `};
+`;
+
+export const UnsupportedOrientation = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: auto;
 `;
 
 export const ChatContainerBody = styled.div`
@@ -194,6 +203,7 @@ export type ChatContainerState = {
   bannerMessage?: string,
   agentsAvailableOrSubscribed: boolean,
   heightOverride: number,
+  orientation: 'portrait' | 'landscape',
 };
 
 const preventAndStopEvent = (e: SyntheticMouseEvent<*>) => {
@@ -206,6 +216,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   state: ChatContainerState = {
     agentsAvailableOrSubscribed: false,
     heightOverride: 0,
+    orientation: getOrientation(),
   };
   dropzone: ?Dropzone;
   bannerMessageTimeout: ?number;
@@ -219,6 +230,14 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   }, 100);
 
   componentWillMount() {
+    onOrientationChange(({orientation, height}) => {
+      // Scroll to top and dismiss keyboard to get us into
+      // a pure state on orientation change.
+      window.scrollTo(0, 0);
+      document.activeElement && document.activeElement.blur();
+      this.setState({orientation, heightOverride: height});
+    });
+
     // Set custom window title
     document.title = getMessage(intlMessageTypes.pageTitle);
     setApplicationName(getMessage(intlMessageTypes.pageTitle));
@@ -242,27 +261,13 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       heightOverride: window.innerHeight,
     });
 
-    // Listen for window resize and adjust height accordingly
-    window.addEventListener('resize', () => {
-      // Do this 5 times, 100 ms apart to greedily catch the change in size
-      repeat(
-        () => {
-          this.setState({heightOverride: window.innerHeight}, () => {
-            // Requeue the scroll to the end of execution queue...that way height adjustment has caught up.
-            // This is a browser issue, not react issue, that's why it's not enough to just run in setState callback.
-            setTimeout(() => {
-              window.scrollTo(0, 0);
-            }, 0);
-          });
-        },
-        5,
-        100,
-      );
-    });
-
     // Listen for window scroll and reverse effect
     // In landscape, iOS will scroll past height of document for some reason
     window.addEventListener('scroll', this.debouncedScrollToTop);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.debouncedScrollToTop);
   }
 
   enableDragDropProtection(enabled: boolean) {
@@ -520,8 +525,21 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   render() {
     if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
-
     const height = '100vh';
+
+    // SER-6481
+    if (isIOS() && getBrowserName() === 'Chrome' && this.state.orientation === 'landscape') {
+      return (
+        <ChatContainerStyle
+          height={getHeight(height, this.state.heightOverride)}
+          standaloneMode={inStandaloneMode()}
+        >
+          <UnsupportedOrientation>
+            {getMessage(intlMessageTypes.unsupportedOrientation)}
+          </UnsupportedOrientation>
+        </ChatContainerStyle>
+      );
+    }
 
     if (
       this.props.configuration.demoMode ||

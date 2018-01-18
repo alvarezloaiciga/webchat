@@ -144,6 +144,7 @@
     "immutability-helper": "2.4.0",
     "intl": "1.2.5",
     "lodash": "4.17.4",
+    "moment": "2.20.1",
     "moment-timezone": "0.5.13",
     "polished": "1.8.1",
     "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",

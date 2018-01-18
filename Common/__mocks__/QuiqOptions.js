@@ -210,6 +210,7 @@ const quiqOptions: QuiqObject = {
     transcriptEmailedEventMessage: messages.transcriptEmailedEventMessage,
     attachmentBtnTooltip: messages.attachmentBtnTooltip,
     unsupportedFileType: messages.unsupportedFileType,
+    unsupportedOrientation: messages.unsupportedOrientation,
     attachmentTooLarge: messages.attachmentTooLarge,
     attachmentUploadError: messages.attachmentUploadError,
     muteSounds: messages.muteSounds,
