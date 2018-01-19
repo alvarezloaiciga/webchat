@@ -13,23 +13,27 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
   <div
     className="messageArea"
   >
-    <Input
-      autoFocus={true}
-      disabled={true}
-      inputStyle={
-        Object {
-          "color": "#68b588",
-          "fontFamily": "Source Sans Pro",
-        }
-      }
-      maxLength={1024}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
+    <form
+      className="Form"
       onSubmit={[Function]}
-      placeholder="No agents are currently available."
-      value=""
-    />
+    >
+      <Input
+        autoFocus={true}
+        disabled={true}
+        inputStyle={
+          Object {
+            "color": "#68b588",
+            "fontFamily": "Source Sans Pro",
+          }
+        }
+        maxLength={1024}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        placeholder="No agents are currently available."
+        value=""
+      />
+    </form>
     <button
       className="messageFormBtn attachmentBtn"
       disabled={true}

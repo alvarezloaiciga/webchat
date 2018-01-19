@@ -386,21 +386,29 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         {!this.props.inputtingEmail && (
           <div className="messageArea">
             {this.state.simpleMode ? (
-              <Input
-                ref={element => {
-                  this.textArea = element;
+              <form
+                className="Form"
+                onSubmit={e => {
+                  e.preventDefault();
+                  this.addMessage();
+                  return false;
                 }}
-                inputStyle={inputStyle}
-                value={this.state.inputText}
-                maxLength={1024}
-                autoFocus={!isMobile()}
-                onBlur={this.handleMessageFieldLostFocus}
-                onFocus={this.handleMessageFieldFocused}
-                disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
-                onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
-                onSubmit={this.addMessage}
-                placeholder={messagePlaceholder}
-              />
+              >
+                <Input
+                  ref={element => {
+                    this.textArea = element;
+                  }}
+                  inputStyle={inputStyle}
+                  value={this.state.inputText}
+                  maxLength={1024}
+                  autoFocus={!isMobile()}
+                  onBlur={this.handleMessageFieldLostFocus}
+                  onFocus={this.handleMessageFieldFocused}
+                  disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
+                  onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
+                  placeholder={messagePlaceholder}
+                />
+              </form>
             ) : (
               <EmojiTextarea
                 ref={n => {
