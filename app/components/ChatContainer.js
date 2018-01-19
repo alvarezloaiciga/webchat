@@ -121,6 +121,8 @@ export const Banner = styled.div`
   @media (max-height: 200px) {
     display: none;
   }
+
+  ${props => props.isMobile && props.orientation === 'landscape' && 'display: none;'};
 `;
 
 export const ErrorBanner = styled.div`
@@ -359,7 +361,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.INITIALIZED:
       case ChatInitializedState.LOADING:
       case ChatInitializedState.UNINITIALIZED:
-        return <Banner style={bannerStyle}>{getMessage(intlMessageTypes.headerText)}</Banner>;
+        return (
+          <Banner isMobile={isMobile()} orientation={this.state.orientation} style={bannerStyle}>
+            {getMessage(intlMessageTypes.headerText)}
+          </Banner>
+        );
       case ChatInitializedState.INACTIVE:
         return (
           <ErrorBanner style={errorBannerStyle}>

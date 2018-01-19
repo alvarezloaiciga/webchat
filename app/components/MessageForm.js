@@ -215,9 +215,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.props.setWindowScrollLockEnabled(false);
 
-    // On mobile devices, we need to scroll text area onto top of keyboard if in landscape
-    if (this.state.simpleMode && this.textArea && getOrientation() === 'landscape') {
-      window.scrollTo(0, this.textArea.input.offsetTop);
+    if (this.simpleMode) {
+      window.scrollTo(0, 0);
     }
   };
 
@@ -225,7 +224,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     this.props.setMessageFieldFocused(false);
 
     this.props.setWindowScrollLockEnabled(true);
-    window.scrollTo(0, 0);
   };
 
   handleIMEModeEntered = (pendingText: string) => {

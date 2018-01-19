@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Message from 'Message/Message';
+import {onOrientationChange} from 'utils/mobileUtils';
 import PlatformEvent from './PlatformEvent';
 import {connect} from 'react-redux';
 import findLastIndex from 'lodash/findLastIndex';
@@ -58,6 +59,8 @@ export class Transcript extends Component {
         {passive: true},
       );
     }
+
+    onOrientationChange(this.scrollToBottom);
   }
 
   scrollToBottom = () => {
