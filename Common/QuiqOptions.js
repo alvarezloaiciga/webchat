@@ -9,6 +9,7 @@ import {
   getQuiqKeysFromLocalStorage,
   isStorageEnabled,
   getOrElse,
+  isMobile,
 } from 'Common/Utils';
 import merge from 'lodash/merge';
 import type {QuiqObject, WelcomeForm} from 'Common/types';
@@ -32,7 +33,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   const contactPoint = rawQuiqObject.contactPoint || 'default';
   const quiqOptions = {
     contactPoint,
-    displayMode: rawQuiqObject.displayMode || 'either',
+    displayMode: isMobile() ? 'undocked' : rawQuiqObject.displayMode || 'either',
     customScreens: rawQuiqObject.customScreens || {},
     anchorElement: rawQuiqObject.anchorElement,
     demoMode: rawQuiqObject.demoMode,
