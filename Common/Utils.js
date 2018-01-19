@@ -40,6 +40,8 @@ export const getUAInfo = () => parser.getResult();
 export const isMobile = () =>
   !!getDeviceType() || getOSName() === 'Android' || getOSName() === 'iOS';
 
+export const isIOS = (): boolean => getOSName() === 'iOS';
+
 export const isSupportedBrowser = () => {
   const name = getBrowserName();
   const major = getMajor();
@@ -388,6 +390,3 @@ export const repeat = (f: () => void, n: number, delay: number = 0) => {
   };
   g();
 };
-
-export const getOrientation = (): string =>
-  window.innerHeight / window.innerWidth > 1 ? 'portrait' : 'landscape';

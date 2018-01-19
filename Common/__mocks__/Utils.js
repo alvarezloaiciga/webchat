@@ -30,6 +30,7 @@ export const getUAInfo = () => ({
 export const compatibilityMode = () => false;
 export const isIE9 = () => false;
 export const isIE10 = () => false;
+export const isIOS = () => false;
 export const nonCompatibleBrowser = () => false;
 export const supportsFlexbox = () => true;
 export const supportsSVG = () => true;
