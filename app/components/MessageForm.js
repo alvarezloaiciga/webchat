@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
 import {isIE10, isMobile} from 'Common/Utils';
-import {getOrientation} from 'utils/mobileUtils';
 import {
   setMessageFieldFocused,
   setInputtingEmail,
