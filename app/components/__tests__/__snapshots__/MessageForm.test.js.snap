@@ -46,6 +46,22 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
         className="fa fa-paperclip"
       />
     </button>
+    <button
+      className="messageFormBtn emojiBtn"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#848484",
+          "fontSize": "16px",
+        }
+      }
+      title="Emoji picker"
+    >
+      <i
+        className="fa fa-smile-o"
+      />
+    </button>
     <MenuButton
       buttonStyles={
         Object {
@@ -140,6 +156,17 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
         }
       />
     </MenuButton>
+    <Connect(EmojiPicker)
+      addEmoji={[Function]}
+      emojiFilter={[Function]}
+      ignoreOutsideClickOnSelectors={
+        Array [
+          ".emojiBtn",
+        ]
+      }
+      onOutsideClick={[Function]}
+      visible={false}
+    />
   </div>
 </div>
 `;
@@ -164,6 +191,7 @@ exports[`MessageForm component rendering renders 1`] = `
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
+      onIMEModeEntered={[Function]}
       onReturn={[Function]}
       placeholder="No agents are currently available."
       style={
