@@ -140,6 +140,8 @@ exports[`ChatContainer component initializedState when initialized renders prope
 >
   <Connect(HeaderMenu) />
   <Styled(div)
+    isMobile={false}
+    orientation="portrait"
     style={
       Object {
         "background": "#31bf8b",
@@ -194,6 +196,8 @@ exports[`ChatContainer component initializedState when loading renders properly 
 >
   <Connect(HeaderMenu) />
   <Styled(div)
+    isMobile={false}
+    orientation="portrait"
     style={
       Object {
         "background": "#31bf8b",
@@ -228,6 +232,8 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
 >
   <Connect(HeaderMenu) />
   <Styled(div)
+    isMobile={false}
+    orientation="portrait"
     style={
       Object {
         "background": "#31bf8b",
