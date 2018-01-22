@@ -511,7 +511,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   getWaitScreenHeight = () => {
     // NOTE: clamping is not needed here, since height can be massaged by flexbox to fit in available space.
     // $FlowIssue - Null check is done upstream of this call
-    return this.props.configuration.customScreens.waitScreen.height || '100%';
+    return this.props.configuration.customScreens.waitScreen.height || '100px';
   };
 
   getWaitScreenFlexGrow = () => {

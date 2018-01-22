@@ -401,6 +401,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   autoFocus={!isMobile()}
                   onBlur={this.handleMessageFieldLostFocus}
                   onFocus={this.handleMessageFieldFocused}
+                  onSubmit={this.addMessage}
                   disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
                   onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                   placeholder={messagePlaceholder}
