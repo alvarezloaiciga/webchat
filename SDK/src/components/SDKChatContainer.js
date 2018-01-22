@@ -113,14 +113,24 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     });
   };
 
-  static handleStandaloneOpen = (data: {localStorageKeys: ?{[string]: any}}) => {
+  static handleStandaloneOpen = async (data: {localStorageKeys: ?{[string]: any}}) => {
     const quiqOptions = getQuiqOptions();
     const {width, height} = quiqOptions;
 
-    // If we got an access token, append it to quiq Options
-    if (data && data.localStorageKeys) {
-      quiqOptions.localStorageKeys = data.localStorageKeys;
+    // Make sure we have an access token before opening standalone mode.
+    // On browsers which sandbox localStorage, the parent page will never get a token that's created by the popup.
+    // If there's going to be a new session, it needs to be create don parent page and force-fed to popup.
+    let localStorageKeys = data.localStorageKeys || {};
+    const quiqData = localStorageKeys[`quiq-data_${quiqOptions.contactPoint}`];
+    if (!quiqData || !JSON.parse(quiqData).accessToken) {
+      // This will generate an accessToken and store it persisted quiq-data
+      await askChat(actionTypes.getHandle);
+      // Grab newly updated persistent data
+      ({localStorageKeys} = await askChat(actionTypes.getLocalStorage));
     }
+
+    // Append local storage to quiq Options
+    quiqOptions.localStorageKeys = localStorageKeys;
 
     // If the popup is already open, we only need to load chat, not open the window.
     // When this function is triggered by event from iframe, window will not be open yet.
