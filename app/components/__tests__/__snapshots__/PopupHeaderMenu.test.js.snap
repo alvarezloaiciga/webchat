@@ -26,6 +26,7 @@ exports[`HeaderMenu component rendering renders 1`] = `
   >
     <button
       className="icon"
+      data-test="closeChatButton"
       onClick={[Function]}
       style={Object {}}
       title="Minimize window"

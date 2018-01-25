@@ -81,6 +81,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
       this.props.configuration.displayMode !== displayModes.UNDOCKED ? (
         <button
           className="icon"
+          data-test="closeChatButton"
           style={getStyle(this.props.configuration.styles.HeaderMenuIcons)}
           title={getMessage(intlMessageTypes.minimizeWindowTooltip)}
           onClick={window.close}
@@ -90,6 +91,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
       ) : (
         <button
           className="icon"
+          data-test="closeChatButton"
           style={getStyle(this.props.configuration.styles.HeaderMenuIcons)}
           title={getMessage(intlMessageTypes.closeWindowTooltip)}
           onClick={window.close}

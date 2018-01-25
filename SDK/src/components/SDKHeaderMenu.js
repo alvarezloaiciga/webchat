@@ -60,6 +60,7 @@ const renderButtons = () => {
       {configuration.displayMode === displayModes.EITHER && (
         <button
           className="icon"
+          data-test="popChatButton"
           style={iconStyle}
           title={getDisplayString(messages[intlMessageTypes.openInNewWindowTooltip])}
           onClick={popChat}
@@ -71,6 +72,7 @@ const renderButtons = () => {
       {configuration.displayMode !== displayModes.UNDOCKED && (
         <button
           className="icon"
+          data-test="closeChatButton"
           style={iconStyle}
           title={getDisplayString(messages[intlMessageTypes.minimizeWindowTooltip])}
           onClick={minimize}
