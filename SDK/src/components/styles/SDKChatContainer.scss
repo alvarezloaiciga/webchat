@@ -1,16 +1,32 @@
+$borderColor: rgba(0, 0, 0, 0.117647);
+
 .SDKChatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   z-index: 99999;
   position: fixed;
-  border: none;
   bottom: 24px;
   right: 24px;
   top: inherit;
   left: inherit;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  border: 1px solid $borderColor;
 
-  // Leave this in. Some customers have default stylings for iFrames that try to override this
-  display: block;
+  &.hidden {
+    display: none;
+  }
 
   &.hasCustomLauncher {
     bottom: 90px;
   }
+}
+
+.ChatFrame {
+  // Leave this in. Some customers have default stylings for iFrames that try to override this
+  display: block;
+
+  border: none;
+  flex: 1 1 auto;
 }

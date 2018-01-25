@@ -30,6 +30,7 @@ const quiqOptions: QuiqObject = {
     typingIndicatorForeground: '#2199e8',
     typingIndicatorBackground: '#66b9ef',
     browserTheme: '#66b9ef',
+    shadow: '#f56',
   },
   events: {
     showTime: true,

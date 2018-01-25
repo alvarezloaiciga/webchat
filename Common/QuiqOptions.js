@@ -66,6 +66,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         typingIndicatorForeground: '#2199e8',
         typingIndicatorBackground: '#66b9ef',
         browserTheme: null,
+        shadow: 'rgba(0, 0, 0, 0.117647)',
       },
       rawQuiqObject.colors,
     ),

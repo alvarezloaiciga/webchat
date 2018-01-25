@@ -18,7 +18,6 @@ import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
 import Debugger from './Debugger/Debugger';
-import HeaderMenu from 'HeaderMenu';
 import QuiqChatClient from 'quiq-chat';
 import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
@@ -50,6 +49,7 @@ import {
   getWindowScrollLockEnabled,
 } from 'reducers/chat';
 import styled, {css} from 'react-emotion';
+import PopupHeaderMenu from './PopupHeaderMenu';
 
 export const getHeight = (newHeight: string, heightOverride: number): string => {
   let height = newHeight;
@@ -62,14 +62,12 @@ export const getHeight = (newHeight: string, heightOverride: number): string => 
 };
 
 export const ChatContainerStyle = styled.div`
-  width: 99vw !important;
+  width: 100vw !important;
   height: ${props => props.height} !important;
   max-width: none !important;
   max-height: none !important;
   margin: auto !important;
   padding: 0;
-  border: 1px solid rgba(0, 0, 0, 0.117647);
-  border-radius: 5px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -562,6 +560,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             }
           }}
         >
+          {inStandaloneMode() && <PopupHeaderMenu />}
           <WelcomeForm />
         </ChatContainerStyle>
       );
@@ -578,7 +577,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           }
         }}
       >
-        <HeaderMenu />
+        {inStandaloneMode() && <PopupHeaderMenu />}
         {this.renderBanner()}
         <Debugger />
         {this.renderContent()}

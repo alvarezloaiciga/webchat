@@ -29,6 +29,7 @@ export type QuiqObject = {
     typingIndicatorForeground: string,
     typingIndicatorBackground: string,
     browserTheme: string | null,
+    shadow: string | null,
   },
   events: {
     showTime: boolean,

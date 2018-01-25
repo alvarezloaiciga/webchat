@@ -6,7 +6,6 @@ import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration, getMessage} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
-import HeaderMenu from 'HeaderMenu';
 import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
 import type {
@@ -300,7 +299,6 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
     return (
       <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
-        <HeaderMenu />
         <div className="welcomeFormBanner" style={bannerStyle}>
           {welcomeForm && welcomeForm.headerText}
         </div>

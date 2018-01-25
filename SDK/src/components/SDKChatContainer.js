@@ -18,6 +18,7 @@ import {
   isMobile,
 } from 'Common/Utils';
 import classnames from 'classnames';
+import SDKHeaderMenu from './SDKHeaderMenu';
 import './styles/SDKChatContainer.scss';
 
 export type SDKChatContainerProps = {};
@@ -54,8 +55,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     const configuration = getConfiguration();
     const enableMobileChat = configuration && configuration.enableMobileChat;
 
-    let popup;
-
     // If chat is in its own window, focus that window, unless _visible is explicitly false, in which case close it
     if (!isIFrame(getChatWindow())) {
       if (_visible === false) {
@@ -75,17 +74,10 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     }
 
     if (quiqOptions.displayMode === displayModes.UNDOCKED) {
-      // Open standalone window immediately--this must be done prior to any asynchronous invocation so as not to break trusted event chain
-      const {width, height} = quiqOptions;
-      popup = openStandaloneWindow(width, height, SDKChatContainer.handleStandaloneClose);
-
       // Unload chat in IFrame
       tellChat(actionTypes.unloadChat);
 
-      setChatWindow(popup);
-
-      const {localStorageKeys} = await askChat(actionTypes.getLocalStorage);
-      SDKChatContainer.handleStandaloneOpen({localStorageKeys});
+      SDKChatContainer.handleStandaloneOpen();
       return;
     }
 
@@ -108,19 +100,33 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     tellChat(actionTypes.loadChat);
 
     // If we are NOT in undocked-only mode, set chat iframe visible. Otherwise, set chat visibility to hidden.
+    const containerVisible = quiqOptions.displayMode !== displayModes.UNDOCKED;
     tellChat(actionTypes.setChatVisibility, {
-      visible: quiqOptions.displayMode !== displayModes.UNDOCKED,
+      visible: containerVisible,
     });
+
+    // Set docked container visibility
+    SDKChatContainer.singletonInstance.setState({containerVisible});
   };
 
-  static handleStandaloneOpen = async (data: {localStorageKeys: ?{[string]: any}}) => {
+  static handleStandaloneOpen = async (data: ?{localStorageKeys: ?{[string]: any}}) => {
     const quiqOptions = getQuiqOptions();
     const {width, height} = quiqOptions;
+    let popup = getChatWindow();
+
+    // If the popup is already open, we only need to load chat, not open the window.
+    // If not, open the standalone window now--this must be done prior to any asynchronous invocation so as not to break trusted event chain
+
+    if (isIFrame(popup)) {
+      popup = openStandaloneWindow(width, height, SDKChatContainer.handleStandaloneClose);
+    }
+
+    setChatWindow(popup);
 
     // Make sure we have an access token before opening standalone mode.
     // On browsers which sandbox localStorage, the parent page will never get a token that's created by the popup.
     // If there's going to be a new session, it needs to be create don parent page and force-fed to popup.
-    let localStorageKeys = data.localStorageKeys || {};
+    let localStorageKeys = (data && data.localStorageKeys) || {};
     const quiqData = localStorageKeys[`quiq-data_${quiqOptions.contactPoint}`];
     if (!quiqData || !JSON.parse(quiqData).accessToken) {
       // This will generate an accessToken and store it persisted quiq-data
@@ -132,28 +138,12 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     // Append local storage to quiq Options
     quiqOptions.localStorageKeys = localStorageKeys;
 
-    // If the popup is already open, we only need to load chat, not open the window.
-    // When this function is triggered by event from iframe, window will not be open yet.
-    // But when called explicitly by SDK, window will have already been opened.
-    let popup;
-    if (isIFrame(getChatWindow())) {
-      popup = openStandaloneWindow(
-        width,
-        height,
-        SDKChatContainer.handleStandaloneClose,
-        quiqOptions,
-      );
-    } else {
-      popup = getChatWindow();
-      loadStandaloneWindow(popup, quiqOptions);
-    }
+    loadStandaloneWindow(popup, quiqOptions);
 
     SDKChatContainer.updateChatWindow(popup);
     popup.focus();
 
-    if (isIFrame(getChatWindow())) {
-      SDKChatContainer.singletonInstance.setState({containerVisible: false});
-    }
+    SDKChatContainer.singletonInstance.setState({containerVisible: false});
   };
 
   handleChatVisibilityChange = (e: {visible: boolean}) =>
@@ -169,25 +159,37 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
   };
 
   render() {
-    const {width, host, height, position, showDefaultLaunchButton} = getQuiqOptions();
+    const {width, host, height, position, showDefaultLaunchButton, colors} = getQuiqOptions();
 
     if (!isStorageEnabled() || !isSupportedBrowser()) return null;
-    const classNames = classnames('SDKChatContainer', {
+    const containerClassNames = classnames('SDKChatContainer', {
+      hidden: !isIFrame(getChatWindow()) || !this.state.containerVisible,
       hasCustomLauncher: showDefaultLaunchButton,
     });
 
     return (
-      <iframe
-        ref={r => {
-          SDKChatContainer.chatFrame = r;
+      <div
+        className={containerClassNames}
+        style={{
+          height,
+          width,
+          boxShadow: colors.shadow ? `0 3px 10px ${colors.shadow}` : null,
+          ...position,
         }}
-        onLoad={this.handleLoad}
-        width={width}
-        style={{...position}}
-        height={isIFrame(getChatWindow()) && this.state.containerVisible ? height : 0}
-        className={classNames}
-        src={`${host}/${webchatPath}`}
-      />
+      >
+        <SDKHeaderMenu />
+        <iframe
+          className="ChatFrame"
+          ref={r => {
+            SDKChatContainer.chatFrame = r;
+          }}
+          onLoad={this.handleLoad}
+          width={width}
+          style={{...position}}
+          height={isIFrame(getChatWindow()) && this.state.containerVisible ? height : 0}
+          src={`${host}/${webchatPath}`}
+        />
+      </div>
     );
   }
 }

@@ -151,6 +151,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
       typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       browserTheme: string, // Theme color used by some browsers (e.g. Chrome for Android) to style the address bar and other browser components.
+      shadow: string // Color of drop shadow displayed around webchat. Set to `null` to not display a shadow.
     }
     ```
   * description: Color values for webchat
@@ -169,6 +170,8 @@ The Quiq() function contains properties describing how the instance of webchat s
       transcriptBackground: '#f4f4f8',
       typingIndicatorForeground: '#2199e8',
       typingIndicatorBackground: '#66b9ef',
+      browserTheme: null,
+      shadow: 'rgba(0, 0, 0, 0.117647)'
     }
     ```
 * #### contactPoint
@@ -637,7 +640,7 @@ The top section of the chat container that contains the minimize, maximize, and 
 
 ##### HeaderMenuIcons
 
-The icons inside `HeaderMenu`
+The icons inside `HeaderMenu`. Note that these icons are SVG's, so be sure to use the corresponding styles. To set color for example, use the `fill` property.
 
 ##### InlineActionButton
 

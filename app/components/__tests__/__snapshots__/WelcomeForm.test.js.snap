@@ -47,7 +47,6 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
     }
   }
 >
-  <Connect(HeaderMenu) />
   <div
     className="welcomeFormBanner"
     style={

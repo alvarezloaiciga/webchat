@@ -16,7 +16,7 @@ export const setChatWindow = (newChatWindow: Object) => {
   chatWindow = newChatWindow;
 };
 
-export const getConfiguration = (): ?ChatConfiguration => configuration;
+export const getConfiguration = (): ChatConfiguration => configuration;
 export const setConfiguration = (newConfiguration: ChatConfiguration) => {
   configuration = newConfiguration;
 };

@@ -6,7 +6,6 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     style={
       Object {
@@ -39,7 +38,6 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     style={
       Object {
@@ -72,7 +70,6 @@ exports[`ChatContainer component initializedState when errored renders properly 
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     style={
       Object {
@@ -105,7 +102,6 @@ exports[`ChatContainer component initializedState when inactive renders properly
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     style={
       Object {
@@ -138,7 +134,6 @@ exports[`ChatContainer component initializedState when initialized renders prope
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     isMobile={false}
     orientation="portrait"
@@ -194,7 +189,6 @@ exports[`ChatContainer component initializedState when loading renders properly 
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     isMobile={false}
     orientation="portrait"
@@ -230,7 +224,6 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(HeaderMenu) />
   <Styled(div)
     isMobile={false}
     orientation="portrait"

@@ -3,9 +3,9 @@
 import {h, Component} from 'preact';
 import ToggleChatButton from './ToggleChatButton';
 import SDKChatContainer from './SDKChatContainer';
-import {getQuiqOptions, getConfiguration} from 'Globals';
+import {getQuiqOptions, getConfiguration, getChatWindow} from 'Globals';
 import * as Postmaster from 'Postmaster';
-import {isMobile} from 'Common/Utils';
+import {isMobile, isIFrame} from 'Common/Utils';
 import {eventTypes} from 'Common/Constants';
 
 export type SDKLauncherProps = {};
@@ -54,7 +54,7 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
           quiqOptions.showDefaultLaunchButton &&
           this.state.launcherVisible && (
             <ToggleChatButton
-              open={this.state.containerVisible}
+              open={this.state.containerVisible || !isIFrame(getChatWindow())}
               onClick={() => SDKChatContainer.setChatVisibility()}
             />
           )}

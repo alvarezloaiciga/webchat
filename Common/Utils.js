@@ -360,14 +360,16 @@ export const openStandaloneWindow = (
       height / 2}, left=${window.screen.width / 2 - width / 2}`,
   );
 
-  const standaloneWindowTimer = setInterval(() => {
-    if (popup && popup.closed) {
-      clearInterval(standaloneWindowTimer);
-      if (onClose) {
-        onClose();
+  if (onClose) {
+    const standaloneWindowTimer = setInterval(() => {
+      if (popup && popup.closed) {
+        clearInterval(standaloneWindowTimer);
+        if (onClose) {
+          onClose();
+        }
       }
-    }
-  }, 20);
+    }, 20);
+  }
 
   return popup;
 };
