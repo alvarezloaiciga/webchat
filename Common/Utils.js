@@ -195,7 +195,10 @@ export const inStandaloneMode = () => {
 };
 
 export const isLastMessageFromAgent = (transcript: Array<Message>): boolean => {
-  return transcript.length > 0 && transcript[transcript.length - 1].authorType === 'User';
+  return (
+    transcript.length > 0 &&
+    ['User', 'System'].includes(transcript[transcript.length - 1].authorType)
+  );
 };
 
 // Taken from http://emailregex.com/ - RFC-5322 compliant. 99.99% accurate

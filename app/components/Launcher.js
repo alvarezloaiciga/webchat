@@ -145,6 +145,16 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     if (this.props.initializedState === ChatInitializedState.INITIALIZED) {
       tellClient(eventTypes.messageArrived, {transcript});
+
+      // Pop chat
+      if (
+        isLastMessageFromAgent(transcript) &&
+        this.props.configuration.displayMode !== displayModes.UNDOCKED
+      ) {
+        this.props.setChatContainerHidden(false);
+      }
+
+      // Play sound
       if (
         !this.props.muteSounds &&
         !this.props.messageFieldFocused &&
@@ -213,33 +223,27 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     // Set initial launcher visibility and agent availability states
     await this.updateLauncherState();
 
-    // Standalone Mode
-    // Never show launcher
-    // Always start session, show ChatContainer
-    if (inStandaloneMode()) {
+    // Start session iff one of the following conditions hold:
+    //  * We are in standalone
+    //  * Chat is visible from the cookie, or the user is subscribed, AND Wwe are NOT in undocked-only mode
+    //    Not that we don't start the session
+    if (
+      inStandaloneMode() ||
+      ((QuiqChatClient.isChatVisible() || QuiqChatClient.isUserSubscribed()) &&
+        this.props.configuration.displayMode !== displayModes.UNDOCKED)
+    ) {
+      await this.startSession();
+    }
+
+    // Pop chat (set container visibility to true) iff one of the following conditions hold:
+    //  * We are in standalone (doesn't have any visual effect, but keeps state up to date)
+    //  * Chat is visible from cookie, AND we are NOT in undocked-only mode
+    if (
+      inStandaloneMode() ||
+      (QuiqChatClient.isChatVisible() &&
+        this.props.configuration.displayMode !== displayModes.UNDOCKED)
+    ) {
       this.updateContainerHidden(false);
-      await this.startSession();
-      return;
-    }
-
-    // ChatContainer Visible from cookie
-    // Always start session
-    // Pop chat open unless we're in undocked-only mode
-    if (QuiqChatClient.isChatVisible()) {
-      await this.startSession();
-
-      if (this.props.configuration.displayMode !== displayModes.UNDOCKED) {
-        this.updateContainerHidden(false);
-      }
-
-      return;
-    }
-
-    // User has submitted welcome form or sent message, ChatContainer not visible
-    // Show launcher if transcript length > 0
-    // Always start session, don't change ChatContainer
-    if (QuiqChatClient.isUserSubscribed()) {
-      await this.startSession();
     }
 
     this.handleAutoPop();
@@ -328,10 +332,17 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       this.props.setChatLauncherHidden(false);
 
       await this.startSession();
+
+      // TODO: Remove this when WS are being used for join/leave
       QuiqChatClient.joinChat();
+
+      QuiqChatClient.setChatVisible(true);
     } else {
       if (this.props.initializedState !== ChatInitializedState.INACTIVE) {
+        // TODO: Remove this when WS are being used for join/leave
         QuiqChatClient.leaveChat();
+
+        QuiqChatClient.setChatVisible(false);
       }
     }
   };
