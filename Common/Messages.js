@@ -253,12 +253,7 @@ export default Object.assign(
     closeWindow: {
       id: 'closeWindow',
       description: 'Close Window button',
-      defaultMessage: 'Close chat',
-    },
-    minimizeWindow: {
-      id: 'minimizeWindow',
-      description: 'Minimize Window button',
-      defaultMessage: 'Minimize window',
+      defaultMessage: 'Hide chat',
     },
     cookiesMustBeEnabledError: {
       id: 'cookiesMustBeEnabledError',

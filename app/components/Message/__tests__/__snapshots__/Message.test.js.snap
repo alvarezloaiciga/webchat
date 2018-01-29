@@ -102,7 +102,7 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "id": "cannotStartNewConversationMessage",
           },
           "closeWindowTooltip": Object {
-            "defaultMessage": "Close chat",
+            "defaultMessage": "Hide chat",
             "description": "Close Window button",
             "id": "closeWindow",
           },
@@ -646,7 +646,7 @@ exports[`Message component rendering renders with default props 1`] = `
             "id": "cannotStartNewConversationMessage",
           },
           "closeWindowTooltip": Object {
-            "defaultMessage": "Close chat",
+            "defaultMessage": "Hide chat",
             "description": "Close Window button",
             "id": "closeWindow",
           },

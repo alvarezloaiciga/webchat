@@ -365,7 +365,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       requiredFieldAriaLabel: 'Required',
       dockWindowTooltip: 'Dock chat',
       openInNewWindowTooltip: 'Open chat in new window',
-      closeWindowTooltip: 'Close chat',
+      closeWindowTooltip: 'Hide chat',
       emojiPickerTooltip: 'Emoji picker',
       attachmentBtnTooltip: 'Send file',
       unsupportedBrowser: undefined,

@@ -98,7 +98,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close chat",
+        "defaultMessage": "Hide chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
@@ -638,7 +638,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close chat",
+        "defaultMessage": "Hide chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
@@ -1178,7 +1178,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close chat",
+        "defaultMessage": "Hide chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
