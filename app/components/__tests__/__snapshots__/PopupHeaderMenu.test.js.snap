@@ -29,7 +29,7 @@ exports[`HeaderMenu component rendering renders 1`] = `
       data-test="closeChatButton"
       onClick={[Function]}
       style={Object {}}
-      title="Minimize window"
+      title="Dock chat"
     >
       <svg
         viewBox="0 0 2048 1792"

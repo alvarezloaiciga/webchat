@@ -253,7 +253,7 @@ export default Object.assign(
     closeWindow: {
       id: 'closeWindow',
       description: 'Close Window button',
-      defaultMessage: 'Close window',
+      defaultMessage: 'Close chat',
     },
     minimizeWindow: {
       id: 'minimizeWindow',

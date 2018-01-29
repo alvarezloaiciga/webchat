@@ -102,7 +102,7 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "id": "cannotStartNewConversationMessage",
           },
           "closeWindowTooltip": Object {
-            "defaultMessage": "Close window",
+            "defaultMessage": "Close chat",
             "description": "Close Window button",
             "id": "closeWindow",
           },
@@ -245,11 +245,6 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "defaultMessage": "Send us a message...",
             "description": "Generic Send us a message",
             "id": "sendUsAMessage",
-          },
-          "minimizeWindowTooltip": Object {
-            "defaultMessage": "Minimize window",
-            "description": "Minimize Window button",
-            "id": "minimizeWindow",
           },
           "muteSounds": Object {
             "defaultMessage": "Mute Sounds",
@@ -651,7 +646,7 @@ exports[`Message component rendering renders with default props 1`] = `
             "id": "cannotStartNewConversationMessage",
           },
           "closeWindowTooltip": Object {
-            "defaultMessage": "Close window",
+            "defaultMessage": "Close chat",
             "description": "Close Window button",
             "id": "closeWindow",
           },
@@ -794,11 +789,6 @@ exports[`Message component rendering renders with default props 1`] = `
             "defaultMessage": "Send us a message...",
             "description": "Generic Send us a message",
             "id": "sendUsAMessage",
-          },
-          "minimizeWindowTooltip": Object {
-            "defaultMessage": "Minimize window",
-            "description": "Minimize Window button",
-            "id": "minimizeWindow",
           },
           "muteSounds": Object {
             "defaultMessage": "Mute Sounds",

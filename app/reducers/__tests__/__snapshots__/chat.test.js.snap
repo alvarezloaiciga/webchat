@@ -98,7 +98,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close window",
+        "defaultMessage": "Close chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
@@ -241,11 +241,6 @@ Object {
         "defaultMessage": "Send us a message...",
         "description": "Generic Send us a message",
         "id": "sendUsAMessage",
-      },
-      "minimizeWindowTooltip": Object {
-        "defaultMessage": "Minimize window",
-        "description": "Minimize Window button",
-        "id": "minimizeWindow",
       },
       "muteSounds": Object {
         "defaultMessage": "Mute Sounds",
@@ -643,7 +638,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close window",
+        "defaultMessage": "Close chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
@@ -786,11 +781,6 @@ Object {
         "defaultMessage": "Send us a message...",
         "description": "Generic Send us a message",
         "id": "sendUsAMessage",
-      },
-      "minimizeWindowTooltip": Object {
-        "defaultMessage": "Minimize window",
-        "description": "Minimize Window button",
-        "id": "minimizeWindow",
       },
       "muteSounds": Object {
         "defaultMessage": "Mute Sounds",
@@ -1188,7 +1178,7 @@ Object {
         "id": "cannotStartNewConversationMessage",
       },
       "closeWindowTooltip": Object {
-        "defaultMessage": "Close window",
+        "defaultMessage": "Close chat",
         "description": "Close Window button",
         "id": "closeWindow",
       },
@@ -1331,11 +1321,6 @@ Object {
         "defaultMessage": "Send us a message...",
         "description": "Generic Send us a message",
         "id": "sendUsAMessage",
-      },
-      "minimizeWindowTooltip": Object {
-        "defaultMessage": "Minimize window",
-        "description": "Minimize Window button",
-        "id": "minimizeWindow",
       },
       "muteSounds": Object {
         "defaultMessage": "Mute Sounds",

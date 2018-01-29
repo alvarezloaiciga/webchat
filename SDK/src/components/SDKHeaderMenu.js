@@ -74,7 +74,7 @@ const renderButtons = () => {
           className="icon"
           data-test="closeChatButton"
           style={iconStyle}
-          title={getDisplayString(messages[intlMessageTypes.minimizeWindowTooltip])}
+          title={getDisplayString(messages[intlMessageTypes.closeWindowTooltip])}
           onClick={minimize}
         >
           {windowClose}

@@ -195,7 +195,6 @@ const quiqOptions: QuiqObject = {
     inactiveMessage: messages.clientInactive,
     errorMessage: messages.errorState,
     requiredFieldAriaLabel: messages.required,
-    minimizeWindowTooltip: messages.minimizeWindow,
     dockWindowTooltip: messages.dockWindow,
     openInNewWindowTooltip: messages.openInNewWindow,
     closeWindowTooltip: messages.closeWindow,

@@ -141,7 +141,6 @@ export const intlMessageTypes = {
   errorMessage: 'errorMessage',
   inactiveMessage: 'inactiveMessage',
   requiredFieldAriaLabel: 'requiredFieldAriaLabel',
-  minimizeWindowTooltip: 'minimizeWindowTooltip',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',
   optionsMenuTooltip: 'optionsMenuTooltip',

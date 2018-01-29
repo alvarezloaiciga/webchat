@@ -83,7 +83,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
           className="icon"
           data-test="closeChatButton"
           style={getStyle(this.props.configuration.styles.HeaderMenuIcons)}
-          title={getMessage(intlMessageTypes.minimizeWindowTooltip)}
+          title={getMessage(intlMessageTypes.dockWindowTooltip)}
           onClick={window.close}
         >
           {windowRestore}

@@ -70,7 +70,6 @@ export type QuiqObject = {
     reconnectingMessage: string,
     errorMessage: string,
     requiredFieldAriaLabel: string,
-    minimizeWindowTooltip: string,
     dockWindowTooltip: string,
     openInNewWindowTooltip: string,
     closeWindowTooltip: string,
