@@ -20,6 +20,7 @@ export type EmojiTextareaProps = {
   maxLength?: number,
   placeholder?: string,
   configuration: ChatConfiguration,
+  'data-test'?: string, // eslint-disable-line react/no-unused-prop-types
 };
 
 export type EmojiTextareaState = {
@@ -184,7 +185,12 @@ export class EmojiTextArea extends Component {
 
   render() {
     return (
-      <div className="EmojiTextArea" onClick={this.focus} style={this.props.style}>
+      <div
+        className="EmojiTextArea"
+        onClick={this.focus}
+        style={this.props.style}
+        data-test={this.props['data-test'] || null}
+      >
         <Editor
           editorState={this.state.editorState}
           onChange={this._handleChange}

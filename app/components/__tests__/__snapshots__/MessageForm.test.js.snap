@@ -19,6 +19,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
     >
       <Input
         autoFocus={true}
+        data-test="messageInput"
         disabled={true}
         inputStyle={
           Object {
@@ -190,6 +191,7 @@ exports[`MessageForm component rendering renders 1`] = `
     className="messageArea"
   >
     <Connect(EmojiTextArea)
+      data-test="messageInput"
       disabled={true}
       maxLength={1024}
       name="message"

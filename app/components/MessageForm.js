@@ -395,6 +395,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   ref={element => {
                     this.textArea = element;
                   }}
+                  data-test="messageInput"
                   inputStyle={inputStyle}
                   value={this.state.inputText}
                   maxLength={1024}
@@ -412,6 +413,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 ref={n => {
                   this.textArea = n && n.wrappedInstance;
                 }}
+                data-test="messageInput"
                 style={inputStyle}
                 disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
                 name="message"
