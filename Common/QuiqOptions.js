@@ -36,7 +36,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     displayMode: isMobile() ? 'undocked' : rawQuiqObject.displayMode || 'either',
     customScreens: rawQuiqObject.customScreens || {},
     anchorElement: rawQuiqObject.anchorElement,
-    demoMode: rawQuiqObject.demoMode,
+    _demoMode: rawQuiqObject._demoMode,
     agentsAvailableTimer:
       rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
         ? rawQuiqObject.agentsAvailableTimer
@@ -78,7 +78,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
     href: window.location.href, // Standalone uses this to determine original host URL for welcome form
-    debug: rawQuiqObject.debug || false,
+    _debug: rawQuiqObject._debug || false,
     welcomeForm: rawQuiqObject.welcomeForm
       ? processWelcomeForm(rawQuiqObject.welcomeForm)
       : undefined,

@@ -16,8 +16,7 @@
     "prestart": "yarn run rimraf dist",
     "start": "webpack-dashboard -c cyan -p 9840 -- node dev-server.js",
     "prebuild": "yarn run rimraf dist temp_docker",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress",
-    "postbuild": ". config/postbuild.sh",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress && yarn run make-docs --output=dist/docs --input=docs",
     "jestSingle": "./node_modules/.bin/jest --env=jsdom",
     "jest": "yarn jestSingle --watch",
     "flow": "./node_modules/.bin/flow",
@@ -25,7 +24,9 @@
     "test": "yarn flow && yarn jestSingle && yarn lint --quiet",
     "precommit": "lint-staged",
     "audit": "./node_modules/.bin/snyk test --dev",
-    "update-snyk": "./node_modules/.bin/snyk monitor"
+    "update-snyk": "./node_modules/.bin/snyk monitor",
+    "make-docs": "node ./config/buildDocs.js",
+    "serve-docs": "./node_modules/.bin/docsify serve ./dist/docs/ --port 3002"
   },
   "lint-staged": {
     "app/**/*.js": [
@@ -72,7 +73,7 @@
         "host": "https://bob.dev.centricient.corp",
         "color": "#333",
         "headerText": "TOOL TIME",
-        "debug": false,
+        "_debug": false,
         "welcomeForm": null
       },
       "Modernizr": {
@@ -93,16 +94,20 @@
     ]
   },
   "devDependencies": {
+    "args-parser": "1.1.0",
     "autoprefixer": "7.2.5",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
     "babel-plugin-transform-react-constant-elements": "6.9.1",
     "cheerio": "0.22.0",
     "colors": "1.1.2",
+    "copy-dir": "0.3.0",
     "copy-webpack-plugin": "4.0.1",
     "cors": "2.8.1",
     "cross-env": "2.0.1",
     "css-loader": "0.28.9",
+    "docsify-cli": "4.2.1",
+    "documentation": "Quiq/documentation#6409a294533a74208ae8b4d84d62dd2e6cc92acf",
     "ejs": "2.5.7",
     "express": "4.16.0",
     "extract-text-webpack-plugin": "3.0.2",
@@ -110,6 +115,7 @@
     "html-webpack-plugin": "2.28.0",
     "http-proxy": "1.16.2",
     "jest-localstorage-mock": "1.2.0",
+    "mkdirp": "0.5.1",
     "morgan": "1.9.0",
     "namespace-css-loader": "0.0.3",
     "ngrok": "2.2.9",

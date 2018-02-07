@@ -115,7 +115,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   }
 
   updateAgentAvailability = async (): Promise<boolean> => {
-    if (this.props.configuration.enforceAgentAvailability && !this.props.configuration.demoMode) {
+    if (this.props.configuration.enforceAgentAvailability && !this.props.configuration._demoMode) {
       const {available} = await QuiqChatClient.checkForAgents();
       this.props.setAgentsAvailable(available);
 

@@ -573,7 +573,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     }
 
     if (
-      this.props.configuration.demoMode ||
+      this.props.configuration._demoMode ||
       (this.props.initializedState === ChatInitializedState.INITIALIZED &&
         !this.props.welcomeFormRegistered)
     ) {

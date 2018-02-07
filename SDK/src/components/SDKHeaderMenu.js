@@ -85,7 +85,7 @@ const renderButtons = () => {
 };
 
 export const SDKHeaderMenu = () => {
-  const {colors, styles, fontFamily, demoMode, messages} = getQuiqOptions();
+  const {colors, styles, fontFamily, _demoMode, messages} = getQuiqOptions();
 
   const headerStyle = getStyle(styles.HeaderMenu, {backgroundColor: colors.primary});
   const titleTextStyle = getStyle(styles.TitleText, {fontFamily});
@@ -95,7 +95,7 @@ export const SDKHeaderMenu = () => {
       <div className="title">
         <span style={titleTextStyle}>{getDisplayString(messages[intlMessageTypes.titleText])}</span>
       </div>
-      {!demoMode && renderButtons()}
+      {!_demoMode && renderButtons()}
     </div>
   );
 };

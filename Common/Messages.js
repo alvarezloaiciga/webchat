@@ -1,7 +1,19 @@
-import {defineMessages} from 'react-intl';
+const {defineMessages} = require('react-intl');
 
 const emojiMessages = Object.assign(
   {},
+  defineMessages({
+    search: {
+      id: 'emojiSearch',
+      description: 'Label for search in emoji picker',
+      defaultMessage: 'Search',
+    },
+    notfound: {
+      id: 'emojiNotFound',
+      description: 'Label for not found in emoji picker',
+      defaultMessage: 'No emoji found',
+    },
+  }),
   {
     categories: defineMessages({
       search: {
@@ -61,21 +73,9 @@ const emojiMessages = Object.assign(
       },
     }),
   },
-  defineMessages({
-    search: {
-      id: 'emojiSearch',
-      description: 'Label for search in emoji picker',
-      defaultMessage: 'Search',
-    },
-    notfound: {
-      id: 'emojiNotFound',
-      description: 'Label for not found in emoji picker',
-      defaultMessage: 'No emoji found',
-    },
-  }),
 );
 
-export default Object.assign(
+module.exports = Object.assign(
   {},
   defineMessages({
     pageTitle: {
@@ -155,6 +155,7 @@ export default Object.assign(
       id: 'cannotFindScript',
       description: "Error to display when we can't find the script that loaded webchat",
       defaultMessage: 'Cannot find script that loaded Webchat. Please contact your administrator.',
+      private: true,
     },
     standaloneFatalError: {
       id: 'standaloneFatalError',

@@ -7,6 +7,8 @@ exports[`Message component No profile picture provided for agent renders with de
   <TextMessage
     configuration={
       Object {
+        "_debug": false,
+        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -34,10 +36,8 @@ exports[`Message component No profile picture provided for agent renders with de
         "customLaunchButtons": Array [],
         "customMenuItems": Array [],
         "customScreens": Object {},
-        "debug": false,
         "defaultAgentAvatar": undefined,
         "defaultCustomerAvatar": undefined,
-        "demoMode": false,
         "displayMode": "either",
         "enableChatEmailTranscript": false,
         "enableChatFileAttachments": false,
@@ -572,6 +572,8 @@ exports[`Message component fromAgent colors the message according to quiqOptions
   <TextMessage
     configuration={
       Object {
+        "_debug": false,
+        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -599,10 +601,8 @@ exports[`Message component fromAgent colors the message according to quiqOptions
         "customLaunchButtons": Array [],
         "customMenuItems": Array [],
         "customScreens": Object {},
-        "debug": false,
         "defaultAgentAvatar": undefined,
         "defaultCustomerAvatar": undefined,
-        "demoMode": false,
         "displayMode": "either",
         "enableChatEmailTranscript": false,
         "enableChatFileAttachments": false,
@@ -1129,6 +1129,8 @@ exports[`Message component rendering renders with default props 1`] = `
   <TextMessage
     configuration={
       Object {
+        "_debug": false,
+        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -1156,10 +1158,8 @@ exports[`Message component rendering renders with default props 1`] = `
         "customLaunchButtons": Array [],
         "customMenuItems": Array [],
         "customScreens": Object {},
-        "debug": false,
         "defaultAgentAvatar": undefined,
         "defaultCustomerAvatar": undefined,
-        "demoMode": false,
         "displayMode": "either",
         "enableChatEmailTranscript": false,
         "enableChatFileAttachments": false,

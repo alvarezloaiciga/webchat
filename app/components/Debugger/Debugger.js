@@ -30,7 +30,7 @@ type DebuggerState = {
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   props: DebuggerProps;
   state: DebuggerState = {
-    hidden: !this.props.configuration.debug,
+    hidden: !this.props.configuration._debug,
     height: window.innerHeight,
     width: window.innerWidth,
     orientation: getOrientation(),

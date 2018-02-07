@@ -113,7 +113,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
         <div className="title">
           <span style={titleTextStyle}>{getMessage(intlMessageTypes.titleText)}</span>
         </div>
-        {!this.props.configuration.demoMode && this.renderButtons()}
+        {!this.props.configuration._demoMode && this.renderButtons()}
       </div>
     );
   }

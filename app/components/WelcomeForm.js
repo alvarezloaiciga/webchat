@@ -103,7 +103,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       this.setState({inputFields, form});
     };
 
-    if (this.props.configuration.demoMode && this.props.configuration.welcomeForm) {
+    if (this.props.configuration._demoMode && this.props.configuration.welcomeForm) {
       processForm(this.props.configuration.welcomeForm);
       return;
     }
@@ -226,12 +226,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     e.preventDefault();
     if (this.state.submitting) return;
 
-    const {href, demoMode} = this.props.configuration;
+    const {href, _demoMode} = this.props.configuration;
     const fields: {[string]: string} = cloneDeep(this.props.registrationFieldValues);
 
     if (!this.validateFormInput()) return;
 
-    if (demoMode) return;
+    if (_demoMode) return;
 
     map(this.state.inputFields, (field, key) => {
       // Only include field if it was filled out
@@ -329,9 +329,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {fontFamily, colors, styles, demoMode} = this.props.configuration;
+    const {fontFamily, colors, styles, _demoMode} = this.props.configuration;
     const welcomeForm = this.state.form;
-    if (!demoMode && this.props.welcomeFormRegistered) return null;
+    if (!_demoMode && this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,

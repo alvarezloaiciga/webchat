@@ -1,0 +1,6 @@
+- [**Getting Started**](/)
+- [**Customizing appearance and behavior**](/types)
+- [**Using the Chat SDK**](/sdk)
+- [**Adding a custom wait screen**](/extension)
+- [**Customizing static text**](/strings)
+- [**Supported browsers**](/browsers)
