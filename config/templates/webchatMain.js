@@ -72,10 +72,6 @@ function pageSetup() {
   metaTileColor.content="#";
   headTag.appendChild(metaTileColor);
 
-  var fontawesomeScript = document.createElement('script');
-  fontawesomeScript.src="https://use.fontawesome.com/89da14f4b6.js";
-  headTag.appendChild(fontawesomeScript);
-
   // If we're in a popup, use window.name or localStorage for quiqOptions
   if (inStandaloneMode()) {
     var quiqOptionsString = window.name || (localStorage && localStorage.getItem('quiqOptions'));

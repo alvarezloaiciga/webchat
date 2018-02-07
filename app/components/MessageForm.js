@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {getStyle} from 'Common/QuiqOptions';
 import {intlMessageTypes, MenuItemKeys} from 'Common/Constants';
-import {isIE10, isMobile} from 'Common/Utils';
+import {isIE10, isMobile, getIconFromString} from 'Common/Utils';
 import {
   setMessageFieldFocused,
   setInputtingEmail,
@@ -14,6 +14,8 @@ import QuiqChatClient from 'quiq-chat';
 import EmojiTextarea from 'EmojiTextArea';
 import EmailInput from 'EmailInput';
 import EmojiPicker from 'EmojiPicker';
+import Icon from 'core-ui/components/Icon';
+import {volumeUp, volumeOff, envelope, smile, paperclip} from 'Icons';
 import MenuButton from 'core-ui/components/MenuButton';
 import Input from 'core-ui/components/Input';
 import {
@@ -247,7 +249,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       id: o.id,
       icon: o.icon
         ? {
-            name: o.icon,
+            icon: getIconFromString(o.icon),
             style: getStyle(Object.assign({}, styles.OptionsMenuLineItemIcon, o.iconStyle), {
               color: colors.menuText,
             }),
@@ -271,7 +273,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
           : getMessage(intlMessageTypes.muteSoundsTooltip),
         id: MenuItemKeys.MUTE_SOUNDS,
         icon: {
-          name: this.props.muteSounds ? 'volume-up' : 'volume-off',
+          icon: this.props.muteSounds ? volumeUp : volumeOff,
           style: getStyle(styles.OptionsMenuLineItemIcon, {
             color: colors.menuText,
           }),
@@ -292,7 +294,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
         title: getMessage(intlMessageTypes.emailTranscriptMenuTooltip),
         id: MenuItemKeys.EMAIL_TRANSCRIPT,
         icon: {
-          name: 'envelope',
+          icon: envelope,
           style: getStyle(styles.OptionsMenuLineItemIcon, {
             color: colors.menuText,
           }),
@@ -435,7 +437,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 onClick={this.props.openFileBrowser}
                 title={getMessage(intlMessageTypes.attachmentBtnTooltip)}
               >
-                <i className="fa fa-paperclip" />
+                <Icon icon={paperclip} />
               </button>
             )}
             {this.props.configuration.enableEmojis &&
@@ -448,7 +450,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   onClick={this.toggleEmojiPicker}
                   title={getMessage(intlMessageTypes.emojiPickerTooltip)}
                 >
-                  <i className="fa fa-smile-o" />
+                  <Icon icon={smile} />
                 </button>
               )}
             {sendDisabled ? (

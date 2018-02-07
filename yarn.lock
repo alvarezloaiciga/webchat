@@ -77,6 +77,22 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@fortawesome/fontawesome-common-types@^0.1.2":
+  version "0.1.2"
+  resolved "https://npm.fontawesome.com/86F1A0BB-E05D-4907-ADED-EC209E3B5185/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.2.tgz#d6aa075058f0c984d6e2ebcbc0052c1f7f9bea72"
+
+"@fortawesome/fontawesome-pro-regular@5.0.6":
+  version "5.0.6"
+  resolved "https://npm.fontawesome.com/86F1A0BB-E05D-4907-ADED-EC209E3B5185/@fortawesome/fontawesome-pro-regular/-/fontawesome-pro-regular-5.0.6.tgz#037bc59f3eb8e75ec83a726b78f0cafae07ef112"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.2"
+
+"@fortawesome/fontawesome-pro-solid@5.0.6":
+  version "5.0.6"
+  resolved "https://npm.fontawesome.com/86F1A0BB-E05D-4907-ADED-EC209E3B5185/@fortawesome/fontawesome-pro-solid/-/fontawesome-pro-solid-5.0.6.tgz#9fec26ec6c4ce90fc87abfad18aee6134e5d3225"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.2"
+
 "@types/node@*":
   version "8.0.50"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.50.tgz#dc545448e128c88c4eec7cd64025fcc3b7604541"
@@ -1921,9 +1937,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.17":
-  version "1.0.17"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#3e88481a98564248f12a3a42b69e67f85b7f8b1d"
+"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.20":
+  version "1.0.20"
+  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#c5acea1b7e1899426fad97a8d6de8bb115ce6e9d"
   dependencies:
     classnames "2.2.5"
     emotion "8.0.2"

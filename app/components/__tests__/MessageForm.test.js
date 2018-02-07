@@ -58,7 +58,7 @@ describe('MessageForm component', () => {
                 url: 'Earl',
                 label: 'Babel',
                 title: 'Danny McBridal',
-                icon: 'Python',
+                icon: 'info-circle',
                 itemStyle: {},
                 iconStyle: {},
               },

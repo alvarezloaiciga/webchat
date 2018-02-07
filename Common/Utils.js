@@ -4,6 +4,8 @@ declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
+import icons from 'Icons';
+import forEach from 'lodash/forEach';
 import {SupportedWebchatUrls, localStorageKeys, webchatPath} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
@@ -394,4 +396,25 @@ export const repeat = (f: () => void, n: number, delay: number = 0) => {
     }
   };
   g();
+};
+
+export const getIconFromString = (name?: string | null) => {
+  if (!name) return;
+
+  // Support Icons.js key name (e.g. infoCircle)
+  if (icons[name]) return icons[name];
+
+  // Support font-awesome iconName (e.g. info-circle)
+  let icon;
+  forEach(icons, (v, k) => {
+    if (v.iconName === name) {
+      icon = k;
+    }
+  });
+
+  if (icon) return icons[icon];
+
+  console.warn(
+    `Attempted to use icon-string ${name} not currently supported.  Either add it or use a different icon!`,
+  );
 };

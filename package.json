@@ -132,6 +132,8 @@
     "webpack-subresource-integrity": "1.0.3"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-pro-regular": "5.0.6",
+    "@fortawesome/fontawesome-pro-solid": "5.0.6",
     "babel-polyfill": "Quiq/babel-polyfill#17b5f642f98e803ca31ec6df5fc9c3fcc94ac5ef",
     "classnames": "2.2.5",
     "core-ui": "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.0.20",
@@ -144,8 +146,8 @@
     "immutability-helper": "2.4.0",
     "intl": "1.2.5",
     "lodash": "4.17.4",
-    "moment": "2.20.1",
     "mime-types": "2.1.17",
+    "moment": "2.20.1",
     "moment-timezone": "0.5.13",
     "polished": "1.8.1",
     "post-robot": "Quiq/post-robot#394568a87d63fd24b9289bb2a1f0223b9bd18752",
