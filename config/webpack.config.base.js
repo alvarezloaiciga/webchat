@@ -2,7 +2,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const version = require('../package.json').version;
 const SriPlugin = require('webpack-subresource-integrity');
 
@@ -37,27 +36,20 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel',
+        use: 'babel-loader',
         exclude: /node_modules\/(?!(core-ui)\/).*/,
       },
       {
         test: /\.jsx?$/,
-        loader: 'babel',
+        use: 'babel-loader',
         include: [
           path.resolve(__dirname, '../node_modules/hodash.get'), // Needed since hodash does not transpile itself
           path.resolve(__dirname, '../node_modules/redux-store-watch'), // Needed since redux-store-watch does not transpile itself
         ],
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
     ],
-  },
-  postcss() {
-    return [autoprefixer()];
   },
 };

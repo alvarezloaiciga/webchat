@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const config = require('./webpack.config.base');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const fs = require('fs');
 
 const publicPath = '/app/webchat/';
@@ -20,7 +21,6 @@ module.exports = merge(config, {
     publicPath,
     crossOriginLoading: 'use-credentials'
   },
-  debug: true,
   cache: true,
   devtool: 'source-map',
   entry: {
@@ -50,6 +50,9 @@ module.exports = merge(config, {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),
+    new webpack.LoaderOptionsPlugin({
+      debug: true
+    }),
     // Uncomment this if we ever use a common chunk
     // new webpack.optimize.CommonsChunkPlugin({
     //   name: 'common',
@@ -58,7 +61,7 @@ module.exports = merge(config, {
     // }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.s?css$/,
         include: [
@@ -69,36 +72,42 @@ module.exports = merge(config, {
           path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
           path.resolve(__dirname, '../node_modules/draft-js'),
         ],
-        loaders: [
-          {loader: 'style', query: {sourceMap: true, sourceMapContents: true}},
-          {loader: 'css', query: {sourceMap: true, sourceMapContents: true}},
-          'postcss',
-          {loader: 'namespace-css', query: '#quiqWebChat'},
+        use: [
+          {loader: 'style-loader', options: {sourceMap: true}},
+          {loader: 'css-loader', options: {sourceMap: true, sourceMapContents: true}},
           {
-            loader: 'sass',
-            query: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [autoprefixer()]
+            },
+          },
+          {loader: 'namespace-css-loader', query: '#quiqWebChat'},  // Use 'query' instead of 'options' for compatibility
+          {
+            loader: 'sass-loader',
+            options: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
           },
         ],
       },
       {
         test: /\.(wav|mp3)$/,
         loader: 'file-loader',
-        query: {
+        options: {
           name: 'assets/audio/[name].[ext]',
         },
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
-        loader: 'url',
-        query: {
+        loader: 'url-loader',
+        options: {
           limit: 8192,
           name: 'assets/[name].[ext]',
         },
       },
       {
         test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url',
-        query: {
+        loader: 'url-loader',
+        options: {
           limit: 8192,
           name: 'assets/[name].[ext]',
         },
