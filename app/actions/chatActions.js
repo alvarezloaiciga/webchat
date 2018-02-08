@@ -62,6 +62,7 @@ export const updateChatConfigurationFromMetadata = (metadata: ChatMetadata) => (
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE &&
       metadata.configs.FLASH_NOTIFICATION_ON_NEW_MESSAGE.enabled,
     registrationForm: metadata.registrationForm,
+    registrationFormVersionId: metadata.registrationFormVersionId,
     menuOptions: metadata.configs.CHAT_MENU_OPTIONS,
     whitelistedDomains:
       metadata.configs.CHAT_WHITELISTED_DOMAINS &&

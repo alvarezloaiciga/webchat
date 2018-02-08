@@ -22,6 +22,7 @@ export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
   welcomeFormRegistered: boolean,
   registrationForm?: WelcomeFormType | null,
+  registrationFormVersionId?: string,
   configuration: ChatConfiguration,
   setWindowScrollLockEnabled: (enabled: boolean) => void,
 };
@@ -224,7 +225,10 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     fields.Referrer = href;
 
     this.setState({submitting: true});
-    await QuiqChatClient.sendRegistration(fields);
+    await QuiqChatClient.sendRegistration(
+      fields,
+      this.props.configuration.registrationFormVersionId,
+    );
     await this.sendInitialMessage();
   };
 
@@ -328,6 +332,7 @@ export default connect(
   (state: ChatState) => ({
     welcomeFormRegistered: state.welcomeFormRegistered,
     registrationForm: state.configuration.registrationForm,
+    registrationFormVersionId: state.configuration.registrationFormVersionId,
     configuration: getConfiguration(state),
   }),
   {

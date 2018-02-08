@@ -154,6 +154,7 @@ export type ChatterboxConfiguration = {
   enableEmojis: boolean,
   playSoundOnNewMessage: boolean,
   flashNotificationOnNewMessage: boolean,
+  registrationFormVersionId?: string | null,
   registrationForm?: WelcomeForm | null,
   menuOptions: {
     customItems: Array<CustomMenuItem>,
