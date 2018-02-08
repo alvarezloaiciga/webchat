@@ -11,6 +11,8 @@ import {darken} from 'polished';
 import {getConfiguration, getMessage} from 'reducers/chat';
 import {setWindowScrollLockEnabled} from 'actions/chatActions';
 import Input from 'core-ui/components/Input';
+import Icon from 'core-ui/components/Icon';
+import {times, check} from 'Icons';
 import {UserEmailKey, intlMessageTypes} from 'Common/Constants';
 import type {ChatConfiguration, ChatState} from 'Common/types';
 
@@ -49,21 +51,12 @@ const InputStyle = error => css`
 const IconCSS = (color: string) => css`
   flex: 0 0 auto;
   transition: 0.15s ease-in-out all;
-  margin-right: 10px;
-  color: ${color};
+  margin-right: 5px;
   cursor: pointer;
 
   &:hover {
     color: ${darken(0.15, color)};
   }
-`;
-
-const CancelButton = styled.i`
-  ${IconCSS('red')};
-`;
-
-const SubmitButton = styled.i`
-  ${IconCSS('green')};
 `;
 
 export type EmailInputProps = {
@@ -130,18 +123,22 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
           value={null}
           autoFocus
         />
-        <CancelButton
+        <Icon
+          className={IconCSS('red')}
           style={getStyle(this.props.configuration.styles.EmailTranscriptInputCancelButton)}
           title={getMessage(intlMessageTypes.emailTranscriptInputCancelTooltip)}
           onClick={this.props.onCancel}
-          className={`fa fa-times`}
+          color="red"
+          icon={times}
         />
-        <SubmitButton
+        <Icon
+          className={IconCSS('green')}
           style={getStyle(this.props.configuration.styles.EmailTranscriptInputSubmitButton)}
           title={getMessage(intlMessageTypes.emailTranscriptInputSubmitTooltip)}
           onClick={this.submit}
           data-test="submitButton"
-          className={`fa fa-check`}
+          color="green"
+          icon={check}
         />
       </EmailInputContainer>
     );

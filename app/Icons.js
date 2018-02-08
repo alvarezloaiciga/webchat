@@ -8,6 +8,7 @@ module.exports = {
   filePowerpoint: require('@fortawesome/fontawesome-pro-regular/faFilePowerpoint'),
   fileVideo: require('@fortawesome/fontawesome-pro-regular/faFileVideo'),
   fileWord: require('@fortawesome/fontawesome-pro-regular/faFileWord'),
+  times: require('@fortawesome/fontawesome-pro-regular/faTimes'),
   volumeOff: require('@fortawesome/fontawesome-pro-solid/faVolumeOff'),
   volumeUp: require('@fortawesome/fontawesome-pro-solid/faVolumeUp'),
   /**
@@ -19,6 +20,7 @@ module.exports = {
   calendar: require('core-ui/coreIcons').calendar,
   camera: require('core-ui/coreIcons').camera,
   chartLine: require('core-ui/coreIcons').chartLine,
+  check: require('core-ui/coreIcons').check,
   checkCircleFilled: require('core-ui/coreIcons').checkCircleFilled,
   clipboard: require('core-ui/coreIcons').clipboard,
   clock: require('core-ui/coreIcons').clock,

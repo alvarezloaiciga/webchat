@@ -25,8 +25,22 @@ exports[`EmailInput component rendering renders 1`] = `
     }
     value={null}
   />
-  <Styled(i)
-    className="fa fa-times"
+  <Icon
+    className="css-pgaej8"
+    color="red"
+    icon={
+      Object {
+        "icon": Array [
+          384,
+          512,
+          Array [],
+          "f00d",
+          "M231.6 256l130.1-130.1c4.7-4.7 4.7-12.3 0-17l-22.6-22.6c-4.7-4.7-12.3-4.7-17 0L192 216.4 61.9 86.3c-4.7-4.7-12.3-4.7-17 0l-22.6 22.6c-4.7 4.7-4.7 12.3 0 17L152.4 256 22.3 386.1c-4.7 4.7-4.7 12.3 0 17l22.6 22.6c4.7 4.7 12.3 4.7 17 0L192 295.6l130.1 130.1c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17L231.6 256z",
+        ],
+        "iconName": "times",
+        "prefix": "far",
+      }
+    }
     onClick={[Function]}
     style={
       Object {
@@ -35,9 +49,23 @@ exports[`EmailInput component rendering renders 1`] = `
     }
     title="Cancel Email Transcript"
   />
-  <Styled(i)
-    className="fa fa-check"
+  <Icon
+    className="css-1pb19hi"
+    color="green"
     data-test="submitButton"
+    icon={
+      Object {
+        "icon": Array [
+          512,
+          512,
+          Array [],
+          "f00c",
+          "M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z",
+        ],
+        "iconName": "check",
+        "prefix": "fas",
+      }
+    }
     onClick={[Function]}
     style={
       Object {
