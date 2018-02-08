@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cancel",
+    "description": "Generic cancel button text",
+    "defaultMessage": "Cancel"
+  },
+  {
+    "id": "required",
+    "description": "Generic required message",
+    "defaultMessage": "Required"
+  },
+  {
+    "id": "select",
+    "description": "Generic select button text",
+    "defaultMessage": "Select"
+  },
+  {
+    "id": "noResults",
+    "description": "General message to let user know there were no results",
+    "defaultMessage": "No Results"
+  }
+]

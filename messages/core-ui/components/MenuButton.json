@@ -1,0 +1,7 @@
+[
+  {
+    "id": "buttonTitle",
+    "description": "Message to display when user hovers over the Menu Button",
+    "defaultMessage": "Open Menu"
+  }
+]
