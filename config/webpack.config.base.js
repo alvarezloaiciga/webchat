@@ -32,7 +32,7 @@ module.exports = {
     }),
     new SriPlugin({
       hashFuncNames: ['sha256'],
-      enabled: process.env.NODE_ENV === 'production',
+      enabled: false //process.env.NODE_ENV === 'production',
     })
   ],
   module: {
