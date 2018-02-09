@@ -5,6 +5,7 @@ import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import {getMetadataForMimeType} from 'utils/fileUtils';
 import classnames from 'classnames';
 import CircularProgressbar from 'react-circular-progressbar';
+import Icon from 'core-ui/components/Icon';
 import type {AttachmentMessage as AttachmentMessageType} from 'Common/types';
 import './styles/FileMessage.scss';
 
@@ -63,7 +64,7 @@ export const FileMessage = (props: FileMessageProps) => {
                   textForPercentage={() => ''}
                 />
               ) : (
-                <i className={`fa fa-${icon}`} title={name} />
+                <Icon icon={icon} title={name} />
               )}
             </div>
             {name}

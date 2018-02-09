@@ -27,10 +27,10 @@ export const attachmentTypes: Map<RegExp, {name: string, icon: string}> = new Ma
     /application\/vnd\.openxmlformats-officedocument\.presentationml\.presentation/,
     {name: 'PowerPoint file', icon: filePowerpoint},
   ],
-  [/application\/vnd\.ms-excel/, {name: 'PowerPoint file', icon: fileExcel}],
+  [/application\/vnd\.ms-excel/, {name: 'Excel file', icon: fileExcel}],
   [
     /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/,
-    {name: 'PowerPoint file', icon: fileExcel},
+    {name: 'Excel file', icon: fileExcel},
   ],
 ]);
 
@@ -43,5 +43,5 @@ export const getMetadataForMimeType = (mimeType: string): {name: string, icon: s
   }
 
   // Mime type didn't match anything
-  return {name: 'File', icon: 'file-o'};
+  return {name: 'File', icon: fileText};
 };
