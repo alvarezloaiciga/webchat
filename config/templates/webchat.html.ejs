@@ -15,11 +15,11 @@
     <% } %>
     <script>
       var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
-      var webChatHash = '<%= (htmlWebpackPlugin.files.jsIntegrity) ? htmlWebpackPlugin.files.jsIntegrity[0] : undefined %>';
+      var webChatHash = '<%= (htmlWebpackPlugin.files.jsIntegrity) ? htmlWebpackPlugin.files.jsIntegrity[1] : undefined %>';
     </script>
     <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
       <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"
-        integrity="<%= htmlWebpackPlugin.files.jsIntegrity[1] %>"
+        integrity="<%= htmlWebpackPlugin.files.jsIntegrity[0] %>"
         crossorigin="<%= webpackConfig.output.crossOriginLoading %>"></script>
     <% } else { %>
       <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
