@@ -208,9 +208,9 @@ describe('WelcomeForm component', () => {
       wrapper.update();
     });
 
-    it('sets validationError state to true if a required field is left blank', () => {
+    it('sets validationError state to a required error if a required field is left blank', () => {
       wrapper.instance().validateFormInput();
-      expect(wrapper.state('formValidationError')).toBe(true);
+      expect(wrapper.state('formValidationError')).toBe('REQUIRED');
     });
   });
 });

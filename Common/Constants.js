@@ -130,6 +130,7 @@ export const intlMessageTypes = {
   headerText: 'headerText',
   sendButtonLabel: 'sendButtonLabel',
   messageFieldPlaceholder: 'messageFieldPlaceholder',
+  invalidEmailErrorMessage: 'invalidEmailErrorMessage',
   welcomeFormValidationErrorMessage: 'welcomeFormValidationErrorMessage',
   welcomeFormSubmitButtonLabel: 'welcomeFormSubmitButtonLabel',
   welcomeFormSubmittingButtonLabel: 'welcomeFormSubmittingButtonLabel',

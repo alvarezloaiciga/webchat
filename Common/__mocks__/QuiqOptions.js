@@ -184,6 +184,7 @@ const quiqOptions: QuiqObject = {
     headerText: messages.hereToHelp,
     sendButtonLabel: messages.send,
     messageFieldPlaceholder: messages.sendUsAMessage,
+    invalidEmailErrorMessage: messages.invalidEmailErrorMessage,
     welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
     welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
     welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
