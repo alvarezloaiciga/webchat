@@ -333,15 +333,9 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       await this.startSession();
 
-      // TODO: Remove this when WS are being used for join/leave
-      QuiqChatClient.joinChat();
-
       QuiqChatClient.setChatVisible(true);
     } else {
       if (this.props.initializedState !== ChatInitializedState.INACTIVE) {
-        // TODO: Remove this when WS are being used for join/leave
-        QuiqChatClient.leaveChat();
-
         QuiqChatClient.setChatVisible(false);
       }
     }

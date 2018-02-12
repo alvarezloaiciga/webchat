@@ -131,7 +131,6 @@ describe('Launcher component', () => {
         await render();
         await instance.handleChatVisibilityChange(false);
         expect(testProps.setChatLauncherHidden).toBeCalledWith(false);
-        expect(QuiqChatClient.joinChat).toBeCalled();
       });
     });
 
@@ -139,7 +138,6 @@ describe('Launcher component', () => {
       it('leaves chat', async () => {
         await render();
         await instance.handleChatVisibilityChange(true);
-        expect(QuiqChatClient.leaveChat).toBeCalled();
       });
     });
   });
