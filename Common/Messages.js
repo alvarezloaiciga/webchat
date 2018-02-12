@@ -322,6 +322,11 @@ export default Object.assign(
       description: 'Text of submit button on welcome form while form is being submitted',
       defaultMessage: 'Submitting',
     },
+    invalidEmailErrorMessage: {
+      id: 'invalidEmailErrorMessage',
+      description: 'Error displayed when user uses an invalid e-mail',
+      defaultMessage: 'Please enter a valid e-mail',
+    },
     welcomeFormValidationError: {
       id: 'welcomeFormValidationError',
       description: 'Error displayed when user has not filled in a required field',

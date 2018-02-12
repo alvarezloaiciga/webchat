@@ -60,6 +60,7 @@ export type QuiqObject = {
     titleText: string,
     headerText: string,
     messageFieldPlaceholder: string,
+    invalidEmailErrorMessage: string,
     welcomeFormValidationErrorMessage: string,
     welcomeFormSubmitButtonLabel: string,
     welcomeFormSubmittingButtonLabel: string,

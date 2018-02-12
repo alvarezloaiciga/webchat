@@ -7,6 +7,7 @@ import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration, getMessage} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
 import Debugger from './Debugger/Debugger';
+import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
 import type {
   WelcomeFormField,
@@ -18,6 +19,11 @@ import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
 
+const ValidationErrors = {
+  REQUIRED: 'REQUIRED',
+  INVALID_EMAIL: 'INVALID_EMAIL',
+};
+
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
   welcomeFormRegistered: boolean,
@@ -28,7 +34,7 @@ export type WelcomeFormProps = {
 };
 
 export type WelcomeFormState = {
-  formValidationError: boolean,
+  formValidationError?: string,
   inputFields: {
     [string]: {
       value: string,
@@ -47,7 +53,6 @@ export type WelcomeFormState = {
 export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   props: WelcomeFormProps;
   state: WelcomeFormState = {
-    formValidationError: false,
     inputFields: {},
     submitting: false,
   };
@@ -274,16 +279,37 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   validateFormInput = (): boolean => {
-    let validationError = false;
+    let validationError;
 
     Object.values(this.state.inputFields).forEach(field => {
       // $FlowIssue - flow doesn't do well with Object.values
-      if (field.required && !field.value.length) validationError = true;
+      if (field.required && !field.value.length) validationError = ValidationErrors.REQUIRED;
+      // $FlowIssue - flow doesn't do well with Object.values
+      if (field.type === 'email' && field.value && !isValidEmail(field.value))
+        validationError = ValidationErrors.INVALID_EMAIL;
     });
 
     this.setState({formValidationError: validationError});
 
     return !validationError;
+  };
+
+  renderValidationError = () => {
+    switch (this.state.formValidationError) {
+      case ValidationErrors.INVALID_EMAIL:
+        return (
+          <span className="formValidationError">
+            {getMessage(intlMessageTypes.invalidEmailErrorMessage)}
+          </span>
+        );
+      case ValidationErrors.REQUIRED:
+      default:
+        return (
+          <span className="formValidationError">
+            {getMessage(intlMessageTypes.welcomeFormValidationErrorMessage)}
+          </span>
+        );
+    }
   };
 
   render = () => {
@@ -307,11 +333,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
           {welcomeForm && welcomeForm.headerText}
         </div>
         <Debugger />
-        {this.state.formValidationError && (
-          <span className="formValidationError">
-            {getMessage(intlMessageTypes.welcomeFormValidationErrorMessage)}
-          </span>
-        )}
+        {this.state.formValidationError && this.renderValidationError()}
         <div className="fields">{welcomeForm && welcomeForm.fields.map(this.renderField)}</div>
         <button
           className="submit"

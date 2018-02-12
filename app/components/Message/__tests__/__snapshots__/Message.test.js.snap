@@ -236,6 +236,11 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "description": "Generic Client Inactive Message",
             "id": "clientInactive",
           },
+          "invalidEmailErrorMessage": Object {
+            "defaultMessage": "Please enter a valid e-mail",
+            "description": "Error displayed when user uses an invalid e-mail",
+            "id": "invalidEmailErrorMessage",
+          },
           "messageArrivedNotification": Object {
             "defaultMessage": "New Message from Quiq Webchat",
             "description": "Message Arrived",
@@ -779,6 +784,11 @@ exports[`Message component rendering renders with default props 1`] = `
             "defaultMessage": "You have been disconnected due to inactivity. Please refresh the page to reconnect.",
             "description": "Generic Client Inactive Message",
             "id": "clientInactive",
+          },
+          "invalidEmailErrorMessage": Object {
+            "defaultMessage": "Please enter a valid e-mail",
+            "description": "Error displayed when user uses an invalid e-mail",
+            "id": "invalidEmailErrorMessage",
           },
           "messageArrivedNotification": Object {
             "defaultMessage": "New Message from Quiq Webchat",

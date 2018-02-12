@@ -103,6 +103,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         titleText: '',
         headerText: rawQuiqObject.headerText || messages.hereToHelp,
         messageFieldPlaceholder: messages.sendUsAMessage,
+        invalidEmailErrorMessage: messages.invalidEmailErrorMessage,
         welcomeFormValidationErrorMessage: messages.welcomeFormValidationError,
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
         welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
