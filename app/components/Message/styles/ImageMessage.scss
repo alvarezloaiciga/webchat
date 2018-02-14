@@ -45,23 +45,10 @@
     }
   }
 
-  .CircularProgressbar {
-    width: 45px;
-    max-width: 80%;
-    padding: 5px;
+  .progress {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-  }
-
-  .CircularProgressbar .CircularProgressbar-path {
-    stroke: #ffffff;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s ease 0s;
-  }
-
-  .CircularProgressbar .CircularProgressbar-trail {
-    stroke: rgba(214, 214, 214, 0.58);
   }
 }

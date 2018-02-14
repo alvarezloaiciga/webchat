@@ -2,7 +2,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import CircularProgressbar from 'react-circular-progressbar';
+import ProgressCircle from '../ProgressCircle';
 import type {AttachmentMessage as AttachmentMessageType} from 'Common/types';
 import './styles/ImageMessage.scss';
 
@@ -13,14 +13,16 @@ export type ImageMessageProps = {
 
 export type ImageMessageState = {
   imageLoaded: boolean,
-  imageWidth?: number,
-  imageHeight?: number,
+  imageWidth: number,
+  imageHeight: number,
 };
 
 export class ImageMessage extends React.Component<ImageMessageProps, ImageMessageState> {
   props: ImageMessageProps;
   state: ImageMessageState = {
     imageLoaded: false,
+    imageHeight: 0,
+    imageWidth: 0,
   };
   image: ?Image;
   pollingInterval: number;
@@ -130,10 +132,16 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
       <div className={classnames('ImageMessage', {uploading: isUploading, fromCustomer})}>
         {this.renderImage()}
         {isUploading && (
-          <CircularProgressbar
-            percentage={this.props.message.uploadProgress || 0}
-            textForPercentage={() => ''}
-          />
+          <div className="progress">
+            <ProgressCircle
+              percentage={this.props.message.uploadProgress || 0}
+              size={Math.min(60, 0.8 * Math.min(this.state.imageWidth, this.state.imageHeight))}
+              progressWidth={4}
+              trackWidth={4}
+              progressColor={'rgba(255, 255, 255, 0.7)'}
+              trackColor="rgba(128, 128, 128, 0.6)"
+            />
+          </div>
         )}
       </div>
     );

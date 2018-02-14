@@ -4,7 +4,7 @@ import React from 'react';
 import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import {getMetadataForMimeType} from 'utils/fileUtils';
 import classnames from 'classnames';
-import CircularProgressbar from 'react-circular-progressbar';
+import ProgressCircle from '../ProgressCircle';
 import Icon from 'core-ui/components/Icon';
 import type {AttachmentMessage as AttachmentMessageType} from 'Common/types';
 import './styles/FileMessage.scss';
@@ -59,12 +59,16 @@ export const FileMessage = (props: FileMessageProps) => {
           <span style={textStyle}>
             <div className="IconContainer">
               {isUploading ? (
-                <CircularProgressbar
+                <ProgressCircle
                   percentage={props.message.uploadProgress || 0}
-                  textForPercentage={() => ''}
+                  size={30}
+                  progressWidth={2}
+                  trackWidth={2}
+                  progressColor="#7b7b7d"
+                  trackColor="rgba(242, 242, 242, 0.58)"
                 />
               ) : (
-                <Icon icon={icon} title={name} />
+                <Icon icon={icon} title={name} size="2x" />
               )}
             </div>
             {name}

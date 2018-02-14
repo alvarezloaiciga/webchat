@@ -35,25 +35,8 @@
     display: flex;
     align-items: center;
 
-    i {
-      display: block;
-      font-size: 2em;
-    }
-
     .CircularProgressbar {
       display: block;
-      height: 100%;
-      max-width: 80%;
-    }
-
-    .CircularProgressbar .CircularProgressbar-path {
-      stroke: #7b7b7d;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.5s ease 0s;
-    }
-
-    .CircularProgressbar .CircularProgressbar-trail {
-      stroke: rgba(242, 242, 242, 0.58);
     }
   }
 }
