@@ -14,6 +14,8 @@ export const getMockMessage = (
     id: `id--${id}`,
     timestamp: id,
     type: 'Text',
+    authorDisplayName: 'Homer S.',
+    authorProfilePicture: 'https://mypictures.com/pic.png',
   };
 
   return Object.assign({}, message, overrides);

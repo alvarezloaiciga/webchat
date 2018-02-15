@@ -7,8 +7,8 @@ import ImageMessage from './ImageMessage';
 import FileMessage from './FileMessage';
 import AgentTypingMessage from './AgentTypingMessage';
 import classnames from 'classnames';
-import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration} from 'reducers/chat';
+import Avatar from '../Avatar';
 import type {Message as MessageType, ChatState, ChatConfiguration} from 'Common/types';
 import './styles/Message.scss';
 
@@ -19,9 +19,13 @@ export type MessageProps = {
 };
 
 export const Message = (props: MessageProps) => {
-  const {styles} = props.configuration;
-
   const fromCustomer = props.message.authorType === 'Customer';
+
+  const avatarUrl =
+    props.message.authorProfilePicture ||
+    (fromCustomer
+      ? props.configuration.defaultCustomerAvatar
+      : props.configuration.defaultAgentAvatar);
 
   let messageComponent;
   switch (props.message.type) {
@@ -45,9 +49,13 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      {!fromCustomer && <div className="agentAvatar" style={getStyle(styles.AgentAvatar)} />}
+      {!fromCustomer && (
+        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
+      )}
       {messageComponent}
-      {fromCustomer && <div className="customerAvatar" style={getStyle(styles.CustomerAvatar)} />}
+      {fromCustomer && (
+        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
+      )}
     </div>
   );
 };

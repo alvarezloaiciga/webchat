@@ -43,4 +43,12 @@ describe('Message component', () => {
       expect(wrapper).toMatchSnapshot();
     });
   });
+
+  describe('No profile picture provided for agent', () => {
+    it('renders with default picture', () => {
+      testProps.message = getMockMessage(0, {authorProfilePicture: null});
+      render();
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });

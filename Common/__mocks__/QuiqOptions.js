@@ -32,6 +32,8 @@ const quiqOptions: QuiqObject = {
     browserTheme: '#66b9ef',
     shadow: '#f56',
   },
+  defaultAgentAvatar: undefined,
+  defaultCustomerAvatar: undefined,
   events: {
     showTime: true,
   },

@@ -14,6 +14,8 @@ exports[`Transcript component rendering renders with default props 1`] = `
     key="id--1"
     message={
       Object {
+        "authorDisplayName": "Homer S.",
+        "authorProfilePicture": "https://mypictures.com/pic.png",
         "authorType": "User",
         "id": "id--1",
         "text": "text--1",
@@ -37,6 +39,8 @@ exports[`Transcript component rendering renders with default props 1`] = `
     key="id--3"
     message={
       Object {
+        "authorDisplayName": "Homer S.",
+        "authorProfilePicture": "https://mypictures.com/pic.png",
         "authorType": "User",
         "id": "id--3",
         "text": "text--3",

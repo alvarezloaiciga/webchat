@@ -51,10 +51,12 @@ export type QuiqObject = {
   demoMode: boolean,
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
+  includeEmojis?: Array<string>,
   fontFamily: string,
   height: number,
   host: string,
-  includeEmojis?: Array<string>,
+  defaultCustomerAvatar?: string,
+  defaultAgentAvatar?: string,
   messages: {
     pageTitle: string,
     titleText: string,
@@ -506,11 +508,28 @@ export type Message = TextMessage | AttachmentMessage;
 
 export type TextMessage = {
   authorType: AuthorType,
+  authorProfilePicture?: string,
+  authorDisplayName?: string,
   text: string,
   id: string,
   timestamp: number,
   type: 'Text',
   localKey?: string,
+  uploadProgress?: number,
+};
+
+export type AttachmentMessage = {
+  id: string,
+  localKey?: string,
+  timestamp: number,
+  type: 'Attachment',
+  authorType: AuthorType,
+  authorProfilePicture?: string,
+  authorDisplayName?: string,
+  url: string,
+  localBlobUrl: string,
+  contentType: string,
+  status?: MessageStatusType,
   uploadProgress?: number,
 };
 
@@ -522,19 +541,6 @@ export type CustomMenuItem = {
   icon?: string,
   itemStyle?: Object,
   iconStyle?: Object,
-};
-
-export type AttachmentMessage = {
-  id: string,
-  localKey?: string,
-  timestamp: number,
-  type: 'Attachment',
-  authorType: AuthorType,
-  url: string,
-  localBlobUrl: string,
-  contentType: string,
-  status?: MessageStatusType,
-  uploadProgress?: number,
 };
 
 export type Event = {

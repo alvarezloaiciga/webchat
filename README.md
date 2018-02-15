@@ -229,6 +229,14 @@ The Quiq() function contains properties describing how the instance of webchat s
   {
   }
   ```
+* #### defaultAgentAvatar
+  * type: string
+  * description: An HTTPS URL pointing at an image to be displayed next to agent messages when agent either has no picture or agent pictures are disabled. Leave as `undefined` to not show a picture if agent has no image or agent pictures are disabled.
+  * defaults: `undefined`
+* #### defaultCustomerAvatar
+  * type: string
+  * description: An HTTPS URL pointing at an image to be displayed next to customer messages. Leave as `undefined` to not show a picture next to customer messages.
+  * defaults: `undefined`
 * #### displayMode
   * type: 'either' | 'docked' | 'undocked'
   * description: Controls how webchat is presented to the user: `either` indicates that webchat is launched as a "docked" frame on your page, but can be switched to a standalone window (and back) by the user. `undocked` indicates that webchat is launched directly into a standalone window and cannot be switched to a docked frame. `docked` indicates that webchat is launched into a frame on your page and cannot be switched to a standalone window by the user. We recommend `either` mode for most use cases.

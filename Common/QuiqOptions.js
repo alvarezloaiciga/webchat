@@ -95,6 +95,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     mobileNumber: rawQuiqObject.mobileNumber,
     includeEmojis: rawQuiqObject.includeEmojis,
     excludeEmojis: rawQuiqObject.excludeEmojis,
+    defaultCustomerAvatar: rawQuiqObject.defaultCustomerAvatar,
+    defaultAgentAvatar: rawQuiqObject.defaultAgentAvatar,
     messages: merge(
       // Deep merge so that emojis messages are also merged
       {},

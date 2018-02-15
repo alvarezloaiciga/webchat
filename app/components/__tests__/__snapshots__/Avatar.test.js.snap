@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar component renders correctly when not for customer 1`] = `
+<div
+  className="Avatar"
+  style={
+    Object {
+      "height": "30px",
+      "marginLeft": 0,
+      "marginRight": "5px",
+      "width": "30px",
+    }
+  }
+>
+  <img
+    src="http://myurl.com/img.png"
+    title="Homer S."
+  />
+</div>
+`;
+
+exports[`Avatar component renders when no image is provided 1`] = `
+<div
+  className="Avatar forCustomer"
+  style={
+    Object {
+      "height": 0,
+      "marginLeft": 0,
+      "marginRight": 0,
+      "width": 0,
+    }
+  }
+/>
+`;
+
+exports[`Avatar component renders with image supplied 1`] = `
+<div
+  className="Avatar forCustomer"
+  style={
+    Object {
+      "height": "30px",
+      "marginLeft": "5px",
+      "marginRight": 0,
+      "width": "30px",
+    }
+  }
+>
+  <img
+    src="http://myurl.com/img.png"
+    title="Homer S."
+  />
+</div>
+`;

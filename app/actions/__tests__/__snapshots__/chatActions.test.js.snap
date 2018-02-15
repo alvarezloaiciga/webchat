@@ -44,6 +44,8 @@ exports[`chatActions updateTranscript builds an action 1`] = `
 Object {
   "transcript": Array [
     Object {
+      "authorDisplayName": "Homer S.",
+      "authorProfilePicture": "https://mypictures.com/pic.png",
       "authorType": "Customer",
       "id": "id--0",
       "text": "text--0",
