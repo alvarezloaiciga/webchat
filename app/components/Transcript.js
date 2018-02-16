@@ -11,13 +11,8 @@ import {
   getConfiguration,
   getMessage,
 } from 'reducers/chat';
-import {
-  intlMessageTypes,
-  EndEventTypes,
-  MessageTypes,
-  AuthorTypes,
-  DisplayElementTypes,
-} from 'Common/Constants';
+import {intlMessageTypes, EndEventTypes, AuthorTypes, DisplayElementTypes} from 'Common/Constants';
+import {isMessage} from 'Common/Utils';
 import {setInputtingEmail} from 'actions/chatActions';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
 import './styles/Transcript.scss';
@@ -93,11 +88,11 @@ export class Transcript extends Component {
 
     const lastNonSystemMessageIndex = findLastIndex(
       messagesAndEvents,
-      e => Object.values(MessageTypes).includes(e.type) && e.authorType !== AuthorTypes.SYSTEM,
+      e => isMessage(e) && e.authorType !== AuthorTypes.SYSTEM,
     );
 
     const displayElements = messagesAndEvents.map((a, idx) => {
-      if (a.type === MessageTypes.ATTACHMENT || a.type === MessageTypes.TEXT) {
+      if (isMessage(a)) {
         return (
           <Message key={a.localKey || a.id} message={a} scrollToBottom={this.scrollToBottom} />
         );

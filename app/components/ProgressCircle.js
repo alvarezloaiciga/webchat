@@ -79,7 +79,6 @@ export class ProgressCircle extends React.Component<ProgressBarProps, ProgressBa
   };
 
   animate = (highResTimestamp: ?number, forceDraw: boolean = false) => {
-    console.log('called');
     // Bail out if we're at the target percentage and we don't want to force drawing
     if (!forceDraw && this.currentPercentage === this.targetPercentage) {
       this.animating = false;

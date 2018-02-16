@@ -110,6 +110,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         welcomeFormSubmitButtonLabel: messages.submitWelcomeForm,
         welcomeFormSubmittingButtonLabel: messages.submittingWelcomeForm,
         agentTypingMessage: messages.agentIsTyping,
+        agentAssignedMessage: messages.agentAssigned,
         agentEndedConversationMessage: messages.agentEndedConversation,
         agentsNotAvailableMessage: messages.agentsNotAvailable,
         connectingMessage: messages.connecting,

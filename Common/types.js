@@ -1,6 +1,6 @@
 // @flow
 
-import type {PersistentData} from 'quiq-chat/src/types';
+import * as QuiqChatTypes from 'quiq-chat/src/types';
 
 export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
 
@@ -67,6 +67,7 @@ export type QuiqObject = {
     welcomeFormSubmitButtonLabel: string,
     welcomeFormSubmittingButtonLabel: string,
     agentTypingMessage: string,
+    agentAssignedMessage: string,
     agentEndedConversationMessage: string,
     agentsNotAvailableMessage: string,
     connectingMessage: string,
@@ -456,7 +457,7 @@ export type ChatState = {
   isAgentAssigned: boolean,
   inputtingEmail: boolean,
   attachmentErrors: Array<AttachmentError>,
-  persistentData: PersistentData,
+  persistentData: QuiqChatTypes.PersistentData,
   windowScrollLockEnabled: boolean,
 };
 
@@ -491,47 +492,21 @@ export type CookieDef = {
   path?: string,
 };
 
-export type EventType =
-  | 'Join'
-  | 'Leave'
-  | 'Register'
-  | 'AgentTyping'
-  | 'SendTranscript'
-  | 'End'
-  | 'Spam';
-
 export type AuthorType = 'Customer' | 'User' | 'System';
 export type MessageType = 'Text' | 'ChatMessage';
 export type MessageStatusType = 'pending' | 'delivered';
 
-export type Message = TextMessage | AttachmentMessage;
-
-export type TextMessage = {
-  authorType: AuthorType,
-  authorProfilePicture?: string,
-  authorDisplayName?: string,
-  text: string,
-  id: string,
-  timestamp: number,
-  type: 'Text',
+export type TextMessage = QuiqChatTypes.TextMessage & {
   localKey?: string,
-  uploadProgress?: number,
 };
 
-export type AttachmentMessage = {
-  id: string,
+export type AttachmentMessage = QuiqChatTypes.AttachmentMessage & {
   localKey?: string,
-  timestamp: number,
-  type: 'Attachment',
-  authorType: AuthorType,
-  authorProfilePicture?: string,
-  authorDisplayName?: string,
-  url: string,
   localBlobUrl: string,
-  contentType: string,
-  status?: MessageStatusType,
   uploadProgress?: number,
 };
+
+export type Message = TextMessage | AttachmentMessage;
 
 export type CustomMenuItem = {
   id: string, // Unique Id,
@@ -543,18 +518,7 @@ export type CustomMenuItem = {
   iconStyle?: Object,
 };
 
-export type Event = {
-  id: string,
-  timestamp: number,
-  type: EventType,
-  typing?: boolean,
-  payload?: any,
-};
-
-export type Conversation = {
-  id: string,
-  messages: Array<Message>,
-};
+export type Event = QuiqChatTypes.Event;
 
 export type AtmosphereTransportType =
   | 'websocket'

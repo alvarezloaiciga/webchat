@@ -1,9 +1,15 @@
 .Avatar {
   flex: 0 0 auto;
+  height: 0;
+  width: 0;
 
-  img {
-    width: 100%;
-    height: 100%;
+  /* So that we don't break customers who use customs styles for default images,
+  we only apply our own styles if an image is defined */
+  &.hasImage {
+    width: 30px;
+    height: 30px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 1px 2px 0;
+    background-size: cover;
     border-radius: 50%;
   }
 }

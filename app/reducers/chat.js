@@ -1,5 +1,5 @@
 // @flow
-import {inStandaloneMode} from 'Common/Utils';
+import {inStandaloneMode, isEvent} from 'Common/Utils';
 import {
   ChatInitializedState,
   MessageTypes,
@@ -221,6 +221,26 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
 export default chat;
 
 // Selectors
+
+// Comparator specification:
+//  1. timestamp
+//  2. events before messages
+const conversationElementComparator = (a: Message | Event, b: Message | Event): number => {
+  const timeDiff = a.timestamp - b.timestamp;
+  if (timeDiff !== 0) {
+    return timeDiff;
+  }
+  if (isEvent(a)) {
+    // a is an Event, so we want it before b (if b is an Event as well, order is ambiguous anyways)
+    return -1;
+  }
+  if (isEvent(b)) {
+    // b is an Event, so we want it before a (if a is an Event as well, order is ambiguous anyways)
+    return 1;
+  }
+  return 0;
+};
+
 export const getChatContainerHidden = (state: ChatState = getState()): boolean => {
   return state.chatContainerHidden;
 };
@@ -255,7 +275,7 @@ export const getLatestConversationElements = createSelector(
     const sortedConvoElements: Array<Message | Event> = Object.values(transcript)
       .concat(Object.values(platformEvents))
       // $FlowIssue - Flow does not infer types when Object.values is used
-      .sort((a, b) => a.timestamp - b.timestamp);
+      .sort(conversationElementComparator);
 
     const latestMessageIdx = findLastIndex(sortedConvoElements, e => {
       return (
@@ -291,7 +311,7 @@ export const getAllConversationElements = createSelector(
         .concat(Object.values(platformEvents))
         .concat(attachmentErrors)
         // $FlowIssue - Flow does not infer types when Object.values is used
-        .sort((a, b) => a.timestamp - b.timestamp)
+        .sort(conversationElementComparator)
     );
   },
 );
@@ -351,13 +371,17 @@ export const getSupportedAttachmentExtensionString = createSelector(
   },
 );
 
-export const getMessage = (messageName: string, state: ChatState = getState()): string => {
+export const getMessage = (
+  messageName: string,
+  values: {[string]: any} = {},
+  state: ChatState = getState(),
+): string => {
   const message = getConfiguration(state).messages[messageName];
 
   if (message === null || message === undefined)
     throw new Error(`QUIQ: Unknown message name "${messageName}"`);
 
-  return getDisplayString(message);
+  return getDisplayString(message, values);
 };
 
 export const getIsAgentAssigned = (state: ChatState = getState()): boolean => state.isAgentAssigned;

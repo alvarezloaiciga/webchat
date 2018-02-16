@@ -64,6 +64,11 @@ exports[`Message component No profile picture provided for agent renders with de
           "customItems": Array [],
         },
         "messages": Object {
+          "agentAssignedMessage": Object {
+            "defaultMessage": "You're chatting with {agent_name}",
+            "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+            "id": "agentAssigned",
+          },
           "agentEndedConversationMessage": Object {
             "defaultMessage": "Agent ended the conversation.",
             "description": "Message to display when the agent ends conversation",
@@ -625,6 +630,11 @@ exports[`Message component fromAgent colors the message according to quiqOptions
           "customItems": Array [],
         },
         "messages": Object {
+          "agentAssignedMessage": Object {
+            "defaultMessage": "You're chatting with {agent_name}",
+            "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+            "id": "agentAssigned",
+          },
           "agentEndedConversationMessage": Object {
             "defaultMessage": "Agent ended the conversation.",
             "description": "Message to display when the agent ends conversation",
@@ -1178,6 +1188,11 @@ exports[`Message component rendering renders with default props 1`] = `
           "customItems": Array [],
         },
         "messages": Object {
+          "agentAssignedMessage": Object {
+            "defaultMessage": "You're chatting with {agent_name}",
+            "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+            "id": "agentAssigned",
+          },
           "agentEndedConversationMessage": Object {
             "defaultMessage": "Agent ended the conversation.",
             "description": "Message to display when the agent ends conversation",

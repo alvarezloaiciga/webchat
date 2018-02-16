@@ -2,52 +2,42 @@
 
 exports[`Avatar component renders correctly when not for customer 1`] = `
 <div
-  className="Avatar"
+  className="Avatar hasImage"
   style={
     Object {
-      "height": "30px",
+      "backgroundImage": "url(http://myurl.com/img.png)",
       "marginLeft": 0,
       "marginRight": "5px",
-      "width": "30px",
     }
   }
->
-  <img
-    src="http://myurl.com/img.png"
-    title="Homer S."
-  />
-</div>
+  title="Homer S."
+/>
 `;
 
 exports[`Avatar component renders when no image is provided 1`] = `
 <div
-  className="Avatar forCustomer"
+  className="Avatar"
   style={
     Object {
-      "height": 0,
+      "backgroundImage": "",
       "marginLeft": 0,
       "marginRight": 0,
-      "width": 0,
     }
   }
+  title="Homer S."
 />
 `;
 
 exports[`Avatar component renders with image supplied 1`] = `
 <div
-  className="Avatar forCustomer"
+  className="Avatar hasImage"
   style={
     Object {
-      "height": "30px",
+      "backgroundImage": "url(http://myurl.com/img.png)",
       "marginLeft": "5px",
       "marginRight": 0,
-      "width": "30px",
     }
   }
->
-  <img
-    src="http://myurl.com/img.png"
-    title="Homer S."
-  />
-</div>
+  title="Homer S."
+/>
 `;

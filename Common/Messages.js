@@ -125,6 +125,12 @@ export default Object.assign(
       description: 'Message to display when the agent is typing',
       defaultMessage: 'Agent is typing',
     },
+    agentAssigned: {
+      id: 'agentAssigned',
+      description:
+        "The text of the event that's shown in the transcript when an agent is assigned.",
+      defaultMessage: "You're chatting with {agent_name}",
+    },
     agentEndedConversation: {
       id: 'agentEndedConversation',
       description: 'Message to display when the agent ends conversation',

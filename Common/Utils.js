@@ -6,7 +6,13 @@ import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
 import icons from 'Icons';
 import forEach from 'lodash/forEach';
-import {SupportedWebchatUrls, localStorageKeys, webchatPath} from './Constants';
+import {
+  SupportedWebchatUrls,
+  localStorageKeys,
+  webchatPath,
+  MessageTypes,
+  EventTypes,
+} from './Constants';
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
 import wildstring from 'wildstring';
@@ -418,3 +424,7 @@ export const getIconFromString = (name?: string | null) => {
     `Attempted to use icon-string ${name} not currently supported.  Either add it or use a different icon!`,
   );
 };
+
+export const isMessage = (e: Message | Event) => Object.values(MessageTypes).includes(e.type);
+
+export const isEvent = (e: Message | Event) => Object.values(EventTypes).includes(e.type);

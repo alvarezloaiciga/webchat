@@ -21,16 +21,14 @@ export const Avatar = ({url, authorDisplayName, forCustomer = false, ...props}: 
     : props.configuration.styles.AgentAvatar;
   return (
     <div
-      className={classnames('Avatar', {forCustomer})}
+      className={classnames('Avatar', {hasImage: !!url})}
+      title={authorDisplayName}
       style={getStyle(customStyle, {
-        width: url ? '30px' : 0,
-        height: url ? '30px' : 0,
         marginLeft: url && forCustomer ? '5px' : 0,
         marginRight: url && !forCustomer ? '5px' : 0,
+        backgroundImage: url && `url(${url})`,
       })}
-    >
-      {url && <img src={url} title={authorDisplayName} />}
-    </div>
+    />
   );
 };
 

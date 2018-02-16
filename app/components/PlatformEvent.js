@@ -9,6 +9,7 @@ import styled from 'react-emotion';
 import {intlMessageTypes, AttachmentErrorTypes} from 'Common/Constants';
 import {formatTime} from 'core-ui/services/i18nService';
 import type {Event, ChatState, ChatConfiguration} from 'Common/types';
+import {EventTypes} from '../../Common/Constants';
 
 export type PlatformEventProps = {
   event: Event,
@@ -67,11 +68,16 @@ const getEventDescription = (event: Event): ?string => {
 
   switch (event.type) {
     // We want to show an "End" event when convo is marked as Spam
-    case 'End':
-    case 'Spam':
+    case EventTypes.END:
+    case EventTypes.SPAM:
       return getMessage(intlMessageTypes.agentEndedConversationMessage);
-    case 'SendTranscript':
+    case EventTypes.SEND_TRANSCRIPT:
       return getMessage(intlMessageTypes.transcriptEmailedEventMessage);
+    case EventTypes.ASSIGNED:
+      // Don't render event if agentDisplayName is not set
+      return payload.agentDisplayName
+        ? getMessage(intlMessageTypes.agentAssignedMessage, {agent_name: payload.agentDisplayName})
+        : null;
     case AttachmentErrorTypes.TOO_LARGE:
       return `${getMessage(intlMessageTypes.attachmentTooLarge)} - ${payload}`;
     case AttachmentErrorTypes.UNSUPPORTED_TYPE:

@@ -56,6 +56,7 @@ export const EventTypes = {
   END: 'End',
   SPAM: 'Spam',
   SEND_TRANSCRIPT: 'SendTranscript',
+  ASSIGNED: 'Assigned',
 };
 
 export const AuthorTypes = {
@@ -79,6 +80,7 @@ export const DisplayElementTypes = [
   EventTypes.SEND_TRANSCRIPT,
   EventTypes.END,
   EventTypes.SPAM,
+  EventTypes.ASSIGNED,
   AttachmentErrorTypes.TOO_LARGE,
   AttachmentErrorTypes.UNSUPPORTED_TYPE,
   AttachmentErrorTypes.UPLOAD_ERROR,
@@ -137,6 +139,7 @@ export const intlMessageTypes = {
   connectingMessage: 'connectingMessage',
   reconnectingMessage: 'reconnectingMessage',
   agentTypingMessage: 'agentTypingMessage',
+  agentAssignedMessage: 'agentAssignedMessage',
   agentsNotAvailableMessage: 'agentsNotAvailableMessage',
   agentEndedConversationMessage: 'agentEndedConversationMessage',
   errorMessage: 'errorMessage',

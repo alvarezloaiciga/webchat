@@ -64,6 +64,11 @@ Object {
       "offset": undefined,
     },
     "messages": Object {
+      "agentAssignedMessage": Object {
+        "defaultMessage": "You're chatting with {agent_name}",
+        "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+        "id": "agentAssigned",
+      },
       "agentEndedConversationMessage": Object {
         "defaultMessage": "Agent ended the conversation.",
         "description": "Message to display when the agent ends conversation",
@@ -611,6 +616,11 @@ Object {
       "offset": undefined,
     },
     "messages": Object {
+      "agentAssignedMessage": Object {
+        "defaultMessage": "You're chatting with {agent_name}",
+        "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+        "id": "agentAssigned",
+      },
       "agentEndedConversationMessage": Object {
         "defaultMessage": "Agent ended the conversation.",
         "description": "Message to display when the agent ends conversation",
@@ -1158,6 +1168,11 @@ Object {
       "offset": undefined,
     },
     "messages": Object {
+      "agentAssignedMessage": Object {
+        "defaultMessage": "You're chatting with {agent_name}",
+        "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+        "id": "agentAssigned",
+      },
       "agentEndedConversationMessage": Object {
         "defaultMessage": "Agent ended the conversation.",
         "description": "Message to display when the agent ends conversation",

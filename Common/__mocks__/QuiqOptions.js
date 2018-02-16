@@ -193,6 +193,7 @@ const quiqOptions: QuiqObject = {
     agentTypingMessage: messages.agentIsTyping,
     agentEndedConversationMessage: messages.agentEndedConversation,
     agentsNotAvailableMessage: messages.agentsNotAvailable,
+    agentAssignedMessage: messages.agentAssigned,
     connectingMessage: messages.connecting,
     reconnectingMessage: messages.reconnecting,
     inactiveMessage: messages.clientInactive,
