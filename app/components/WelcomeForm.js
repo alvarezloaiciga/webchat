@@ -96,7 +96,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     }
 
     const form = this.props.registrationForm || this.props.configuration.welcomeForm;
-    if (!form) {
+    if (!form || (!this.props.registrationForm && this.props.registrationFormVersionId)) {
       this.props.setWelcomeFormRegistered();
       return;
     }
