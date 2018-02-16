@@ -31,6 +31,7 @@ describe('MessageForm component', () => {
       testProps = {
         transcript: [getMockMessage(), getMockMessage(1)],
         agentEndedConversation: false,
+        agentsAvailableOrSubscribed: true,
         agentHasRespondedToLatestConversation: true,
         closedConversationCount: 1,
         lastClosedConversationIsSpam: false,
@@ -76,6 +77,17 @@ describe('MessageForm component', () => {
 
   describe('rendering', () => {
     beforeEach(() => {
+      render();
+    });
+
+    it('renders', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('No agentds available and agent availability enforced and not subscribed', () => {
+    beforeEach(() => {
+      testProps.agentsAvailableOrSubscribed = false;
       render();
     });
 

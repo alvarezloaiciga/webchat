@@ -37,7 +37,7 @@ export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
   closedConversationCount: number,
   agentHasRespondedToLatestConversation: boolean,
-  agentsAvailable?: boolean,
+  agentsAvailableOrSubscribed: boolean,
   agentEndedConversation: boolean,
   muteSounds: boolean,
   configuration: ChatConfiguration,
@@ -54,7 +54,6 @@ type MessageFormState = {
   hasText: boolean,
   inputText: string, // Only used for IE10
   emojiPickerVisible: boolean,
-  agentsAvailableOrSubscribed: boolean,
 };
 
 let updateTimer;
@@ -66,7 +65,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     hasText: false,
     emojiPickerVisible: false,
     inputText: '',
-    agentsAvailableOrSubscribed: false,
   };
   checkAvailabilityTimer: number;
 
@@ -87,12 +85,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }
   };
 
-  componentWillReceiveProps(nextProps: MessageFormProps) {
-    this.setState({
-      agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
-    });
-  }
-
   componentWillUnmount() {
     clearTimeout(this.checkAvailabilityTimer);
   }
@@ -106,17 +98,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       }, 200);
     }
 
-    if (!this.state.agentsAvailableOrSubscribed || this.props.agentEndedConversation) {
+    if (!this.props.agentsAvailableOrSubscribed || this.props.agentEndedConversation) {
       this.checkAvailability();
     }
 
     this.props.setMessageFieldFocused(false);
-  }
-
-  componentWillMount() {
-    this.setState({
-      agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
-    });
   }
 
   componentWillUpdate(nextProps: MessageFormProps) {
@@ -351,11 +337,8 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     const allowConversationToStart =
       !this.props.configuration.enableManualConvoStart || !this.props.agentEndedConversation;
     const sendDisabled =
-      !this.state.hasText || !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
-    const emopjiPickerDisabled =
-      !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
-    const contentButtonsDisabled =
-      !this.state.agentsAvailableOrSubscribed || !allowConversationToStart;
+      !this.state.hasText || !this.props.agentsAvailableOrSubscribed || !allowConversationToStart;
+    const inputDisabled = !this.props.agentsAvailableOrSubscribed || !allowConversationToStart;
     const inputStyle = getStyle(styles.MessageFormInput, {fontFamily});
     const sendButtonStyle = getStyle(styles.MessageFormSend, {
       color: colors.primary,
@@ -366,7 +349,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       fontSize: '16px',
     });
 
-    let messagePlaceholder = this.state.agentsAvailableOrSubscribed
+    let messagePlaceholder = this.props.agentsAvailableOrSubscribed
       ? getMessage(intlMessageTypes.messageFieldPlaceholder)
       : getMessage(intlMessageTypes.agentsNotAvailableMessage);
 
@@ -405,7 +388,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                   onBlur={this.handleMessageFieldLostFocus}
                   onFocus={this.handleMessageFieldFocused}
                   onSubmit={this.addMessage}
-                  disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
+                  disabled={inputDisabled}
                   onChange={(e: SyntheticInputEvent<*>) => this.handleTextChanged(e.target.value)}
                   placeholder={messagePlaceholder}
                 />
@@ -417,7 +400,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 }}
                 data-test="messageInput"
                 style={inputStyle}
-                disabled={!this.state.agentsAvailableOrSubscribed || !allowConversationToStart}
+                disabled={inputDisabled}
                 name="message"
                 maxLength={1024}
                 onChange={this.handleTextChanged}
@@ -433,7 +416,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
               <button
                 className="messageFormBtn attachmentBtn"
                 style={contentButtonStyle}
-                disabled={contentButtonsDisabled}
+                disabled={inputDisabled}
                 onClick={this.props.openFileBrowser}
                 title={getMessage(intlMessageTypes.attachmentBtnTooltip)}
               >
@@ -446,7 +429,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
                 <button
                   className="messageFormBtn emojiBtn"
                   style={contentButtonStyle}
-                  disabled={emopjiPickerDisabled}
+                  disabled={inputDisabled}
                   onClick={this.toggleEmojiPicker}
                   title={getMessage(intlMessageTypes.emojiPickerTooltip)}
                 >
@@ -492,7 +475,6 @@ const mapDispatchToProps = {
 
 export default connect(
   (state: ChatState) => ({
-    agentsAvailable: state.agentsAvailable,
     muteSounds: getMuteSounds(state),
     configuration: getConfiguration(state),
     agentEndedConversation: getAgentEndedLatestConversation(state),

@@ -187,7 +187,7 @@ export type ChatContainerProps = {
   isAgentAssigned: boolean,
   transcript: Array<MessageType>,
   agentEndedConversation: boolean,
-  agentsAvailable: boolean,
+  agentsAvailable: boolean, // eslint-disable-line react/no-unused-prop-types
   setUploadProgress: (messageId: string, progress: number) => void,
   updatePendingAttachmentId: (tempId: string, newId: string) => void,
   addPendingAttachmentMessage: (
@@ -231,6 +231,20 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     }
   }, 100);
 
+  setAgentsAvailableOrSubscribed = (props: ChatContainerProps = this.props) => {
+    this.setState({
+      // This flag controls whether or not users can send messages and attachments.
+      // We allow this iff at least one of the following holds:
+      //  - Agents are available
+      //  - enforceAgentAvailability is false
+      //  - The user is subscribed
+      agentsAvailableOrSubscribed:
+        !props.configuration.enforceAgentAvailability ||
+        props.agentsAvailable ||
+        QuiqChatClient.isUserSubscribed(),
+    });
+  };
+
   componentWillMount() {
     onOrientationChange(({orientation, height}) => {
       // Scroll to top and dismiss keyboard to get us into
@@ -257,10 +271,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     }
 
     this.setState({
-      agentsAvailableOrSubscribed: this.props.agentsAvailable || QuiqChatClient.isUserSubscribed(),
       // innerHeight will work regardless of orientation
       heightOverride: window.innerHeight,
     });
+
+    this.setAgentsAvailableOrSubscribed();
 
     // Listen for window scroll and reverse effect
     // In landscape, iOS will scroll past height of document for some reason
@@ -269,6 +284,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.debouncedScrollToTop);
+  }
+
+  componentWillReceiveProps(nextProps: ChatContainerProps) {
+    this.setAgentsAvailableOrSubscribed(nextProps);
   }
 
   enableDragDropProtection(enabled: boolean) {
@@ -283,12 +302,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       // $FlowIssue - drop not in enum
       this.chatContainer.removeEventListener('drop', preventAndStopEvent);
     }
-  }
-
-  componentWillReceiveProps(nextProps: ChatContainerProps) {
-    this.setState({
-      agentsAvailableOrSubscribed: nextProps.agentsAvailable || QuiqChatClient.isUserSubscribed(),
-    });
   }
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
@@ -447,7 +460,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               id="TranscriptArea"
             >
               <Transcript />
-              <MessageForm openFileBrowser={this.openFileBrowser} />
+              <MessageForm
+                openFileBrowser={this.openFileBrowser}
+                agentsAvailableOrSubscribed={this.state.agentsAvailableOrSubscribed}
+              />
             </TranscriptArea>
           </ChatContainerBody>
         );
