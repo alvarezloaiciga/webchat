@@ -27,6 +27,8 @@ export const Message = (props: MessageProps) => {
       ? props.configuration.defaultCustomerAvatar
       : props.configuration.defaultAgentAvatar);
 
+  const showAvatar = props.message.type !== 'AgentTyping';
+
   let messageComponent;
   switch (props.message.type) {
     case 'Text':
@@ -49,13 +51,15 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      {!fromCustomer && (
-        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
-      )}
+      {!fromCustomer &&
+        showAvatar && (
+          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
+        )}
       {messageComponent}
-      {fromCustomer && (
-        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
-      )}
+      {fromCustomer &&
+        showAvatar && (
+          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
+        )}
     </div>
   );
 };
