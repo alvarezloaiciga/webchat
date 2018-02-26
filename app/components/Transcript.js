@@ -34,7 +34,8 @@ export class Transcript extends Component {
   transcript: HTMLElement;
 
   componentDidMount() {
-    this.scrollToBottom();
+    // Delay is needed for FF/IE to realize the rendered height of the transcript
+    setTimeout(this.scrollToBottom, 300);
 
     // Listen for scroll, set scrollLock flag
     if (this.transcript) {
