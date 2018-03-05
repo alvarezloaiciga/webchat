@@ -137,15 +137,18 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             style={selectStyle}
           >
             {this.state.inputFields[field.id].options &&
-              this.state.inputFields[field.id].options.map(value => (
-                <option
-                  style={optionStyle}
-                  key={`${value.label}${value.value}`}
-                  value={value.value}
-                >
-                  {value.label}
-                </option>
-              ))}
+              this.state.inputFields[field.id].options
+                // visible is a prop added recently, if it isn't present, assume it's true
+                .filter(o => typeof o.visible === 'undefined' || o.visible)
+                .map(value => (
+                  <option
+                    style={optionStyle}
+                    key={`${value.label}${value.value}`}
+                    value={value.value}
+                  >
+                    {value.label}
+                  </option>
+                ))}
           </select>
         );
       default:
