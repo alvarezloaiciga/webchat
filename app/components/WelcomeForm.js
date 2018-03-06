@@ -72,7 +72,13 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       const inputFields = {};
       form.fields.forEach(field => {
         inputFields[field.id] = {
-          value: '',
+          value:
+            field.type === 'select' &&
+            field.additionalProperties &&
+            field.additionalProperties.options &&
+            JSON.parse(field.additionalProperties.options).length > 0
+              ? JSON.parse(field.additionalProperties.options)[0].value
+              : '',
           label: field.label,
           id: field.id,
           required: Boolean(field.required),
