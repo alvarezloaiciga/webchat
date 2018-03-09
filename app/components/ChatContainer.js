@@ -313,7 +313,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           f.size > maxAttachmentSize
             ? AttachmentErrorTypes.TOO_LARGE
             : AttachmentErrorTypes.UNSUPPORTED_TYPE,
-        payload: f.name,
+        data: {filename: f.name},
       });
     });
 
@@ -337,7 +337,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             timestamp: Date.now(),
             id: createGuid(),
             type: AttachmentErrorTypes.UPLOAD_ERROR,
-            payload: file.name,
+            data: {filename: file.name},
           });
           this.props.removeMessage(tempId);
         });

@@ -26,7 +26,7 @@ describe('Transcript component', () => {
       configuration: getMockConfiguration({
         enableChatEmailTranscript: true,
       }),
-      agentTyping: false,
+      typingAuthor: false,
     };
     render = () => {
       wrapper = shallow(<Transcript {...testProps} />);
@@ -46,7 +46,7 @@ describe('Transcript component', () => {
   describe('Agent Typing Message', () => {
     describe('when agent is typing', () => {
       it('shows agent typing indicator', () => {
-        testProps.agentTyping = true;
+        testProps.typingAuthor = true;
         render();
         expect(
           wrapper

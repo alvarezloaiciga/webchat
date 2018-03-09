@@ -2,7 +2,6 @@
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 1`] = `
 Object {
-  "agentTyping": false,
   "agentsAvailable": undefined,
   "attachmentErrors": Array [],
   "chatContainerHidden": true,
@@ -547,6 +546,7 @@ Object {
   "persistentData": Object {},
   "platformEvents": Object {},
   "transcript": Object {},
+  "typingAuthor": null,
   "welcomeFormRegistered": false,
   "windowScrollLockEnabled": true,
 }
@@ -554,7 +554,6 @@ Object {
 
 exports[`chat reducers AGENTS_AVAILABLE updates state with the new value 2`] = `
 Object {
-  "agentTyping": false,
   "agentsAvailable": undefined,
   "attachmentErrors": Array [],
   "chatContainerHidden": true,
@@ -1099,6 +1098,7 @@ Object {
   "persistentData": Object {},
   "platformEvents": Object {},
   "transcript": Object {},
+  "typingAuthor": null,
   "welcomeFormRegistered": false,
   "windowScrollLockEnabled": true,
 }
@@ -1106,7 +1106,6 @@ Object {
 
 exports[`chat reducers NEW_WEBCHAT_SESSION updates state with initial state merged with current visibility state and "initialized" set to "LOADING" 1`] = `
 Object {
-  "agentTyping": false,
   "agentsAvailable": true,
   "attachmentErrors": Array [],
   "chatContainerHidden": false,
@@ -1651,6 +1650,559 @@ Object {
   "persistentData": Object {},
   "platformEvents": Object {},
   "transcript": Object {},
+  "typingAuthor": null,
+  "welcomeFormRegistered": false,
+  "windowScrollLockEnabled": true,
+}
+`;
+
+exports[`chat reducers UPDATE_TYPING_AUTHOR updates state with the new value 1`] = `
+Object {
+  "agentsAvailable": undefined,
+  "attachmentErrors": Array [],
+  "chatContainerHidden": true,
+  "chatLauncherHidden": true,
+  "configuration": Object {
+    "_internal": Object {},
+    "agentsAvailableTimer": 60000,
+    "anchorElement": "",
+    "autoPopTime": 2000,
+    "clientDomain": "https://customer.com",
+    "color": "#333",
+    "colors": Object {
+      "agentMessageBackground": "#0085f4",
+      "agentMessageLinkText": "#fff",
+      "agentMessageText": "#fff",
+      "attachmentMessageColor": "#9c9c9f",
+      "browserTheme": "#66b9ef",
+      "customerMessageBackground": "#f5f5f5",
+      "customerMessageLinkText": "#0085f4",
+      "customerMessageText": "#555",
+      "eventText": "#ddd",
+      "menuText": "#2199e8",
+      "primary": "#333",
+      "shadow": "#f56",
+      "transcriptBackground": "#f4f4f8",
+      "typingIndicatorBackground": "#66b9ef",
+      "typingIndicatorForeground": "#2199e8",
+    },
+    "contactPoint": "Bob",
+    "customLaunchButtons": Array [],
+    "customScreens": Object {},
+    "debug": false,
+    "defaultAgentAvatar": undefined,
+    "defaultCustomerAvatar": undefined,
+    "demoMode": false,
+    "displayMode": "either",
+    "enableChatEmailTranscript": false,
+    "enableChatFileAttachments": false,
+    "enableEmojis": false,
+    "enableManualConvoStart": false,
+    "enableMobileChat": false,
+    "enforceAgentAvailability": true,
+    "events": Object {
+      "showTime": true,
+    },
+    "excludeEmojis": Array [
+      "hankey",
+    ],
+    "flashNotificationOnNewMessage": false,
+    "fontFamily": "Lato, sans-serif",
+    "headerText": "TOOL TIME",
+    "height": 600,
+    "host": "https://bob.dev.centricient.corp",
+    "href": "about:blank",
+    "icons": Object {},
+    "localStorageKeys": Object {},
+    "menuOptions": Object {
+      "customItems": Array [],
+      "offset": undefined,
+    },
+    "messages": Object {
+      "agentAssignedMessage": Object {
+        "defaultMessage": "You're chatting with {agent_name}",
+        "description": "The text of the event that's shown in the transcript when an agent is assigned.",
+        "id": "agentAssigned",
+      },
+      "agentEndedConversationMessage": Object {
+        "defaultMessage": "Agent ended the conversation.",
+        "description": "Message to display when the agent ends conversation",
+        "id": "agentEndedConversation",
+      },
+      "agentTypingMessage": Object {
+        "defaultMessage": "Agent is typing",
+        "description": "Message to display when the agent is typing",
+        "id": "agentIsTyping",
+      },
+      "agentsNotAvailableMessage": Object {
+        "defaultMessage": "No agents are currently available.",
+        "description": "Message to display when no agents are avialable.",
+        "id": "agentsNotAvailable",
+      },
+      "attachmentBtnTooltip": Object {
+        "defaultMessage": "Send file",
+        "description": "Tooltip for attachment button",
+        "id": "attachmentBtnTooltip",
+      },
+      "attachmentTooLarge": Object {
+        "defaultMessage": "Attachment Too Large",
+        "description": "Message to display when an attachment is too large",
+        "id": "attachmentTooLarge",
+      },
+      "attachmentUploadError": Object {
+        "defaultMessage": "Error uploading file",
+        "description": "Alert message for an attachment failing to upload",
+        "id": "attachmentUploadError",
+      },
+      "cannotStartNewConversationMessage": Object {
+        "defaultMessage": "Conversation Has Ended",
+        "description": "tooltip for not being able to start a conversation",
+        "id": "cannotStartNewConversationMessage",
+      },
+      "closeWindowTooltip": Object {
+        "defaultMessage": "Hide chat",
+        "description": "Close Window button",
+        "id": "closeWindow",
+      },
+      "connectingMessage": Object {
+        "defaultMessage": "Connecting...",
+        "description": "Connecting to websocket",
+        "id": "connecting",
+      },
+      "dockWindowTooltip": Object {
+        "defaultMessage": "Dock chat",
+        "description": "Message to display when user hovers over button in standalone mode to dock the standalone window back into the parent window",
+        "id": "dockWindow",
+      },
+      "emailTranscriptInlineButton": Object {
+        "defaultMessage": "Email Transcript",
+        "description": "Text to display on the Email Transcript button that shows inline when agent ends convo",
+        "id": "emailTranscriptInlineButton",
+      },
+      "emailTranscriptInputCancelTooltip": Object {
+        "defaultMessage": "Cancel Email Transcript",
+        "description": "Tooltip to display above the Cancel button on the email transcript input",
+        "id": "emailTranscriptInputCancelTooltip",
+      },
+      "emailTranscriptInputPlaceholder": Object {
+        "defaultMessage": "Enter your Email...",
+        "description": "Message to display to user when they need to enter an Email to receive their transcript",
+        "id": "emailTranscriptInputPlaceholder",
+      },
+      "emailTranscriptInputSubmitTooltip": Object {
+        "defaultMessage": "Email Transcript",
+        "description": "Tooltip to display above the Submit button on the email transcript input",
+        "id": "emailTranscriptInputSubmitTooltip",
+      },
+      "emailTranscriptMenuMessage": Object {
+        "defaultMessage": "Email Transcript",
+        "description": "Message to display in the options menu for the user to get an email containing the transcript of the chat",
+        "id": "emailTranscriptMenuMessage",
+      },
+      "emailTranscriptMenuTooltip": Object {
+        "defaultMessage": "Email a full transcript of the current chat",
+        "description": "Tooltip for Email transcript menu button",
+        "id": "emailTranscriptMenuTooltip",
+      },
+      "emojiPicker": Object {
+        "categories": Object {
+          "activity": Object {
+            "defaultMessage": "Activity",
+            "description": "Label for 'activity' category in emoji picker",
+            "id": "emojiCategoryActivity",
+          },
+          "custom": Object {
+            "defaultMessage": "Custom",
+            "description": "Label for 'custom' category in emoji picker",
+            "id": "emojiCategoryCustom",
+          },
+          "flags": Object {
+            "defaultMessage": "Flags",
+            "description": "Label for 'flags' category in emoji picker",
+            "id": "emojiCategoryFlags",
+          },
+          "foods": Object {
+            "defaultMessage": "Food & Drink",
+            "description": "Label for 'food/drink' category in emoji picker",
+            "id": "emojiCategoryFoods",
+          },
+          "nature": Object {
+            "defaultMessage": "Animals & Nature",
+            "description": "Label for 'animals/nature' category in emoji picker",
+            "id": "emojiCategoryNature",
+          },
+          "objects": Object {
+            "defaultMessage": "Objects",
+            "description": "Label for 'objects' category in emoji picker",
+            "id": "emojiCategoryObjects",
+          },
+          "people": Object {
+            "defaultMessage": "Smileys & People",
+            "description": "Label for 'People/Smileys' category in emoji picker",
+            "id": "emojiCategoryPeople",
+          },
+          "places": Object {
+            "defaultMessage": "Travel & Places",
+            "description": "Label for 'travel/places' category in emoji picker",
+            "id": "emojiCategoryPlaces",
+          },
+          "recent": Object {
+            "defaultMessage": "Recent",
+            "description": "Label for 'Recent' category in emoji picker",
+            "id": "emojiCategoryRecent",
+          },
+          "search": Object {
+            "defaultMessage": "Search",
+            "description": "Label for 'Search' category in emoji picker",
+            "id": "emojiCategorySearch",
+          },
+          "symbols": Object {
+            "defaultMessage": "Symbols",
+            "description": "Label for 'symbols' category in emoji picker",
+            "id": "emojiCategorySymbols",
+          },
+        },
+        "foo": 12,
+        "notfound": Object {
+          "defaultMessage": "No emoji found",
+          "description": "Label for not found in emoji picker",
+          "id": "emojiNotFound",
+        },
+        "search": Object {
+          "defaultMessage": "Search",
+          "description": "Label for search in emoji picker",
+          "id": "emojiSearch",
+        },
+      },
+      "emojiPickerTooltip": Object {
+        "defaultMessage": "Emoji picker",
+        "description": "Tooltip for emoji picker toggle button",
+        "id": "emojiPickerTooltip",
+      },
+      "errorMessage": Object {
+        "defaultMessage": "We're having trouble connecting. Try refreshing the page.",
+        "description": "Generic Error Message",
+        "id": "errorState",
+      },
+      "headerText": Object {
+        "defaultMessage": "We're here to help if you have any questions!",
+        "description": "Welcome message to display at top of webchat",
+        "id": "hereToHelp",
+      },
+      "inactiveMessage": Object {
+        "defaultMessage": "You have been disconnected due to inactivity. Please refresh the page to reconnect.",
+        "description": "Generic Client Inactive Message",
+        "id": "clientInactive",
+      },
+      "invalidEmailErrorMessage": Object {
+        "defaultMessage": "Please enter a valid e-mail",
+        "description": "Error displayed when user uses an invalid e-mail",
+        "id": "invalidEmailErrorMessage",
+      },
+      "messageArrivedNotification": Object {
+        "defaultMessage": "New Message from Quiq Webchat",
+        "description": "Message Arrived",
+        "id": "messageArrivedNotification",
+      },
+      "messageFieldPlaceholder": Object {
+        "defaultMessage": "Send us a message...",
+        "description": "Generic Send us a message",
+        "id": "sendUsAMessage",
+      },
+      "muteSounds": Object {
+        "defaultMessage": "Mute Sounds",
+        "description": "label for muting sounds",
+        "id": "muteSounds",
+      },
+      "muteSoundsTooltip": Object {
+        "defaultMessage": "Mute new message sounds",
+        "description": "tooltip for muting sounds",
+        "id": "muteSoundsTooltip",
+      },
+      "openInNewWindowTooltip": Object {
+        "defaultMessage": "Open chat in new window",
+        "description": "Message to display on open in new window icon",
+        "id": "openInNewWindow",
+      },
+      "optionsMenuTooltip": Object {
+        "defaultMessage": "Options",
+        "description": "Tooltip for the options button to the left of the MessageForm",
+        "id": "optionsMenuTooltip",
+      },
+      "pageTitle": Object {
+        "defaultMessage": "Quiq Webchat",
+        "description": "Title for standalone window",
+        "id": "pageTitle",
+      },
+      "reconnectingMessage": Object {
+        "defaultMessage": "Reconnecting...",
+        "description": "Reconnecting to websocket",
+        "id": "reconnecting",
+      },
+      "requiredFieldAriaLabel": Object {
+        "defaultMessage": "Required",
+        "description": "Required",
+        "id": "required",
+      },
+      "sendButtonLabel": Object {
+        "defaultMessage": "Send",
+        "description": "Generic send message",
+        "id": "send",
+      },
+      "titleText": "Quiq Webchat",
+      "transcriptEmailedEventMessage": Object {
+        "defaultMessage": "Transcript emailed",
+        "description": "Text to display on the inline Event displayed to the user when a transcript was successfully e-mailed to them",
+        "id": "transcriptEmailedEventMessage",
+      },
+      "unmuteSounds": Object {
+        "defaultMessage": "Unmute Sounds",
+        "description": "label for unmuting sounds",
+        "id": "unmuteSounds",
+      },
+      "unmuteSoundsTooltip": Object {
+        "defaultMessage": "Unmute new message sounds",
+        "description": "tooltip for unmuting sounds",
+        "id": "unmuteSoundsTooltip",
+      },
+      "unsupportedFileType": Object {
+        "defaultMessage": "Unsupported File Type",
+        "description": "Message to display when a file type is unsupported",
+        "id": "unsupportedFileType",
+      },
+      "unsupportedOrientation": Object {
+        "defaultMessage": "Please rotate your device to portrait mode to continue",
+        "description": "Message to display when a user switches to an orientation mode not supported on their device",
+        "id": "unsupportedOrientation",
+      },
+      "welcomeFormSubmitButtonLabel": Object {
+        "defaultMessage": "Submit",
+        "description": "Text of submit button on welcome form",
+        "id": "submitWelcomeForm",
+      },
+      "welcomeFormSubmittingButtonLabel": Object {
+        "defaultMessage": "Submitting",
+        "description": "Text of submit button on welcome form while form is being submitted",
+        "id": "submittingWelcomeForm",
+      },
+      "welcomeFormValidationErrorMessage": Object {
+        "defaultMessage": "Please complete all fields marked with an *",
+        "description": "Error displayed when user has not filled in a required field",
+        "id": "welcomeFormValidationError",
+      },
+    },
+    "mobileNumber": 123,
+    "playSoundOnNewMessage": false,
+    "position": Object {},
+    "registrationForm": undefined,
+    "showDefaultLaunchButton": false,
+    "styles": Object {
+      "AgentMessageBubble": Object {
+        "background": "#fff",
+        "border": "1px solid #e0e0e0",
+      },
+      "AgentMessageText": Object {
+        "color": "#555",
+        "fontFamily": "Source Sans Pro",
+      },
+      "CustomerMessageBubble": Object {
+        "background": "#68b588",
+      },
+      "CustomerMessageText": Object {
+        "color": "#fff",
+        "fontFamily": "Source Sans Pro",
+      },
+      "EmailTranscriptInput": Object {
+        "outline": "none",
+      },
+      "EmailTranscriptInputCancelButton": Object {
+        "borderRadius": "10px",
+      },
+      "EmailTranscriptInputContainer": Object {
+        "border": "1px solid black",
+      },
+      "EmailTranscriptInputSubmitButton": Object {
+        "borderRadius": "10px",
+      },
+      "EmailTranscriptMenuContainer": Object {
+        "backround": "green",
+      },
+      "EmailTranscriptMenuLineItem": Object {
+        "fontFamily": "Comic Sans",
+      },
+      "EmailTranscriptMenuLineItemIcon": Object {
+        "fontSize": 20,
+      },
+      "ErrorBanner": Object {
+        "background": "#fff",
+        "color": "red",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+      },
+      "EventContainer": Object {
+        "backgroundColor": "green",
+      },
+      "EventLine": Object {
+        "stroke": "red",
+      },
+      "EventText": Object {
+        "color": "red",
+      },
+      "HeaderBanner": Object {
+        "background": "#31bf8b",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 500,
+        "textTransform": "uppercase",
+      },
+      "HeaderMenu": Object {
+        "background": "#31bf8b",
+      },
+      "InlineActionButton": Object {
+        "backgroundColor": "grey",
+      },
+      "MessageForm": Object {
+        "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
+        "zIndex": 1,
+      },
+      "MessageFormInput": Object {
+        "color": "#68b588",
+        "fontFamily": "Source Sans Pro",
+      },
+      "MessageFormSend": Object {
+        "color": "#68b588",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "textTransform": "uppercase",
+      },
+      "OptionsMenuButton": Object {
+        "background": "red",
+      },
+      "OptionsMenuButtonIcon": Object {
+        "display": "none",
+      },
+      "ToggleChatButton": Object {
+        "background": "teal",
+      },
+      "ToggleChatButtonIcon": Object {
+        "opacity": 0.75,
+      },
+      "TypingIndicatorCircleStyle": Object {
+        "fill": "green",
+      },
+      "TypingIndicatorSvgStyle": Object {
+        "fill": "red",
+      },
+      "WelcomeFormBanner": Object {
+        "height": "auto",
+        "padding": "8px 30px",
+        "textAlign": "left",
+      },
+      "WelcomeFormField": Object {
+        "marginTop": 16,
+      },
+      "WelcomeFormFieldInput": Object {
+        "color": "#555",
+        "fontFamily": "Source Sans Pro",
+        "outline": "none",
+      },
+      "WelcomeFormFieldLabel": Object {
+        "color": "#555",
+        "fontFamily": "Source Sans Pro",
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+      },
+      "WelcomeFormFieldOption": Object {
+        "color": "#555",
+        "fontFamily": "Source Sans Pro",
+        "outline": "none",
+      },
+      "WelcomeFormFieldSelect": Object {
+        "color": "#555",
+        "fontFamily": "Source Sans Pro",
+        "outline": "none",
+      },
+      "WelcomeFormFieldTextarea": Object {
+        "color": "#888",
+        "fontFamily": "Source Sans Pro",
+        "outline": "none",
+      },
+      "WelcomeFormSubmitButton": Object {
+        "background": "teal",
+        "fontFamily": "Source Sans Pro",
+        "fontSize": 16,
+        "fontWeight": 700,
+      },
+    },
+    "supportedAttachmentTypes": Array [],
+    "welcomeForm": Object {
+      "fields": Array [
+        Object {
+          "additionalProperties": Object {},
+          "id": "firstName",
+          "label": "First Name",
+          "required": true,
+          "type": "text",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "lastName",
+          "isInitialMessage": true,
+          "label": "Last Name",
+          "required": false,
+          "type": "text",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "numberField",
+          "label": "Number Field",
+          "required": false,
+          "type": "number",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "email",
+          "label": "E-Mail",
+          "required": false,
+          "type": "email",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "phoneNumber",
+          "label": "Phone Number",
+          "required": false,
+          "type": "tel",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "lifeStory",
+          "label": "My life story",
+          "required": false,
+          "type": "textarea",
+        },
+        Object {
+          "additionalProperties": Object {},
+          "id": "country",
+          "label": "Country",
+          "required": true,
+          "type": "select",
+        },
+      ],
+      "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
+    },
+    "whitelistedDomains": "",
+    "width": 400,
+  },
+  "initializedState": "uninitialized",
+  "inputtingEmail": false,
+  "isAgentAssigned": false,
+  "messageFieldFocused": false,
+  "muteSounds": false,
+  "persistentData": Object {},
+  "platformEvents": Object {},
+  "transcript": Object {},
+  "typingAuthor": null,
   "welcomeFormRegistered": false,
   "windowScrollLockEnabled": true,
 }

@@ -72,9 +72,18 @@ describe('chat reducers', () => {
     });
   });
 
-  describe('AGENT_TYPING', () => {
+  describe('UPDATE_TYPING_AUTHOR', () => {
     it('updates state with the new value', () => {
-      expect(chat(initialState, {type: 'AGENT_TYPING', agentTyping: true}).agentTyping).toBe(true);
+      expect(
+        chat(initialState, {
+          type: 'AGENT_TYPING',
+          author: {
+            authorType: 'User',
+            authorDisplayName: 'Foo',
+            authorProfilePicture: 'https://pics.com/pic.png',
+          },
+        }),
+      ).toMatchSnapshot();
     });
   });
 
@@ -97,7 +106,7 @@ describe('chat reducers', () => {
         chatLauncherHidden: false,
         transcript: {[mock.id]: mock},
         isAgentAssigned: false,
-        agentTyping: true,
+        typingAuthor: null,
         agentsAvailable: true,
         platformEvents: {},
         messageFieldFocused: false,

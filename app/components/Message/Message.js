@@ -27,10 +27,6 @@ export const Message = (props: MessageProps) => {
       ? props.configuration.defaultCustomerAvatar
       : props.configuration.defaultAgentAvatar);
 
-  // TODO: When API returns agent picture with typing indicator, this logic is no longer needed.
-  const showAvatar =
-    props.message.type !== 'AgentTyping' || !props.configuration.defaultAgentAvatar;
-
   let messageComponent;
   switch (props.message.type) {
     case 'Text':
@@ -53,15 +49,13 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      {!fromCustomer &&
-        showAvatar && (
-          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
-        )}
+      {!fromCustomer && (
+        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
+      )}
       {messageComponent}
-      {fromCustomer &&
-        showAvatar && (
-          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
-        )}
+      {fromCustomer && (
+        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
+      )}
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {intlMessageTypes, EndEventTypes, AuthorTypes, DisplayElementTypes} from 
 import {isMessage} from 'Common/Utils';
 import {setInputtingEmail} from 'actions/chatActions';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
+import type {Author} from 'quiq-chat/src/types';
 import './styles/Transcript.scss';
 
 export type TranscriptProps = {
@@ -22,7 +23,7 @@ export type TranscriptProps = {
   allSortedConversationElements: Array<MessageType | Event>,
   agentHasRespondedToLatestConversation: boolean,
   lastClosedConversationIsSpam: boolean,
-  agentTyping: boolean,
+  typingAuthor: ?Author,
   configuration: ChatConfiguration,
   setInputtingEmail: (inputtingEmail: boolean) => void,
   /*eslint-enable react/no-unused-prop-types*/
@@ -120,11 +121,11 @@ export class Transcript extends Component {
     });
 
     // Append an AgentTyping message if needed
-    if (this.props.agentTyping) {
+    if (this.props.typingAuthor) {
       displayElements.push(
         <Message
           key="agentTyping"
-          message={{authorType: 'Agent', type: 'AgentTyping'}}
+          message={{type: 'AgentTyping', ...this.props.typingAuthor}}
           scrollToBottom={this.scrollToBottom}
         />,
       );
@@ -154,7 +155,7 @@ const mapDispatchToProps = {
 export default connect(
   (state: ChatState) => ({
     lastClosedConversationIsSpam: getLastClosedConversationIsSpam(state),
-    agentTyping: state.agentTyping,
+    typingAuthor: state.typingAuthor,
     allSortedConversationElements: getAllConversationElements(state),
     agentHasRespondedToLatestConversation: getAgentHasRespondedToLatestConversation(state),
     configuration: getConfiguration(state),

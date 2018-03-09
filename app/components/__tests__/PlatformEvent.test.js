@@ -42,7 +42,7 @@ describe('PlatformEvent component', () => {
         type: AttachmentErrorTypes.TOO_LARGE,
         id: '1',
         timestamp: 1,
-        payload: 'Xmas',
+        data: {filename: 'Xmas'},
       };
       render();
       expect(wrapper).toMatchSnapshot();

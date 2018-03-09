@@ -28,7 +28,7 @@ import type {
   ChatMetadata,
   ChatConfiguration,
 } from 'types';
-import type {PersistentData} from 'quiq-chat/src/types';
+import type {PersistentData, Author} from 'quiq-chat/src/types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 import {postExtensionEvent} from 'services/Extensions';
@@ -53,7 +53,7 @@ export type LauncherProps = {
   setAgentsAvailable: (agentsAvailable: boolean) => void,
   setChatInitialized: (initialized: ChatInitializedStateType) => void,
   setWelcomeFormRegistered: () => void,
-  setAgentTyping: (typing: boolean) => void,
+  setTypingAuthorData: (author: Author | null) => void,
   updateTranscript: (transcript: Array<Message>) => void,
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
@@ -289,8 +289,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
   };
 
-  handleAgentTyping = (typing: boolean) => {
-    this.props.setAgentTyping(typing);
+  handleAgentTyping = (typing: boolean, author: Author) => {
+    this.props.setTypingAuthorData(typing ? author : null);
 
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
@@ -298,7 +298,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     if (!typing) return;
 
     this.typingTimeout = setTimeout(() => {
-      this.props.setAgentTyping(false);
+      this.props.setTypingAuthorData(null);
     }, 10000);
   };
 

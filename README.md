@@ -843,13 +843,19 @@ Custom screens can be defined in the customScreens property on the QuiqObject [c
 
 The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.
 
-* Chrome 43
-* Firefox 48.0
-* Safari 6.1
-* Internet Explorer 10
-* Internet Explorer 11
-* Microsoft Edge 12
-* Most Modern Mobile Devices
+### Desktop
+* Chrome 43+
+* Firefox 48+
+* Safari 6.1+
+* Internet Explorer 10+
+* Microsoft Edge 12+
+
+### Mobile
+#### iOS 10+
+* Safari
+* Chrome 50+
+#### Android
+* Chrome 50+
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 

@@ -57,7 +57,7 @@ describe('Launcher component', () => {
       setChatLauncherHidden: jest.fn(),
       setChatInitialized: jest.fn(),
       setWelcomeFormRegistered: jest.fn(),
-      setAgentTyping: jest.fn(),
+      setTypingAuthorData: jest.fn(),
       updateTranscript: jest.fn(),
       newWebchatSession: jest.fn(),
       setAgentsAvailable: jest.fn(),
@@ -107,13 +107,13 @@ describe('Launcher component', () => {
     });
   });
 
-  describe('agentTyping', () => {
+  describe('typingAuthor', () => {
     it('stops typing after 10 seconds', async () => {
       await render();
-      instance.handleAgentTyping(true);
-      expect(testProps.setAgentTyping).toBeCalledWith(true);
+      instance.handleAgentTyping(true, {authorType: 'User'});
+      expect(testProps.setTypingAuthorData).toBeCalledWith({authorType: 'User'});
       jest.runTimersToTime(11000);
-      expect(testProps.setAgentTyping).toBeCalledWith(false);
+      expect(testProps.setTypingAuthorData).toBeCalledWith(null);
     });
   });
 

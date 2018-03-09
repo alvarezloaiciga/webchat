@@ -6,7 +6,7 @@ import type {
   AttachmentError,
   QuiqObject,
 } from 'types';
-import type {PersistentData} from 'quiq-chat/src/types';
+import type {PersistentData, Author} from 'quiq-chat/src/types';
 
 export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   type: 'CHAT_CONTAINER_HIDDEN',
@@ -33,9 +33,9 @@ export const setChatInitialized = (initializedState: ChatInitializedStateType) =
   initializedState,
 });
 
-export const setAgentTyping = (agentTyping: boolean) => ({
-  type: 'AGENT_TYPING',
-  agentTyping,
+export const setTypingAuthorData = (author: Author | null) => ({
+  type: 'UPDATE_TYPING_AUTHOR',
+  author,
 });
 
 export const setMessageFieldFocused = (messageFieldFocused: boolean) => ({

@@ -21,9 +21,15 @@ describe('chatActions', () => {
     });
   });
 
-  describe('setAgentTyping', () => {
+  describe('setTypingAuthorData', () => {
     it('builds an action', () => {
-      expect(chatActions.setAgentTyping(true)).toMatchSnapshot();
+      expect(
+        chatActions.setTypingAuthorData({
+          authorType: 'User',
+          authorDisplayName: 'Foo',
+          authorProfilePicture: 'https://pics.com/pic.png',
+        }),
+      ).toMatchSnapshot();
     });
   });
 

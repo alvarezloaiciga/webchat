@@ -8,11 +8,11 @@ import {getConfiguration, getMessage} from 'reducers/chat';
 import styled from 'react-emotion';
 import {intlMessageTypes, AttachmentErrorTypes} from 'Common/Constants';
 import {formatTime} from 'core-ui/services/i18nService';
-import type {Event, ChatState, ChatConfiguration} from 'Common/types';
+import type {Event, ChatState, ChatConfiguration, AttachmentError} from 'Common/types';
 import {EventTypes} from '../../Common/Constants';
 
 export type PlatformEventProps = {
-  event: Event,
+  event: Event | AttachmentError,
   actionLabel?: string,
   action?: () => void,
   configuration: ChatConfiguration,
@@ -63,9 +63,12 @@ const PlatformEventContainer = styled.div`
   }
 `;
 
-const getEventDescription = (event: Event): ?string => {
-  const payload = event.payload || '';
+const getFilename = (attachmentError: AttachmentError): string =>
+  attachmentError.data && typeof attachmentError.data.filename === 'string'
+    ? attachmentError.data.filename
+    : '';
 
+const getEventDescription = (event: Event | AttachmentError): ?string => {
   switch (event.type) {
     // We want to show an "End" event when convo is marked as Spam
     case EventTypes.END:
@@ -74,16 +77,14 @@ const getEventDescription = (event: Event): ?string => {
     case EventTypes.SEND_TRANSCRIPT:
       return getMessage(intlMessageTypes.transcriptEmailedEventMessage);
     case EventTypes.ASSIGNED:
-      // Don't render event if agentDisplayName is not set
-      return payload.agentDisplayName
-        ? getMessage(intlMessageTypes.agentAssignedMessage, {agent_name: payload.agentDisplayName})
-        : null;
+      // TODO: Implement this when backend sends assignment events
+      return null;
     case AttachmentErrorTypes.TOO_LARGE:
-      return `${getMessage(intlMessageTypes.attachmentTooLarge)} - ${payload}`;
+      return `${getMessage(intlMessageTypes.attachmentTooLarge)} - ${getFilename(event)}`;
     case AttachmentErrorTypes.UNSUPPORTED_TYPE:
-      return `${getMessage(intlMessageTypes.unsupportedFileType)} - ${payload}`;
+      return `${getMessage(intlMessageTypes.unsupportedFileType)} - ${getFilename(event)}`;
     case AttachmentErrorTypes.UPLOAD_ERROR:
-      return `${getMessage(intlMessageTypes.attachmentUploadError)} - ${payload}`;
+      return `${getMessage(intlMessageTypes.attachmentUploadError)} - ${getFilename(event)}`;
   }
 };
 

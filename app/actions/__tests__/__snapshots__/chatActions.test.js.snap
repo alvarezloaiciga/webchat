@@ -6,13 +6,6 @@ Object {
 }
 `;
 
-exports[`chatActions setAgentTyping builds an action 1`] = `
-Object {
-  "agentTyping": true,
-  "type": "AGENT_TYPING",
-}
-`;
-
 exports[`chatActions setChatContainerHidden builds an action 1`] = `
 Object {
   "chatContainerHidden": true,
@@ -31,6 +24,17 @@ exports[`chatActions setChatLauncherHidden builds an action 1`] = `
 Object {
   "chatLauncherHidden": true,
   "type": "CHAT_LAUNCHER_HIDDEN",
+}
+`;
+
+exports[`chatActions setTypingAuthorData builds an action 1`] = `
+Object {
+  "author": Object {
+    "authorDisplayName": "Foo",
+    "authorProfilePicture": "https://pics.com/pic.png",
+    "authorType": "User",
+  },
+  "type": "UPDATE_TYPING_AUTHOR",
 }
 `;
 

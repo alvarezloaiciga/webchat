@@ -450,7 +450,7 @@ export type ChatState = {
   initializedState: ChatInitializedStateType,
   transcript: {[string]: Message},
   platformEvents: {[string]: Event},
-  agentTyping: boolean,
+  typingAuthor: ?QuiqChatTypes.Author,
   welcomeFormRegistered: boolean,
   messageFieldFocused: boolean,
   configuration: ChatConfiguration,
@@ -624,4 +624,5 @@ export type AttachmentError = {
   id: string,
   type: 'attachmentTooLarge' | 'attachmentUnsupportedType' | 'attachmentUploadError',
   timestamp: number,
+  data?: Object,
 };

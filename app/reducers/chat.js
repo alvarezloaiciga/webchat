@@ -25,7 +25,7 @@ import type {
 import {buildQuiqObject} from 'Common/QuiqOptions';
 import {getState} from '../store';
 import {getDisplayString} from 'core-ui/services/i18nService';
-import type {PersistentData} from 'quiq-chat/src/types';
+import type {PersistentData, Author} from 'quiq-chat/src/types';
 
 type ChatAction = {
   chatContainerHidden?: boolean,
@@ -33,7 +33,7 @@ type ChatAction = {
   agentsAvailable?: boolean,
   initializedState?: ChatInitializedStateType,
   transcript?: Array<Message>,
-  agentTyping?: boolean,
+  author?: Author | null,
   message?: Message,
   platformEvents?: Array<Event>,
   messageFieldFocused?: boolean,
@@ -41,7 +41,7 @@ type ChatAction = {
   id?: string,
   isAgentAssigned?: boolean,
   inputtingEmail?: boolean,
-  attachmentErrors?: Array<AttachmentError>,
+  attachmentError?: AttachmentError,
   persistentData?: PersistentData,
   enabled?: boolean,
 };
@@ -54,7 +54,7 @@ export const initialState = {
   transcript: {},
   platformEvents: {},
   attachmentErrors: [],
-  agentTyping: false,
+  typingAuthor: null,
   welcomeFormRegistered: false,
   muteSounds: false,
   messageFieldFocused: false,
@@ -182,8 +182,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         ...state,
         attachmentErrors: [...state.attachmentErrors, action.attachmentError],
       };
-    case 'AGENT_TYPING':
-      return Object.assign({}, state, {agentTyping: action.agentTyping});
+    case 'UPDATE_TYPING_AUTHOR':
+      return Object.assign({}, state, {
+        typingAuthor: action.author,
+      });
     case 'MESSAGE_FIELD_FOCUSED':
       return Object.assign({}, state, {messageFieldFocused: action.messageFieldFocused});
     case 'WELCOME_FORM_REGISTERED':
