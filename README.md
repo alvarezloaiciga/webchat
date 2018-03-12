@@ -459,71 +459,9 @@ The Quiq() function contains properties describing how the instance of webchat s
     }
     ```
 * #### welcomeForm
-  * type:
-    ```javascript
-    {
-      headerText?: string,
-      fields: [
-        {
-          id: string,
-          type: 'text' | 'textarea' | 'number' | 'email' | 'tel', | 'select'
-          label: string,
-          required: boolean,
-          rows: number, // Only applicable if type is textarea
-          isInitialMessage: boolean,
-          options: Array<{value: string, label: string}> // Only applicable if type is select
-        },
-      ]
-    }
-    ```
-  * description: Object describing a web form that should display to new users before they are connected with an agent. Leave undefined to disable. If fields with and an `id` of `firstName` and `lastName` are defined, Quiq will use the values of these form fields to set the first and last name of the customer within the Agent UI. If the `isInitialMessage` value is set on a field, then it is intended to appear as initial question to the user, and if a value is provided, then this field will be sent as an initial message for the chat.
-  * default: `undefined`
-  * example:
-    ```js
-      welcomeForm: {
-        headerText: 'Please tell us a little about yourself.',
-        fields: [
-          {
-            id: 'firstName',
-            type: 'text',
-            label: 'First Name',
-            required: true
-          },
-          {
-            id: 'lastName',
-            type: 'text',
-            label: 'Last Name',
-            required: false
-          },
-          {
-            id: 'numberField',
-            type: 'number',
-            label: 'Number Field',
-            required: true
-          },
-          {
-            id: 'email',
-            type: 'email',
-            label: 'E-Mail',
-            required: true
-          },
-          {
-            id: 'initialQuestion',
-            type: 'textarea',
-            label: 'Initial Question',
-            required: true,
-            isInitialMessage: true,
-          },
-          {
-            type: 'select',
-            label: 'Selection Field',
-            id: 'selectionField',
-            required: true,
-            options: [{value: '', label: '---'}, {value: 'USA', label: 'United States'}, {value: 'Canada', label: 'Canada'}, {value: 'Mexico', label: 'Mexico'}]
-          },
-        ]
-      }
-    ```
+
+  * Use Admin UI to define the chat welcome form
+
 * #### width
   * type: number
   * description: The width (px) of the webchat

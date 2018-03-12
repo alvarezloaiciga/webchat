@@ -72,7 +72,13 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       const inputFields = {};
       form.fields.forEach(field => {
         inputFields[field.id] = {
-          value: '',
+          value:
+            field.type === 'select' &&
+            field.additionalProperties &&
+            field.additionalProperties.options &&
+            JSON.parse(field.additionalProperties.options).length > 0
+              ? JSON.parse(field.additionalProperties.options)[0].value
+              : '',
           label: field.label,
           id: field.id,
           required: Boolean(field.required),
@@ -137,15 +143,18 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
             style={selectStyle}
           >
             {this.state.inputFields[field.id].options &&
-              this.state.inputFields[field.id].options.map(value => (
-                <option
-                  style={optionStyle}
-                  key={`${value.label}${value.value}`}
-                  value={value.value}
-                >
-                  {value.label}
-                </option>
-              ))}
+              this.state.inputFields[field.id].options
+                // visible is a prop added recently, if it isn't present, assume it's true
+                .filter(o => typeof o.visible === 'undefined' || o.visible)
+                .map(value => (
+                  <option
+                    style={optionStyle}
+                    key={`${value.label}${value.value}`}
+                    value={value.value}
+                  >
+                    {value.label}
+                  </option>
+                ))}
           </select>
         );
       default:
