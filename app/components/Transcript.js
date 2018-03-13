@@ -41,17 +41,13 @@ export class Transcript extends Component {
     // Listen for scroll, set scrollLock flag
     if (this.transcript) {
       this.transcript.addEventListener(
-        'wheel',
+        'scroll',
         () => {
-          this.scrollLock = true;
-        },
-        {passive: true},
-      );
-
-      this.transcript.addEventListener(
-        'touchmove',
-        () => {
-          this.scrollLock = true;
+          // Lock if we're not at bottom, unlock if we are
+          this.scrollLock = !(
+            this.transcript.scrollHeight - this.transcript.offsetHeight ===
+            this.transcript.scrollTop
+          );
         },
         {passive: true},
       );
