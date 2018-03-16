@@ -733,11 +733,6 @@ The Quiq object, returned by a call to the `Quiq()` function, exposes methods yo
   For example, having `setChatVisibility` as the `onclick` handler for a button works fine. However, wrapping `setChatVisibility` in a `setTimeout` call will result in the chat popup being blocked.
   In some browsers, including Firefox and Edge, there must not be any asynchronous code (such as AJAX requests or promises) between the user interaction and the `setChatVisibilityCall`.
 
-#### sendRegistration
-
-* sendRegistration([{id: string, value: string}])
-* Sends the chat user's registration information as an array of data fields (ids and values), as opposed to having them enter it in the Welcome Form. This data will be shown to the agent who is handling the chat conversation.
-
 #### getIsSupportedBrowser
 
 * getIsSupportedBrowser(callback)

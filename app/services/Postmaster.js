@@ -14,7 +14,6 @@ import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, postmasterActionTypes as actionTypes, displayModes} from 'Common/Constants';
 import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
-import type {RegistrationField} from 'Common/types';
 import {constructApp, destructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
 import type {ReduxStore} from 'types';
@@ -77,7 +76,6 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
-  postRobotListener.on(actionTypes.sendRegistration, sendRegistration);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
   postRobotListener.on(actionTypes.getMobileChatEnabled, getMobileChat);
   postRobotListener.on(actionTypes.getLocalStorage, getLocalStorage);
@@ -176,18 +174,6 @@ const getLocalStorage = () => {
 /**********************************************************************************
  * Controller (QuiqChatClient) facade handlers (client -> webchat)
  **********************************************************************************/
-
-const sendRegistration = (event: Object) => {
-  const registrationData: Array<RegistrationField> = event.data.registrationData;
-  const registrationDictionary: {[string]: string} = {};
-
-  for (let index = 0; index < registrationData.length; index++) {
-    const data = registrationData[index];
-    registrationDictionary[data.id] = data.value;
-  }
-
-  QuiqChatClient.sendRegistration(registrationDictionary);
-};
 
 // NOTE: Returns {available: boolean}
 // We don't need to wrap the result into an object here since it comes prepackaged that way from the API

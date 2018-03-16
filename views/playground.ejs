@@ -284,30 +284,7 @@
     function toggleChatVisibility(visible) {
       chat.setChatVisibility(visible);
     }
-
-    function sendRegistration() {
-      var registrationData = [
-        {
-          id: 'firstName',
-          value: 'Duke',
-        },
-        {
-          id: 'lastName',
-          value: 'Nukem',
-        },
-        {
-          id: 'phoneNumber',
-          value: '406-555-5555',
-        },
-        {
-          id: 'email',
-          value: 'my@email.com',
-        },
-      ];
-
-      chat.sendRegistration(registrationData);
-    }
-
+    
     function getAgentAvailability() {
       chat.getAgentAvailability(function (availability) {
         console.log(availability);
@@ -393,11 +370,6 @@
           <p>
             <button type="button" id="action_hideChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility(false)">
               Hide chat
-            </button>
-          </p>
-          <p>
-            <button type="button" id="action_sendRegistration" class="btn btn-lg btn-success" onclick="sendRegistration()">
-              Send Registration
             </button>
           </p>
           <p>

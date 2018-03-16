@@ -3,7 +3,6 @@
 import * as Postmaster from './Postmaster';
 import {postmasterActionTypes as actionTypes, publicEventTypes} from 'Common/Constants';
 import {displayWarning, isSupportedBrowser} from 'Common/Utils';
-import type {RegistrationField} from 'Common/types';
 import SDKChatContainer from './components/SDKChatContainer';
 
 export default {
@@ -15,10 +14,6 @@ export default {
 
   setChatVisibility: (visible: boolean) => {
     SDKChatContainer.setChatVisibility(visible, true);
-  },
-
-  sendRegistration: (registrationData: Array<RegistrationField>) => {
-    Postmaster.tellChat(actionTypes.sendRegistration, {registrationData});
   },
 
   getAgentAvailability: async (
