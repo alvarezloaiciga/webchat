@@ -8,7 +8,7 @@ import {
   postmasterActionTypes as actionTypes,
   displayModes,
 } from 'Common/Constants';
-import {setup, registerEventHandler, tellChat, askChat} from 'Postmaster';
+import {setup, registerEventHandler, tellChat, askChat, loadChat} from 'Postmaster';
 import {
   isIFrame,
   isStorageEnabled,
@@ -74,9 +74,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     }
 
     if (quiqOptions.displayMode === displayModes.UNDOCKED) {
-      // Unload chat in IFrame
-      tellChat(actionTypes.unloadChat);
-
       SDKChatContainer.handleStandaloneOpen();
       return;
     }
@@ -97,7 +94,7 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     SDKChatContainer.updateChatWindow(SDKChatContainer.chatFrame);
 
     // Load chat back up in the Iframe
-    tellChat(actionTypes.loadChat);
+    loadChat();
 
     // If we are NOT in undocked-only mode, set chat iframe visible. Otherwise, set chat visibility to hidden.
     const containerVisible = quiqOptions.displayMode !== displayModes.UNDOCKED;
@@ -121,8 +118,6 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
       popup = openStandaloneWindow(width, height, SDKChatContainer.handleStandaloneClose);
     }
 
-    setChatWindow(popup);
-
     // Make sure we have an access token before opening standalone mode.
     // On browsers which sandbox localStorage, the parent page will never get a token that's created by the popup.
     // If there's going to be a new session, it needs to be create don parent page and force-fed to popup.
@@ -134,13 +129,18 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
       // Grab newly updated persistent data
       ({localStorageKeys} = await askChat(actionTypes.getLocalStorage));
     }
-
     // Append local storage to quiq Options
     quiqOptions.localStorageKeys = localStorageKeys;
 
+    // Unload chat in IFrame
+    tellChat(actionTypes.unloadChat);
+
+    // Load chat in popup
     loadStandaloneWindow(popup, quiqOptions);
 
+    // Setup Postmaster with new window
     SDKChatContainer.updateChatWindow(popup);
+
     popup.focus();
 
     SDKChatContainer.singletonInstance.setState({containerVisible: false});
@@ -152,6 +152,8 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
   handleLoad = () => {
     const quiqOptions = getQuiqOptions();
     SDKChatContainer.updateChatWindow(SDKChatContainer.chatFrame);
+
+    // Handshake--thi bootstraps app in Iframe
     SDKChatContainer.chatFrame.contentWindow.postMessage(
       {quiqOptions, name: 'handshake'},
       quiqOptions.host,
