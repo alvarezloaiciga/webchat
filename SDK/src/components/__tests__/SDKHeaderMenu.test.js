@@ -2,6 +2,7 @@
 jest.mock('quiq-chat');
 jest.mock('Common/QuiqOptions');
 jest.mock('Common/Utils');
+jest.mock('../../Globals');
 
 import React from 'react';
 import {SDKHeaderMenu} from '../SDKHeaderMenu';

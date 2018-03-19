@@ -34,6 +34,7 @@ export const eventTypes: {[string]: string} = {
   _standaloneOpen: 'QUIQ_STANDALONE_OPEN',
   _launchButtonVisibilityShouldChange: 'QUIQ_LAUNCH_BUTTON_VISIBILITY_SHOULD_CHANGE',
   _configurationDidChange: 'QUIQ_CONFIGURATION_DID_CHANGE',
+  _chatIsReady: 'QUIQ_CHAT_IS_READY',
 };
 
 // Any eventType that does not begin with "_" is exposed on the Quiq object handed to the client.

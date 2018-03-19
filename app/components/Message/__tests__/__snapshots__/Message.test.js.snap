@@ -207,7 +207,6 @@ exports[`Message component No profile picture provided for agent renders with de
                 "id": "emojiCategorySymbols",
               },
             },
-            "foo": 12,
             "notfound": Object {
               "defaultMessage": "No emoji found",
               "description": "Label for not found in emoji picker",
@@ -773,7 +772,6 @@ exports[`Message component fromAgent colors the message according to quiqOptions
                 "id": "emojiCategorySymbols",
               },
             },
-            "foo": 12,
             "notfound": Object {
               "defaultMessage": "No emoji found",
               "description": "Label for not found in emoji picker",
@@ -1331,7 +1329,6 @@ exports[`Message component rendering renders with default props 1`] = `
                 "id": "emojiCategorySymbols",
               },
             },
-            "foo": 12,
             "notfound": Object {
               "defaultMessage": "No emoji found",
               "description": "Label for not found in emoji picker",

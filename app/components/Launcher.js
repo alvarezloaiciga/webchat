@@ -225,8 +225,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // Start session iff one of the following conditions hold:
     //  * We are in standalone
-    //  * Chat is visible from the cookie, or the user is subscribed, AND Wwe are NOT in undocked-only mode
-    //    Not that we don't start the session
+    //  * Chat is visible from the cookie, or the user is subscribed, AND we are NOT in undocked-only mode
     if (
       inStandaloneMode() ||
       ((QuiqChatClient.isChatVisible() || QuiqChatClient.isUserSubscribed()) &&
