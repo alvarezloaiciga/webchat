@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
 import {EditorState, ContentState, Modifier} from 'draft-js';
-import createEmojiPlugin from '../emoji/draftjsTwemojiPlugin';
+import createEmojiPlugin from 'core-ui/emoji/draftjsTwemojiPlugin';
 import {getConfiguration} from 'reducers/chat';
 import 'draft-js/dist/Draft.css';
 import './styles/EmojiTextArea.scss';
