@@ -2138,9 +2138,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
 
-"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.3.7":
-  version "1.3.7"
-  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#d2756241dd21480b502c861f21125df6b4cc566b"
+"core-ui@git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.4.0":
+  version "1.4.0"
+  resolved "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#df51d4f0c424ba9c7a3c911dfb3da138c8cf1b4e"
   dependencies:
     "@fortawesome/fontawesome" "1.1.3"
     "@fortawesome/fontawesome-free-brands" "5.0.6"
@@ -2149,7 +2149,9 @@ core-js@^2.4.0, core-js@^2.5.0:
     "@fortawesome/fontawesome-pro-solid" "5.0.6"
     "@fortawesome/react-fontawesome" "0.0.17"
     classnames "2.2.5"
+    draft-js "0.10.5"
     draft-js-plugins-editor beta
+    emoji-regex "6.5.1"
     emotion "8.0.2"
     exif-js "2.3.0"
     lodash "4.17.4"
@@ -2747,6 +2749,14 @@ draft-js@0.10.3:
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.3.tgz#5f3c3025af9f494c62f00a9066006ccdc1b3c943"
   dependencies:
     enzyme "^2.9.1"
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
+draft-js@0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  dependencies:
     fbjs "^0.8.15"
     immutable "~3.7.4"
     object-assign "^4.1.0"
