@@ -17,7 +17,7 @@ import EmojiPicker from 'EmojiPicker';
 import Icon from 'core-ui/components/Icon';
 import {volumeUp, volumeOff, envelope, smile, paperclip} from 'Icons';
 import MenuButton from 'core-ui/components/MenuButton';
-import Input from 'core-ui/components/Input';
+import Input from 'components/Input';
 import {
   getAgentHasRespondedToLatestConversation,
   getAgentEndedLatestConversation,

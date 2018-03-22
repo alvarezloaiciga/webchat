@@ -10,7 +10,7 @@ import QuiqChatClient from 'quiq-chat';
 import {darken} from 'polished';
 import {getConfiguration, getMessage} from 'reducers/chat';
 import {setWindowScrollLockEnabled} from 'actions/chatActions';
-import Input from 'core-ui/components/Input';
+import Input from 'components/Input';
 import Icon from 'core-ui/components/Icon';
 import {times, check} from 'Icons';
 import {UserEmailKey, intlMessageTypes} from 'Common/Constants';

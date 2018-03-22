@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input component rendering renders with all props 1`] = `
+<div
+  className="Input crazzzyyyClass"
+>
+  <label
+    className="inputLabel"
+    title="crazzzzyyyTitle"
+  >
+    crazzzzyyyLabel
+  </label>
+  <input
+    className=""
+    disabled={false}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="crazzzzyyyPlaceholder"
+    title="crazzzzyyyTitle"
+    type="text"
+    value="hi"
+  />
+</div>
+`;
+
+exports[`Input component rendering renders with only required props 1`] = `
+<div
+  className="Input "
+>
+  <input
+    className=""
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder=""
+    title=""
+    type="text"
+    value=""
+  />
+</div>
+`;
