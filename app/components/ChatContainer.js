@@ -545,7 +545,17 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
   };
 
   render() {
-    if (this.props.chatContainerHidden || !isSupportedBrowser() || !isStorageEnabled()) return null;
+    // No need to render anything if:
+    //  - Chat container is hidden (unless we're in standalone mode)
+    //  - The browser is unsupported
+    //  - Local storage is not available
+    if (
+      (!inStandaloneMode() && this.props.chatContainerHidden) ||
+      !isSupportedBrowser() ||
+      !isStorageEnabled()
+    )
+      return null;
+
     const height = '100vh';
 
     // SER-6481
