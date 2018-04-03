@@ -1134,6 +1134,7 @@ Object {
     },
     "contactPoint": "Bob",
     "customLaunchButtons": Array [],
+    "customMenuItems": Array [],
     "customScreens": Object {},
     "debug": false,
     "defaultAgentAvatar": undefined,
@@ -1160,9 +1161,9 @@ Object {
     "href": "about:blank",
     "icons": Object {},
     "localStorageKeys": Object {},
+    "menuOffset": undefined,
     "menuOptions": Object {
       "customItems": Array [],
-      "offset": undefined,
     },
     "messages": Object {
       "agentAssignedMessage": Object {
@@ -1439,7 +1440,7 @@ Object {
     "mobileNumber": 123,
     "playSoundOnNewMessage": false,
     "position": Object {},
-    "registrationForm": undefined,
+    "registrationForm": null,
     "showDefaultLaunchButton": false,
     "styles": Object {
       "AgentMessageBubble": Object {
@@ -1580,7 +1581,9 @@ Object {
         "fontWeight": 700,
       },
     },
-    "supportedAttachmentTypes": Array [],
+    "supportedAttachmentTypes": Array [
+      "image/png,image/jpeg",
+    ],
     "welcomeForm": Object {
       "fields": Array [
         Object {

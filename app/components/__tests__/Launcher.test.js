@@ -3,6 +3,7 @@ jest.mock('Common/Utils');
 jest.mock('Common/QuiqOptions');
 jest.mock('quiq-chat');
 jest.mock('services/Extensions');
+jest.mock('utils/domUtils');
 
 import quiqOptions from 'Common/QuiqOptions';
 import React from 'react';

@@ -87,6 +87,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   componentWillUnmount() {
     clearTimeout(this.checkAvailabilityTimer);
+    clearTimeout(updateTimer);
   }
 
   componentDidMount() {

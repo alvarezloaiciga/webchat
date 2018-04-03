@@ -206,6 +206,7 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
           chatContainerHidden: state.chatContainerHidden,
           chatLauncherHidden: state.chatLauncherHidden,
           agentsAvailable: state.agentsAvailable,
+          configuration: state.configuration,
           initializedState: ChatInitializedState.LOADING,
         },
       );

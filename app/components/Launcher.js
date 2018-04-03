@@ -14,7 +14,7 @@ import {
   getHostingDomain,
   displayError,
 } from 'Common/Utils';
-import {destructApp} from 'utils/domUtils';
+import {destructApp, reloadApp} from 'utils/domUtils';
 import {ChatInitializedState, eventTypes, displayModes} from 'Common/Constants';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -33,6 +33,7 @@ import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 import {postExtensionEvent} from 'services/Extensions';
 import styled from 'react-emotion';
+import {getStore} from '../store';
 
 type LauncherState = {
   agentsAvailable?: boolean, // Undefined means we're still looking it up
@@ -138,6 +139,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   handleNewSession = () => {
     this.props.newWebchatSession();
+    reloadApp(getStore());
   };
 
   handleNewMessages = (transcript: Array<Message>) => {
@@ -225,10 +227,12 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
     // Start session iff one of the following conditions hold:
     //  * We are in standalone
-    //  * Chat is visible from the cookie, or the user is subscribed, AND we are NOT in undocked-only mode
+    //  * Chat is visible (or visible from the cookie), or the user is subscribed, AND we are NOT in undocked-only mode
     if (
       inStandaloneMode() ||
-      ((QuiqChatClient.isChatVisible() || QuiqChatClient.isUserSubscribed()) &&
+      ((!this.props.chatContainerHidden ||
+        QuiqChatClient.isChatVisible() ||
+        QuiqChatClient.isUserSubscribed()) &&
         this.props.configuration.displayMode !== displayModes.UNDOCKED)
     ) {
       await this.startSession();

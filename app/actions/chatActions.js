@@ -150,3 +150,7 @@ export const setWindowScrollLockEnabled = (enabled: boolean) => ({
   type: 'SET_WINDOW_SCROLL_LOCK_ENABLED',
   enabled,
 });
+
+export const reloadApp = () => {
+  // Reload the react app
+};

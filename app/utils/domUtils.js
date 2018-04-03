@@ -52,6 +52,11 @@ export const removeElement = (e: HTMLElement) => {
   e.parentNode.removeChild(e);
 };
 
+export const reloadApp = store => {
+  destructApp();
+  constructApp(store);
+};
+
 export const setFavicon = (iconUrl: string, appleTouchUrl: ?string) => {
   // Remove all icons
   const icons = [
