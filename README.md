@@ -84,6 +84,7 @@
     * [getHandle](#gethandle)
     * [on](#on)
     * [setChatVisibility](#setchatvisibility)
+    * [sendRegistration](#sendregistration)
     * [getIsSupportedBrowser](#getissupportedbrowser)
 * [Extension SDK](#extension-sdk)
   * [on](#on-1)
@@ -459,7 +460,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     ```
 * #### welcomeForm
 
-  * **Use Admin UI to define the chat welcome form**
+  * Use Admin UI to define the chat welcome form
 
 * #### width
   * type: number

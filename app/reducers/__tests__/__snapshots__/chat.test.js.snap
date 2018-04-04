@@ -206,6 +206,7 @@ Object {
             "id": "emojiCategorySymbols",
           },
         },
+        "foo": 12,
         "notfound": Object {
           "defaultMessage": "No emoji found",
           "description": "Label for not found in emoji picker",
@@ -757,6 +758,7 @@ Object {
             "id": "emojiCategorySymbols",
           },
         },
+        "foo": 12,
         "notfound": Object {
           "defaultMessage": "No emoji found",
           "description": "Label for not found in emoji picker",
@@ -1308,6 +1310,7 @@ Object {
             "id": "emojiCategorySymbols",
           },
         },
+        "foo": 12,
         "notfound": Object {
           "defaultMessage": "No emoji found",
           "description": "Label for not found in emoji picker",
@@ -1859,6 +1862,7 @@ Object {
             "id": "emojiCategorySymbols",
           },
         },
+        "foo": 12,
         "notfound": Object {
           "defaultMessage": "No emoji found",
           "description": "Label for not found in emoji picker",

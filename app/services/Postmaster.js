@@ -13,12 +13,7 @@ import watchStore from 'redux-store-watch';
 import * as ChatActions from 'actions/chatActions';
 import * as ChatSelectors from 'reducers/chat';
 import {eventTypes, postmasterActionTypes as actionTypes, displayModes} from 'Common/Constants';
-import {
-  displayError,
-  getHostingWindow,
-  getQuiqKeysFromLocalStorage,
-  displayWarning,
-} from 'Common/Utils';
+import {displayError, getHostingWindow, getQuiqKeysFromLocalStorage} from 'Common/Utils';
 import {constructApp, destructApp, appIsMounted} from 'utils/domUtils';
 import QuiqChatClient from 'quiq-chat';
 import type {ReduxStore} from 'types';
@@ -27,7 +22,6 @@ let reduxWatch;
 let store;
 let domain;
 let postRobotClient, postRobotListener;
-let _eventEmitEnabled = true;
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
 
@@ -49,9 +43,6 @@ export const init = (_domain: string, _store: ReduxStore) => {
 
   setupListeners();
   setupReduxHooks();
-
-  // We're ready to receive messages!
-  tellClient(eventTypes._chatIsReady);
 };
 
 /**
@@ -61,8 +52,8 @@ export const init = (_domain: string, _store: ReduxStore) => {
 const preflight = (): boolean => {
   const hostingWindow = getHostingWindow();
 
-  // Do not post message if parent window has been closed or event emitting is disbaled
-  if (!_eventEmitEnabled || !hostingWindow || hostingWindow.closed) {
+  // Do not post message if parent window has been closed
+  if (!hostingWindow || hostingWindow.closed) {
     return false;
   }
 
@@ -79,7 +70,7 @@ const setupListeners = () => {
   }
 
   postRobotListener.on(actionTypes.loadChat, loadChat);
-  postRobotListener.on(actionTypes.unloadChat, unloadChat);
+  postRobotListener.on(actionTypes.unloadChat, destructApp);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
@@ -92,9 +83,7 @@ const setupListeners = () => {
 
 export const tellClient = (messageName: string, data: Object = {}) => {
   if (preflight()) {
-    postRobotClient
-      .send(messageName, data)
-      .catch(e => displayWarning(`Did not send event to client: ${e.message}`));
+    postRobotClient.send(messageName, data);
   }
 };
 
@@ -148,21 +137,9 @@ export const standaloneOpen = () => {
  **********************************************************************************/
 
 const loadChat = () => {
-  // Start sending messages to client
-  _eventEmitEnabled = true;
-
   if (!appIsMounted()) {
     constructApp(store);
   }
-  tellClient(eventTypes._chatIsReady);
-};
-
-const unloadChat = () => {
-  // Client no longer wants messages from us
-  _eventEmitEnabled = false;
-
-  destructApp();
-  store.dispatch(ChatActions.setChatContainerHidden(true));
 };
 
 const setChatVisibility = (event: Object) => {

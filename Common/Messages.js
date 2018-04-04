@@ -3,6 +3,7 @@ import {defineMessages} from 'react-intl';
 const emojiMessages = Object.assign(
   {},
   {
+    foo: 12,
     categories: defineMessages({
       search: {
         id: 'emojiCategorySearch',

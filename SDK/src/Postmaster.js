@@ -10,15 +10,12 @@ import {
   isSupportedBrowser,
 } from 'Common/Utils';
 import {getChatWindow, getQuiqOptions} from './Globals';
-import TaskQueue from './services/TaskQueue';
-import {postmasterActionTypes} from '../../Common/Constants';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
 
 const handlers: {[string]: Array<?(data: Object) => any>} = {};
 let postRobotClient, postRobotListener;
 let listeners = [];
-const messageQueue = new TaskQueue();
 
 /*****************************************************
  * ABOUT EVENT HANDLING
@@ -29,9 +26,6 @@ const messageQueue = new TaskQueue();
  *****************************************************/
 
 export const setup = () => {
-  // Don't send any messages during setup, until chat sends us the `chatIsReady` event
-  messageQueue.stop();
-
   const chatWindow = getChatWindow();
   const {host, clientDomain} = getQuiqOptions();
 
@@ -53,11 +47,7 @@ export const setup = () => {
 
   postRobotClient = postRobot.client({window: targetWindow, timeout: 2000, host});
   postRobotListener = postRobot.listener({window: targetWindow, host});
-
   setupListeners();
-
-  // Listen for "ready" event from chat. This is when we know it's safe to start sending messages.
-  registerEventHandler(eventTypes._chatIsReady, messageQueue.start);
 };
 
 export const registerEventHandler = (event: string, handler: (data: Object) => any) => {
@@ -65,11 +55,7 @@ export const registerEventHandler = (event: string, handler: (data: Object) => a
   if (!Array.isArray(handlers[event])) {
     handlers[event] = [];
   }
-
-  // Add this handler only if it's not already registered (no duplicate functions for a given event)
-  if (handlers[event].indexOf(handler) === -1) {
-    handlers[event].push(handler);
-  }
+  handlers[event].push(handler);
 };
 
 export const removeEventHandler = (event: string, handler: (data: Object) => any) => {
@@ -81,25 +67,17 @@ export const removeEventHandler = (event: string, handler: (data: Object) => any
   }
 };
 
-export const loadChat = () => {
-  postRobotClient
-    .send(postmasterActionTypes.loadChat, {})
-    .catch(e => displayError(`Unable to tellChat to load: ${e.message}`));
-};
-
 export const tellChat = (messageName: string, data: Object = {}) => {
   if (!isStorageEnabled() || !isSupportedBrowser()) {
     displayError('Client browser did not meet all requirements for SDK communication. Aborting');
   }
 
-  messageQueue
-    .addJob(() =>
-      postRobotClient
-        .send(messageName, data)
-        .catch(e => displayError(`Unable to tellChat to ${messageName}: ${e.message}`)),
-    )
-    // NOTE: Error in above catch corresponds to post robot error, this error corresponds to error running job
-    .catch(e => displayError(`TaskQueue encountered error running doing tellChat: ${e.message}`));
+  if (!postRobotClient) {
+    displayError(
+      'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',
+    );
+  }
+  postRobotClient.send(messageName, data);
 };
 
 export const askChat = async (
@@ -111,22 +89,25 @@ export const askChat = async (
     displayError('Client browser did not meet all requirements for SDK communication. Aborting');
   }
 
-  // `addJob` returns a promise which is resolved when the function actually runs with the result of the function
-  return messageQueue.addJob(async () => {
-    try {
-      const response = await postRobotClient.send(messageName, data || {});
+  if (!postRobotClient) {
+    displayError(
+      'You must set the webchat window and domain, and then call Postmaster.setup(), before trying to post a message!',
+    );
+  }
 
-      if (callback) {
-        callback(response.data, null);
-      }
+  try {
+    const response = await postRobotClient.send(messageName, data || {});
 
-      return response.data;
-    } catch (error) {
-      if (callback) callback(null, error);
-
-      throw error;
+    if (callback) {
+      callback(response.data, null);
     }
-  });
+
+    return response.data;
+  } catch (error) {
+    if (callback) callback(null, error);
+
+    throw error;
+  }
 };
 
 const setupListeners = () => {

@@ -88,8 +88,7 @@
     "rootDir": "./",
     "roots": [
       "app",
-      "Common",
-      "SDK/src"
+      "Common"
     ]
   },
   "devDependencies": {
