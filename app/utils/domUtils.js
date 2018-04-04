@@ -6,6 +6,7 @@ import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import {Provider} from 'react-redux';
+import {displayWarning} from 'Common/Utils';
 
 export const appIsMounted = (): boolean => {
   const container = document.getElementById(quiqContainerId);
@@ -61,18 +62,21 @@ export const setFavicon = (iconUrl: string, appleTouchUrl: ?string) => {
     removeElement(icon);
   });
 
-  // Add icon
+  // Build icon
   const icon = document.createElement('link');
   icon.rel = 'icon';
-  icon.sizes = '192x192';
   icon.href = iconUrl;
-  document.getElementsByTagName('head')[0].appendChild(icon);
 
-  // Add apple touch icon
+  // Build apple touch icon
   const appleTouchIcon = document.createElement('link');
   appleTouchIcon.rel = 'apple-touch-icon';
   appleTouchIcon.href = appleTouchUrl || iconUrl;
-  document.getElementsByTagName('head')[0].appendChild(appleTouchIcon);
+
+  // NOTE HARD: The apple-touch-icon must come BEFORE the regular icon.
+  // Chrome looks for the last meta tag with a rel containing "icon" to try and use as title bar icon.
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(appleTouchIcon);
+  head.appendChild(icon);
 };
 
 export const setApplicationName = (name: string) => {
