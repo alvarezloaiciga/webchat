@@ -6,7 +6,6 @@ import {AppContainer} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import Redbox from 'redbox-react';
 import {Provider} from 'react-redux';
-import {displayWarning} from 'Common/Utils';
 
 export const appIsMounted = (): boolean => {
   const container = document.getElementById(quiqContainerId);
