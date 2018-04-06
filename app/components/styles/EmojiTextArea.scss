@@ -51,5 +51,9 @@
     line-height: inherit;
     margin: -0.2ex 0em 0.2ex;
     color: transparent;
+
+    span {
+      opacity: 0;
+    }
   }
 }
