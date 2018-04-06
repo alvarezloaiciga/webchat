@@ -116,6 +116,7 @@ describe('chat reducers', () => {
         attachmentErrors: [],
         persistentData: {},
         windowScrollLockEnabled: true,
+        registrationFieldValues: {},
       };
 
       expect(chat(mutatedState, {type: 'NEW_WEBCHAT_SESSION'})).toMatchSnapshot();

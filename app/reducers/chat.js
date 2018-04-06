@@ -93,7 +93,10 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       });
     case 'CHAT_REGISTRATION_FIELD_SET': {
       const newState = cloneDeep(state.registrationFieldValues);
-      newState[action.fieldId] = action.fieldValue;
+
+      if (action.fieldId) {
+        newState[action.fieldId] = action.fieldValue;
+      }
 
       return Object.assign({}, state, {
         registrationFieldValues: newState,

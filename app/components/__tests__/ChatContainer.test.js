@@ -37,6 +37,7 @@ describe('ChatContainer component', () => {
       agentsAvailable: false,
       windowScrollLockEnabled: true,
       supportedAttachmentExtensionString: '.mp3',
+      registrationFieldValues: {},
     };
 
     render = () => {
