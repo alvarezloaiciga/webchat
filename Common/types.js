@@ -205,6 +205,7 @@ export type WelcomeFormField = {
     options?: string,
     rows?: number,
     isInitialMessage?: boolean,
+    isHidden?: boolean,
   },
 };
 
