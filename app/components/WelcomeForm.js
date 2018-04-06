@@ -70,28 +70,30 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   processWelcomeForm = () => {
     const processForm = (form: WelcomeFormType) => {
       const inputFields = {};
-      form.fields.forEach(field => {
-        inputFields[field.id] = {
-          value:
-            field.type === 'select' &&
-            field.additionalProperties &&
-            field.additionalProperties.options &&
-            JSON.parse(field.additionalProperties.options).length > 0
-              ? JSON.parse(field.additionalProperties.options)[0].value
-              : '',
-          label: field.label,
-          id: field.id,
-          required: Boolean(field.required),
-          isInitialMessage: field.additionalProperties
-            ? Boolean(field.additionalProperties.isInitialMessage)
-            : Boolean(field.isInitialMessage),
-          options:
-            field.additionalProperties && field.additionalProperties.options
-              ? JSON.parse(field.additionalProperties.options)
-              : field.options,
-          type: field.type,
-        };
-      });
+      form.fields
+        .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
+        .forEach(field => {
+          inputFields[field.id] = {
+            value:
+              field.type === 'select' &&
+              field.additionalProperties &&
+              field.additionalProperties.options &&
+              JSON.parse(field.additionalProperties.options).length > 0
+                ? JSON.parse(field.additionalProperties.options)[0].value
+                : '',
+            label: field.label,
+            id: field.id,
+            required: Boolean(field.required),
+            isInitialMessage: field.additionalProperties
+              ? Boolean(field.additionalProperties.isInitialMessage)
+              : Boolean(field.isInitialMessage),
+            options:
+              field.additionalProperties && field.additionalProperties.options
+                ? JSON.parse(field.additionalProperties.options)
+                : field.options,
+            type: field.type,
+          };
+        });
 
       this.setState({inputFields, form});
     };
@@ -343,7 +345,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         </div>
         <Debugger />
         {this.state.formValidationError && this.renderValidationError()}
-        <div className="fields">{welcomeForm && welcomeForm.fields.map(this.renderField)}</div>
+        <div className="fields">
+          {welcomeForm &&
+            welcomeForm.fields
+              .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
+              .map(this.renderField)}
+        </div>
         <button
           className="submit"
           disabled={this.state.submitting}
