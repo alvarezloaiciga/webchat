@@ -460,11 +460,13 @@ export type ChatState = {
   attachmentErrors: Array<AttachmentError>,
   persistentData: QuiqChatTypes.PersistentData,
   windowScrollLockEnabled: boolean,
+  registrationFieldValues: {[string]: any},
 };
 
 export type Action = {
   type:
     | 'CHAT_CONTAINER_HIDDEN'
+    | 'CHAT_REGISTRATION_FIELD_SET'
     | 'CHAT_LAUNCHER_HIDDEN'
     | 'CHAT_INITIALIZED_STATE'
     | 'CHAT_POPPED'

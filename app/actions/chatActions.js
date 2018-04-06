@@ -13,6 +13,12 @@ export const setChatContainerHidden = (chatContainerHidden: boolean) => ({
   chatContainerHidden,
 });
 
+export const setChatRegistrationField = (fieldId: string, fieldValue: any) => ({
+  type: 'CHAT_REGISTRATION_FIELD_SET',
+  fieldId,
+  fieldValue,
+});
+
 export const setChatLauncherHidden = (chatLauncherHidden: boolean) => ({
   type: 'CHAT_LAUNCHER_HIDDEN',
   chatLauncherHidden,

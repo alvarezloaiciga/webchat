@@ -13,6 +13,7 @@ import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
 import findLast from 'lodash/findLast';
 import {createSelector} from 'reselect';
+import cloneDeep from 'lodash/cloneDeep';
 import type {
   ChatState,
   Action,
@@ -44,6 +45,8 @@ type ChatAction = {
   attachmentError?: AttachmentError,
   persistentData?: PersistentData,
   enabled?: boolean,
+  fieldId?: string,
+  fieldValue?: any,
 };
 
 export const initialState = {
@@ -79,6 +82,7 @@ export const initialState = {
   inputtingEmail: false,
   persistentData: {},
   windowScrollLockEnabled: true,
+  registrationFieldValues: {},
 };
 
 const chat = (state: ChatState, action: Action & ChatAction) => {
@@ -87,6 +91,14 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       return Object.assign({}, state, {
         chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
       });
+    case 'CHAT_REGISTRATION_FIELD_SET': {
+      const newState = cloneDeep(state.registrationFieldValues);
+      newState[action.fieldId] = action.fieldValue;
+
+      return Object.assign({}, state, {
+        registrationFieldValues: newState,
+      });
+    }
     case 'CHAT_LAUNCHER_HIDDEN':
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
@@ -397,3 +409,6 @@ export const getWindowScrollLockEnabled = (state: ChatState = getState()): boole
 // $FlowIssue
 export const getMuteSounds = (state: ChatState = getState()): boolean =>
   state.persistentData.muteSounds;
+
+export const getRegistrationFieldValues = (state: ChatState = getState()): {[string]: any} =>
+  state.registrationFieldValues;

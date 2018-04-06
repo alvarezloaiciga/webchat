@@ -50,6 +50,10 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     setup();
   };
 
+  static async setChatRegistrationField(fieldId: string, fieldValue: any) {
+    tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
+  }
+
   static async setChatVisibility(_visible: ?boolean, mobileOverride: boolean = false) {
     const quiqOptions = getQuiqOptions();
     const configuration = getConfiguration();

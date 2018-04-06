@@ -16,6 +16,10 @@ export default {
     SDKChatContainer.setChatVisibility(visible, true);
   },
 
+  setChatRegistrationField: (fieldId: string, fieldValue: any) => {
+    SDKChatContainer.setChatRegistrationField(fieldId, fieldValue);
+  },
+
   getAgentAvailability: async (
     callback: (data: ?{available: boolean}, error: ?Error) => void,
   ): Promise<{available: boolean}> =>

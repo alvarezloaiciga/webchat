@@ -102,6 +102,7 @@ export const postmasterActionTypes = {
   loadChat: 'QUIQ_LOAD_CHAT',
   unloadChat: 'QUIQ_UNLOAD_CHAT',
   getChatStatus: 'QUIQ_GET_CHAT_STATUS',
+  setChatRegistrationField: 'QUIQ_SET_CHAT_REGISTRATION_FIELD',
   setChatVisibility: 'QUIQ_SET_CHAT_VISIBILITY',
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
