@@ -284,7 +284,14 @@
     function toggleChatVisibility(visible) {
       chat.setChatVisibility(visible);
     }
-    
+
+    function setChatRegistrationField() {
+      var fieldId = document.getElementById('field_id').value;
+      var fieldValue = document.getElementById('field_value').value;
+
+      chat.setChatRegistrationField(fieldId, fieldValue);
+    }
+
     function getAgentAvailability() {
       chat.getAgentAvailability(function (availability) {
         console.log(availability);
@@ -370,6 +377,19 @@
           <p>
             <button type="button" id="action_hideChat" class="btn btn-lg btn-success" onclick="toggleChatVisibility(false)">
               Hide chat
+            </button>
+          </p>
+          <p>
+            Field Id
+            <input type="text" id="field_id" />
+          </p>
+          <p>
+            Field Value
+            <input type="text" id="field_value" />
+          </p>
+          <p>
+            <button type="button" id="action_hideChat" class="btn btn-lg btn-success" onclick="setChatRegistrationField()">
+              Set Registration Field
             </button>
           </p>
           <p>

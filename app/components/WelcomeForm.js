@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import update from 'react-addons-update';
 import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
-import {getConfiguration, getMessage} from 'reducers/chat';
+import {getConfiguration, getMessage, getRegistrationFieldValues} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
 import Debugger from './Debugger/Debugger';
 import {isValidEmail} from 'Common/Utils';
@@ -18,6 +18,7 @@ import type {
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
+import cloneDeep from 'lodash/cloneDeep';
 
 const ValidationErrors = {
   REQUIRED: 'REQUIRED',
@@ -31,6 +32,7 @@ export type WelcomeFormProps = {
   registrationFormVersionId?: string,
   configuration: ChatConfiguration,
   setWindowScrollLockEnabled: (enabled: boolean) => void,
+  registrationFieldValues: {[string]: any},
 };
 
 export type WelcomeFormState = {
@@ -73,14 +75,17 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
       form.fields
         .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
         .forEach(field => {
+          const fieldValue = this.props.registrationFieldValues[field.id];
+
           inputFields[field.id] = {
             value:
+              !fieldValue &&
               field.type === 'select' &&
               field.additionalProperties &&
               field.additionalProperties.options &&
               JSON.parse(field.additionalProperties.options).length > 0
                 ? JSON.parse(field.additionalProperties.options)[0].value
-                : '',
+                : fieldValue || '',
             label: field.label,
             id: field.id,
             required: Boolean(field.required),
@@ -222,7 +227,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     if (this.state.submitting) return;
 
     const {href, demoMode} = this.props.configuration;
-    const fields: {[string]: string} = {};
+    const fields: {[string]: string} = cloneDeep(this.props.registrationFieldValues);
 
     if (!this.validateFormInput()) return;
 
@@ -372,6 +377,7 @@ export default connect(
     registrationForm: state.configuration.registrationForm,
     registrationFormVersionId: state.configuration.registrationFormVersionId,
     configuration: getConfiguration(state),
+    registrationFieldValues: getRegistrationFieldValues(state),
   }),
   {
     setWelcomeFormRegistered,

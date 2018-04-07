@@ -80,9 +80,9 @@ const setupListeners = () => {
 
   postRobotListener.on(actionTypes.loadChat, loadChat);
   postRobotListener.on(actionTypes.unloadChat, unloadChat);
+  postRobotListener.on(actionTypes.setChatRegistrationField, setChatRegistrationField);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
-  postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
@@ -174,6 +174,14 @@ const setChatVisibility = (event: Object) => {
     standaloneOpen();
   } else {
     store.dispatch(ChatActions.setChatContainerHidden(!visible));
+  }
+};
+
+const setChatRegistrationField = (event: Object) => {
+  const {fieldId, fieldValue} = event.data;
+
+  if (fieldId) {
+    store.dispatch(ChatActions.setChatRegistrationField(fieldId, fieldValue));
   }
 };
 
