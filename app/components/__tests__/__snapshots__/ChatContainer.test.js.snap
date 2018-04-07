@@ -259,9 +259,7 @@ exports[`ChatContainer component welcome form when welcome form has not been sub
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(WelcomeForm)
-    registrationFieldValues={Object {}}
-  />
+  <Connect(WelcomeForm) />
 </Styled(div)>
 `;
 

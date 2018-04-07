@@ -48,7 +48,6 @@ import {
   getMessage,
   getWindowScrollLockEnabled,
   getSupportedAttachmentExtensionString,
-  getRegistrationFieldValues,
 } from 'reducers/chat';
 import styled, {css} from 'react-emotion';
 import PopupHeaderMenu from './PopupHeaderMenu';
@@ -200,7 +199,6 @@ export type ChatContainerProps = {
   addAttachmentError: (attachmentError: AttachmentError) => void,
   removeMessage: (id: string) => void,
   windowScrollLockEnabled: boolean,
-  registrationFieldValues: {[string]: any},
 };
 
 export type ChatContainerState = {
@@ -591,7 +589,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           }}
         >
           {inStandaloneMode() && <PopupHeaderMenu />}
-          <WelcomeForm registrationFieldValues={this.props.registrationFieldValues} />
+          <WelcomeForm />
         </ChatContainerStyle>
       );
     }
@@ -627,7 +625,6 @@ const mapStateToProps = (state: ChatState) => ({
   agentEndedConversation: getAgentEndedLatestConversation(state),
   agentsAvailable: state.agentsAvailable,
   windowScrollLockEnabled: getWindowScrollLockEnabled(state),
-  registrationFieldValues: getRegistrationFieldValues(state),
 });
 
 const mapDispatchToProps = {

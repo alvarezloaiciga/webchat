@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import update from 'react-addons-update';
 import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
-import {getConfiguration, getMessage} from 'reducers/chat';
+import {getConfiguration, getMessage, getRegistrationFieldValues} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
 import Debugger from './Debugger/Debugger';
 import {isValidEmail} from 'Common/Utils';
@@ -377,6 +377,7 @@ export default connect(
     registrationForm: state.configuration.registrationForm,
     registrationFormVersionId: state.configuration.registrationFormVersionId,
     configuration: getConfiguration(state),
+    registrationFieldValues: getRegistrationFieldValues(state),
   }),
   {
     setWelcomeFormRegistered,

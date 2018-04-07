@@ -17,7 +17,7 @@ export default {
   },
 
   setChatRegistrationField: (fieldId: string, fieldValue: any) => {
-    SDKChatContainer.setChatRegistrationField(fieldId, fieldValue);
+    Postmaster.tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
   },
 
   getAgentAvailability: async (
