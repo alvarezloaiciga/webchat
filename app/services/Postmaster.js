@@ -83,6 +83,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.setChatRegistrationField, setChatRegistrationField);
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
+  postRobotListener.on(actionTypes.getHandle, getHandle);
   postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
