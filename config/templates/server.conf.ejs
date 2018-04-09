@@ -28,6 +28,7 @@ server {
 
     location /docs/webchat/ {
         root /var/www;
+        index index.html;
         try_files $uri =404;
     }
 
