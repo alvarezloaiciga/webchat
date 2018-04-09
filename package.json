@@ -17,6 +17,7 @@
     "start": "webpack-dashboard -c cyan -p 9840 -- node dev-server.js",
     "prebuild": "yarn run rimraf dist temp_docker",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js --progress && yarn run make-docs --output=dist/docs --input=docs",
+    "postbuild": ". config/postbuild.sh",
     "jestSingle": "./node_modules/.bin/jest --env=jsdom",
     "jest": "yarn jestSingle --watch",
     "flow": "./node_modules/.bin/flow",
