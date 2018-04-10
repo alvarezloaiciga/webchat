@@ -13,7 +13,6 @@ import update from 'immutability-helper';
 import findLastIndex from 'lodash/findLastIndex';
 import findLast from 'lodash/findLast';
 import {createSelector} from 'reselect';
-import cloneDeep from 'lodash/cloneDeep';
 import type {
   ChatState,
   Action,
@@ -92,15 +91,13 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
         chatContainerHidden: inStandaloneMode() ? false : action.chatContainerHidden,
       });
     case 'CHAT_REGISTRATION_FIELD_SET': {
-      const newState = cloneDeep(state.registrationFieldValues);
-
       if (action.fieldId) {
-        newState[action.fieldId] = action.fieldValue;
+        const registrationFieldValues = Object.assign({}, state.registrationFieldValues, {
+          [action.fieldId]: action.fieldValue,
+        });
+        return Object.assign({}, state, {registrationFieldValues});
       }
-
-      return Object.assign({}, state, {
-        registrationFieldValues: newState,
-      });
+      return state;
     }
     case 'CHAT_LAUNCHER_HIDDEN':
       return Object.assign({}, state, {

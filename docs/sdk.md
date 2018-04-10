@@ -6,7 +6,7 @@ Get the current visibility of the chat UI.
 
 **Parameters**
 
--   `callback` **function (data: {visibility: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}?, error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)?): void** An optional callback function, which you can provide if you do not wish to take advantage of the returned `Promise`.
+* `callback` **function (data: {visibility: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}?, error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)?): void** An optional callback function, which you can provide if you do not wish to take advantage of the returned `Promise`.
 
 **Examples**
 
@@ -19,21 +19,21 @@ const {visible} = await chat.getChatVisibility();
 
 ```javascript
 // ES5 (using returned Promise)
-chat.getChatVisibility().then(function (data) {
-   var visible = data.visible
-   // Do something with `visible`
+chat.getChatVisibility().then(function(data) {
+  var visible = data.visible;
+  // Do something with `visible`
 });
 ```
 
 ```javascript
 // ES5 (using callback function)
 function cb(data, error) {
-   if (data) {
-       var visible = data.visible;
-       // Do something with `visible`
-   } else if (error) {
-       // Handle error
-   }
+  if (data) {
+    var visible = data.visible;
+    // Do something with `visible`
+  } else if (error) {
+    // Handle error
+  }
 }
 
 chat.getChatVisibility(cb);
@@ -47,7 +47,7 @@ Set the visibility of the chat UI.
 
 **Parameters**
 
--   `visible` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether chat should be shown (`true`) or hidden (`false`).
+* `visible` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether chat should be shown (`true`) or hidden (`false`).
 
 **Examples**
 
@@ -56,12 +56,28 @@ Set the visibility of the chat UI.
 chat.setChatVisibility(true);
 ```
 
+## setChatRegistrationField
+
+Set the value of a chat welcome form field. If the field is hidden, then the value must be set before the welcome form is displayed.
+
+**Parameters**
+
+* `fieldId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The Id of the field. This can be found in contact point admin UI.
+* `fieldValue` **[any]** The value to set the field to.
+
+**Examples**
+
+```javascript
+// Show chat
+chat.setChatRegistrationField('fieldId', 'fieldValue');
+```
+
 ## sendRegistration
 
 **Parameters**
 
--   `registrationData` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[RegistrationField](/types#RegistrationField)>** An object containing arbitrary data to associate with the chat user.
--   `callback` **function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)?): void** An optional callback function, which you can provide if you do not wish to take advantage of the returned `Promise`.
+* `registrationData` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[RegistrationField](/types#RegistrationField)>** An object containing arbitrary data to associate with the chat user.
+* `callback` **function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)?): void** An optional callback function, which you can provide if you do not wish to take advantage of the returned `Promise`.
 
 **Examples**
 
@@ -81,28 +97,28 @@ await chat.sendRegistration(data);
 ```javascript
 // ES5 (using returned Promise)
 var data = [
-   {
-     id: "firstName",
-     value: "Mike"
-   }
+  {
+    id: 'firstName',
+    value: 'Mike',
+  },
 ];
 
-chat.sendRegistration(data).then(function () {
-   // Registration submitted successfully
+chat.sendRegistration(data).then(function() {
+  // Registration submitted successfully
 });
 ```
 
 ```javascript
 // ES5 (using callback)
 var data = [
-   {
-     id: "firstName",
-     value: "Mike"
-   }
+  {
+    id: 'firstName',
+    value: 'Mike',
+  },
 ];
 
 function callback(error) {
-    // Registration submitted, or handle error
+  // Registration submitted, or handle error
 }
 
 chat.sendRegistration(data);
