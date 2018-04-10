@@ -18,7 +18,6 @@ import type {
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
-import cloneDeep from 'lodash/cloneDeep';
 
 const ValidationErrors = {
   REQUIRED: 'REQUIRED',
@@ -227,7 +226,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     if (this.state.submitting) return;
 
     const {href, _demoMode} = this.props.configuration;
-    const fields: {[string]: string} = cloneDeep(this.props.registrationFieldValues);
+    const fields: {[string]: string} = Object.assign({}, this.props.registrationFieldValues);
 
     if (!this.validateFormInput()) return;
 

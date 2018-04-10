@@ -56,6 +56,16 @@ const ChatSDK = {
     SDKChatContainer.setChatVisibility(visible, true);
   },
 
+  /**
+   * Set the value of a chat welcome form field. If the field is hidden, then the value must be set before the welcome form is displayed.
+   * @title Set Chat Registration Field
+   * @param fieldId - The Id of the field. This can be found in contact point admin UI.
+   * @param fieldValue - The value to set the field to.
+   *
+   * @example
+   * // Set Chat Registration Field
+   * chat.setChatRegistrationField('fieldId', 'fieldValue');
+   */
   setChatRegistrationField: (fieldId: string, fieldValue: any) => {
     Postmaster.tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
   },
