@@ -1,7 +1,14 @@
 // @flow
 /** @jsx h */
 import {Component, h} from 'preact';
-import {getQuiqOptions, setChatWindow, getChatWindow, getConfiguration} from 'Globals';
+import {
+  getQuiqOptions,
+  setChatWindow,
+  getChatWindow,
+  getConfiguration,
+  getRegistrationFieldValues,
+  setRegistrationFieldValue,
+} from 'Globals';
 import {
   webchatPath,
   eventTypes,
@@ -52,6 +59,8 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
   static async setChatRegistrationField(fieldId: string, fieldValue: any) {
     tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
+
+    setRegistrationFieldValue(fieldId, fieldValue);
   }
 
   static async setChatVisibility(_visible: ?boolean, mobileOverride: boolean = false) {
@@ -138,6 +147,9 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
     // Unload chat in IFrame
     tellChat(actionTypes.unloadChat);
+
+    // Set any registration fields that were set via the SDK
+    quiqOptions.registrationFormFieldValues = getRegistrationFieldValues();
 
     // Load chat in popup
     loadStandaloneWindow(popup, quiqOptions);

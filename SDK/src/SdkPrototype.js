@@ -67,7 +67,7 @@ const ChatSDK = {
    * chat.setChatRegistrationField('fieldId', 'fieldValue');
    */
   setChatRegistrationField: (fieldId: string, fieldValue: any) => {
-    Postmaster.tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
+    SDKChatContainer.setChatRegistrationField(fieldId, fieldValue);
   },
 
   /**

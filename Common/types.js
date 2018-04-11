@@ -104,6 +104,7 @@ export type QuiqObject = {
     captureWebsockets?: boolean,
     exposeDraftJsFunctions?: boolean,
   },
+  registrationFormFieldValues?: {[string]: any},
 };
 
 /**

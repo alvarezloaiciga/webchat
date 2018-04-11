@@ -6,7 +6,10 @@ import {configureStore} from 'store/index';
 import {quiqContainerId} from 'Common/Constants';
 import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
-import {updateChatConfigurationFromQuiqOptions} from 'actions/chatActions';
+import {
+  updateChatConfigurationFromQuiqOptions,
+  updateRegistrationFieldsFromQuiqOptions,
+} from 'actions/chatActions';
 import 'services/orientationchange';
 
 import 'main.scss';
@@ -22,6 +25,7 @@ const init = () => {
 
   // Update initial quiqOptions in Redux
   store.dispatch(updateChatConfigurationFromQuiqOptions(quiqOptions));
+  store.dispatch(updateRegistrationFieldsFromQuiqOptions(quiqOptions));
 
   const root = document.createElement('div');
   root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!
