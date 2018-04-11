@@ -4,6 +4,7 @@ import * as Postmaster from './Postmaster';
 import {postmasterActionTypes as actionTypes, publicEventTypes} from 'Common/Constants';
 import {displayWarning, isSupportedBrowser} from 'Common/Utils';
 import SDKChatContainer from './components/SDKChatContainer';
+import {setRegistrationFieldValue} from 'Globals';
 
 const ChatSDK = {
   /**
@@ -67,7 +68,8 @@ const ChatSDK = {
    * chat.setChatRegistrationField('fieldId', 'fieldValue');
    */
   setChatRegistrationField: (fieldId: string, fieldValue: any) => {
-    SDKChatContainer.setChatRegistrationField(fieldId, fieldValue);
+    Postmaster.tellChat(actionTypes.setChatRegistrationField, {fieldId, fieldValue});
+    setRegistrationFieldValue(fieldId, fieldValue);
   },
 
   /**

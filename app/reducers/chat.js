@@ -99,26 +99,23 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
       }
       return state;
     }
-    case 'UPDATE_REGISTRATION_FIELDS': {
-      console.log('updateReg', action);
-      if (action.configuration.registrationFormFieldValues) {
-        const registrationFieldValues = Object.assign(
-          {},
-          state.registrationFieldValues,
-          action.configuration.registrationFormFieldValues,
-        );
-        return Object.assign({}, state, {registrationFieldValues});
-      }
-      return state;
-    }
     case 'CHAT_LAUNCHER_HIDDEN':
       return Object.assign({}, state, {
         chatLauncherHidden: inStandaloneMode() ? true : action.chatLauncherHidden,
       });
     case 'UPDATE_CHAT_CONFIGURATION': {
       const configuration = Object.assign({}, state.configuration, action.configuration);
+      const registrationFieldValues = Object.assign(
+        {},
+        state.registrationFieldValues,
+        action.configuration.registrationFormFieldValues
+          ? action.configuration.registrationFormFieldValues
+          : {},
+      );
+
       return Object.assign({}, state, {
         configuration,
+        registrationFieldValues,
       });
     }
     case 'AGENTS_AVAILABLE':

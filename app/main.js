@@ -25,7 +25,6 @@ const init = () => {
 
   // Update initial quiqOptions in Redux
   store.dispatch(updateChatConfigurationFromQuiqOptions(quiqOptions));
-  store.dispatch(updateRegistrationFieldsFromQuiqOptions(quiqOptions));
 
   const root = document.createElement('div');
   root.id = quiqContainerId; // If for some reason you change this, make sure you update the webpack config to match it!

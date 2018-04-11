@@ -81,11 +81,6 @@ export const updateChatConfigurationFromQuiqOptions = (quiqOptions: QuiqObject) 
   configuration: quiqOptions,
 });
 
-export const updateRegistrationFieldsFromQuiqOptions = (quiqOptions: QuiqObject) => ({
-  type: 'UPDATE_REGISTRATION_FIELDS',
-  configuration: quiqOptions,
-});
-
 export const updatePersistentData = (persistentData: PersistentData) => ({
   type: 'CHAT_UPDATE_PERSISTENT_DATA',
   persistentData,
