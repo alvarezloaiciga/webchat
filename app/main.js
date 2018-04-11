@@ -6,10 +6,7 @@ import {configureStore} from 'store/index';
 import {quiqContainerId} from 'Common/Constants';
 import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
-import {
-  updateChatConfigurationFromQuiqOptions,
-  updateRegistrationFieldsFromQuiqOptions,
-} from 'actions/chatActions';
+import {updateChatConfigurationFromQuiqOptions} from 'actions/chatActions';
 import 'services/orientationchange';
 
 import 'main.scss';
