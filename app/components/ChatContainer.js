@@ -379,12 +379,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
             {getMessage(intlMessageTypes.headerText)}
           </Banner>
         );
-      case ChatInitializedState.INACTIVE:
-        return (
-          <ErrorBanner style={errorBannerStyle}>
-            {getMessage(intlMessageTypes.inactiveMessage)}
-          </ErrorBanner>
-        );
       case ChatInitializedState.DISCONNECTED:
         return (
           <ErrorBanner style={errorBannerStyle}>
@@ -476,7 +470,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
         );
       case ChatInitializedState.DISCONNECTED:
       case ChatInitializedState.ERROR:
-      case ChatInitializedState.INACTIVE:
       case ChatInitializedState.BURNED:
       default:
         return (

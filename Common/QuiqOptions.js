@@ -116,7 +116,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         connectingMessage: messages.connecting,
         reconnectingMessage: messages.reconnecting,
         errorMessage: messages.errorState,
-        inactiveMessage: messages.clientInactive,
         requiredFieldAriaLabel: messages.required,
         dockWindowTooltip: messages.dockWindow,
         openInNewWindowTooltip: messages.openInNewWindow,

@@ -8,7 +8,6 @@ export const getChatClient = jest.fn().mockReturnValue({
   onConnectionStatusChange: jest.fn().mockReturnThis(),
   onNewSession: jest.fn().mockReturnThis(),
   onBurn: jest.fn().mockReturnThis(),
-  onClientInactiveTimeout: jest.fn().mockReturnThis(),
   onAgentAssigned: jest.fn().mockReturnThis(),
   start: jest.fn(),
   stop: jest.fn(),
@@ -21,10 +20,14 @@ export const getChatClient = jest.fn().mockReturnValue({
   hasTakenMeaningfulAction: jest.fn(),
   isRegistered: jest.fn().mockReturnValue(false),
   isChatVisible: jest.fn(),
-  getChatConfiguration: jest.fn(),
-  onSendTranscript: jest.fn().mockReturnValue({
+  isUserSubscribed: jest.fn(),
+  getChatConfiguration: jest.fn().mockReturnValue({
+    configs: {},
+  }),
+  onSendTranscript: jest.fn(() => ({
     id: 1,
     type: 'SendTranscript',
     timestamp: 123456,
-  }),
+  })),
+  _setFetchMode: jest.fn(),
 });

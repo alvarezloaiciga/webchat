@@ -196,7 +196,6 @@ const quiqOptions: QuiqObject = {
     agentAssignedMessage: messages.agentAssigned,
     connectingMessage: messages.connecting,
     reconnectingMessage: messages.reconnecting,
-    inactiveMessage: messages.clientInactive,
     errorMessage: messages.errorState,
     requiredFieldAriaLabel: messages.required,
     dockWindowTooltip: messages.dockWindow,

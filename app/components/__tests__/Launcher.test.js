@@ -13,7 +13,6 @@ import {TestIntlObject, getMockMessage, getMockConfiguration} from 'utils/testHe
 import type {ShallowWrapper} from 'enzyme';
 import type {LauncherProps} from '../Launcher';
 import QuiqChatClient from 'quiq-chat';
-import {ChatInitializedState} from 'Common/Constants';
 import {inStandaloneMode} from 'Common/Utils';
 import {postExtensionEvent} from 'services/Extensions';
 
@@ -83,12 +82,18 @@ describe('Launcher component', () => {
       QuiqChatClient.checkForAgents.mockReturnValue(checkForAgentsResponse);
       QuiqChatClient.isChatVisible.mockReturnValue(isChatVisibleResponse);
       QuiqChatClient.hasTakenMeaningfulAction.mockReturnValue(hasTakenMeaningfulActionResponse);
+      QuiqChatClient.getChatConfiguration.mockReturnValue({
+        configs: {},
+      });
+      QuiqChatClient._setFetchMode = jest.fn();
       wrapper = shallow(<Launcher {...testProps} />);
       instance = wrapper.instance();
       (instance: any).componentDidMount();
 
       await checkForAgentsResponse;
       await hasTakenMeaningfulActionResponse;
+      await QuiqChatClient.getChatConfiguration;
+      await QuiqChatClient._setFetchMode;
       wrapper.update();
     };
 
@@ -230,22 +235,6 @@ describe('Launcher component', () => {
           expect(testProps.setChatContainerHidden).not.toBeCalled();
         });
       });
-    });
-  });
-
-  describe('response to client inactivity timeout', () => {
-    it('sets the initialized state to inactive', async () => {
-      await render();
-      expect(testProps.initializedState).toBe(ChatInitializedState.INITIALIZED);
-      await instance.handleClientInactiveTimeout();
-      expect(testProps.setChatInitialized).toHaveBeenCalledWith(ChatInitializedState.INACTIVE);
-    });
-
-    it('restarts the client when chat is toggled', async () => {
-      testProps.initializedState = ChatInitializedState.INACTIVE;
-      await render();
-      await instance.handleChatVisibilityChange(true);
-      expect(QuiqChatClient.start).toBeCalled();
     });
   });
 

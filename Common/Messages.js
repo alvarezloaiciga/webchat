@@ -113,12 +113,6 @@ module.exports = Object.assign(
       description: 'Generic Error Message',
       defaultMessage: "We're having trouble connecting. Try refreshing the page.",
     },
-    clientInactive: {
-      id: 'clientInactive',
-      description: 'Generic Client Inactive Message',
-      defaultMessage:
-        'You have been disconnected due to inactivity. Please refresh the page to reconnect.',
-    },
     agentIsTyping: {
       id: 'agentIsTyping',
       description: 'Message to display when the agent is typing',

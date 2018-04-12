@@ -122,7 +122,6 @@ export const ChatInitializedState = {
   INITIALIZED: 'initialized',
   ERROR: 'error',
   DISCONNECTED: 'disconnected',
-  INACTIVE: 'inactive',
   BURNED: 'burned',
   SLEEPING: 'sleeping',
 };
@@ -144,7 +143,6 @@ export const intlMessageTypes = {
   agentsNotAvailableMessage: 'agentsNotAvailableMessage',
   agentEndedConversationMessage: 'agentEndedConversationMessage',
   errorMessage: 'errorMessage',
-  inactiveMessage: 'inactiveMessage',
   requiredFieldAriaLabel: 'requiredFieldAriaLabel',
   dockWindowTooltip: 'dockWindowTooltip',
   openInNewWindowTooltip: 'openInNewWindowTooltip',

@@ -93,14 +93,6 @@ describe('ChatContainer component', () => {
         expect(wrapper).toMatchSnapshot();
       });
     });
-
-    describe('when inactive', () => {
-      it('renders properly', () => {
-        testProps.initializedState = 'inactive';
-        render();
-        expect(wrapper).toMatchSnapshot();
-      });
-    });
   });
 
   describe('when chatContainerHidden is true', () => {

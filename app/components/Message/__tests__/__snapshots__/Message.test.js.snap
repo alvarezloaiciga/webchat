@@ -233,11 +233,6 @@ exports[`Message component No profile picture provided for agent renders with de
             "description": "Welcome message to display at top of webchat",
             "id": "hereToHelp",
           },
-          "inactiveMessage": Object {
-            "defaultMessage": "You have been disconnected due to inactivity. Please refresh the page to reconnect.",
-            "description": "Generic Client Inactive Message",
-            "id": "clientInactive",
-          },
           "invalidEmailErrorMessage": Object {
             "defaultMessage": "Please enter a valid e-mail",
             "description": "Error displayed when user uses an invalid e-mail",
@@ -798,11 +793,6 @@ exports[`Message component fromAgent colors the message according to quiqOptions
             "description": "Welcome message to display at top of webchat",
             "id": "hereToHelp",
           },
-          "inactiveMessage": Object {
-            "defaultMessage": "You have been disconnected due to inactivity. Please refresh the page to reconnect.",
-            "description": "Generic Client Inactive Message",
-            "id": "clientInactive",
-          },
           "invalidEmailErrorMessage": Object {
             "defaultMessage": "Please enter a valid e-mail",
             "description": "Error displayed when user uses an invalid e-mail",
@@ -1354,11 +1344,6 @@ exports[`Message component rendering renders with default props 1`] = `
             "defaultMessage": "We're here to help if you have any questions!",
             "description": "Welcome message to display at top of webchat",
             "id": "hereToHelp",
-          },
-          "inactiveMessage": Object {
-            "defaultMessage": "You have been disconnected due to inactivity. Please refresh the page to reconnect.",
-            "description": "Generic Client Inactive Message",
-            "id": "clientInactive",
           },
           "invalidEmailErrorMessage": Object {
             "defaultMessage": "Please enter a valid e-mail",

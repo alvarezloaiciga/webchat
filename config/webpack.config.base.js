@@ -27,13 +27,10 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
-    new webpack.ProvidePlugin({
-      fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
-    }),
     new SriPlugin({
       hashFuncNames: ['sha256'],
       enabled: process.env.NODE_ENV === 'production',
-    })
+    }),
   ],
   module: {
     rules: [

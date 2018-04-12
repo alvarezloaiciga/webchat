@@ -193,13 +193,14 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     );
     QuiqChatClient.onBurn(() => this.updateInitializedState(ChatInitializedState.BURNED));
     QuiqChatClient.onNewSession(this.handleNewSession);
-    QuiqChatClient.onClientInactiveTimeout(this.handleClientInactiveTimeout);
     QuiqChatClient.onPersistentDataChange(this.props.updatePersistentData);
     QuiqChatClient._withSentryMetadataCallback(getMetadataForSentry);
   };
 
   init = async () => {
     const configuration = await QuiqChatClient.getChatConfiguration();
+    await QuiqChatClient._setFetchMode(configuration.configs.CHAT_FETCH_VERSION);
+
     this.props.updateChatConfigurationFromMetadata(configuration);
 
     // Domain whitelist enforcement: destroy webchat client if parent window's domain is not whitelisted
@@ -319,13 +320,6 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
     }
   };
 
-  handleClientInactiveTimeout = () => {
-    this.updateInitializedState(ChatInitializedState.INACTIVE);
-    if (!this.props.chatContainerHidden && !inStandaloneMode()) {
-      this.updateContainerHidden(true);
-    }
-  };
-
   handleChatVisibilityChange = async (hidden: boolean) => {
     if (!hidden) {
       // If container has become visible at any point, we don't want to auto-pop
@@ -338,9 +332,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
       QuiqChatClient.setChatVisible(true);
     } else {
-      if (this.props.initializedState !== ChatInitializedState.INACTIVE) {
-        QuiqChatClient.setChatVisible(false);
-      }
+      QuiqChatClient.setChatVisible(false);
     }
   };
 
