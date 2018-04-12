@@ -85,20 +85,12 @@ export type QuiqObject = {
   mobileNumber?: string | number,
   position: Position,
   styles: CustomStyles,
-  welcomeForm?: WelcomeForm,
   width: number,
   clientDomain: string,
   color: string, // Deprecated in favor styles object
   headerText: string, // Deprecated in favor of messages object
   href: string,
   localStorageKeys: {[string]: any},
-  _demoMode: boolean,
-  _debug:
-    | false
-    | {
-        transport?: string,
-        CUSTOM_CSS_URL?: string,
-      },
   _internal: {
     captureRequests?: boolean,
     captureWebsockets?: boolean,

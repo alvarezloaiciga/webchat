@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -73,9 +73,7 @@
         "contactPoint": "Bob",
         "host": "https://bob.dev.centricient.corp",
         "color": "#333",
-        "headerText": "TOOL TIME",
-        "_debug": false,
-        "welcomeForm": null
+        "headerText": "TOOL TIME"
       },
       "Modernizr": {
         "flexbox": true,

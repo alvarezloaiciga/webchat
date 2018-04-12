@@ -9,12 +9,7 @@ import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chat
 import Debugger from './Debugger/Debugger';
 import {isValidEmail} from 'Common/Utils';
 import QuiqChatClient from 'quiq-chat';
-import type {
-  WelcomeFormField,
-  WelcomeForm as WelcomeFormType,
-  ChatState,
-  ChatConfiguration,
-} from 'Common/types';
+import type {WelcomeFormField, ChatState, ChatConfiguration} from 'Common/types';
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
@@ -26,12 +21,10 @@ const ValidationErrors = {
 
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
-  welcomeFormRegistered: boolean,
-  registrationForm?: WelcomeFormType | null,
-  registrationFormVersionId?: string,
   configuration: ChatConfiguration,
   setWindowScrollLockEnabled: (enabled: boolean) => void,
   registrationFieldValues: {[string]: any},
+  welcomeFormRegistered: boolean,
 };
 
 export type WelcomeFormState = {
@@ -48,7 +41,6 @@ export type WelcomeFormState = {
     },
   },
   submitting: boolean,
-  form?: WelcomeFormType,
 };
 
 export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
@@ -69,51 +61,43 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   }
 
   processWelcomeForm = () => {
-    const processForm = (form: WelcomeFormType) => {
-      const inputFields = {};
-      form.fields
-        .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
-        .forEach(field => {
-          const fieldValue = this.props.registrationFieldValues[field.id];
+    const inputFields = {};
+    const {registrationForm} = this.props.configuration;
 
-          inputFields[field.id] = {
-            value:
-              !fieldValue &&
-              field.type === 'select' &&
-              field.additionalProperties &&
-              field.additionalProperties.options &&
-              JSON.parse(field.additionalProperties.options).length > 0
-                ? JSON.parse(field.additionalProperties.options)[0].value
-                : fieldValue || '',
-            label: field.label,
-            id: field.id,
-            required: Boolean(field.required),
-            isInitialMessage: field.additionalProperties
-              ? Boolean(field.additionalProperties.isInitialMessage)
-              : Boolean(field.isInitialMessage),
-            options:
-              field.additionalProperties && field.additionalProperties.options
-                ? JSON.parse(field.additionalProperties.options)
-                : field.options,
-            type: field.type,
-          };
-        });
-
-      this.setState({inputFields, form});
-    };
-
-    if (this.props.configuration._demoMode && this.props.configuration.welcomeForm) {
-      processForm(this.props.configuration.welcomeForm);
-      return;
-    }
-
-    const form = this.props.registrationForm || this.props.configuration.welcomeForm;
-    if (!form || (!this.props.registrationForm && this.props.registrationFormVersionId)) {
+    if (!registrationForm) {
       this.props.setWelcomeFormRegistered();
       return;
     }
 
-    processForm(form);
+    registrationForm.fields
+      .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
+      .forEach(field => {
+        const fieldValue = this.props.registrationFieldValues[field.id];
+
+        inputFields[field.id] = {
+          value:
+            !fieldValue &&
+            field.type === 'select' &&
+            field.additionalProperties &&
+            field.additionalProperties.options &&
+            JSON.parse(field.additionalProperties.options).length > 0
+              ? JSON.parse(field.additionalProperties.options)[0].value
+              : fieldValue || '',
+          label: field.label,
+          id: field.id,
+          required: Boolean(field.required),
+          isInitialMessage: field.additionalProperties
+            ? Boolean(field.additionalProperties.isInitialMessage)
+            : Boolean(field.isInitialMessage),
+          options:
+            field.additionalProperties && field.additionalProperties.options
+              ? JSON.parse(field.additionalProperties.options)
+              : field.options,
+          type: field.type,
+        };
+      });
+
+    this.setState({inputFields});
   };
 
   renderInputField = (field: WelcomeFormField) => {
@@ -225,12 +209,10 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     e.preventDefault();
     if (this.state.submitting) return;
 
-    const {href, _demoMode} = this.props.configuration;
+    const {href, registrationFormVersionId} = this.props.configuration;
     const fields: {[string]: string} = Object.assign({}, this.props.registrationFieldValues);
 
     if (!this.validateFormInput()) return;
-
-    if (_demoMode) return;
 
     map(this.state.inputFields, (field, key) => {
       // Only include field if it was filled out
@@ -245,16 +227,13 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     fields.Referrer = href;
 
     this.setState({submitting: true});
-    await QuiqChatClient.sendRegistration(
-      fields,
-      this.props.configuration.registrationFormVersionId,
-    );
+    await QuiqChatClient.sendRegistration(fields, registrationFormVersionId);
     await this.sendInitialMessage();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
-    const value = e.target.value;
+    const {value} = e.target;
 
     if (value) {
       const newState = update(this.state, {
@@ -276,7 +255,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
   handleFieldInput = (e: SyntheticInputEvent<*>) => {
     const fieldId = e.target.name;
-    const value = e.target.value;
+    const {value} = e.target;
     const newState = update(this.state, {
       inputFields: {
         [fieldId]: {
@@ -328,9 +307,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
   };
 
   render = () => {
-    const {fontFamily, colors, styles, _demoMode} = this.props.configuration;
-    const welcomeForm = this.state.form;
-    if (!_demoMode && this.props.welcomeFormRegistered) return null;
+    const {fontFamily, colors, styles, registrationForm} = this.props.configuration;
+    if (this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
       backgroundColor: colors.primary,
@@ -345,13 +323,13 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     return (
       <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
         <div className="welcomeFormBanner" style={bannerStyle}>
-          {welcomeForm && welcomeForm.headerText}
+          {registrationForm && registrationForm.headerText}
         </div>
         <Debugger />
         {this.state.formValidationError && this.renderValidationError()}
         <div className="fields">
-          {welcomeForm &&
-            welcomeForm.fields
+          {registrationForm &&
+            registrationForm.fields
               .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
               .map(this.renderField)}
         </div>
@@ -372,11 +350,9 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
 
 export default connect(
   (state: ChatState) => ({
-    welcomeFormRegistered: state.welcomeFormRegistered,
-    registrationForm: state.configuration.registrationForm,
-    registrationFormVersionId: state.configuration.registrationFormVersionId,
     configuration: getConfiguration(state),
     registrationFieldValues: getRegistrationFieldValues(state),
+    welcomeFormRegistered: state.welcomeFormRegistered,
   }),
   {
     setWelcomeFormRegistered,

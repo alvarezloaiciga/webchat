@@ -8,7 +8,6 @@ import React from 'react';
 import {ChatContainer} from '../ChatContainer';
 import {shallow} from 'enzyme';
 import type {ShallowWrapper} from 'enzyme';
-import quiqOptions from 'Common/QuiqOptions';
 import {getMockConfiguration} from 'utils/testHelpers';
 import type {ChatContainerProps} from '../ChatContainer';
 
@@ -20,7 +19,6 @@ describe('ChatContainer component', () => {
   let render: () => void;
 
   beforeEach(() => {
-    quiqOptions.welcomeForm = undefined;
     testProps = {
       chatContainerHidden: false,
       welcomeFormRegistered: true,

@@ -3,6 +3,8 @@
 import React from 'react';
 import {getFormattedDateAndTime} from 'core-ui/services/i18nService';
 import {saveAs} from 'file-saver';
+import {cloudDownload} from 'core-ui/coreIcons';
+import Button from 'core-ui/components/Button';
 
 type ReduxExporterProps = {
   monitorState?: {initialScrollTop: number}, // eslint-disable-line react/no-unused-prop-types
@@ -41,11 +43,7 @@ export class ReduxExporter extends React.Component<ReduxExporterProps> {
   render() {
     return (
       <div className="ReduxExporter">
-        <i
-          className={`fa fa-download icon`}
-          title="Export Redux State"
-          onClick={this.exportReduxState}
-        />
+        <Button icon={cloudDownload} title="Export Redux State" onClick={this.exportReduxState} />
       </div>
     );
   }

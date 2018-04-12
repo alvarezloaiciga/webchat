@@ -89,7 +89,6 @@
         browserTheme: '#ff3ffc',
       },
       anchorElement: '',
-      _demoMode: false,
       fontFamily: 'Raleway',
       defaultAgentAvatar: 'https://static.quiq-cdn.com/quiq/favicon/apple-touch-icon-152x152.png',
       defaultCustomerAvatar: 'https://static.quiq-cdn.com/images/avatar-outline.png',
@@ -200,51 +199,13 @@
         }
       },
       welcomeForm: {
-        headerText: 'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+        headerText: 'This should never be used since we use AdminUI now. Don\'t delete this though.',
         fields: [
           {
             type: 'text',
             label: 'First Name',
             id: 'firstName',
             required: true,
-          },
-          {
-            type: 'text',
-            label: 'Last Name',
-            id: 'lastName',
-            required: false,
-          },
-          {
-            type: 'textarea',
-            label: 'Initial Question',
-            id: 'initialQuestion',
-            required: false,
-            isInitialMessage: true,
-          },
-          {
-            type: 'number',
-            label: 'Number Field',
-            id: 'numberField',
-            required: false,
-          },
-          {
-            type: 'select',
-            label: 'Selection Field',
-            id: 'selectionField',
-            required: false,
-            options: [{ value: '', label: '---' }, { value: 'USA', label: 'United States' }, { value: 'Canada', label: 'Canada' }, { value: 'Mexico', label: 'Mexico' }]
-          },
-          {
-            type: 'email',
-            label: 'E-Mail',
-            id: 'email',
-            required: false,
-          },
-          {
-            type: 'tel',
-            label: 'Phone Number',
-            id: 'phoneNumber',
-            required: false,
           },
         ],
       },

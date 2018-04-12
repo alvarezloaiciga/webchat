@@ -85,7 +85,63 @@ export const getMockConfiguration = (overrides?: *): ChatConfiguration =>
       enableEmojis: false,
       playSoundOnNewMessage: false,
       flashNotificationOnNewMessage: false,
-      registrationForm: null,
+      registrationForm: {
+        headerText:
+          'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
+        fields: [
+          {
+            type: 'text',
+            label: 'First Name',
+            id: 'firstName',
+            required: true,
+            additionalProperties: {},
+          },
+          {
+            type: 'text',
+            label: 'Last Name',
+            id: 'lastName',
+            required: false,
+            isInitialMessage: true,
+            additionalProperties: {},
+          },
+          {
+            type: 'number',
+            label: 'Number Field',
+            id: 'numberField',
+            required: false,
+            additionalProperties: {},
+          },
+
+          {
+            type: 'email',
+            label: 'E-Mail',
+            id: 'email',
+            required: false,
+            additionalProperties: {},
+          },
+          {
+            type: 'tel',
+            label: 'Phone Number',
+            id: 'phoneNumber',
+            required: false,
+            additionalProperties: {},
+          },
+          {
+            type: 'textarea',
+            label: 'My life story',
+            id: 'lifeStory',
+            required: false,
+            additionalProperties: {},
+          },
+          {
+            type: 'select',
+            label: 'Country',
+            id: 'country',
+            required: true,
+            additionalProperties: {},
+          },
+        ],
+      },
       customMenuItems: [],
       menuOffset: undefined,
       menuOptions: {

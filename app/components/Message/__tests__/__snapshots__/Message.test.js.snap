@@ -7,8 +7,6 @@ exports[`Message component No profile picture provided for agent renders with de
   <TextMessage
     configuration={
       Object {
-        "_debug": false,
-        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -333,7 +331,61 @@ exports[`Message component No profile picture provided for agent renders with de
         "mobileNumber": 123,
         "playSoundOnNewMessage": false,
         "position": Object {},
-        "registrationForm": null,
+        "registrationForm": Object {
+          "fields": Array [
+            Object {
+              "additionalProperties": Object {},
+              "id": "firstName",
+              "label": "First Name",
+              "required": true,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lastName",
+              "isInitialMessage": true,
+              "label": "Last Name",
+              "required": false,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "numberField",
+              "label": "Number Field",
+              "required": false,
+              "type": "number",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "email",
+              "label": "E-Mail",
+              "required": false,
+              "type": "email",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "phoneNumber",
+              "label": "Phone Number",
+              "required": false,
+              "type": "tel",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lifeStory",
+              "label": "My life story",
+              "required": false,
+              "type": "textarea",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "country",
+              "label": "Country",
+              "required": true,
+              "type": "select",
+            },
+          ],
+          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
+        },
         "showDefaultLaunchButton": false,
         "styles": Object {
           "AgentMessageBubble": Object {
@@ -477,61 +529,6 @@ exports[`Message component No profile picture provided for agent renders with de
         "supportedAttachmentTypes": Array [
           "image/png,image/jpeg",
         ],
-        "welcomeForm": Object {
-          "fields": Array [
-            Object {
-              "additionalProperties": Object {},
-              "id": "firstName",
-              "label": "First Name",
-              "required": true,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lastName",
-              "isInitialMessage": true,
-              "label": "Last Name",
-              "required": false,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "numberField",
-              "label": "Number Field",
-              "required": false,
-              "type": "number",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "email",
-              "label": "E-Mail",
-              "required": false,
-              "type": "email",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "phoneNumber",
-              "label": "Phone Number",
-              "required": false,
-              "type": "tel",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lifeStory",
-              "label": "My life story",
-              "required": false,
-              "type": "textarea",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "country",
-              "label": "Country",
-              "required": true,
-              "type": "select",
-            },
-          ],
-          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
-        },
         "whitelistedDomains": "",
         "width": 400,
       }
@@ -567,8 +564,6 @@ exports[`Message component fromAgent colors the message according to quiqOptions
   <TextMessage
     configuration={
       Object {
-        "_debug": false,
-        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -893,7 +888,61 @@ exports[`Message component fromAgent colors the message according to quiqOptions
         "mobileNumber": 123,
         "playSoundOnNewMessage": false,
         "position": Object {},
-        "registrationForm": null,
+        "registrationForm": Object {
+          "fields": Array [
+            Object {
+              "additionalProperties": Object {},
+              "id": "firstName",
+              "label": "First Name",
+              "required": true,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lastName",
+              "isInitialMessage": true,
+              "label": "Last Name",
+              "required": false,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "numberField",
+              "label": "Number Field",
+              "required": false,
+              "type": "number",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "email",
+              "label": "E-Mail",
+              "required": false,
+              "type": "email",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "phoneNumber",
+              "label": "Phone Number",
+              "required": false,
+              "type": "tel",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lifeStory",
+              "label": "My life story",
+              "required": false,
+              "type": "textarea",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "country",
+              "label": "Country",
+              "required": true,
+              "type": "select",
+            },
+          ],
+          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
+        },
         "showDefaultLaunchButton": false,
         "styles": Object {
           "AgentMessageBubble": Object {
@@ -1037,61 +1086,6 @@ exports[`Message component fromAgent colors the message according to quiqOptions
         "supportedAttachmentTypes": Array [
           "image/png,image/jpeg",
         ],
-        "welcomeForm": Object {
-          "fields": Array [
-            Object {
-              "additionalProperties": Object {},
-              "id": "firstName",
-              "label": "First Name",
-              "required": true,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lastName",
-              "isInitialMessage": true,
-              "label": "Last Name",
-              "required": false,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "numberField",
-              "label": "Number Field",
-              "required": false,
-              "type": "number",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "email",
-              "label": "E-Mail",
-              "required": false,
-              "type": "email",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "phoneNumber",
-              "label": "Phone Number",
-              "required": false,
-              "type": "tel",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lifeStory",
-              "label": "My life story",
-              "required": false,
-              "type": "textarea",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "country",
-              "label": "Country",
-              "required": true,
-              "type": "select",
-            },
-          ],
-          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
-        },
         "whitelistedDomains": "",
         "width": 400,
       }
@@ -1119,8 +1113,6 @@ exports[`Message component rendering renders with default props 1`] = `
   <TextMessage
     configuration={
       Object {
-        "_debug": false,
-        "_demoMode": false,
         "_internal": Object {},
         "agentsAvailableTimer": 60000,
         "anchorElement": "",
@@ -1445,7 +1437,61 @@ exports[`Message component rendering renders with default props 1`] = `
         "mobileNumber": 123,
         "playSoundOnNewMessage": false,
         "position": Object {},
-        "registrationForm": null,
+        "registrationForm": Object {
+          "fields": Array [
+            Object {
+              "additionalProperties": Object {},
+              "id": "firstName",
+              "label": "First Name",
+              "required": true,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lastName",
+              "isInitialMessage": true,
+              "label": "Last Name",
+              "required": false,
+              "type": "text",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "numberField",
+              "label": "Number Field",
+              "required": false,
+              "type": "number",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "email",
+              "label": "E-Mail",
+              "required": false,
+              "type": "email",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "phoneNumber",
+              "label": "Phone Number",
+              "required": false,
+              "type": "tel",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "lifeStory",
+              "label": "My life story",
+              "required": false,
+              "type": "textarea",
+            },
+            Object {
+              "additionalProperties": Object {},
+              "id": "country",
+              "label": "Country",
+              "required": true,
+              "type": "select",
+            },
+          ],
+          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
+        },
         "showDefaultLaunchButton": false,
         "styles": Object {
           "AgentMessageBubble": Object {
@@ -1589,61 +1635,6 @@ exports[`Message component rendering renders with default props 1`] = `
         "supportedAttachmentTypes": Array [
           "image/png,image/jpeg",
         ],
-        "welcomeForm": Object {
-          "fields": Array [
-            Object {
-              "additionalProperties": Object {},
-              "id": "firstName",
-              "label": "First Name",
-              "required": true,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lastName",
-              "isInitialMessage": true,
-              "label": "Last Name",
-              "required": false,
-              "type": "text",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "numberField",
-              "label": "Number Field",
-              "required": false,
-              "type": "number",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "email",
-              "label": "E-Mail",
-              "required": false,
-              "type": "email",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "phoneNumber",
-              "label": "Phone Number",
-              "required": false,
-              "type": "tel",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "lifeStory",
-              "label": "My life story",
-              "required": false,
-              "type": "textarea",
-            },
-            Object {
-              "additionalProperties": Object {},
-              "id": "country",
-              "label": "Country",
-              "required": true,
-              "type": "select",
-            },
-          ],
-          "headerText": "Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.",
-        },
         "whitelistedDomains": "",
         "width": 400,
       }

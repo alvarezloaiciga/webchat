@@ -1,8 +1,6 @@
 // @flow
 import messages from 'Common/Messages';
 import {
-  displayError,
-  camelize,
   setLocalStorageItemsIfNewer,
   getWebchatHostFromScriptTag,
   getWindowDomain,
@@ -12,14 +10,12 @@ import {
   isMobile,
 } from 'Common/Utils';
 import merge from 'lodash/merge';
-import type {QuiqObject, WelcomeForm} from 'Common/types';
-
-const reservedKeyNames = ['Referrer'];
+import type {QuiqObject} from 'Common/types';
 
 // This should be called from the client site, by the SDK.
 // If called from within the webchat Iframe, some of the default values don't make sense.
 export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
-  let host = rawQuiqObject.host;
+  let {host} = rawQuiqObject;
   if (host) {
     if (host.endsWith('/')) {
       host = host.slice(0, -1);
@@ -36,7 +32,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     displayMode: isMobile() ? 'undocked' : rawQuiqObject.displayMode || 'either',
     customScreens: rawQuiqObject.customScreens || {},
     anchorElement: rawQuiqObject.anchorElement,
-    _demoMode: rawQuiqObject._demoMode,
     agentsAvailableTimer:
       rawQuiqObject.agentsAvailableTimer && rawQuiqObject.agentsAvailableTimer >= 60000
         ? rawQuiqObject.agentsAvailableTimer
@@ -78,10 +73,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
     host,
     clientDomain: rawQuiqObject.clientDomain || getWindowDomain(),
     href: window.location.href, // Standalone uses this to determine original host URL for welcome form
-    _debug: rawQuiqObject._debug || false,
-    welcomeForm: rawQuiqObject.welcomeForm
-      ? processWelcomeForm(rawQuiqObject.welcomeForm)
-      : undefined,
     fontFamily: rawQuiqObject.fontFamily || 'sans-serif',
     width: rawQuiqObject.width || 400,
     height: rawQuiqObject.height || 600,
@@ -152,21 +143,6 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
   return quiqOptions;
 };
 
-const processWelcomeForm = (form: WelcomeForm): WelcomeForm => {
-  const newFormObject = Object.assign({}, form);
-  if (form.fields) {
-    newFormObject.fields.forEach(field => {
-      // Ensure that id is defined. If not, use camel-cased version of label. (This is for backwards compatibility)
-      // If label is not defined this is an error, and will be caught when welcomeForm is validated.
-      /* eslint-disable no-param-reassign */
-      if (!field.id && field.label) field.id = camelize(field.label);
-      /* eslint-disable no-param-reassign */
-    });
-  }
-
-  return newFormObject;
-};
-
 const processInternalOptions = (quiqOptions: QuiqObject) => {
   const {captureRequests, captureWebsockets} = quiqOptions._internal;
 
@@ -226,54 +202,6 @@ const getQuiqOptions = (): QuiqObject => {
       localStorageDisabled: true,
     };
   }
-};
-
-export const validateWelcomeFormDefinition = (): void => {
-  const form = quiqOptions.welcomeForm;
-  if (!form) return;
-
-  if (!form.fields || !Array.isArray(form.fields)) {
-    displayError(messages.invalidWelcomeFormArray);
-  }
-
-  if (form.fields.length > 20) {
-    displayError(messages.invalidWelcomeFormFieldCount);
-  }
-
-  form.fields.reduce((uniqueKeys, f) => {
-    // Ensure field has an id, label and type
-    // Note that we previously try and build an id from the label if an id was not provided
-    if (!f.label || !f.id || !f.type) {
-      displayError(messages.invalidWelcomeFormUndefined, {id: f.id, label: f.label});
-    }
-
-    // Ensure type is supported
-    if (!['text', 'number', 'email', 'tel', 'textarea'].includes(f.type)) {
-      displayError(messages.invalidWelcomeFormFieldType, {type: f.type});
-    }
-
-    // Ensure that if 'rows' is defined, it is of numeric type
-    if (f.type === 'textarea' && f.rows && typeof f.rows !== 'number') {
-      displayError(messages.invalidWelcomeFormFieldRowsType);
-    }
-
-    // Ensure id meets key-length requirements
-    if (f.id.length > 80) {
-      displayError(messages.invalidWelcomeFormDefinitionKeyLength, {id: f.id});
-    }
-
-    // Ensure key is unique
-    if (uniqueKeys.includes(f.id)) {
-      displayError(messages.invalidWelcomeFormDefinitionKeyUniqueness);
-    }
-
-    // Ensure id field is not in the list of reserved words
-    if (reservedKeyNames.includes(f.id)) {
-      displayError(messages.invalidWelcomeFormDefinitionKeyReserved, {id: f.id});
-    }
-
-    return uniqueKeys.concat(f.id);
-  }, []);
 };
 
 /**

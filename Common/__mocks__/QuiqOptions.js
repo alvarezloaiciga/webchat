@@ -7,7 +7,6 @@ const quiqOptions: QuiqObject = {
   displayMode: 'either',
   anchorElement: '',
   showDefaultLaunchButton: false,
-  _demoMode: false,
   agentsAvailableTimer: 60000,
   contactPoint: 'Bob',
   localStorageKeys: {},
@@ -226,74 +225,15 @@ const quiqOptions: QuiqObject = {
   fontFamily: 'Lato, sans-serif',
   width: 400,
   height: 600,
-  _debug: false,
   autoPopTime: 2000,
   href: window.location.href,
   customLaunchButtons: [],
   mobileNumber: 123,
-  welcomeForm: {
-    headerText:
-      'Thanks for contacting us! Please fill out a couple brief pieces of information and we will get you chatting with an agent.',
-    fields: [
-      {
-        type: 'text',
-        label: 'First Name',
-        id: 'firstName',
-        required: true,
-        additionalProperties: {},
-      },
-      {
-        type: 'text',
-        label: 'Last Name',
-        id: 'lastName',
-        required: false,
-        isInitialMessage: true,
-        additionalProperties: {},
-      },
-      {
-        type: 'number',
-        label: 'Number Field',
-        id: 'numberField',
-        required: false,
-        additionalProperties: {},
-      },
-
-      {
-        type: 'email',
-        label: 'E-Mail',
-        id: 'email',
-        required: false,
-        additionalProperties: {},
-      },
-      {
-        type: 'tel',
-        label: 'Phone Number',
-        id: 'phoneNumber',
-        required: false,
-        additionalProperties: {},
-      },
-      {
-        type: 'textarea',
-        label: 'My life story',
-        id: 'lifeStory',
-        required: false,
-        additionalProperties: {},
-      },
-      {
-        type: 'select',
-        label: 'Country',
-        id: 'country',
-        required: true,
-        additionalProperties: {},
-      },
-    ],
-  },
   excludeEmojis: ['hankey'],
   _internal: {},
 };
 
 export const openStandaloneMode = jest.fn();
-export const validateWelcomeFormDefinition = jest.fn();
 
 export const getStyle = (style?: Object = {}, defaults?: Object = {}) =>
   Object.assign({}, defaults, style);

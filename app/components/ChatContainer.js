@@ -566,9 +566,8 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     }
 
     if (
-      this.props.configuration._demoMode ||
-      (this.props.initializedState === ChatInitializedState.INITIALIZED &&
-        !this.props.welcomeFormRegistered)
+      this.props.initializedState === ChatInitializedState.INITIALIZED &&
+      !this.props.welcomeFormRegistered
     ) {
       return (
         <ChatContainerStyle

@@ -1,20 +1,17 @@
 // @flow
 declare var __VERSION__: string;
 import * as React from 'react';
-import {connect} from 'react-redux';
 import moment from 'moment';
 import {getOrientation, onOrientationChange} from 'utils/mobileUtils';
-import {getConfiguration} from 'reducers/chat';
 import {inNonProductionCluster, inLocalDevelopment} from 'Common/Utils';
+import Button from 'core-ui/components/Button';
+import {timesCircle} from 'core-ui/coreIcons';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import {version} from '../../../node_modules/quiq-chat/package.json';
 import './styles/Debugger.scss';
-import type {ChatState, ChatConfiguration} from 'Common/types';
 
-type DebuggerProps = {
-  configuration: ChatConfiguration,
-};
+type DebuggerProps = {};
 
 type DebuggerState = {
   messages: Array<{
@@ -30,7 +27,7 @@ type DebuggerState = {
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   props: DebuggerProps;
   state: DebuggerState = {
-    hidden: !this.props.configuration._debug,
+    hidden: true,
     height: window.innerHeight,
     width: window.innerWidth,
     orientation: getOrientation(),
@@ -39,7 +36,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   updateInterval: number;
   messagesElement: any;
 
-  componentWillMount() {
+  componentDidMount() {
     onOrientationChange(({height, orientation}) =>
       this.setState({height, width: window.innerWidth, orientation}),
     );
@@ -104,8 +101,8 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
               <span>WC: v{__VERSION__}</span>
               <span>QC: v{version}</span>
             </div>
-            <i
-              className={`fa fa-close icon`}
+            <Button
+              icon={timesCircle}
               title="Close Debugger"
               onClick={() => this.setState({hidden: true})}
             />
@@ -128,9 +125,4 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   }
 }
 
-export default connect(
-  (state: ChatState) => ({
-    configuration: getConfiguration(state),
-  }),
-  {},
-)(Debugger);
+export default Debugger;
