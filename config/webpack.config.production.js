@@ -152,6 +152,7 @@ module.exports = merge(config, {
           loader: 'file-loader',
           options: {
             name: `assets/[name]-[sha1:hash:hex:8].[ext]`,
+            publicPath: cdnUrl,
           },
         },
       },
