@@ -28,7 +28,7 @@ module.exports = merge(config, {
     filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
     path: path.resolve(__dirname, '../dist'),
     publicPath,
-    crossOriginLoading: 'anonymous'
+    crossOriginLoading: 'anonymous',
   },
   devtool: 'source-map',
   entry: {
@@ -120,7 +120,7 @@ module.exports = merge(config, {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
-                plugins: [autoprefixer()]
+                plugins: [autoprefixer()],
               },
             },
             {loader: 'namespace-css-loader', query: '#quiqWebChat'},
@@ -131,9 +131,7 @@ module.exports = merge(config, {
       // For the SDK's css
       {
         test: /\.s?css$/,
-        include: [
-          path.resolve(__dirname, '../SDK/src/components'),
-        ],
+        include: [path.resolve(__dirname, '../SDK/src/components')],
         use: [
           'style-loader',
           {loader: 'css-loader', options: {sourceMap: true}},
@@ -141,38 +139,20 @@ module.exports = merge(config, {
             loader: 'postcss-loader',
             options: {
               ident: 'postcss',
-              plugins: [autoprefixer()]
+              plugins: [autoprefixer()],
             },
           },
-          {loader: 'namespace-css-loader', query: '#quiqWebChat'},  // Use 'query' instead of 'options' for compatibility
+          {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
           {loader: 'sass-loader', options: {outputStyle: 'compressed'}},
         ],
       },
       {
-        test: /\.(wav|mp3)$/,
+        test: /\.(wav|mp3|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
         use: {
           loader: 'file-loader',
           options: {
-            name: `assets/audio/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
+            name: `assets/[name]-[sha1:hash:hex:8].[ext]`,
           },
-        },
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        use: {
-          loader: 'url',
-          options: {
-            limit: 8192,
-            name: `images/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
-          },
-        },
-      },
-      {
-        test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url',
-        query: {
-          limit: 8192,
-          name: `fonts/[name]-[sha1:hash:hex:8]-${uniqueUrlPiece}.[ext]`,
         },
       },
     ],
