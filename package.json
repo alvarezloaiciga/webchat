@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.17",
+  "version": "1.2.18",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -141,7 +141,7 @@
     "@fortawesome/fontawesome-pro-solid": "5.0.6",
     "babel-polyfill": "Quiq/babel-polyfill#17b5f642f98e803ca31ec6df5fc9c3fcc94ac5ef",
     "classnames": "2.2.5",
-    "core-ui": "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.4.0",
+    "core-ui": "git+ssh://git@gitlab.quiq.sh/development/core-ui.git#1.5.13",
     "draft-js": "0.10.3",
     "draft-js-plugins-editor": "beta",
     "emoji-mart": "2.5.0",

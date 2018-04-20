@@ -20,6 +20,8 @@ export type EmojiPickerProps = {
   configuration: ChatConfiguration,
 };
 
+const emojiSheet = require('core-ui/emoji/EmojiPicker/assets/emojiSheet.png');
+
 export const EmojiPicker = (props: EmojiPickerProps) => {
   const handleClickOutside = (e: SyntheticMouseEvent<*>) => {
     if (!props.visible) return;
@@ -58,6 +60,7 @@ export const EmojiPicker = (props: EmojiPickerProps) => {
         i18n={formattedi18nStrings}
         emoji=""
         perLine={7}
+        backgroundImageFn={() => emojiSheet}
         showPreview={false}
         style={{
           visibility: props.visible ? 'visible' : 'hidden',
