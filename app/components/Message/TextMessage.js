@@ -4,32 +4,12 @@ import React from 'react';
 import quiqOptions, {getStyle} from 'Common/QuiqOptions';
 import classnames from 'classnames';
 import Linkify from 'react-linkify';
-import Twemoji from 'react-easy-emoji';
-import {isSingleEmoji} from 'utils/emojiUtils';
 import type {TextMessage as TextMessageType} from 'Common/types';
+import {emojify} from 'core-ui/emoji/EmojiPicker/input/Emojify';
 import './styles/TextMessage.scss';
 
 export type TextMessageProps = {
   message: TextMessageType,
-};
-
-/**
- * Convert Emoji characters to <img> tags pointed at twemoji.
- * @param text {string} - String to emojify.
- * @return Array of React elements
- */
-const emojify = (text: string): Array<React$Element<*>> => {
-  const singleEmoji = isSingleEmoji(text);
-  return Twemoji(text, {
-    props: {
-      style: {
-        height: singleEmoji ? '30px' : '1em',
-        width: singleEmoji ? '30px' : '1em',
-        margin: '0px 0.05em 0px 0.1em',
-        verticalAlign: '-0.2em',
-      },
-    },
-  });
 };
 
 const {fontFamily, colors, styles, width} = quiqOptions;
@@ -83,7 +63,7 @@ export const TextMessage = (props: TextMessageProps) => {
           },
         }}
       >
-        <span style={textStyle}>{emojify(props.message.text)}</span>
+        <span style={textStyle}>{emojify(props.message.text, true)}</span>
       </Linkify>
     </div>
   );
