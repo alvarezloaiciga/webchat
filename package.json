@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.18",
+  "version": "1.2.19",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
