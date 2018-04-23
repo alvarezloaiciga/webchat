@@ -1,5 +1,6 @@
 export const SupportedWebchatUrls = [
   'goquiq.com/app/webchat',
+  'quiq-api.com/app/webchat',
   'quiq.sh/app/webchat',
   'centricient.com/app/webchat',
   'centricient.corp/app/webchat',
