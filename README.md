@@ -2,12 +2,12 @@
  If you update this document, and it will affect the table of contents, be sure to generate a new table of contents at https://ecotrust-canada.github.io/markdown-toc/
      NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE -->
 
-# Quiq WebChat [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+# Quiq Web Chat [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-* [Webchat Client](#webchat-client)
-  * [Enabling Webchat on your Tenant](#enabling-webchat-on-your-tenant)
-  * [Adding Webchat to your site - Quiq Start](#adding-webchat-to-your-site---quiq-start)
-  * [Customizing The Webchat Client](#customizing-the-webchat-client)
+* [Web Chat Client](#Web Chat-client)
+  * [Enabling Web Chat on your Tenant](#enabling-Web Chat-on-your-tenant)
+  * [Adding Web Chat to your site - Quiq Start](#adding-Web Chat-to-your-site---quiq-start)
+  * [Customizing The Web Chat Client](#customizing-the-Web Chat-client)
     * [agentsAvailableTimer](#agentsavailabletimer)
     * [autoPopTime](#autopoptime)
     * [colors](#colors)
@@ -90,22 +90,25 @@
   * [on](#on-1)
 * [Supported Browsers](#supported-browsers)
 
-## Webchat Client
+## Web Chat Client
 
-### Enabling Webchat on your Tenant
+### Enabling Web Chat on your Contact Point
 
-To enable Webchat on your Quiq tenant, you will need to reach out to your Quiq representative.
+Web Chat is setup is on a per-contact point basis. 
+To enable Web Chat for a contact point, go to the **Quiq Admin UI**, select **Contact Points** on the left-hand side, then select a contact point you wish to edit.
+Next, under **Platform Specific Settings**, toggle the **Web Chat Enabled** switch to the "on" position. 
+Web Chat is now enabled on that contact point.
 
-### Adding Webchat to your site - Quiq Start
+### Adding Web Chat to your site - Quiq Start
 
-To get started with the standard Webchat setup, include `quiq.js` on your page by adding the following script tag into the `<head>` of your HTML:
+To get started with the standard Web Chat setup, include `quiq.js` on your page by adding the following script tag into the `<head>` of your HTML:
 (Replace `<tenant>` with the name of your Quiq tenant.)
 
 ```javascript
-<script src="https://<tenant>.goquiq.com/app/webchat/index.js" />
+<script src="https://<tenant>.goquiq.com/appwebchat/index.js" />
 ```
 
-Next, setup Webchat by calling the `Quiq()` function in the body of your page 2:
+Next, setup Web Chat by calling the `Quiq()` function in the body of your page 2:
 
 ```javascript
 var chat = Quiq({
@@ -114,15 +117,16 @@ var chat = Quiq({
 });
 ```
 
-You should replace `tenant` with your own tenant handle. If you would like Webchat to send messages to a specific Contact Point, replace `default` with Contact Point's name.
+You should replace `tenant` with your own tenant handle. If you would like Web Chat to send messages to a specific Contact Point, replace `default` with Contact Point's name. 
+**NOTE:** The `contactPoint` you specify must be enabled from Admin UI as described above.
 
 **That's it!** A launch button should now be visible in the lower-right corner of your page, and a fully functioning chat UI will appear when clicked.
 
-Read on to learn how to style the UI to match your brand, listen for webchat events, add custom launch buttons and more.
+Read on to learn how to style the UI to match your brand, listen for Web Chat events, add custom launch buttons and more.
 
-### Customizing The Webchat Client
+### Customizing The Web Chat Client
 
-The Quiq() function contains properties describing how the instance of webchat should act. All properties are optional.
+The Quiq() function contains properties describing how the instance of Web Chat should act. All properties are optional.
 
 * #### agentsAvailableTimer
   * type: number
@@ -130,7 +134,7 @@ The Quiq() function contains properties describing how the instance of webchat s
   * default: 60000
 * #### autoPopTime
   * type: number
-  * description: Number, in milliseconds, until the webchat automatically pops open on its own. Leave undefined to disable.
+  * description: Number, in milliseconds, until the Web Chat automatically pops open on its own. Leave undefined to disable.
   * default: `undefined`
   * example: `2000`
 * #### colors
@@ -151,10 +155,10 @@ The Quiq() function contains properties describing how the instance of webchat s
       typingIndicatorForeground: string, // Foreground of the typing indicator gradient. Flashes with `typingIndicatorBackground`
       typingIndicatorBackground: string, // Background of the typing indicator gradient. Flashes with `typingIndicatorForeground`
       browserTheme: string, // Theme color used by some browsers (e.g. Chrome for Android) to style the address bar and other browser components.
-      shadow: string // Color of drop shadow displayed around webchat. Set to `null` to not display a shadow.
+      shadow: string // Color of drop shadow displayed around Web Chat. Set to `null` to not display a shadow.
     }
     ```
-  * description: Color values for webchat
+  * description: Color values for Web Chat
   * defaults:
     ```javascript
     {
@@ -176,7 +180,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     ```
 * #### contactPoint
   * type: string
-  * description: The contact point for this webchat interface
+  * description: The contact point for this Web Chat interface
   * default: `'default'`
   * example: `'default'`
 * #### icons
@@ -239,12 +243,12 @@ The Quiq() function contains properties describing how the instance of webchat s
   * defaults: `undefined`
 * #### displayMode
   * type: 'either' | 'docked' | 'undocked'
-  * description: Controls how webchat is presented to the user: `either` indicates that webchat is launched as a "docked" frame on your page, but can be switched to a standalone window (and back) by the user. `undocked` indicates that webchat is launched directly into a standalone window and cannot be switched to a docked frame. `docked` indicates that webchat is launched into a frame on your page and cannot be switched to a standalone window by the user. We recommend `either` mode for most use cases.
+  * description: Controls how Web Chat is presented to the user: `either` indicates that Web Chat is launched as a "docked" frame on your page, but can be switched to a standalone window (and back) by the user. `undocked` indicates that Web Chat is launched directly into a standalone window and cannot be switched to a docked frame. `docked` indicates that Web Chat is launched into a frame on your page and cannot be switched to a standalone window by the user. We recommend `either` mode for most use cases.
   * default: `either`
   * example: `undocked`
 * #### enforceAgentAvailability
   * type: boolean
-  * description: Determines if the webchat application respects if there are agents available or not.
+  * description: Determines if the Web Chat application respects if there are agents available or not.
   * default: true
 * #### events
 
@@ -279,12 +283,12 @@ The Quiq() function contains properties describing how the instance of webchat s
   * example: `['hatching_chick', 'stuck_out_tongue']`
 * #### fontFamily
   * type: string
-  * description: Font Family of all text within the webchat. Can be multiple values, as long as they are valid css values
+  * description: Font Family of all text within the Web Chat. Can be multiple values, as long as they are valid css values
   * default: `'sans-serif'`
   * example: `'Lato, sans-serif'`
 * #### height
   * type: number
-  * description: The max height (px) of the webchat
+  * description: The max height (px) of the Web Chat
   * default: `600`
   * example: `600`
 * #### host
@@ -360,7 +364,7 @@ The Quiq() function contains properties describing how the instance of webchat s
   * default:
     ```javascript
     {
-      pageTitle: "Quiq Webchat",
+      pageTitle: "Quiq Web Chat",
       titleText: "",
       headerText: "We're here to help if you have any questions!",
       sendButtonLabel: 'Send',
@@ -391,7 +395,7 @@ The Quiq() function contains properties describing how the instance of webchat s
       emailTranscriptInputPlaceholder: 'Enter your Email...',
       emailTranscriptInputCancelTooltip: 'Cancel Email Transcript',
       emailTranscriptInputSubmitTooltip: 'Email Transcript',
-      messageArrivedNotification: 'New Message from Quiq Webchat',
+      messageArrivedNotification: 'New Message from Quiq Web Chat',
       transcriptEmailedEventMessage: 'Transcript Emailed',
       cannotStartNewConversationMessage: 'The Conversation Has Ended',
       attachmentTooLarge: 'Attachment Too Large',
@@ -447,7 +451,7 @@ The Quiq() function contains properties describing how the instance of webchat s
     ```
 * #### styles
   * type: Object
-  * description: Options to customize the look and feel of your webchat client. See [Setting Styles](#setting-styles) for available options
+  * description: Options to customize the look and feel of your Web Chat client. See [Setting Styles](#setting-styles) for available options
   * default: `{}`
   * example:
     ```javascript
@@ -464,7 +468,7 @@ The Quiq() function contains properties describing how the instance of webchat s
 
 * #### width
   * type: number
-  * description: The width (px) of the webchat
+  * description: The width (px) of the Web Chat
   * default: `400`
   * example: `400`
 
@@ -684,7 +688,7 @@ The submit button for the welcome form
 
 ## SDK
 
-The `Quiq()` function initializes Webchat, and returns a Quiq object which exposes functions you can use to communicate with Webchat.
+The `Quiq()` function initializes Web Chat, and returns a Quiq object which exposes functions you can use to communicate with Web Chat.
 
 ```javascript
 var chat = Quiq(host: string, contactPoint: string [, options]);
@@ -692,7 +696,7 @@ var chat = Quiq(host: string, contactPoint: string [, options]);
 
 ### The Quiq object
 
-The Quiq object, returned by a call to the `Quiq()` function, exposes methods you can use to interact with the webchat UI and the Quiq webchat service.
+The Quiq object, returned by a call to the `Quiq()` function, exposes methods you can use to interact with the Web Chat UI and the Quiq Web Chat service.
 
 #### getChatStatus
 
@@ -779,7 +783,7 @@ Custom screens can be defined in the customScreens property on the QuiqObject [c
 
 ## Supported Browsers
 
-The following browsers with versions greater than or equal to the following are supported by Quiq WebChat.
+The following browsers with versions greater than or equal to the following are supported by Quiq Web Chat.
 
 ### Desktop
 * Chrome 43+
