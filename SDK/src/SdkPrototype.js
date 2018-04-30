@@ -9,7 +9,7 @@ import {setRegistrationFieldValue} from 'Globals';
 /**
  * @description
  * The Quiq object, returned by a call to the `Quiq()` initialization function, exposes methods you can use to interact with the Web Chat UI and the Quiq Web Chat service.
- * For information about the Quiq initialization function, see <a href="/#/?id=adding-chat-to-your-page">Adding chat to your page</a>.
+ * For information about the Quiq initialization function, see <a href="#/?id=adding-chat-to-your-page">Adding chat to your page</a>.
  * ```javascript
  * var chat = Quiq(host: string, contactPoint: string [, options]);
  * ```
