@@ -44,10 +44,12 @@ export class Transcript extends Component {
         'scroll',
         () => {
           // Lock if we're not at bottom, unlock if we are
-          this.scrollLock = !(
-            this.transcript.scrollHeight - this.transcript.offsetHeight ===
-            this.transcript.scrollTop
-          );
+          if (this.transcript) {
+            this.scrollLock = !(
+              this.transcript.scrollHeight - this.transcript.offsetHeight ===
+              this.transcript.scrollTop
+            );
+          }
         },
         {passive: true},
       );
