@@ -1,14 +1,7 @@
 // @flow
 
 import {getQuiqOptions} from '../Globals';
-import {
-  displayWarning,
-  isMobile,
-  isStorageEnabled,
-  isSupportedBrowser,
-  getBrowserName,
-  getMajor,
-} from 'Common/Utils';
+import {displayWarning, isMobile, isStorageEnabled, isSupportedBrowser} from 'Common/Utils';
 import * as Postmaster from '../Postmaster';
 import {
   eventTypes,
@@ -19,36 +12,6 @@ import {
   hasMobileNumberClass,
 } from 'Common/Constants';
 import SDKChatContainer from '../components/SDKChatContainer';
-
-let unsupportedGetAgentsInterval: number;
-export const bindLaunchButtons = () => {
-  const {customLaunchButtons, mobileNumber} = getQuiqOptions();
-  if (customLaunchButtons.length === 0) return;
-
-  customLaunchButtons.forEach((selector: string) => {
-    const ele = document.querySelector(selector);
-    if (!ele) return displayWarning('Unable to bind launch button');
-    ele.addEventListener('click', () => SDKChatContainer.setChatVisibility());
-  });
-
-  const unsupportedBrowser = !isSupportedBrowser();
-  const storageDisabled = !isStorageEnabled();
-  if (!unsupportedGetAgentsInterval && (unsupportedBrowser || storageDisabled)) {
-    // If we are in a bad environment, we fall back to not using quiq-chat, since it won't
-    // be available to us. We also need to handle making CORS calls on old browsers.
-    oldSchoolGetAgentsAvailable((available: boolean) => {
-      toggleClassOnCustomLaunchers(noAgentsAvailableClass, !available);
-    });
-  } else {
-    toggleClassOnCustomLaunchers(noAgentsAvailableClass, true);
-  }
-
-  // Add noAgentsAvailable class initially, will be removed when agents are determined to be available
-  toggleClassOnCustomLaunchers(mobileClass, isMobile());
-  toggleClassOnCustomLaunchers(unsupportedBrowserClass, unsupportedBrowser);
-  toggleClassOnCustomLaunchers(storageDisabledClass, storageDisabled);
-  toggleClassOnCustomLaunchers(hasMobileNumberClass, !!mobileNumber);
-};
 
 export const toggleClassOnCustomLaunchers = (className: string, addOrRemove: boolean) => {
   getQuiqOptions().customLaunchButtons.forEach((selector: string) => {
@@ -61,13 +24,6 @@ export const toggleClassOnCustomLaunchers = (className: string, addOrRemove: boo
   });
 };
 
-Postmaster.registerEventHandler(
-  eventTypes._launchButtonVisibilityShouldChange,
-  (data: {visible?: boolean}) => {
-    toggleClassOnCustomLaunchers(noAgentsAvailableClass, !data.visible);
-  },
-);
-
 /**
  * We don't have access to QuiqChatClient here since we haven't built the iFrame at this point.
  * Also, we need to support the old way of doing CORS here since this check is for potentially
@@ -76,12 +32,7 @@ Postmaster.registerEventHandler(
  */
 export const oldSchoolGetAgentsAvailable = (callback: (available: boolean) => void) => {
   const {contactPoint, host} = getQuiqOptions();
-  let agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${
-    contactPoint
-  }&platform=Chat`;
-  const browserDetails = `${getBrowserName()}_${getMajor()}`;
-  if (!isSupportedBrowser()) agentsAvailableEndpoint += `&unsupportedBrowser=${browserDetails}`;
-  if (!isStorageEnabled()) agentsAvailableEndpoint += `&storageDisabled=${browserDetails}`;
+  const agentsAvailableEndpoint = `${host}/api/v1/messaging/agents-available?contactPoint=${contactPoint}&platform=Chat`;
 
   const xhr = new XMLHttpRequest();
   if ('withCredentials' in xhr) {
@@ -121,3 +72,39 @@ export const oldSchoolGetAgentsAvailable = (callback: (available: boolean) => vo
     return callback(true);
   }
 };
+
+export const bindLaunchButtons = () => {
+  const {customLaunchButtons, mobileNumber} = getQuiqOptions();
+  if (customLaunchButtons.length === 0) return;
+
+  customLaunchButtons.forEach((selector: string) => {
+    const ele = document.querySelector(selector);
+    if (!ele) return displayWarning('Unable to bind launch button');
+    ele.addEventListener('click', () => SDKChatContainer.setChatVisibility());
+  });
+
+  const unsupportedBrowser = !isSupportedBrowser();
+  const storageDisabled = !isStorageEnabled();
+  if (unsupportedBrowser || storageDisabled) {
+    // If we are in a bad environment, we fall back to not using quiq-chat, since it won't
+    // be available to us. We also need to handle making CORS calls on old browsers.
+    oldSchoolGetAgentsAvailable((available: boolean) => {
+      toggleClassOnCustomLaunchers(noAgentsAvailableClass, !available);
+    });
+  } else {
+    toggleClassOnCustomLaunchers(noAgentsAvailableClass, true);
+  }
+
+  // Add noAgentsAvailable class initially, will be removed when agents are determined to be available
+  toggleClassOnCustomLaunchers(mobileClass, isMobile());
+  toggleClassOnCustomLaunchers(unsupportedBrowserClass, unsupportedBrowser);
+  toggleClassOnCustomLaunchers(storageDisabledClass, storageDisabled);
+  toggleClassOnCustomLaunchers(hasMobileNumberClass, !!mobileNumber);
+};
+
+Postmaster.registerEventHandler(
+  eventTypes._launchButtonVisibilityShouldChange,
+  (data: {visible?: boolean}) => {
+    toggleClassOnCustomLaunchers(noAgentsAvailableClass, !data.visible);
+  },
+);
