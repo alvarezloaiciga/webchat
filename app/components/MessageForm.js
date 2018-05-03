@@ -85,6 +85,14 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }
   };
 
+  focus = () => {
+    try {
+      if (this.textArea && this.textArea.focus) {
+        this.textArea.focus();
+      }
+    } catch (e) {} // eslint-disable-line no-empty
+  };
+
   componentWillUnmount() {
     clearTimeout(this.checkAvailabilityTimer);
     clearTimeout(updateTimer);
@@ -93,9 +101,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   componentDidMount() {
     if (!this.simpleMode) {
       setTimeout(() => {
-        if (this.textArea) {
-          this.textArea.focus();
-        }
+        this.focus();
       }, 200);
     }
 
@@ -172,7 +178,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
       state => ({emojiPickerVisible: !state.emojiPickerVisible}),
       () => {
         if (!this.state.emojiPickerVisible) {
-          this.textArea.focus();
+          this.focus();
         }
       },
     );
@@ -185,10 +191,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   addEmoji = (emoji: Emoji) => {
     if (this.state.simpleMode) {
-      this.setState(
-        state => ({inputText: `${state.inputText} ${emoji.native} `}),
-        this.textArea.focus,
-      );
+      this.setState(state => ({inputText: `${state.inputText} ${emoji.native} `}), this.focus);
     } else {
       this.textArea.insertEmoji(emoji.native);
     }
