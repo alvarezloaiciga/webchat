@@ -20,9 +20,10 @@
     <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
       <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"
         integrity="<%= htmlWebpackPlugin.files.jsIntegrity[0] %>"
-        crossorigin="<%= webpackConfig.output.crossOriginLoading %>"></script>
+        crossorigin="<%= webpackConfig.output.crossOriginLoading %>"
+        id="quiqScript0"></script>
     <% } else { %>
-      <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
+      <script type="text/javascript" id="quiqScript0" src="<%= htmlWebpackPlugin.files.chunks.webchatMain.entry %>"></script>
     <% } %>
   </head>
   <body></body>

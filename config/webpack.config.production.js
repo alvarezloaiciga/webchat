@@ -9,11 +9,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const {version} = require('../package.json');
 
-const cdnUrl = process.env.QUIQ_CDN;
-const publicPath = cdnUrl ? `${cdnUrl}webchat/` : './';
 const commitHash = process.env.GIT_COMMIT || 'dev';
 const uniqueUrlPiece = `${version}-${commitHash.substring(0, 8)}`;
-console.log(`Public Path is ${publicPath}`);
 console.log(`uniqueUrlPiece is ${uniqueUrlPiece}`);
 
 const GLOBALS = {
@@ -27,7 +24,7 @@ module.exports = merge(config, {
   output: {
     filename: `[name]-[chunkhash]-${uniqueUrlPiece}.js`,
     path: path.resolve(__dirname, '../dist'),
-    publicPath,
+    publicPath: 'https://static.quiq-cdn.com/webchat/',
     crossOriginLoading: 'anonymous',
   },
   devtool: 'source-map',
@@ -145,16 +142,6 @@ module.exports = merge(config, {
           {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
           {loader: 'sass-loader', options: {outputStyle: 'compressed'}},
         ],
-      },
-      {
-        test: /\.(wav|mp3|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: `assets/[name]-[sha1:hash:hex:8].[ext]`,
-            publicPath: cdnUrl,
-          },
-        },
       },
     ],
   },

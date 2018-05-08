@@ -47,6 +47,15 @@ module.exports = {
           path.resolve(__dirname, '../node_modules/redux-store-watch'), // Needed since redux-store-watch does not transpile itself
         ],
       },
+      {
+        test: /\.(wav|mp3|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: `assets/[name]-[sha1:hash:hex:8].[ext]`,
+          },
+        },
+      },
     ],
   },
 };

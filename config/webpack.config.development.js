@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const fs = require('fs');
 
-const publicPath = '/app/webchat/';
 const GLOBALS = {
   'process.env': {
     NODE_ENV: JSON.stringify('development'),
@@ -18,8 +17,8 @@ module.exports = merge(config, {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath,
-    crossOriginLoading: 'use-credentials'
+    publicPath: 'https://quiq.dev:3000/app/webchat',
+    crossOriginLoading: 'use-credentials',
   },
   cache: true,
   devtool: 'source-map',
@@ -51,14 +50,8 @@ module.exports = merge(config, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: true,
     }),
-    // Uncomment this if we ever use a common chunk
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'common',
-    //   filename: '[name].js',
-    //   minChunks: Infinity,
-    // }),
   ],
   module: {
     rules: [
@@ -79,38 +72,15 @@ module.exports = merge(config, {
             loader: 'postcss-loader',
             options: {
               ident: 'postcss',
-              plugins: [autoprefixer()]
+              plugins: [autoprefixer()],
             },
           },
-          {loader: 'namespace-css-loader', query: '#quiqWebChat'},  // Use 'query' instead of 'options' for compatibility
+          {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
           {
             loader: 'sass-loader',
             options: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
           },
         ],
-      },
-      {
-        test: /\.(wav|mp3)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'assets/audio/[name].[ext]',
-        },
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 8192,
-          name: 'assets/[name].[ext]',
-        },
-      },
-      {
-        test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 8192,
-          name: 'assets/[name].[ext]',
-        },
       },
     ],
   },
