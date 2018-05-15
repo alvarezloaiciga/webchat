@@ -19,7 +19,7 @@ module.exports = merge(config, {
     path: path.resolve(__dirname, '../dist'),
     publicPath: 'https://quiq.dev:3000/app/webchat',
     crossOriginLoading: 'anonymous',
-    chunkFilename: '[name].js',
+    chunkFilename: '[name].js', // This is needed for intl polyfill
   },
   cache: true,
   devtool: 'source-map',
