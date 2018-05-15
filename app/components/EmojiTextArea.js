@@ -4,6 +4,7 @@ import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
 import {EditorState, ContentState, Modifier} from 'draft-js';
 import createEmojiPlugin from 'core-ui/emoji/draftjsTwemojiPlugin';
 import {getConfiguration} from 'reducers/chat';
+import {getBrowserName} from '../../Common/Utils';
 import 'draft-js/dist/Draft.css';
 import './styles/EmojiTextArea.scss';
 import type {ChatState, ChatConfiguration} from 'Common/types';
@@ -113,6 +114,11 @@ export class EmojiTextArea extends Component {
     this._handleChange(
       EditorState.forceSelection(newEditorState, emojiAddedContent.getSelectionAfter()),
     );
+
+    // Fix for Edge issue where typing is disabled and pressing RETURN enters new lines instead of sending
+    if (getBrowserName() === 'Edge') {
+      setTimeout(() => this.focus(), 100);
+    }
   };
 
   setText = (text: string) => {
