@@ -9,10 +9,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiq Webchat</title>
   <style>
+    .testButtonContainer {
+      position: fixed; 
+      width: 200px;
+      right: 10vw; 
+      bottom: 20vh;
+    }
+    
     button.noAgentsAvailable {
       opacity: .25;
       cursor: not-allowed;
       color: darkgrey;
+    }
+    
+    button.testButton {
+      background-color: #0c70b2;
+      color: white;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    
+    button.testButton:hover {
+      background-color: #59ad5d;
     }
   </style>
   <!-- jQuery -->
@@ -397,6 +415,14 @@
         <h1 id="autoPopTime" class="page-header">Auto Pop Time</h1>
       </div>
     </div>
+  </div>
+
+  <!-- Test button behind iframe -->
+  <div class="testButtonContainer">
+    <button class="testButton" onclick="alert('It works!')">
+      Roll over me, click me!
+    </button>
+    <p>If the color doesn't change on rollover, or alert doesn't pop on click, there's a problem!</p>
   </div>
 </body>
 
