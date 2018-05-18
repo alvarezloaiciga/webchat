@@ -393,8 +393,8 @@ export type WelcomeForm = {
 };
 
 /**
- * An `Object` containing style definitions to customize the Chat UI.
- * Values passed into the `styles` property of the `Quiq` object will be applied to the elements using inline styles. Properties are named the same as in CSS, except that they are camelCased. For example:
+ * An `Object` containing style definitions to customize the Chat UI. These are essentially turned into inline CSS styles, so you can use all available CSS properties.
+ * Properties are named the same as in CSS, except that they are camelCased. For example:
 
  ```css
  font-size: 18px;
