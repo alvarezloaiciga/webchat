@@ -170,14 +170,6 @@ export const WaitScreen = styled.iframe`
   width: 100%;
 `;
 
-export const WaitScreenDragDropProtector = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-`;
-
 export type ChatContainerProps = {
   chatContainerHidden: boolean,
   configuration: ChatConfiguration,
@@ -433,7 +425,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
                       : ''
                   }
                 />
-                <WaitScreenDragDropProtector />
               </WaitScreenScrollWrapper>
             )}
             <TranscriptArea
