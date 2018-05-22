@@ -9,17 +9,15 @@
    ```
    Replace `<tenant>` with the name fo your Quiq tenant.
 
-   By default users will be able to drag and drop files and images into the extension, which may or may not be desirable. To prevent 
-   drag and dropping in to the extension, please put the following code (or something similar) in a script tag:
+   By default users will be able to drag and drop files and images into the extension, which may or may not be desirable. To prevent dragging and dropping to the extension, 
+   please put the following code (or something similar) in a script tag:
 
   ```javascript
-  // identify the iframe element
-  var frameElem = document.getElementById('body');
-
-  frameElem.contentWindow.addEventListener('dragover', function(e){
+  document.addEventListener('dragover', function(e){
     e.preventDefault();
     e.stopPropagation();
   }, false);
+
   ```
  
    You can now access the Extension SDK via `window.Quiq`. The following methods are available off of this object:
