@@ -39,7 +39,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
     <button
       className="messageFormBtn attachmentBtn"
       disabled={false}
-      onClick={[Function]}
+      onClick={[MockFunction]}
       style={
         Object {
           "color": "#848484",
@@ -269,7 +269,7 @@ exports[`MessageForm component No agentds available and agent availability enfor
     <button
       className="messageFormBtn attachmentBtn"
       disabled={false}
-      onClick={[Function]}
+      onClick={[MockFunction]}
       style={
         Object {
           "color": "#848484",
@@ -499,7 +499,7 @@ exports[`MessageForm component rendering renders 1`] = `
     <button
       className="messageFormBtn attachmentBtn"
       disabled={false}
-      onClick={[Function]}
+      onClick={[MockFunction]}
       style={
         Object {
           "color": "#848484",

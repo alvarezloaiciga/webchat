@@ -52,7 +52,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
   state: PopupHeaderMenuState = {
     openingWindowExists: true,
   };
-  parentWindowExistenceCheckInterval: ?number;
+  parentWindowExistenceCheckInterval: ?IntervalID;
 
   componentDidMount() {
     this.parentWindowExistenceCheckInterval = setInterval(this.updateParentWindowExistence, 100);

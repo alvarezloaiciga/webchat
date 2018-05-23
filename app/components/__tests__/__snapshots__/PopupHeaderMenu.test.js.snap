@@ -27,7 +27,7 @@ exports[`HeaderMenu component rendering renders 1`] = `
     <button
       className="icon"
       data-test="closeChatButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       style={Object {}}
       title="Dock chat"
     >

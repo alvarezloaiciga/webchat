@@ -20,7 +20,7 @@ export class NonChat extends Component<NonChatProps, NonChatState> {
     buttonVisible: false,
     containerVisible: false,
   };
-  agentsAvailableInterval: number;
+  agentsAvailableInterval: IntervalID;
 
   componentWillMount() {
     oldSchoolGetAgentsAvailable(available => {

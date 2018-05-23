@@ -35,7 +35,7 @@ export type WelcomeFormState = {
       label: string,
       required: boolean,
       isInitialMessage: boolean,
-      options: [{value: string, label: string}],
+      options: [{value: string, label: string, visible?: boolean}],
       id: string,
       type?: string,
     },

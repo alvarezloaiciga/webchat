@@ -544,7 +544,7 @@ exports[`Message component No profile picture provided for agent renders with de
         "type": "Text",
       }
     }
-    scrollToBottom={[Function]}
+    scrollToBottom={[MockFunction]}
   />
   <Connect(Avatar)
     authorDisplayName="Homer S."
@@ -1101,7 +1101,7 @@ exports[`Message component fromAgent colors the message according to quiqOptions
         "type": "Text",
       }
     }
-    scrollToBottom={[Function]}
+    scrollToBottom={[MockFunction]}
   />
 </div>
 `;
@@ -1650,7 +1650,7 @@ exports[`Message component rendering renders with default props 1`] = `
         "type": "Text",
       }
     }
-    scrollToBottom={[Function]}
+    scrollToBottom={[MockFunction]}
   />
   <Connect(Avatar)
     authorDisplayName="Homer S."

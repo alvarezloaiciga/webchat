@@ -33,7 +33,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
     orientation: getOrientation(),
     messages: [],
   };
-  updateInterval: number;
+  updateInterval: IntervalID;
   messagesElement: any;
 
   componentDidMount() {

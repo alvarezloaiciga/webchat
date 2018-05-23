@@ -71,9 +71,9 @@ const LauncherContainer = styled.div`
 export class Launcher extends Component<LauncherProps, LauncherState> {
   props: LauncherProps;
   state: LauncherState = {};
-  updateLauncherVisibilityInterval: number;
-  typingTimeout: ?number;
-  autoPopTimeout: ?number;
+  updateLauncherVisibilityInterval: IntervalID;
+  typingTimeout: TimeoutID;
+  autoPopTimeout: TimeoutID;
 
   componentDidMount() {
     registerIntlObject(this.props.intl);
@@ -313,7 +313,7 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
       typeof this.props.configuration.autoPopTime === 'number'
     ) {
       this.autoPopTimeout = setTimeout(async () => {
-        if (!await this.updateLauncherState()) return;
+        if (!(await this.updateLauncherState())) return;
         await this.startSession();
         this.updateContainerHidden(false);
       }, this.props.configuration.autoPopTime);

@@ -25,7 +25,7 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
     imageWidth: 0,
   };
   image: ?Image;
-  pollingInterval: number;
+  pollingInterval: IntervalID;
 
   componentWillMount() {
     this.loadImage(this.props.message.localBlobUrl || this.props.message.url);

@@ -66,7 +66,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     emojiPickerVisible: false,
     inputText: '',
   };
-  checkAvailabilityTimer: number;
+  checkAvailabilityTimer: TimeoutID;
 
   checkAvailability = async () => {
     if (this.props.configuration.enforceAgentAvailability) {
@@ -99,7 +99,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
   }
 
   componentDidMount() {
-    if (!this.simpleMode) {
+    if (!this.state.simpleMode) {
       setTimeout(() => {
         this.focus();
       }, 200);
@@ -206,7 +206,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     this.props.setWindowScrollLockEnabled(false);
 
-    if (this.simpleMode) {
+    if (this.state.simpleMode) {
       window.scrollTo(0, 0);
     }
   };

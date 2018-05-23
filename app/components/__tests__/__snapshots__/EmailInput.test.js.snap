@@ -41,7 +41,7 @@ exports[`EmailInput component rendering renders 1`] = `
         "prefix": "far",
       }
     }
-    onClick={[Function]}
+    onClick={[MockFunction]}
     style={
       Object {
         "borderRadius": "10px",

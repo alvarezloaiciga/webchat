@@ -3,7 +3,6 @@ const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const config = require('./config/webpack.config.development');
 
 var webchatApp = require('express')();
@@ -83,13 +82,31 @@ require('fs').readFile(require('path').join(process.env[(process.platform == 'wi
 
   // Webpack will serve: webchat.html, bridge.html, sdk.js, webchat,js
   const compiler = webpack(config);
-  // Apply CLI dashboard for your webpack dev server
-  compiler.apply(new DashboardPlugin({port: 9840}));
   webchatApp.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
     stats: {
-      colors: true
+      assets: false,
+      cached: false,
+      cachedAssets: false,
+      children: false,
+      chunks: false,
+      chunkModules: false,
+      chunkOrigins: false,
+      colors: true,
+      depth: false,
+      entrypoints: true,
+      excludeAssets: /app\/assets/,
+      excludeModules: /\/node_modules\/(?!(core-ui|core-agent-ui)\/).*/,
+      hash: false,
+      maxModules: 15,
+      modules: false,
+      performance: true,
+      reasons: false,
+      source: false,
+      timings: true,
+      version: false,
+      warnings: true,
     },
     historyApiFallback: true,
     headers: {
