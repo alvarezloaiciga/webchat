@@ -78,7 +78,7 @@ module.exports = merge(config, {
           },
           {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
           {
-            loader: 'sass-loader',
+            loader: 'fast-sass-loader',
             options: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
           },
         ],

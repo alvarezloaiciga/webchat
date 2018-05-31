@@ -122,7 +122,7 @@ module.exports = merge(config, {
               },
             },
             {loader: 'namespace-css-loader', query: '#quiqWebChat'},
-            {loader: 'sass-loader', options: {outputStyle: 'compressed'}},
+            {loader: 'fast-sass-loader', options: {outputStyle: 'compressed'}},
           ],
         }),
       },
@@ -141,7 +141,7 @@ module.exports = merge(config, {
             },
           },
           {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
-          {loader: 'sass-loader', options: {outputStyle: 'compressed'}},
+          {loader: 'fast-sass-loader', options: {outputStyle: 'compressed'}},
         ],
       },
     ],
