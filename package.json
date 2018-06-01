@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.43",
+  "version": "1.2.44",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -132,7 +132,7 @@
     "webpack-dev-middleware": "2.0.4",
     "webpack-hot-middleware": "2.21.0",
     "webpack-merge": "4.1.1",
-    "webpack-subresource-integrity": "1.0.3"
+    "webpack-subresource-integrity": "1.1.0-rc.4"
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro-regular": "5.0.6",
