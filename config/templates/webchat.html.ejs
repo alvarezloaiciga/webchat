@@ -15,7 +15,6 @@
     <% } %>
     <script>
       var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
-      console.log(htmlWebpackPlugin.files.jsIntegrity)
       var webChatHash = '<%= (htmlWebpackPlugin.files.jsIntegrity) ? htmlWebpackPlugin.files.jsIntegrity[1] : undefined %>';
     </script>
     <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
