@@ -5,6 +5,9 @@ const copydir = require('copy-dir');
 const mkdirp = require('mkdirp');
 const Messages = require('../Common/Messages');
 const reduce = require('lodash/reduce');
+const toPairs = require('lodash/toPairs');
+const fromPairs = require('lodash/fromPairs');
+const sortBy = require('lodash/sortBy');
 
 const outputDir = args.output || 'dist/docs';
 const inputDir = args.input || 'docs';
@@ -75,6 +78,8 @@ for (const target of targets) {
     });
 }
 
-// Build string docs
+// Build Intl message docs
+const sortedMessages = fromPairs(sortBy(toPairs(Messages), 0));
+generateMessageMarkdown('root', sortedMessages, 1);
 const mdString = `# Chat strings \n You can override every piece of static text that appears in Webchat. This lets you match the app\'s verbage with your brand and provide translations for any language.' \n ${generateMessageMarkdown('root', Messages, 1) || ''}`;
 fs.writeFileSync(`${outputDir}/strings.md`, mdString);
