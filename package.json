@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.46",
+  "version": "1.2.47",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -25,7 +25,6 @@
     "test": "yarn flow && yarn jestSingle && yarn lint --quiet",
     "precommit": "lint-staged",
     "audit": "./node_modules/.bin/snyk test --dev",
-    "update-snyk": "./node_modules/.bin/snyk monitor",
     "make-docs": "node ./config/buildDocs.js",
     "serve-docs": "./node_modules/.bin/docsify serve ./dist/docs/ --port 3002"
   },
