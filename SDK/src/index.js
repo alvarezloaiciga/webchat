@@ -78,7 +78,8 @@ export default Quiq;
 const quiqInjectEle = document.querySelector('#quiqInject');
 if (quiqInjectEle) {
   try {
-    Quiq(camelizeToplevelScreamingSnakeCaseKeys(JSON.parse(quiqInjectEle.innerText || '')));
+    window.Quiq = Quiq;
+    Quiq(JSON.parse(quiqInjectEle.innerText || ''));
   } catch (e) {
     console.error('Invalid Quiq Object injected');
   }
