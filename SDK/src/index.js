@@ -73,9 +73,17 @@ export const Quiq = (options: {[string]: any} = {}) => {
 export default Quiq;
 
 /*****************************************************************************************/
-// If window.QUIQ is defined, build chat instance automatically for backwards-compatibility.
 
-if (window.QUIQ) {
+// Chrome Extensions don't share window objects, we instead share Quiq Object through a hidden html element
+const quiqInjectEle = document.querySelector('#quiqInject');
+if (quiqInjectEle) {
+  try {
+    Quiq(camelizeToplevelScreamingSnakeCaseKeys(JSON.parse(quiqInjectEle.innerText || '')));
+  } catch (e) {
+    console.error('Invalid Quiq Object injected');
+  }
+  // If window.QUIQ is defined, build chat instance automatically for backwards-compatibility.
+} else if (window.QUIQ) {
   Quiq(camelizeToplevelScreamingSnakeCaseKeys(window.QUIQ));
 } else {
   // Expose Quiq() initialization function.
