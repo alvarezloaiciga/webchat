@@ -8168,9 +8168,9 @@ querystringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
 
-quiq-chat@1.58.1:
-  version "1.58.1"
-  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.58.1.tgz#21c1c562b8b5e07840c8ac4a8ddfc3ba3494f3ab"
+quiq-chat@1.59.0:
+  version "1.59.0"
+  resolved "https://registry.yarnpkg.com/quiq-chat/-/quiq-chat-1.59.0.tgz#9fff97ccf1f27521d9b2a0b78006a970625652d0"
   dependencies:
     atmosphere.js "https://github.com/Quiq/atmosphere-js/tarball/cf35c913143cf2c391b6bcb694ae8a47794a1b88"
     isomorphic-fetch "2.2.1"

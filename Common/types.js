@@ -153,6 +153,7 @@ export type EventsOptions = {
  * For even finer-grained theme control,
  * use the `styles` property of the options object to provide custom CSS styling for various components.
  * @property [primary="#59ad5d"] - The principal UI color. Oftentimes the only color you'll need to provide to achieve a branded look.
+ * @property [error="#ad2215"] - Color used for elements that indicate an error, could be background or foreground color.
  * @property [eventText="#888"] - Text color for Event messages
  * @property [menuText="#2199e8"] - Text color for primary menu
  * @property [agentMessageText="#000"] - Text color for messages sent by the support agent
@@ -170,6 +171,7 @@ export type EventsOptions = {
  */
 export type Colors = {
   primary: string,
+  error: string,
   eventText: string,
   menuText: string,
   agentMessageText: string,
@@ -426,6 +428,7 @@ export type WelcomeForm = {
  * @property CustomerMessageText - The text for messages that the customer sent
  * @property CustomerAttachmentBubble - The message bubble that file attachments are displayed in. Does not affect image attachments.
  * @property CustomerAttachmentText - The text and icon that is displayed inside an attachment message bubble.
+ * @property MessageErrorText - The error description text that is displayed below a message that failed to send.
  * @property EmailTranscriptInput - Input where user inputs an email to receive a transcript of the conversation.
  * @property EmailTranscriptInputCancelButton - Cancel button for the `EmailTranscriptInput`
  * @property EmailTranscriptInputContainer - Container for the input where user inputs an email to receive a transcript of the conversation.
@@ -479,6 +482,7 @@ type CustomStyles = {
   AgentAttachmentText?: Object,
   AgentMessageText?: Object,
   AgentAvatar?: Object,
+  MessageErrorText?: Object,
   MessageForm?: Object,
   MessageFormInput?: Object,
   MessageFormSend?: Object,
@@ -742,12 +746,16 @@ export type MessageStatusType = 'pending' | 'delivered';
 
 export type TextMessage = QuiqChatTypes.TextMessage & {
   localKey?: string,
+  failureReason?: string,
+  status?: string,
 };
 
 export type AttachmentMessage = QuiqChatTypes.AttachmentMessage & {
   localKey?: string,
   localBlobUrl: string,
   uploadProgress?: number,
+  failureReason?: string,
+  status?: string,
 };
 
 export type Message = TextMessage | AttachmentMessage;

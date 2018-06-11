@@ -6,6 +6,7 @@ import {
   EndEventTypes,
   EventTypes,
   AuthorTypes,
+  MessageStatus,
 } from 'Common/Constants';
 import flatMap from 'lodash/flatMap';
 import Mime from 'mime-types';
@@ -38,7 +39,8 @@ type ChatAction = {
   platformEvents?: Array<Event>,
   messageFieldFocused?: boolean,
   configuration?: ChatConfiguration,
-  id?: string,
+  messageId?: string,
+  reason?: string,
   isAgentAssigned?: boolean,
   inputtingEmail?: boolean,
   attachmentError?: AttachmentError,
@@ -181,7 +183,16 @@ const chat = (state: ChatState, action: Action & ChatAction) => {
     case 'REMOVE_MESSAGE':
       return update(state, {
         transcript: {
-          $unset: [action.id],
+          $unset: [action.messageId],
+        },
+      });
+    case 'MARK_SEND_FAILURE':
+      return update(state, {
+        transcript: {
+          [action.messageId]: {
+            failureReason: {$set: action.reason},
+            status: {$set: MessageStatus.FAILED},
+          },
         },
       });
     case 'ADD_PENDING_MESSAGE':

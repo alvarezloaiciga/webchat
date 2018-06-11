@@ -114,7 +114,7 @@ export const Banner = styled.div`
   padding: 0 30px;
   align-items: stretch;
   text-align: center;
-  background: #59ad5d;
+  background-color: #59ad5d;
   height: 60px;
 
   @media (max-height: 200px) {
@@ -355,7 +355,10 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       fontFamily,
     });
 
-    const errorBannerStyle = getStyle(styles.ErrorBanner, {fontFamily});
+    const errorBannerStyle = getStyle(styles.ErrorBanner, {
+      backgroundColor: colors.error,
+      fontFamily,
+    });
 
     // If state indicates a warning message, use that
     if (this.state.bannerMessage) {

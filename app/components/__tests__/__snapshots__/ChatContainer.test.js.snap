@@ -10,6 +10,7 @@ exports[`ChatContainer component initializedState when burned renders properly 1
     style={
       Object {
         "background": "#fff",
+        "backgroundColor": "red",
         "color": "red",
         "fontFamily": "Source Sans Pro",
         "fontWeight": 700,
@@ -42,6 +43,7 @@ exports[`ChatContainer component initializedState when disconnected renders prop
     style={
       Object {
         "background": "#fff",
+        "backgroundColor": "red",
         "color": "red",
         "fontFamily": "Source Sans Pro",
         "fontWeight": 700,
@@ -74,6 +76,7 @@ exports[`ChatContainer component initializedState when errored renders properly 
     style={
       Object {
         "background": "#fff",
+        "backgroundColor": "red",
         "color": "red",
         "fontFamily": "Source Sans Pro",
         "fontWeight": 700,

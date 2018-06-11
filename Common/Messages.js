@@ -400,6 +400,12 @@ module.exports = Object.assign(
       description: 'Message to display when an attachment is too large',
       defaultMessage: 'Attachment Too Large',
     },
+    unableToSend: {
+      id: 'unableToSend',
+      description:
+        'Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.',
+      defaultMessage: 'Unable to send',
+    },
     unsupportedOrientation: {
       id: 'unsupportedOrientation',
       description:

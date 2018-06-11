@@ -49,6 +49,11 @@ export const MessageTypes = {
   ATTACHMENT: 'Attachment',
 };
 
+export const MessageStatus = {
+  PENDING: 'pending',
+  FAILED: 'failed',
+};
+
 export const EventTypes = {
   JOIN: 'Join',
   LEAVE: 'Leave',
@@ -97,6 +102,7 @@ export const reduxActionTypes = {
   removeMessage: 'REMOVE_MESSAGE',
   isAgentAssigned: 'AGENT_ASSIGNED',
   addAttachmentError: 'ADD_ATTACHMENT_ERROR',
+  markSendFailure: 'MARK_SEND_FAILURE',
 };
 
 export const postmasterActionTypes = {
@@ -168,6 +174,7 @@ export const intlMessageTypes = {
   transcriptEmailedEventMessage: 'transcriptEmailedEventMessage',
   cannotStartNewConversationMessage: 'cannotStartNewConversationMessage',
   unsupportedOrientation: 'unsupportedOrientation',
+  unableToSend: 'unableToSend',
 };
 
 export const localStorageKeys = ['quiq-data'];

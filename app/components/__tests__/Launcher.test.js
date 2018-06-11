@@ -58,6 +58,7 @@ describe('Launcher component', () => {
       setChatInitialized: jest.fn(),
       setWelcomeFormRegistered: jest.fn(),
       setTypingAuthorData: jest.fn(),
+      markSendFailure: jest.fn(),
       updateTranscript: jest.fn(),
       newWebchatSession: jest.fn(),
       setAgentsAvailable: jest.fn(),

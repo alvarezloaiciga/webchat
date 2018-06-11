@@ -48,6 +48,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       {},
       {
         primary: primaryColor,
+        error: '#ad2215',
         menuText: '#2199e8',
         eventText: '#888',
         agentMessageText: '#000',
@@ -133,6 +134,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
         emojiPicker: messages.emojiMessages,
         unsupportedOrientation: messages.unsupportedOrientation,
+        unableToSend: messages.unableToSend,
       },
       rawQuiqObject.messages,
     ),

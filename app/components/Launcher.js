@@ -28,7 +28,7 @@ import type {
   ChatMetadata,
   ChatConfiguration,
 } from 'types';
-import type {PersistentData, Author} from 'quiq-chat/src/types';
+import type {PersistentData, Author, MessageFailureData} from 'quiq-chat/src/types';
 import {tellClient} from 'services/Postmaster';
 import {playSound} from 'services/alertService';
 import {postExtensionEvent} from 'services/Extensions';
@@ -59,9 +59,9 @@ export type LauncherProps = {
   updatePlatformEvents: (event: Event) => void,
   newWebchatSession: () => void,
   updateChatConfigurationFromMetadata: (configuration: ChatMetadata) => void,
-  removeMessage: (messageId: string) => void,
   setIsAgentAssigned: (isAgentAssigned: boolean) => void,
   updatePersistentData: (data: PersistentData) => void,
+  markSendFailure: (messageId: string, reason: string) => void,
 };
 
 const LauncherContainer = styled.div`
@@ -175,8 +175,8 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
 
   registerClientCallbacks = () => {
     QuiqChatClient.onNewMessages(this.handleNewMessages);
-    QuiqChatClient.onMessageSendFailure((messageId: string) => {
-      this.props.removeMessage(messageId);
+    QuiqChatClient.onMessageSendFailure((messageId: string, data: MessageFailureData) => {
+      this.props.markSendFailure(messageId, data.reason);
     });
     QuiqChatClient.onNewEvents(this.props.updatePlatformEvents);
     QuiqChatClient.onRegistration(this.props.setWelcomeFormRegistered);

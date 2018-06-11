@@ -1,17 +1,35 @@
 .messageContainer {
   margin: 8px 50px 8px 16px;
-  display: flex;
+  display: inline-block;
   flex: 0 0 auto;
-  justify-content: flex-start;
-  align-self: stretch;
   overflow-x: hidden;
   overflow-y: hidden;
-  align-items: center;
+
+  .MessageContent {
+    display: flex;
+    justify-content: flex-start;
+    align-self: stretch;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: center;
+    transition: opacity 0.3s ease-in;
+
+    &.failed {
+      opacity: 0.6;
+    }
+  }
+
+  .MessageFailure {
+    margin-top: 5px;
+  }
 
   &.fromCustomer {
     margin-right: 16px;
     margin-left: 50px;
-    justify-content: flex-end;
+
+    .MessageContent {
+      justify-content: flex-end;
+    }
   }
 }
 

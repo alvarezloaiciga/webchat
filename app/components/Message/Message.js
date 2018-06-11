@@ -9,8 +9,10 @@ import AgentTypingMessage from './AgentTypingMessage';
 import classnames from 'classnames';
 import {getConfiguration} from 'reducers/chat';
 import Avatar from '../Avatar';
+import MessageFailure from './MessageFailure';
 import type {Message as MessageType, ChatState, ChatConfiguration} from 'Common/types';
 import './styles/Message.scss';
+import {MessageStatus} from 'Common/Constants';
 
 export type MessageProps = {
   message: MessageType,
@@ -20,6 +22,7 @@ export type MessageProps = {
 
 export const Message = (props: MessageProps) => {
   const fromCustomer = props.message.authorType === 'Customer';
+  const failed = props.message.status === MessageStatus.FAILED;
 
   const avatarUrl =
     props.message.authorProfilePicture ||
@@ -49,13 +52,16 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={classnames('messageContainer', {fromCustomer})}>
-      {!fromCustomer && (
-        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
-      )}
-      {messageComponent}
-      {fromCustomer && (
-        <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
-      )}
+      <div className={classnames('MessageContent', {failed})}>
+        {!fromCustomer && (
+          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} />
+        )}
+        {messageComponent}
+        {fromCustomer && (
+          <Avatar url={avatarUrl} authorDisplayName={props.message.authorDisplayName} forCustomer />
+        )}
+      </div>
+      {failed && <MessageFailure reason={props.message.failureReason} />}
     </div>
   );
 };

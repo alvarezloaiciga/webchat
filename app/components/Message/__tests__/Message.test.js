@@ -51,4 +51,12 @@ describe('Message component', () => {
       expect(wrapper).toMatchSnapshot();
     });
   });
+
+  describe('send failure', () => {
+    it('renders with failure message', () => {
+      testProps.message = getMockMessage(0, {failureReason: 'someError'});
+      render();
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });

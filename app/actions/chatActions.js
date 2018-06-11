@@ -96,9 +96,9 @@ export const updateTranscript = (transcript: Array<Message>) => ({
   transcript,
 });
 
-export const removeMessage = (id: string) => ({
+export const removeMessage = (messageId: string) => ({
   type: actionTypes.removeMessage,
-  id,
+  messageId,
 });
 
 export const setWelcomeFormRegistered = () => ({
@@ -118,6 +118,12 @@ export const setUploadProgress = (messageId: string, progress: number) => ({
 export const addAttachmentError = (attachmentError: AttachmentError) => ({
   type: actionTypes.addAttachmentError,
   attachmentError,
+});
+
+export const markSendFailure = (messageId: string, reason: string) => ({
+  type: actionTypes.markSendFailure,
+  messageId,
+  reason,
 });
 
 export const addPendingAttachmentMessage = (

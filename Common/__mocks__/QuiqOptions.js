@@ -16,6 +16,7 @@ const quiqOptions: QuiqObject = {
   color: '#333',
   colors: {
     primary: '#333',
+    error: 'red',
     menuText: '#2199e8',
     eventText: '#ddd',
     agentMessageText: '#fff',
@@ -221,6 +222,7 @@ const quiqOptions: QuiqObject = {
     unmuteSoundsTooltip: messages.unmuteSoundsTooltip,
     cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
     emojiPicker: messages.emojiMessages,
+    unableToSend: messages.unableToSend,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
