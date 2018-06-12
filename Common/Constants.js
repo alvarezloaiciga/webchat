@@ -175,6 +175,8 @@ export const intlMessageTypes = {
   cannotStartNewConversationMessage: 'cannotStartNewConversationMessage',
   unsupportedOrientation: 'unsupportedOrientation',
   unableToSend: 'unableToSend',
+  infectedFile: 'infectedFile',
+  emptyUpload: 'emptyUpload',
 };
 
 export const localStorageKeys = ['quiq-data'];

@@ -395,6 +395,16 @@ module.exports = Object.assign(
       description: 'Message to display when a file type is unsupported',
       defaultMessage: 'Unsupported File Type',
     },
+    infectedFile: {
+      id: 'infectedFile',
+      description: 'Message to display when an attachment fails the virus scan',
+      defaultMessage: 'The file may contain a virus',
+    },
+    emptyUpload: {
+      id: 'emptyUpload',
+      description: 'Message to display when the user tried to up[load an empty file',
+      defaultMessage: 'Cannot upload an empty file',
+    },
     attachmentTooLarge: {
       id: 'attachmentTooLarge',
       description: 'Message to display when an attachment is too large',

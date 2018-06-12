@@ -135,6 +135,8 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
         emojiPicker: messages.emojiMessages,
         unsupportedOrientation: messages.unsupportedOrientation,
         unableToSend: messages.unableToSend,
+        infectedFile: messages.infectedFile,
+        emptyUpload: messages.emptyUpload,
       },
       rawQuiqObject.messages,
     ),

@@ -26,7 +26,10 @@ const getReasonMessage = (reason: ?string): ?string => {
   switch (reason) {
     case 'CONTENT_TYPE_NOT_ALLOWED':
       return getMessage(intlMessageTypes.unsupportedFileType);
-
+    case 'INFECTED_UPLOAD':
+      return getMessage(intlMessageTypes.infectedFile);
+    case 'EMPTY_UPLOAD':
+      return getMessage(intlMessageTypes.emptyUpload);
     default:
       return undefined;
   }
@@ -42,7 +45,7 @@ export const MessageFailure = (props: MessageFailureProps) => {
     >
       <Icon icon={timesCircle} className={errorIcon} />
       {getMessage(intlMessageTypes.unableToSend)}
-      {reasonMessage && `: ${reasonMessage}`}
+      {reasonMessage && `: ${reasonMessage.toLowerCase()}`}
     </MessageFailureContainer>
   );
 };

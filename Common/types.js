@@ -236,6 +236,9 @@ export type Messages = {
   unmuteSoundsTooltip: string,
   unsupportedOrientation: string,
   cannotStartNewConversationMessage: string,
+  infectedFile: string,
+  emptyUpload: string,
+  unableToSend: string,
   emojiPicker: {
     search: string,
     notfound: string, // Intentionally not camelCased for compatibility with emoji-mart

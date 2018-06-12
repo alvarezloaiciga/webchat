@@ -21,6 +21,7 @@
 
   .MessageFailure {
     margin-top: 5px;
+    text-align: left;
   }
 
   &.fromCustomer {
@@ -29,6 +30,10 @@
 
     .MessageContent {
       justify-content: flex-end;
+    }
+
+    .MessageFailure {
+      text-align: right;
     }
   }
 }

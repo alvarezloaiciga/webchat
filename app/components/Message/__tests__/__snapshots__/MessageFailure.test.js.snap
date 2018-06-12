@@ -26,7 +26,7 @@ exports[`MessageFailure component rendering when failureReason is known renders 
     }
   />
   Unable to send
-  : Unsupported File Type
+  : unsupported file type
 </Styled(div)>
 `;
 

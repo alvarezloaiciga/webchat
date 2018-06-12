@@ -223,6 +223,8 @@ const quiqOptions: QuiqObject = {
     cannotStartNewConversationMessage: messages.cannotStartNewConversationMessage,
     emojiPicker: messages.emojiMessages,
     unableToSend: messages.unableToSend,
+    infectedFile: messages.infectedFile,
+    emptyUpload: messages.emptyUpload,
   },
   fontFamily: 'Lato, sans-serif',
   width: 400,
