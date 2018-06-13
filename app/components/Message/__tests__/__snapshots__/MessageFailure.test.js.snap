@@ -6,11 +6,12 @@ exports[`MessageFailure component rendering when failureReason is known renders 
   style={
     Object {
       "color": "red",
+      "fontFamily": "Lato, sans-serif",
     }
   }
 >
   <Icon
-    className="css-8er82g"
+    className="css-7kbw2z"
     icon={
       Object {
         "icon": Array [
@@ -25,8 +26,7 @@ exports[`MessageFailure component rendering when failureReason is known renders 
       }
     }
   />
-  Unable to send
-  : unsupported file type
+  Unsupported file type
 </Styled(div)>
 `;
 
@@ -36,11 +36,12 @@ exports[`MessageFailure component rendering when failureReason is unknown render
   style={
     Object {
       "color": "red",
+      "fontFamily": "Lato, sans-serif",
     }
   }
 >
   <Icon
-    className="css-8er82g"
+    className="css-7kbw2z"
     icon={
       Object {
         "icon": Array [
@@ -55,6 +56,6 @@ exports[`MessageFailure component rendering when failureReason is unknown render
       }
     }
   />
-  Unable to send
+  There was a problem sending your message
 </Styled(div)>
 `;

@@ -88,7 +88,7 @@ Object {
         "id": "attachmentBtnTooltip",
       },
       "attachmentTooLarge": Object {
-        "defaultMessage": "Attachment Too Large",
+        "defaultMessage": "Attachment too large",
         "description": "Message to display when an attachment is too large",
         "id": "attachmentTooLarge",
       },
@@ -237,7 +237,7 @@ Object {
         "id": "hereToHelp",
       },
       "infectedFile": Object {
-        "defaultMessage": "The file may contain a virus",
+        "defaultMessage": "This file may contain a virus and could not be sent",
         "description": "Message to display when an attachment fails the virus scan",
         "id": "infectedFile",
       },
@@ -303,7 +303,7 @@ Object {
         "id": "transcriptEmailedEventMessage",
       },
       "unableToSend": Object {
-        "defaultMessage": "Unable to send",
+        "defaultMessage": "There was a problem sending your message",
         "description": "Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.",
         "id": "unableToSend",
       },
@@ -318,7 +318,7 @@ Object {
         "id": "unmuteSoundsTooltip",
       },
       "unsupportedFileType": Object {
-        "defaultMessage": "Unsupported File Type",
+        "defaultMessage": "Unsupported file type",
         "description": "Message to display when a file type is unsupported",
         "id": "unsupportedFileType",
       },
@@ -594,7 +594,7 @@ Object {
         "id": "attachmentBtnTooltip",
       },
       "attachmentTooLarge": Object {
-        "defaultMessage": "Attachment Too Large",
+        "defaultMessage": "Attachment too large",
         "description": "Message to display when an attachment is too large",
         "id": "attachmentTooLarge",
       },
@@ -743,7 +743,7 @@ Object {
         "id": "hereToHelp",
       },
       "infectedFile": Object {
-        "defaultMessage": "The file may contain a virus",
+        "defaultMessage": "This file may contain a virus and could not be sent",
         "description": "Message to display when an attachment fails the virus scan",
         "id": "infectedFile",
       },
@@ -809,7 +809,7 @@ Object {
         "id": "transcriptEmailedEventMessage",
       },
       "unableToSend": Object {
-        "defaultMessage": "Unable to send",
+        "defaultMessage": "There was a problem sending your message",
         "description": "Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.",
         "id": "unableToSend",
       },
@@ -824,7 +824,7 @@ Object {
         "id": "unmuteSoundsTooltip",
       },
       "unsupportedFileType": Object {
-        "defaultMessage": "Unsupported File Type",
+        "defaultMessage": "Unsupported file type",
         "description": "Message to display when a file type is unsupported",
         "id": "unsupportedFileType",
       },
@@ -1101,7 +1101,7 @@ Object {
         "id": "attachmentBtnTooltip",
       },
       "attachmentTooLarge": Object {
-        "defaultMessage": "Attachment Too Large",
+        "defaultMessage": "Attachment too large",
         "description": "Message to display when an attachment is too large",
         "id": "attachmentTooLarge",
       },
@@ -1250,7 +1250,7 @@ Object {
         "id": "hereToHelp",
       },
       "infectedFile": Object {
-        "defaultMessage": "The file may contain a virus",
+        "defaultMessage": "This file may contain a virus and could not be sent",
         "description": "Message to display when an attachment fails the virus scan",
         "id": "infectedFile",
       },
@@ -1316,7 +1316,7 @@ Object {
         "id": "transcriptEmailedEventMessage",
       },
       "unableToSend": Object {
-        "defaultMessage": "Unable to send",
+        "defaultMessage": "There was a problem sending your message",
         "description": "Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.",
         "id": "unableToSend",
       },
@@ -1331,7 +1331,7 @@ Object {
         "id": "unmuteSoundsTooltip",
       },
       "unsupportedFileType": Object {
-        "defaultMessage": "Unsupported File Type",
+        "defaultMessage": "Unsupported file type",
         "description": "Message to display when a file type is unsupported",
         "id": "unsupportedFileType",
       },
@@ -1663,7 +1663,7 @@ Object {
         "id": "attachmentBtnTooltip",
       },
       "attachmentTooLarge": Object {
-        "defaultMessage": "Attachment Too Large",
+        "defaultMessage": "Attachment too large",
         "description": "Message to display when an attachment is too large",
         "id": "attachmentTooLarge",
       },
@@ -1812,7 +1812,7 @@ Object {
         "id": "hereToHelp",
       },
       "infectedFile": Object {
-        "defaultMessage": "The file may contain a virus",
+        "defaultMessage": "This file may contain a virus and could not be sent",
         "description": "Message to display when an attachment fails the virus scan",
         "id": "infectedFile",
       },
@@ -1878,7 +1878,7 @@ Object {
         "id": "transcriptEmailedEventMessage",
       },
       "unableToSend": Object {
-        "defaultMessage": "Unable to send",
+        "defaultMessage": "There was a problem sending your message",
         "description": "Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.",
         "id": "unableToSend",
       },
@@ -1893,7 +1893,7 @@ Object {
         "id": "unmuteSoundsTooltip",
       },
       "unsupportedFileType": Object {
-        "defaultMessage": "Unsupported File Type",
+        "defaultMessage": "Unsupported file type",
         "description": "Message to display when a file type is unsupported",
         "id": "unsupportedFileType",
       },

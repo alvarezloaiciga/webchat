@@ -16,7 +16,7 @@ exports[`PlatformEvent component attachmentErrors displays them 1`] = `
         "stroke": "red",
       }
     }
-    text="undefined Attachment Too Large - Xmas"
+    text="undefined Attachment too large - Xmas"
     textStyle={
       Object {
         "background": "#f4f4f8",
@@ -44,7 +44,7 @@ exports[`PlatformEvent component attachmentErrors displays them 2`] = `
         "stroke": "red",
       }
     }
-    text="undefined Unsupported File Type - Xmas"
+    text="undefined Unsupported file type - Xmas"
     textStyle={
       Object {
         "background": "#f4f4f8",
