@@ -15,13 +15,13 @@
     transition: opacity 0.3s ease-in;
 
     &.failed {
-      opacity: 0.6;
+      opacity: 0.4;
     }
   }
 
   .MessageFailure {
     margin-top: 5px;
-    text-align: left;
+    float: left;
   }
 
   &.fromCustomer {
@@ -33,7 +33,7 @@
     }
 
     .MessageFailure {
-      text-align: right;
+      float: right;
     }
   }
 }

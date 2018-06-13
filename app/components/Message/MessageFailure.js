@@ -14,11 +14,29 @@ export type MessageFailureProps = {
 };
 
 const MessageFailureContainer = styled.div`
-  width: 100%;
+  display: flex;
+  justify-content: flex-end;
   color: red;
+  font-size: 15px;
+
+  @keyframes enter {
+    0% {
+      opacity: 0;
+      top: 5px;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      top: 0;
+      transform: scale(1);
+    }
+  }
+
+  animation: 0.2s 1 enter;
 `;
 
 const errorIcon = css`
+  flex: 0 0 auto;
   margin-right: 3px;
 `;
 
@@ -37,15 +55,14 @@ const getReasonMessage = (reason: ?string): ?string => {
 
 export const MessageFailure = (props: MessageFailureProps) => {
   const reasonMessage = getReasonMessage(props.reason);
-  const {colors, styles} = props.configuration;
+  const {colors, styles, fontFamily} = props.configuration;
   return (
     <MessageFailureContainer
-      style={getStyle(styles.MessageErrorText, {color: colors.error})}
+      style={getStyle(styles.MessageErrorText, {color: colors.error, fontFamily})}
       className="MessageFailure"
     >
       <Icon icon={timesCircle} className={errorIcon} />
-      {getMessage(intlMessageTypes.unableToSend)}
-      {reasonMessage && `: ${reasonMessage.toLowerCase()}`}
+      {reasonMessage || getMessage(intlMessageTypes.unableToSend)}
     </MessageFailureContainer>
   );
 };

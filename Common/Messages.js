@@ -393,12 +393,12 @@ module.exports = Object.assign(
     unsupportedFileType: {
       id: 'unsupportedFileType',
       description: 'Message to display when a file type is unsupported',
-      defaultMessage: 'Unsupported File Type',
+      defaultMessage: 'Unsupported file type',
     },
     infectedFile: {
       id: 'infectedFile',
       description: 'Message to display when an attachment fails the virus scan',
-      defaultMessage: 'The file may contain a virus',
+      defaultMessage: 'This file may contain a virus and could not be sent',
     },
     emptyUpload: {
       id: 'emptyUpload',
@@ -408,13 +408,13 @@ module.exports = Object.assign(
     attachmentTooLarge: {
       id: 'attachmentTooLarge',
       description: 'Message to display when an attachment is too large',
-      defaultMessage: 'Attachment Too Large',
+      defaultMessage: 'Attachment too large',
     },
     unableToSend: {
       id: 'unableToSend',
       description:
         'Error message displayed next to a customer message that was unable to be sent. Will be proceeded by a specific error reason, if available.',
-      defaultMessage: 'Unable to send',
+      defaultMessage: 'There was a problem sending your message',
     },
     unsupportedOrientation: {
       id: 'unsupportedOrientation',
