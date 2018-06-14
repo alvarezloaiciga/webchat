@@ -33,9 +33,15 @@ const MessageFailureContainer = styled.div`
   }
 
   animation: 0.2s 1 enter;
+
+  span {
+    display: block;
+    flex: 1 1 auto;
+  }
 `;
 
 const errorIcon = css`
+  display: block;
   flex: 0 0 auto;
   margin-right: 3px;
 `;
@@ -62,7 +68,7 @@ export const MessageFailure = (props: MessageFailureProps) => {
       className="MessageFailure"
     >
       <Icon icon={timesCircle} className={errorIcon} />
-      {reasonMessage || getMessage(intlMessageTypes.unableToSend)}
+      <span>{reasonMessage || getMessage(intlMessageTypes.unableToSend)}</span>
     </MessageFailureContainer>
   );
 };

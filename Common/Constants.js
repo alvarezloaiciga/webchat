@@ -76,6 +76,7 @@ export const AttachmentErrorTypes = {
   TOO_LARGE: 'attachmentTooLarge',
   UNSUPPORTED_TYPE: 'attachmentUnsupportedType',
   UPLOAD_ERROR: 'attachmentUploadError',
+  EMPTY: 'emptyUpload',
 };
 
 // Define subsets of events
@@ -91,6 +92,7 @@ export const DisplayElementTypes = [
   AttachmentErrorTypes.TOO_LARGE,
   AttachmentErrorTypes.UNSUPPORTED_TYPE,
   AttachmentErrorTypes.UPLOAD_ERROR,
+  AttachmentErrorTypes.EMPTY,
 ];
 
 export const reduxActionTypes = {

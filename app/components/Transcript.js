@@ -11,9 +11,16 @@ import {
   getConfiguration,
   getMessage,
 } from 'reducers/chat';
-import {intlMessageTypes, EndEventTypes, AuthorTypes, DisplayElementTypes} from 'Common/Constants';
+import {
+  intlMessageTypes,
+  EndEventTypes,
+  AuthorTypes,
+  DisplayElementTypes,
+  MessageStatus,
+} from 'Common/Constants';
 import {isMessage} from 'Common/Utils';
 import {setInputtingEmail} from 'actions/chatActions';
+import last from 'lodash/last';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
 import type {Author} from 'quiq-chat/src/types';
 import './styles/Transcript.scss';
@@ -65,10 +72,20 @@ export class Transcript extends Component {
   };
 
   componentDidUpdate(prevProps) {
+    const oldElements = this.getConversationElementsForDisplay(prevProps);
+    const newElements = this.getConversationElementsForDisplay();
+
     // Scroll to the bottom if you get a new message or new visible platform event
-    const oldCount = this.getConversationElementsForDisplay(prevProps).length;
-    const newCount = this.getConversationElementsForDisplay().length;
-    if (newCount > oldCount) {
+    if (newElements.length > oldElements.length) {
+      this.scrollLock = false;
+      this.scrollToBottom();
+    }
+
+    // Scroll to the bottom if the last transcript item is the same message and it just failed to send
+    if (
+      last(newElements).status === MessageStatus.FAILED &&
+      last(oldElements).status !== MessageStatus.FAILED
+    ) {
       this.scrollLock = false;
       this.scrollToBottom();
     }

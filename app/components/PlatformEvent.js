@@ -81,6 +81,8 @@ const getEventDescription = (event: Event | AttachmentError): ?string => {
       return null;
     case AttachmentErrorTypes.TOO_LARGE:
       return `${getMessage(intlMessageTypes.attachmentTooLarge)} - ${getFilename(event)}`;
+    case AttachmentErrorTypes.EMPTY:
+      return `${getMessage(intlMessageTypes.emptyUpload)} - ${getFilename(event)}`;
     case AttachmentErrorTypes.UNSUPPORTED_TYPE:
       return `${getMessage(intlMessageTypes.unsupportedFileType)} - ${getFilename(event)}`;
     case AttachmentErrorTypes.UPLOAD_ERROR:

@@ -298,13 +298,19 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
   handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
     rejected.forEach(f => {
+      let type;
+      if (f.size > maxAttachmentSize) {
+        type = AttachmentErrorTypes.TOO_LARGE;
+      } else if (f.size < 1) {
+        type = AttachmentErrorTypes.EMPTY;
+      } else {
+        type = AttachmentErrorTypes.UNSUPPORTED_TYPE;
+      }
+
       this.props.addAttachmentError({
         timestamp: Date.now(),
         id: createGuid(),
-        type:
-          f.size > maxAttachmentSize
-            ? AttachmentErrorTypes.TOO_LARGE
-            : AttachmentErrorTypes.UNSUPPORTED_TYPE,
+        type,
         data: {filename: f.name},
       });
     });
@@ -440,6 +446,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               disablePreview={true}
               disableClick={true}
               maxSize={maxAttachmentSize}
+              minSize={1}
               onDrop={this.handleAttachments}
               style={{
                 // This is to ensure that the size of this renders in a way that allows us to at least scroll in IE 10

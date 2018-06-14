@@ -11,7 +11,7 @@ exports[`MessageFailure component rendering when failureReason is known renders 
   }
 >
   <Icon
-    className="css-7kbw2z"
+    className="css-1fq498m"
     icon={
       Object {
         "icon": Array [
@@ -26,7 +26,9 @@ exports[`MessageFailure component rendering when failureReason is known renders 
       }
     }
   />
-  Unsupported file type
+  <span>
+    Unsupported file type
+  </span>
 </Styled(div)>
 `;
 
@@ -41,7 +43,7 @@ exports[`MessageFailure component rendering when failureReason is unknown render
   }
 >
   <Icon
-    className="css-7kbw2z"
+    className="css-1fq498m"
     icon={
       Object {
         "icon": Array [
@@ -56,6 +58,8 @@ exports[`MessageFailure component rendering when failureReason is unknown render
       }
     }
   />
-  There was a problem sending your message
+  <span>
+    There was a problem sending your message
+  </span>
 </Styled(div)>
 `;
