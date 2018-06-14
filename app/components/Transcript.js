@@ -82,9 +82,13 @@ export class Transcript extends Component {
     }
 
     // Scroll to the bottom if the last transcript item is the same message and it just failed to send
+    const newLastMessage = last(newElements);
+    const oldLastMessage = last(oldElements);
     if (
-      last(newElements).status === MessageStatus.FAILED &&
-      last(oldElements).status !== MessageStatus.FAILED
+      newLastMessage &&
+      oldLastMessage &&
+      newLastMessage.status === MessageStatus.FAILED &&
+      oldLastMessage.status !== MessageStatus.FAILED
     ) {
       this.scrollLock = false;
       this.scrollToBottom();
