@@ -377,7 +377,8 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       case ChatInitializedState.UNINITIALIZED:
         return (
           <Banner isMobile={isMobile()} orientation={this.state.orientation} style={bannerStyle}>
-            {getMessage(intlMessageTypes.headerText)}
+            {this.props.initializedState === ChatInitializedState.INITIALIZED &&
+              getMessage(intlMessageTypes.headerText)}
           </Banner>
         );
       case ChatInitializedState.DISCONNECTED:

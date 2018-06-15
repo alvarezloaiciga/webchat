@@ -63,310 +63,314 @@ exports[`WelcomeForm component rendering renders correctly 1`] = `
   </div>
   <Debugger />
   <div
-    className="fields"
+    className="formElements"
   >
     <div
-      className="field"
-      key="firstName"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
+      className="fields"
     >
-      <label
-        htmlFor="First Name"
+      <div
+        className="field"
+        key="firstName"
         style={
           Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
+            "marginTop": 16,
           }
         }
       >
-        First Name
-        <span
-          className="required"
-          title="Required"
+        <label
+          htmlFor="First Name"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
         >
-           
-          *
-        </span>
-      </label>
-      <input
-        maxLength={1000}
-        name="firstName"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={true}
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
+          First Name
+          <span
+            className="required"
+            title="Required"
+          >
+             
+            *
+          </span>
+        </label>
+        <input
+          maxLength={1000}
+          name="firstName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={true}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
           }
-        }
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="lastName"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="Last Name"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="lastName"
         style={
           Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
+            "marginTop": 16,
           }
         }
       >
-        Last Name
-      </label>
-      <input
-        maxLength={1000}
-        name="lastName"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={false}
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
+        <label
+          htmlFor="Last Name"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
           }
-        }
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="numberField"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="Number Field"
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
-          }
-        }
-      >
-        Number Field
-      </label>
-      <input
-        maxLength={1000}
-        name="numberField"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={false}
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
-          }
-        }
-        type="number"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="email"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="E-Mail"
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
-          }
-        }
-      >
-        E-Mail
-      </label>
-      <input
-        maxLength={1000}
-        name="email"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={false}
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
-          }
-        }
-        type="email"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="phoneNumber"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="Phone Number"
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
-          }
-        }
-      >
-        Phone Number
-      </label>
-      <input
-        maxLength={1000}
-        name="phoneNumber"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={false}
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
-          }
-        }
-        type="tel"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="lifeStory"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="My life story"
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
-          }
-        }
-      >
-        My life story
-      </label>
-      <textarea
-        maxLength={1000}
-        name="lifeStory"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={false}
-        resize="vertical"
-        rows={3}
-        style={
-          Object {
-            "color": "#888",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
-          }
-        }
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-      key="country"
-      style={
-        Object {
-          "marginTop": 16,
-        }
-      }
-    >
-      <label
-        htmlFor="Country"
-        style={
-          Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "fontWeight": 700,
-            "textTransform": "uppercase",
-          }
-        }
-      >
-        Country
-        <span
-          className="required"
-          title="Required"
         >
-           
-          *
-        </span>
-      </label>
-      <select
-        name="country"
-        onBlur={[Function]}
-        onChange={[Function]}
-        required={true}
+          Last Name
+        </label>
+        <input
+          maxLength={1000}
+          name="lastName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={false}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="numberField"
         style={
           Object {
-            "color": "#555",
-            "fontFamily": "Source Sans Pro",
-            "outline": "none",
+            "marginTop": 16,
           }
         }
-        value=""
-      />
+      >
+        <label
+          htmlFor="Number Field"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          Number Field
+        </label>
+        <input
+          maxLength={1000}
+          name="numberField"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={false}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          type="number"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="email"
+        style={
+          Object {
+            "marginTop": 16,
+          }
+        }
+      >
+        <label
+          htmlFor="E-Mail"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          E-Mail
+        </label>
+        <input
+          maxLength={1000}
+          name="email"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={false}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="phoneNumber"
+        style={
+          Object {
+            "marginTop": 16,
+          }
+        }
+      >
+        <label
+          htmlFor="Phone Number"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          Phone Number
+        </label>
+        <input
+          maxLength={1000}
+          name="phoneNumber"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={false}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          type="tel"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="lifeStory"
+        style={
+          Object {
+            "marginTop": 16,
+          }
+        }
+      >
+        <label
+          htmlFor="My life story"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          My life story
+        </label>
+        <textarea
+          maxLength={1000}
+          name="lifeStory"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={false}
+          resize="vertical"
+          rows={3}
+          style={
+            Object {
+              "color": "#888",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+        key="country"
+        style={
+          Object {
+            "marginTop": 16,
+          }
+        }
+      >
+        <label
+          htmlFor="Country"
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "fontWeight": 700,
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          Country
+          <span
+            className="required"
+            title="Required"
+          >
+             
+            *
+          </span>
+        </label>
+        <select
+          name="country"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={true}
+          style={
+            Object {
+              "color": "#555",
+              "fontFamily": "Source Sans Pro",
+              "outline": "none",
+            }
+          }
+          value=""
+        />
+      </div>
     </div>
+    <button
+      className="submit"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "teal",
+          "backgroundColor": "#333",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 16,
+          "fontWeight": 700,
+        }
+      }
+    >
+      Submit
+    </button>
   </div>
-  <button
-    className="submit"
-    disabled={false}
-    onClick={[Function]}
-    style={
-      Object {
-        "background": "teal",
-        "backgroundColor": "#333",
-        "fontFamily": "Source Sans Pro",
-        "fontSize": 16,
-        "fontWeight": 700,
-      }
-    }
-  >
-    Submit
-  </button>
 </form>
 `;

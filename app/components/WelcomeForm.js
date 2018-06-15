@@ -13,6 +13,7 @@ import type {WelcomeFormField, ChatState, ChatConfiguration} from 'Common/types'
 import './styles/WelcomeForm.scss';
 import map from 'lodash/map';
 import find from 'lodash/find';
+import Spinner from './Spinner';
 
 const ValidationErrors = {
   REQUIRED: 'REQUIRED',
@@ -67,6 +68,15 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     if (!registrationForm) {
       this.props.setWelcomeFormRegistered();
       return;
+    }
+
+    // If a WelcomeForm is defined, and has only hidden fields, submit it automatically
+    // NOTE: We check registration status directly with quiq-chat to avoid race conditions with Redux
+    const welcomeFormContainsOnlyHiddenFields = registrationForm.fields.every(
+      field => field.additionalProperties && field.additionalProperties.isHidden,
+    );
+    if (welcomeFormContainsOnlyHiddenFields && !QuiqChatClient.userIsRegistered) {
+      this.submitForm();
     }
 
     registrationForm.fields
@@ -205,10 +215,7 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     } catch (ex) {} // eslint-disable-line no-empty
   };
 
-  submitForm = async (e: SyntheticEvent<*>) => {
-    e.preventDefault();
-    if (this.state.submitting) return;
-
+  submitForm = async () => {
     const {href, registrationFormVersionId} = this.props.configuration;
     const fields: {[string]: string} = Object.assign({}, this.props.registrationFieldValues);
 
@@ -229,6 +236,12 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     this.setState({submitting: true});
     await QuiqChatClient.sendRegistration(fields, registrationFormVersionId);
     await this.sendInitialMessage();
+  };
+
+  handleSubmitClick = (e: SyntheticEvent<*>) => {
+    e.preventDefault();
+    if (this.state.submitting) return;
+    this.submitForm();
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {
@@ -306,16 +319,40 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     }
   };
 
+  renderFormElements = () => {
+    const {fontFamily, colors, styles, registrationForm} = this.props.configuration;
+    const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
+      backgroundColor: colors.primary,
+      fontFamily,
+    });
+
+    return (
+      <div className="formElements">
+        <div className="fields">
+          {registrationForm &&
+            registrationForm.fields
+              .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
+              .map(this.renderField)}
+        </div>
+        <button
+          className="submit"
+          disabled={this.state.submitting}
+          style={submitButtonStyle}
+          onClick={this.handleSubmitClick}
+        >
+          {this.state.submitting
+            ? getMessage(intlMessageTypes.welcomeFormSubmittingButtonLabel)
+            : getMessage(intlMessageTypes.welcomeFormSubmitButtonLabel)}
+        </button>
+      </div>
+    );
+  };
+
   render = () => {
     const {fontFamily, colors, styles, registrationForm} = this.props.configuration;
     if (this.props.welcomeFormRegistered) return null;
 
     const bannerStyle = getStyle(styles.WelcomeFormBanner, {
-      backgroundColor: colors.primary,
-      fontFamily,
-    });
-
-    const submitButtonStyle = getStyle(styles.WelcomeFormSubmitButton, {
       backgroundColor: colors.primary,
       fontFamily,
     });
@@ -327,22 +364,8 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         </div>
         <Debugger />
         {this.state.formValidationError && this.renderValidationError()}
-        <div className="fields">
-          {registrationForm &&
-            registrationForm.fields
-              .filter(field => !field.additionalProperties || !field.additionalProperties.isHidden)
-              .map(this.renderField)}
-        </div>
-        <button
-          className="submit"
-          disabled={this.state.submitting}
-          style={submitButtonStyle}
-          onClick={this.submitForm}
-        >
-          {this.state.submitting
-            ? getMessage(intlMessageTypes.welcomeFormSubmittingButtonLabel)
-            : getMessage(intlMessageTypes.welcomeFormSubmitButtonLabel)}
-        </button>
+
+        {this.state.submitting ? <Spinner /> : this.renderFormElements()}
       </form>
     );
   };
