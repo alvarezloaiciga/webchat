@@ -42,6 +42,7 @@ export type MessageFormProps = {
   muteSounds: boolean,
   configuration: ChatConfiguration,
   openFileBrowser: () => void,
+  sendTextMessage: (text: string) => void,
   setMessageFieldFocused: (messageFieldFocused: boolean) => void,
   inputtingEmail: boolean,
   setInputtingEmail: (inputtingEmail: boolean) => void,
@@ -156,9 +157,6 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
   addMessage = () => {
     const text = this.getFilteredText();
-    if (text) {
-      QuiqChatClient.sendTextMessage(text);
-    }
 
     if (this.state.simpleMode) {
       this.setState({inputText: '', hasText: false}, this.resetTypingTimers);
@@ -170,6 +168,11 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
 
     if (isMobile() && this.state.simpleMode) {
       this.textArea.input.blur();
+    }
+
+    // Finally, send the message
+    if (text) {
+      this.props.sendTextMessage(text);
     }
   };
 

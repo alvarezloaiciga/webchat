@@ -23,12 +23,14 @@ import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
 import Spinner from 'Spinner';
 import {connect} from 'react-redux';
+import find from 'lodash/find';
 import {
   ChatInitializedState,
   intlMessageTypes,
   maxAttachmentSize,
   ExtensionSdkEventTypes,
   AttachmentErrorTypes,
+  UserEmailKey,
 } from 'Common/Constants';
 import Dropzone from 'react-dropzone';
 import * as ChatActions from 'actions/chatActions';
@@ -38,6 +40,7 @@ import type {
   ChatConfiguration,
   Message as MessageType,
   AttachmentError,
+  RegistrationFields,
 } from 'Common/types';
 import {registerExtension, postExtensionEvent} from 'services/Extensions';
 import {
@@ -191,6 +194,7 @@ export type ChatContainerProps = {
   addAttachmentError: (attachmentError: AttachmentError) => void,
   removeMessage: (id: string) => void,
   windowScrollLockEnabled: boolean,
+  registrationFieldValues: {[string]: any},
 };
 
 export type ChatContainerState = {
@@ -296,7 +300,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     }
   }
 
-  handleAttachments = (accepted: Array<File>, rejected: Array<File>) => {
+  handleAttachments = async (accepted: Array<File>, rejected: Array<File>) => {
     rejected.forEach(f => {
       let type;
       if (f.size > maxAttachmentSize) {
@@ -319,6 +323,11 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
 
     // Clear any attachment error
     this.setState({bannerMessage: undefined});
+
+    // Submit registration form if needed
+    if (accepted.length) {
+      await this.submitHiddenRegistrationFields();
+    }
 
     accepted.forEach(file => {
       const tempId = `temp_${uuidv4()}`;
@@ -352,6 +361,70 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
     this.state.agentsAvailableOrSubscribed &&
     this.props.configuration.enableChatFileAttachments &&
     !(this.props.configuration.enableManualConvoStart && this.props.agentEndedConversation);
+
+  submitHiddenRegistrationFields = async () => {
+    // Submit registration form iff
+    // - user is not yet registered
+    // - and this is first message
+    // - and registration form contains only hidden fields
+    if (
+      !QuiqChatClient.isRegistered() &&
+      this.props.configuration.registrationForm &&
+      this.props.configuration.registrationForm.fields.length > 0 &&
+      this.props.configuration.registrationForm.fields.every(
+        field => field.additionalProperties && field.additionalProperties.isHidden,
+      )
+    ) {
+      await this.sendRegistrationForm();
+    }
+  };
+
+  sendRegistrationForm = async (inputFields: RegistrationFields = {}) => {
+    const {href, registrationFormVersionId} = this.props.configuration;
+    const fields: {[string]: string} = Object.assign({}, this.props.registrationFieldValues);
+
+    Object.entries(inputFields).forEach(([key, field]) => {
+      // Only include field if it was filled out
+      // TODO: API should allow empty strings. Send all fields when this is fixed.
+      // $FlowIssue - Object.entries is not understood by flow
+      if (field.value.length) fields[key] = field.value;
+    });
+
+    // Save e-mail to prepopulate email transcript input
+    const emailField = find(inputFields, f => f.type === 'email' || f.id === 'email');
+    if (emailField) {
+      try {
+        localStorage.setItem(
+          `${UserEmailKey}_${this.props.configuration.contactPoint}`,
+          btoa(emailField.value),
+        );
+      } catch (ex) {} // eslint-disable-line no-empty
+    }
+
+    // Append field containing referrer (host)
+    fields.Referrer = href;
+
+    await QuiqChatClient.sendRegistration(fields, registrationFormVersionId);
+
+    // Send initial message(s) if defined
+    await Promise.all(
+      Object.values(inputFields).map((field): Promise<*> => {
+        // Only include field if it was filled out and marked as an initial field
+        // $FlowIssue - Object.values is not understood by flow
+        if (field.value.length && field.isInitialMessage) {
+          return QuiqChatClient.sendTextMessage(field.value);
+        }
+        return Promise.resolve();
+      }),
+    );
+  };
+
+  sendTextMessage = async (text: string) => {
+    await this.submitHiddenRegistrationFields();
+    if (text) {
+      await QuiqChatClient.sendTextMessage(text);
+    }
+  };
 
   renderBanner = () => {
     const {colors, styles, fontFamily} = this.props.configuration;
@@ -458,6 +531,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
               <MessageForm
                 openFileBrowser={this.openFileBrowser}
                 agentsAvailableOrSubscribed={this.state.agentsAvailableOrSubscribed}
+                sendTextMessage={this.sendTextMessage}
               />
             </TranscriptArea>
           </ChatContainerBody>
@@ -582,7 +656,7 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
           }}
         >
           {inStandaloneMode() && <PopupHeaderMenu />}
-          <WelcomeForm />
+          <WelcomeForm sendRegistrationForm={this.sendRegistrationForm} />
         </ChatContainerStyle>
       );
     }
@@ -618,6 +692,7 @@ const mapStateToProps = (state: ChatState) => ({
   agentEndedConversation: getAgentEndedLatestConversation(state),
   agentsAvailable: state.agentsAvailable,
   windowScrollLockEnabled: getWindowScrollLockEnabled(state),
+  registrationFieldValues: state.registrationFieldValues,
 });
 
 const mapDispatchToProps = {

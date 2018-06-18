@@ -22,7 +22,7 @@ exports[`WelcomeForm component filling out form and submitting valid submission 
 exports[`WelcomeForm component filling out form and submitting valid submission with send message disables send button and sets text 1`] = `
 <button
   className="submit"
-  disabled={false}
+  disabled={true}
   onClick={[Function]}
   style={
     Object {
@@ -34,7 +34,7 @@ exports[`WelcomeForm component filling out form and submitting valid submission 
     }
   }
 >
-  Submit
+  Submitting
 </button>
 `;
 

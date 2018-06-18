@@ -44,6 +44,7 @@ describe('MessageForm component', () => {
         messageFieldFocused: false,
         setMessageFieldFocused: jest.fn(),
         setInputtingEmail: jest.fn(),
+        sendTextMessage: jest.fn(),
         configuration: getMockConfiguration({
           enableChatEmailTranscript: true,
           enableChatFileAttachments: true,

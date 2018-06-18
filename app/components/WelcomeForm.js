@@ -2,17 +2,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import update from 'react-addons-update';
-import {intlMessageTypes, UserEmailKey} from 'Common/Constants';
+import {intlMessageTypes} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration, getMessage, getRegistrationFieldValues} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
 import Debugger from './Debugger/Debugger';
 import {isValidEmail} from 'Common/Utils';
-import QuiqChatClient from 'quiq-chat';
-import type {WelcomeFormField, ChatState, ChatConfiguration} from 'Common/types';
+import type {
+  WelcomeFormField,
+  ChatState,
+  ChatConfiguration,
+  RegistrationFields,
+} from 'Common/types';
 import './styles/WelcomeForm.scss';
-import map from 'lodash/map';
-import find from 'lodash/find';
 
 const ValidationErrors = {
   REQUIRED: 'REQUIRED',
@@ -25,21 +27,12 @@ export type WelcomeFormProps = {
   setWindowScrollLockEnabled: (enabled: boolean) => void,
   registrationFieldValues: {[string]: any},
   welcomeFormRegistered: boolean,
+  sendRegistrationForm: (?RegistrationFields) => void,
 };
 
 export type WelcomeFormState = {
   formValidationError?: string,
-  inputFields: {
-    [string]: {
-      value: string,
-      label: string,
-      required: boolean,
-      isInitialMessage: boolean,
-      options: [{value: string, label: string, visible?: boolean}],
-      id: string,
-      type?: string,
-    },
-  },
+  inputFields: RegistrationFields,
   submitting: boolean,
 };
 
@@ -64,7 +57,15 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     const inputFields = {};
     const {registrationForm} = this.props.configuration;
 
-    if (!registrationForm) {
+    // If no registration form is defined, there ar eno fields on that form, or all fields are hidden,
+    // we have nothing to display
+    if (
+      !registrationForm ||
+      !registrationForm.fields.length ||
+      registrationForm.fields.every(
+        field => field.additionalProperties && field.additionalProperties.isHidden,
+      )
+    ) {
       this.props.setWelcomeFormRegistered();
       return;
     }
@@ -184,51 +185,16 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     );
   };
 
-  sendInitialMessage = async () => {
-    await map(this.state.inputFields, async field => {
-      // Only include field if it was filled out and marked as an initial field
-      if (field.value.length && field.isInitialMessage) {
-        await QuiqChatClient.sendTextMessage(field.value);
-      }
-    });
-  };
-
-  storeEmail = () => {
-    const emailField = find(this.state.inputFields, f => f.type === 'email' || f.id === 'email');
-    if (!emailField) return;
-
-    try {
-      localStorage.setItem(
-        `${UserEmailKey}_${this.props.configuration.contactPoint}`,
-        btoa(emailField.value),
-      );
-    } catch (ex) {} // eslint-disable-line no-empty
-  };
-
   submitForm = async (e: SyntheticEvent<*>) => {
     e.preventDefault();
-    if (this.state.submitting) return;
 
-    const {href, registrationFormVersionId} = this.props.configuration;
-    const fields: {[string]: string} = Object.assign({}, this.props.registrationFieldValues);
+    if (this.state.submitting) return;
 
     if (!this.validateFormInput()) return;
 
-    map(this.state.inputFields, (field, key) => {
-      // Only include field if it was filled out
-      // TODO: API should allow empty strings. Send all fields when this is fixed.
-      if (field.value.length) fields[key] = field.value;
-    });
-
-    // Save e-mail to prepopulate email transcript input
-    this.storeEmail();
-
-    // Append field containing referrer (host)
-    fields.Referrer = href;
-
     this.setState({submitting: true});
-    await QuiqChatClient.sendRegistration(fields, registrationFormVersionId);
-    await this.sendInitialMessage();
+
+    this.props.sendRegistrationForm(this.state.inputFields);
   };
 
   handleTrimFieldInput = (e: SyntheticInputEvent<*>) => {

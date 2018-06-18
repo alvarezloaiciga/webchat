@@ -881,3 +881,15 @@ export type AttachmentError = {
   timestamp: number,
   data?: Object,
 };
+
+export type RegistrationFields = {
+  [string]: {
+    value: string,
+    label: string,
+    required: boolean,
+    isInitialMessage: boolean,
+    options: [{value: string, label: string, visible?: boolean}],
+    id: string,
+    type?: string,
+  },
+};

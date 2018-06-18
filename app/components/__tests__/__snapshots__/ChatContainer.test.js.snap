@@ -149,6 +149,7 @@ exports[`ChatContainer component initializedState when initialized renders prope
       <Connect(Transcript) />
       <Connect(MessageForm)
         openFileBrowser={[Function]}
+        sendTextMessage={[Function]}
       />
     </Styled(Dropzone)>
   </Styled(div)>
@@ -231,7 +232,9 @@ exports[`ChatContainer component welcome form when welcome form has not been sub
   innerRef={[Function]}
   standaloneMode={false}
 >
-  <Connect(WelcomeForm) />
+  <Connect(WelcomeForm)
+    sendRegistrationForm={[Function]}
+  />
 </Styled(div)>
 `;
 

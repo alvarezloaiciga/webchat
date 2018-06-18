@@ -26,6 +26,7 @@ describe('WelcomeForm component', () => {
       configuration,
       setWindowScrollLockEnabled: jest.fn(),
       registrationFieldValues: {},
+      sendRegistrationForm: jest.fn(),
     };
     render = () => {
       wrapper = shallow(<WelcomeForm {...testProps} />);
@@ -98,11 +99,12 @@ describe('WelcomeForm component', () => {
         .find('button')
         .first()
         .simulate('click', {preventDefault: jest.fn()});
-      expect(QuiqChatClient.sendRegistration).not.toHaveBeenCalled();
+      expect(testProps.sendRegistrationForm).not.toHaveBeenCalled();
     });
 
     describe('valid submission', () => {
       beforeEach(() => {
+        render();
         wrapper
           .find('input')
           .at(0)
@@ -132,7 +134,7 @@ describe('WelcomeForm component', () => {
       });
 
       it('does submit if all required fields are filled in', () => {
-        expect(QuiqChatClient.sendRegistration).toHaveBeenCalled();
+        expect(testProps.sendRegistrationForm).toHaveBeenCalled();
       });
 
       it('does not send message if initial field was not provided', () => {
@@ -146,6 +148,7 @@ describe('WelcomeForm component', () => {
 
     describe('valid submission with send message', () => {
       beforeEach(() => {
+        render();
         wrapper
           .find('input')
           .at(1)
@@ -183,12 +186,11 @@ describe('WelcomeForm component', () => {
           .find('button')
           .first()
           .simulate('click', {preventDefault: jest.fn()});
-        render();
         wrapper.update();
       });
 
       it('does submit if all required fields are filled in', () => {
-        expect(QuiqChatClient.sendRegistration).toHaveBeenCalled();
+        expect(testProps.sendRegistrationForm).toHaveBeenCalled();
       });
 
       // Not sure why this is failing, but it is definitely being called...
