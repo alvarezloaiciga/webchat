@@ -174,7 +174,9 @@ exports[`ChatContainer component initializedState when loading renders properly 
         "textTransform": "uppercase",
       }
     }
-  />
+  >
+    We're here to help if you have any questions!
+  </Styled(div)>
   <Debugger />
   <Styled(div)
     style={
@@ -207,7 +209,9 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
         "textTransform": "uppercase",
       }
     }
-  />
+  >
+    We're here to help if you have any questions!
+  </Styled(div)>
   <Debugger />
   <Styled(div)
     style={

@@ -1,13 +1,10 @@
 .WelcomeForm {
-  width: 100%;
   min-height: 50px;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  align-items: center;
 
   .welcomeFormBanner {
-    width: 100%;
     text-align: center;
     flex: 0 0 auto;
     color: #fff;
@@ -18,7 +15,7 @@
     font-size: 14px;
     padding: 0 30px;
     background: #59ad5d;
-    height: 60px;
+    height: 80px;
     align-items: stretch;
     text-align: center;
 
@@ -34,48 +31,41 @@
     color: #c53431;
   }
 
-  .formElements {
-    width: 100%;
+  .fields {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    overflow-y: auto;
+  }
 
-    .fields {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0 20px;
-      overflow-y: auto;
-    }
+  .field,
+  .submit {
+    min-height: 30px;
+  }
 
-    .field,
-    .submit {
-      min-height: 30px;
-    }
+  .submit {
+    flex: 0 0 auto;
+    margin: 20px;
+    width: 130px;
+    align-self: flex-end;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    font-size: 16px;
+    text-transform: uppercase;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px;
+    transition: all 0.15s ease-in-out;
 
-    .submit {
-      flex: 0 0 auto;
-      margin: 20px;
-      width: 130px;
-      align-self: flex-end;
-      color: white;
-      display: inline-block;
-      vertical-align: middle;
-      border: 1px solid transparent;
-      font-size: 16px;
-      text-transform: uppercase;
-      line-height: 1;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 4px;
-      padding: 8px;
-      transition: all 0.15s ease-in-out;
-
-      &:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
   }
 

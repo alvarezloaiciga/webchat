@@ -350,6 +350,7 @@ export default compose(
       chatLauncherHidden: state.chatLauncherHidden,
       initializedState: state.initializedState,
       transcript: state.transcript,
+      welcomeFormRegistered: state.welcomeFormRegistered,
       muteSounds: getMuteSounds(state),
       messageFieldFocused: state.messageFieldFocused,
       configuration: getConfiguration(state),

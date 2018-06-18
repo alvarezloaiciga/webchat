@@ -202,35 +202,6 @@ describe('WelcomeForm component', () => {
     });
   });
 
-  describe('auto submit', () => {
-    describe('when only hidden fields are present', () => {
-      beforeEach(() => {
-        testProps.configuration.registrationForm = {
-          headerText: 'Hey there',
-          fields: [
-            {
-              type: 'select',
-              label: 'Country',
-              id: 'country',
-              required: true,
-              additionalProperties: {
-                isHidden: true,
-              },
-            },
-          ],
-        };
-
-        render();
-        wrapper.update();
-      });
-
-      it('submits welcome form automatically', () => {
-        wrapper.instance().processWelcomeForm();
-        expect(QuiqChatClient.sendRegistration).toBeCalled();
-      });
-    });
-  });
-
   describe('form validation', () => {
     beforeEach(() => {
       render();
