@@ -84,6 +84,7 @@ const setupListeners = () => {
   postRobotListener.on(actionTypes.setChatVisibility, setChatVisibility);
   postRobotListener.on(actionTypes.getChatVisibility, getChatVisibility);
   postRobotListener.on(actionTypes.getHandle, getHandle);
+  postRobotListener.on(actionTypes.login, login);
   postRobotListener.on(actionTypes.getChatStatus, getChatStatus);
   postRobotListener.on(actionTypes.getAgentAvailability, getAgentAvailability);
   postRobotListener.on(actionTypes.getCanFlashNotifications, getCanFlashNotifications);
@@ -211,11 +212,15 @@ const getLocalStorage = () => {
 // We don't need to wrap the result into an object here since it comes prepackaged that way from the API
 const getAgentAvailability = async () => QuiqChatClient.checkForAgents();
 
-const getHandle = async () => {
+const getHandle = () => {
   return {
-    handle: QuiqChatClient.getHandle() || (await QuiqChatClient.login()),
+    handle: QuiqChatClient.getHandle(),
   };
 };
+
+const login = async () => ({
+  handle: await QuiqChatClient.login(),
+});
 
 const getChatStatus = async () => {
   // Fetch subscribed from local storage

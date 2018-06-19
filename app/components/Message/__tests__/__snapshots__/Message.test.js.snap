@@ -60,6 +60,7 @@ exports[`Message component No profile picture provided for agent renders with de
           "host": "https://bob.dev.centricient.corp",
           "href": "about:blank",
           "icons": Object {},
+          "invitationBlurb": Object {},
           "localStorageKeys": Object {},
           "menuOffset": undefined,
           "menuOptions": Object {
@@ -637,6 +638,7 @@ exports[`Message component fromAgent colors the message according to quiqOptions
           "host": "https://bob.dev.centricient.corp",
           "href": "about:blank",
           "icons": Object {},
+          "invitationBlurb": Object {},
           "localStorageKeys": Object {},
           "menuOffset": undefined,
           "menuOptions": Object {
@@ -1206,6 +1208,7 @@ exports[`Message component rendering renders with default props 1`] = `
           "host": "https://bob.dev.centricient.corp",
           "href": "about:blank",
           "icons": Object {},
+          "invitationBlurb": Object {},
           "localStorageKeys": Object {},
           "menuOffset": undefined,
           "menuOptions": Object {
@@ -1780,6 +1783,7 @@ exports[`Message component send failure renders with failure message 1`] = `
           "host": "https://bob.dev.centricient.corp",
           "href": "about:blank",
           "icons": Object {},
+          "invitationBlurb": Object {},
           "localStorageKeys": Object {},
           "menuOffset": undefined,
           "menuOptions": Object {

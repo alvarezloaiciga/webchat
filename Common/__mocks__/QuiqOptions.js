@@ -180,6 +180,7 @@ const quiqOptions: QuiqObject = {
   },
   position: {},
   headerText: 'TOOL TIME',
+  invitationBlurb: {},
   messages: {
     pageTitle: messages.pageTitle,
     titleText: 'Quiq Webchat',

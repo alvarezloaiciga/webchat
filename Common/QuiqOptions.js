@@ -66,6 +66,7 @@ export const buildQuiqObject = (rawQuiqObject: Object): QuiqObject => {
       },
       rawQuiqObject.colors,
     ),
+    invitationBlurb: rawQuiqObject.invitationBlurb || {},
     icons: rawQuiqObject.icons || {},
     events: {showTime: true, ...rawQuiqObject.events},
     styles: rawQuiqObject.styles || {},

@@ -116,6 +116,7 @@ export const postmasterActionTypes = {
   getChatVisibility: 'QUIQ_GET_CHAT_VISIBILITY',
   getAgentAvailability: 'QUIQ_GET_AGENT_AVAILABILITY',
   getHandle: 'QUIQ_GET_HANDLE',
+  login: 'QUIQ_LOGIN',
   getCanFlashNotifications: 'QUIQ_GET_CAN_FLASH_NOTIFICATIONS',
   getMobileChatEnabled: 'QUIQ_GET_MOBILE_CHAT',
   getLocalStorage: 'QUIQ_GET_LOCAL_STORAGE',

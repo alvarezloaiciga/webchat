@@ -45,6 +45,7 @@ export type ReduxStore = {dispatch: any => any, getState: () => ChatState};
  * @property showDefaultLaunchButton - Normally, if `customLaunchButtons` are defined, the default launch button is not shown. This property allows for overriding this behavior to either show the default launch button (`true`) or hide the default launch button (`false`) regardless of whether any `customLaunchButtons` are defined.
  * @property customScreens - Definition of the custom screens that can be displayed in web chat.
  * @property icons - Defines favicons and other icons for use by the browser. Note that these images **must** be served over HTTPS. *Please note: the only browsers which will display a custom favIcon in the title bar are Chrome and IE on Windows. On other browsers, custom icons are only used for bookmarks.*
+ * @property invitationBlurb - Allows for a message blurb to be shown next to the launch button. An optional `delay` in milliseconds can be defined to have the bubble appear some time after page load. **This option only works if the default launch button is used.**
  * @property [enforceAgentAvailability=`true`] - Determines if the chat application respects if there are agents available or not.
  * @property excludeEmojis - An array of emoji names to not allow. Emojis with names in this array will _not_ be shown in the emoji picker or sent in messages. Emojis identified in this array will be stripped from customer messages prior to sending. For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **The `includeEmojis` field takes precedence over this field.**
  * @property includeEmojis - An array of emoji names to allow. Only emojis with names in this array will be shown in the emoji picker and sent in messages. Emojis not identified in this array will be stripped from customer messages prior to sending. To disable the emoji picker completely, set this field to be an empty array (`[]`). For a list of emoji names, please use [Emoji Cheatsheet](https://www.webpagefx.com/tools/emoji-cheat-sheet/). Note that you should not include the surrounding colons when copying names from the cheat sheet. **This field takes priority over `excludeEmojis`.**
@@ -72,6 +73,10 @@ export type QuiqObject = {
   icons: {
     favicon?: string,
     appleTouchIcon?: string,
+  },
+  invitationBlurb: {
+    text?: string,
+    delay?: number,
   },
   enforceAgentAvailability: boolean,
   excludeEmojis?: Array<string>,
@@ -456,6 +461,7 @@ export type WelcomeForm = {
  * @property ToggleChatButton - The button in the bottom corner that opens the chat.
  * @property TitleText - The text that appears in the upper left of the chat container, corresponding to the `TitleText` message.
  * @property ToggleChatButtonIcon - The icon in the `ToggleChatButton`.
+ * @property InvitationBlurb - The optional message blurb shown next to the default launch button. **The styling for this element is somewhat non-standard: to change the background color, you MUST use the `backgroundColor` property. To change the shadow color, use the non-standard `shadowColor` property**.
  * @property TypingIndicatorSvgStyle - SVG Container of the agent typing indicator.
  * @property TypingIndicatorCircleStyle - Styling for the three SVG circles that appear within the SVG Container of the agent typing indicator.
  * @property WelcomeFormBanner - The banner that is shown above the welcome form.
@@ -514,6 +520,7 @@ type CustomStyles = {
   NonChat?: Object,
   TypingIndicatorSvgStyle?: Object,
   TypingIndicatorCircleStyle?: Object,
+  InvitationBlurb?: Object,
 };
 
 export type EmailTranscriptPayload = {

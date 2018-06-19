@@ -133,12 +133,12 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
 
     // Make sure we have an access token before opening standalone mode.
     // On browsers which sandbox localStorage, the parent page will never get a token that's created by the popup.
-    // If there's going to be a new session, it needs to be create don parent page and force-fed to popup.
+    // If there's going to be a new session, it needs to be created on parent page and force-fed to popup.
     let localStorageKeys = (data && data.localStorageKeys) || {};
     const quiqData = localStorageKeys[`quiq-data_${quiqOptions.contactPoint}`];
     if (!quiqData || !JSON.parse(quiqData).accessToken) {
-      // This will generate an accessToken and store it persisted quiq-data
-      await askChat(actionTypes.getHandle);
+      // This will generate an accessToken and store it persisted quiq-data (if one does not yet exist)
+      await askChat(actionTypes.login);
       // Grab newly updated persistent data
       ({localStorageKeys} = await askChat(actionTypes.getLocalStorage));
     }

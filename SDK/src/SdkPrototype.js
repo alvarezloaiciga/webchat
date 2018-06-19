@@ -147,7 +147,19 @@ const ChatSDK = {
    */
   getHandle: async (
     callback: (data: ?{handle: string}, error: ?Error) => void,
-  ): Promise<{handle: string}> => Postmaster.askChat(actionTypes.getHandle, {}, callback),
+  ): Promise<{handle: string}> => {
+    try {
+      const data = await Postmaster.askChat(actionTypes.getHandle);
+      if (data.handle) {
+        callback(data, null);
+        return data;
+      }
+    } catch (e) {
+      callback(null, e);
+      throw e;
+    }
+    return Postmaster.askChat(actionTypes.login, {}, callback);
+  },
 
   /**
    * Get the status of the current chat session.
