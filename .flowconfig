@@ -18,6 +18,7 @@
 .*/node_modules/preact/src.*
 .*/node_modules/draft-js/*
 .*/node_modules/documentation/*
+.*/node_modules/create-emotion/src/.*
 
 [libs]
 flow-typed/npm/

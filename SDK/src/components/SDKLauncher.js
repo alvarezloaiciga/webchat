@@ -76,7 +76,7 @@ export class SDKLauncher extends Component<SDKLauncherProps> {
     const enableMobileChat = configuration && configuration.enableMobileChat;
     return (
       <div className="SDKLauncher">
-        {(!isMobile() || enableMobileChat || typeof quiqOptions.mobileNumber === 'number') &&
+        {(!isMobile() || enableMobileChat || !!quiqOptions.mobileNumber) &&
           quiqOptions.showDefaultLaunchButton &&
           this.state.launcherVisible && (
             <ToggleChatButton
