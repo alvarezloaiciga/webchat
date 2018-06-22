@@ -40,7 +40,7 @@ exports[`WelcomeForm component filling out form and submitting valid submission 
 
 exports[`WelcomeForm component rendering renders correctly 1`] = `
 <form
-  className="WelcomeForm"
+  className="WelcomeForm css-unbdpx"
   style={
     Object {
       "backgroundColor": "#f4f4f8",

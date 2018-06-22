@@ -2,7 +2,7 @@
 
 exports[`HeaderMenu component rendering renders 1`] = `
 <div
-  className="PopupHeaderMenu"
+  className="PopupHeaderMenu css-10bvcms"
   style={
     Object {
       "background": "#31bf8b",

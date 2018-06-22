@@ -2,7 +2,7 @@
 
 exports[`MessageForm component IE10 uses an Input 1`] = `
 <div
-  className="MessageForm"
+  className="MessageForm css-58qwzm"
   style={
     Object {
       "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
@@ -237,7 +237,7 @@ exports[`MessageForm component IE10 uses an Input 1`] = `
 
 exports[`MessageForm component No agentds available and agent availability enforced and not subscribed renders 1`] = `
 <div
-  className="MessageForm"
+  className="MessageForm css-58qwzm"
   style={
     Object {
       "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
@@ -467,7 +467,7 @@ exports[`MessageForm component No agentds available and agent availability enfor
 
 exports[`MessageForm component rendering renders 1`] = `
 <div
-  className="MessageForm"
+  className="MessageForm css-58qwzm"
   style={
     Object {
       "boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.2)",
