@@ -4,7 +4,8 @@ import React from 'react';
 import classnames from 'classnames';
 import ProgressCircle from '../ProgressCircle';
 import type {AttachmentMessage as AttachmentMessageType} from 'Common/types';
-import './styles/ImageMessage.scss';
+import {css} from 'react-emotion';
+import {messageEnter, fadeIn} from 'animations';
 
 export type ImageMessageProps = {
   message: AttachmentMessageType,
@@ -16,6 +17,59 @@ export type ImageMessageState = {
   imageWidth: number,
   imageHeight: number,
 };
+
+const ImageMessageStyle = css`
+  max-width: 100%;
+  flex: 0 1 auto;
+  display: inline-block;
+  text-align: left;
+  animation: 0.2s 1 ${messageEnter};
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgb(223, 223, 227);
+
+  .placeholder {
+    display: block;
+    max-width: 100%;
+    max-height: 300px;
+  }
+
+  img,
+  .placeholder {
+    display: block;
+    border-radius: 5px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 300px;
+    transition: filter 0.5s, transform 0.5s;
+    animation: 0.2s 1 ${fadeIn};
+  }
+
+  /* Disable image border in IE10 */
+  a img {
+    border: 0;
+  }
+
+  &.fromCustomer {
+    align-self: flex-end;
+  }
+
+  &.uploading {
+    img {
+      transform: scale(1.1);
+      filter: blur(10px);
+    }
+  }
+
+  .progress {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
 
 export class ImageMessage extends React.Component<ImageMessageProps, ImageMessageState> {
   props: ImageMessageProps;
@@ -129,7 +183,12 @@ export class ImageMessage extends React.Component<ImageMessageProps, ImageMessag
     const isUploading = this.props.message.status && this.props.message.status === 'pending';
 
     return (
-      <div className={classnames('ImageMessage', {uploading: isUploading, fromCustomer})}>
+      <div
+        className={classnames('ImageMessage', ImageMessageStyle, {
+          uploading: isUploading,
+          fromCustomer,
+        })}
+      >
         {this.renderImage()}
         {isUploading && (
           <div className="progress">

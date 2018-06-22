@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
-      <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
-      <link rel="stylesheet" type="text/css"
-        href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>"
-        integrity="<%= htmlWebpackPlugin.files.cssIntegrity[0] %>"
-        crossorigin="<%= webpackConfig.output.crossOriginLoading %>"/>
-    <% } else { %>
-      <link rel="stylesheet" type="text/css"
-        href="<%= htmlWebpackPlugin.files.chunks.webchat.css[0] %>" />
-    <% } %>
     <script>
       var webChatSrc = '<%= htmlWebpackPlugin.files.chunks.webchat.entry %>'
       var webChatHash = '<%= (htmlWebpackPlugin.files.jsIntegrity) ? htmlWebpackPlugin.files.jsIntegrity[1] : undefined %>';

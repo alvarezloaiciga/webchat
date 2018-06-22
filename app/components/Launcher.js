@@ -337,7 +337,11 @@ export class Launcher extends Component<LauncherProps, LauncherState> {
   };
 
   render() {
-    return <LauncherContainer className="Launcher">{<ChatContainer />}</LauncherContainer>;
+    return (
+      <LauncherContainer className="Launcher" id="quiqWebChat">
+        {<ChatContainer />}
+      </LauncherContainer>
+    );
   }
 }
 

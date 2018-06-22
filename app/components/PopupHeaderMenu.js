@@ -6,7 +6,7 @@ import {setChatContainerHidden} from 'actions/chatActions';
 import {connect} from 'react-redux';
 import {getMessage, getConfiguration} from 'reducers/chat';
 import type {ChatState, ChatConfiguration} from 'types';
-import './styles/PopupHeaderMenu.scss';
+import {css} from 'react-emotion';
 
 export type PopupHeaderMenuProps = {
   setChatContainerHidden: (chatContainerHidden: boolean) => void, // eslint-disable-line react/no-unused-prop-types
@@ -46,6 +46,48 @@ const windowRestore = (
     />
   </svg>
 );
+
+const PopupHeaderMenuStyle = css`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 7px 3px;
+  font-weight: 300;
+  min-height: 25px;
+  flex: 0 0 auto;
+  font-size: 14px;
+  color: #fff;
+  border-bottom: 1px solid white;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    fill: white;
+    margin-left: 7px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+`;
 
 export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeaderMenuState> {
   props: PopupHeaderMenuProps;
@@ -109,7 +151,7 @@ export class PopupHeaderMenu extends Component<PopupHeaderMenuProps, PopupHeader
     const titleTextStyle = getStyle(styles.TitleText, {fontFamily});
 
     return (
-      <div className="PopupHeaderMenu" style={headerStyle}>
+      <div className={`PopupHeaderMenu ${PopupHeaderMenuStyle}`} style={headerStyle}>
         <div className="title">
           <span style={titleTextStyle}>{getMessage(intlMessageTypes.titleText)}</span>
         </div>

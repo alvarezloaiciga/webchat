@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const config = require('./webpack.config.base');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const fs = require('fs');
 
 const GLOBALS = {
@@ -54,35 +53,4 @@ module.exports = merge(config, {
       debug: true,
     }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.s?css$/,
-        include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../app/components'),
-          path.resolve(__dirname, '../SDK/src/components'),
-          path.resolve(__dirname, '../node_modules/emoji-mart'),
-          path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js'),
-        ],
-        use: [
-          {loader: 'style-loader', options: {sourceMap: true}},
-          {loader: 'css-loader', options: {sourceMap: true, sourceMapContents: true}},
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: [autoprefixer()],
-            },
-          },
-          {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
-          {
-            loader: 'fast-sass-loader',
-            options: {sourceMap: true, sourceMapContents: true, outputStyle: 'expanded'},
-          },
-        ],
-      },
-    ],
-  },
 });

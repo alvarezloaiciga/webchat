@@ -8,7 +8,6 @@ import {Picker} from 'emoji-mart';
 import ClickOutside from 'react-click-outside-component';
 import {getDisplayStringsFromDeepIntlObject} from 'core-ui/services/i18nService';
 import {getConfiguration} from 'reducers/chat';
-import './styles/EmojiMart.scss';
 import type {Emoji, ChatConfiguration, ChatState} from 'Common/types';
 
 export type EmojiPickerProps = {

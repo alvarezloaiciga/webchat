@@ -1,7 +1,7 @@
 {
   "name": "Webchat",
   "description": "Quiq Webchat",
-  "version": "1.2.61",
+  "version": "1.2.62",
   "author": "Quiq",
   "license": "ISC",
   "private": true,
@@ -40,10 +40,6 @@
     "SDK/**/*.js": [
       "prettier --write",
       "git add"
-    ],
-    "app/**/*.scss": [
-      "prettier --write",
-      "git add"
     ]
   },
   "jest": {
@@ -62,7 +58,7 @@
       "node_modules"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss|jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
+      "^.+\\.(jpg|png|mp3|wav|woff|aff|dic|svg)$": "<rootDir>/app/EmptyModule.js"
     },
     "snapshotSerializers": [
       "<rootDir>/node_modules/enzyme-to-json/serializer"
@@ -73,13 +69,6 @@
         "host": "https://bob.dev.centricient.corp",
         "color": "#333",
         "headerText": "TOOL TIME"
-      },
-      "Modernizr": {
-        "flexbox": true,
-        "svg": true,
-        "flexwrap": true,
-        "svgfilters": true,
-        "inlinesvg": true
       },
       "__DEV__": true,
       "__VERSION__": "1.0.0"
@@ -93,7 +82,6 @@
   },
   "devDependencies": {
     "args-parser": "1.1.0",
-    "autoprefixer": "7.2.5",
     "babel-loader": "7.1.4",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
     "babel-plugin-transform-react-constant-elements": "6.9.1",
@@ -103,28 +91,22 @@
     "copy-webpack-plugin": "4.5.1",
     "cors": "2.8.1",
     "cross-env": "2.0.1",
-    "css-loader": "0.28.10",
     "docsify-cli": "4.2.1",
     "documentation": "Quiq/documentation#6409a294533a74208ae8b4d84d62dd2e6cc92acf",
     "ejs": "2.5.7",
     "express": "4.16.0",
     "extract-text-webpack-plugin": "3.0.2",
-    "fast-sass-loader": "1.4.5",
     "file-loader": "1.1.11",
     "html-webpack-plugin": "2.28.0",
     "http-proxy": "1.16.2",
     "jest-localstorage-mock": "1.2.0",
     "mkdirp": "0.5.1",
     "morgan": "1.9.0",
-    "namespace-css-loader": "0.0.3",
     "ngrok": "2.2.9",
-    "node-sass": "4.7.2",
-    "postcss-loader": "2.1.0",
     "react-hot-loader": "3.1.3",
     "redbox-react": "1.5.0",
     "rimraf": "2.6.1",
     "snyk": "1.80.1",
-    "style-loader": "0.20.3",
     "susy": "2.2.12",
     "url-loader": "0.6.2",
     "webpack": "3.10.0",

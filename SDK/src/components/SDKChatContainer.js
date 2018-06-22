@@ -26,12 +26,45 @@ import {
 } from 'Common/Utils';
 import classnames from 'classnames';
 import SDKHeaderMenu from './SDKHeaderMenu';
-import './styles/SDKChatContainer.scss';
+import {css} from 'preact-emotion';
 
 export type SDKChatContainerProps = {};
 type SDKChatContainerState = {
   containerVisible: boolean,
 };
+
+const SDKChatContainerStyle = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 99999;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  top: inherit;
+  left: inherit;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.117647);
+
+  &.hidden {
+    display: flex !important;
+    height: 0 !important;
+    border: none;
+  }
+
+  &.hasCustomLauncher {
+    bottom: 90px;
+  }
+`;
+
+const ChatFrameStyle = css`
+  // Leave this in. Some customers have default stylings for iFrames that try to override this
+  display: block;
+
+  border: none;
+  flex: 1 1 auto;
+`;
 
 export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatContainerState> {
   props: SDKChatContainerProps;
@@ -180,7 +213,7 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
     const {width, host, height, position, showDefaultLaunchButton, colors} = getQuiqOptions();
 
     if (!isStorageEnabled() || !isSupportedBrowser()) return null;
-    const containerClassNames = classnames('SDKChatContainer', {
+    const containerClassNames = classnames('SDKChatContainer', SDKChatContainerStyle, {
       hidden: !isIFrame(getChatWindow()) || !this.state.containerVisible,
       hasCustomLauncher: showDefaultLaunchButton,
     });
@@ -197,7 +230,7 @@ export class SDKChatContainer extends Component<SDKChatContainerProps, SDKChatCo
       >
         <SDKHeaderMenu />
         <iframe
-          className="ChatFrame"
+          className={`ChatFrame ${ChatFrameStyle}`}
           ref={r => {
             SDKChatContainer.chatFrame = r;
           }}

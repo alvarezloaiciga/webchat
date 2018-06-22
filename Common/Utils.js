@@ -1,6 +1,5 @@
 // @flow
 declare var __DEV__: string;
-declare var QuiqModernizr: Object;
 
 import messages from 'Common/Messages';
 import {getDisplayString} from 'core-ui/services/i18nService';
@@ -16,7 +15,6 @@ import {
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
 import wildstring from 'wildstring';
-import './modernizr';
 import type {
   BrowserNames,
   DeviceTypes,
@@ -176,11 +174,6 @@ export const isIE9 = () => getBrowserName() === 'IE' && getMajor() <= 9;
 export const isIE10 = () => getBrowserName() === 'IE' && getMajor() === 10;
 
 export const nonCompatibleBrowser = () => getBrowserName() === 'IE' && getMajor() < 9;
-// QuiqModernizr says IE10 doesn't support flexbox.
-// It kind of does, at least for what we need it for... so go ahead and ignore QuiqModernizr in that case
-export const supportsFlexbox = () => isIE10() || (QuiqModernizr.flexbox && QuiqModernizr.flexwrap);
-export const supportsSVG = () =>
-  QuiqModernizr.svg && QuiqModernizr.svgfilters && QuiqModernizr.inlinesvg;
 
 export const displayError = (error: string | IntlMessage, values: {[string]: string} = {}) => {
   throw new Error(getDisplayString(error, values));

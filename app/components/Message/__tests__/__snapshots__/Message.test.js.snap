@@ -2,7 +2,7 @@
 
 exports[`Message component No profile picture provided for agent renders with default picture 1`] = `
 <div
-  className="messageContainer fromCustomer"
+  className="messageContainer css-g69iny fromCustomer"
 >
   <div
     className="MessageContent"
@@ -576,7 +576,7 @@ exports[`Message component No profile picture provided for agent renders with de
 
 exports[`Message component fromAgent colors the message according to quiqOptions 1`] = `
 <div
-  className="messageContainer"
+  className="messageContainer css-g69iny"
 >
   <div
     className="MessageContent"
@@ -1150,7 +1150,7 @@ exports[`Message component fromAgent colors the message according to quiqOptions
 
 exports[`Message component rendering renders with default props 1`] = `
 <div
-  className="messageContainer fromCustomer"
+  className="messageContainer css-g69iny fromCustomer"
 >
   <div
     className="MessageContent"
@@ -1725,7 +1725,7 @@ exports[`Message component rendering renders with default props 1`] = `
 
 exports[`Message component send failure renders with failure message 1`] = `
 <div
-  className="messageContainer fromCustomer"
+  className="messageContainer css-g69iny fromCustomer"
 >
   <div
     className="MessageContent"

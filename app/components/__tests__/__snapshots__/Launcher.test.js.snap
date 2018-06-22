@@ -3,6 +3,7 @@
 exports[`Launcher component initial states standaloneMode sets state for standalone 1`] = `
 <Styled(div)
   className="Launcher"
+  id="quiqWebChat"
 >
   <Connect(ChatContainer) />
 </Styled(div)>
@@ -11,6 +12,7 @@ exports[`Launcher component initial states standaloneMode sets state for standal
 exports[`Launcher component when agents are available renders 1`] = `
 <Styled(div)
   className="Launcher"
+  id="quiqWebChat"
 >
   <Connect(ChatContainer) />
 </Styled(div)>

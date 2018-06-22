@@ -1,4 +1,5 @@
 import 'cdnOverride';
+import 'globalStyles';
 import {nonCompatibleBrowser} from 'Common/Utils';
 import {constructApp} from 'utils/domUtils';
 import quiqOptions from '../Common/QuiqOptions';
@@ -9,8 +10,6 @@ import {init as initMalfunctionJunction} from './services/Postmaster';
 import chat, {initialState} from 'reducers/chat';
 import {updateChatConfigurationFromQuiqOptions} from 'actions/chatActions';
 import 'services/orientationchange';
-
-import 'main.scss';
 
 const init = () => {
   if (nonCompatibleBrowser()) return;

@@ -6,13 +6,27 @@ import {getStyle} from 'Common/QuiqOptions';
 import {getQuiqOptions} from 'Globals';
 import {oldSchoolGetAgentsAvailable} from 'managers/ButtonManager';
 import ToggleChatButton from './ToggleChatButton';
-import './styles/NonChat.scss';
+import {css} from 'preact-emotion';
 
 export type NonChatProps = {};
 type NonChatState = {
   buttonVisible: boolean,
   containerVisible: boolean,
 };
+
+const NonChatContainerStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  position: fixed;
+  bottom: 90px;
+  right: 25px;
+  max-width: 300px;
+  border-radius: 5px;
+`;
 
 export class NonChat extends Component<NonChatProps, NonChatState> {
   props: NonChatProps;
@@ -56,7 +70,7 @@ export class NonChat extends Component<NonChatProps, NonChatState> {
     return (
       <div
         style={getStyle(styles.NonChat, {fontFamily, backgroundColor: colors.primary})}
-        className="NonChatContainer"
+        className={`NonChatContainer ${NonChatContainerStyle}`}
       >
         {content}
       </div>
@@ -81,7 +95,7 @@ export class NonChat extends Component<NonChatProps, NonChatState> {
     if (this.shouldHide()) return null;
 
     return (
-      <div className="NonChat">
+      <div className="NonChat" id="quiqWebChat">
         {this.state.containerVisible && this.renderContainer()}
         <ToggleChatButton
           open={this.state.containerVisible}

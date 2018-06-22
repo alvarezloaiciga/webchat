@@ -14,12 +14,131 @@ import type {
   ChatConfiguration,
   RegistrationFields,
 } from 'Common/types';
-import './styles/WelcomeForm.scss';
+import {css} from 'react-emotion';
 
 const ValidationErrors = {
   REQUIRED: 'REQUIRED',
   INVALID_EMAIL: 'INVALID_EMAIL',
 };
+
+const WelcomeFormStyle = css`
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  .welcomeFormBanner {
+    text-align: center;
+    flex: 0 0 auto;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 0 30px;
+    background: #59ad5d;
+    height: 80px;
+    align-items: stretch;
+    text-align: center;
+
+    span {
+      display: inline-block;
+      width: 100%;
+      line-height: 1.3;
+    }
+  }
+
+  .formValidationError {
+    margin: 20px;
+    color: #c53431;
+  }
+
+  .fields {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    overflow-y: auto;
+  }
+
+  .field,
+  .submit {
+    min-height: 30px;
+  }
+
+  .submit {
+    flex: 0 0 auto;
+    margin: 20px;
+    width: 130px;
+    align-self: flex-end;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    font-size: 16px;
+    text-transform: uppercase;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px;
+    transition: all 0.15s ease-in-out;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    align-items: stretch;
+    min-width: 99%;
+    flex: 0 0 auto;
+    margin: 5px 0;
+
+    label {
+      margin-bottom: 4px;
+    }
+
+    label .required {
+      color: #c53431;
+      flex: 0 0 auto;
+    }
+
+    input,
+    select {
+      height: 40px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #cacaca;
+      border-radius: 5px;
+      background-color: #fefefe;
+      box-shadow: inset 0 1px 2px hsla(0, 0%, 4%, 0.1);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 400;
+      color: #0a0a0a;
+      transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
+    }
+
+    textarea {
+      min-height: 40px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+`;
 
 export type WelcomeFormProps = {
   setWelcomeFormRegistered: () => void, // eslint-disable-line react/no-unused-prop-types
@@ -287,7 +406,10 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
     });
 
     return (
-      <form className="WelcomeForm" style={{backgroundColor: colors.transcriptBackground}}>
+      <form
+        className={`WelcomeForm ${WelcomeFormStyle}`}
+        style={{backgroundColor: colors.transcriptBackground}}
+      >
         <div className="welcomeFormBanner" style={bannerStyle}>
           {registrationForm && registrationForm.headerText}
         </div>

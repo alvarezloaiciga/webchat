@@ -2,7 +2,7 @@
 
 exports[`Spinner component rendering renders 1`] = `
 <div
-  className="Spinner"
+  className="Spinner css-15h240f"
 >
   <div
     className="loading"
