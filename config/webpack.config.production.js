@@ -6,7 +6,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const {version} = require('../package.json');
 
 const commitHash = process.env.GIT_COMMIT || 'dev';
@@ -61,15 +60,6 @@ module.exports = merge(config, {
       inject: false,
       chunks: ['sdk', 'extensionSdk'],
     }),
-    // Uncomment this if we ever use assets
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'app/assets',
-    //     to: 'assets',
-    //   },
-    // ]),
-    // Avoid publishing files when compilation fails
-    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -97,53 +87,4 @@ module.exports = merge(config, {
       allChunks: true,
     }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.s?css$/,
-        include: [
-          path.resolve(__dirname, '../app'),
-          path.resolve(__dirname, '../app/components'),
-          path.resolve(__dirname, '../node_modules/emoji-mart'),
-          path.resolve(__dirname, '../node_modules/draft-js-twemoji-plugin'),
-          path.resolve(__dirname, '../node_modules/draft-js'),
-        ],
-
-        // For the app's css
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {loader: 'css-loader', options: {sourceMap: true}},
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [autoprefixer()],
-              },
-            },
-            {loader: 'namespace-css-loader', query: '#quiqWebChat'},
-            {loader: 'fast-sass-loader', options: {outputStyle: 'compressed'}},
-          ],
-        }),
-      },
-      // For the SDK's css
-      {
-        test: /\.s?css$/,
-        include: [path.resolve(__dirname, '../SDK/src/components')],
-        use: [
-          'style-loader',
-          {loader: 'css-loader', options: {sourceMap: true}},
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: [autoprefixer()],
-            },
-          },
-          {loader: 'namespace-css-loader', query: '#quiqWebChat'}, // Use 'query' instead of 'options' for compatibility
-          {loader: 'fast-sass-loader', options: {outputStyle: 'compressed'}},
-        ],
-      },
-    ],
-  },
 });

@@ -7,7 +7,7 @@ import {getQuiqOptions} from 'Globals';
 import {intlMessageTypes, displayModes, postmasterActionTypes} from 'Common/Constants';
 import {tellChat} from 'Postmaster';
 import {getDisplayString} from 'core-ui/services/i18nService';
-import './styles/SDKHeaderMenu.scss';
+import {css} from 'preact-emotion';
 
 // Here in the SDK, we don't have access to font awesome, as we don't want to load it on the customer's page.
 // These are the same icons in the form of SVG constants.
@@ -84,6 +84,49 @@ const renderButtons = () => {
   );
 };
 
+const SDKHeaderMenuStyle = css`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 7px 3px;
+  font-weight: 300;
+  min-height: 25px;
+  flex: 0 0 auto;
+  font-size: 14px;
+  color: #fff;
+  border-bottom: 1px solid white;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    fill: white;
+    margin-left: 7px;
+    cursor: pointer;
+    background-color: transparent;
+    background: transparent;
+    border: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+`;
+
 export const SDKHeaderMenu = () => {
   const {colors, styles, fontFamily, messages} = getQuiqOptions();
 
@@ -91,7 +134,7 @@ export const SDKHeaderMenu = () => {
   const titleTextStyle = getStyle(styles.TitleText, {fontFamily});
 
   return (
-    <div className="HeaderMenu" style={headerStyle}>
+    <div className={`HeaderMenu ${SDKHeaderMenuStyle}`} style={headerStyle}>
       <div className="title">
         <span style={titleTextStyle}>{getDisplayString(messages[intlMessageTypes.titleText])}</span>
       </div>

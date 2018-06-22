@@ -1,7 +1,5 @@
 // @flow
-
 import React from 'react';
-import './styles/ProgressCircle.scss';
 
 export type ProgressBarProps = {
   percentage: number,
@@ -128,26 +126,6 @@ export class ProgressCircle extends React.Component<ProgressBarProps, ProgressBa
       />
     );
   }
-
-  /*return (
-    <div className="ProgressBar"
-      style={{
-        height: props.width ? `${props.width}px` : '10px',
-      }}
-    >
-      <div className="track"
-        style={{
-          backgroundColor: props.trackColor,
-        }}
-      />
-      <div className="progressBar"
-        style={{
-          width: `${Math.max(0, Math.min(props.percentage, 100))}%`,
-          backgroundColor: props.progressColor,
-        }}
-      />
-    </div>
-  );*/
 }
 
 export default ProgressCircle;

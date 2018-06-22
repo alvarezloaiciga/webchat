@@ -23,7 +23,7 @@ import {setInputtingEmail} from 'actions/chatActions';
 import last from 'lodash/last';
 import type {Message as MessageType, ChatState, Event, ChatConfiguration} from 'Common/types';
 import type {Author} from 'quiq-chat/src/types';
-import './styles/Transcript.scss';
+import {css} from 'react-emotion';
 
 export type TranscriptProps = {
   /*eslint-disable react/no-unused-prop-types*/
@@ -35,6 +35,15 @@ export type TranscriptProps = {
   setInputtingEmail: (inputtingEmail: boolean) => void,
   /*eslint-enable react/no-unused-prop-types*/
 };
+
+const TranscriptStyle = css`
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  width: 100%;
+  white-space: pre-wrap;
+`;
 
 export class Transcript extends Component {
   props: TranscriptProps;
@@ -152,7 +161,7 @@ export class Transcript extends Component {
 
     return (
       <div
-        className="Transcript"
+        className={`Transcript ${TranscriptStyle}`}
         style={{
           backgroundColor: colors.transcriptBackground,
           paddingBottom: messagesAndEvents.length > 0 ? '10px' : '0px',

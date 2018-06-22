@@ -9,7 +9,7 @@ import {timesCircle} from 'core-ui/coreIcons';
 import DevTools from './DevTools';
 import PhraseListener from './PhraseListener';
 import {version} from '../../../node_modules/quiq-chat/package.json';
-import './styles/Debugger.scss';
+import {css} from 'react-emotion';
 
 type DebuggerProps = {};
 
@@ -23,6 +23,63 @@ type DebuggerState = {
   width: number,
   orientation: 'portrait' | 'landscape',
 };
+
+const DebuggerStyle = css`
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background-color: white;
+  font-size: 12px;
+
+  .messages {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .lineItem {
+      border-top: 1px solid #7e7e7e;
+      padding: 2px;
+    }
+  }
+
+  .row {
+    min-height: 24px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .lhsIcons {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  .rhsIcons {
+    display: flex;
+    align-items: center;
+
+    .versions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      margin-right: 10px;
+    }
+  }
+
+  i {
+    color: lighten(black, 40%);
+    margin: 0 5px;
+
+    &:hover {
+      color: black;
+      cursor: pointer;
+    }
+  }
+`;
 
 export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
   props: DebuggerProps;
@@ -89,7 +146,7 @@ export class Debugger extends React.Component<DebuggerProps, DebuggerState> {
     if (this.state.hidden) return this.renderPhraseListener();
 
     return (
-      <div className="Debugger">
+      <div className={`Debugger ${DebuggerStyle}`}>
         {this.renderPhraseListener()}
         <div className="row">
           <div className="lhsIcons">

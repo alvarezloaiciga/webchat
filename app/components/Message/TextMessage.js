@@ -6,7 +6,8 @@ import classnames from 'classnames';
 import Linkify from 'react-linkify';
 import type {TextMessage as TextMessageType} from 'Common/types';
 import {emojify} from 'core-ui/emoji/EmojiPicker/input/Emojify';
-import './styles/TextMessage.scss';
+import {css} from 'react-emotion';
+import {messageEnter} from 'animations';
 
 export type TextMessageProps = {
   message: TextMessageType,
@@ -42,6 +43,56 @@ const getMessageTextStyle = (fromCustomer: boolean) => {
   });
 };
 
+const TextMessageStyle = css`
+  width: auto;
+  flex: 0 1 auto;
+  word-wrap: break-word;
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: left;
+  animation: 0.2s 1 ${messageEnter};
+  position: relative;
+  overflow: hidden;
+  hyphens: auto;
+  box-sizing: border-box;
+
+  a {
+    color: #2199e8;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  a:visited {
+    color: #2199e8;
+  }
+
+  a:hover {
+    outline-width: 0;
+    color: #1585cf;
+  }
+
+  &.fromCustomer {
+    align-self: flex-end;
+    color: #fff;
+
+    a {
+      color: #0c70b2;
+
+      &:visited {
+        color: #0c70b2;
+      }
+
+      &:hover {
+        color: #0c4eb2;
+      }
+    }
+  }
+`;
+
 export const TextMessage = (props: TextMessageProps) => {
   const fromCustomer = props.message.authorType === 'Customer';
   const textStyle = getMessageTextStyle(fromCustomer);
@@ -49,7 +100,7 @@ export const TextMessage = (props: TextMessageProps) => {
   return (
     <div
       style={getMessageBubbleStyle(fromCustomer)}
-      className={classnames('TextMessage', {fromCustomer})}
+      className={classnames('TextMessage', TextMessageStyle, {fromCustomer})}
     >
       <Linkify
         properties={{

@@ -16,7 +16,6 @@ module.exports = {
       path.join(__dirname, '../app'),
       path.join(__dirname, '../app/assets'),
       path.join(__dirname, '../app/components'),
-      path.join(__dirname, '../app/styles'),
       path.join(__dirname, '../SDK/src'),
       path.join(__dirname, '../Extensions/src'),
       'node_modules',
@@ -31,6 +30,7 @@ module.exports = {
       hashFuncNames: ['sha256'],
       enabled: process.env.NODE_ENV === 'production',
     }),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
   module: {
     rules: [

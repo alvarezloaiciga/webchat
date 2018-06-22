@@ -5,9 +5,8 @@ import {EditorState, ContentState, Modifier} from 'draft-js';
 import createEmojiPlugin from 'core-ui/emoji/draftjsTwemojiPlugin';
 import {getConfiguration} from 'reducers/chat';
 import {getBrowserName} from '../../Common/Utils';
-import 'draft-js/dist/Draft.css';
-import './styles/EmojiTextArea.scss';
 import type {ChatState, ChatConfiguration} from 'Common/types';
+import {css} from 'react-emotion';
 
 export type EmojiTextareaProps = {
   onReturn?: () => void,
@@ -31,6 +30,66 @@ export type EmojiTextareaState = {
 const emojiPlugin = createEmojiPlugin();
 
 const plugins = [emojiPlugin];
+
+const EmojiTextAreaStyle = css`
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  width: 320px; // 320 + 10padding = 330
+  background: #fff;
+  line-height: 1.3em;
+  margin: auto 0 auto 10px;
+  flex: 1 1 auto;
+  border: none;
+  resize: none;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+  }
+
+  .DraftEditor-root {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  &:global(.public-DraftEditor-content) {
+    min-height: 140px;
+  }
+
+  /* Based on https://github.com/draft-js-plugins/draft-js-plugins */
+  .emoji {
+    background-position: center;
+    /* make sure the background the image is only shown once */
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* move it a bit further down to align it nicer with the text */
+    vertical-align: middle;
+
+    /*
+    We need to limit the emoji width because it can be multiple characters
+    long if it is a 32bit unicode. Since the proper width depends on the font and
+    it's relationship between 0 and other characters it's not ideal. 1.95ch is not
+    the best value, but hopefully a good enough approximation for most fonts.
+    */
+    display: inline-block;
+    visibility: visible;
+    overflow: hidden;
+    max-width: 1.95ch;
+    /*
+    Needed for iOS rendering to avoid some icons using a lot of height without
+    actually needing it.
+    */
+    max-height: 1em;
+    line-height: inherit;
+    margin: -0.2ex 0em 0.2ex;
+    color: transparent;
+
+    span {
+      opacity: 0;
+    }
+  }
+`;
 
 export class EmojiTextArea extends Component {
   props: EmojiTextareaProps;
@@ -192,7 +251,7 @@ export class EmojiTextArea extends Component {
   render() {
     return (
       <div
-        className="EmojiTextArea"
+        className={`EmojiTextArea ${EmojiTextAreaStyle}`}
         onClick={this.focus}
         style={this.props.style}
         data-test={this.props['data-test'] || null}

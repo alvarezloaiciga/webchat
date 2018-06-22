@@ -30,8 +30,8 @@ import {
 } from 'reducers/chat';
 import Menu from 'core-ui/components/Menu';
 import * as EmojiUtils from '../utils/emojiUtils';
-import './styles/MessageForm.scss';
 import type {ChatState, Emoji, ChatConfiguration} from 'Common/types';
+import {css} from 'react-emotion';
 
 export type MessageFormProps = {
   lastClosedConversationIsSpam: boolean,
@@ -56,6 +56,107 @@ type MessageFormState = {
   inputText: string, // Only used for IE10
   emojiPickerVisible: boolean,
 };
+
+const MessageFormStyle = css`
+  width: 100%;
+  flex: 0 0 auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+
+  .messageArea {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 40px;
+
+    .EmojiTextArea {
+      padding: 5px 0;
+    }
+
+    .Form {
+      flex: 1 1 auto;
+    }
+
+    // IE10 uses Input
+    .Input {
+      flex: 1 1 auto;
+
+      input {
+        width: 100%;
+        height: 40px;
+        padding: 8px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+
+        &::-ms-clear {
+          display: none;
+        }
+      }
+    }
+
+    .messageFormBtn {
+      padding: 10px 7px;
+      flex: 0 0 auto;
+      border: none;
+      font-size: 14px;
+      background: transparent;
+      font-weight: bold;
+      transition: 0.15s ease-in-out color;
+      cursor: pointer;
+      color: #59ad5d;
+
+      &:focus {
+        outline: 0;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      &:enabled {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      &:hover {
+        &:enabled {
+          /* This is not supported in IE 10/11. Ah well. */
+          filter: brightness(85%);
+        }
+      }
+    }
+  }
+
+  .poke {
+    margin-top: auto;
+    background: white;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    animation: fadeUp 1s 1;
+
+    .pokeBody {
+      padding: 7px 9px;
+
+      .TypingIndicator {
+        margin-left: 5px;
+        vertical-align: text-bottom;
+      }
+    }
+
+    .agentEndedConvo {
+      display: flex;
+      justify-content: space-between;
+
+      .emailTranscriptInlineButton {
+        color: white;
+        padding: 0 8px;
+      }
+    }
+  }
+`;
 
 let updateTimer;
 export class MessageForm extends Component<MessageFormProps, MessageFormState> {
@@ -365,7 +466,7 @@ export class MessageForm extends Component<MessageFormProps, MessageFormState> {
     }
 
     return (
-      <div className="MessageForm" style={getStyle(styles.MessageForm)}>
+      <div className={`MessageForm ${MessageFormStyle}`} style={getStyle(styles.MessageForm)}>
         {this.props.inputtingEmail && (
           <div className="messageArea">
             <EmailInput onSubmit={this.toggleEmailInput} onCancel={this.toggleEmailInput} />

@@ -4,9 +4,8 @@ import {h} from 'preact';
 import {getStyle} from 'Common/QuiqOptions';
 import {getQuiqOptions} from 'Globals';
 import {displayModes} from 'Common/Constants';
-import './styles/ToggleChatButton.scss';
 import InvitationBlurb from './InvitationBlurb';
-import styled from 'preact-emotion';
+import styled, {css} from 'preact-emotion';
 
 export type ToggleChatButtonProps = {
   onClick: () => void,
@@ -20,13 +19,50 @@ const StyledInvitationBubble = styled(InvitationBlurb)`
   bottom: 20px;
 `;
 
+const ToggleChatButtonStyle = css`
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  box-sizing: border-box;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 100%;
+  color: #fff;
+  fill: #fff;
+  cursor: pointer;
+  transition: 0.15s ease-in-out all;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+
+  // Leave these in, some customer sites have default stylings for buttons that try to override these
+  margin: 0;
+  padding: 0;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    fill: #fff;
+    flex: 1 1 auto;
+  }
+`;
+
 const ToggleChatButton = ({onClick, open, invitationBlurbText}: ToggleChatButtonProps) => {
   const {styles, colors, displayMode} = getQuiqOptions();
 
   return (
     <div>
       <button
-        className="ToggleChatButton"
+        className={`ToggleChatButton ${ToggleChatButtonStyle}`}
         onClick={onClick}
         style={getStyle(styles.ToggleChatButton, {backgroundColor: colors.primary})}
       >

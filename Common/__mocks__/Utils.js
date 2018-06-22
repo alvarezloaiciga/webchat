@@ -32,8 +32,6 @@ export const isIE9 = () => false;
 export const isIE10 = () => false;
 export const isIOS = () => false;
 export const nonCompatibleBrowser = () => false;
-export const supportsFlexbox = () => true;
-export const supportsSVG = () => true;
 export const displayError = (error: string) => error;
 export const inStandaloneMode = jest.fn(() => false);
 export const isMobile = jest.fn(() => false);
