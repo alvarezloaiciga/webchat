@@ -20,7 +20,6 @@ exports[`ChatContainer component initializedState when burned renders properly 1
   >
     We're having trouble connecting. Try refreshing the page.
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {
@@ -53,7 +52,6 @@ exports[`ChatContainer component initializedState when disconnected renders prop
   >
     Reconnecting...
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {
@@ -86,7 +84,6 @@ exports[`ChatContainer component initializedState when errored renders properly 
   >
     We're having trouble connecting. Try refreshing the page.
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {
@@ -121,7 +118,6 @@ exports[`ChatContainer component initializedState when initialized renders prope
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {
@@ -178,7 +174,6 @@ exports[`ChatContainer component initializedState when loading renders properly 
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {
@@ -213,7 +208,6 @@ exports[`ChatContainer component initializedState when uninitialized renders pro
   >
     We're here to help if you have any questions!
   </Styled(div)>
-  <Debugger />
   <Styled(div)
     style={
       Object {

@@ -2,7 +2,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
-import moment from 'moment-timezone';
 import {css} from 'emotion';
 import {getStyle} from 'Common/QuiqOptions';
 import {isValidEmail} from 'Common/Utils';
@@ -89,11 +88,16 @@ export class EmailInput extends React.Component<EmailInputProps, EmailInputState
 
   submit = () => {
     const value = this.input.getValue();
+    let timezone;
+    try {
+      timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch (e) {} // eslint-disable-line no-empty
+
     if (isValidEmail(value)) {
       QuiqChatClient.emailTranscript({
         email: value.trim(),
         originUrl: this.props.configuration.host,
-        timezone: moment.tz.guess(),
+        timezone,
       });
       this.props.onSubmit();
     } else {

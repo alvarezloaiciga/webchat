@@ -17,7 +17,6 @@ import {setFavicon, setApplicationName, setBrowserThemeColor} from 'utils/domUti
 import {createGuid} from 'core-ui/utils/stringUtils';
 import WelcomeForm from 'WelcomeForm';
 import MessageForm from 'MessageForm';
-import Debugger from './Debugger/Debugger';
 import QuiqChatClient from 'quiq-chat';
 import debounce from 'lodash/debounce';
 import Transcript from 'Transcript';
@@ -674,7 +673,6 @@ export class ChatContainer extends React.Component<ChatContainerProps, ChatConta
       >
         {inStandaloneMode() && <PopupHeaderMenu />}
         {this.renderBanner()}
-        <Debugger />
         {this.renderContent()}
       </ChatContainerStyle>
     );

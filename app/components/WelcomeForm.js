@@ -6,7 +6,6 @@ import {intlMessageTypes} from 'Common/Constants';
 import {getStyle} from 'Common/QuiqOptions';
 import {getConfiguration, getMessage, getRegistrationFieldValues} from 'reducers/chat';
 import {setWelcomeFormRegistered, setWindowScrollLockEnabled} from 'actions/chatActions';
-import Debugger from './Debugger/Debugger';
 import {isValidEmail} from 'Common/Utils';
 import type {
   WelcomeFormField,
@@ -413,7 +412,6 @@ export class WelcomeForm extends Component<WelcomeFormProps, WelcomeFormState> {
         <div className="welcomeFormBanner" style={bannerStyle}>
           {registrationForm && registrationForm.headerText}
         </div>
-        <Debugger />
         {this.state.formValidationError && this.renderValidationError()}
         <div className="fields">
           {registrationForm &&
