@@ -1,17 +1,17 @@
 {
-  "name" : "webchat",
-  "port" : "41026",
-  "adminPort" : "42026",
-  "healthCheckPort" : "41026",
-  "healthCheckUrl" : "/healthcheck",
+  "name": "webchat",
+  "port": "41026",
+  "adminPort": "42026",
+  "healthCheckPort": "41026",
+  "healthCheckUrl": "/healthcheck",
   "instanceCount": 1,
   "memory": 50,
   "cpu": 32,
-  "deploymentPipeline" : {
-    "versionCommand" : "cat package.json | grep version | sed 's/[^0-9.]*\\([0-9.]*\\).*/\\1/'",
-    "buildCommand" : "yarn && yarn build",
-    "unitTestCommand" : "yarn test",
-    "dockerFileDir" : "."
+  "deploymentPipeline": {
+    "versionCommand": "cat package.json | grep version | sed 's/[^0-9.]*\\([0-9.]*\\).*/\\1/'",
+    "buildCommand": "npm i && npm run build",
+    "unitTestCommand": "npm test",
+    "dockerFileDir": "."
   },
   "tags": ["nginx"]
 }
