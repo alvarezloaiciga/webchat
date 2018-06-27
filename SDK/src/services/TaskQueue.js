@@ -1,6 +1,5 @@
 // @flow
 
-/* eslint-disable no-undef */
 export type Task<T> = {
   handler: () => T,
   resolve: T => void,
@@ -41,4 +40,3 @@ export class TaskQueue {
 }
 
 export default TaskQueue;
-/* eslint-disable no-undef */

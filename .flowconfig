@@ -19,7 +19,6 @@
 .*/node_modules/draft-js/*
 .*/node_modules/documentation/*
 .*/node_modules/create-emotion/src/.*
-.*/node_modules/babel-plugin-emotion/src/.*
 
 [libs]
 flow-typed/npm/
