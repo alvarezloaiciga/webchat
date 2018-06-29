@@ -18,7 +18,7 @@ Quiq Chat can work out-of-the-box with minimal setup on your part. Simply includ
 **Replace `<tenant>` with the name of your Quiq tenant.**
 
 ```javascript
-<script src="https://<tenant>.goquiq.com/app/webchat/index.js"></script>
+<script src="https://<tenant>.quiq-api.com/app/webchat/index.js"></script>
 ```
 
 Next, setup Web Chat by calling the `Quiq()` function in the body of your page:
