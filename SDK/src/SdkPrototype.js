@@ -46,7 +46,7 @@ const ChatSDK = {
    * chat.getChatVisibility(cb);
    */
   getChatVisibility: async (
-    callback: (data: ?{visibility: boolean}, error: ?Error) => void,
+    callback: ?(data: ?{visibility: boolean}, error: ?Error) => void,
   ): Promise<{visible: boolean}> => {
     return Postmaster.askChat(actionTypes.getChatVisibility, {}, callback);
   },
@@ -111,7 +111,7 @@ const ChatSDK = {
    * chat.getAgentAvailability(cb);
    */
   getAgentAvailability: async (
-    callback: (data: ?{available: boolean}, error: ?Error) => void,
+    callback: ?(data: ?{available: boolean}, error: ?Error) => void,
   ): Promise<{available: boolean}> =>
     Postmaster.askChat(actionTypes.getAgentAvailability, {}, callback),
 
@@ -146,18 +146,25 @@ const ChatSDK = {
    * chat.getHandle(cb);
    */
   getHandle: async (
-    callback: (data: ?{handle: string}, error: ?Error) => void,
+    callback: ?(data: ?{handle: string}, error: ?Error) => void,
   ): Promise<{handle: string}> => {
+    // First see if handle already exists (user has session)
     try {
       const data = await Postmaster.askChat(actionTypes.getHandle);
       if (data.handle) {
-        callback(data, null);
+        if (typeof callback === 'function') {
+          callback(data, null);
+        }
         return data;
       }
     } catch (e) {
-      callback(null, e);
+      if (typeof callback === 'function') {
+        callback(null, e);
+      }
       throw e;
     }
+
+    // If no handle exists, login (create handle)
     return Postmaster.askChat(actionTypes.login, {}, callback);
   },
 
@@ -192,7 +199,7 @@ const ChatSDK = {
    * chat.getChatStatus(cb);
    */
   getChatStatus: async (
-    callback: (data: ?{active: boolean}, error: ?Error) => void,
+    callback: ?(data: ?{active: boolean}, error: ?Error) => void,
   ): Promise<{active: boolean}> => Postmaster.askChat(actionTypes.getChatStatus, {}, callback),
 
   /**
@@ -226,7 +233,7 @@ const ChatSDK = {
    * chat.getIsSupportedBrowser(cb);
    */
   getIsSupportedBrowser: async (
-    callback: (data: ?{supported: boolean}, error: ?Error) => void,
+    callback: ?(data: ?{supported: boolean}, error: ?Error) => void,
   ): Promise<{supported: boolean}> => {
     const supported = isSupportedBrowser();
     if (callback) {
