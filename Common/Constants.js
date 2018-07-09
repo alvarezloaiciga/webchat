@@ -54,6 +54,11 @@ export const MessageStatus = {
   FAILED: 'failed',
 };
 
+export const Sentry = {
+  endpoint:
+    'https://sentry.io/api/170102/store/?sentry_key=5622397f17c44165a039d3b91d3e0193&sentry_version=7&sentry_client=Direct',
+};
+
 export const EventTypes = {
   JOIN: 'Join',
   LEAVE: 'Leave',

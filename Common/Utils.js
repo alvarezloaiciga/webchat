@@ -15,6 +15,7 @@ import {
 import {UAParser} from 'ua-parser-js';
 import flatMap from 'lodash/flatMap';
 import wildstring from 'wildstring';
+import {Sentry} from 'Common/Constants';
 import type {
   BrowserNames,
   DeviceTypes,
@@ -416,6 +417,46 @@ export const getIconFromString = (name?: string | null) => {
   console.warn(
     `Attempted to use icon-string ${name} not currently supported.  Either add it or use a different icon!`,
   );
+};
+
+/**
+ * NOTE: Use this method ONLY from the SDK, where raven is not running. When possible, use the Sentry module.
+ */
+export const manuallyLogErrorToSentry = (description: string, e: Error) => {
+  try {
+    const {device, browser, os} = getUAInfo();
+    const timestamp = new Date().toISOString();
+    const body = {
+      platform: 'javascript',
+      logger: 'ManualLogger',
+      message: description,
+      exception: {
+        values: [
+          {
+            type: `${e.name} (${description})`,
+            value: e.toString(),
+          },
+        ],
+      },
+      contexts: {
+        device,
+        browser,
+        os,
+      },
+      level: 'error',
+      tags: {
+        url: window.location.href,
+      },
+      timestamp,
+      culprit: window.location.href,
+    };
+    const req = new XMLHttpRequest();
+    req.open('POST', `${Sentry.endpoint}&sentry_timestamp=${timestamp}`, true);
+    req.setRequestHeader('Content-type', 'application/json');
+    req.send(JSON.stringify(body));
+  } catch (error) {
+    console.error('Failed to log error to sentry', error); // eslint-disable-line no-console
+  }
 };
 
 export const isMessage = (e: Message | Event) => Object.values(MessageTypes).includes(e.type);

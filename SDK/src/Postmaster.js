@@ -12,6 +12,7 @@ import {
 import {getChatWindow, getQuiqOptions} from './Globals';
 import TaskQueue from './services/TaskQueue';
 import {postmasterActionTypes} from '../../Common/Constants';
+import {manuallyLogErrorToSentry} from '../../Common/Utils';
 
 postRobot.CONFIG.LOG_LEVEL = 'error';
 
@@ -82,9 +83,10 @@ export const removeEventHandler = (event: string, handler: (data: Object) => any
 };
 
 export const loadChat = () => {
-  postRobotClient
-    .send(postmasterActionTypes.loadChat, {})
-    .catch(e => displayError(`Unable to tellChat to load: ${e.message}`));
+  postRobotClient.send(postmasterActionTypes.loadChat, {}).catch(e => {
+    manuallyLogErrorToSentry('Postmaster.loadChat', e);
+    displayError(`Unable to tellChat to load: ${e.message}`);
+  });
 };
 
 export const tellChat = (messageName: string, data: Object = {}) => {
@@ -93,13 +95,12 @@ export const tellChat = (messageName: string, data: Object = {}) => {
   }
 
   messageQueue
-    .addJob(() =>
-      postRobotClient
-        .send(messageName, data)
-        .catch(e => displayError(`Unable to tellChat to ${messageName}: ${e.message}`)),
-    )
-    // NOTE: Error in above catch corresponds to post robot error, this error corresponds to error running job
-    .catch(e => displayError(`TaskQueue encountered error running doing tellChat: ${e.message}`));
+    .addJob(() => postRobotClient.send(messageName, data))
+    // NOTE: This catches errors from postRobot, since `addJob` returns the result (promise) of the job function.
+    .catch(e => {
+      manuallyLogErrorToSentry(`Postmaster.tellChat [${messageName}]`, e);
+      displayError(`TaskQueue encountered error running doing tellChat: ${e.message}`);
+    });
 };
 
 export const askChat = async (
@@ -121,10 +122,12 @@ export const askChat = async (
       }
 
       return response.data;
-    } catch (error) {
-      if (callback) callback(null, error);
-
-      throw error;
+    } catch (e) {
+      if (callback) {
+        callback(null, e);
+      }
+      manuallyLogErrorToSentry(`Postmaster.askChat [${messageName}]`, e);
+      throw e;
     }
   });
 };
